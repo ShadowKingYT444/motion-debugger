@@ -7,7 +7,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,7 +27,9 @@ jobs:
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke
-        run: npm run test:demo && npm run test:demo:browser
+        run: npm run test:workflow && npm run test:demo && npm run test:demo:browser
+      - name: Record actual saved outputs for README
+        run: node scripts/study/record-demo.mjs
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -39,5 +41,6 @@ jobs:
             artifacts/v2/
             artifacts/install/
             artifacts/study-demo/
+            artifacts/study-videos/
           if-no-files-found: warn
           retention-days: 7
