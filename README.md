@@ -36,15 +36,29 @@ The [workflow is an explicit DAG](docs/WORKFLOW.md): brief → design → build 
 
 ## See it work
 
-The [AER case study](studies/aer/README.md) starts two independent agents from the same product brief. Initial source, agent-written repairs and actual browser evidence are preserved. It is one paired example, not a general benchmark.
+### Current drawer-repair demo
 
-### Recorded initial A/B outputs
+The [drawer continuity case](cases/aer-drawer-continuity/README.md) repairs the saved page's abrupt dialog close and preserves its current pose during rapid keyboard reopening. From a source checkout, run:
+
+```sh
+npm run demo:repair
+```
+
+Open the printed loopback address for the live before/after pages and source-matched recordings when local evidence is present. [CI run 37071618067](https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37071618067) passed browser, lifecycle and fresh-package verification for source [`59511589a28bc10bd336985e8220dcf4e3d332a5`](https://github.com/ShadowKingYT444/motion-debugger/commit/59511589a28bc10bd336985e8220dcf4e3d332a5); its [browser evidence artifact](https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37071618067/artifacts/11255585567) contains the recordings and reports.
+
+Functional passes do not override failed cadence assertions or inconclusive temporal comparisons on software-rendered runners. The unchanged 80ms integrity gate still applies. See the [evidence architecture and timing limits](docs/EVIDENCE-ARCHITECTURE.md). This supplemental source repair establishes no aesthetic or agent-winner advantage.
+
+### Historical AER study: separate generation
+
+The [AER case study](studies/aer/README.md) started two independent agents from the same product brief, each generating its own initial source. The historical videos below belong to that separate-generation study; they are neither the requested [same-start repair ablation](studies/shared-start-aer/) nor the current drawer-repair demo. Initial source, agent-written repairs and actual browser evidence are preserved. It is one paired example, not a general benchmark.
+
+#### Historical initial A/B outputs
 
 ![Actual initial pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/initial-ab.gif)
 
 Full initial MP4s: [without plugin](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/baseline-initial.mp4) · [with plugin + skills](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/treatment-initial.mp4)
 
-### After evidence-led repairs
+#### Historical outputs after evidence-led repairs
 
 ![Actual repaired pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/final-ab.gif)
 
