@@ -1,9 +1,19 @@
-# Motion Debugger Codex plugin
+# Motion Debugger plugin
 
-This repo-local plugin packages the motion-evidence skill and stdio MCP entrypoint. No installation or host configuration is performed automatically.
+Codex skill + bundled stdio MCP server. No automatic install, browser download, credentials, or host configuration changes.
 
-Build from the repository root with `npm ci && npm run build`. This produces `scripts/mcp.mjs`. The clone's node_modules supplies Playwright; if distributing just this plugin folder, run `npm install` in this folder and install the browser with `npx playwright install chromium` before enabling it.
+From a built repository, this folder can be distributed on its own:
 
-The plugin manifest uses Codex's supported compatibility layout. Its bundled MCP configuration uses host plugin-root/data variables. The package structure is validated, and the MCP endpoint is tested with the official SDK client. A user's actual Codex plugin installation is not claimed as tested.
+```sh
+cd plugin/motion-debugger
+npm ci --ignore-scripts
+node node_modules/playwright/cli.js install chromium
+```
 
-For an explicit, path-independent local Codex MCP connection, run `node build/cli/index.js config` from the repository root. It prints an absolute stdio configuration. Follow the repository setup guide to add that server yourself; the command does not write any config.
+The second command installs only the locked runtime dependency. The third explicitly downloads the version-matched browser. On Linux, required OS libraries may need your normal system administrator; this plugin does not run sudo.
+
+`.mcp.json` uses the host's `${PLUGIN_ROOT}` and `${PLUGIN_DATA}` substitutions. Build with `npm run build` from the repository root, then install this folder using your Codex plugin workflow. No actual host plugin installation is claimed as tested; the manifest and real SDK stdio handshake are validated.
+
+For Codex, Claude Code, Cursor, or VS Code without the plugin, use the main package CLI: `motion-debugger init --client <client>`. It previews the exact configuration and requires confirmation before applying a change. Use `--local` for an unpublished/local package; keep that installation in place.
+
+Source references remain optional, read-only annotations. Configure `MOTION_SOURCE_ROOTS` only for folders you intentionally want the server to read. Browser captures are restricted to loopback targets; interactions can change local app state, so agents must obtain appropriate authorization.

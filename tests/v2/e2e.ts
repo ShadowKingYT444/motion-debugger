@@ -69,7 +69,7 @@ try {
   results.push({security:{webSocketBlocked:true,privatePageRejected:true,socketCaptureId:socketData.id}});
   const listed=await client.callTool({name:'motion_list',arguments:{}});assert.notEqual(listed.isError,true);
   await writeFile('artifacts/v2/workflow-verification.json',JSON.stringify({transport:'actual MCP stdio, official SDK client',tools:tools.tools.map(t=>t.name),results},null,2));
-  console.log(JSON.stringify({passed:true,scenarios:3,realCaptures:6,transport:'stdio',artifactRoot},null,2));
+  console.log(JSON.stringify({passed:true,scenarios:Object.keys(exampleRecipes(origin)).length,realCaptures:Object.keys(exampleRecipes(origin)).length*2,transport:'stdio',artifactRoot},null,2));
 }finally {
   await client.close();safetyServer.close();app.kill('SIGTERM');await writeFile('artifacts/v2/server.log',appLog);
 }

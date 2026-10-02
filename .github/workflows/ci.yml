@@ -24,8 +24,8 @@ jobs:
         run: npm run test:e2e
       - name: Agent integration and temporal contract verification
         run: npm run test:v2:e2e
-      - name: Package validation
-        run: npm pack --dry-run
+      - name: Fresh packed consumer install and real browser smoke
+        run: npm run test:install
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -35,5 +35,6 @@ jobs:
             artifacts/runs/
             artifacts/qa/
             artifacts/v2/
+            artifacts/install/
           if-no-files-found: warn
           retention-days: 7

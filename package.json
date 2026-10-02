@@ -1,40 +1,45 @@
 {
   "name": "motion-debugger",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node --import tsx server/index.ts",
-    "build": "tsc --noEmit && node scripts-build.mjs && tsc -p tsconfig.library.json && vite build",
+    "build": "tsc --noEmit && tsc -p tsconfig.library.json && vite build && node scripts-build.mjs",
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
-    "check": "npm run build && npm test && npm run test:v2",
+    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli",
     "test:e2e": "node --import tsx --test tests/e2e.test.ts",
     "mcp": "node build/mcp/index.js",
     "cli": "node build/cli/index.js",
     "pack:check": "npm pack --dry-run",
     "test:v2": "node --import tsx --test tests/v2/*.test.ts",
-    "test:v2:e2e": "node --import tsx tests/v2/e2e.ts"
+    "test:v2:e2e": "node --import tsx tests/v2/e2e.ts",
+    "prepack": "npm run build",
+    "test:install": "node scripts/test-install.mjs",
+    "test:cli": "node --import tsx --test tests/install/cli.test.ts",
+    "doctor": "node build/cli/index.js doctor",
+    "demo": "node build/cli/index.js demo"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.31.0",
-    "express": "^5.1.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "zod": "^4.6.5"
+    "@modelcontextprotocol/sdk": "1.31.0",
+    "express": "5.2.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "4.6.5",
+    "playwright": "1.63.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^24.0.0",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "esbuild": "^0.28.2",
-    "playwright": "^1.55.0",
-    "tsx": "^4.20.0",
-    "typescript": "^5.9.0",
-    "vite": "^7.1.0"
+    "@types/express": "5.0.6",
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "7.3.6"
   },
   "description": "Local temporal motion evidence for coding agents: library, CLI and MCP",
   "bin": {
@@ -62,5 +67,13 @@
     "url": "https://github.com/ShadowKingYT444/motion-debugger.git"
   },
   "license": "UNLICENSED",
-  "types": "./build/types/packages/core/index.d.ts"
+  "types": "./build/types/packages/core/index.d.ts",
+  "keywords": [
+    "motion",
+    "animation",
+    "debugger",
+    "mcp",
+    "coding-agents",
+    "playwright"
+  ]
 }

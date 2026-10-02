@@ -1,0 +1,32 @@
+/* Courier illustration is a spatial working example, not a decorative background. */
+.stage-surface.scenario-kinetic { height:auto;min-height:430px;background:#f4f1e8; }
+.kinetic-scene { --courier-ink:#3a4035;--courier-muted:#626858;--courier-line:#dedbcf;padding:28px 34px 18px;color:var(--courier-ink); }
+.kinetic-heading { display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px; }
+.kinetic-heading h2 { margin:8px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:32px;font-weight:400;letter-spacing:-1px;line-height:1.1; }
+.kinetic-heading h2 br { display:none; }
+.kinetic-heading p { color:var(--courier-muted);font-size:13px;line-height:1.65;margin:0; }
+.courier-comparison { display:grid;grid-template-columns:1fr 1fr;gap:28px; }
+.courier-lane { min-width:0; }
+.courier-lane + .courier-lane { border-left:1px solid var(--courier-line);padding-left:28px; }
+.courier-lane-label { display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--courier-muted); }
+.courier-lane-label>span:first-child { font-size:13px;color:var(--courier-ink);font-weight:550;display:flex;align-items:center;gap:7px; }
+.courier-lane-label i { display:inline-block;width:6px;height:6px;border-radius:50%;background:#b67753; }
+.courier-lane.fixed .courier-lane-label i { background:#78866c; }
+.courier-plane { display:block;width:100%;height:auto;overflow:visible; }
+.courier-plane text { font:9px 'Inter','Helvetica Neue',Arial,sans-serif;fill:#676b5a;letter-spacing:1.2px; }
+.kinetic-strip { display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid var(--courier-line);padding-top:15px; }
+.motion-phase { display:flex;gap:8px;align-items:center;font-size:12px;min-width:160px; }
+.motion-live { height:6px;width:6px;background:#78866c;border-radius:50%; }
+.motion-live.paused { background:#ae9773; }
+.kinetic-actions { display:flex;gap:6px;flex-wrap:wrap; }
+.kinetic-actions button { border:1px solid #c9cbbd;border-radius:4px;background:transparent;padding:8px 12px;min-height:36px;font-size:12px; }
+.kinetic-actions button:disabled { cursor:default;opacity:.6; }.kinetic-actions button:hover:not(:disabled) { background:#e8e9dd; }
+.kinetic-actions button:active { transform:translateY(1px); }
+.kinetic-actions #courier-pause { background:#3a4035;color:#faf8ef;border-color:#3a4035; }
+.courier-loop { display:flex;align-items:center;gap:7px;width:fit-content;margin-top:12px;color:var(--courier-muted);font-size:11px;min-height:26px; }
+.courier-loop input { accent-color:#69745e;width:14px;height:14px;margin:0; }
+@media(min-width:761px) { .showcase:has(.scenario-kinetic) .showcase-main { padding-top:30px; }.showcase:has(.scenario-kinetic) .showcase-hero { margin-bottom:26px; }.showcase:has(.scenario-kinetic) .showcase-hero h1 { font-size:46px; } }
+@media(max-width:1000px) { .kinetic-heading h2 { font-size:27px; }.kinetic-heading p { font-size:12px; }.kinetic-scene { padding:24px; }.courier-comparison { gap:18px; }.courier-lane + .courier-lane { padding-left:18px; }.example-toolbar:has(#tab-kinetic[aria-selected=true]) { flex-wrap:wrap; }.example-tabs { flex-wrap:wrap; } }
+@media(max-width:760px) { .kinetic-scene { padding:22px 20px 16px; }.kinetic-heading { display:block;margin-bottom:20px; }.kinetic-heading h2 { font-size:28px; }.kinetic-heading h2 br { display:block; }.kinetic-heading p { margin-top:10px;font-size:13px; }.courier-comparison { grid-template-columns:1fr;gap:16px; }.courier-lane + .courier-lane { border-left:0;border-top:1px solid var(--courier-line);padding:16px 0 0; }.courier-lane-label { flex-direction:row;justify-content:space-between;gap:8px;align-items:baseline; }.courier-lane-label>span:last-child { font-size:10px;max-width:112px;text-align:right; }.courier-plane { max-height:230px; }.kinetic-strip { flex-direction:column;align-items:flex-start;gap:12px; }.kinetic-actions { width:100%;gap:5px; }.kinetic-actions button { flex:1;padding:8px 6px;font-size:11px; }.example-tabs { flex-wrap:nowrap; }.showcase:has(.scenario-kinetic) .stage-footer { display:none; } }
+@media(max-width:400px) { .kinetic-scene { padding:18px 14px 12px; }.kinetic-heading h2 { font-size:26px; }.kinetic-heading p { font-size:12px; }.courier-lane-label>span:first-child { font-size:12px; }.courier-lane-label>span:last-child { font-size:9px; }.kinetic-actions button { font-size:10px; } }
+@media(prefers-reduced-motion:reduce) { .kinetic-actions button:active { transform:none; } }
