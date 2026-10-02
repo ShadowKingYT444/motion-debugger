@@ -1,3 +1,4 @@
+import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
 import {mkdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
@@ -12,12 +13,23 @@ await mkdir(artifactRoot,{recursive:true});
 const app=spawn(process.execPath,['--import','tsx','server/index.ts'],{env:{...process.env,PORT:String(port)},stdio:['ignore','pipe','pipe']});
 let appLog='';app.stdout?.on('data',data=>appLog+=String(data));app.stderr?.on('data',data=>appLog+=String(data));
 for(let i=0;i<80;i++){try{if((await fetch(`${origin}/api/health`)).ok)break}catch{};if(i===79)throw new Error(`No readiness: ${appLog}`);await new Promise(resolve=>setTimeout(resolve,250))}
-const transport=new StdioClientTransport({command:process.execPath,args:['build/mcp/index.js'],cwd:process.cwd(),env:{PATH:process.env.PATH??'',HOME:process.env.HOME??'',MOTION_ARTIFACT_DIR:artifactRoot,MOTION_ALLOWED_ORIGINS:origin,MOTION_SOURCE_ROOTS:process.cwd()},stderr:'pipe'});
+const safetyServer=createServer((req,res)=>{
+  res.setHeader('Content-Type','text/html');
+  res.end(req.url==='/private'?'<main data-motion-private>Test-only private marker</main>':'<div id="safe-target" data-state="ready">Safe socket policy fixture</div><script>new WebSocket("ws://example.invalid/prohibited")</script>');
+});
+await new Promise<void>(resolve=>safetyServer.listen(0,'127.0.0.1',resolve));
+const safetyOrigin=`http://127.0.0.1:${(safetyServer.address() as {port:number}).port}`;
+const transport=new StdioClientTransport({command:process.execPath,args:['build/mcp/index.js'],cwd:process.cwd(),env:{PATH:process.env.PATH??'',HOME:process.env.HOME??'',MOTION_ARTIFACT_DIR:artifactRoot,MOTION_ALLOWED_ORIGINS:`${origin},${safetyOrigin}`,MOTION_SOURCE_ROOTS:process.cwd()},stderr:'pipe'});
 const client=new Client({name:'coding-agent-motion-workflow-test',version:'0.2.0'});
 const results:unknown[]=[];
 try {
   await client.connect(transport);assert.equal(client.getServerVersion()?.name,'motion-debugger');
   const tools=await client.listTools();assert.equal(tools.tools.length,4);
+  const verifier=spawn(process.execPath,['src/examples/verify-examples.mjs'],{cwd:process.cwd(),env:{...process.env,BASE_URL:origin,QA_OUTPUT:'artifacts/qa/examples'},stdio:['ignore','pipe','pipe']});
+  let verifierLog='';verifier.stdout?.on('data',data=>verifierLog+=String(data));verifier.stderr?.on('data',data=>verifierLog+=String(data));
+  const verifierCode=await new Promise<number|null>(resolve=>verifier.on('exit',resolve));
+  await writeFile('artifacts/v2/examples-verification.log',verifierLog);
+  assert.equal(verifierCode,0,verifierLog);console.log(verifierLog);
   for(const [scenario,pair]of Object.entries(exampleRecipes(origin))) {
     const ids:string[]=[];
     for(const [version,recipe]of [['before',pair.before],['after',pair.after]] as const) {
@@ -48,14 +60,16 @@ try {
     assert.ok(finalOnly.length&&finalOnly.every(a=>a.passed));
     results.push({scenario,ablation:{withoutTemporalEvidence:'Final-state-only checks pass and miss the seeded transient defect',withTemporalEvidence:'Caller temporal contract fails on baseline and passes on repair',isLLMTrial:false,finalOnlyAssertions:finalOnly,comparison}});
   }
+  const socketResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/socket',selector:'#safe-target',actions:[],durationMs:700}}},undefined,{timeout:30000});
+  assert.notEqual(socketResult.isError,true,JSON.stringify(socketResult));
+  const socketData=socketResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[]};
+  assert.equal(socketData.assertions.find(a=>a.id==='network-policy')?.passed,false,'WebSocket attempt is blocked and reported');
+  const privateResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/private',selector:'main',actions:[],durationMs:700}}},undefined,{timeout:30000});
+  assert.equal(privateResult.isError,true,'private-marked page is rejected without a successful recording report');
+  results.push({security:{webSocketBlocked:true,privatePageRejected:true,socketCaptureId:socketData.id}});
   const listed=await client.callTool({name:'motion_list',arguments:{}});assert.notEqual(listed.isError,true);
   await writeFile('artifacts/v2/workflow-verification.json',JSON.stringify({transport:'actual MCP stdio, official SDK client',tools:tools.tools.map(t=>t.name),results},null,2));
-  const verifier=spawn(process.execPath,['src/examples/verify-examples.mjs'],{cwd:process.cwd(),env:{...process.env,BASE_URL:origin,QA_OUTPUT:'artifacts/qa/examples'},stdio:['ignore','pipe','pipe']});
-  let verifierLog='';verifier.stdout?.on('data',data=>verifierLog+=String(data));verifier.stderr?.on('data',data=>verifierLog+=String(data));
-  const verifierCode=await new Promise<number|null>(resolve=>verifier.on('exit',resolve));
-  await writeFile('artifacts/v2/examples-verification.log',verifierLog);
-  assert.equal(verifierCode,0,verifierLog);console.log(verifierLog);
   console.log(JSON.stringify({passed:true,scenarios:3,realCaptures:6,transport:'stdio',artifactRoot},null,2));
 }finally {
-  await client.close();app.kill('SIGTERM');await writeFile('artifacts/v2/server.log',appLog);
+  await client.close();safetyServer.close();app.kill('SIGTERM');await writeFile('artifacts/v2/server.log',appLog);
 }

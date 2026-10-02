@@ -34,3 +34,7 @@ Do not run a marketplace installation or persistent host config change without t
 The automated workflow uses an actual MCP client to initialize, discover tools, call captures, inspect resources and compare reports. It establishes that the tool integration operates over the real protocol.
 
 The included ablation compares final-state-only checks with temporal contracts on seeded examples. Both final states can be correct while the temporal baseline is defective. That establishes the value of temporal evidence under these recipes; no LLM/model was benchmarked, and no autonomous coding-agent repair is claimed.
+
+## Cadence-aware continuity budgets
+
+Raw frame displacement changes when browser callbacks are delayed. `maxStepAt60HzPx` explicitly scales the observed displacement by16.667ms/elapsed sample time; raw `maxFrameStepPx` remains available separately. Samples use rAF callback timestamps, while events use performance.now in the same page time origin. An80ms maximum-gap gate prevents sparse data from claiming continuity. The caller budget remains design-specific, and this normalization does not establish perceptual smoothness. The test fixture `tests/v2/fixtures/drawer-cadence.json` preserves actual hosted CI traces where a repaired49.584px/27.5ms interval is legitimate fast motion, while a seeded151.49px/26.2ms reset remains distinguishable.

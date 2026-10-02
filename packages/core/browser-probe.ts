@@ -59,7 +59,8 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       const url=new URL(resource.name);emit('network-resource','Resource request completed','browser-observed',{path:url.pathname,initiatorType:resource.initiatorType,startMs:Number((resource.startTime-startTime).toFixed(3)),responseEndMs:Number((resource.responseEnd-startTime).toFixed(3))});
     }
   }).observe({type:'resource',buffered:true})}catch{}
-  const sample=()=>{
+  const sample=(frameTime?:number)=>{
+    const sampleTime=frameTime===undefined?now():Number((frameTime-startTime!).toFixed(3));
     const node=document.querySelector(config.selector);
     if(node){
       const rect=node.getBoundingClientRect(),style=getComputedStyle(node),matrix=style.transform==='none'?new DOMMatrix():new DOMMatrix(style.transform);
@@ -70,8 +71,8 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
         overflow=config.containment?.shape==='circle'?Math.max(0,Math.hypot(rect.x+rect.width/2-c.x-c.width/2,rect.y+rect.height/2-c.y-c.height/2)+Math.max(rect.width,rect.height)/2-Math.min(c.width,c.height)/2):Math.max(0,c.left-rect.left,c.top-rect.top,rect.right-c.right,rect.bottom-c.bottom);
       }
       const animation=node.getAnimations()[0];
-      samples.push({t:now(),nodeId:nodeId(node),logicalId:logicalId(node),x:rect.x,y:rect.y,width:rect.width,height:rect.height,opacity:Number(style.opacity),translateX:matrix.m41,translateY:matrix.m42,scaleX:Math.hypot(matrix.a,matrix.b),scaleY:Math.hypot(matrix.c,matrix.d),rotationDeg:Math.atan2(matrix.b,matrix.a)*180/Math.PI,animationTime:animation?Number(animation.currentTime ?? 0):null,containmentOverflowPx:overflow,containerRect});
-    }else samples.push({t:now(),nodeId:null,logicalId:null,x:null,y:null,width:null,height:null,opacity:null,translateX:null,translateY:null,scaleX:null,scaleY:null,rotationDeg:null,animationTime:null,containmentOverflowPx:null,containerRect:null});
+      samples.push({t:sampleTime,nodeId:nodeId(node),logicalId:logicalId(node),x:rect.x,y:rect.y,width:rect.width,height:rect.height,opacity:Number(style.opacity),translateX:matrix.m41,translateY:matrix.m42,scaleX:Math.hypot(matrix.a,matrix.b),scaleY:Math.hypot(matrix.c,matrix.d),rotationDeg:Math.atan2(matrix.b,matrix.a)*180/Math.PI,animationTime:animation?Number(animation.currentTime ?? 0):null,containmentOverflowPx:overflow,containerRect});
+    }else samples.push({t:sampleTime,nodeId:null,logicalId:null,x:null,y:null,width:null,height:null,opacity:null,translateX:null,translateY:null,scaleX:null,scaleY:null,rotationDeg:null,animationTime:null,containmentOverflowPx:null,containerRect:null});
     raf=requestAnimationFrame(sample);
   };
   (window as unknown as {__motionProbe:unknown}).__motionProbe={

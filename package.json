@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --import tsx server/index.ts",
-    "build": "tsc --noEmit && node scripts-build.mjs && vite build",
+    "build": "tsc --noEmit && node scripts-build.mjs && tsc -p tsconfig.library.json && vite build",
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
@@ -42,7 +42,10 @@
     "motion-debugger-mcp": "build/mcp/index.js"
   },
   "exports": {
-    ".": "./build/core/index.js"
+    ".": {
+      "types": "./build/types/packages/core/index.d.ts",
+      "import": "./build/core/index.js"
+    }
   },
   "files": [
     "build/",
@@ -50,5 +53,14 @@
     "README.md",
     "docs/",
     "examples/recipes/"
-  ]
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShadowKingYT444/motion-debugger.git"
+  },
+  "license": "UNLICENSED",
+  "types": "./build/types/packages/core/index.d.ts"
 }

@@ -5,6 +5,8 @@ export type MotionAction =
   | { action:'wait'; ms:number };
 export interface MotionContract {
   maxFrameStepPx?:number;
+  maxStepAt60HzPx?:number;
+  maxSampleGapMs?:number;
   maxHeightStepPx?:number;
   maxOpacityDrop?:number;
   maxReplacements?:number;
@@ -39,7 +41,7 @@ export interface MotionSample {
 export interface MotionMetrics {
   sufficientEvidence:boolean;validSamples:number;sampleCount:number;observedDurationMs:number;
   replacements:number;animationStarts:number;activeCancels:number;
-  maxFrameStepPx:number;maxHeightStepPx:number;p95FrameStepPx:number;maxOpacityDrop:number;maxContainmentOverflowPx:number;containmentViolatingSamples:number;
+  maxFrameStepPx:number;maxStepAt60HzPx:number;maxSampleGapMs:number;maxHeightStepPx:number;p95FrameStepPx:number;maxOpacityDrop:number;maxContainmentOverflowPx:number;containmentViolatingSamples:number;
   nodeIdentities:string[];
 }
 export interface MotionAssertion {id:string;label:string;passed:boolean;actual:string;expected:string}

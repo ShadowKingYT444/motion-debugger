@@ -140,4 +140,4 @@ server/                 local examples/API server and v1 capture
 
 ## Limits
 
-Sampling can miss sub-frame defects; frame-step budgets depend on cadence and intended motion. Cancellation may be legitimate retargeting. Containment uses axis-aligned boxes or an explicitly selected circular assumption. Source attribution is supplied, not inferred. A passing contract is not a universal motion-quality score, accessibility audit, performance certification or coding-agent benchmark.
+Sampling can miss sub-frame defects; normalized step equals displacement ÷ sample elapsed time ×16.667ms, with an explicit cadence gate. It does not prove perceptual smoothness; frame-step budgets depend on cadence and intended motion. Cancellation may be legitimate retargeting. Containment uses axis-aligned boxes or an explicitly selected circular assumption. Source attribution is supplied, not inferred. A passing contract is not a universal motion-quality score, accessibility audit, performance certification or coding-agent benchmark.

@@ -37,7 +37,9 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       blocked.push({url:socket.url().split('?')[0].slice(0,200),method:'WEBSOCKET'});
       socket.close({code:1008,reason:'Motion capture blocks WebSocket connections'});
     });
-    await context.addInitScript(installBrowserProbe,{selector:recipe.selector,containment:recipe.contract?.containment});
+    // TSX/keepNames can insert a __name helper into serialized functions. Bind that harmless naming helper locally.
+    const probeConfig=JSON.stringify({selector:recipe.selector,containment:recipe.contract?.containment});
+    await context.addInitScript({content:`(()=>{const __name=(value)=>value;(${installBrowserProbe.toString()})(${probeConfig});})()`});
     const videoStart=performance.now();
     const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
     await page.goto(targetUrl.href,{waitUntil:'networkidle',timeout:15000});
@@ -45,6 +47,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     // Validate selector syntax and an unambiguous initial target, without reading credentials or caller storage.
     if(await page.locator(recipe.selector).count()>1)throw new Error('Target selector must identify at most one element');
     await page.screenshot({path:path.join(directory,'poster.png'),animations:'allow',mask:[page.locator('input[type="password"]')]});
+    if(!await page.evaluate(()=>typeof (window as any).__motionProbe?.start==='function'))throw new Error(`Motion probe initialization failed: ${errors[0]??'probe missing'}`);
     await page.evaluate(()=>{(window as any).__motionProbe.start()});
     const videoOffsetMs=Math.round(performance.now()-videoStart);
     const start=performance.now();
@@ -77,7 +80,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     result.assertions.push({id:'browser-errors',label:'No uncaught page errors',passed:errors.length===0,actual:errors.join('; ').slice(0,500)||'none',expected:'none'});
     result.assertions.push({id:'network-policy',label:'No forbidden network requests',passed:blocked.length===0,actual:String(blocked.length),expected:'0 outside configured local origins'});
     const video=page.video();await context.close();if(!video)throw new Error('Browser did not create a recording');await rename(await video.path(),path.join(directory,'video.webm'));
-    const report:MotionCapture={schemaVersion:'2.0',id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:{browser:`Chromium ${browser.version()}`,viewport,clock:'performance.now in page, relative to capture start immediately before recipe',reducedMotion:recipe.reducedMotion??'no-preference'},events:data.events,samples:data.samples,...result,final,artifacts:{directory,report:path.join(directory,'report.json'),video:path.join(directory,'video.webm'),poster:path.join(directory,'poster.png'),finalScreenshot:path.join(directory,'final.png'),videoOffsetMs},limitations:['Use only trusted credential-free development pages; recordings are not automatically redacted.','Fresh browser context, no user profile, credentials or authenticated sessions are imported.','Only configured loopback origins can load resources; third-party network requests are blocked.','Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.','Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.','CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.','Source mappings and application marks are explicitly supplied annotations.']};
+    const report:MotionCapture={schemaVersion:'2.0',id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:{browser:`Chromium ${browser.version()}`,viewport,clock:'page time origin: rAF callback timestamps for samples; performance.now for events; relative to capture start before recipe',reducedMotion:recipe.reducedMotion??'no-preference'},events:data.events,samples:data.samples,...result,final,artifacts:{directory,report:path.join(directory,'report.json'),video:path.join(directory,'video.webm'),poster:path.join(directory,'poster.png'),finalScreenshot:path.join(directory,'final.png'),videoOffsetMs},limitations:['Use only trusted credential-free development pages; recordings are not automatically redacted.','Fresh browser context, no user profile, credentials or authenticated sessions are imported.','Only configured loopback origins can load resources; third-party network requests are blocked.','Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.','Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.','CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.','Source mappings and application marks are explicitly supplied annotations.']};
     await writeFile(report.artifacts.report,JSON.stringify(report,null,2));return report;
   }catch(error){await browser.close();await rm(directory,{recursive:true,force:true});await mkdir(directory,{recursive:true});await writeFile(path.join(directory,'failure.json'),JSON.stringify({id,error:error instanceof Error?error.message.split('\n')[0]:String(error)},null,2));throw error}
   finally {options.signal?.removeEventListener('abort',abort);await browser.close()}

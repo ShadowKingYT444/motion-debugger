@@ -2,10 +2,10 @@ import type { CaptureRecipe } from '../../packages/core/types';
 
 export type ExampleScenario = 'drawer' | 'reveal' | 'cursor';
 export const sourceRefs = {
-  'drawer-continuity': { file: 'src/examples/Examples.tsx', line: 39, endLine: 43 },
-  'reveal-request': { file: 'src/examples/Examples.tsx', line: 80, endLine: 86 },
+  'drawer-continuity': { file: 'src/examples/Examples.tsx', line: 40, endLine: 44 },
+  'reveal-request': { file: 'src/examples/Examples.tsx', line: 81, endLine: 87 },
   'reveal-reserved-space': { file: 'src/examples/examples.css', line: 88, endLine: 89 },
-  'cursor-bounds': { file: 'src/examples/Examples.tsx', line: 108, endLine: 111 },
+  'cursor-bounds': { file: 'src/examples/Examples.tsx', line: 109, endLine: 112 },
 };
 
 /** Seeded, original examples. Repairs are source branches, not claims of autonomous AI edits. */
@@ -18,7 +18,7 @@ export function exampleRecipes(origin: string): Record<ExampleScenario, { before
       actions: [{ action: 'click', selector: '#open-details' }, { action: 'wait', ms: 180 },
         { action: 'key', key: 'Escape' }, { action: 'wait', ms: 110 },
         { action: 'click', selector: '#open-details' }, { action: 'wait', ms: 1100 }],
-      contract: { maxFrameStepPx: 40, maxReplacements: 0, final: { attributes: { 'data-state': 'open' }, visible: true, textIncludes: 'Warm porcelain' } } };
+      contract: { maxStepAt60HzPx: 40, maxReplacements: 0, final: { attributes: { 'data-state': 'open' }, visible: true, textIncludes: 'Warm porcelain' } } };
     if (scenario === 'reveal') return { ...common, selector: '#reveal-card', durationMs: 1800,
       actions: [{ action: 'click', selector: '#load-materials' }, { action: 'wait', ms: 1200 }],
       contract: { maxHeightStepPx: 2, maxReplacements: 0, final: { attributes: { 'data-state': 'ready' }, visible: true, textIncludes: 'Good things,' } } };

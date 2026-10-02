@@ -21,3 +21,17 @@ test('finite trajectories pass while actual height jump/containment overflow fai
   const bad=samples();bad[25].height=280;bad[25].containmentOverflowPx=25;
   const result=analyze(bad,[],recipe,final);assert.equal(result.metrics.maxHeightStepPx,180);assert.equal(result.metrics.maxContainmentOverflowPx,25);assert.equal(result.assertions.find(a=>a.id==='height-step')?.passed,false);assert.equal(result.assertions.find(a=>a.id==='containment')?.passed,false);
 });
+
+test('actual CI drawer traces separate reset jumps from legitimate motion despite variable cadence',async()=>{
+  const {readFile}=await import('node:fs/promises');
+  const traces=JSON.parse(await readFile('tests/v2/fixtures/drawer-cadence.json','utf8'));
+  const contractRecipe={...recipe,durationMs:2400,contract:{maxStepAt60HzPx:40,maxSampleGapMs:80}};
+  const before=analyze(traces.before.samples,[],contractRecipe,traces.before.final);
+  const after=analyze(traces.after.samples,[],contractRecipe,traces.after.final);
+  assert.equal(before.metrics.maxFrameStepPx,151.49);
+  assert.equal(after.metrics.maxFrameStepPx,49.584);
+  assert.equal(before.metrics.maxStepAt60HzPx,96.367);
+  assert.equal(after.metrics.maxStepAt60HzPx,37.579);
+  assert.equal(before.assertions.find(a=>a.id==='normalized-step')?.passed,false);
+  assert.equal(after.assertions.find(a=>a.id==='normalized-step')?.passed,true);
+});
