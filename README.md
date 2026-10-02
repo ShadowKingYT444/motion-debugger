@@ -82,6 +82,8 @@ The package exports the same core used by MCP and CLI. `npm pack --dry-run` veri
 5. Capture the after version with the same interactions, viewport and contracts
 6. Compare temporal behavior and independently preserve the intended final state
 
+See [the practical agent tool-call walkthrough](docs/AGENT-WORKFLOW.md).
+
 The plugin itself never writes a source patch. Source refs are caller-supplied mappings under explicit read-only roots, not code inferred from pixels. App marks remain labeled annotations.
 
 ## Original example families
@@ -140,4 +142,4 @@ server/                 local examples/API server and v1 capture
 
 ## Limits
 
-Sampling can miss sub-frame defects; normalized step equals displacement ÷ sample elapsed time ×16.667ms, with an explicit cadence gate. It does not prove perceptual smoothness; frame-step budgets depend on cadence and intended motion. Cancellation may be legitimate retargeting. Containment uses axis-aligned boxes or an explicitly selected circular assumption. Source attribution is supplied, not inferred. A passing contract is not a universal motion-quality score, accessibility audit, performance certification or coding-agent benchmark.
+Sampling can miss sub-frame defects; normalized step equals displacement ÷ sample elapsed time × 16.667ms, with an explicit cadence gate. It does not prove perceptual smoothness; frame-step budgets depend on cadence and intended motion. Cancellation may be legitimate retargeting. Containment uses axis-aligned boxes or an explicitly selected circular assumption. Source attribution is supplied, not inferred. A passing contract is not a universal motion-quality score, accessibility audit, performance certification or coding-agent benchmark.

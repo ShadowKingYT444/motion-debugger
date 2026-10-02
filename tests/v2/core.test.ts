@@ -35,3 +35,18 @@ test('actual CI drawer traces separate reset jumps from legitimate motion despit
   assert.equal(before.assertions.find(a=>a.id==='normalized-step')?.passed,false);
   assert.equal(after.assertions.find(a=>a.id==='normalized-step')?.passed,true);
 });
+
+test('comparison refuses mismatched recipes or failed capture integrity, and sorts final attributes',async()=>{
+  const {compare}=await import('../../packages/core/index');
+  const create=()=>{
+    const data=analyze(samples(),[],recipe,final);
+    return {schemaVersion:'2.0',id:'unit-only',createdAt:'unit-only',recipe,environment:{browser:'unit-only',viewport:{width:1440,height:960},clock:'unit-only',reducedMotion:'no-preference'},events:[],samples:samples(),...data,assertions:[...data.assertions,{id:'browser-errors',label:'unit-only',passed:true,actual:'none',expected:'none'},{id:'network-policy',label:'unit-only',passed:true,actual:'0',expected:'0'}],final:{...final,attributes:{'data-state':'ready','data-label':'unit-only'}},artifacts:{directory:'',report:'',video:'',poster:'',finalScreenshot:'',videoOffsetMs:0},limitations:[]} as import('../../packages/core/types').MotionCapture;
+  };
+  const before=create(),after=create();
+  after.final.attributes={'data-label':'unit-only','data-state':'ready'};
+  assert.equal(compare(before,after).finalEquivalent,true);
+  after.recipe={...recipe,selector:'#different'};
+  assert.equal(compare(before,after).comparable,false);
+  after.recipe=recipe;before.assertions.find(a=>a.id==='browser-errors')!.passed=false;
+  const result=compare(before,after);assert.equal(result.comparable,false);assert.match(result.interpretation,/no improvement claim/);
+});

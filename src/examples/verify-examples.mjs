@@ -11,6 +11,10 @@ const context = await browser.newContext({ viewport: { width: 1440, height: 1100
 const page = await context.newPage();
 page.on('pageerror', error => errors.push(error.message));
 const check = (label, passed, detail = '') => { checks.push({ label, passed, detail }); assert(passed, `${label}: ${detail}`); };
+async function copySpacing(name, expected) {
+  const text = (await page.locator('.scene-intro').innerText()).replace(/\s+/g, ' ');
+  check(`${name}: responsive copy preserves word spacing`, text.includes(expected), text);
+}
 async function screenshot(name) { await page.screenshot({ path: `${output}/${name}.png`, fullPage: true }); }
 async function reflow(width, height, name) {
   await page.setViewportSize({ width, height });
@@ -28,6 +32,7 @@ async function reflow(width, height, name) {
     return nodes.map(node => { const color = getComputedStyle(node).color.match(/[\d.]+/g).slice(0,3).map(Number); return (background + .05) / (luminance(color) + .05); });
   });
   check(`${name}: meaningful secondary text contrast is at least 4.5:1`, contrast.every(ratio => ratio >= 4.5), `minimum ${Math.min(...contrast).toFixed(2)}:1 against conservative paper surface`);
+  await copySpacing(name, 'Nothing should jump ahead of you.');
   await screenshot(name);
 }
 try {
@@ -54,6 +59,7 @@ try {
   check('Repaired reveal reserves 410px', await page.locator('#reveal-card').evaluate(node => Math.abs(node.getBoundingClientRect().height - 410) < .5));
   await page.waitForTimeout(1000); await screenshot('reveal-ready');
   await page.setViewportSize({ width: 390, height: 1100 });
+  await copySpacing('reveal-mobile-390', 'Leave a little room for what’s next.');
   await screenshot('reveal-mobile-390');
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.getByRole('tab', { name: 'Follow the cursor' }).click();
@@ -63,6 +69,9 @@ try {
   check('Original pupil is interactive', await page.locator('#buddy-pupil').evaluate(node => getComputedStyle(node).transform !== 'none'));
   await screenshot('cursor-attentive');
   await page.setViewportSize({ width: 390, height: 1100 });
+  await copySpacing('cursor-mobile-390', 'Attention should stay in the room.');
+  const cursorInstructions = (await page.locator('.scene-intro p').innerText()).replace(/\s+/g, ' ');
+  check('Cursor sentences retain separating space', cursorInstructions.includes('quickly. Watch'), cursorInstructions);
   await screenshot('cursor-mobile-390');
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
