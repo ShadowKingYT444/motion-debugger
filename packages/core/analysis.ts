@@ -1,0 +1,55 @@
+import type {CaptureRecipe,MotionSample,MotionEvent,MotionCapture,MotionMetrics,MotionAssertion,MotionFinding,MotionComparison} from './types';
+export const validSample=(sample:MotionSample)=>sample.nodeId!==null&&[sample.t,sample.x,sample.y,sample.width,sample.height,sample.opacity].every(value=>value!==null&&Number.isFinite(value));
+export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:CaptureRecipe,final:MotionCapture['final']) {
+  const valid=samples.filter(validSample),gaps:number[]=[],heightSteps:number[]=[],steps:{px:number;normalized:number;dt:number;before:number;after:number}[]=[],drops:{value:number;before:number;after:number}[]=[];
+  for(let i=1;i<valid.length;i++) {
+    const dt=valid[i].t-valid[i-1].t;gaps.push(dt);
+    if(dt<=0||dt>80)continue;
+    heightSteps.push(Math.abs(valid[i].height!-valid[i-1].height!));
+    const px=Math.hypot(valid[i].x!-valid[i-1].x!,valid[i].y!-valid[i-1].y!);
+    steps.push({px,normalized:px/dt*(1000/60),dt,before:valid[i-1].t,after:valid[i].t});
+    drops.push({value:Math.max(0,valid[i-1].opacity!-valid[i].opacity!),before:valid[i-1].t,after:valid[i].t});
+  }
+  const sorted=steps.map(step=>step.px).sort((a,b)=>a-b),ids=[...new Set(valid.map(s=>s.nodeId!))];
+  const containment=valid.filter(s=>s.opacity! >= (recipe.contract?.containment?.minOpacity ?? .05)&&s.containmentOverflowPx!==null&&Number.isFinite(s.containmentOverflowPx));
+  const metrics:MotionMetrics={sufficientEvidence:valid.length>=20&&valid.at(-1)!.t>=(recipe.durationMs??2400)-100&&Math.max(0,...gaps)<=80,validSamples:valid.length,sampleCount:samples.length,observedDurationMs:samples.at(-1)?.t ?? 0,replacements:Math.max(0,ids.length-1),animationStarts:events.filter(e=>e.type==='animation-start'||e.type==='animationstart').length,activeCancels:events.filter(e=>e.type==='animation-cancel'&&e.detail.active===true).length,maxFrameStepPx:Number(Math.max(0,...sorted).toFixed(3)),maxStepAt60HzPx:Number(Math.max(0,...steps.map(step=>step.normalized)).toFixed(3)),maxSampleGapMs:Number(Math.max(0,...gaps).toFixed(3)),maxHeightStepPx:Number(Math.max(0,...heightSteps).toFixed(3)),p95FrameStepPx:Number((sorted[Math.floor(sorted.length*.95)]??0).toFixed(3)),maxOpacityDrop:Number(Math.max(0,...drops.map(drop=>drop.value)).toFixed(4)),nodeIdentities:ids,maxContainmentOverflowPx:Number(Math.max(0,...containment.map(s=>s.containmentOverflowPx!)).toFixed(3)),containmentViolatingSamples:containment.filter(s=>s.containmentOverflowPx!>(recipe.contract?.containment?.maxOverflowPx??0)).length};
+  const assertions:MotionAssertion[]=[];
+  const assert=(id:string,label:string,passed:boolean,actual:string,expected:string)=>assertions.push({id,label,passed,actual,expected});
+  assert('valid-trajectory','Finite observed trajectory',metrics.sufficientEvidence,`${valid.length} valid samples; last ${valid.at(-1)?.t.toFixed(1)??0}ms`,`≥20 valid samples through ${recipe.durationMs??2400}ms`);
+  const c=recipe.contract;
+  if(c?.maxFrameStepPx!==undefined)assert('frame-step','Bounded per-frame position step',metrics.maxFrameStepPx<=c.maxFrameStepPx,`${metrics.maxFrameStepPx}px`,`≤${c.maxFrameStepPx}px (observed frame intervals ≤80ms)`);
+  if(c?.maxStepAt60HzPx!==undefined)assert('normalized-step','Bounded displacement at a normalized 60Hz interval',metrics.maxStepAt60HzPx<=c.maxStepAt60HzPx,`${metrics.maxStepAt60HzPx}px /16.667ms`,`≤${c.maxStepAt60HzPx}px /16.667ms; displacement÷observed Δt×16.667`);
+  if(c?.maxSampleGapMs!==undefined)assert('sample-gap','Adequate sampling cadence',metrics.maxSampleGapMs<=c.maxSampleGapMs,`${metrics.maxSampleGapMs}ms`,`≤${c.maxSampleGapMs}ms`);
+  if(c?.maxHeightStepPx!==undefined)assert('height-step','Bounded per-frame height change',metrics.maxHeightStepPx<=c.maxHeightStepPx,`${metrics.maxHeightStepPx}px`,`≤${c.maxHeightStepPx}px`);
+  if(c?.maxOpacityDrop!==undefined)assert('opacity-drop','Bounded opacity reversal',metrics.maxOpacityDrop<=c.maxOpacityDrop,String(metrics.maxOpacityDrop),`≤${c.maxOpacityDrop}`);
+  if(c?.maxReplacements!==undefined)assert('identity','Target identity continuity',metrics.replacements<=c.maxReplacements,String(metrics.replacements),`≤${c.maxReplacements} replacements`);
+  if(c?.maxActiveCancels!==undefined)assert('active-cancels','Bounded active animation cancellations',metrics.activeCancels<=c.maxActiveCancels,String(metrics.activeCancels),`≤${c.maxActiveCancels}`);
+  if(c?.containment)assert('containment','Visible target stays within caller-specified bounds',containment.length>=20&&metrics.maxContainmentOverflowPx<=c.containment.maxOverflowPx,`${metrics.maxContainmentOverflowPx}px; ${metrics.containmentViolatingSamples} violating samples`,`≤${c.containment.maxOverflowPx}px visible overflow; ≥20 container samples`);
+  if(c?.final){
+    if(c.final.visible!==undefined)assert('final-visible','Final visibility',final.visible===c.final.visible,String(final.visible),String(c.final.visible));
+    if(c.final.textIncludes!==undefined)assert('final-text','Final text content',final.text.includes(c.final.textIncludes),final.text.slice(0,200),c.final.textIncludes);
+    for(const [name,value]of Object.entries(c.final.attributes??{}))assert(`final-${name}`,`Final ${name}`,final.attributes[name]===value,final.attributes[name]??'(missing)',value);
+  }
+  const findings:MotionFinding[]=[];
+  if(metrics.replacements)findings.push({type:'identity-replacement',summary:`Observed ${metrics.replacements} target DOM identity replacement(s)`,eventIds:events.filter(e=>['dom-remove','dom-add'].includes(e.type)).map(e=>e.id),sampleTimes:valid.filter((s,i)=>i>0&&s.nodeId!==valid[i-1].nodeId).map(s=>s.t),confidence:'observed'});
+  if(metrics.activeCancels)findings.push({type:'active-animation-cancel',summary:`Observed ${metrics.activeCancels} cancel call(s) while animation active; cancellation can be intentional`,eventIds:events.filter(e=>e.type==='animation-cancel'&&e.detail.active===true).map(e=>e.id),sampleTimes:[],confidence:'observed'});
+  const worst=steps.reduce((max,step)=>step.px>max.px?step:max,{px:0,normalized:0,dt:0,before:0,after:0});
+  if(c?.maxFrameStepPx!==undefined&&worst.px>c.maxFrameStepPx)findings.push({type:'frame-step',summary:`Largest observed frame step ${worst.px.toFixed(2)}px exceeds caller budget ${c.maxFrameStepPx}px`,eventIds:events.filter(e=>Math.abs(e.t-worst.after)<100).map(e=>e.id),sampleTimes:[worst.before,worst.after],confidence:'contract-violation'});
+  if(c?.maxStepAt60HzPx!==undefined&&metrics.maxStepAt60HzPx>c.maxStepAt60HzPx){const peak=steps.reduce((max,step)=>step.normalized>max.normalized?step:max,{px:0,normalized:0,dt:0,before:0,after:0});findings.push({type:'frame-step',summary:`Observed ${peak.px.toFixed(2)}px over ${peak.dt.toFixed(2)}ms = ${peak.normalized.toFixed(2)}px at16.667ms; exceeds supplied normalized budget ${c.maxStepAt60HzPx}`,eventIds:events.filter(e=>Math.abs(e.t-peak.after)<100).map(e=>e.id),sampleTimes:[peak.before,peak.after],confidence:'contract-violation'})}
+  if(c?.maxOpacityDrop!==undefined&&metrics.maxOpacityDrop>c.maxOpacityDrop){const worst=drops.reduce((max,drop)=>drop.value>max.value?drop:max,{value:0,before:0,after:0});findings.push({type:'opacity-drop',summary:`Observed opacity drop ${metrics.maxOpacityDrop} exceeds caller budget`,eventIds:[],sampleTimes:[worst.before,worst.after],confidence:'contract-violation'})}
+  if(c?.containment&&metrics.containmentViolatingSamples)findings.push({type:'containment-overflow',summary:`Visible target exceeds ${c.containment.shape??'rect'} container by up to ${metrics.maxContainmentOverflowPx}px`,eventIds:[],sampleTimes:containment.filter(s=>s.containmentOverflowPx!>c.containment!.maxOverflowPx).map(s=>s.t).slice(0,8),confidence:'contract-violation'});
+  return {metrics,assertions,findings};
+}
+export function compare(before:MotionCapture,after:MotionCapture):MotionComparison {
+  const fields=['maxFrameStepPx','maxStepAt60HzPx','maxSampleGapMs','maxHeightStepPx','maxOpacityDrop','replacements','activeCancels','maxContainmentOverflowPx','containmentViolatingSamples'] as const;
+  const deltas:MotionComparison['deltas']={};for(const field of fields)deltas[field]={before:before.metrics[field],after:after.metrics[field],change:Number((after.metrics[field]-before.metrics[field]).toFixed(4))};
+  const issues:string[]=[];
+  const stable=(value:unknown):unknown=>Array.isArray(value)?value.map(stable):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,stable(v)])):value;
+  for(const key of ['selector','actions','viewport','reducedMotion','durationMs','contract'] as const)if(JSON.stringify(stable(before.recipe[key]))!==JSON.stringify(stable(after.recipe[key])))issues.push(`Different ${key}`);
+  if(!before.metrics.sufficientEvidence||!after.metrics.sufficientEvidence)issues.push('One or both captures lack sufficient finite temporal evidence');
+  for(const [label,report] of [['before',before],['after',after]] as const)for(const id of ['valid-trajectory','browser-errors','network-policy'])if(!report.assertions.some(assertion=>assertion.id===id&&assertion.passed))issues.push(`${label} capture integrity check ${id} is missing or failed`);
+  const comparable=issues.length===0;
+  const finalEquivalent=before.final.visible===after.final.visible&&before.final.text===after.final.text&&JSON.stringify(stable(before.final.attributes))===JSON.stringify(stable(after.final.attributes));
+  const beforePassed=before.assertions.every(a=>a.passed),afterPassed=after.assertions.every(a=>a.passed);
+  return {schemaVersion:'2.0',comparable,comparabilityIssues:issues,beforeId:before.id,afterId:after.id,contractsPassed:{before:beforePassed,after:afterPassed},deltas,finalEquivalent,interpretation:!comparable?'These captures are not comparable; no improvement claim is made. Repeat with identical selector, actions, viewport, reduced-motion setting, duration and contracts.':!beforePassed&&afterPassed?'The after capture satisfies the supplied contracts that the before capture violated. This establishes a measured improvement under this recipe, not a generic source-level root cause.':afterPassed?'Both captures must be inspected in context; a passing contract is not proof of universal animation quality.':'The after capture still violates one or more supplied contracts.',findings:{before:before.findings,after:after.findings},limitations:['Normalized displacement is observed average velocity scaled to16.667ms; it does not establish perceptual smoothness.','Position-step budgets depend on the supplied recipe and sampling cadence; fast intentional motion can exceed them.','Active cancellation can be intentional retargeting; inspect geometry and caller contracts together.','Source refs are explicitly supplied mappings, not inferred code attribution.','This comparison evaluates evidence/contracts. It is not a benchmark of LLM performance.']};
+}

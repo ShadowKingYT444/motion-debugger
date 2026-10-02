@@ -1,0 +1,66 @@
+{
+  "name": "motion-debugger",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --import tsx server/index.ts",
+    "build": "tsc --noEmit && node scripts-build.mjs && tsc -p tsconfig.library.json && vite build",
+    "start": "node --import tsx server/index.ts",
+    "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
+    "capture": "node --import tsx server/capture-cli.ts",
+    "check": "npm run build && npm test && npm run test:v2",
+    "test:e2e": "node --import tsx --test tests/e2e.test.ts",
+    "mcp": "node build/mcp/index.js",
+    "cli": "node build/cli/index.js",
+    "pack:check": "npm pack --dry-run",
+    "test:v2": "node --import tsx --test tests/v2/*.test.ts",
+    "test:v2:e2e": "node --import tsx tests/v2/e2e.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.31.0",
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.55.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0"
+  },
+  "description": "Local temporal motion evidence for coding agents: library, CLI and MCP",
+  "bin": {
+    "motion-debugger": "build/cli/index.js",
+    "motion-debugger-mcp": "build/mcp/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./build/types/packages/core/index.d.ts",
+      "import": "./build/core/index.js"
+    }
+  },
+  "files": [
+    "build/",
+    "plugin/",
+    "README.md",
+    "docs/",
+    "examples/recipes/"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShadowKingYT444/motion-debugger.git"
+  },
+  "license": "UNLICENSED",
+  "types": "./build/types/packages/core/index.d.ts"
+}
