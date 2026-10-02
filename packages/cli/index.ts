@@ -1,7 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {createInterface} from 'node:readline/promises';
-import {capture,inspect,compact,compare,validateLocalUrl,validateRecipe} from '../core/index';
+import {recordedFrames,capture,inspect,compact,compare,validateLocalUrl,validateRecipe} from '../core/index';
 import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
 import {clients,configText,init,metadata,type Client,type InitOptions} from './config';
@@ -17,6 +17,7 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger demo [--port 4173] [--data-dir .motion-debugger/demo]
   motion-debugger recipe kinetic|drawer|reveal|cursor [--mode baseline|fixed] [--origin <loopback>]
   motion-debugger capture recipe.json
+  motion-debugger frames <capture-id>
   motion-debugger inspect <capture-id>
   motion-debugger compare <before-id> <after-id>
   motion-debugger mcp
@@ -78,6 +79,9 @@ try {
     delete recipe.sourceRefs;result=validateRecipe(recipe,{artifactRoot:'.motion-evidence'});
   }else if(command==='capture') {
     if(args.length!==1)throw new Error('capture requires exactly one recipe JSON path');const recipe=JSON.parse(await readFile(path.resolve(args[0]),'utf8'));result=compact(await capture(recipe,optionsFromEnvironment()));
+  }else if(command==='frames') {
+    if(args.length!==1)throw new Error('frames requires exactly one capture UUID');
+    const strip=await recordedFrames(args[0],optionsFromEnvironment());result={...strip,frames:strip.frames.map(({png,...frame})=>frame)};
   }else if(command==='inspect') {
     if(args.length!==1)throw new Error('inspect requires exactly one capture UUID');result=compact(await inspect(args[0],optionsFromEnvironment()));
   }else if(command==='compare') {

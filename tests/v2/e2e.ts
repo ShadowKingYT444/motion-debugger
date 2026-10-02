@@ -24,7 +24,7 @@ const client=new Client({name:'coding-agent-motion-workflow-test',version:'0.2.0
 const results:unknown[]=[];
 try {
   await client.connect(transport);assert.equal(client.getServerVersion()?.name,'motion-debugger');
-  const tools=await client.listTools();assert.equal(tools.tools.length,4);
+  const tools=await client.listTools();assert.equal(tools.tools.length,5);
   const verifier=spawn(process.execPath,['src/examples/verify-examples.mjs'],{cwd:process.cwd(),env:{...process.env,BASE_URL:origin,QA_OUTPUT:'artifacts/qa/examples'},stdio:['ignore','pipe','pipe']});
   let verifierLog='';verifier.stdout?.on('data',data=>verifierLog+=String(data));verifier.stderr?.on('data',data=>verifierLog+=String(data));
   const verifierCode=await new Promise<number|null>(resolve=>verifier.on('exit',resolve));
@@ -45,6 +45,14 @@ try {
       assert.ok(report.assertions.find(a=>a.id==='network-policy')?.passed);
       if(version==='before')assert.ok(report.assertions.some(a=>!a.passed),`${scenario} baseline must violate its intended temporal contract`);
       else assert.ok(report.assertions.every(a=>a.passed),JSON.stringify(report.assertions.filter(a=>!a.passed)));
+      if(scenario==='kinetic'&&version==='before'){
+        const filmstrip=await client.callTool({name:'motion_frames',arguments:{captureId:data.id,timestampsMs:[100,800,1250]}},undefined,{timeout:45000});
+        assert.notEqual(filmstrip.isError,true,JSON.stringify(filmstrip));
+        const images=(filmstrip.content as {type:string;data?:string}[]).filter(item=>item.type==='image');
+        assert.equal(images.length,3);assert.ok(images.every(item=>Buffer.from(item.data!,'base64').subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))));
+        assert.ok(new Set(images.map(item=>item.data)).size>1,'Recorded frames must reflect actual different video states');
+        await writeFile('artifacts/v2/agent-frame-evidence.json',JSON.stringify(filmstrip.structuredContent,null,2));
+      }
       const inspection=await client.callTool({name:'motion_inspect',arguments:{captureId:data.id,fromMs:0,toMs:600,includeSamples:true}});assert.notEqual(inspection.isError,true);
       results.push({scenario,version,captureId:data.id,assertions:report.assertions,metrics:report.metrics});
     }

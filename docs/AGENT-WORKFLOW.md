@@ -55,6 +55,14 @@ Use the returned ID, not an invented one:
 
 Read the clip or frames using your host's existing image/browser tools. Match measured geometry with explicit application/source annotations where available. An active cancellation is not automatically a bug: the intended drawer reversal legitimately cancels a tween.
 
+Call `motion_frames` with the capture ID to receive native MCP images from the actual recording around its first failing time window. Optional `timestampsMs` selects up to six capture-relative times. The server decodes the saved WebM; it does not rerender the app or invent a frame. Each image is labeled with requested capture time and actual video seek time. Video alignment is approximate, so use the sampled trace for exact timing claims.
+
+```json
+{"name":"motion_frames","arguments":{"captureId":"<returned-before-id>"}}
+```
+
+The CLI equivalent, `motion-debugger frames <capture-id>`, saves the PNGs and prints their paths and provenance.
+
 ## 4. Make the authorized source change
 
 Use normal coding tools to continue from the current computed transform instead of resetting from an assumed endpoint. This source-edit step belongs to the coding agent and its existing permissions. Motion Debugger does not perform it.

@@ -10,7 +10,7 @@ The final screenshot looks right. The drawer still snaps halfway open, a loading
 
 Motion Debugger gives your agent the missing evidence:
 
-- **Replayable video** and timestamped geometry, animation and request events
+- **Frames the agent can see**, replayable video and timestamped motion events
 - **Specific failures**: discontinuities, layout jumps, overshoot and replaced elements
 - **Before/after proof** using the same interaction and explicit motion expectations
 
@@ -40,7 +40,7 @@ Open the printed local URL. Two articulated couriers follow the same route: one 
 
 “On my local preview, record the drawer opening, closing and reopening. Find the transient jump, fix it, then compare the same sequence.”
 
-`motion_capture` → `motion_inspect` → your agent's source edit → `motion_compare`
+`motion_capture` → `motion_frames` + `motion_inspect` → repair → `motion_compare`
 
 Works over stdio MCP with configuration adapters for **Codex, Claude Code, Cursor and VS Code/Copilot**. A CLI and typed TypeScript core are included. [Client setup →](docs/CLIENTS.md)
 

@@ -46,7 +46,7 @@ export interface MotionMetrics {
 }
 export interface MotionAssertion {id:string;label:string;passed:boolean;actual:string;expected:string}
 export interface MotionFinding {
-  type:'identity-replacement'|'active-animation-cancel'|'frame-step'|'opacity-drop'|'containment-overflow';
+  type:'identity-replacement'|'active-animation-cancel'|'frame-step'|'height-step'|'opacity-drop'|'containment-overflow';
   summary:string;eventIds:string[];sampleTimes:number[];
   confidence:'observed'|'contract-violation';
 }

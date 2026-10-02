@@ -11,10 +11,10 @@ const check = (label, passed, detail = '') => { checks.push({ label, passed, det
 const context = await browser.newContext({ viewport: { width: 1440, height: 1100 }, reducedMotion: 'no-preference', recordVideo: { dir: `${output}/videos`, size: { width: 1440, height: 1100 } } });
 const page = await context.newPage();
 page.on('pageerror', error => errors.push(error.message));
-async function shot(name) {
+async function shot(name, fullPage = false) {
   const time = () => page.evaluate(() => ({ clock: performance.now(), time: Number(document.querySelector('.kinetic-scene')?.dataset.timeMs || 0), phase: document.querySelector('.motion-phase')?.textContent, sceneRect: (() => { const r = document.querySelector('.kinetic-scene')?.getBoundingClientRect(); return r ? { x:r.x, y:r.y, width:r.width, height:r.height } : null; })() }));
   const before = await time();
-  await page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
+  await page.screenshot({ path: `${output}/${name}.png`, fullPage });
   frames.push({ file: `${name}.png`, before, after: await time() });
 }
 async function open(width = 1440) {
@@ -26,7 +26,7 @@ async function open(width = 1440) {
 async function recordTrace() {
   await page.evaluate(() => {
     window.__courierTrace = { samples: [], done: false };
-    const sample = () => {
+    const sample = frameClock => {
       const stage = document.querySelector('.kinetic-scene');
       const time = Number(stage.dataset.timeMs);
       const pose = lane => {
@@ -34,7 +34,7 @@ async function recordTrace() {
         const box = rig.getBoundingClientRect(), inner = rig.firstElementChild;
         return { x: box.x, y: box.y, transform: rig.getAttribute('transform'), tilt: inner.getAttribute('transform'), antenna: inner.children[3].getAttribute('transform'), state: rig.dataset.state };
       };
-      window.__courierTrace.samples.push({ clock: performance.now(), time, baseline: pose('baseline'), fixed: pose('fixed') });
+      window.__courierTrace.samples.push({ clock: frameClock, observedAt: performance.now(), time, baseline: pose('baseline'), fixed: pose('fixed') });
       if (time >= 4200) window.__courierTrace.done = true;
       else requestAnimationFrame(sample);
     };
@@ -53,17 +53,19 @@ async function recordTrace() {
     return { rangeX: Math.max(...running.map(s => s[variant].x)) - Math.min(...running.map(s => s[variant].x)), maxStepAt60Hz: Math.max(...deltas), tiltPoses: new Set(running.map(s => s[variant].tilt)).size, antennaPoses: new Set(running.map(s => s[variant].antenna)).size };
   };
   const baseline = metrics('baseline'), fixed = metrics('fixed'), width = await page.evaluate(() => innerWidth);
+  // Keep failed-run evidence too; assertions must never discard the trace that explains a failure.
+  traces.push({ width, clock: 'requestAnimationFrame callback timestamp (same frame clock as the rig)', metrics: { baseline, fixed }, samples: trace });
   check(`${width}: substantial travel visible in actual frames`, fixed.rangeX > (width < 760 ? 140 : 210), JSON.stringify(fixed));
   check(`${width}: seeded redirect causes measurable transient discontinuity`, baseline.maxStepAt60Hz > (width < 760 ? 50 : 90), JSON.stringify(baseline));
   check(`${width}: repaired rig preserves a bounded continuous trajectory`, fixed.maxStepAt60Hz < 40, JSON.stringify(fixed));
   check(`${width}: secondary articulated motion is genuinely animated`, fixed.tiltPoses > 30 && fixed.antennaPoses > 30, JSON.stringify(fixed));
   const final = trace.at(-1);
   check(`${width}: both end in the same pose and delivered state`, final.baseline.transform === final.fixed.transform && final.baseline.state === 'delivered' && final.fixed.state === 'delivered', JSON.stringify(final));
-  traces.push({ width, metrics: { baseline, fixed }, samples: trace });
 }
 try {
   await open();
   await recordTrace();
+  check('Responsive heading preserves word spacing', (await page.locator('.kinetic-heading h2').innerText()).replace(/\s+/g, ' ').includes('plan. A world'));
   await page.locator('#courier-replay').click();
   await page.waitForFunction(() => Number(document.querySelector('.kinetic-scene').dataset.timeMs) >= 500);
   await page.locator('#courier-pause').focus(); await page.keyboard.press('Space');
@@ -79,7 +81,7 @@ try {
     await open(width);
     const geometry = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth, lanes: [...document.querySelectorAll('.courier-plane')].map(n => { const b = n.getBoundingClientRect(); return { left: b.left, right: b.right, width: b.width }; }) }));
     check(`${width}: responsive scene never overflows the viewport`, geometry.page <= width + 1 && geometry.lanes.every(lane => lane.left >= 0 && lane.right <= width + 1), JSON.stringify(geometry));
-    await shot(`layout-${width}`);
+    await shot(`layout-${width}`, true);
   }
   await open(390); await recordTrace();
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -90,7 +92,7 @@ try {
   check('Reduced-motion preference prevents autoplay in both lanes', reducedStart === await page.locator('#courier-target').getAttribute('transform') && await page.locator('#courier-pause').getAttribute('aria-pressed') === 'true');
   await page.locator('#courier-replay').click(); await page.waitForTimeout(50);
   check('Reduced-motion action offers the equivalent final delivery', await page.locator('#courier-target').getAttribute('data-state') === 'delivered');
-  await shot('reduced-motion-390');
+  await shot('reduced-motion-390', true);
   await page.getByRole('tab', { name: 'Redirect a courier' }).focus(); await page.keyboard.press('ArrowLeft');
   check('Four-example tabs wrap correctly with keyboard navigation', await page.getByRole('tab', { name: 'Follow the cursor' }).getAttribute('aria-selected') === 'true');
   check('No uncaught motion scene errors', errors.length === 0, errors.join('; '));

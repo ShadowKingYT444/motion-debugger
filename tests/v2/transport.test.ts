@@ -13,7 +13,7 @@ for (const entry of ['build/mcp/index.js','plugin/motion-debugger/scripts/mcp.mj
   try {
     await client.connect(transport);
     assert.equal(client.getServerVersion()?.name,'motion-debugger');
-    const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name).sort(),['motion_capture','motion_compare','motion_inspect','motion_list']);
+    const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name).sort(),['motion_capture','motion_compare','motion_frames','motion_inspect','motion_list']);
     assert.equal(tools.find(t=>t.name==='motion_capture')?.annotations?.readOnlyHint,false);
     const list=await client.callTool({name:'motion_list',arguments:{}});assert.notEqual(list.isError,true);
     const guide=await client.readResource({uri:'motion-evidence://guide'});assert.match((guide.contents[0] as {text:string}).text,/same recipe/);

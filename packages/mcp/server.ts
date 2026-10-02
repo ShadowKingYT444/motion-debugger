@@ -2,7 +2,7 @@ import {McpServer,ResourceTemplate} from '@modelcontextprotocol/sdk/server/mcp.j
 import {z} from 'zod';
 import {readdir} from 'node:fs/promises';
 import path from 'node:path';
-import {capture,inspect,compact,compare,RecipeSchema,validateLocalUrl} from '../core/index';
+import {capture,inspect,compact,compare,RecipeSchema,validateLocalUrl,recordedFrames} from '../core/index';
 import type {CoreOptions} from '../core/types';
 
 export function optionsFromEnvironment():CoreOptions {
@@ -11,7 +11,7 @@ export function optionsFromEnvironment():CoreOptions {
   return {artifactRoot:path.resolve(process.env.MOTION_ARTIFACT_DIR??'.motion-evidence'),allowedOrigins,sourceRoots:(process.env.MOTION_SOURCE_ROOTS??'').split(path.delimiter).filter(Boolean).map(root=>path.resolve(root))};
 }
 export function createMotionServer(options=optionsFromEnvironment()) {
-  const server=new McpServer({name:'motion-debugger',version:'0.2.0'}, {instructions:'Capture bounded motion evidence on an explicitly requested local app, inspect findings and source annotations, then compare before/after under the same recipe. Interactions can change app state: get appropriate user authorization. No credentials, arbitrary shell, source edits, or external origins. Contracts are caller expectations, not universal quality scores. Return compact findings and evidence paths; use resources for full trace. Do not claim LLM improvement from detector ablation.'});
+  const server=new McpServer({name:'motion-debugger',version:'0.3.0'}, {instructions:'Capture bounded motion evidence on an explicitly requested local app, inspect findings and recorded images with motion_frames, then compare before/after under the same recipe. Interactions can change app state: get appropriate user authorization. No credentials, arbitrary shell, source edits, or external origins. Contracts are caller expectations, not universal quality scores. Return compact findings and evidence paths; use resources for full trace. Do not claim LLM improvement from detector ablation.'});
   const result=(data:unknown)=>({content:[{type:'text' as const,text:JSON.stringify(data,null,2)}],structuredContent:data as Record<string,unknown>});
   const protect=(handler:(args:any,extra?:any)=>Promise<unknown>)=>async(args:any,extra?:any)=>{
     try{return result(await handler(args,extra))}catch(error){return {isError:true,content:[{type:'text' as const,text:error instanceof Error?error.message.split('\n')[0]:String(error)}]}}
@@ -22,12 +22,21 @@ export function createMotionServer(options=optionsFromEnvironment()) {
     return {...compact(report),events:report.events.filter(event=>(fromMs===undefined||event.t>=fromMs)&&(toMs===undefined||event.t<=toMs)).slice(0,100),...(includeSamples?{samples:report.samples.filter(sample=>(fromMs===undefined||sample.t>=fromMs)&&(toMs===undefined||sample.t<=toMs)).slice(0,120)}:{})};
   }));
   server.registerTool('motion_compare',{title:'Compare before/after motion evidence',description:'Compare measured temporal contracts and final state across two captures. Reports evidence deltas, not automated repair or an LLM benchmark.',inputSchema:{beforeId:z.string().uuid(),afterId:z.string().uuid()},annotations:{readOnlyHint:true,openWorldHint:false}},protect(async({beforeId,afterId})=>compare(await inspect(beforeId,options),await inspect(afterId,options))));
+  server.registerTool('motion_frames',{title:'See recorded motion frames',description:'Return up to six actual recorded-video frames as native MCP images. Defaults to a failing motion window. No rerendering, arbitrary paths or external URLs. Video-time alignment is approximate; use the trace for precise metrics.',inputSchema:{captureId:z.string().uuid(),timestampsMs:z.array(z.number().finite().min(0).max(12000)).min(1).max(6).optional()},annotations:{readOnlyHint:true,openWorldHint:false}},async({captureId,timestampsMs},extra)=>{
+    try {
+      const captured=await recordedFrames(captureId,{...options,signal:extra.signal},timestampsMs);
+      const metadata={...captured,frames:captured.frames.map(({png,...frame})=>frame)};
+      const content:Array<{type:'text';text:string}|{type:'image';mimeType:'image/png';data:string}>=[{type:'text',text:JSON.stringify(metadata,null,2)}];
+      for(const frame of captured.frames){content.push({type:'text',text:`Capture ${frame.captureTimeMs}ms; recorded video seek ${frame.videoSeekMs}ms (approximate alignment)`},{type:'image',mimeType:'image/png',data:frame.png.toString('base64')})}
+      return {content,structuredContent:metadata};
+    }catch(error){return {isError:true,content:[{type:'text' as const,text:error instanceof Error?error.message.split('\n')[0]:String(error)}]}}
+  });
   server.registerTool('motion_list',{title:'List local motion captures',description:'List IDs from this server’s configured evidence directory; does not search arbitrary files.',inputSchema:{},annotations:{readOnlyHint:true,openWorldHint:false}},protect(async()=>{
     const ids=await readdir(options.artifactRoot).catch(()=>[]);const reports=[];
     for(const id of ids.filter(id=>/^[a-f\d-]{36}$/.test(id)).slice(-100))try{const report=await inspect(id,options);reports.push({id:report.id,label:report.recipe.label,createdAt:report.createdAt,passed:report.assertions.every(a=>a.passed)})}catch{}
     return {captures:reports};
   }));
   server.registerResource('motion-capture',new ResourceTemplate('motion-evidence://capture/{captureId}',{list:undefined}),{description:'Full exported temporal evidence for a capture. Application marks and supplied source refs are annotations, not inferred source attribution.',mimeType:'application/json'},async(uri,{captureId})=>({contents:[{uri:uri.href,mimeType:'application/json',text:JSON.stringify(await inspect(String(captureId),options),null,2)}]}));
-  server.registerResource('motion-guide','motion-evidence://guide',{title:'Motion evidence workflow',mimeType:'text/plain'},async uri=>({contents:[{uri:uri.href,text:'1. Define URL, target and bounded interactions. 2. Set explicit continuity/height/containment/final-state contracts. 3. motion_capture baseline; inspect events near findings. 4. Edit code using your normal approved coding workflow. 5. motion_capture after with same recipe and contracts. 6. motion_compare; preserve final state. Static screenshots can miss transient defects. Cancellation alone does not prove a defect. Optional source refs require read-only roots configured by the server owner.'}]}));
+  server.registerResource('motion-guide','motion-evidence://guide',{title:'Motion evidence workflow',mimeType:'text/plain'},async uri=>({contents:[{uri:uri.href,text:'1. Define URL, target and bounded interactions. 2. Set explicit continuity/height/containment/final-state contracts. 3. motion_capture baseline; inspect events near findings and use motion_frames for actual recorded images. 4. Edit code using your normal approved coding workflow. 5. motion_capture after with same recipe and contracts. 6. motion_compare; preserve final state. Static screenshots can miss transient defects. Cancellation alone does not prove a defect. Optional source refs require read-only roots configured by the server owner.'}]}));
   return server;
 }

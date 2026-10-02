@@ -1,0 +1,37 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,mkdir,writeFile,symlink} from 'node:fs/promises';
+import path from 'node:path';
+import os from 'node:os';
+import {frameSource,frameTimes} from '../../packages/core/frames';
+import type {MotionCapture} from '../../packages/core/types';
+
+const id='11111111-2222-4333-8444-555555555555';
+const report=()=>({schemaVersion:'2.0',id,recipe:{durationMs:2400},artifacts:{videoOffsetMs:500,video:'/untrusted/path'},findings:[{confidence:'contract-violation',sampleTimes:[800]}]} as MotionCapture);
+test('frame selection prefers actual failing time window and bounds explicit requests',()=>{
+  assert.deepEqual(frameTimes(report()),[700,800,900]);
+  assert.deepEqual(frameTimes(report(),[1200,0,1200]),[0,1200]);
+  for(const times of [[],[-1],[2401],[NaN],[0,1,2,3,4,5,6]])assert.throws(()=>frameTimes(report(),times));
+});
+test('recorded frame source resolves fixed capture files and ignores untrusted report paths',async()=>{
+  const root=await mkdtemp(path.join(os.tmpdir(),'motion-frame-source-')),directory=path.join(root,id);await mkdir(directory);
+  await writeFile(path.join(directory,'report.json'),JSON.stringify(report()));await writeFile(path.join(directory,'video.webm'),Buffer.alloc(64));
+  const source=await frameSource(id,{artifactRoot:root});assert.equal(source.video,path.join(directory,'video.webm'));
+  await assert.rejects(frameSource('../../.env',{artifactRoot:root}),/UUID/);
+  await writeFile(path.join(directory,'report.json'),JSON.stringify({...report(),id:'wrong'}));
+  await assert.rejects(frameSource(id,{artifactRoot:root}),/identity/);
+});
+test('frame source rejects symlinked captures and symlinked video artifacts',async()=>{
+  const root=await mkdtemp(path.join(os.tmpdir(),'motion-frame-root-')),outside=await mkdtemp(path.join(os.tmpdir(),'motion-frame-outside-'));
+  await symlink(outside,path.join(root,id),'dir');await assert.rejects(frameSource(id,{artifactRoot:root}),/symlink/);
+  const clean=await mkdtemp(path.join(os.tmpdir(),'motion-frame-clean-')),directory=path.join(clean,id);await mkdir(directory);
+  await writeFile(path.join(directory,'report.json'),JSON.stringify(report()));await writeFile(path.join(outside,'recording'),Buffer.alloc(64));
+  await symlink(path.join(outside,'recording'),path.join(directory,'video.webm'));await assert.rejects(frameSource(id,{artifactRoot:clean}),/symlink/);
+});
+test('frame source fails closed for missing video and invalid timing',async()=>{
+  const root=await mkdtemp(path.join(os.tmpdir(),'motion-frame-invalid-')),directory=path.join(root,id);await mkdir(directory);
+  await writeFile(path.join(directory,'report.json'),JSON.stringify(report()));await assert.rejects(frameSource(id,{artifactRoot:root}),/ENOENT/);
+  await writeFile(path.join(directory,'video.webm'),Buffer.alloc(64));
+  await writeFile(path.join(directory,'report.json'),JSON.stringify({...report(),artifacts:{videoOffsetMs:-3}}));
+  await assert.rejects(frameSource(id,{artifactRoot:root}),/timing/);
+});
