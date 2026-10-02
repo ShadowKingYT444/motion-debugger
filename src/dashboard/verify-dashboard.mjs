@@ -23,7 +23,7 @@ const pageErrors = [];
 const context = await browser.newContext({ viewport: { width: 1440, height: 1080 }, reducedMotion: 'no-preference' });
 const page = await context.newPage();
 page.on('pageerror', error => pageErrors.push(error.message));
-const url = `${baseURL}/?run=${selected.id}`;
+const url = `${baseURL}/evidence-v1?run=${selected.id}`;
 const check = (name, passed, detail = '') => { checks.push({ name, passed, detail }); assert(passed, `${name}: ${detail}`); };
 async function noOverflow(name) {
   const sizes = await page.evaluate(() => ({ body: document.documentElement.scrollWidth, viewport: innerWidth }));
@@ -89,7 +89,7 @@ try {
   // Isolated UI-state simulations. These are not motion evidence and are labeled separately.
   const statePage = await context.newPage();
   await statePage.route('**/api/runs', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ runs: [] }) }));
-  await statePage.goto(baseURL);
+  await statePage.goto(`${baseURL}/evidence-v1`);
   await statePage.getByRole('heading', { name: 'Record the regression and its repair' }).waitFor();
   await statePage.screenshot({ path: `${output}/test-only-empty-state.png`, fullPage: true });
   check('Empty state has recording action', await statePage.getByRole('button', { name: 'Start first capture' }).isEnabled());

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CaptureReport, FrameSample, RunReport, RunSummary, TraceEvent } from '../types';
+import './dashboard.css';
 
 type IconName = 'wave' | 'record' | 'play' | 'pause' | 'reset' | 'arrow' | 'check' | 'alert' | 'code' | 'image' | 'download' | 'chevron';
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
