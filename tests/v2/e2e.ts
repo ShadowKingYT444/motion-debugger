@@ -15,6 +15,14 @@ let appLog='';app.stdout?.on('data',data=>appLog+=String(data));app.stderr?.on('
 for(let i=0;i<80;i++){try{if((await fetch(`${origin}/api/health`)).ok)break}catch{};if(i===79)throw new Error(`No readiness: ${appLog}`);await new Promise(resolve=>setTimeout(resolve,250))}
 const safetyServer=createServer((req,res)=>{
   res.setHeader('Content-Type','text/html');
+  if(req.url?.startsWith('/boundary')){
+    const continuous=req.url.includes('continuous');
+    res.end(`<button id="retarget">Retarget</button><div id="boundary-target" style="width:40px;height:40px;background:#286b50;transform:translateX(0px)">Rig</div><script>
+    const el=document.getElementById('boundary-target');
+    const held=el.animate([{transform:'translateX(150px)'},{transform:'translateX(150px)'}],{duration:1,fill:'both'});
+    document.getElementById('retarget').onclick=()=>{held.cancel();queueMicrotask(()=>el.animate([{transform:'translateX(${continuous?150:0}px)'},{transform:'translateX(300px)'}],{duration:1000,fill:'both',easing:'linear'}))};
+    </script>`);return;
+  }
   if(req.url==='/raf'){
     res.end(`<button id="start">Start motion</button><div id="raf-target" style="width:40px;height:40px;background:#286b50">Rig</div><script>
     document.getElementById('start').onclick=()=>{let start=null,blocked=false;const tick=t=>{start??=t;document.getElementById('raf-target').style.transform='translateX('+((t-start)*.2)+'px)';if(!blocked&&t-start>250){blocked=true;const until=performance.now()+40;while(performance.now()<until){}}requestAnimationFrame(tick)};requestAnimationFrame(tick)};
@@ -88,6 +96,20 @@ try {
   const rafData=rafResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[];metrics:{maxStepAt60HzPx:number}};
   assert.ok(rafData.assertions.every(a=>a.passed),JSON.stringify(rafData));
   await writeFile('artifacts/v2/raf-phase-regression.json',JSON.stringify(rafData,null,2));
+  // Fresh direct browser witnesses, separate from the old false-negative trace.
+  // The continuous case restores its canceled state from a queued microtask.
+  for(const mode of ['reset','continuous']){
+    const boundaryResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/boundary?'+mode,selector:'#boundary-target',actions:[{action:'click',selector:'#retarget'},{action:'wait',ms:750}],durationMs:1000,contract:{maxStepAt60HzPx:40,final:{visible:true}}}}},undefined,{timeout:30000});
+    assert.notEqual(boundaryResult.isError,true,JSON.stringify(boundaryResult));
+    const boundaryId=(boundaryResult.structuredContent as {id:string}).id;
+    const raw=await client.readResource({uri:`motion-evidence://capture/${boundaryId}`});
+    const boundaryReport=JSON.parse((raw.contents[0] as {text:string}).text) as MotionCapture;
+    assert.ok((boundaryReport.metrics.animationBoundarySamples??0)>0,'Actual browser must provide operation-boundary evidence');
+    assert.equal(boundaryReport.assertions.find(a=>a.id==='animation-boundary-step')?.passed,mode==='continuous');
+    assert.ok(boundaryReport.assertions.find(a=>a.id==='browser-errors')?.passed);
+    assert.ok(boundaryReport.assertions.find(a=>a.id==='network-policy')?.passed);
+    await writeFile(`artifacts/v2/animation-boundary-${mode}.json`,JSON.stringify({captureId:boundaryId,metrics:boundaryReport.metrics,assertions:boundaryReport.assertions,events:boundaryReport.events.filter(e=>e.type==='animation-boundary')},null,2));
+  }
   const socketResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/socket',selector:'#safe-target',actions:[],durationMs:700,contract:{final:{attributes:{'aria-busy':'false',open:'',role:'status'}}}}}},undefined,{timeout:30000});
   assert.notEqual(socketResult.isError,true,JSON.stringify(socketResult));
   const socketData=socketResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[]};

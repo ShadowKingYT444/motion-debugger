@@ -13,15 +13,46 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
     if(node){event.nodeId=nodeId(node);event.logicalId=logicalId(node)}if(animationId)event.animationId=animationId;
     events.push(event);
   };
+  // A rAF interval can hide a reset between cancel() and animate(). Observe the
+  // net geometry change of that operation batch separately, after microtasks.
+  // Do not put these reads in the rAF trajectory or inflate its cadence evidence.
+  const boundarySnapshot=(node:Element)=>{
+    if(!node.isConnected)return null;
+    const rect=node.getBoundingClientRect(),style=getComputedStyle(node),opacity=Number(style.opacity);
+    if(!rect.width||!rect.height||style.visibility==='hidden'||style.display==='none'||opacity<=.01)return null;
+    return {t:now(),x:rect.x,y:rect.y,opacity};
+  };
+  type Boundary={before:NonNullable<ReturnType<typeof boundarySnapshot>>;timer:number};
+  const boundaries=new Map<Element,Boundary>();
+  const finishBoundary=(node:Element,batch:Boundary)=>{
+    if(boundaries.get(node)!==batch)return;
+    boundaries.delete(node);clearTimeout(batch.timer);
+    if(!running)return;
+    const after=boundarySnapshot(node);if(!after)return;
+    emit('animation-boundary','Geometry across an animation operation batch','browser-observed',{
+      fromMs:batch.before.t,toMs:after.t,fromX:batch.before.x,fromY:batch.before.y,
+      toX:after.x,toY:after.y,fromOpacity:batch.before.opacity,toOpacity:after.opacity
+    },node);
+  };
+  const beginBoundary=(node:Element)=>{
+    if(!running||boundaries.has(node))return;
+    const before=boundarySnapshot(node);if(!before)return;
+    const batch:Boundary={before,timer:0};boundaries.set(node,batch);
+    // One timer coalesces cancel + replacement animate + their microtasks. An
+    // intermediate canceled style that is restored in the same batch is not a jump.
+    batch.timer=window.setTimeout(()=>finishBoundary(node,batch),0);
+  };
   const originalAnimate=Element.prototype.animate;
   Element.prototype.animate=function(...args:Parameters<Element['animate']>) {
+    const targetMatches=matches(this);if(targetMatches)beginBoundary(this);
     const animation=originalAnimate.apply(this,args);
-    if(!matches(this))return animation;
+    if(!targetMatches)return animation;
     const animationId=`animation-${++animationSequence}`;
     const duration=Number(animation.effect?.getComputedTiming().activeDuration ?? 0);
     emit('animation-start','Web Animation started','browser-observed',{durationMs:duration},this,animationId);
     const originalCancel=animation.cancel.bind(animation);
     animation.cancel=()=>{
+      beginBoundary(this);
       const currentTime=Number(animation.currentTime ?? 0);
       emit('animation-cancel','Web Animation canceled','browser-observed',{currentTime,durationMs:duration,active:animation.playState==='running'&&currentTime<duration},this,animationId);
       originalCancel();
@@ -83,8 +114,8 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
   };
   (window as unknown as {__motionProbe:unknown}).__motionProbe={
     events,samples,startTime,
-    start:()=>{events.length=0;samples.length=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
-    stop:()=>{running=false;generation++;clearTimeout(pending);cancelAnimationFrame(raf);emit('capture-end','Capture window ended','runner')},
+    start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
+    stop:()=>{for(const [node,batch] of boundaries)finishBoundary(node,batch);running=false;generation++;clearTimeout(pending);cancelAnimationFrame(raf);emit('capture-end','Capture window ended','runner')},
     mark:(type:string,label:string,detail:MotionEvent['detail'])=>emit(type,label,'runner',detail),
     time:now
   };

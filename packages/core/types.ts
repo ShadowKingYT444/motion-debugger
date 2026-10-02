@@ -39,6 +39,8 @@ export interface MotionSample {
   containmentOverflowPx:number|null;containerRect:{x:number;y:number;width:number;height:number}|null;
 }
 export interface MotionMetrics {
+  /** Additive v2 fields; absent in captures made before boundary observation. */
+  animationBoundarySamples?:number;maxAnimationBoundaryStepPx?:number;maxAnimationBoundaryStepAt60HzPx?:number;
   sufficientEvidence:boolean;validSamples:number;sampleCount:number;observedDurationMs:number;
   replacements:number;animationStarts:number;activeCancels:number;
   maxFrameStepPx:number;maxStepAt60HzPx:number;maxSampleGapMs:number;maxHeightStepPx:number;p95FrameStepPx:number;maxOpacityDrop:number;maxContainmentOverflowPx:number;containmentViolatingSamples:number;
@@ -46,7 +48,7 @@ export interface MotionMetrics {
 }
 export interface MotionAssertion {id:string;label:string;passed:boolean;actual:string;expected:string}
 export interface MotionFinding {
-  type:'identity-replacement'|'active-animation-cancel'|'frame-step'|'height-step'|'opacity-drop'|'containment-overflow';
+  type:'identity-replacement'|'active-animation-cancel'|'animation-boundary-step'|'frame-step'|'height-step'|'opacity-drop'|'containment-overflow';
   summary:string;eventIds:string[];sampleTimes:number[];
   confidence:'observed'|'contract-violation';
 }
