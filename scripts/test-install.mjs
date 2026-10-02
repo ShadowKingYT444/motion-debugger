@@ -16,7 +16,7 @@ function run(command,args,cwd=temp){const result=spawnSync(command,args,{cwd,enc
 let server;
 try {
   console.log(run(npm,['run','build'],root));
-  const packed=JSON.parse(run(npm,['pack','--ignore-scripts','--json','--pack-destination',temp],root));const tarball=path.join(temp,packed[0].filename);proof.package={filename:packed[0].filename,integrity:packed[0].integrity,shasum:packed[0].shasum,size:packed[0].size,unpackedSize:packed[0].unpackedSize};proof.checks.push('package-built-and-packed');
+  const packed=JSON.parse(run(npm,['pack','--ignore-scripts','--json','--pack-destination',temp],root));const tarball=path.join(temp,packed[0].filename);proof.package={filename:packed[0].filename,integrity:packed[0].integrity,shasum:packed[0].shasum,size:packed[0].size,unpackedSize:packed[0].unpackedSize};proof.checks.push('package-built-and-packed');await cp(tarball,path.join(proofDir,packed[0].filename));
   await writeFile(path.join(temp,'package.json'),JSON.stringify({name:'motion-debugger-install-consumer',version:'1.0.0',private:true,type:'module'}));
   console.log(`Packed artifact: ${tarball}`);
   console.log(run(npm,['install','--omit=dev','--ignore-scripts','--no-audit','--no-fund',tarball]));

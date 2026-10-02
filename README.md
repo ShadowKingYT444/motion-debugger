@@ -2,7 +2,7 @@
 
 **Give your coding agent eyes for motion.** Record an interaction, find the frame where it breaks, and verify the repair.
 
-[MCP setup](docs/CLIENTS.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Evidence](docs/V2-VERIFICATION.md) · [Security](SECURITY.md)
+[MCP setup](docs/CLIENTS.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Evidence](docs/V3-VERIFICATION.md) · [Security](SECURITY.md)
 
 ## Why it exists
 
@@ -30,6 +30,10 @@ The wizard previews the chosen agent configuration before writing it. Chromium i
 **Registry publication is deferred.** The preview is installable from its tarball; `npx motion-debugger@0.3.0` is not advertised as a live npm release.
 
 ## See it move
+
+![Recorded courier interruption: seeded reset versus continuous repair](docs/assets/courier-demo.gif)
+
+*Actual browser recording, not a rendered mockup.*
 
 ```sh
 motion-debugger demo
