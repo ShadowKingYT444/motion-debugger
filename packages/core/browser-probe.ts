@@ -38,7 +38,7 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       const targets=[...(matches(node)?[node]:[]),...node.querySelectorAll(config.selector)];
       for(const target of targets)emit(type,type==='dom-add'?'Target node added':'Target node removed','browser-observed',{},target);
     });
-  }).observe(document.documentElement,{childList:true,subtree:true});
+  }).observe(document,{childList:true,subtree:true});
   for(const type of ['click','pointermove','keydown'])document.addEventListener(type,event=>{
     if(type==='pointermove' && events.at(-1)?.type==='pointermove' && now()-events.at(-1)!.t<25)return;
     const target=event.target;
