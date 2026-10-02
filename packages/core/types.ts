@@ -4,6 +4,8 @@ export type MotionAction =
   | { action:'move'; x:number; y:number }
   | { action:'wait'; ms:number };
 export interface MotionContract {
+  /** Default continuous. Explicitly allow lifecycle absence without treating it as a lost recorder frame. */
+  targetPresence?:'continuous'|'may-disappear';
   maxFrameStepPx?:number;
   maxStepAt60HzPx?:number;
   maxSampleGapMs?:number;
@@ -31,6 +33,9 @@ export interface MotionEvent {
   source?:{file:string;line:number;endLine?:number;excerpt:string};
 }
 export interface MotionSample {
+  targetState?:'absent'|'hidden'|'visible';
+  /** Actual geometry-read clock, kept separate from the rAF trajectory clock. */
+  geometryTimeMs?:number;
   t:number; observedAtMs?:number; nodeId:string|null; logicalId:string|null;
   x:number|null;y:number|null;width:number|null;height:number|null;
   opacity:number|null; translateX:number|null;translateY:number|null;
@@ -39,6 +44,8 @@ export interface MotionSample {
   containmentOverflowPx:number|null;containerRect:{x:number;y:number;width:number;height:number}|null;
 }
 export interface MotionMetrics {
+  absentSamples?:number;hiddenSamples?:number;visibleSamples?:number;invalidSamples?:number;
+  maxObservedSampleGapMs?:number;maxVisibleSampleGapMs?:number;maxObservationLagMs?:number;maxProbeReadMs?:number;
   /** Additive v2 fields; absent in captures made before boundary observation. */
   animationBoundarySamples?:number;maxAnimationBoundaryStepPx?:number;maxAnimationBoundaryStepAt60HzPx?:number;
   sufficientEvidence:boolean;validSamples:number;sampleCount:number;observedDurationMs:number;
@@ -46,7 +53,13 @@ export interface MotionMetrics {
   maxFrameStepPx:number;maxStepAt60HzPx:number;maxSampleGapMs:number;maxHeightStepPx:number;p95FrameStepPx:number;maxOpacityDrop:number;maxContainmentOverflowPx:number;containmentViolatingSamples:number;
   nodeIdentities:string[];
 }
-export interface MotionAssertion {id:string;label:string;passed:boolean;actual:string;expected:string}
+export interface MotionAssertion {id:string;label:string;passed:boolean;status?:'passed'|'failed'|'inconclusive';actual:string;expected:string}
+export interface MotionCoverage {
+  version:'1';cadenceSufficient:boolean;targetCoverageSufficient:boolean;
+  targetPresence:'continuous'|'may-disappear';
+  intervals:{state:'absent'|'hidden'|'visible'|'invalid';fromMs:number;toMs:number;samples:number}[];
+  reasons:string[];
+}
 export interface MotionFinding {
   type:'identity-replacement'|'active-animation-cancel'|'animation-boundary-step'|'frame-step'|'height-step'|'opacity-drop'|'containment-overflow';
   summary:string;eventIds:string[];sampleTimes:number[];
@@ -54,8 +67,9 @@ export interface MotionFinding {
 }
 export interface MotionCapture {
   schemaVersion:'2.0';id:string;createdAt:string;recipe:CaptureRecipe;
-  environment:{browser:string;viewport:{width:number;height:number};clock:string;reducedMotion:string};
+  environment:{browser:string;probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
   events:MotionEvent[];samples:MotionSample[];metrics:MotionMetrics;
+  coverage?:MotionCoverage;
   assertions:MotionAssertion[];findings:MotionFinding[];
   final:{visible:boolean;attributes:Record<string,string>;text:string;x:number|null;y:number|null;opacity:number|null};
   artifacts:{directory:string;report:string;video:string;poster:string;finalScreenshot:string;videoOffsetMs:number};

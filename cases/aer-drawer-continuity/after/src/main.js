@@ -1,0 +1,222 @@
+import './style.css';
+import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const powerIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9M7 5.5a8 8 0 1 0 10 0"/></svg>';
+document.querySelector('#app').innerHTML = `
+<header class="site-header"><a class="wordmark" href="#" aria-label="AER home">aer<span class="wordmark-dot">®</span></a><span class="nav-note">Objects for a softer everyday</span><button class="quiet-button details-trigger" data-open-details>Explore the details ${arrow}</button></header>
+<main>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy"><p class="eyebrow"><span></span>DESK FAN / CONCEPT 01</p><h1 id="hero-title">A little movement.<br>A different <br><em>atmosphere.</em></h1><p class="intro">A sculptural desk companion.<br>Made to move air. Designed to make space.</p>
+  <div class="control-deck" aria-label="Fan controls"><div class="control-top"><span class="small-label">TAKE IT FOR A SPIN</span><span id="status" class="status"><i></i>Running</span></div><div class="control-row"><button id="power" class="power-button" aria-label="Fan power" aria-pressed="true">${powerIcon}</button><div class="speed-control" role="group" aria-label="Fan speed"><button data-speed="1" aria-pressed="true"><span>01</span>Low</button><button data-speed="2" aria-pressed="false"><span>02</span>Medium</button><button data-speed="3" aria-pressed="false"><span>03</span>High</button></div></div><p class="control-caption">Your pace. Your space.</p></div>
+  </div>
+  <div class="product-stage"><div class="stage-heading"><span>AER / GRAPHITE</span><span class="stage-index">01 — 03</span></div><div id="scene" role="img" aria-label="Interactive 3D model of AER: a circular graphite desk fan on a sculptural pedestal. Drag to orbit or use the view buttons." tabindex="0"><div id="scene-fallback" hidden><svg viewBox="0 0 240 260" aria-hidden="true"><ellipse cx="120" cy="241" rx="61" ry="11"/><path d="M110 146h20v92h-20z"/><circle cx="120" cy="93" r="80" fill="none" stroke="currentColor" stroke-width="9"/><circle cx="120" cy="93" r="65" fill="none" stroke="currentColor" stroke-width="2"/><path d="M120 93C160 30 185 63 177 86L120 93M120 93C57 80 72 41 95 43L120 93M120 93C141 164 100 165 84 146L120 93"/><circle cx="120" cy="93" r="16"/></svg><strong>AER, in profile</strong><p>3D rendering is unavailable on this device. Power and speed controls remain available.</p></div></div><div class="stage-bottom"><span class="orbit-hint">DRAG TO EXPLORE <span aria-hidden="true">↔</span></span><div class="view-controls" role="group" aria-label="Product view"><button id="orbit-left" aria-label="Rotate view left">←</button><button id="reset-view" aria-label="Reset product view">Reset view</button><button id="orbit-right" aria-label="Rotate view right">→</button></div></div><div class="telemetry" id="telemetry" aria-live="polite" aria-busy="true"><span class="telemetry-icon" aria-hidden="true">⌁</span><span class="telemetry-title">Scene telemetry</span><span id="telemetry-value" class="telemetry-loading">Reading live scene…</span><span class="telemetry-tag">MODEL DATA</span></div></div>
+</section>
+<section class="manifesto" aria-label="Design philosophy"><div class="manifesto-heading"><p class="eyebrow">LESS, BUT CONSIDERED</p><h2>Small footprint.<br>Quiet presence.</h2></div><div class="feature"><span class="feature-index">01 / FORM</span><h3>Room to breathe</h3><p>A circular silhouette, a grounded base and just enough detail. An object that belongs on your desk.</p></div><div class="feature"><span class="feature-index">02 / FEEL</span><h3>Set your rhythm</h3><p>Three speeds and a single power control. Explore the form from every angle, at your own pace.</p></div><button class="text-link" data-open-details>Inside the design ${arrow}</button></section>
+<footer><a href="#" class="footer-logo" aria-label="AER home">aer</a><span>Concept object. Real-time geometry.</span><span>Designed to take up less.</span></footer>
+</main>
+<dialog id="details" aria-labelledby="details-title"><div class="drawer-shell"><header class="drawer-header"><span class="eyebrow">OBJECT NOTES / 01</span><button id="close-details" aria-label="Close details">×</button></header><div class="drawer-content"><p class="drawer-kicker">AER / GRAPHITE</p><h2 id="details-title">Considered from<br>every angle.</h2><p class="drawer-intro">A compact fan concept built around an honest circular form. Every surface you see is generated in the browser.</p><div class="mini-fan" aria-hidden="true"><span></span></div><dl class="spec-list"><div><dt>Form</dt><dd>Circular head / pedestal base</dd></div><div><dt>Finish</dt><dd>Graphite body / satin alloy accents</dd></div><div><dt>Control</dt><dd>Power + three speed levels</dd></div><div><dt>Scene</dt><dd>Procedural WebGL geometry</dd></div><div><dt>Interaction</dt><dd>Drag, touch or arrow keys</dd></div></dl><p class="concept-note">This is an interactive design concept, not a product for sale. Scene telemetry reports the rendered model, not measurements from a physical fan.</p><button class="drawer-return" id="return-to-fan">Back to the object ${arrow}</button></div></div></dialog>`;
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const state = { power: true, speed: 1, reducedMotion: reduced.matches, ready: false, failed: false, rpm: 0, angle: 0, orbit: { yaw: .32, pitch: .12 }, frameCount: 0, frameDeltaMs: 0 };
+const targets = [0, 4.5, 7.5, 12];
+const $ = s => document.querySelector(s);
+let markClock = 0;
+function mark(label) {
+  dispatchEvent(new CustomEvent('motion:mark', { detail: { type: 'aer-state', label, sourceKey: 'aer.motor', state: { power: state.power, speed: state.speed, rpm: Number(state.rpm.toFixed(2)), angle: Number(state.angle.toFixed(4)), reducedMotion: state.reducedMotion, ready: state.ready } } }));
+}
+function sync() {
+  $('#power').setAttribute('aria-pressed', String(state.power));
+  document.querySelectorAll('[data-speed]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.speed) === state.speed)));
+  $('#status').classList.toggle('off', !state.power);
+  $('#status').innerHTML = `<i></i>${state.power ? 'Running' : 'Standby'}`;
+  needsRender=true;
+  $('#scene').dataset.power = String(state.power); $('#scene').dataset.speed = String(state.speed);
+  $('#scene').dataset.reducedMotion = String(state.reducedMotion);
+  $('.control-caption').textContent = state.reducedMotion ? 'Reduced motion: blade animation paused.' : 'Your pace. Your space.';
+  mark('controls-changed');
+}
+$('#power').addEventListener('click', () => {advanceMotor(performance.now());state.power = !state.power; sync();});
+document.querySelectorAll('[data-speed]').forEach(button => button.addEventListener('click', () => {advanceMotor(performance.now());state.speed = Number(button.dataset.speed); sync();}));
+reduced.addEventListener('change', e => {advanceMotor(performance.now());state.reducedMotion = e.matches; sync();});
+
+const dialog = $('#details'); let opener, drawerRendered = false;
+function openDetails(e) {
+  opener = e.currentTarget;
+  if (!dialog.open) {
+    drawerRendered = true;
+    // A retained exit already has a live transition and pose. Reapplying
+    // @starting-style would reset it; let the same native transition reverse.
+    dialog.classList.toggle('is-reopening', dialog.getBoundingClientRect().width > 0);
+    dialog.showModal();
+  }
+  mark('details-open');
+}
+function closeDetails() { dialog.close(); needsRender=true; opener?.focus(); mark('details-close'); }
+document.querySelectorAll('[data-open-details]').forEach(b => b.addEventListener('click', openDetails));
+$('#close-details').addEventListener('click', closeDetails); $('#return-to-fan').addEventListener('click', closeDetails);
+dialog.addEventListener('click', e => { if (e.target === dialog) closeDetails(); });
+dialog.addEventListener('cancel', () => {mark('details-escape');});
+dialog.addEventListener('close', () => {
+  if (dialog.open) return;
+  // Keep the obscured 3D scene parked while the retained native exit is drawn.
+  // Motor integration still advances; only redundant GPU work is suspended.
+  const exits = dialog.getAnimations();
+  const release = () => {
+    if (!dialog.open && dialog.getBoundingClientRect().width === 0) {
+      drawerRendered = false; needsRender = true;
+    }
+  };
+  if (exits.length) Promise.allSettled(exits.map(animation => animation.finished)).then(release);
+  else release();
+});
+
+let currentYaw = .32, currentPitch = .12;
+function adjustView(amount) {state.orbit.yaw = THREE.MathUtils.clamp(state.orbit.yaw + amount, -.85, .85); needsRender=true; mark('view-retarget');}
+$('#orbit-left').addEventListener('click', () => adjustView(-.24)); $('#orbit-right').addEventListener('click', () => adjustView(.24));
+$('#reset-view').addEventListener('click', () => {state.orbit.yaw=.32; state.orbit.pitch=.12;needsRender=true;mark('view-reset');});
+$('#scene').addEventListener('keydown', e => {
+  if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home',' '].includes(e.key)) e.preventDefault();
+  if (e.key==='ArrowLeft') adjustView(-.16); if (e.key==='ArrowRight') adjustView(.16);
+  if (e.key==='ArrowUp') state.orbit.pitch = Math.min(.42, state.orbit.pitch+.08);
+  if (e.key==='ArrowDown') state.orbit.pitch = Math.max(-.15, state.orbit.pitch-.08);
+  if (e.key==='Home') {state.orbit.yaw=.32; state.orbit.pitch=.12;}
+  if (e.key===' ') {advanceMotor(performance.now());state.power = !state.power;sync();}
+  needsRender=true;
+});
+let drag;
+const stage = $('#scene');
+stage.addEventListener('pointerdown', e => {if (!e.isPrimary || (e.pointerType==='mouse' && e.button!==0)) return; drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:state.orbit.yaw,pitch:state.orbit.pitch};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging');});
+stage.addEventListener('pointermove', e => {if (!drag || drag.id!==e.pointerId) return;state.orbit.yaw=THREE.MathUtils.clamp(drag.yaw+(e.clientX-drag.x)*.004,-.85,.85);state.orbit.pitch=THREE.MathUtils.clamp(drag.pitch+(e.clientY-drag.y)*.002,-.15,.42);needsRender=true;});
+function releaseDrag() {drag=null;stage.classList.remove('dragging');}
+stage.addEventListener('pointerup', releaseDrag);stage.addEventListener('pointercancel',releaseDrag);stage.addEventListener('lostpointercapture',releaseDrag);
+
+let sceneVisible=true, needsRender=true;
+let renderer, observer, visibilityObserver, raf, disposed=false, motorVelocity=0, scene, camera, blades, fan, geometries=new Set(), materials=new Set(), lastTime=0, lastTelemetry=0, settleTimer;
+let lastMotorTime=performance.now();
+let staticTarget, compositeScene, compositeCamera, staticCacheDirty=true, fullSceneTriangles=0;
+// Cache the real fixed geometry's color AND depth. The rotating mesh is still
+// rendered by WebGL every frame and tested against the cached guard/housing depth.
+function renderProduct(cameraMoving) {
+  renderer.info.reset();
+  if(cameraMoving) {
+    camera.layers.enableAll(); renderer.render(scene,camera); staticCacheDirty=true;
+    fullSceneTriangles=renderer.info.render.triangles;
+    return;
+  }
+  if(staticCacheDirty) {
+    camera.layers.set(0);
+    renderer.setRenderTarget(staticTarget); renderer.render(scene,camera);
+    renderer.setRenderTarget(null); staticCacheDirty=false;
+    fullSceneTriangles=renderer.info.render.triangles;
+  }
+  renderer.render(compositeScene,compositeCamera);
+  renderer.autoClear=false; camera.layers.set(1);
+  renderer.render(scene,camera);
+  renderer.autoClear=true; camera.layers.enableAll();
+}
+function initStaticCache() {
+  staticTarget=new THREE.WebGLRenderTarget(1,1,{type:THREE.HalfFloatType,samples:4});
+  staticTarget.depthTexture=new THREE.DepthTexture(1,1,THREE.UnsignedIntType);
+  const compositeMaterial=new THREE.ShaderMaterial({
+    uniforms:{fixedColor:{value:staticTarget.texture},fixedDepth:{value:staticTarget.depthTexture}},
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.0,1.0);}`,
+    fragmentShader:`uniform sampler2D fixedColor;uniform sampler2D fixedDepth;varying vec2 vUv;
+      void main(){gl_FragColor=texture2D(fixedColor,vUv);gl_FragDepth=texture2D(fixedDepth,vUv).r;
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+      }`,
+    depthTest:true,depthWrite:true,depthFunc:THREE.AlwaysDepth,blending:THREE.NoBlending
+  });
+  materials.add(compositeMaterial);compositeScene=new THREE.Scene();compositeCamera=new THREE.Camera();
+  const quad=mesh(new THREE.PlaneGeometry(2,2),compositeMaterial,compositeScene);quad.frustumCulled=false;
+  scene.traverse(object=>{if(object.isLight)object.layers.enableAll();});
+  blades.traverse(object=>{if(object.isMesh)object.layers.set(1);});
+}
+function advanceMotor(time) {
+  const dt=Math.min(Math.max(0,(time-lastMotorTime)/1000),.25);lastMotorTime=Math.max(lastMotorTime,time);
+  const target=state.power&&!state.reducedMotion?targets[state.speed]:0;
+  if(state.reducedMotion){motorVelocity=0;state.rpm=0;return;}
+  const decay=Math.exp(-dt*3.2);
+  // Integrate the eased velocity over the same clock interval, before retargeting.
+  state.angle=(state.angle+target*dt+(motorVelocity-target)*(1-decay)/3.2)%(Math.PI*2);
+  motorVelocity=target+(motorVelocity-target)*decay;state.rpm=motorVelocity*60/(2*Math.PI);
+}
+function material(params) {const m=new THREE.MeshStandardMaterial(params);materials.add(m);return m;}
+function mesh(geometry, mat, parent, x=0,y=0,z=0) {geometries.add(geometry);const m=new THREE.Mesh(geometry,mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
+function cylinder(radiusTop,radiusBottom,height, mat,parent,x,y,z) {return mesh(new THREE.CylinderGeometry(radiusTop,radiusBottom,height,48),mat,parent,x,y,z);}
+function ring(radius,tube,mat,parent,z) {return mesh(new THREE.TorusGeometry(radius,tube,8,72),mat,parent,0,0,z);}
+function initScene() {
+  renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=false;renderer.info.autoReset=false;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;
+  renderer.domElement.setAttribute('aria-hidden','true');stage.append(renderer.domElement);
+  scene=new THREE.Scene();camera=new THREE.OrthographicCamera(-3,3,3,-3,.1,40);
+  const graphite=material({color:0x353a39,roughness:.57,metalness:.36});const rim=material({color:0x9daba8,roughness:.31,metalness:.72});const cream=material({color:0xc4cec8,roughness:.5,metalness:.23});const bronze=material({color:0xa8a391,roughness:.36,metalness:.66});const wire=material({color:0x69716d,roughness:.52,metalness:.65});
+  scene.add(new THREE.HemisphereLight(0xfafbf4,0x5e685e,2.2));
+  const key=new THREE.DirectionalLight(0xffffff,4.4);key.position.set(-3.5,6,5);scene.add(key);
+  const fill=new THREE.DirectionalLight(0xd1e4df,2.1);fill.position.set(4,2,-2);scene.add(fill);
+  fan=new THREE.Group();fan.position.y=.12;scene.add(fan);
+  const head=new THREE.Group();head.position.y=.38;fan.add(head);
+  const housing=cylinder(1.42,1.38,.46,graphite,head,0,0,-.10);housing.rotation.x=Math.PI/2;
+  ring(1.39,.077,rim,head,.19); ring(1.32,.024,graphite,head,.27);ring(1.37,.028,graphite,head,-.32);
+  // A real rotor: three individually extruded curved blades, under the guard.
+  blades=new THREE.Group();blades.position.z=.245;head.add(blades);
+  const shape=new THREE.Shape();shape.moveTo(.08,.17);shape.bezierCurveTo(.26,.30,.72,.72,.57,1.13);shape.bezierCurveTo(.51,1.31,.20,1.30,.01,1.20);shape.bezierCurveTo(-.18,1.10,-.12,.50,.08,.17);
+  const bladeGeometry=new THREE.ExtrudeGeometry(shape,{depth:.055,bevelEnabled:true,bevelThickness:.025,bevelSize:.025,bevelSegments:2,steps:1,curveSegments:14});
+  const rotorParts=[];
+  for(let i=0;i<3;i++){const part=bladeGeometry.clone();part.applyMatrix4(new THREE.Matrix4().makeRotationZ(i*Math.PI*2/3));rotorParts.push(part);}
+  mesh(mergeGeometries(rotorParts,false),cream,blades);rotorParts.forEach(g=>g.dispose());bladeGeometry.dispose();
+  // Sparse concentric wire guard retains a readable moving rotor.
+  [ .39,.58,.77,.96,1.15,1.30 ].forEach(r=>ring(r,.009,wire,head,.39));
+  const spokeGeo=new THREE.CylinderGeometry(.008,.008,2.62,8);
+  for(let i=0;i<8;i++){const spoke=mesh(spokeGeo,wire,head,0,0,.39);spoke.rotation.z=i*Math.PI/8;}
+  const hub=cylinder(.25,.25,.14,bronze,head,0,0,.405);hub.rotation.x=Math.PI/2;
+  const logo=cylinder(.115,.115,.006,graphite,head,0,0,.48);logo.rotation.x=Math.PI/2;
+  const stem=cylinder(.13,.17,1.56,graphite,fan,0,-1.24,-.12);stem.rotation.z=-.05;
+  const collar=cylinder(.20,.20,.18,rim,fan,.036,-1.94,-.12);
+  const base=cylinder(.73,.80,.12,graphite,fan,0,-2.055,-.12);base.scale.z=.74;
+  const baseTrim=cylinder(.74,.77,.025,rim,fan,0,-2.12,-.12);baseTrim.scale.z=.74;
+  const foot=cylinder(.70,.70,.02,graphite,fan,0,-2.14,-.12);foot.scale.z=.74;
+  // Bake fixed parts by material: the rotor alone remains independently articulated.
+  fan.updateWorldMatrix(true,true);
+  const buckets=new Map(), fixed=[];
+  fan.traverse(object=>{if(!object.isMesh)return;let owner=object.parent;while(owner&&owner!==blades)owner=owner.parent;if(owner===blades)return;
+    const copy=object.geometry.index?object.geometry.toNonIndexed():object.geometry.clone();copy.applyMatrix4(object.matrixWorld);
+    if(!buckets.has(object.material))buckets.set(object.material,[]);buckets.get(object.material).push(copy);fixed.push(object);
+  });
+  buckets.forEach((parts,mat)=>{mesh(mergeGeometries(parts,false),mat,scene);parts.forEach(g=>g.dispose());});fixed.forEach(object=>object.removeFromParent());
+  // A local, layered geometry shadow proxy avoids a full-screen lit ground plane.
+  [.96,.77,.57].forEach((size,index)=>{const shadowMat=new THREE.MeshBasicMaterial({color:0x303b33,transparent:true,opacity:.045+index*.025,depthWrite:false,toneMapped:false});materials.add(shadowMat);
+    const shadow=mesh(new THREE.CircleGeometry(size,48),shadowMat,scene,0,-2.038+index*.001,-.12);shadow.rotation.x=-Math.PI/2;shadow.scale.y=.78;
+  });
+  initStaticCache();
+  function resize() {const rect=stage.getBoundingClientRect();if(!rect.width||!rect.height)return;renderer.setSize(rect.width,rect.height,false);const pixels=renderer.getDrawingBufferSize(new THREE.Vector2());staticTarget.setSize(pixels.x,pixels.y);staticCacheDirty=true;const half=2.48;const aspect=rect.width/rect.height;camera.left=-half*aspect;camera.right=half*aspect;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();needsRender=true;}
+  observer=new ResizeObserver(resize);observer.observe(stage);resize();
+  visibilityObserver=new IntersectionObserver(entries=>{sceneVisible=entries[0].isIntersecting;if(sceneVisible)needsRender=true;});visibilityObserver.observe(stage);
+  raf=requestAnimationFrame(tick);
+}
+function tick(time) {
+  if(disposed)return;
+  const elapsed=lastTime?(time-lastTime)/1000:0;const dt=Math.min(elapsed,.1);state.frameDeltaMs=elapsed*1000;lastTime=time;
+  if(!document.hidden){
+    advanceMotor(performance.now());blades.rotation.z=state.angle;
+    const damping=state.reducedMotion?1:1-Math.exp(-dt*10);
+    currentYaw+=(state.orbit.yaw-currentYaw)*damping;currentPitch+=(state.orbit.pitch-currentPitch)*damping;
+    const cameraMoving=Math.abs(currentYaw-state.orbit.yaw)+Math.abs(currentPitch-state.orbit.pitch)>.00001;
+    // Once settled, use exactly one pose for the cache and moving rotor depth.
+    if(!cameraMoving){currentYaw=state.orbit.yaw;currentPitch=state.orbit.pitch;}
+    camera.position.set(Math.sin(currentYaw)*8, .9+currentPitch*5, Math.cos(currentYaw)*8);camera.lookAt(0,-.25,0);
+    const rotorMoving=!state.reducedMotion&&motorVelocity>.0001;
+    if(sceneVisible&&!drawerRendered&&(needsRender||cameraMoving||rotorMoving)) {renderProduct(cameraMoving);state.frameCount++;needsRender=false;}
+    if(!state.ready&&!settleTimer){settleTimer=setTimeout(()=>{state.ready=true;$('#telemetry').setAttribute('aria-busy','false');$('#telemetry').dataset.ready='true';$('#telemetry').classList.add('ready');$('#telemetry-value').classList.remove('telemetry-loading');mark('scene-ready');},550);}
+    if(time-lastTelemetry>250&&state.ready){$('#telemetry-value').textContent=state.reducedMotion?'Motion paused · 3D ready':`${Math.round(state.rpm)} rpm · ${renderer.info.render.triangles.toLocaleString()} triangles`;lastTelemetry=time;}
+    if(time-markClock>250){mark('rotor-sample');markClock=time;}
+  }
+  raf=requestAnimationFrame(tick);
+}
+function fallback(error){state.failed=true;$('#scene-fallback').hidden=false;renderer?.domElement.remove();$('#telemetry').setAttribute('aria-busy','false');$('#telemetry-value').textContent='3D unavailable · controls ready';$('#telemetry').classList.add('ready');console.warn('AER WebGL fallback:',error?.message||error);mark('scene-fallback');}
+try{initScene();}catch(error){fallback(error);}
+function dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(raf);clearTimeout(settleTimer);observer?.disconnect();visibilityObserver?.disconnect();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());staticTarget?.dispose();renderer?.dispose();}
+window.addEventListener('pagehide',dispose,{once:true});
+window.__aer={getState:()=>({...state,orbit:{...state.orbit},renderer:renderer?{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,staticCache:!!staticTarget,staticSceneTriangles:fullSceneTriangles}:null}),dispose};
+sync();

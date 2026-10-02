@@ -83,7 +83,7 @@ test('static server binds only loopback and serves actual bytes with network res
 });
 test('viewer labels arms/stages, publishes only real ready origins and exposes failures', async t => {
   const root = await temp(t), dist = path.join(root, 'dist'); await mkdir(dist); await writeFile(path.join(dist, 'index.html'), '<h1>Not a mocked screenshot</h1>');
-  await mkdir(path.join(root, 'studies/aer'), { recursive: true }); for (const name of ['PROMPT.md', 'METHOD.md', 'README.md']) await writeFile(path.join(root, 'studies/aer', name), `Real ${name}`);
+  await mkdir(path.join(root, 'studies/aer'), { recursive: true }); for (const name of ['PROMPT.md', 'METHOD.md', 'README.md', 'RESULTS.md', 'RESULTS.json']) await writeFile(path.join(root, 'studies/aer', name), `Real ${name}`);
   const snapshots = SNAPSHOTS.map((item, i) => ({ ...item, source: `studies/aer/${item.arm}/${item.stage}`, status: i === 0 ? 'ready' : i === 1 ? 'failed' : 'unavailable', message: i === 1 ? 'Build failed on purpose in test' : '', ...(i === 0 ? { dist } : {}) }));
   const viewer = await launchViewer(snapshots, root, 0); t.after(() => viewer.close());
   const html = await (await fetch(viewer.origin)).text(); assert.match(html, /Without the plugin/); assert.match(html, /With the plugin \+ skills/); assert.match(html, /Initial build/); assert.match(html, /Repaired build/); assert.match(html, /not a benchmark/);
@@ -92,4 +92,69 @@ test('viewer labels arms/stages, publishes only real ready origins and exposes f
   assert.equal(await (await fetch(api.snapshots[0].origin)).text(), '<h1>Not a mocked screenshot</h1>');
   assert.equal(await (await fetch(viewer.origin + '/study/PROMPT.md')).text(), 'Real PROMPT.md');
   assert.equal((await fetch(viewer.origin + '/study/../package.json')).status, 404);
+});
+
+test('new explicitly named cases retain their own source identity and stay within the project', async t => {
+  const root = await temp(t), workspace = path.join(root, 'workspace');
+  const item = { arm: 'repair', stage: 'before', id: 'drawer-before', source: 'cases/drawer/before' };
+  const missing = await prepareSnapshot(root, item, {}, workspace);
+  assert.equal(missing.source, item.source); assert.equal(missing.status, 'unavailable');
+  await assert.rejects(prepareSnapshot(root, { ...item, source: '../outside' }, {}, workspace), /inside the project root/);
+  const outside = await temp(t); await fixture(outside);
+  await mkdir(path.join(root, 'cases'), { recursive: true }); await symlink(outside, path.join(root, 'cases/escape'));
+  const escaped = await prepareSnapshot(root, { ...item, source: 'cases/escape' }, {}, workspace);
+  assert.equal(escaped.status, 'failed'); assert.match(escaped.message, /escapes the project root/);
+});
+async function evidenceFixture(root) {
+  const directory = path.join(root, 'docs/assets/aer'); await mkdir(directory, { recursive: true });
+  // Unit-test transport bytes; these are never represented as browser motion captures.
+  const bytes = Buffer.from('unit transport fixture, not a playable recording');
+  const provenance = { initialVideoRun: 11, finalVideoRun: 22, initialSourceCommit: 'a'.repeat(40), finalSourceCommit: 'b'.repeat(40), files: {} };
+  for (const { id } of SNAPSHOTS) {
+    await writeFile(path.join(directory, id + '.mp4'), bytes);
+    provenance.files[id + '.mp4'] = { bytes: bytes.length, sha256: sha(bytes) };
+  }
+  await writeFile(path.join(directory, 'provenance.json'), JSON.stringify(provenance));
+  return { directory, bytes, provenance };
+}
+test('viewer evidence is an exact read-only allowlist, with honest findings and seekable byte ranges', async t => {
+  const root = await temp(t), { directory, bytes, provenance } = await evidenceFixture(root);
+  await writeFile(path.join(directory, 'private.mp4'), 'not allowed');
+  const viewer = await launchViewer([], root, 0); t.after(() => viewer.close());
+  const response = await fetch(viewer.origin), html = await response.text();
+  assert.match(response.headers.get('content-security-policy'), /media-src 'self'/);
+  assert.match(html, /Normal-motion comparison: inconclusive/); assert.match(html, /failed the unchanged 80ms/);
+  assert.match(html, /Recorded browser evidence/); assert.match(html, /playsinline/); assert.doesNotMatch(html, /autoplay/);
+  const api = await (await fetch(viewer.origin + '/api/study')).json();
+  assert.equal(api.recordings.length, 4); assert.ok(api.recordings.every(x => x.available));
+  for (const recording of api.recordings) {
+    const file = await fetch(viewer.origin + recording.url);
+    assert.equal(file.headers.get('content-type'), 'video/mp4'); assert.deepEqual(Buffer.from(await file.arrayBuffer()), bytes);
+    assert.equal(recording.sha256, sha(bytes)); assert.equal(recording.sourceCommit, recording.id.endsWith('initial') ? 'a'.repeat(40) : 'b'.repeat(40));
+  }
+  const url = viewer.origin + '/evidence/aer/baseline-initial.mp4';
+  const partial = await fetch(url, { headers: { Range: 'bytes=5-9' } });
+  assert.equal(partial.status, 206); assert.equal(partial.headers.get('content-range'), `bytes 5-9/${bytes.length}`);
+  assert.equal(await partial.text(), bytes.subarray(5, 10).toString());
+  const suffix = await fetch(url, { headers: { Range: 'bytes=-4' } }); assert.equal(await suffix.text(), bytes.subarray(-4).toString());
+  const tail = await fetch(url, { headers: { Range: 'bytes=5-' } }); assert.equal(await tail.text(), bytes.subarray(5).toString());
+  const head = await fetch(url, { method: 'HEAD' }); assert.equal(head.status, 200); assert.equal(head.headers.get('content-length'), String(bytes.length)); assert.equal(await head.text(), '');
+  for (const range of ['bytes=999-', 'bytes=8-5', 'bytes=-0', 'bytes=0-1,3-4', 'bytes=-', 'invalid']) {
+    const invalid = await fetch(url, { headers: { Range: range } }); assert.equal(invalid.status, 416, range); assert.equal(invalid.headers.get('content-range'), `bytes */${bytes.length}`);
+  }
+  assert.equal((await fetch(url, { method: 'POST' })).status, 405);
+  assert.deepEqual(await (await fetch(viewer.origin + '/evidence/aer/provenance.json')).json(), provenance);
+  for (const route of ['/evidence/aer/private.mp4', '/evidence/aer/../private.mp4', '/evidence/aer/../../package.json', '/docs/assets/aer/baseline-initial.mp4']) assert.equal((await fetch(viewer.origin + route)).status, 404);
+});
+test('missing, tampered and escaping recordings remain unavailable instead of showing unverified evidence', async t => {
+  const root = await temp(t), { directory } = await evidenceFixture(root);
+  await rm(path.join(directory, 'baseline-initial.mp4'));
+  await writeFile(path.join(directory, 'baseline-final.mp4'), 'modified evidence');
+  const outside = path.join(root, 'outside.mp4'); await writeFile(outside, 'outside');
+  await rm(path.join(directory, 'treatment-initial.mp4')); await symlink(outside, path.join(directory, 'treatment-initial.mp4'));
+  const viewer = await launchViewer([], root, 0); t.after(() => viewer.close());
+  const api = await (await fetch(viewer.origin + '/api/study')).json();
+  assert.equal(api.recordings.filter(x => x.available).length, 1);
+  assert.match(api.recordings[0].message, /missing/); assert.match(api.recordings[1].message, /does not match/); assert.match(api.recordings[2].message, /escapes/);
+  for (const id of ['baseline-initial', 'baseline-final', 'treatment-initial']) assert.equal((await fetch(viewer.origin + '/evidence/aer/' + id + '.mp4')).status, 404);
 });

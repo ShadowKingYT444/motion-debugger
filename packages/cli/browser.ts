@@ -1,6 +1,8 @@
 import {createRequire} from 'node:module';
 import {spawn} from 'node:child_process';
 import {existsSync} from 'node:fs';
+import {mkdtemp,rm,stat} from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import {chromium} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
@@ -25,7 +27,18 @@ export async function doctor(skipLaunch=false) {
     {name:'chromium-executable',ok:existsSync(executable),detail:executable}
   ];
   if(!skipLaunch&&existsSync(executable)) {
-    try{const browser=await chromium.launch({...options,timeout:15000});try{const page=await browser.newPage();await page.setContent('<title>Motion Debugger doctor</title>');checks.push({name:'chromium-launch',ok:await page.title()==='Motion Debugger doctor',detail:browser.version()})}finally{await browser.close()}}catch(error){checks.push({name:'chromium-launch',ok:false,detail:(error instanceof Error?error.message:String(error)).slice(0,4000)})}
+    const directory=await mkdtemp(path.join(os.tmpdir(),'motion-doctor-'));
+    try{
+      const browser=await chromium.launch({...options,timeout:15000});
+      try{
+        const context=await browser.newContext({recordVideo:{dir:directory,size:{width:320,height:320}}});
+        const page=await context.newPage();await page.setContent('<title>Motion Debugger doctor</title><p>Recording check</p>');
+        await page.screenshot();checks.push({name:'chromium-launch',ok:await page.title()==='Motion Debugger doctor',detail:browser.version()});
+        const video=page.video();await context.close();
+        checks.push({name:'recorded-video',ok:!!video&&(await stat(await video.path())).size>0,detail:'Actual browser recording and encoder finalized'});
+      }finally{await browser.close()}
+    }catch(error){checks.push({name:'chromium-recording',ok:false,detail:(error instanceof Error?error.message:String(error)).slice(0,4000)})}
+    finally {await rm(directory,{recursive:true,force:true})}
   }
   const ok=checks.every(check=>check.ok);
   return {ok,package:`${metadata.name}@${metadata.version}`,checks,browserLaunchSkipped:skipLaunch,environment:{CHROMIUM_PATH:process.env.CHROMIUM_PATH??null,PLAYWRIGHT_BROWSERS_PATH:process.env.PLAYWRIGHT_BROWSERS_PATH??null},...(!ok?{nextSteps:['Run motion-debugger setup --browser to explicitly download the version-matched Chromium','For a custom browser, set CHROMIUM_PATH to its executable and rerun doctor','If Chromium exists but cannot launch, inspect the launch error for missing Linux libraries or sandbox restrictions']}:{})};

@@ -28,6 +28,7 @@ function model(initialX:number) {
   const sandbox={window:win,Element:ElementModel,document:{addEventListener(){},querySelector:()=>target},
     getComputedStyle:()=>({opacity:String(target.opacity),visibility:'visible',display:'block'}),
     MutationObserver:class {observe(){}},performance:{now:()=>clock},
+    MessageChannel:class {port1={onmessage:null};port2={postMessage(){}}},
     requestAnimationFrame:()=>1,cancelAnimationFrame(){},clearTimeout:(id:number)=>timers.delete(id),__name:(value:unknown)=>value};
   runInNewContext(`(${installBrowserProbe.toString()})({selector:'#target'})`,sandbox);
   const probe=win.__motionProbe!;

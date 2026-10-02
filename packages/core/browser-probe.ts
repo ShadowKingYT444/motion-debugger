@@ -2,7 +2,7 @@ import type {CaptureRecipe,MotionEvent,MotionSample} from './types';
 
 export function installBrowserProbe(config:{selector:string;containment?:CaptureRecipe['contract'] extends infer _ ? {selector:string;shape?:'rect'|'circle';maxOverflowPx:number;minOpacity?:number} : never}) {
   const events:MotionEvent[]=[],samples:MotionSample[]=[];
-  const ids=new WeakMap<Element,string>();let idSequence=0,animationSequence=0,startTime:number|null=null,raf=0,pending=0,generation=0,running=false;
+  const ids=new WeakMap<Element,string>();let idSequence=0,animationSequence=0,startTime:number|null=null,raf=0,generation=0,running=false,maxReadMs=0,superseded=0;
   const now=()=>startTime===null?-1:Number((performance.now()-startTime).toFixed(3));
   const nodeId=(node:Element)=>{if(!ids.has(node))ids.set(node,`node-${++idSequence}`);return ids.get(node)!};
   const matches=(node:Element)=>{try{return node.matches(config.selector)}catch{return false}};
@@ -90,7 +90,11 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       const url=new URL(resource.name);emit('network-resource','Resource request completed','browser-observed',{path:url.pathname,initiatorType:resource.initiatorType,startMs:Number((resource.startTime-startTime).toFixed(3)),responseEndMs:Number((resource.responseEnd-startTime).toFixed(3))});
     }
   }).observe({type:'resource',buffered:true})}catch{}
+  try {new PerformanceObserver(list=>{
+    for(const entry of list.getEntries())if(startTime!==null&&entry.startTime>=startTime)emit('long-task','Browser main-thread long task','browser-observed',{startMs:Number((entry.startTime-startTime).toFixed(3)),durationMs:Number(entry.duration.toFixed(3))});
+  }).observe({type:'longtask',buffered:false})}catch{}
   const observe=(frameTime:number)=>{
+    const readStart=performance.now();
     const sampleTime=Number(Math.max(0,frameTime-startTime!).toFixed(3));
     const observedAtMs=now();
     const node=document.querySelector(config.selector);
@@ -103,19 +107,29 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
         overflow=config.containment?.shape==='circle'?Math.max(0,Math.hypot(rect.x+rect.width/2-c.x-c.width/2,rect.y+rect.height/2-c.y-c.height/2)+Math.max(rect.width,rect.height)/2-Math.min(c.width,c.height)/2):Math.max(0,c.left-rect.left,c.top-rect.top,rect.right-c.right,rect.bottom-c.bottom);
       }
       const animation=node.getAnimations()[0];
-      samples.push({t:sampleTime,observedAtMs,nodeId:nodeId(node),logicalId:logicalId(node),x:rect.x,y:rect.y,width:rect.width,height:rect.height,opacity:Number(style.opacity),translateX:matrix.m41,translateY:matrix.m42,scaleX:Math.hypot(matrix.a,matrix.b),scaleY:Math.hypot(matrix.c,matrix.d),rotationDeg:Math.atan2(matrix.b,matrix.a)*180/Math.PI,animationTime:animation?Number(animation.currentTime ?? 0):null,containmentOverflowPx:overflow,containerRect});
-    }else samples.push({t:sampleTime,observedAtMs,nodeId:null,logicalId:null,x:null,y:null,width:null,height:null,opacity:null,translateX:null,translateY:null,scaleX:null,scaleY:null,rotationDeg:null,animationTime:null,containmentOverflowPx:null,containerRect:null});
+      const hidden=rect.width<=0||rect.height<=0||style.display==='none'||style.visibility==='hidden'||style.visibility==='collapse'||Number(style.opacity)<=.01;
+      samples.push({t:sampleTime,observedAtMs,geometryTimeMs:observedAtMs,targetState:hidden?'hidden':'visible',nodeId:nodeId(node),logicalId:logicalId(node),x:rect.x,y:rect.y,width:rect.width,height:rect.height,opacity:Number(style.opacity),translateX:matrix.m41,translateY:matrix.m42,scaleX:Math.hypot(matrix.a,matrix.b),scaleY:Math.hypot(matrix.c,matrix.d),rotationDeg:Math.atan2(matrix.b,matrix.a)*180/Math.PI,animationTime:animation?Number(animation.currentTime ?? 0):null,containmentOverflowPx:overflow,containerRect});
+    }else samples.push({t:sampleTime,observedAtMs,geometryTimeMs:observedAtMs,targetState:'absent',nodeId:null,logicalId:null,x:null,y:null,width:null,height:null,opacity:null,translateX:null,translateY:null,scaleX:null,scaleY:null,rotationDeg:null,animationTime:null,containmentOverflowPx:null,containerRect:null});
+    maxReadMs=Math.max(maxReadMs,performance.now()-readStart);
+  };
+  // MessageChannel avoids the nested-timer clamp while still observing after
+  // the app's callbacks for this rAF. Never read an older frame after a newer
+  // rAF: count the discarded task instead of inventing geometry for it.
+  const channel=new MessageChannel();
+  channel.port1.onmessage=event=>{
+    if(!running)return;
+    if(event.data.generation!==generation){superseded++;return;}
+    observe(event.data.frameTime);
   };
   const sample=(frameTime:number)=>{
     if(!running)return;
-    const current=++generation;clearTimeout(pending);
-    pending=window.setTimeout(()=>{if(running&&current===generation)observe(frameTime)},0);
+    channel.port2.postMessage({generation:++generation,frameTime});
     raf=requestAnimationFrame(sample);
   };
   (window as unknown as {__motionProbe:unknown}).__motionProbe={
     events,samples,startTime,
-    start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
-    stop:()=>{for(const [node,batch] of boundaries)finishBoundary(node,batch);running=false;generation++;clearTimeout(pending);cancelAnimationFrame(raf);emit('capture-end','Capture window ended','runner')},
+    start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;maxReadMs=0;superseded=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
+    stop:()=>{for(const [node,batch] of boundaries)finishBoundary(node,batch);running=false;generation++;cancelAnimationFrame(raf);emit('probe-cost','Geometry read cost and superseded post-rAF tasks','browser-observed',{maxReadMs:Number(maxReadMs.toFixed(3)),supersededTasks:superseded});emit('capture-end','Capture window ended','runner')},
     mark:(type:string,label:string,detail:MotionEvent['detail'])=>emit(type,label,'runner',detail),
     time:now
   };

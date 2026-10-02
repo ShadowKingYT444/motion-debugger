@@ -84,3 +84,9 @@ The browser spec loads real iframe pages and verifies their headings/canvases, c
 This is **one paired case**, not a general benchmark or a causal estimate. The baseline is a genuine independent build; it was not intentionally broken for a contrast. Both arms receive ordinary browser evidence, and the treatment additionally uses the frozen design/3D/workflow skills and Motion MCP temporal evidence. Build and repair decisions belong to the independent agents. Differences in dependencies, unseeded model execution, requests and iteration counts limit attribution. A successful launcher or CI run proves only the stated checks completed, not that the treatment improved quality.
 
 The pages represent a fictional product. Pricing and specifications are illustrative. Nothing is purchased, no personal browser profile is imported, and no public network deployment occurs. See the case's linked method and evidence guide for exact execution provenance and any still-pending verification.
+
+## New source-repair case and corrected ablation
+
+`npm run demo:repair` opens a separate, clearly labeled before/after case copied from the final treatment page. A host agent repaired an observed drawer close discontinuity in new source directories; every historical AER source and recording remains frozen. See [the new case](../cases/aer-drawer-continuity/README.md) for reproduction and actual-browser/MCP verification.
+
+The requested repair ablation uses **one first-agent output copied exactly to both repair arms**, with the same broad aesthetics/realism/motion brief, design guidance, ordinary browser access and active time budget. Only treatment receives Motion Debugger process/tools/evidence. See [the shared-start protocol](../studies/shared-start-aer/PROTOCOL.json). The older independently generated two-app study is historical context, not this corrected ablation.

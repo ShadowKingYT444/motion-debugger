@@ -78,6 +78,15 @@ export async function verifySnapshot(source) {
 export function commandEnvironment(workspace) {
   const env = { PATH: process.env.PATH || '', HOME: path.join(workspace, 'home'), CI: 'true', NO_COLOR: '1' };
   for (const key of ['SYSTEMROOT', 'COMSPEC', 'PATHEXT', 'TMPDIR', 'TMP', 'TEMP']) if (process.env[key]) env[key] = process.env[key];
+  // Managed runners may require a network proxy. Carry only credential-free
+  // proxy URLs, never the caller's general environment or npm authentication.
+  for (const key of ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']) {
+    try { const url = new URL(process.env[key]); if (['http:', 'https:'].includes(url.protocol) && !url.username && !url.password) env[key] = url.href; } catch {}
+  }
+  for (const key of ['NO_PROXY', 'no_proxy']) if (process.env[key]) env[key] = process.env[key];
+  // Public CA trust paths are needed by an intercepting managed proxy. Keep
+  // TLS verification on; never forward client keys, npm auth or arbitrary config.
+  for (const key of ['NODE_EXTRA_CA_CERTS', 'SSL_CERT_FILE', 'SSL_CERT_DIR']) if (process.env[key]) env[key] = process.env[key];
   return env;
 }
 async function command(args, cwd, env, lines) {
@@ -93,19 +102,21 @@ async function command(args, cwd, env, lines) {
 }
 
 export async function prepareSnapshot(root, item, options, workspace) {
-  const source = path.join(root, 'studies/aer', item.arm, item.stage);
+  const source = item.source ? path.resolve(root, item.source) : path.join(root, 'studies/aer', item.arm, item.stage);
+  if (!inside(path.resolve(root), source)) throw Error('Snapshot source must be inside the project root');
   const prepared = path.join(workspace, item.id);
-  const result = { ...item, source: `studies/aer/${item.arm}/${item.stage}`, status: 'unavailable', message: 'Saved source snapshot is not present yet' };
+  const result = { ...item, source: item.source || `studies/aer/${item.arm}/${item.stage}`, status: 'unavailable', message: 'Saved source snapshot is not present yet' };
   try { await stat(source); } catch (error) { if (error.code === 'ENOENT') return result; throw error; }
   const lines = [];
   try {
+    if (!inside(await realpath(root), await realpath(source))) throw Error('Snapshot source escapes the project root');
     const { digest } = await verifySnapshot(source);
     result.sourceDigest = digest;
     if (options.reuse) {
       try {
         const previous = JSON.parse(await readFile(path.join(prepared, 'prepared.json'), 'utf8'));
         if (previous.sourceDigest === digest && previous.distDigest === await hashDist(path.join(prepared, 'dist'))) {
-          return { ...result, status: 'ready', message: 'Verified saved build', dist: path.join(prepared, 'dist') };
+          return { ...result, distDigest:previous.distDigest, status: 'ready', message: 'Verified saved build', dist: path.join(prepared, 'dist') };
         }
       } catch { /* Missing/stale build is rebuilt, never shown as verified. */ }
     }
@@ -124,7 +135,7 @@ export async function prepareSnapshot(root, item, options, workspace) {
     await verifySnapshot(prepared); // Build may not mutate saved source inputs.
     const distDigest = await hashDist(path.join(prepared, 'dist'));
     await writeFile(path.join(prepared, 'prepared.json'), JSON.stringify({ sourceDigest: digest, distDigest }, null, 2));
-    return { ...result, status: 'ready', message: 'Locked install and explicit build completed', dist: path.join(prepared, 'dist') };
+    return { ...result, distDigest, status: 'ready', message: 'Locked install and explicit build completed', dist: path.join(prepared, 'dist') };
   } catch (error) {
     console.error(`[${item.id}] ${error.message}`);
     return { ...result, status: 'failed', message: error.message };
@@ -134,7 +145,7 @@ export async function prepareSnapshot(root, item, options, workspace) {
   }
 }
 
-async function hashDist(directory) {
+export async function hashDist(directory) {
   const entries = [];
   async function walk(dir) {
     for (const item of (await readdir(dir, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
@@ -182,13 +193,39 @@ export async function serveDist(directory, request, response, viewerOrigin) {
   } catch (error) { if (['ENOENT', 'ENOTDIR'].includes(error.code)) { response.writeHead(404); response.end('Build asset not found'); } else throw error; }
 }
 
-const HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AER / Paired agent study</title><link rel="stylesheet" href="/viewer.css"></head><body><header class="masthead"><div><p class="eyebrow">MOTION DEBUGGER / SAVED CASE STUDY</p><h1>One brief. Two independent builds.</h1><p class="lede">Explore the real AER pages, before and after each agent's evidence-led repair.</p></div><button id="replay-all" type="button">Reload both pages</button></header><main><section class="context" aria-label="Study context"><p><strong>A paired demonstration, not a benchmark.</strong> Different tools and independently selected dependencies; one case cannot establish a general improvement.</p><nav aria-label="Study documents"><a href="/study/PROMPT.md" target="_blank" rel="noopener">Product brief</a><a href="/study/METHOD.md" target="_blank" rel="noopener">Method &amp; limits</a><a href="/study/README.md" target="_blank" rel="noopener">Evidence guide</a></nav></section><div id="summary" role="status" aria-live="polite">Loading saved build status…</div><section class="comparison" aria-label="Baseline and treatment comparison"><article class="arm" data-arm="baseline"><header class="arm-header"><div><p class="arm-index">ARM 01</p><h2>Without the plugin</h2><p>Ordinary coding &amp; browser evidence</p></div><a class="open-app" target="_blank" rel="noopener">Open full page ↗</a></header><div class="controls"><fieldset><legend>Saved stage</legend><label><input type="radio" name="baseline-stage" value="initial" checked> Initial build</label><label><input type="radio" name="baseline-stage" value="final"> Repaired build</label></fieldset><button class="reload" type="button">Reload</button></div><p class="stage-status" role="status" aria-live="polite"></p><div class="preview"></div><p class="provenance"></p></article><article class="arm" data-arm="treatment"><header class="arm-header"><div><p class="arm-index">ARM 02</p><h2>With the plugin + skills</h2><p>Design/3D workflow &amp; temporal evidence</p></div><a class="open-app" target="_blank" rel="noopener">Open full page ↗</a></header><div class="controls"><fieldset><legend>Saved stage</legend><label><input type="radio" name="treatment-stage" value="initial" checked> Initial build</label><label><input type="radio" name="treatment-stage" value="final"> Repaired build</label></fieldset><button class="reload" type="button">Reload</button></div><p class="stage-status" role="status" aria-live="polite"></p><div class="preview"></div><p class="provenance"></p></article></section><footer><p>These are runnable saved outputs, not screenshot composites. Stage selection loads a different preserved source build; it does not toggle a hidden repair inside an app.</p><p>The viewer does not run agents, call models, or collect new Motion MCP evidence. Follow the evidence guide for the actual build/inspect/repair record.</p></footer></main><script src="/viewer.js" defer></script></body></html>`;
-const CSS = `:root{color-scheme:light;--canvas:#efefea;--surface:#fafaf7;--ink:#202821;--muted:#586259;--line:#cdd1c8;--accent:#355e44;--focus:#145dcc;--danger:#8d281c;--space:16px;--radius:5px}*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}h1,h2,p{margin:0}h1{font-size:clamp(24px,2.5vw,34px);font-weight:600;line-height:1.2;letter-spacing:-.035em}h2{font-size:21px;line-height:1.3;font-weight:600;letter-spacing:-.02em}a{color:var(--accent);text-underline-offset:3px}button{font:inherit;font-weight:550;min-height:36px;padding:6px 12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);cursor:pointer}button:hover{background:#e4e8df}button:active{background:#d5ded2}button:disabled{cursor:default;opacity:.6}:focus-visible{outline:2px solid var(--focus);outline-offset:3px}.masthead{padding:28px 28px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--surface);border-bottom:1px solid var(--line)}.eyebrow,.arm-index{font-size:10px;font-weight:650;letter-spacing:.14em;margin-bottom:8px;color:var(--muted)}.lede{margin-top:10px;color:var(--muted)}main{padding:20px 28px}.context{display:flex;gap:20px;justify-content:space-between;align-items:center;margin-bottom:14px}.context p{max-width:790px}.context nav{display:flex;gap:16px;flex-wrap:wrap;flex-shrink:0;font-size:13px}#summary{color:var(--muted);font-size:12px;margin-bottom:16px}.comparison{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}.arm{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.arm-header{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:20px 18px 16px}.arm-header p:not(.arm-index){font-size:12px;color:var(--muted);margin-top:4px}.open-app{font-size:12px;white-space:nowrap}.open-app[aria-disabled=true]{color:var(--muted);text-decoration:none;cursor:default}.controls{display:flex;justify-content:space-between;align-items:center;padding:0 18px 10px;gap:12px}fieldset{display:flex;border:0;padding:0;margin:0;gap:14px;flex-wrap:wrap}legend{font-size:11px;color:var(--muted);margin-bottom:5px}label{cursor:pointer;display:flex;align-items:center;min-height:28px;gap:5px}input{accent-color:var(--accent)}.stage-status{margin:0 18px 12px;font-size:12px;color:var(--muted);min-height:18px}.stage-status.error{color:var(--danger)}.preview{border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:760px;background:white}.preview iframe{display:block;width:100%;height:100%;border:0;background:white}.empty{padding:36px 24px;max-width:520px}.empty strong{display:block;margin-bottom:8px}.empty p{overflow-wrap:anywhere;color:var(--muted)}.provenance{padding:10px 18px;font:10px/1.5 ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere}footer{font-size:12px;color:var(--muted);max-width:1100px;margin:20px 0 8px}footer p+p{margin-top:6px}@media(max-width:1100px){.context{align-items:flex-start;flex-direction:column;gap:10px}.arm-header{align-items:flex-start;flex-direction:column}.preview{height:700px}}@media(max-width:720px){.masthead{padding:20px;align-items:flex-start;flex-direction:column;gap:14px}main{padding:16px}.comparison{grid-template-columns:minmax(0,1fr);gap:20px}.arm-header{flex-direction:row;align-items:center}.controls{align-items:flex-end}.preview{height:720px}.context nav{gap:12px}}@media(max-width:390px){.arm-header{flex-direction:column;align-items:flex-start}.controls{padding-left:12px;padding-right:12px;gap:8px}fieldset{gap:7px}button{padding-left:8px;padding-right:8px}}`;
+function armHTML(arm, index, title, description) {
+  return `<article class="arm" data-arm="${arm}"><header class="arm-header"><div><p class="arm-index">ARM ${index}</p><h2>${title}</h2><p>${description}</p></div><a class="open-app" target="_blank" rel="noopener">Open full page ↗</a></header><div class="controls"><fieldset><legend>Saved stage</legend><label><input type="radio" name="${arm}-stage" value="initial" checked> Initial build</label><label><input type="radio" name="${arm}-stage" value="final"> Repaired build</label></fieldset><button class="reload" type="button">Reload</button></div><details class="evidence" open><summary>Recorded browser evidence</summary><p class="recording-title"></p><video controls playsinline preload="metadata" aria-label="Recorded browser evidence"></video><p class="recording-status" role="status" aria-live="polite"></p><p class="recording-provenance"></p><p class="repair-notes"></p><p class="evidence-links"><a class="recording-download" download>Download recording</a><a href="/study/RESULTS.md" target="_blank" rel="noopener">Observed results</a><a href="/evidence/aer/provenance.json" target="_blank" rel="noopener">Recording provenance</a></p></details><p class="stage-status" role="status" aria-live="polite"></p><div class="preview"></div><p class="provenance"></p></article>`;
+}
+const HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AER / Paired agent study</title><link rel="stylesheet" href="/viewer.css"></head><body><header class="masthead"><div><p class="eyebrow">MOTION DEBUGGER / SAVED CASE STUDY</p><h1>One brief. Two independent builds.</h1><p class="lede">Inspect the preserved recordings, then explore each agent's runnable source before and after repair.</p></div><button id="replay-all" type="button">Reload both pages</button></header><main><section class="context" aria-label="Study context"><p><strong>A paired demonstration, not a benchmark.</strong> Different tools and independently selected dependencies; one case cannot establish a general improvement.</p><nav aria-label="Study documents"><a href="/study/PROMPT.md" target="_blank" rel="noopener">Product brief</a><a href="/study/METHOD.md" target="_blank" rel="noopener">Method &amp; limits</a><a href="/study/README.md" target="_blank" rel="noopener">Evidence guide</a><a href="/study/RESULTS.md" target="_blank" rel="noopener">Observed results</a></nav></section><aside class="temporal-result" aria-label="Temporal evidence limits"><strong>Normal-motion comparison: inconclusive.</strong> Initial captures were insufficient for a valid temporal comparison. Final treatment motor, drawer and reveal recordings failed the unchanged 80ms sampling-gap gate (149.9ms, 166.6ms and 83.5ms); reduced motion passed at 33.4ms. Final-state and functional checks do not establish smoothness. <a href="/study/RESULTS.md" target="_blank" rel="noopener">Read the frozen findings</a>.</aside><div id="summary" role="status" aria-live="polite">Loading saved build status…</div><section class="comparison" aria-label="Baseline and treatment comparison">${armHTML('baseline', '01', 'Without the plugin', 'Ordinary coding &amp; browser evidence')}${armHTML('treatment', '02', 'With the plugin + skills', 'Design/3D workflow &amp; temporal evidence')}</section><footer><p>Stage selection changes both the preserved recording and source build. Recordings are actual Playwright captures transcoded at unchanged playback speed; live frames below are new local sessions.</p><p>The viewer does not run agents, call models, or collect new Motion MCP evidence. Follow the evidence guide for the actual build/inspect/repair record.</p></footer></main><script src="/viewer.js" defer></script></body></html>`;
+const CSS = `:root{color-scheme:light;--canvas:#efefea;--surface:#fafaf7;--ink:#202821;--muted:#586259;--line:#cdd1c8;--accent:#355e44;--focus:#145dcc;--danger:#8d281c;--space:16px;--radius:5px}*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}h1,h2,p{margin:0}h1{font-size:clamp(24px,2.5vw,34px);font-weight:600;line-height:1.2;letter-spacing:-.035em}h2{font-size:21px;line-height:1.3;font-weight:600;letter-spacing:-.02em}a{color:var(--accent);text-underline-offset:3px}button{font:inherit;font-weight:550;min-height:36px;padding:6px 12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);cursor:pointer}button:hover{background:#e4e8df}button:active{background:#d5ded2}button:disabled{cursor:default;opacity:.6}:focus-visible{outline:2px solid var(--focus);outline-offset:3px}.masthead{padding:28px 28px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--surface);border-bottom:1px solid var(--line)}.eyebrow,.arm-index{font-size:10px;font-weight:650;letter-spacing:.14em;margin-bottom:8px;color:var(--muted)}.lede{margin-top:10px;color:var(--muted)}main{padding:20px 28px}.context{display:flex;gap:20px;justify-content:space-between;align-items:center;margin-bottom:14px}.context p{max-width:790px}.context nav{display:flex;gap:16px;flex-wrap:wrap;flex-shrink:0;font-size:13px}#summary{color:var(--muted);font-size:12px;margin-bottom:16px}.temporal-result{border-left:3px solid var(--accent);padding:12px 16px;background:var(--surface);margin:0 0 14px;font-size:13px}.evidence{margin:0 18px 16px;border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px}.evidence summary{cursor:pointer;font-weight:600;min-height:28px}.recording-title{font-size:12px;margin:6px 0}.evidence video{display:block;width:100%;max-height:260px;background:#171d19;border-radius:3px}.recording-status,.repair-notes{font-size:12px;margin-top:8px}.recording-provenance{font:10px/1.5 ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:8px}.evidence-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;margin-top:10px}.evidence a[aria-disabled=true]{color:var(--muted);text-decoration:none}.comparison{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}.arm{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.arm-header{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:20px 18px 16px}.arm-header p:not(.arm-index){font-size:12px;color:var(--muted);margin-top:4px}.open-app{font-size:12px;white-space:nowrap}.open-app[aria-disabled=true]{color:var(--muted);text-decoration:none;cursor:default}.controls{display:flex;justify-content:space-between;align-items:center;padding:0 18px 10px;gap:12px}fieldset{display:flex;border:0;padding:0;margin:0;gap:14px;flex-wrap:wrap}legend{font-size:11px;color:var(--muted);margin-bottom:5px}label{cursor:pointer;display:flex;align-items:center;min-height:28px;gap:5px}input{accent-color:var(--accent)}.stage-status{margin:0 18px 12px;font-size:12px;color:var(--muted);min-height:18px}.stage-status.error{color:var(--danger)}.preview{border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:760px;background:white}.preview iframe{display:block;width:100%;height:100%;border:0;background:white}.empty{padding:36px 24px;max-width:520px}.empty strong{display:block;margin-bottom:8px}.empty p{overflow-wrap:anywhere;color:var(--muted)}.provenance{padding:10px 18px;font:10px/1.5 ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere}footer{font-size:12px;color:var(--muted);max-width:1100px;margin:20px 0 8px}footer p+p{margin-top:6px}@media(max-width:1100px){.context{align-items:flex-start;flex-direction:column;gap:10px}.arm-header{align-items:flex-start;flex-direction:column}.preview{height:700px}}@media(max-width:720px){.masthead{padding:20px;align-items:flex-start;flex-direction:column;gap:14px}main{padding:16px}.comparison{grid-template-columns:minmax(0,1fr);gap:20px}.arm-header{flex-direction:row;align-items:center}.controls{align-items:flex-end}.preview{height:720px}.context nav{gap:12px}}@media(max-width:390px){.arm-header{flex-direction:column;align-items:flex-start}.controls{padding-left:12px;padding-right:12px;gap:8px}fieldset{gap:7px}button{padding-left:8px;padding-right:8px}}`;
 const JS = `const arms = [...document.querySelectorAll('[data-arm]')];
 let snapshots = [];
+let recordings = [];
+function renderEvidence(arm, stage) {
+  const recording = recordings.find(x => x.id === arm.dataset.arm + '-' + stage);
+  const video = arm.querySelector('video'), download = arm.querySelector('.recording-download');
+  video.pause(); video.removeAttribute('src'); video.hidden = true;
+  download.removeAttribute('href'); download.setAttribute('aria-disabled', 'true'); download.tabIndex = -1;
+  const title = (arm.dataset.arm === 'baseline' ? 'Without the plugin' : 'With the plugin and skills') + ' — ' + (stage === 'initial' ? 'initial' : 'repaired') + ' recording';
+  arm.querySelector('.recording-title').textContent = title;
+  video.setAttribute('aria-label', title);
+  arm.querySelector('.recording-provenance').textContent = recording?.available ? 'Source ' + recording.sourceCommit + ' · video run ' + recording.run + ' · MP4 SHA256 ' + recording.sha256 : '';
+  arm.querySelector('.repair-notes').textContent = recording?.notes || '';
+  const status = arm.querySelector('.recording-status');
+  status.textContent = recording?.available ? 'Preserved capture · unchanged playback speed · separate from the live page below.' : 'Recording unavailable · ' + (recording?.message || 'Evidence metadata could not be loaded.');
+  if (recording?.available) {
+    video.src = recording.url; video.hidden = false;
+    download.href = recording.url; download.removeAttribute('aria-disabled'); download.removeAttribute('tabindex');
+  }
+  video.load();
+}
+for (const arm of arms) arm.querySelector('video').addEventListener('error', () => {
+  if (arm.querySelector('video').hasAttribute('src')) arm.querySelector('.recording-status').textContent = 'Recording playback failed. Download the original MP4 to inspect it.';
+});
 function render(arm) {
   const stage = arm.querySelector('input:checked').value;
   const item = snapshots.find(x => x.arm === arm.dataset.arm && x.stage === stage);
+  renderEvidence(arm, stage);
   const status = arm.querySelector('.stage-status'), preview = arm.querySelector('.preview'), link = arm.querySelector('.open-app'), reload = arm.querySelector('.reload');
   preview.replaceChildren(); status.classList.remove('error');
   link.removeAttribute('href'); link.setAttribute('aria-disabled', 'true'); link.tabIndex = -1; reload.disabled = true;
@@ -214,26 +251,77 @@ for (const arm of arms) {
 }
 document.querySelector('#replay-all').addEventListener('click', () => arms.forEach(render));
 fetch('/api/study').then(response => { if (!response.ok) throw Error('Saved build status request failed'); return response.json(); }).then(data => {
-  snapshots = data.snapshots;
+  snapshots = data.snapshots; recordings = data.recordings || [];
   const count = snapshots.filter(x => x.status === 'ready').length;
   document.querySelector('#summary').textContent = count + ' / 4 saved outputs built · ' + snapshots.filter(x => x.status === 'failed').length + ' failed · ' + snapshots.filter(x => x.status === 'unavailable').length + ' unavailable · credential-free loopback only';
   arms.forEach(render);
 }).catch(error => { document.querySelector('#summary').textContent = error.message; arms.forEach(render); });`;
 
+// Exact frozen assets only. Never use a request pathname to resolve a filesystem path.
+async function loadRecordings(root) {
+  const base = path.join(root, 'docs/assets/aer'), recordings = [], assets = new Map();
+  let provenance;
+  try {
+    const file = path.join(base, 'provenance.json');
+    if (!inside(await realpath(base), await realpath(file))) throw Error('Evidence provenance escapes its directory');
+    const bytes = await readFile(file); provenance = JSON.parse(bytes);
+    assets.set('/evidence/aer/provenance.json', { bytes, type: TYPES['.json'] });
+  } catch { /* Missing metadata keeps recordings explicitly unavailable. */ }
+  for (const { arm, stage, id } of SNAPSHOTS) {
+    const name = id + '.mp4';
+    const item = { id, available: false, notes: stage === 'initial' ? 'Initial source, before agent-written repairs. This playback alone is not a temporal-quality measurement.' : arm === 'baseline' ? 'Agent repairs addressed mobile layout, control overlap, selector collision, geometry and elapsed-time integration.' : 'Agent repairs addressed mobile heading, scene background and render work, then cached static 3D color/depth while drawing the moving rotor. Normal-motion temporal improvement remains inconclusive.' };
+    try {
+      const metadata = provenance?.files?.[name], file = path.join(base, name);
+      if (!metadata || !/^[a-f0-9]{64}$/.test(metadata.sha256)) throw Error('Frozen recording provenance is missing');
+      if (!inside(await realpath(base), await realpath(file))) throw Error('Recording escapes its evidence directory');
+      const bytes = await readFile(file);
+      if (metadata.bytes !== bytes.length || metadata.sha256 !== sha(bytes)) throw Error('Recording does not match frozen provenance');
+      const sourceCommit = provenance[stage + 'SourceCommit'], run = provenance[stage + 'VideoRun'];
+      if (!/^[a-f0-9]{40}$/.test(sourceCommit) || !Number.isSafeInteger(run) || run <= 0) throw Error('Recording source/run provenance is invalid');
+      const url = '/evidence/aer/' + name;
+      assets.set(url, { bytes, type: 'video/mp4' });
+      Object.assign(item, { available: true, url, sha256: metadata.sha256, sourceCommit, run });
+    } catch (error) { item.message = error.code === 'ENOENT' ? 'Frozen recording file is missing' : error.message; }
+    recordings.push(item);
+  }
+  return { recordings, assets };
+}
+export function serveEvidence(asset, request, response) {
+  const { bytes, type } = asset;
+  response.setHeader('Content-Type', type);
+  response.setHeader('Accept-Ranges', 'bytes');
+  let start = 0, end = bytes.length - 1, status = 200;
+  if (request.headers.range) {
+    const match = /^bytes=(\d*)-(\d*)$/.exec(request.headers.range);
+    if (match && (match[1] || match[2])) {
+      if (!match[1]) start = Math.max(0, bytes.length - Number(match[2]));
+      else { start = Number(match[1]); if (match[2]) end = Math.min(end, Number(match[2])); }
+    } else start = NaN;
+    if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= bytes.length) {
+      response.writeHead(416, { 'Content-Range': 'bytes */' + bytes.length }); response.end(); return;
+    }
+    status = 206; response.setHeader('Content-Range', 'bytes ' + start + '-' + end + '/' + bytes.length);
+  }
+  response.setHeader('Content-Length', end - start + 1);
+  response.writeHead(status); response.end(request.method === 'HEAD' ? undefined : bytes.subarray(start, end + 1));
+}
+
 export async function launchViewer(snapshots, root = ROOT, port = 4110) {
   const servers = [];
+  const { recordings, assets } = await loadRecordings(root);
   let viewer;
   try {
     viewer = await startLoopbackServer(async (request, response) => {
       const pathname = new URL(request.url, 'http://127.0.0.1').pathname;
       const frameOrigins = snapshots.filter(x => x.origin).map(x => x.origin).join(' ');
-      response.setHeader('Content-Security-Policy', `default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-src ${frameOrigins || "'none'"}; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`);
+      response.setHeader('Content-Security-Policy', `default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; media-src 'self'; frame-src ${frameOrigins || "'none'"}; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`);
       let body, type;
       if (pathname === '/') { body = HTML; type = TYPES['.html']; }
       else if (pathname === '/viewer.css') { body = CSS; type = TYPES['.css']; }
       else if (pathname === '/viewer.js') { body = JS; type = TYPES['.js']; }
-      else if (pathname === '/api/study') { body = JSON.stringify({ snapshots: snapshots.map(({ dist, ...item }) => item), limitation: 'One paired case; not a benchmark or general causal estimate.' }); type = TYPES['.json']; }
-      else if (['/study/PROMPT.md', '/study/METHOD.md', '/study/README.md'].includes(pathname)) { body = await readFile(path.join(root, 'studies/aer', path.basename(pathname))); type = 'text/plain; charset=utf-8'; }
+      else if (pathname === '/api/study') { body = JSON.stringify({ snapshots: snapshots.map(({ dist, ...item }) => item), recordings, limitation: 'One paired case; not a benchmark or general causal estimate.' }); type = TYPES['.json']; }
+      else if (assets.has(pathname)) { serveEvidence(assets.get(pathname), request, response); return; }
+      else if (['/study/PROMPT.md', '/study/METHOD.md', '/study/README.md', '/study/RESULTS.md', '/study/RESULTS.json'].includes(pathname)) { body = await readFile(path.join(root, 'studies/aer', path.basename(pathname))); type = 'text/plain; charset=utf-8'; }
       else { response.writeHead(404); response.end('Not found'); return; }
       response.writeHead(200, { 'Content-Type': type }); response.end(request.method === 'HEAD' ? undefined : body);
     }, port);

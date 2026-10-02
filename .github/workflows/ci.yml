@@ -24,6 +24,8 @@ jobs:
         run: npm run test:e2e
       - name: Agent integration and temporal contract verification
         run: npm run test:v2:e2e
+      - name: Lifecycle integrity and actual source-repair browser regression
+        run: npm run test:coverage:browser && npm run test:repair:browser
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke
@@ -42,5 +44,7 @@ jobs:
             artifacts/install/
             artifacts/study-demo/
             artifacts/study-videos/
+            artifacts/repair-case/
+            artifacts/v2/coverage/
           if-no-files-found: warn
           retention-days: 7
