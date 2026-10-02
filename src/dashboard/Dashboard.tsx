@@ -251,7 +251,21 @@ function Replay({ capture, time, mode }: { capture?: CaptureReport; time: number
 }
 
 function MotionChart({ run, duration, time, metric, seek }: { run: RunReport; duration: number; time: number; metric: 'x' | 'opacity'; seek: (t: number) => void }) {
-  const width = 700, height = 150, left = 42, right = 8, top = 8, bottom = 26;
+  const chartRef = useRef<SVGSVGElement>(null);
+  const [width, setWidth] = useState(700);
+  // Match the SVG coordinate space to its CSS width so measurement labels stay
+  // 10px at every viewport instead of shrinking with a fixed-width viewBox.
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (!chart) return;
+    const observer = new ResizeObserver(entries => {
+      const next = entries[0]?.contentRect.width;
+      if (next) setWidth(Math.max(220, next));
+    });
+    observer.observe(chart);
+    return () => observer.disconnect();
+  }, []);
+  const height = 150, left = 42, right = 8, top = 8, bottom = 26;
   const samples = [...(run.baseline?.samples || []), ...(run.fixed?.samples || [])];
   const values = samples.map(sample => sample[metric]).filter((value): value is number => value !== null);
   const min = metric === 'opacity' ? 0 : values.length ? Math.floor(Math.min(...values) / 10) * 10 : 0;
@@ -268,7 +282,7 @@ function MotionChart({ run, duration, time, metric, seek }: { run: RunReport; du
     }).join(' ');
   };
   const response = run.baseline?.events.find(event => event.type === 'request-resolve');
-  return <svg className="chart-view" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${metric === 'x' ? 'Horizontal position' : 'Opacity'} sampled from broken and fixed browser captures. Use replay slider to inspect a time.`} onClick={event => { const rect = event.currentTarget.getBoundingClientRect(); const position = (event.clientX - rect.left) / rect.width * width; seek((position - left) / (width - left - right) * duration); }}>
+  return <svg ref={chartRef} className="chart-view" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${metric === 'x' ? 'Horizontal position' : 'Opacity'} sampled from broken and fixed browser captures. Use replay slider to inspect a time.`} onClick={event => { const rect = event.currentTarget.getBoundingClientRect(); const position = (event.clientX - rect.left) / rect.width * width; seek((position - left) / (width - left - right) * duration); }}>
     {[0, .5, 1].map(fraction => { const value = min + fraction * (max - min); return <g key={fraction}><line className="chart-grid" x1={left} x2={width - right} y1={y(value)} y2={y(value)} /><text x={left - 8} y={y(value) + 3} textAnchor="end">{metric === 'opacity' ? value.toFixed(1) : Math.round(value)}</text></g>; })}
     {response && <g><rect x={x(response.t) - 2} y={top} width="4" height={height - top - bottom} fill="#edaa8e" opacity=".12" /><text x={Math.min(x(response.t) + 6, width - 115)} y={top + 10}>response</text></g>}
     <path className="trace-line chart-baseline" d={path(run.baseline)} /><path className="trace-line chart-fixed" d={path(run.fixed)} />

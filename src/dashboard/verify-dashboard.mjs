@@ -28,6 +28,16 @@ const check = (name, passed, detail = '') => { checks.push({ name, passed, detai
 async function noOverflow(name) {
   const sizes = await page.evaluate(() => ({ body: document.documentElement.scrollWidth, viewport: innerWidth }));
   check(name, sizes.body <= sizes.viewport + 1, JSON.stringify(sizes));
+  await page.waitForFunction(() => [...document.querySelectorAll('.chart-view text')].every(label => {
+    const matrix = label.getScreenCTM();
+    return matrix && parseFloat(getComputedStyle(label).fontSize) * Math.hypot(matrix.c, matrix.d) >= 9.8;
+  }), undefined, { timeout: 5000 });
+  const labelSizes = await page.locator('.chart-view text').evaluateAll(labels => labels.map(label => {
+    const matrix = label.getScreenCTM();
+    const scale = matrix ? Math.hypot(matrix.c, matrix.d) : 0;
+    return parseFloat(getComputedStyle(label).fontSize) * scale;
+  }));
+  check(`${name}: chart labels render at least 9.8px`, labelSizes.length > 0 && labelSizes.every(size => size >= 9.8), `min ${Math.min(...labelSizes).toFixed(2)}px`);
 }
 async function screenshot(name) { await page.screenshot({ path: `${output}/${name}.png`, fullPage: true }); }
 try {

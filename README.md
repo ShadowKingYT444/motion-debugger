@@ -8,14 +8,18 @@ This is an instrumented-fixture debugger, not a general animation analyzer or an
 
 Requires Node.js 22+ and a browser capable of Web Animations.
 
+The working MVP is on the `mvp` branch while [pull request #1](https://github.com/ShadowKingYT444/motion-debugger/pull/1) is in draft. Clone that branch, or unzip the source bundle:
+
 ```sh
+git clone --branch mvp https://github.com/ShadowKingYT444/motion-debugger.git
+cd motion-debugger
 npm ci
 npx playwright install chromium
 npm run build
 npm start
 ```
 
-Open http://127.0.0.1:4173 and select **Run capture**. The backend launches Chromium and captures baseline then fixed; a report usually takes 8–12 seconds. The production build intentionally avoids React StrictMode's development-only double effects.
+Open http://127.0.0.1:4173 and select **Record & verify**. The backend launches Chromium and captures baseline then fixed; a report usually takes 8–12 seconds. The production build intentionally avoids React StrictMode's development-only double effects.
 
 On Linux, install browser system libraries if needed with the official Playwright instructions (`npx playwright install --with-deps chromium`). If Chromium is already installed, the runner prefers Playwright's version-matched installed browser, then checks standard Linux locations. An explicit `CHROMIUM_PATH` overrides that choice. Video also requires Playwright's FFmpeg component, installed with Chromium. `PORT` can choose another loopback port. The server binds only to 127.0.0.1.
 
@@ -28,6 +32,10 @@ npm run check           # Typecheck, production build and unit tests
 ```
 
 `npm start` and `npm run dev` use the existing dist/ build when present. Rebuild after source edits, or remove dist/ to use development middleware. Runtime artifacts stay in `artifacts/runs/`, ignored by git. Reports survive server restart; interrupted runs are marked failed and can be rerun.
+
+## Why this scope
+
+Recording/frame analysis, agentic runtime debugging, motion audits and visual animation editing already exist in [web-motion-skill](https://github.com/Schmandarine/web-motion-skill), [Replay MCP](https://docs.replay.io/basics/replay-mcp/overview), [MotionScore](https://score.motion.dev/docs) and [Motion Studio](https://motion.dev/studio). This MVP focuses on an inspectable, controlled before/after regression proof. It makes no novelty claim. See [the research rationale](docs/PRIOR-ART.md).
 
 ## The regression
 
@@ -71,9 +79,11 @@ The app is intended for trusted local use. It should not be bound to a public in
 - `src/types.ts`, `docs/API.md`: shared report contract
 - `tests/`: analysis and production end-to-end tests
 
-## Current verification
+## Verified result
 
-Typecheck, production build and ten deterministic analysis and local-API tests pass in the restricted build environment. A GitHub Actions workflow runs three real baseline/fixed captures, checks request safety, repeated activation and reduced motion, and captures dashboard screenshots across four widths. Full capture and browser checks need an execution environment that permits Chromium's normal local sockets. A browser-launch failure is surfaced as a failed run; no synthetic browser data or fake recordings are substituted.
+[GitHub Actions run #36972013110](https://github.com/ShadowKingYT444/motion-debugger/actions/runs/36972013110) passed against source head `d31feddb81f5f2de3b76c9fe79da2c70baf85621`: typecheck/build, ten analysis/API tests, four end-to-end suites, three real 150/350/800ms capture pairs, and twenty-four dashboard checks. Baseline backward jumps of **22.86 / 57.13 / 134.28px** became **0px** with the stable-key branch. All fourteen assertions per pair passed and final state was preserved.
+
+See [the verification record](docs/VERIFICATION.md) for exact provenance, measured results, report IDs and limits. Actual browser tests ran in hosted CI because the restricted build computer could not launch Chromium. No fake report or recording was substituted. The fixed variant is an executed fixture code branch, not an autonomous repository repair.
 
 ## Limitations
 
