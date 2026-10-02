@@ -282,12 +282,13 @@ function MotionChart({ run, duration, time, metric, seek }: { run: RunReport; du
     }).join(' ');
   };
   const response = run.baseline?.events.find(event => event.type === 'request-resolve');
+  const timeTicks = width < 300 ? [0, .5, 1] : [0, .25, .5, .75, 1];
   return <svg ref={chartRef} className="chart-view" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${metric === 'x' ? 'Horizontal position' : 'Opacity'} sampled from broken and fixed browser captures. Use replay slider to inspect a time.`} onClick={event => { const rect = event.currentTarget.getBoundingClientRect(); const position = (event.clientX - rect.left) / rect.width * width; seek((position - left) / (width - left - right) * duration); }}>
     {[0, .5, 1].map(fraction => { const value = min + fraction * (max - min); return <g key={fraction}><line className="chart-grid" x1={left} x2={width - right} y1={y(value)} y2={y(value)} /><text x={left - 8} y={y(value) + 3} textAnchor="end">{metric === 'opacity' ? value.toFixed(1) : Math.round(value)}</text></g>; })}
     {response && <g><rect x={x(response.t) - 2} y={top} width="4" height={height - top - bottom} fill="#edaa8e" opacity=".12" /><text x={Math.min(x(response.t) + 6, width - 115)} y={top + 10}>response</text></g>}
     <path className="trace-line chart-baseline" d={path(run.baseline)} /><path className="trace-line chart-fixed" d={path(run.fixed)} />
     <line className="chart-cursor" x1={x(time)} x2={x(time)} y1={top} y2={height - bottom} />
-    {[0, .25, .5, .75, 1].map(fraction => <text key={fraction} x={x(duration * fraction)} y={height - 5} textAnchor={fraction === 0 ? 'start' : fraction === 1 ? 'end' : 'middle'}>{Math.round(duration * fraction)} ms</text>)}
+    {timeTicks.map(fraction => <text className="chart-time-tick" key={fraction} x={x(duration * fraction)} y={height - 5} textAnchor={fraction === 0 ? 'start' : fraction === 1 ? 'end' : 'middle'}>{Math.round(duration * fraction)} ms</text>)}
   </svg>;
 }
 

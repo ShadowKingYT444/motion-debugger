@@ -38,6 +38,10 @@ async function noOverflow(name) {
     return parseFloat(getComputedStyle(label).fontSize) * scale;
   }));
   check(`${name}: chart labels render at least 9.8px`, labelSizes.length > 0 && labelSizes.every(size => size >= 9.8), `min ${Math.min(...labelSizes).toFixed(2)}px`);
+  const ticks = await page.locator('.chart-time-tick').evaluateAll(labels => labels.map(label => {
+    const rect = label.getBoundingClientRect(); return { left: rect.left, right: rect.right };
+  }));
+  check(`${name}: time-axis labels do not overlap`, ticks.every((tick, index) => index === 0 || tick.left >= ticks[index - 1].right + 1), JSON.stringify(ticks));
 }
 async function screenshot(name) { await page.screenshot({ path: `${output}/${name}.png`, fullPage: true }); }
 try {
