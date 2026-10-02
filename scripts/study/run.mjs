@@ -52,18 +52,42 @@ try {
  if(selectors.canvas){
   try{const canvas=page.locator(selectors.canvas);const a=await canvas.screenshot();await page.waitForTimeout(337);const b=await canvas.screenshot();await writeFile(path.join(output,'canvas-frame-a.png'),a);await writeFile(path.join(output,'canvas-frame-b.png'),b);checks.push({name:'two canvas observations',observed:{different:createHash('sha256').update(a).digest('hex')!==createHash('sha256').update(b).digest('hex')},note:'Pixel difference is evidence only, not a pass/fail motion-quality score'});}catch(error){checks.push({name:'canvas observation',passed:false,error:String(error)});}
  }
+ // Shared semantic observations; app-provided state is labelled, not treated as independent truth.
+ const observeState=()=>page.evaluate(s=>({activeElement:document.activeElement?.id||document.activeElement?.tagName,appAnnotatedState:window.__aer?.getState?.()??null,canvasDataset:document.querySelector(s.canvas)?.dataset?{...document.querySelector(s.canvas).dataset}:null,powerPressed:document.querySelector(s.power)?.getAttribute('aria-pressed'),drawerOpen:document.querySelector(s.drawer)?.open??null,overflow:[...document.querySelectorAll('body *')].filter(e=>{const r=e.getBoundingClientRect();return r.width&&r.height&&getComputedStyle(e).visibility!=='hidden'&&(r.left<-.5||r.right>innerWidth+.5)}).slice(0,30).map(e=>({tag:e.tagName,id:e.id,className:typeof e.className==='string'?e.className:'',left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right}))}),selectors);
+ async function observed(name,fn){try{await fn();record('shared-observation',{name,status:'observed',value:await observeState()});}catch(error){record('shared-observation',{name,status:'error',error:String(error)})}}
+ await page.goto(origin,{waitUntil:'networkidle'});await page.waitForTimeout(2000);
+ await observed('resources at two seconds',async()=>{});await page.waitForTimeout(6000);await observed('resources at eight seconds',async()=>{});
+ await observed('power off and settle',async()=>{await click(selectors.power);await page.waitForTimeout(2200)});
+ await observed('select high while off',async()=>{await page.locator(selectors.speeds).nth(2).click();await page.waitForTimeout(150)});
+ await observed('power on and settle',async()=>{await click(selectors.power);await page.waitForTimeout(2200)});
+ await observed('focus canvas',async()=>{await page.locator(selectors.canvas).focus()});
+ for(const key of ['ArrowLeft','ArrowLeft','ArrowLeft','ArrowUp','ArrowUp','Home','Space','Tab'])await observed(`keyboard ${key}`,async()=>{await page.keyboard.press(key)});
+ await observed('desktop orbit out and back',async()=>{const box=await page.locator(selectors.canvas).boundingBox();await page.mouse.move(box.x+box.width*.5,box.y+box.height*.5);await page.mouse.down();await page.mouse.move(box.x+box.width*.5-120,box.y+box.height*.5,{steps:12});await page.mouse.move(box.x+box.width*.5,box.y+box.height*.5,{steps:12});await page.mouse.up();await page.screenshot({path:path.join(output,'orbit-roundtrip.png')})});
+ await observed('open drawer focus',async()=>{await click(selectors.open)});await observed('escape focus restoration',async()=>{await page.keyboard.press('Escape')});
+ for(let i=0;i<10;i++)await observed(`drawer repetition ${i+1}`,async()=>{await click(selectors.open);await click(selectors.close)});
+ await page.setViewportSize({width:320,height:1000});await page.waitForTimeout(1000);
+ await observed('320px overflow and touch orbit',async()=>{const box=await page.locator(selectors.canvas).boundingBox();const cdp=await context.newCDPSession(page);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});const x=box.x+box.width*.4,y=box.y+box.height*.5;await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});for(let i=1;i<=8;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+i*10,y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();await page.screenshot({path:path.join(output,'touch-orbit-320.png'),fullPage:true})});
+ await page.setViewportSize({width:1440,height:1000});
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload({waitUntil:'networkidle'});await page.waitForTimeout(700);await page.screenshot({path:path.join(output,'reduced-motion.png')});
+ await observed('reduced motion at 700ms',async()=>{});await page.waitForTimeout(1000);await observed('reduced motion at 1700ms',async()=>{});
  const dom=await page.locator('body').innerText();await writeFile(path.join(output,'visible-text.txt'),dom);
  await writeFile(path.join(output,'ordinary-browser.json'),JSON.stringify({checks,errors,consoleMessages,blocked,scope:'Ordinary browser observations, identical harness for both arms. Missing pass fields are observations, not successes.'},null,2));
  await context.close();
  if(request.arm==='treatment'&&Array.isArray(request.motion)&&request.motion.length){
   client=new Client({name:'paired-study-tool-bridge',version:'1.0.0'});
-  await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'build/mcp/index.js')],cwd:root,env:{PATH:process.env.PATH||'',HOME:process.env.HOME||'',MOTION_ARTIFACT_DIR:path.join(output,'motion'),MOTION_ALLOWED_ORIGINS:origin,MOTION_SOURCE_ROOTS:project},stderr:'pipe'}));
+  await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'build/mcp/index.js')],cwd:root,env:{PATH:process.env.PATH||'',HOME:process.env.HOME||'',MOTION_ARTIFACT_DIR:path.resolve('artifacts/study',request.arm,'motion'),MOTION_ALLOWED_ORIGINS:origin,MOTION_SOURCE_ROOTS:project},stderr:'pipe'}));
   for(const [index,item] of request.motion.entries()){
    const recipe={...item.recipe,url:origin+(item.path||'/')};
    const capture=await client.callTool({name:'motion_capture',arguments:{recipe}},undefined,{timeout:45000});record('motion_capture',{request:recipe,response:capture.structuredContent||capture});
    await writeFile(path.join(output,`motion-${index}-response.json`),JSON.stringify(capture,null,2));
    if(!capture.isError&&capture.structuredContent?.id){
+    const inspection=await client.callTool({name:'motion_inspect',arguments:{captureId:capture.structuredContent.id,includeSamples:true,...(item.inspectWindow||{})}});
+    record('motion_inspect',{captureId:capture.structuredContent.id,response:inspection.structuredContent||inspection});
+    await writeFile(path.join(output,`motion-${index}-inspection.json`),JSON.stringify(inspection.structuredContent||inspection,null,2));
+    if(request.phase==='final'&&request.comparePhase==='initial'){
+     const previous=JSON.parse(await readFile(path.resolve('artifacts/study',request.arm,'initial',`motion-${index}-response.json`),'utf8'));
+     if(previous.structuredContent?.id){const compared=await client.callTool({name:'motion_compare',arguments:{beforeId:previous.structuredContent.id,afterId:capture.structuredContent.id}});record('motion_compare',{response:compared.structuredContent||compared});await writeFile(path.join(output,`motion-${index}-comparison.json`),JSON.stringify(compared.structuredContent||compared,null,2));}
+    }
     const frames=await client.callTool({name:'motion_frames',arguments:{captureId:capture.structuredContent.id,...(item.timestampsMs?{timestampsMs:item.timestampsMs}:{})}},undefined,{timeout:45000});
     const metadata=frames.structuredContent||frames;record('motion_frames',{captureId:capture.structuredContent.id,response:metadata});
     await writeFile(path.join(output,`motion-${index}-frames.json`),JSON.stringify(metadata,null,2));

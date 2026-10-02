@@ -38,13 +38,23 @@ try {
   for(const [scenario,pair]of Object.entries(exampleRecipes(origin))) {
     const ids:string[]=[];
     for(const [version,recipe]of [['before',pair.before],['after',pair.after]] as const) {
-      const result=await client.callTool({name:'motion_capture',arguments:{recipe}},undefined,{timeout:45000});
-      assert.notEqual(result.isError,true,JSON.stringify(result));
-      const data=result.structuredContent as {id:string;assertions:{passed:boolean;id:string}[];evidence:{video:string};metrics:unknown};
-      assert.ok(data.id);ids.push(data.id);
-      const resource=await client.readResource({uri:`motion-evidence://capture/${data.id}`});
-      const report=JSON.parse((resource.contents[0] as {text:string}).text) as MotionCapture;
-      assert.ok(report.metrics.sufficientEvidence);
+      // A saturated shared runner can miss the unchanged 80ms evidence gate.
+      // Retry only inadequate sampling, never a valid capture's failed motion contract.
+      // Keep every attempt and its recording so the retry remains visible.
+      let report:MotionCapture|undefined;
+      const attempts:unknown[]=[];
+      for(let attempt=1;attempt<=3;attempt++){
+        const result=await client.callTool({name:'motion_capture',arguments:{recipe}},undefined,{timeout:45000});
+        assert.notEqual(result.isError,true,JSON.stringify(result));
+        const captured=result.structuredContent as {id:string};assert.ok(captured.id);
+        const resource=await client.readResource({uri:`motion-evidence://capture/${captured.id}`});
+        report=JSON.parse((resource.contents[0] as {text:string}).text) as MotionCapture;
+        attempts.push({attempt,captureId:report.id,metrics:report.metrics,assertions:report.assertions});
+        await writeFile(`artifacts/v2/${scenario}-${version}-attempts.json`,JSON.stringify(attempts,null,2));
+        if(report.metrics.sufficientEvidence)break;
+      }
+      assert.ok(report?.metrics.sufficientEvidence,JSON.stringify(attempts));
+      const data={id:report.id};ids.push(data.id);
       assert.ok(report.events.some(event=>event.origin==='app-annotated'&&event.source));
       assert.ok(report.assertions.find(a=>a.id==='browser-errors')?.passed);
       assert.ok(report.assertions.find(a=>a.id==='network-policy')?.passed);
