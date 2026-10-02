@@ -50,3 +50,8 @@ test('comparison refuses mismatched recipes or failed capture integrity, and sor
   after.recipe=recipe;before.assertions.find(a=>a.id==='browser-errors')!.passed=false;
   const result=compare(before,after);assert.equal(result.comparable,false);assert.match(result.interpretation,/no improvement claim/);
 });
+
+test('final attributes accept observable accessibility state and reject credential/value requests',()=>{
+ for(const attributes of [{'aria-busy':'false',open:'',role:'status'},{'data-state':'ready'}])assert.ok(validateRecipe({...recipe,contract:{final:{attributes}}},options));
+ for(const key of ['value','data-token','aria-secret','onclick'])assert.throws(()=>validateRecipe({...recipe,contract:{final:{attributes:{[key]:'anything'}}}},options));
+});

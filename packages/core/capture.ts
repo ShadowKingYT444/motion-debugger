@@ -72,7 +72,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     const final=await page.locator(finalSelector).first().evaluate(element=>{
       const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
       const attributes:Record<string,string>={};
-      for(const attribute of [...element.attributes])if(attribute.name.startsWith('data-')&&!/private|secret|token|password|credential/i.test(attribute.name))attributes[attribute.name]=attribute.value.slice(0,500);
+      for(const attribute of [...element.attributes])if((/^(data-|aria-)/.test(attribute.name)||['open','disabled','hidden','role'].includes(attribute.name))&&!/private|secret|token|password|credential/i.test(attribute.name))attributes[attribute.name]=attribute.value.slice(0,500);
       return {visible:rect.width>0&&rect.height>0&&style.visibility!=='hidden'&&Number(style.opacity)>.01,attributes,text:element.textContent?.trim().slice(0,1000)??'',x:rect.x,y:rect.y,opacity:Number(style.opacity)};
     }).catch(()=>({visible:false,attributes:{},text:'',x:null,y:null,opacity:null}));
     for(const event of data.events){const sourceKey=event.detail.sourceKey;if(typeof sourceKey==='string'&&sources[sourceKey])event.source=sources[sourceKey]}

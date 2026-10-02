@@ -20,7 +20,7 @@ const safetyServer=createServer((req,res)=>{
     document.getElementById('start').onclick=()=>{let start=null,blocked=false;const tick=t=>{start??=t;document.getElementById('raf-target').style.transform='translateX('+((t-start)*.2)+'px)';if(!blocked&&t-start>250){blocked=true;const until=performance.now()+40;while(performance.now()<until){}}requestAnimationFrame(tick)};requestAnimationFrame(tick)};
     </script>`);return;
   }
-  res.end(req.url==='/private'?'<main data-motion-private>Test-only private marker</main>':'<div id="safe-target" data-state="ready">Safe socket policy fixture</div><script>new WebSocket("ws://example.invalid/prohibited")</script>');
+  res.end(req.url==='/private'?'<main data-motion-private>Test-only private marker</main>':'<details id="safe-target" data-state="ready" aria-busy="false" role="status" open><summary>Safe socket policy fixture</summary></details><script>new WebSocket("ws://example.invalid/prohibited")</script>');
 });
 await new Promise<void>(resolve=>safetyServer.listen(0,'127.0.0.1',resolve));
 const safetyOrigin=`http://127.0.0.1:${(safetyServer.address() as {port:number}).port}`;
@@ -88,10 +88,11 @@ try {
   const rafData=rafResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[];metrics:{maxStepAt60HzPx:number}};
   assert.ok(rafData.assertions.every(a=>a.passed),JSON.stringify(rafData));
   await writeFile('artifacts/v2/raf-phase-regression.json',JSON.stringify(rafData,null,2));
-  const socketResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/socket',selector:'#safe-target',actions:[],durationMs:700}}},undefined,{timeout:30000});
+  const socketResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/socket',selector:'#safe-target',actions:[],durationMs:700,contract:{final:{attributes:{'aria-busy':'false',open:'',role:'status'}}}}}},undefined,{timeout:30000});
   assert.notEqual(socketResult.isError,true,JSON.stringify(socketResult));
   const socketData=socketResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[]};
   assert.equal(socketData.assertions.find(a=>a.id==='network-policy')?.passed,false,'WebSocket attempt is blocked and reported');
+  for(const key of ['aria-busy','open','role'])assert.equal(socketData.assertions.find(a=>a.id==='final-'+key)?.passed,true,'Observable accessibility/boolean state: '+key);
   const privateResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/private',selector:'main',actions:[],durationMs:700}}},undefined,{timeout:30000});
   assert.equal(privateResult.isError,true,'private-marked page is rejected without a successful recording report');
   results.push({security:{webSocketBlocked:true,privatePageRejected:true,socketCaptureId:socketData.id}});

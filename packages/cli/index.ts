@@ -4,14 +4,16 @@ import {createInterface} from 'node:readline/promises';
 import {recordedFrames,capture,inspect,compact,compare,validateLocalUrl,validateRecipe} from '../core/index';
 import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
-import {clients,configText,init,metadata,type Client,type InitOptions} from './config';
+import {clients,configText,init,installSkillsOnly,metadata,type Client,type InitOptions} from './config';
 import {doctor,installBrowser} from './browser';
 import {shouldUseInitWizard,prepareInitWizard} from './wizard';
 
 const help=`Motion Debugger ${metadata.version} — temporal evidence for coding agents
 
   motion-debugger init [--client codex|claude-code|cursor|vscode] [--config path]
-  motion-debugger init ... --apply [--confirm <preview-token>]
+  motion-debugger init ... --skills [--project path] --apply [--confirm <preview-token>]
+  motion-debugger skills install --client codex|claude-code|cursor|vscode [--project path]
+  motion-debugger skills install ... --apply [--confirm <preview-token>]
   motion-debugger config [--client generic|codex|claude-code|cursor|vscode] [--local]
   motion-debugger setup --browser [--client <client>] [--config path]
   motion-debugger doctor [--skip-launch]
@@ -23,7 +25,8 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger compare <before-id> <after-id>
   motion-debugger mcp
 
-init previews an exact config diff; writes require explicit approval. setup --browser
+init previews an exact config diff; --skills includes all four project skills.
+Skills never overwrite different existing folders. All writes require explicit approval. setup --browser
 explicitly downloads Chromium. No postinstall, login, credentials or automatic config changes.
 Config defaults to the exact npm package version. --local uses this installation's absolute path.
 Config flags: --origin <loopback-origin>, --artifact-dir <path>, --source-root <path> (repeatable)
@@ -33,11 +36,11 @@ function configOptions(input:string[]):InitOptions {
   const options:InitOptions={client:'generic'};
   for(let i=0;i<input.length;i++) {
     const flag=input[i];
-    if(flag==='--local'){options.local=true;continue}if(flag==='--apply'){options.apply=true;continue}
-    if(!['--client','--config','--origin','--artifact-dir','--source-root','--confirm'].includes(flag))throw new Error(`Unknown option: ${flag}`);
+    if(flag==='--local'){options.local=true;continue}if(flag==='--apply'){options.apply=true;continue}if(flag==='--skills'){options.skills=true;continue}
+    if(!['--client','--config','--origin','--artifact-dir','--source-root','--confirm','--project'].includes(flag))throw new Error(`Unknown option: ${flag}`);
     const value=input[++i];if(!value||value.startsWith('--'))throw new Error(`${flag} requires a value`);
     if(flag==='--client'){if(!(clients as readonly string[]).includes(value))throw new Error(`Unsupported client ${value}; choose ${clients.join(', ')}`);options.client=value as Client}
-    if(flag==='--config')options.config=value;if(flag==='--origin')options.origin=value;if(flag==='--artifact-dir')options.artifactDir=value;
+    if(flag==='--project')options.project=value;if(flag==='--config')options.config=value;if(flag==='--origin')options.origin=value;if(flag==='--artifact-dir')options.artifactDir=value;
     if(flag==='--source-root')(options.sourceRoots??=[]).push(value);if(flag==='--confirm')options.confirm=value;
   }
   return options;
@@ -57,7 +60,8 @@ try {
     }
     await init(options)
   }
-  else if(command==='config'){const options=configOptions(args);if(options.apply||options.confirm||options.config)throw new Error('config only prints a fresh configuration; use init to preview/merge a destination');process.stdout.write(configText(options))}
+  else if(command==='skills'){if(args[0]!=='install')throw new Error('Use skills install --client <client> [--project path]');const options=configOptions(args.slice(1));if(options.skills)throw new Error('skills install does not accept --skills');await installSkillsOnly(options)}
+  else if(command==='config'){const options=configOptions(args);if(options.apply||options.confirm||options.config||options.skills||options.project)throw new Error('config only prints a fresh configuration; use init to preview/merge a destination');process.stdout.write(configText(options))}
   else if(command==='setup') {
     const browser=args.includes('--browser');const remaining=args.filter(arg=>arg!=='--browser');const options=configOptions(remaining);
     if(browser)await installBrowser();

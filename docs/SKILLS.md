@@ -11,20 +11,44 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 
 For a new animated page, start with `motion-build-inspect-repair`. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
 
-## Load skills as well as MCP
+## Install skills and MCP together
 
-`motion-debugger init` configures the evidence server. It does **not** copy skills into your editor. A working MCP handshake alone therefore does not activate design/build instructions.
+Install the provided private tarball in a durable location, then run this command **from the project you want the agent to work on**:
 
-The Codex plugin manifest exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all four skills. Actual host installation still needs confirmation in that host.
+```sh
+motion-debugger init --local
+```
 
-For a workspace-level skill installation, copy the complete named skill folders from `plugin/motion-debugger/skills/` into your client's supported project skill directory. Keep `references/` and `agents/` inside each folder. Preserve existing skills; review a collision rather than replacing unrelated instructions.
+In an interactive terminal, choose Codex, Claude Code, Cursor or VS Code, keep the offered four-skill installation, review the exact project MCP destination and skill files, then type `yes` to apply. The browser download is a separate explicit choice. This is one guided setup for the evidence server **and** the design/build instructions. Keep the installed package in place because `--local` records its absolute runtime path.
+
+For a known client or a different workspace, use an exact project-scoped preview:
+
+```sh
+motion-debugger init --client codex --local --skills --project /absolute/path/to/app
+```
+
+To apply interactively, add `--apply`. In a noninteractive terminal, review the JSON preview and rerun the same command with `--apply --confirm <confirmationToken>`. The token covers the exact MCP change and all four skill snapshots; changed destinations require a fresh preview. Without `--skills`, `init` keeps its existing MCP-only behavior. Without project flags, the original Codex MCP default remains its user configuration; combined skill setup uses the project's `.codex/config.toml` instead.
+
+Already configured MCP? Install just the bundled skills, with no server-config changes:
+
+```sh
+motion-debugger skills install --client codex --project /absolute/path/to/app --apply
+```
+
+This previews before asking for `yes`. Omit `--apply` for a read-only preview, or use the exact preview token for a noninteractive apply. Replace `codex` with `claude-code`, `cursor` or `vscode` as needed.
+
+The installer copies the complete named folders, including `references/` and `agents/`, to these project directories:
 
 - Codex: `.agents/skills/`
-- Cursor: `.agents/skills/` or `.cursor/skills/`
+- Cursor: `.cursor/skills/`
 - Claude Code: `.claude/skills/`
-- VS Code/Copilot: `.github/skills/`, `.agents/skills/` or `.claude/skills/`
+- VS Code/Copilot: `.github/skills/`
 
-These directories are relative to the project you want the skills to affect. After loading, ask the agent to identify the selected skill and list `motion_capture`, `motion_frames`, `motion_inspect` and `motion_compare` before claiming the complete workflow is available. Other compatible clients can load the SKILL.md files explicitly even when their automatic skill discovery differs.
+Existing identical folders are retained. A folder with different contents or extra files is a collision: the entire operation stops before writing, rather than replacing your instructions. Preserve or move that folder yourself and preview again. Unrelated skills and MCP entries stay in place. Existing config files receive unique backups, file updates use atomic rename, and new complete skill folders are staged before installation. If the final MCP write fails, newly installed unchanged skills are rolled back. Symbolic-link destinations, ancestors and entries within skills are rejected; choose a real workspace path.
+
+These commands change project files only after explicit approval. They do not bypass workspace trust, register a model endpoint or grant the agent extra permissions. Restart/reload your agent if its host needs that to discover new skills. Ask the agent to identify the selected skill and list `motion_capture`, `motion_frames`, `motion_inspect` and `motion_compare` before claiming the complete workflow is available. A successful install is not evidence that a host has loaded the skills or approved its MCP server.
+
+The Codex plugin manifest also exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all four skills. Other compatible clients can load `SKILL.md` explicitly when automatic discovery differs. For manual copying, Codex/Cursor can also use `.agents/skills/`, and VS Code supports `.agents/skills/` or `.claude/skills/`; keep the complete folders and review collisions.
 
 A direct starting prompt:
 
@@ -48,6 +72,6 @@ Check the packaged skill catalog without installing or changing editor settings:
 node plugin/motion-debugger/scripts/check-skills.mjs
 ```
 
-This checks this package's simple frontmatter, unique names, manifest directory and attribution files. It is not a behavioral benchmark. The distribution must also include those files in its packed artifact.
+This checks this package's simple frontmatter, unique names, manifest directory and attribution files. It is not a behavioral benchmark. The distribution must also include those files in its packed artifact. `npm run test:cli` exercises all four workspace destinations, exact-token approval, collisions, symlink refusal, idempotence and late-write rollback in temporary projects. `npm run test:install` separately installs a fresh tarball and verifies its packaged skills and complete MCP-plus-skills setup. These are installer/protocol checks, not proof of discovery in every interactive agent host.
 
 Sources checked 2026-10-02: [Codex skills](https://learn.chatgpt.com/docs/build-skills), [Claude Code skills](https://code.claude.com/docs/en/skills), [Cursor skills](https://cursor.com/docs/skills), [VS Code skills](https://code.visualstudio.com/docs/agent-customization/agent-skills). Keep normal workspace trust and approval controls enabled.

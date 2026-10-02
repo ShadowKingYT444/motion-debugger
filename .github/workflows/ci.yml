@@ -26,6 +26,8 @@ jobs:
         run: npm run test:v2:e2e
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
+      - name: Saved study launcher and actual browser smoke
+        run: npm run test:demo && npm run test:demo:browser -- --allow-partial
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -36,5 +38,6 @@ jobs:
             artifacts/qa/
             artifacts/v2/
             artifacts/install/
+            artifacts/study-demo/
           if-no-files-found: warn
           retention-days: 7

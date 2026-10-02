@@ -1,5 +1,7 @@
 # A practical coding-agent workflow
 
+For a new page, load [the design, 3D and build-inspect-repair skills](SKILLS.md). The full workflow starts from the product brief, builds real source, calls the evidence tools, and lets the host agent repair what it observes. The [AER paired case study](../studies/aer/README.md) preserves independent agent builds. The older seeded fixture below remains a focused transport/detector example.
+
 The primary user is a coding agent attached to the stdio server. The browser showcase supplies original test material; it is not the integration surface.
 
 ## 1. State the job and permissions
@@ -88,11 +90,11 @@ Actual hosted CI drawer recordings `52592e24-8488-4455-a344-e973b7e69aea` and `2
 
 The explicit normalized quantity is displacement ÷ sample elapsed time × 16.667ms. On those traces, the maximum is 96.367px for the reset versus 37.579px for the repair, against an unchanged 40px caller budget. This is a measurement correction supported by actual data, not a claim of universal perceptual smoothness. New captures use rAF timestamps and an 80ms maximum-gap integrity gate.
 
-## What “without” versus “with” means here
+## What the older fixture ablation measures
 
 The automated ablation compares:
 
 - Without temporal evidence: final-state-only assertions, which pass despite the seeded transient defects
 - With temporal evidence: intended continuity, height-change or containment contracts, which expose the intermediate defects and check the repair branch
 
-The harness uses the official SDK client over actual MCP stdio: initialization, tool discovery, capture calls, resource reads, inspection and comparison. No LLM was benchmarked. The result establishes integration and evidence/detector behavior, not an autonomous coding-agent repair success rate.
+The harness uses the official SDK client over actual MCP stdio: initialization, tool discovery, capture calls, resource reads, inspection and comparison. Those fixture tests do not benchmark an LLM. Their result establishes integration and detector behavior. The separate AER study documents actual independent coding-agent runs, with its own limitations.

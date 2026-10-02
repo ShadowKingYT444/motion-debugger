@@ -11,7 +11,7 @@ const request=JSON.parse(await readFile(requestFile,'utf8'));
 const project=path.resolve(request.project),output=path.resolve('artifacts/study',request.arm,request.phase);
 if(!project.startsWith(path.join(root,'studies')+path.sep)||!['baseline','treatment'].includes(request.arm)||!['initial','final'].includes(request.phase))throw Error('Invalid owned-study scope');
 await mkdir(output,{recursive:true});
-const ledger=[];const record=(kind,data)=>ledger.push({at:new Date().toISOString(),kind,...data});
+const ledger=[];const record=(kind,data)=>{ledger.push({at:new Date().toISOString(),kind,...data});console.log(`[${request.arm}/${request.phase}] ${kind}${data.name?' '+data.name:''}${data.status?' '+data.status:''}`)};
 let app,browser,client;let appLog='';
 try {
  for(const args of [['ci','--no-audit','--no-fund'],['run','build']]){
@@ -73,7 +73,7 @@ try {
  await observed('reduced motion at 700ms',async()=>{});await page.waitForTimeout(1000);await observed('reduced motion at 1700ms',async()=>{});
  const dom=await page.locator('body').innerText();await writeFile(path.join(output,'visible-text.txt'),dom);
  await writeFile(path.join(output,'ordinary-browser.json'),JSON.stringify({checks,errors,consoleMessages,blocked,scope:'Ordinary browser observations, identical harness for both arms. Missing pass fields are observations, not successes.'},null,2));
- await context.close();
+ await context.close();await browser.close();browser=undefined;
  if(request.arm==='treatment'&&Array.isArray(request.motion)&&request.motion.length){
   client=new Client({name:'paired-study-tool-bridge',version:'1.0.0'});
   await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'build/mcp/index.js')],cwd:root,env:{PATH:process.env.PATH||'',HOME:process.env.HOME||'',MOTION_ARTIFACT_DIR:path.resolve('artifacts/study',request.arm,'motion'),MOTION_ALLOWED_ORIGINS:origin,MOTION_SOURCE_ROOTS:project},stderr:'pipe'}));

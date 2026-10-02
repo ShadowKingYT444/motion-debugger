@@ -1,5 +1,5 @@
 // Consumer-side validation: real dependency installation, never npm link or repo node_modules.
-import {mkdtemp,writeFile,readFile,rm,lstat,cp,mkdir} from 'node:fs/promises';
+import {mkdtemp,writeFile,readFile,rm,lstat,cp,mkdir,readdir,realpath} from 'node:fs/promises';
 import {appendFileSync} from 'node:fs';
 import {spawn,spawnSync} from 'node:child_process';
 import os from 'node:os';
@@ -7,7 +7,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const skipBrowser=process.argv.includes('--skip-browser');
 if(process.argv.slice(2).some(arg=>arg!=='--skip-browser'))throw new Error('Only --skip-browser is supported');
-const root=process.cwd();const temp=await mkdtemp(path.join(os.tmpdir(),'motion-packed-install-'));
+const root=process.cwd();const temp=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-packed-install-')));
 const proofDir=path.join(root,'artifacts/install');await rm(proofDir,{recursive:true,force:true});await mkdir(proofDir,{recursive:true});
 const proof={schemaVersion:'1.0',startedAt:new Date().toISOString(),status:'running',node:process.version,platform:process.platform,skipBrowser,consumer:temp,checks:[]};
 await writeFile(path.join(proofDir,'verification.json'),JSON.stringify(proof,null,2));
@@ -22,13 +22,35 @@ try {
   console.log(run(npm,['install','--omit=dev','--ignore-scripts','--no-audit','--no-fund',tarball]));
   proof.checks.push('fresh-npm-dependency-install');
   const installed=path.join(temp,'node_modules/motion-debugger');const installedStat=await lstat(installed);assert.equal(installedStat.isDirectory(),true);assert.equal(installedStat.isSymbolicLink(),false);
-  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.3.0');
+  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.4.0');
   run(process.execPath,['--input-type=module','-e','import {validateRecipe,compare} from "motion-debugger"; if(typeof validateRecipe!=="function"||typeof compare!=="function")process.exit(1)']);
   for(const client of ['codex','claude-code','cursor','vscode']) {const text=run(process.execPath,[binary,'config','--client',client,'--local']);assert.ok(text.includes('motion-debugger'));}
   proof.checks.push('installed-cli-version-and-core-import','four-client-config-formats');
   const config=path.join(temp,'mcp.json');const plan=JSON.parse(run(process.execPath,[binary,'init','--config',config,'--local']));
   run(process.execPath,[binary,'init','--config',config,'--local','--apply','--confirm',plan.confirmationToken]);assert.ok(JSON.parse(await readFile(config,'utf8')).mcpServers['motion-debugger']);
   proof.checks.push('confirmed-config-write');
+  // The complete setup must work from the real installed tarball, not source files.
+  const skillNames=['motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair'];
+  const workspace=path.join(temp,'consumer-app');await mkdir(workspace);
+  const unrelated=path.join(workspace,'.agents/skills/unrelated');await mkdir(unrelated,{recursive:true});await writeFile(path.join(unrelated,'SKILL.md'),'Keep unrelated user instructions');
+  const setupArgs=[binary,'init','--client','codex','--local','--skills','--project',workspace];
+  const complete=JSON.parse(run(process.execPath,setupArgs));assert.equal(complete.skills.skills.length,4);assert.equal(complete.target,path.join(workspace,'.codex/config.toml'));
+  assert.equal(await lstat(complete.target).then(()=>true,()=>false),false);
+  run(process.execPath,[...setupArgs,'--apply','--confirm',complete.confirmationToken]);
+  const compareFolder=async(source,destination)=>{assert.deepEqual((await readdir(destination)).sort(),(await readdir(source)).sort());for(const entry of await readdir(source,{withFileTypes:true})){if(entry.isDirectory())await compareFolder(path.join(source,entry.name),path.join(destination,entry.name));else assert.deepEqual(await readFile(path.join(destination,entry.name)),await readFile(path.join(source,entry.name)))}};
+  for(const name of skillNames)await compareFolder(path.join(installed,'plugin/motion-debugger/skills',name),path.join(workspace,'.agents/skills',name));
+  assert.equal(await readFile(path.join(unrelated,'SKILL.md'),'utf8'),'Keep unrelated user instructions');
+  assert.match(await readFile(complete.target,'utf8'),/mcp_servers\.motion-debugger/);
+  const repeated=JSON.parse(run(process.execPath,setupArgs));assert.equal(repeated.changed,false);assert.equal(repeated.skillsChanged,false);
+  for(const [client,directory] of [['claude-code','.claude/skills'],['cursor','.cursor/skills'],['vscode','.github/skills']]) {
+    const project=path.join(temp,`consumer-${client}`);await mkdir(project);
+    const args=[binary,'skills','install','--client',client,'--project',project],preview=JSON.parse(run(process.execPath,args));
+    run(process.execPath,[...args,'--apply','--confirm',preview.confirmationToken]);
+    for(const name of skillNames)await compareFolder(path.join(installed,'plugin/motion-debugger/skills',name),path.join(project,directory,name));
+  }
+  console.log(run(process.execPath,[path.join(installed,'plugin/motion-debugger/scripts/check-skills.mjs')]));
+  proof.checks.push('packaged-four-complete-skills-catalog','confirmed-project-mcp-plus-skills-install','packaged-four-client-skill-destinations','installed-skills-idempotent-and-unrelated-preserved');
+
   const smoke=`import {Client} from '@modelcontextprotocol/sdk/client/index.js';import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';const client=new Client({name:'installed-package-smoke',version:'1.0.0'});await client.connect(new StdioClientTransport({command:process.execPath,args:[${JSON.stringify(binary)},'mcp']}));try{const tools=await client.listTools();if(!tools.tools.some(t=>t.name==='motion_capture'))throw new Error('Missing tool');const result=await client.callTool({name:'motion_list',arguments:{}});if(result.isError)throw new Error(JSON.stringify(result));console.log('Installed MCP handshake + motion_list passed')}finally{await client.close()}`;
   console.log(run(process.execPath,['--input-type=module','-e',smoke]));
   proof.checks.push('installed-mcp-sdk-handshake-and-motion-list');
@@ -49,8 +71,16 @@ try {
     const ids=[];
     for(const mode of ['baseline','fixed']){
       const recipeFile=path.join(temp,`kinetic-${mode}.json`);await writeFile(recipeFile,run(process.execPath,[binary,'recipe','kinetic','--mode',mode,'--origin',`http://127.0.0.1:${port}`]));
-      const captured=JSON.parse(run(process.execPath,[binary,'capture',recipeFile]));ids.push(captured.id);
-      assert.equal(captured.metrics.sufficientEvidence,true);assert.ok((await lstat(captured.evidence.video)).size>1000);
+      let captured;const attempts=[];
+      for(let attempt=1;attempt<=3;attempt++){
+        captured=JSON.parse(run(process.execPath,[binary,'capture',recipeFile]));
+        attempts.push({attempt,captureId:captured.id,metrics:captured.metrics,assertions:captured.assertions});
+        await writeFile(path.join(proofDir,`kinetic-${mode}-attempts.json`),JSON.stringify(attempts,null,2));
+        if(captured.metrics.sufficientEvidence)break;
+      }
+      // Preserve weak recordings, retry only sampling inadequacy, never failed valid contracts.
+      ids.push(captured.id);
+      assert.equal(captured.metrics.sufficientEvidence,true,JSON.stringify(attempts));assert.ok((await lstat(captured.evidence.video)).size>1000);
       if(mode==='baseline')assert.ok(captured.assertions.some(item=>!item.passed),'Seeded transient defect must fail its temporal contract');else assert.ok(captured.assertions.every(item=>item.passed),JSON.stringify(captured.assertions.filter(item=>!item.passed)));
       const inspected=JSON.parse(run(process.execPath,[binary,'inspect',captured.id]));assert.equal(inspected.id,captured.id);
     }

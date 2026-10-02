@@ -1,58 +1,49 @@
 <p align="center"><img src="docs/assets/banner.svg" alt="Motion Debugger — see the frames your agent misses" width="100%"></p>
 
-**Give your coding agent eyes for motion.** Record an interaction, find the frame where it breaks, and verify the repair.
+**Design, build and debug moving interfaces with your coding agent.**
 
-[MCP setup](docs/CLIENTS.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Evidence](docs/V3-VERIFICATION.md) · [Security](SECURITY.md)
+Four focused skills guide visual design, real 3D UI and an evidence-led repair loop. A local MCP server gives the agent recorded frames and temporal measurements from the page it actually built.
 
-## Why it exists
+[Setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Demo](docs/DEMO.md)
 
-The final screenshot looks right. The drawer still snaps halfway open, a loading card jumps, or a character's eyes escape during a fast reversal.
+## Install
 
-Motion Debugger gives your agent the missing evidence:
-
-- **Frames the agent can see**, replayable video and timestamped motion events
-- **Specific failures**: discontinuities, layout jumps, overshoot and replaced elements
-- **Before/after proof** using the same interaction and explicit motion expectations
-
-It runs locally. No model API key, account or cloud upload.
-
-## Install the private preview
-
-Requires Node.js 22+. Download the built `motion-debugger-0.3.0.tgz` package, then run:
+Private preview · Node.js 22+ · no model API key
 
 ```sh
-npm install -g ./motion-debugger-0.3.0.tgz
+npm install -g ./motion-debugger-0.4.0.tgz
 motion-debugger init --local
 ```
 
-The wizard previews the chosen agent configuration before writing it. Chromium is an explicit download. [Full setup and source install →](docs/CLIENTS.md)
+Choose your client and project. The wizard previews the MCP configuration and all four skills before writing anything. Chromium is an explicit download. Existing settings are preserved; conflicting skills are refused.
 
-**Registry publication is deferred.** The preview is installable from its tarball; `npx motion-debugger@0.3.0` is not advertised as a live npm release.
+Supports **Codex, Claude Code, Cursor and VS Code/Copilot**. [Scripted setup →](docs/CLIENTS.md)
 
-## See it move
+The repository remains private and the package is not on npm. Use the supplied tarball; there is no public `npx` package to assume exists.
 
-![Recorded courier interruption: seeded reset versus continuous repair](docs/assets/courier-demo.gif)
+## Give it a real task
 
-*Actual browser recording, not a rendered mockup.*
+> Use motion-build-inspect-repair to build a premium product page with an interactive 3D hero. Inspect its motion, repair observed problems and show the before/after evidence.
 
-```sh
-motion-debugger demo
-```
+- **Design:** brief-led typography, layout, surfaces and complete interaction states
+- **3D:** procedural scenes, camera, lighting, responsive controls and reduced motion
+- **Observe:** real recordings, native image frames, events and explicit contracts
+- **Repair:** the host agent edits source, repeats the interaction and compares the result
 
-Open the printed local URL. Two articulated couriers follow the same route: one snaps on interruption, the other carries its momentum through the turn. Pause, replay and redirect them. Drawer, live-data and cursor examples are included too.
+`motion_capture` → `motion_inspect` + `motion_frames` → agent source edit → `motion_compare`
 
-## Use it with an agent
+## See it work
 
-“On my local preview, record the drawer opening, closing and reopening. Find the transient jump, fix it, then compare the same sequence.”
+The [AER case study](studies/aer/README.md) starts two independent agents from the same product brief. Initial source, agent-written repairs and actual browser evidence are preserved. It is one paired example, not a general benchmark.
 
-`motion_capture` → `motion_frames` + `motion_inspect` → repair → `motion_compare`
+The smaller bundled fixtures remain available with `motion-debugger demo`:
 
-Works over stdio MCP with configuration adapters for **Codex, Claude Code, Cursor and VS Code/Copilot**. A CLI and typed TypeScript core are included. [Client setup →](docs/CLIENTS.md)
+![Actual recorded courier interruption: seeded reset versus handwritten repair](docs/assets/courier-demo.gif)
 
-## Honest scope
+Those fixtures intentionally contain seeded defects and handwritten repairs; they test the evidence tools.
 
-Use trusted, credential-free local previews. Captures can click controls and record page content. Recordings are not automatically redacted.
+## Honest boundaries
 
-The examples contain seeded defects and handwritten repairs. They demonstrate temporal evidence, not an autonomous-agent benchmark or a universal animation-quality score.
+Use trusted, credential-free local previews. Captures interact with the page and are not automatically redacted. A canvas rectangle cannot prove its internal animation is smooth; inspect the recorded frames. Skills guide the host agent rather than supplying a separate model or repair oracle.
 
-[Development](CONTRIBUTING.md) · [Integration details](docs/INTEGRATION.md) · [Prior art](docs/PRIOR-ART.md)
+[Development](CONTRIBUTING.md) · [Security](SECURITY.md) · [Verification](docs/V3-VERIFICATION.md) · [Taste attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)

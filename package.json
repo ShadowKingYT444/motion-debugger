@@ -1,6 +1,6 @@
 {
   "name": "motion-debugger",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,7 +20,10 @@
     "test:install": "node scripts/test-install.mjs",
     "test:cli": "node --import tsx --test tests/install/cli.test.ts",
     "doctor": "node build/cli/index.js doctor",
-    "demo": "node build/cli/index.js demo"
+    "demo": "node build/cli/index.js demo",
+    "demo:study": "node scripts/demo-study.mjs",
+    "test:demo": "node --test tests/demo-study.test.mjs",
+    "test:demo:browser": "node tests/demo-study-browser.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.31.0",
