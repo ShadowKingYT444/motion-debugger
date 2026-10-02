@@ -73,13 +73,16 @@ try {
   await recordTrace();
   check('Responsive heading preserves word spacing', (await page.locator('.kinetic-heading h2').innerText()).replace(/\s+/g, ' ').includes('plan. A world'));
   await page.locator('#courier-replay').click();
-  await page.waitForFunction(() => Number(document.querySelector('.kinetic-scene').dataset.timeMs) >= 500);
+  // Replay's prior data-time attribute can survive until the next RAF.
+  // Require the fresh run's in-flight phase, not the previous delivered timestamp.
+  await page.waitForFunction(() => {const t=Number(document.querySelector('.kinetic-scene').dataset.timeMs);return t>=500&&t<1050&&document.querySelector('#courier-target').dataset.state==='in-flight';});
   await page.locator('#courier-pause').focus(); await page.keyboard.press('Space');
   const pausedPose = await page.locator('#courier-target').getAttribute('transform');
+  const pausedClock = await page.locator('.kinetic-scene').getAttribute('data-time-ms');
   await page.waitForTimeout(250);
   check('Keyboard pause freezes the real rig', pausedPose === await page.locator('#courier-target').getAttribute('transform'));
   await page.keyboard.press('Space'); await page.waitForTimeout(200);
-  check('Keyboard play resumes from preserved motion state', pausedPose !== await page.locator('#courier-target').getAttribute('transform'));
+  check('Keyboard play resumes from preserved motion state', pausedPose !== await page.locator('#courier-target').getAttribute('transform'), JSON.stringify({pausedClock,currentClock:await page.locator('.kinetic-scene').getAttribute('data-time-ms'),paused:await page.locator('#courier-pause').getAttribute('aria-pressed')}));
   await page.locator('#courier-redirect').click();
   await page.waitForFunction(() => document.getElementById('courier-target').dataset.state === 'redirected');
   check('Manual redirect has a real mid-flight effect', await page.locator('#courier-target').getAttribute('data-state') === 'redirected');
