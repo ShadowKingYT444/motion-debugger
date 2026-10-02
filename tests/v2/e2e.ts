@@ -32,7 +32,7 @@ const safetyServer=createServer((req,res)=>{
 });
 await new Promise<void>(resolve=>safetyServer.listen(0,'127.0.0.1',resolve));
 const safetyOrigin=`http://127.0.0.1:${(safetyServer.address() as {port:number}).port}`;
-const transport=new StdioClientTransport({command:process.execPath,args:['build/mcp/index.js'],cwd:process.cwd(),env:{PATH:process.env.PATH??'',HOME:process.env.HOME??'',MOTION_ARTIFACT_DIR:artifactRoot,MOTION_ALLOWED_ORIGINS:`${origin},${safetyOrigin}`,MOTION_SOURCE_ROOTS:process.cwd()},stderr:'pipe'});
+const transport=new StdioClientTransport({command:process.execPath,args:['build/mcp/index.js'],cwd:process.cwd(),env:{PATH:process.env.PATH??'',HOME:process.env.HOME??'',...(process.env.PLAYWRIGHT_BROWSERS_PATH?{PLAYWRIGHT_BROWSERS_PATH:process.env.PLAYWRIGHT_BROWSERS_PATH}:{}),...(process.env.CHROMIUM_PATH?{CHROMIUM_PATH:process.env.CHROMIUM_PATH}:{}),MOTION_ARTIFACT_DIR:artifactRoot,MOTION_ALLOWED_ORIGINS:`${origin},${safetyOrigin}`,MOTION_SOURCE_ROOTS:process.cwd()},stderr:'pipe'});
 const client=new Client({name:'coding-agent-motion-workflow-test',version:'0.2.0'});
 const results:unknown[]=[];
 try {
