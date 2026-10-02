@@ -27,7 +27,7 @@ jobs:
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke
-        run: npm run test:demo && npm run test:demo:browser -- --allow-partial
+        run: npm run test:demo && npm run test:demo:browser
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

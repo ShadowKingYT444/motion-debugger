@@ -1,0 +1,65 @@
+{
+  "urlNote": "Replace only the URL port with the treatment preview port. Keep all other recipe fields for the final repeat.",
+  "recipes": {
+    "rapid_motor": {
+      "url": "http://127.0.0.1:4174", "selector": "#scene", "durationMs": 3500,
+      "viewport": {"width": 1440, "height": 1000}, "reducedMotion": "no-preference",
+      "actions": [
+        {"action":"wait","ms":250}, {"action":"click","selector":"[data-speed='3']"},
+        {"action":"wait","ms":140}, {"action":"click","selector":"#power"},
+        {"action":"wait","ms":120}, {"action":"click","selector":"[data-speed='2']"},
+        {"action":"wait","ms":80}, {"action":"click","selector":"#power"},
+        {"action":"wait","ms":180}, {"action":"click","selector":"[data-speed='1']"},
+        {"action":"wait","ms":80}, {"action":"click","selector":"[data-speed='3']"},
+        {"action":"wait","ms":110}, {"action":"click","selector":"#power"},
+        {"action":"wait","ms":90}, {"action":"click","selector":"#power"},
+        {"action":"wait","ms":1500}
+      ],
+      "contract": {"maxStepAt60HzPx":1,"maxReplacements":0,"final":{"visible":true,"attributes":{"data-power":"true","data-speed":"3"}}}
+    },
+    "drawer_interrupt": {
+      "url":"http://127.0.0.1:4174","selector":"#details","durationMs":2200,
+      "viewport":{"width":1440,"height":1000},"reducedMotion":"no-preference",
+      "actions":[
+        {"action":"click","selector":".details-trigger"}, {"action":"wait","ms":180},
+        {"action":"key","key":"Escape"}, {"action":"wait","ms":90},
+        {"action":"click","selector":".details-trigger"}, {"action":"wait","ms":70},
+        {"action":"click","selector":"#close-details"}, {"action":"wait","ms":80},
+        {"action":"click","selector":".details-trigger"}, {"action":"wait","ms":600}
+      ],
+      "contract":{"maxReplacements":0,"final":{"visible":true,"attributes":{"open":""},"textIncludes":"Considered from"}}
+    },
+    "live_reveal": {
+      "url":"http://127.0.0.1:4174","selector":"#telemetry","durationMs":1600,
+      "viewport":{"width":1440,"height":1000},"reducedMotion":"no-preference",
+      "actions":[{"action":"wait","ms":1000}],
+      "contract":{"maxStepAt60HzPx":1,"maxReplacements":0,"final":{"visible":true,"attributes":{"aria-busy":"false"},"textIncludes":"rpm"}}
+    },
+    "reduced_motion": {
+      "url":"http://127.0.0.1:4174","selector":"#scene","durationMs":2400,
+      "viewport":{"width":320,"height":1000},"reducedMotion":"reduce",
+      "actions":[{"action":"wait","ms":650},{"action":"click","selector":"[data-speed='3']"},{"action":"wait","ms":70},{"action":"click","selector":"#power"},{"action":"wait","ms":70},{"action":"click","selector":"#power"},{"action":"wait","ms":900}],
+      "contract":{"maxReplacements":0,"final":{"visible":true,"attributes":{"data-power":"true","data-speed":"3","data-reduced-motion":"true"}}}
+    }
+  },
+  "toolSequence": [
+    "motion_capture for each recipe; return its actual capture ID, summary and raw evidence resource",
+    "motion_inspect for rapid_motor from 200ms to 1500ms with includeSamples:true",
+    "motion_frames for rapid_motor at 300, 450, 700, 950, 1300, 2500ms; return actual native PNGs",
+    "motion_inspect for drawer_interrupt from 0ms to 1100ms with includeSamples:true",
+    "motion_frames for drawer_interrupt at 60, 200, 340, 480, 700, 1100ms",
+    "motion_frames for live_reveal at 0, 200, 500, 750, 1100ms",
+    "motion_frames for reduced_motion at 100, 700, 1300, 2000ms"
+  ],
+  "ordinaryBrowserChecks": [
+    "Screenshot at 1440x1000 and at 320x1000 after 1500ms, full page. Return console errors and failed network requests.",
+    "At 320px width report document.scrollWidth, innerWidth and every visible element extending outside horizontal viewport. Return actual rectangles without diagnosis.",
+    "Power off and wait 2200ms, record window.__aer.getState(); select High while off and confirm power remains false; power on and wait 2200ms, record state.",
+    "Focus #scene, ArrowLeft three times, ArrowUp twice, Home and Space. Record active element and state after each action. Confirm ordinary Tab can leave #scene.",
+    "Desktop pointer drag #scene 120px left then back. Mobile touch drag 80px right. Record orbit values before and after, plus screenshots.",
+    "Open drawer via .details-trigger, report focused element, press Escape, report focused element. Reopen and use close button; repeat rapidly ten times; report final dialog.open and active element.",
+    "With reducedMotion:reduce sample state at 500ms and 1500ms, report angle and rpm. Controls must still change power and selected speed.",
+    "Record renderer resource counts at 2s and 8s. These are app annotations and do not alone establish resource leak absence."
+  ],
+  "evidenceLimits": "The scene DOM continuity contract measures a stationary canvas container, not blade or camera continuity. Actual video-derived frames plus explicitly labelled app rotor-state marks are needed. No motion claim is based on the container contract alone."
+}

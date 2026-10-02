@@ -17,3 +17,11 @@
 - Actual screenshots: strong warm lighting and crisp pierced shadows distract from the matte product. Reduced light intensity/exposure and softened the real shadow with VSM filtering and lower opacity.
 - Enlarged power/speed/material touch targets while retaining small visual finish dots. Added read-only orbit coordinates for ordinary interaction checks.
 - Raised the integration delta cap from 50ms to 150ms to avoid unnecessarily slowing physical time on slow software-WebGL frames; long inactive gaps remain bounded.
+
+## Second evidence pass and performance repair
+
+- 2026-10-02 15:57 UTC: Viewed repaired-candidate desktop/mobile/reduced-motion PNGs and inspected raw observations from GitHub Actions run 37028983229 / source f9707fdf8d66853f52bceea6cbf2d4c3f08f7799. No horizontal overflow at 1440/390/320. Card/footer clearance measured 33px ordinarily and 10px under reduced motion. Rear stem and mobile copy spacing are visibly corrected.
+- Real DOM measurements show high-speed selection while OFF stays OFF; later velocity reaches 0.000. Keyboard yaw/pitch change and Home reset were observed. CDP-emulated touch changes yaw to 0.140 at 320px. Reduced-motion angle remained 0.0000 and velocity 0.000 at both 700ms and 1700ms observations.
+- A normal #open-details click timed out at 5 seconds. Later shared observations successfully opened the drawer, focused close-details, and restored focus to open-details on Escape. This inconsistency is retained as a failure rather than reported as a pass.
+- Software-WebGL samples and the interaction timeout motivate a rendering-cost reduction: merged procedural static guard meshes into one draw call; excluded rotating blades/guard from shadow casting; update soft shadow maps only when orbit/size changes. Shadow filtering still uses actual geometry, no stock imagery.
+- Replaced endpoint angular integration with the analytic integral of exponential speed easing, increased the bounded elapsed-time step to 250ms, and reset time after visibility changes. Added actual draw-call/frame-time diagnostics. Live loading reveal now waits for at least two completed render frames and 500ms rather than eight expensive frames.

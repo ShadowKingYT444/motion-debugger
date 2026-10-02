@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import './style.css';
 
 const $ = (selector) => document.querySelector(selector);
@@ -13,6 +14,7 @@ const speeds = [0, 5.3, 8.7, 13.2];
 const orbit = { yaw: -0.34, pitch: 0, targetYaw: -0.34, targetPitch: 0 };
 let renderer, scene, camera, object, rotor, frameRequest, lastTime;
 let velocity = 0, angle = 0, revealed = false, frameCount = 0, loadStart = performance.now();
+let lastShadowYaw = Infinity, lastShadowPitch = Infinity;
 const bodyMaterials = [];
 const dialog = $('#details-drawer');
 let drawerTrigger = null;
@@ -123,7 +125,7 @@ function buildFan() {
   blade.closePath();
   const bladeGeometry = new THREE.ExtrudeGeometry(blade, {depth:.028, bevelEnabled:true, bevelSegments:3, steps:1, bevelSize:.014, bevelThickness:.009, curveSegments:32});
   for (let i=0;i<5;i++) {
-    const leaf = mesh(bladeGeometry,bladeMat,rotor); leaf.rotation.z = i*Math.PI*2/5;
+    const leaf = mesh(bladeGeometry,bladeMat,rotor); leaf.rotation.z = i*Math.PI*2/5; leaf.castShadow = false;
   }
   cylinder(.18,.21,.105,bladeMat,rotor,0,0,.04,'z');
   // A fine, open front guard allows the blade motion to be read clearly.
@@ -141,6 +143,19 @@ function buildFan() {
   const button = cylinder(.053,.053,.019,dark,object,.26,.214,.19); button.scale.z=.95;
   const usb = mesh(new THREE.BoxGeometry(.12,.037,.013),dark,object,0,.142,-.548);
   usb.rotation.x=.04;
+  // Merge the fixed guard into a single draw call, preserving its procedural shape.
+  const guardMeshes = head.children.filter((child) => child.isMesh && child.material === grilleMat);
+  const guardGeometry = mergeGeometries(guardMeshes.map((part) => {
+    part.updateMatrix();
+    return part.geometry.clone().applyMatrix4(part.matrix);
+  }));
+  if (guardGeometry) {
+    guardMeshes.forEach((part) => { head.remove(part); part.geometry.dispose(); });
+    const guard = mesh(guardGeometry, grilleMat, head);
+    guard.castShadow = false;
+  }
+  // Blade-only motion doesn't change the useful enclosure/contact shadow.
+  rotor.children.forEach((part) => { part.castShadow = false; });
   object.rotation.y=orbit.yaw;
 }
 
@@ -153,6 +168,7 @@ function resize() {
   camera.position.set(0,2.85,window.innerWidth <= 700 ? 7.3 : 6.95);
   camera.lookAt(0,1.42,0);
   camera.updateProjectionMatrix();
+  renderer.shadowMap.needsUpdate=true;
 }
 function reveal() {
   revealed=true;
@@ -160,26 +176,32 @@ function reveal() {
   stage.dataset.ready='true';
 }
 function renderFrame(time) {
-  const dt=Math.min(lastTime === undefined ? 1/60 : (time-lastTime)/1000,.15); lastTime=time;
+  const dt=Math.min(lastTime === undefined ? 1/60 : (time-lastTime)/1000,.25); lastTime=time;
   const goal=state.power && !state.reduced ? speeds[state.speed] : 0;
-  const damping=1-Math.exp(-dt*(state.power ? 3.4 : 2.5));
+  const rate=state.power ? 3.4 : 2.5;
+  const damping=1-Math.exp(-dt*rate);
+  const travel=goal*dt+(velocity-goal)*damping/rate;
   velocity+=(goal-velocity)*damping;
   if(state.reduced || Math.abs(velocity)<.002) velocity=0;
-  angle=(angle-velocity*dt)%(Math.PI*2);
+  if (!state.reduced) angle=(angle-travel)%(Math.PI*2);
   rotor.rotation.z=angle;
   const orbitEase=state.reduced ? 1 : 1-Math.exp(-dt*12);
   orbit.yaw+=(orbit.targetYaw-orbit.yaw)*orbitEase;
   orbit.pitch+=(orbit.targetPitch-orbit.pitch)*orbitEase;
   object.rotation.y=orbit.yaw; object.rotation.x=orbit.pitch;
+  if(Math.abs(orbit.yaw-lastShadowYaw)>.0005 || Math.abs(orbit.pitch-lastShadowPitch)>.0005) {
+    renderer.shadowMap.needsUpdate=true;
+    lastShadowYaw=orbit.yaw;lastShadowPitch=orbit.pitch;
+  }
   renderer.render(scene,camera);
   frameCount++;
   if(!revealed) {
     const elapsed=time-loadStart;
     $('#loading-data').textContent=`${renderer.info.render.triangles.toLocaleString()} faces · ${Math.round(canvas.width)} × ${Math.round(canvas.height)} render`;
-    if(frameCount>=8 && elapsed>=600) reveal();
+    if(frameCount>=2 && elapsed>=500) reveal();
   }
   // Read-only data makes actual state and render performance inspectable.
-  canvas.dataset.power=String(state.power); canvas.dataset.activeSpeed=String(state.speed); canvas.dataset.velocity=velocity.toFixed(3); canvas.dataset.angle=angle.toFixed(4); canvas.dataset.reducedMotion=String(state.reduced);canvas.dataset.orbitYaw=orbit.yaw.toFixed(3);canvas.dataset.orbitPitch=orbit.pitch.toFixed(3);
+  canvas.dataset.power=String(state.power); canvas.dataset.activeSpeed=String(state.speed); canvas.dataset.velocity=velocity.toFixed(3); canvas.dataset.angle=angle.toFixed(4); canvas.dataset.reducedMotion=String(state.reduced);canvas.dataset.orbitYaw=orbit.yaw.toFixed(3);canvas.dataset.orbitPitch=orbit.pitch.toFixed(3);canvas.dataset.drawCalls=String(renderer.info.render.calls);canvas.dataset.frameTime=String(Math.round(dt*1000));
   frameRequest=requestAnimationFrame(renderFrame);
 }
 function init3D() {
@@ -187,7 +209,7 @@ function init3D() {
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));
     renderer.setClearColor(0x000000,0);
-    renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.VSMShadowMap;
+    renderer.shadowMap.enabled=true;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;renderer.shadowMap.type=THREE.VSMShadowMap;
     renderer.outputColorSpace=THREE.SRGBColorSpace;
     renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
     scene=new THREE.Scene();
@@ -233,4 +255,5 @@ canvas.addEventListener('keydown',(event)=>{
   if(event.key==='ArrowUp') orbit.targetPitch=THREE.MathUtils.clamp(orbit.targetPitch-.06,-.24,.25);
   if(event.key==='ArrowDown') orbit.targetPitch=THREE.MathUtils.clamp(orbit.targetPitch+.06,-.24,.25);
 });
+document.addEventListener('visibilitychange',()=>{lastTime=undefined;});
 init3D();

@@ -1,0 +1,354 @@
+{
+  "arm": "treatment",
+  "phase": "final",
+  "project": "studies/aer/treatment/final",
+  "selectors": {
+    "canvas": "#scene",
+    "power": "#power",
+    "speeds": "[data-speed]",
+    "drawer": "#details",
+    "open": ".details-trigger",
+    "close": "#close-details"
+  },
+  "actions": [
+    {
+      "action": "wait",
+      "ms": 1500
+    },
+    {
+      "action": "click",
+      "selector": ".details-trigger",
+      "screenshot": "drawer-open"
+    },
+    {
+      "action": "key",
+      "key": "Escape",
+      "screenshot": "drawer-closed"
+    },
+    {
+      "action": "click",
+      "selector": "#power"
+    },
+    {
+      "action": "wait",
+      "ms": 400
+    },
+    {
+      "action": "click",
+      "selector": "#power"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"3\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"1\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"2\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"3\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"1\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"2\"]"
+    },
+    {
+      "action": "drag",
+      "selector": "#scene",
+      "screenshot": "after-orbit"
+    },
+    {
+      "action": "key",
+      "key": "Tab"
+    },
+    {
+      "action": "key",
+      "key": "Enter",
+      "screenshot": "keyboard-action"
+    }
+  ],
+  "motion": [
+    {
+      "recipe": {
+        "url": "http://127.0.0.1:4174",
+        "selector": "#scene",
+        "durationMs": 3500,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "reducedMotion": "no-preference",
+        "actions": [
+          {
+            "action": "click",
+            "selector": "[data-speed='3']"
+          },
+          {
+            "action": "wait",
+            "ms": 140
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 120
+          },
+          {
+            "action": "click",
+            "selector": "[data-speed='2']"
+          },
+          {
+            "action": "wait",
+            "ms": 80
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 180
+          },
+          {
+            "action": "click",
+            "selector": "[data-speed='1']"
+          },
+          {
+            "action": "wait",
+            "ms": 80
+          },
+          {
+            "action": "click",
+            "selector": "[data-speed='3']"
+          },
+          {
+            "action": "wait",
+            "ms": 110
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 90
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 1500
+          }
+        ],
+        "contract": {
+          "maxStepAt60HzPx": 1,
+          "maxReplacements": 0,
+          "final": {
+            "visible": true,
+            "attributes": {
+              "data-power": "true",
+              "data-speed": "3"
+            }
+          }
+        }
+      },
+      "timestampsMs": [
+        300,
+        450,
+        700,
+        950,
+        1300,
+        2500
+      ],
+      "inspectWindow": {
+        "fromMs": 200,
+        "toMs": 1500
+      }
+    },
+    {
+      "recipe": {
+        "url": "http://127.0.0.1:4174",
+        "selector": "#details",
+        "durationMs": 2200,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "reducedMotion": "no-preference",
+        "actions": [
+          {
+            "action": "click",
+            "selector": ".details-trigger"
+          },
+          {
+            "action": "wait",
+            "ms": 180
+          },
+          {
+            "action": "key",
+            "key": "Escape"
+          },
+          {
+            "action": "wait",
+            "ms": 90
+          },
+          {
+            "action": "click",
+            "selector": ".details-trigger"
+          },
+          {
+            "action": "wait",
+            "ms": 70
+          },
+          {
+            "action": "click",
+            "selector": "#close-details"
+          },
+          {
+            "action": "wait",
+            "ms": 80
+          },
+          {
+            "action": "click",
+            "selector": ".details-trigger"
+          },
+          {
+            "action": "wait",
+            "ms": 600
+          }
+        ],
+        "contract": {
+          "maxReplacements": 0,
+          "final": {
+            "visible": true,
+            "attributes": {
+              "open": ""
+            },
+            "textIncludes": "Considered from"
+          }
+        }
+      },
+      "timestampsMs": [
+        60,
+        200,
+        340,
+        480,
+        700,
+        1100
+      ],
+      "inspectWindow": {
+        "fromMs": 0,
+        "toMs": 1100
+      }
+    },
+    {
+      "recipe": {
+        "url": "http://127.0.0.1:4174",
+        "selector": "#telemetry",
+        "durationMs": 1600,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "reducedMotion": "no-preference",
+        "actions": [
+          {
+            "action": "wait",
+            "ms": 1000
+          }
+        ],
+        "contract": {
+          "maxStepAt60HzPx": 1,
+          "maxReplacements": 0,
+          "final": {
+            "visible": true,
+            "attributes": {
+              "aria-busy": "false"
+            },
+            "textIncludes": "rpm"
+          }
+        }
+      },
+      "timestampsMs": [
+        0,
+        200,
+        500,
+        750,
+        1100
+      ]
+    },
+    {
+      "recipe": {
+        "url": "http://127.0.0.1:4174",
+        "selector": "#scene",
+        "durationMs": 2400,
+        "viewport": {
+          "width": 320,
+          "height": 1000
+        },
+        "reducedMotion": "reduce",
+        "actions": [
+          {
+            "action": "wait",
+            "ms": 650
+          },
+          {
+            "action": "click",
+            "selector": "[data-speed='3']"
+          },
+          {
+            "action": "wait",
+            "ms": 70
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 70
+          },
+          {
+            "action": "click",
+            "selector": "#power"
+          },
+          {
+            "action": "wait",
+            "ms": 900
+          }
+        ],
+        "contract": {
+          "maxReplacements": 0,
+          "final": {
+            "visible": true,
+            "attributes": {
+              "data-power": "true",
+              "data-speed": "3",
+              "data-reduced-motion": "true"
+            }
+          }
+        }
+      },
+      "timestampsMs": [
+        100,
+        700,
+        1300,
+        2000
+      ]
+    }
+  ],
+  "comparePhase": "initial"
+}
