@@ -3,15 +3,32 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,symlink} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import {frameSource,frameTimes} from '../../packages/core/frames';
+import {frameSource,frameTimes,frameRequestAllowed,recordedFrames} from '../../packages/core/frames';
 import type {MotionCapture} from '../../packages/core/types';
 
 const id='11111111-2222-4333-8444-555555555555';
 const report=()=>({schemaVersion:'2.0',id,recipe:{durationMs:2400},artifacts:{videoOffsetMs:500,video:'/untrusted/path'},findings:[{confidence:'contract-violation',sampleTimes:[800]}]} as MotionCapture);
+test('temporary recording endpoint rejects rebinding hosts and foreign origins',()=>{
+  assert.equal(frameRequestAllowed('127.0.0.1:5000',undefined,'http://127.0.0.1:5000'),true);
+  assert.equal(frameRequestAllowed('127.0.0.1:5000','http://127.0.0.1:5000','http://127.0.0.1:5000'),true);
+  assert.equal(frameRequestAllowed('attacker.test:5000',undefined,'http://127.0.0.1:5000'),false);
+  assert.equal(frameRequestAllowed('127.0.0.1:5000','https://attacker.test','http://127.0.0.1:5000'),false);
+  assert.equal(frameRequestAllowed('127.0.0.1:5000',undefined,''),false);
+});
+test('pre-cancelled frame requests do not read files or launch a browser',async()=>{
+  const controller=new AbortController();controller.abort();
+  await assert.rejects(recordedFrames(id,{artifactRoot:'/nonexistent',signal:controller.signal}),/canceled/);
+});
 test('frame selection prefers actual failing time window and bounds explicit requests',()=>{
   assert.deepEqual(frameTimes(report()),[700,800,900]);
   assert.deepEqual(frameTimes(report(),[1200,0,1200]),[0,1200]);
   for(const times of [[],[-1],[2401],[NaN],[0,1,2,3,4,5,6]])assert.throws(()=>frameTimes(report(),times));
+});
+test('frame selection includes observed identity and cancellation event windows',()=>{
+  const identity={...report(),findings:[{type:'identity-replacement',summary:'node replaced',confidence:'observed',sampleTimes:[400],eventIds:[]}]} as MotionCapture;
+  assert.deepEqual(frameTimes(identity),[300,400,500]);
+  const cancel={...report(),findings:[{type:'active-animation-cancel',summary:'cancel observed',confidence:'observed',sampleTimes:[],eventIds:['cancel-1']}],events:[{id:'cancel-1',t:600,type:'animation-cancel',label:'cancel',origin:'browser-observed',detail:{}}]} as MotionCapture;
+  assert.deepEqual(frameTimes(cancel),[500,600,700]);
 });
 test('recorded frame source resolves fixed capture files and ignores untrusted report paths',async()=>{
   const root=await mkdtemp(path.join(os.tmpdir(),'motion-frame-source-')),directory=path.join(root,id);await mkdir(directory);

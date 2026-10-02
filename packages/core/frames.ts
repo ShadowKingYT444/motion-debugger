@@ -9,6 +9,10 @@ import type {CoreOptions,MotionCapture} from './types';
 
 export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;width:number;height:number;path:string;sha256:string;png:Buffer}
 const uuid=/^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i;
+export function frameRequestAllowed(host:string|undefined,requestOrigin:string|undefined,expectedOrigin:string) {
+  if(!expectedOrigin)return false;
+  return host===new URL(expectedOrigin).host&&(!requestOrigin||requestOrigin===expectedOrigin);
+}
 
 /** Report paths are untrusted: resolve fixed filenames under this capture, never artifacts.video. */
 export async function frameSource(id:string,options:CoreOptions) {
@@ -32,21 +36,29 @@ export function frameTimes(report:MotionCapture,requested?:number[]) {
   const duration=report.recipe.durationMs!;
   if(requested&&(!Array.isArray(requested)||requested.length<1||requested.length>6||requested.some(t=>!Number.isFinite(t)||t<0||t>duration)))throw new Error('Request one to six finite timestamps within the capture duration');
   if(requested)return [...new Set(requested)].sort((a,b)=>a-b);
-  const finding=report.findings?.find(item=>item.confidence==='contract-violation'&&item.sampleTimes?.some(Number.isFinite));
-  const center=finding?.sampleTimes.find(Number.isFinite)??duration/2;
+  const ordered=[...(report.findings??[])].sort((a,b)=>Number(b.confidence==='contract-violation')-Number(a.confidence==='contract-violation'));
+  let center:number|undefined;
+  for(const finding of ordered){
+    center=finding.sampleTimes?.find(Number.isFinite)??report.events?.find(event=>finding.eventIds?.includes(event.id)&&Number.isFinite(event.t))?.t;
+    if(center!==undefined)break;
+  }
+  center??=duration/2;
   return [...new Set([center-100,center,center+100].map(t=>Math.round(Math.max(0,Math.min(duration,t)))))];
 }
 
 /** Decode the actual recording with the already installed Chromium; no rerun or synthetic frame. */
 export async function recordedFrames(id:string,options:CoreOptions,requested?:number[]) {
+  if(options.signal?.aborted)throw new Error('Frame extraction canceled');
   const source=await frameSource(id,options),times=frameTimes(source.report,requested);
+  const token=randomUUID();let origin='';
   const server=createServer((req,res)=>{
+    if(!frameRequestAllowed(req.headers.host,req.headers.origin,origin)){res.writeHead(403).end();return}
     if(!['GET','HEAD'].includes(req.method??'')){res.writeHead(405).end();return}
-    if(req.url==='/'){
+    if(req.url===`/view/${token}`){
       res.writeHead(200,{'Content-Type':'text/html','Content-Security-Policy':"default-src 'none'; media-src 'self'"});
-      res.end('<!doctype html><html><body><video id="recording" preload="auto" src="/video" muted></video></body></html>');return;
+      res.end(`<!doctype html><html><body><video id="recording" preload="auto" src="/video/${token}" muted></video></body></html>`);return;
     }
-    if(req.url!=='/video'){res.writeHead(404).end();return}
+    if(req.url!==`/video/${token}`){res.writeHead(404).end();return}
     const headers={'Content-Type':'video/webm','Accept-Ranges':'bytes','Cache-Control':'no-store'};
     let start=0,end=source.size-1;
     if(req.headers.range){
@@ -60,14 +72,17 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
     const stream=createReadStream(source.video,{start,end});stream.on('error',()=>res.destroy());res.on('close',()=>stream.destroy());stream.pipe(res);
   });
   await new Promise<void>((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve)});
-  const origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
+  origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
   let browser:Awaited<ReturnType<typeof chromium.launch>>|undefined;
   const frames:RecordedFrame[]=[];
+  const abort=()=>{void browser?.close().catch(()=>{});server.closeAllConnections();server.close()};
+  options.signal?.addEventListener('abort',abort,{once:true});
   try {
     browser=await chromium.launch(chromiumOptions());
+    if(options.signal?.aborted)throw new Error('Frame extraction canceled');
     const context=await browser.newContext({viewport:{width:720,height:540},serviceWorkers:'block'});
     await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
-    const page=await context.newPage();await page.goto(origin,{waitUntil:'domcontentloaded',timeout:10000});
+    const page=await context.newPage();await page.goto(`${origin}/view/${token}`,{waitUntil:'domcontentloaded',timeout:10000});
     await page.waitForFunction(()=>{const video=document.querySelector('video')!;return video.readyState>=2&&Number.isFinite(video.duration)&&video.duration>0},{},{timeout:10000});
     const output=path.join(source.directory,`frames-${randomUUID()}`);await mkdir(output);
     for(const captureTimeMs of times){
@@ -92,5 +107,5 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
     const alignment='Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; seeking and alignment are approximate. Use rAF evidence for precise motion metrics.';
     await writeFile(path.join(output,'frames.json'),JSON.stringify({captureId:id,alignment,videoOffsetMs:source.offset,frames:frames.map(({png,...metadata})=>metadata)},null,2));
     return {captureId:id,alignment,videoOffsetMs:source.offset,frames};
-  }finally{await browser?.close();server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()))}
+  }finally{options.signal?.removeEventListener('abort',abort);try{await browser?.close()}finally{server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()))}}
 }

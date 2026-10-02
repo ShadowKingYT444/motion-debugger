@@ -15,6 +15,11 @@ let appLog='';app.stdout?.on('data',data=>appLog+=String(data));app.stderr?.on('
 for(let i=0;i<80;i++){try{if((await fetch(`${origin}/api/health`)).ok)break}catch{};if(i===79)throw new Error(`No readiness: ${appLog}`);await new Promise(resolve=>setTimeout(resolve,250))}
 const safetyServer=createServer((req,res)=>{
   res.setHeader('Content-Type','text/html');
+  if(req.url==='/raf'){
+    res.end(`<button id="start">Start motion</button><div id="raf-target" style="width:40px;height:40px;background:#286b50">Rig</div><script>
+    document.getElementById('start').onclick=()=>{let start=null,blocked=false;const tick=t=>{start??=t;document.getElementById('raf-target').style.transform='translateX('+((t-start)*.2)+'px)';if(!blocked&&t-start>250){blocked=true;const until=performance.now()+40;while(performance.now()<until){}}requestAnimationFrame(tick)};requestAnimationFrame(tick)};
+    </script>`);return;
+  }
   res.end(req.url==='/private'?'<main data-motion-private>Test-only private marker</main>':'<div id="safe-target" data-state="ready">Safe socket policy fixture</div><script>new WebSocket("ws://example.invalid/prohibited")</script>');
 });
 await new Promise<void>(resolve=>safetyServer.listen(0,'127.0.0.1',resolve));
@@ -68,6 +73,11 @@ try {
     assert.ok(finalOnly.length&&finalOnly.every(a=>a.passed));
     results.push({scenario,ablation:{withoutTemporalEvidence:'Final-state-only checks pass and miss the seeded transient defect',withTemporalEvidence:'Caller temporal contract fails on baseline and passes on repair',isLLMTrial:false,finalOnlyAssertions:finalOnly,comparison}});
   }
+  const rafResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/raf',selector:'#raf-target',actions:[{action:'click',selector:'#start'},{action:'wait',ms:850}],durationMs:1100,contract:{maxStepAt60HzPx:5,maxSampleGapMs:80,final:{visible:true}}}}},undefined,{timeout:30000});
+  assert.notEqual(rafResult.isError,true,JSON.stringify(rafResult));
+  const rafData=rafResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[];metrics:{maxStepAt60HzPx:number}};
+  assert.ok(rafData.assertions.every(a=>a.passed),JSON.stringify(rafData));
+  await writeFile('artifacts/v2/raf-phase-regression.json',JSON.stringify(rafData,null,2));
   const socketResult=await client.callTool({name:'motion_capture',arguments:{recipe:{url:safetyOrigin+'/socket',selector:'#safe-target',actions:[],durationMs:700}}},undefined,{timeout:30000});
   assert.notEqual(socketResult.isError,true,JSON.stringify(socketResult));
   const socketData=socketResult.structuredContent as {id:string;assertions:{id:string;passed:boolean}[]};

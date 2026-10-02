@@ -31,7 +31,7 @@ export interface MotionEvent {
   source?:{file:string;line:number;endLine?:number;excerpt:string};
 }
 export interface MotionSample {
-  t:number; nodeId:string|null; logicalId:string|null;
+  t:number; observedAtMs?:number; nodeId:string|null; logicalId:string|null;
   x:number|null;y:number|null;width:number|null;height:number|null;
   opacity:number|null; translateX:number|null;translateY:number|null;
   scaleX:number|null;scaleY:number|null;rotationDeg:number|null;

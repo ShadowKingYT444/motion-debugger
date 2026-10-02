@@ -5,6 +5,7 @@ import {mkdtemp,readFile,writeFile,rm,readdir} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {shouldUseInitWizard,prepareInitWizard} from '../../packages/cli/wizard';
 import {configText} from '../../packages/cli/config';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 function run(args:string[],cwd=root){return spawnSync(process.execPath,[path.join(root,'build/cli/index.js'),...args],{cwd,encoding:'utf8'})}
@@ -28,4 +29,18 @@ test('init is read-only until exact diff confirmation, preserves content, backs 
 });
 test('CLI errors are diagnosable and help/version work without repo tools',()=>{
   assert.equal(run(['--version']).stdout.trim(),'0.3.0');assert.equal(run(['--help']).status,0);for(const args of [['typo'],['init','--client','invalid'],['demo','--port','bad'],['capture'],['config','--apply'],['doctor','--unrecognized'],['config','--origin','https://example.com']])assert.equal(run(args).status,1,JSON.stringify(args))
+});
+
+test('init --local enters the human wizard while scripted destinations and approvals opt out',()=>{
+  for(const args of [[],['--local'],['--local','--origin','http://127.0.0.1:4173'],['--artifact-dir','./evidence']])assert.equal(shouldUseInitWizard(args,true),true);
+  for(const args of [['--client','codex'],['--local','--client','cursor'],['--config','./mcp.json'],['--apply'],['--confirm','hash']])assert.equal(shouldUseInitWizard(args,true),false);
+  assert.equal(shouldUseInitWizard(['--local'],false),false);
+});
+test('wizard requires explicit browser consent and keeps the selected local runtime/settings',async()=>{
+  for(const consent of ['', 'n', 'no', 'y', 'YES']) {
+    const questions:string[]=[],answers=['Codex',consent];const plan=await prepareInitWizard({client:'generic',local:true,artifactDir:'./chosen-evidence'},async question=>{questions.push(question);return answers.shift()!});
+    assert.equal(plan.options.client,'codex');assert.equal(plan.options.local,true);assert.equal(plan.options.artifactDir,'./chosen-evidence');assert.equal(plan.options.apply,true);assert.equal(plan.downloadBrowser,['y','YES'].includes(consent));assert.match(questions[1],/explicitly downloads a browser/);
+  }
+  const generic=await prepareInitWizard({client:'generic',local:true},async()=> '');assert.equal(generic.options.client,'generic');assert.equal(generic.downloadBrowser,false);
+  let prompts=0;await assert.rejects(prepareInitWizard({client:'generic'},async()=>{prompts++;return 'invalid-client'}),/Unsupported client/);assert.equal(prompts,1);
 });

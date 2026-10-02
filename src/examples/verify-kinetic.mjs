@@ -26,7 +26,12 @@ async function open(width = 1440) {
 async function recordTrace() {
   await page.evaluate(() => {
     window.__courierTrace = { samples: [], done: false };
+    let pending = 0, raf = 0, generation = 0;
     const sample = frameClock => {
+      const token = ++generation;
+      clearTimeout(pending);
+      pending = setTimeout(() => {
+      if (token !== generation) return;
       const stage = document.querySelector('.kinetic-scene');
       const time = Number(stage.dataset.timeMs);
       const pose = lane => {
@@ -35,10 +40,11 @@ async function recordTrace() {
         return { x: box.x, y: box.y, transform: rig.getAttribute('transform'), tilt: inner.getAttribute('transform'), antenna: inner.children[3].getAttribute('transform'), state: rig.dataset.state };
       };
       window.__courierTrace.samples.push({ clock: frameClock, observedAt: performance.now(), time, baseline: pose('baseline'), fixed: pose('fixed') });
-      if (time >= 4200) window.__courierTrace.done = true;
-      else requestAnimationFrame(sample);
+      if (time >= 4200) { window.__courierTrace.done = true; cancelAnimationFrame(raf); }
+      }, 0);
+      raf = requestAnimationFrame(sample);
     };
-    requestAnimationFrame(sample);
+    raf = requestAnimationFrame(sample);
   });
   await page.locator('#courier-replay').click();
   for (const [time, name] of [[130,'anticipation'],[620,'flight'],[1120,'redirect'],[2600,'landing'],[4150,'settled']]) {
@@ -54,7 +60,7 @@ async function recordTrace() {
   };
   const baseline = metrics('baseline'), fixed = metrics('fixed'), width = await page.evaluate(() => innerWidth);
   // Keep failed-run evidence too; assertions must never discard the trace that explains a failure.
-  traces.push({ width, clock: 'requestAnimationFrame callback timestamp (same frame clock as the rig)', metrics: { baseline, fixed }, samples: trace });
+  traces.push({ width, clock: 'Associated RAF frame timestamp; geometry observed in a post-RAF task after animation callbacks', metrics: { baseline, fixed }, samples: trace });
   check(`${width}: substantial travel visible in actual frames`, fixed.rangeX > (width < 760 ? 140 : 210), JSON.stringify(fixed));
   check(`${width}: seeded redirect causes measurable transient discontinuity`, baseline.maxStepAt60Hz > (width < 760 ? 50 : 90), JSON.stringify(baseline));
   check(`${width}: repaired rig preserves a bounded continuous trajectory`, fixed.maxStepAt60Hz < 40, JSON.stringify(fixed));
@@ -81,6 +87,7 @@ try {
     await open(width);
     const geometry = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth, lanes: [...document.querySelectorAll('.courier-plane')].map(n => { const b = n.getBoundingClientRect(); return { left: b.left, right: b.right, width: b.width }; }) }));
     check(`${width}: responsive scene never overflows the viewport`, geometry.page <= width + 1 && geometry.lanes.every(lane => lane.left >= 0 && lane.right <= width + 1), JSON.stringify(geometry));
+    check(`${width}: comparison rigs use equal artwork scale`, Math.abs(geometry.lanes[0].width - geometry.lanes[1].width) < 1, JSON.stringify(geometry.lanes));
     await shot(`layout-${width}`, true);
   }
   await open(390); await recordTrace();

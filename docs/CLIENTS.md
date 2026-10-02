@@ -7,10 +7,13 @@ Version 0.3.0 is a private preview, not an npm-registry release. Install the pro
 ## Recommended: configuration wizard
 
 ```sh
-npm exec --yes --package ./motion-debugger-0.3.0.tgz -- motion-debugger init
+npm install -g ./motion-debugger-0.3.0.tgz
+motion-debugger init --local
 ```
 
-Choose a client, review the exact destination/change, then confirm. In a noninteractive terminal, `init` only previews. Add `--local` while testing an unpublished installation so the configuration points to that installation instead of npm. An npm-exec cache can be cleaned later; for a durable preview install, install the tarball into a stable directory with `npm install /absolute/path/motion-debugger-0.3.0.tgz`, then run its `node_modules/.bin/motion-debugger` binary.
+Choose a client, review the exact destination/change, then confirm. In a noninteractive terminal, `init` only previews. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
+
+Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.3.0.tgz` in a stable tools directory, then `npm exec --offline -- motion-debugger init --local` there. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
 
 The browser dependency is explicit:
 

@@ -6,6 +6,7 @@ import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
 import {clients,configText,init,metadata,type Client,type InitOptions} from './config';
 import {doctor,installBrowser} from './browser';
+import {shouldUseInitWizard,prepareInitWizard} from './wizard';
 
 const help=`Motion Debugger ${metadata.version} — temporal evidence for coding agents
 
@@ -46,10 +47,13 @@ try {
   if(!command||['--help','-h','help'].includes(command)){console.log(help)}
   else if(['--version','-v'].includes(command)){console.log(metadata.version)}
   else if(command==='init'){
-    const options=configOptions(args);
-    if(!args.length&&process.stdin.isTTY&&process.stdout.isTTY) {
+    let options=configOptions(args);
+    if(shouldUseInitWizard(args,!!process.stdin.isTTY&&!!process.stdout.isTTY)) {
       const input=createInterface({input:process.stdin,output:process.stdout});
-      try {const client=(await input.question(`Client (${clients.join(', ')}), Enter for generic: `)).trim()||'generic';if(!(clients as readonly string[]).includes(client))throw new Error(`Unsupported client: ${client}`);options.client=client as Client;options.apply=true}finally{input.close()}
+      let downloadBrowser=false;
+      try {const plan=await prepareInitWizard(options,question=>input.question(question));options=plan.options;downloadBrowser=plan.downloadBrowser}finally{input.close()}
+      if(downloadBrowser)await installBrowser();
+      else console.error('Browser download skipped. Run motion-debugger doctor before capturing; motion-debugger setup --browser installs Chromium explicitly');
     }
     await init(options)
   }

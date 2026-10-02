@@ -21,7 +21,8 @@ It runs locally. No model API key, account or cloud upload.
 Requires Node.js 22+. Download the built `motion-debugger-0.3.0.tgz` package, then run:
 
 ```sh
-npm exec --yes --package ./motion-debugger-0.3.0.tgz -- motion-debugger init --local
+npm install -g ./motion-debugger-0.3.0.tgz
+motion-debugger init --local
 ```
 
 The wizard previews the chosen agent configuration before writing it. Chromium is an explicit download. [Full setup and source install →](docs/CLIENTS.md)

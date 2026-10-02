@@ -24,11 +24,11 @@ Run `BASE_URL=http://127.0.0.1:4173 node src/examples/verify-examples.mjs` after
 - Pause freezes the actual pose; keyboard play resumes from it
 - Manual redirect changes the actual destination, not just a label
 - Reduced-motion prevents autoplay; replay provides an immediate equivalent delivered pose
-- No horizontal viewport overflow at 1440, 1024, 390, 320 widths
+- No horizontal viewport overflow at 1440, 1024, 390, 320 widths; both rigs have equal artwork scale
 - Four tabs wrap correctly under keyboard navigation
 - No uncaught browser errors
 
-Evidence in `artifacts/qa/examples/kinetic/`: uninterrupted `courier-continuous.webm`, `frame-traces.json` (real RAF clocks/geometry/articulation), `frame-captures.json` (actual capture clock/phase bounds), `motion-checks.json`, and actual timed anticipation/flight/redirect/landing/settled screenshots at desktop and mobile widths. Frame screenshot names indicate their target phase; trace timestamps reflect actual browser timing, not a synthesized frame.
+Evidence in `artifacts/qa/examples/kinetic/`: uninterrupted `courier-continuous.webm`, `frame-traces.json` (real associated RAF clocks, post-animation geometry, observedAt timestamps, articulation), `frame-captures.json` (actual capture clock/phase bounds), `motion-checks.json`, and actual timed anticipation/flight/redirect/landing/settled screenshots at desktop and mobile widths. Frame screenshot names indicate their target phase; trace timestamps reflect actual browser timing, not a synthesized frame.
 
 Core MCP recipe pair: `/examples?scenario=kinetic&mode=baseline|fixed&autoplay=0`, selector `#courier-target`, replay + 4000 ms + 200 ms waits, total 4400 ms, 1280×1000 viewport, no-preference reduced motion. Contract: maximum normalized step 40 px, zero replacements, visible delivered final state. Both recipes have identical selectors/actions/viewport/contracts. Browser probe and capture artifacts provide the observed proof.
 
