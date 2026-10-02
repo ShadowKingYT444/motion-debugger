@@ -7,6 +7,12 @@ description: Build a requested animated webpage or interface, inspect its actual
 
 Own the requested interface through an evidenced result. The host coding agent builds and edits source; this plugin supplies design guidance and local observation tools. An MCP configuration entry alone does not prove the tools are connected.
 
+## Follow the bounded workflow
+
+Use distinct stages: brief → design → build → inspect → repair 1 → verify 1 → repair 2 → verify 2 → report. A passing inspection or verification can go straight to report. An exact permission, environment or evidence blocker goes to a blocked report. Every stage is visited at most once; a second attempt is a new numbered node, not a back edge.
+
+Allow at most two evidence-led source repair attempts within this plan. After verify 2, report any unresolved failure with evidence rather than silently starting another iteration. Repairs already inside the user’s build/fix request remain autonomous. Do not treat missing evidence as success. The plugin also ships the machine-readable graph and validator under `workflows/`; this is a host-agent plan, not a hidden execution engine.
+
 ## Build the requested product
 
 Read the brief, repository instructions and existing package setup. Write down the primary interaction, the intended visual result and important final state. Use `motion-design` for the page and `motion-3d-ui` when real spatial motion is needed. Preserve the user's requested stack and task; do not replace a difficult requirement with a different demo.
@@ -35,7 +41,7 @@ When source repair is within the user's requested build/fix scope, apply the sma
 
 Repeat the original `motion_capture` recipe after the change, then call `motion_compare({beforeId, afterId})`. Inspect the after frames as well as metrics. A comparable result, intended final state and a visibly correct transition are all useful; one passing assertion is not a complete review. Do not raise a failing budget merely to manufacture a pass or remove the feature being tested.
 
-If the after version still has a defect, keep working on the authorized source and repeat. Preserve capture IDs across attempts so a later improvement cannot erase the original evidence. Stop when the requested interaction is visibly correct and its meaningful contracts/tests pass, or when a concrete permission/environment blocker prevents further work. Report unresolved limits plainly.
+If verify 1 still shows a justified defect, continue to repair 2 and verify 2. After that, stop with the unresolved report if a defect remains. Preserve capture IDs across attempts so a later improvement cannot erase the original evidence. Stop when the requested interaction is visibly correct and its meaningful contracts/tests pass, or when a concrete permission/environment blocker prevents further work. Report unresolved limits plainly.
 
 ## Deliver the product and proof
 

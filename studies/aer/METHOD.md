@@ -26,3 +26,7 @@ Both builders requested gpt-6.1-sol at high reasoning effort. Actual elapsed imp
 The first treatment request exceeded the existing 16-action schema and was rejected. Its original request and error remain evidence; a corrected supplemental recipe is labelled separately and must run against both initial and repaired source. Initial evidence also exposed a tool-side omission of accessibility/boolean final attributes; the corrected observer is used for both sides of the final temporal comparison.
 
 The reusable fixture regression suite permits at most three attempts only when the unchanged sampling-integrity gate fails. It preserves every capture and never retries a valid capture merely because a motion assertion failed. A weak recording remains inconclusive, not a pass.
+
+The exact four experimental skill folders are preserved under inputs/skills with SHA256 hashes. The release workflow skill received explicit bounded-DAG routing after those inputs were frozen, following the user’s later request. That instruction update is not retroactively attributed to the study.
+
+After the first treatment repair, the original builder session could not be resumed because of the agent-thread limit. A separate Motion QA worker, instructed not to inspect the baseline, continued the second bounded repair with the remaining time allowance. The original same-model pair and first-repair evidence remain separately identifiable; this continuation is not presented as a fully controlled same-session A/B result.

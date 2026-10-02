@@ -44,4 +44,4 @@ The repair nodes are autonomous within the user's authorized scope. They do not 
 
 The root package includes `plugin/` and `docs/`; the graph, validator and opt-in instructions travel with the plugin. No graph-registration field or automatic host enforcement is claimed. The graph's skill paths are plugin-root relative and work in a standalone plugin directory.
 
-The experimental skills and active A/B prompts remain frozen. This separate graph does not retroactively change those runs or establish improved agent quality. The validator proves node/edge consistency, reachability, acyclicity and a maximum of two repairs per path; it does not prove a host followed the plan or that a generated interface is correct.
+The experimental skill inputs and A/B prompts remain frozen in the study record; the released workflow skill now explicitly routes through this bounded plan. This separate graph does not retroactively change those runs or establish improved agent quality. The validator proves node/edge consistency, reachability, acyclicity and a maximum of two repairs per path; it does not prove a host followed the plan or that a generated interface is correct.

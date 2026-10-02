@@ -4,7 +4,7 @@
 
 Four focused skills guide visual design, real 3D UI and an evidence-led repair loop. A local MCP server gives the agent recorded frames and temporal measurements from the page it actually built.
 
-[Setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Demo](docs/DEMO.md)
+[Setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Workflow DAG](docs/WORKFLOW.md) · [Demo](docs/DEMO.md)
 
 ## Install
 
@@ -32,9 +32,19 @@ The repository remains private and the package is not on npm. Use the supplied t
 
 `motion_capture` → `motion_inspect` + `motion_frames` → agent source edit → `motion_compare`
 
+The [workflow is an explicit DAG](docs/WORKFLOW.md): brief → design → build → inspect → repair 1 → verify 1 → repair 2 → verify 2 → report, with early-pass and blocker exits. No unbounded retry loop.
+
 ## See it work
 
 The [AER case study](studies/aer/README.md) starts two independent agents from the same product brief. Initial source, agent-written repairs and actual browser evidence are preserved. It is one paired example, not a general benchmark.
+
+### Recorded initial A/B outputs
+
+![Actual initial pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/initial-ab.gif)
+
+Watch the full recordings: [without plugin](docs/assets/aer/baseline-initial.mp4) · [with plugin + skills](docs/assets/aer/treatment-initial.mp4) · [repaired baseline](docs/assets/aer/baseline-final.mp4)
+
+These are real Chromium recordings. The five-second preview uses the same playback speed, with labels and resizing only. Read the study report for cadence limitations and repair history.
 
 The smaller bundled fixtures remain available with `motion-debugger demo`:
 

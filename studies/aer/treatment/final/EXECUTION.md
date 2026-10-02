@@ -46,3 +46,26 @@ Evidence came from GitHub Actions run 37028537496, source commit c0a965fa1b31a8e
 
 ## Candidate status
 Candidate source is ready for actual before/after verification. No final browser or motion success is claimed until the requested returned evidence is inspected.
+
+## Explicit continuation handoff, 2026-10-02 16:23 UTC
+The final repair pass below was performed by a **different continuation worker**, previously assigned only public visual-reference research. The original treatment builder could not be resumed and a fresh worker could not be created because the agent-thread limit was reached. This is a second-worker, second-pass treatment continuation, not a matched single-agent execution. The worker was told to inspect the actual treatment evidence independently, preserve the brief and frozen requests, and stop for root-run actual CI. It received no prescribed implementation fix and did not access baseline directories or seeded examples.
+
+## Second-pass observations and diagnosis
+- Read this execution record, treatment source, the original AER prompt, and all four frozen design/3D/workflow/evidence skills.
+- Viewed the actual final desktop and 320px mobile layouts, canvas-frame-a and drawer-open PNGs. The prior mobile typography and plane-background fixes are visibly present; the fan remains real procedural 3D with a coherent silhouette and readable blades.
+- Viewed actual recorded-video frames from motor capture `c6f0ce65-ea9d-4a94-9d82-3f192f797c43` at 450ms and 950ms, and drawer capture `6bd7c07f-f24f-4d04-8273-127995187de9` at 340ms. The rotor orientations differ, but those sparse images do not establish smooth motion. The 340ms drawer frame still shows the closed page; the trace shows delayed real actions, so no invented drawer-specific cause was assigned.
+- Read actual raw reports and motor rAF/event traces. Final motor sampling reports 109 samples over 13259.4ms, maximum gap 300ms. Drawer reports 216.7ms maximum gap; live reveal reports 16 samples/1556.5ms, maximum gap 116.7ms. Reduced-motion reports 138 samples/2386.6ms, maximum gap 50ms and passes its unchanged contracts. Motor trace begins with repeated roughly 100ms sample intervals while app-marked rotor states advance.
+- Candidate cause: repeatedly shading the fixed housing, guard, pedestal and shadow alongside the rotor consumes substantial rendering time in the recorded environment. This is a hypothesis supported by the animated/static contrast, not a proven attribution to a specific GPU or shader. The discriminator is a fresh identical capture with the fixed scene cached, comparing cadence, final states and actual intermediate pixels.
+
+## Second-pass candidate repair
+- Added a camera-pose-local color **and depth** render-target cache of the existing fixed real geometry. Every rotor frame still renders the actual three-dimensional blade mesh through Three.js. The cached depth keeps the guard and housing occluding the rotor; no flat replacement illustration or CSS rotor was introduced.
+- While orbit moves, render the complete original scene. Rebuild the cache when orbit settles or the canvas resizes. Snap the already-settled camera to its exact target so cached geometry and dynamic depth use one pose.
+- Preserved the original material palette, lights, geometry, interaction/motor math, responsive CSS, power/speed controls, reduced motion and drawer behavior. Added disposal for the cache target and labelled cache/resource counters to existing app telemetry. Added no dependency or external data source.
+- Retained a source snapshot at `continuation-evidence/main.before-continuation.js` for this specific pass.
+- Both frozen request files remain byte-for-byte unchanged: CAPTURE_REQUESTS SHA-256 `5fdee64beb2f1968af7c9d4ea5048b124a7a98f7cf2e2c60a57dd1ad8e32e438`; FINAL_VERIFICATION_REQUESTS SHA-256 `24bff6feeb6a2d4cad9fb0f793854fc88de2c12bb81b56906e0338051ed58979`.
+
+## Second-pass verification boundary
+- `node --check src/main.js` and `npm run build` pass. Vite retains the known >500kB bundle warning.
+- The default `npm run dev` host discovery hit `uv_interface_addresses` in this sandbox; explicitly binding Vite to `127.0.0.1:4174` started successfully without changing source or scripts.
+- The cloud browser refused that loopback URL with `ERR_BLOCKED_BY_CLIENT`. No alternate access path was attempted. The worker has no exposed Motion MCP tools in this execution context.
+- New shader/runtime rendering, visual fidelity, occlusion under orbit, resource counts and unchanged temporal gates therefore require the parent’s actual CI/browser capture. Successful compilation is **not** a claim of runtime or motion success. No publication, credential, paid-service or user-computer action was taken.
