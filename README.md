@@ -42,18 +42,20 @@ The [AER case study](studies/aer/README.md) starts two independent agents from t
 
 ![Actual initial pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/initial-ab.gif)
 
-Watch the full recordings: [without plugin](docs/assets/aer/baseline-initial.mp4) · [with plugin + skills](docs/assets/aer/treatment-initial.mp4) · [repaired baseline](docs/assets/aer/baseline-final.mp4)
+Full initial MP4s: [without plugin](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/baseline-initial.mp4) · [with plugin + skills](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/treatment-initial.mp4)
 
-These are real Chromium recordings. The five-second preview uses the same playback speed, with labels and resizing only. Read the study report for cadence limitations and repair history.
+### After evidence-led repairs
 
-The smaller bundled fixtures remain available with `motion-debugger demo`:
+![Actual repaired pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/final-ab.gif)
 
-![Actual recorded courier interruption: seeded reset versus handwritten repair](docs/assets/courier-demo.gif)
+Full repaired MP4s: [without plugin](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/baseline-final.mp4) · [with plugin + skills](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/treatment-final.mp4)
 
-Those fixtures intentionally contain seeded defects and handwritten repairs; they test the evidence tools.
+Animated previews play here; MP4 links download the full recordings. Both agents repaired real issues. This single pair does not establish a general plugin advantage, and normal-motion sampling remains inconclusive on the software-rendered runner. [Results, capture IDs and continuation limits →](studies/aer/RESULTS.md)
+
+Run `npm run demo:study` from the source checkout to explore the actual saved pages. The smaller seeded fixtures remain available with `motion-debugger demo`.
 
 ## Honest boundaries
 
 Use trusted, credential-free local previews. Captures interact with the page and are not automatically redacted. A canvas rectangle cannot prove its internal animation is smooth; inspect the recorded frames. Skills guide the host agent rather than supplying a separate model or repair oracle.
 
-[Development](CONTRIBUTING.md) · [Security](SECURITY.md) · [Verification](docs/V3-VERIFICATION.md) · [Taste attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)
+[Development](CONTRIBUTING.md) · [Security](SECURITY.md) · [Verification](docs/V4-VERIFICATION.md) · [Taste attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)

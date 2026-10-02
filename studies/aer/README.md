@@ -9,7 +9,7 @@ A matched product brief, two independent coding agents and preserved source befo
 
 Both agents receive ordinary browser observations. The treatment also requests actual temporal captures, bounded trace inspection and recorded native image frames. The coordinator executes those requests in CI and returns raw evidence; each agent decides its own source changes.
 
-The complete final comparison is still being verified. Initial source snapshots are immutable; SHA256 manifests identify the bytes. No initial/fixed toggle or repair implementation was given to the builders.
+The bounded study is complete: both pages function, while normal-motion cadence remains inconclusive. Read [the measured results](RESULTS.md). Initial source snapshots are immutable; SHA256 manifests identify the bytes. No initial/fixed toggle or repair implementation was given to the builders.
 
 ## Reproduce an individual snapshot
 
