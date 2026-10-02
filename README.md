@@ -120,6 +120,8 @@ npm run test:v2:e2e    # actual SDK client captures three before/after pairs and
 npm pack --dry-run
 ```
 
+The first full v2 hosted proof passed: drawer normalized displacement 67.258→31.112px, reveal height step 180→0px, and pupil containment overflow 12.358→0px, with equivalent final state. See [the exact v2 verification record](docs/V2-VERIFICATION.md) for the tested head, capture IDs, security checks and limits.
+
 The restricted build computer cannot launch Chromium. Actual browser verification runs in GitHub Actions using the official browser installer. See the workflow and its artifacts for the measured results at the current PR head. The v1 proof and exact older provenance remain in [docs/VERIFICATION.md](docs/VERIFICATION.md); v1 source is preserved in commit `e9724dd6f1f0b8878216568541dea6db8f4d8d36`.
 
 ## Design choices and prior art
