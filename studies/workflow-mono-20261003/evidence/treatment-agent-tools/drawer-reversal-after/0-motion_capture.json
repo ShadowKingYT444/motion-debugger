@@ -1,0 +1,208 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"id\": \"83793e48-f235-4608-9de4-5f466eab780b\",\n  \"label\": \"Open, interrupt, and reopen the selected MONO bag\",\n  \"url\": \"http://127.0.0.1:4336/\",\n  \"selector\": \".cart-drawer\",\n  \"environment\": {\n    \"browser\": \"Chromium 152.0.7977.64\",\n    \"browserMode\": \"headed\",\n    \"viewport\": {\n      \"width\": 1440,\n      \"height\": 900\n    },\n    \"diagnostics\": {\n      \"devicePixelRatio\": 1,\n      \"visibilityState\": \"visible\",\n      \"webglRenderers\": [\n        \"ANGLE (Intel, Mesa Intel(R) Graphics (ADL GT2), OpenGL ES 3.2 Mesa 26.0.8-1ubuntu0.3)\"\n      ]\n    },\n    \"probeSha256\": \"59ca893c90bef065ac93458c932058fcb17369d37846ba4cde68a548ede87f0b\",\n    \"analyzerSha256\": \"3235062ad5a3a4ba25e6da736af8bdd37ba549cbe690b01e0198afb99bf6201a\",\n    \"clock\": \"page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start\",\n    \"reducedMotion\": \"no-preference\"\n  },\n  \"metrics\": {\n    \"animationBoundarySamples\": 0,\n    \"maxAnimationBoundaryStepPx\": 0,\n    \"maxAnimationBoundaryStepAt60HzPx\": 0,\n    \"absentSamples\": 0,\n    \"hiddenSamples\": 0,\n    \"visibleSamples\": 584,\n    \"invalidSamples\": 0,\n    \"maxObservedSampleGapMs\": 60,\n    \"maxProbeReadMs\": 2.2,\n    \"maxVisibleSampleGapMs\": 60,\n    \"maxObservationLagMs\": 39.2,\n    \"sufficientEvidence\": true,\n    \"validSamples\": 584,\n    \"sampleCount\": 584,\n    \"observedDurationMs\": 5008.5,\n    \"replacements\": 0,\n    \"animationStarts\": 0,\n    \"activeCancels\": 0,\n    \"maxFrameStepPx\": 32.259,\n    \"maxStepAt60HzPx\": 35.714,\n    \"maxSampleGapMs\": 55.5,\n    \"maxHeightStepPx\": 0,\n    \"p95FrameStepPx\": 7.482,\n    \"maxOpacityDrop\": 0,\n    \"nodeIdentities\": [\n      \"node-1\"\n    ],\n    \"maxContainmentOverflowPx\": 0,\n    \"containmentViolatingSamples\": 0\n  },\n  \"coverage\": {\n    \"version\": \"1\",\n    \"cadenceSufficient\": true,\n    \"targetCoverageSufficient\": true,\n    \"targetPresence\": \"continuous\",\n    \"intervals\": [\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 15.7,\n        \"toMs\": 5008.5,\n        \"samples\": 584\n      }\n    ],\n    \"reasons\": []\n  },\n  \"assertions\": [\n    {\n      \"id\": \"valid-trajectory\",\n      \"label\": \"Finite observed trajectory\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"584 valid samples; first 15.7ms; ordered timestamps true; last 5008.5ms; maximum gap 55.5ms\",\n      \"expected\": \"Strictly increasing nonnegative timestamps; \u226520 observed frames and \u226520 visible samples; target policy continuous; finite samples starting \u226480ms (unless may-disappear) and through 4900ms; maximum gap \u226480ms\"\n    },\n    {\n      \"id\": \"frame-step\",\n      \"label\": \"Bounded per-frame position step\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"32.259px\",\n      \"expected\": \"\u226490px (observed frame intervals \u226480ms)\"\n    },\n    {\n      \"id\": \"normalized-step\",\n      \"label\": \"Bounded displacement at a normalized 60Hz interval\",\n      \"passed\": false,\n      \"status\": \"failed\",\n      \"actual\": \"35.714px /16.667ms\",\n      \"expected\": \"\u226425px /16.667ms; displacement\u00f7rAF \u0394t\u00d716.667; actual read gaps/lag separately gated\"\n    },\n    {\n      \"id\": \"sample-gap\",\n      \"label\": \"Adequate recorder sampling cadence\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"55.5ms\",\n      \"expected\": \"\u226480ms\"\n    },\n    {\n      \"id\": \"height-step\",\n      \"label\": \"Bounded per-frame height change\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"0px\",\n      \"expected\": \"\u22642px\"\n    },\n    {\n      \"id\": \"final-visible\",\n      \"label\": \"Final visibility\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"true\",\n      \"expected\": \"true\"\n    },\n    {\n      \"id\": \"final-text\",\n      \"label\": \"Final text content\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"YOUR SELECTIONThe bag (1)\u00d7\\n    MONOLISTENING OBJECT / 01MONO\u00aeObsidian \u00b7 Soft-touch graphiteRemove item$780Quantity\u22121+Selected finishSubtotal$780Shipping and taxes are not calculated in this concept.Co\",\n      \"expected\": \"The bag\"\n    },\n    {\n      \"id\": \"final-aria-hidden\",\n      \"label\": \"Final aria-hidden\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"false\",\n      \"expected\": \"false\"\n    },\n    {\n      \"id\": \"browser-errors\",\n      \"label\": \"No uncaught page errors\",\n      \"passed\": true,\n      \"actual\": \"none\",\n      \"expected\": \"none\"\n    },\n    {\n      \"id\": \"network-policy\",\n      \"label\": \"No forbidden network requests\",\n      \"passed\": true,\n      \"actual\": \"0\",\n      \"expected\": \"0 outside configured local origins\"\n    }\n  ],\n  \"findings\": [\n    {\n      \"type\": \"frame-step\",\n      \"summary\": \"Observed 15.00px over 7.00ms = 35.71px at16.667ms; exceeds supplied normalized budget 25\",\n      \"eventIds\": [\n        \"event-11\",\n        \"event-12\",\n        \"event-13\"\n      ],\n      \"sampleTimes\": [\n        1119.8,\n        1126.8\n      ],\n      \"confidence\": \"contract-violation\"\n    }\n  ],\n  \"final\": {\n    \"visible\": true,\n    \"attributes\": {\n      \"aria-labelledby\": \"cart-title\",\n      \"aria-modal\": \"true\",\n      \"role\": \"dialog\",\n      \"aria-hidden\": \"false\"\n    },\n    \"text\": \"YOUR SELECTIONThe bag (1)\u00d7\\n    MONOLISTENING OBJECT / 01MONO\u00aeObsidian \u00b7 Soft-touch graphiteRemove item$780Quantity\u22121+Selected finishSubtotal$780Shipping and taxes are not calculated in this concept.Continue \u2197LOCAL CONCEPT STORE \u00b7 NO PAYMENT IS PROCESSED\",\n    \"x\": 952,\n    \"y\": 0,\n    \"opacity\": 1\n  },\n  \"evidence\": {\n    \"directory\": \"${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b\",\n    \"report\": \"${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/report.json\",\n    \"video\": \"${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/video.webm\",\n    \"poster\": \"${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/poster.png\",\n    \"finalScreenshot\": \"${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/final.png\",\n    \"videoOffsetMs\": 6867\n  },\n  \"resourceUri\": \"motion-evidence://capture/83793e48-f235-4608-9de4-5f466eab780b\",\n  \"limitations\": [\n    \"Use only trusted credential-free development pages; recordings are not automatically redacted.\",\n    \"Fresh browser context, no user profile, credentials or authenticated sessions are imported.\",\n    \"Only configured loopback origins can load resources; third-party network requests are blocked.\",\n    \"Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.\",\n    \"Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.\",\n    \"WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.\",\n    \"Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.\",\n    \"CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.\",\n    \"Source mappings and application marks are explicitly supplied annotations.\"\n  ]\n}"
+    }
+  ],
+  "structuredContent": {
+    "id": "83793e48-f235-4608-9de4-5f466eab780b",
+    "label": "Open, interrupt, and reopen the selected MONO bag",
+    "url": "http://127.0.0.1:4336/",
+    "selector": ".cart-drawer",
+    "environment": {
+      "browser": "Chromium 152.0.7977.64",
+      "browserMode": "headed",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "diagnostics": {
+        "devicePixelRatio": 1,
+        "visibilityState": "visible",
+        "webglRenderers": [
+          "ANGLE (Intel, Mesa Intel(R) Graphics (ADL GT2), OpenGL ES 3.2 Mesa 26.0.8-1ubuntu0.3)"
+        ]
+      },
+      "probeSha256": "59ca893c90bef065ac93458c932058fcb17369d37846ba4cde68a548ede87f0b",
+      "analyzerSha256": "3235062ad5a3a4ba25e6da736af8bdd37ba549cbe690b01e0198afb99bf6201a",
+      "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+      "reducedMotion": "no-preference"
+    },
+    "metrics": {
+      "animationBoundarySamples": 0,
+      "maxAnimationBoundaryStepPx": 0,
+      "maxAnimationBoundaryStepAt60HzPx": 0,
+      "absentSamples": 0,
+      "hiddenSamples": 0,
+      "visibleSamples": 584,
+      "invalidSamples": 0,
+      "maxObservedSampleGapMs": 60,
+      "maxProbeReadMs": 2.2,
+      "maxVisibleSampleGapMs": 60,
+      "maxObservationLagMs": 39.2,
+      "sufficientEvidence": true,
+      "validSamples": 584,
+      "sampleCount": 584,
+      "observedDurationMs": 5008.5,
+      "replacements": 0,
+      "animationStarts": 0,
+      "activeCancels": 0,
+      "maxFrameStepPx": 32.259,
+      "maxStepAt60HzPx": 35.714,
+      "maxSampleGapMs": 55.5,
+      "maxHeightStepPx": 0,
+      "p95FrameStepPx": 7.482,
+      "maxOpacityDrop": 0,
+      "nodeIdentities": [
+        "node-1"
+      ],
+      "maxContainmentOverflowPx": 0,
+      "containmentViolatingSamples": 0
+    },
+    "coverage": {
+      "version": "1",
+      "cadenceSufficient": true,
+      "targetCoverageSufficient": true,
+      "targetPresence": "continuous",
+      "intervals": [
+        {
+          "state": "visible",
+          "fromMs": 15.7,
+          "toMs": 5008.5,
+          "samples": 584
+        }
+      ],
+      "reasons": []
+    },
+    "assertions": [
+      {
+        "id": "valid-trajectory",
+        "label": "Finite observed trajectory",
+        "passed": true,
+        "status": "passed",
+        "actual": "584 valid samples; first 15.7ms; ordered timestamps true; last 5008.5ms; maximum gap 55.5ms",
+        "expected": "Strictly increasing nonnegative timestamps; \u226520 observed frames and \u226520 visible samples; target policy continuous; finite samples starting \u226480ms (unless may-disappear) and through 4900ms; maximum gap \u226480ms"
+      },
+      {
+        "id": "frame-step",
+        "label": "Bounded per-frame position step",
+        "passed": true,
+        "status": "passed",
+        "actual": "32.259px",
+        "expected": "\u226490px (observed frame intervals \u226480ms)"
+      },
+      {
+        "id": "normalized-step",
+        "label": "Bounded displacement at a normalized 60Hz interval",
+        "passed": false,
+        "status": "failed",
+        "actual": "35.714px /16.667ms",
+        "expected": "\u226425px /16.667ms; displacement\u00f7rAF \u0394t\u00d716.667; actual read gaps/lag separately gated"
+      },
+      {
+        "id": "sample-gap",
+        "label": "Adequate recorder sampling cadence",
+        "passed": true,
+        "status": "passed",
+        "actual": "55.5ms",
+        "expected": "\u226480ms"
+      },
+      {
+        "id": "height-step",
+        "label": "Bounded per-frame height change",
+        "passed": true,
+        "status": "passed",
+        "actual": "0px",
+        "expected": "\u22642px"
+      },
+      {
+        "id": "final-visible",
+        "label": "Final visibility",
+        "passed": true,
+        "status": "passed",
+        "actual": "true",
+        "expected": "true"
+      },
+      {
+        "id": "final-text",
+        "label": "Final text content",
+        "passed": true,
+        "status": "passed",
+        "actual": "YOUR SELECTIONThe bag (1)\u00d7\n    MONOLISTENING OBJECT / 01MONO\u00aeObsidian \u00b7 Soft-touch graphiteRemove item$780Quantity\u22121+Selected finishSubtotal$780Shipping and taxes are not calculated in this concept.Co",
+        "expected": "The bag"
+      },
+      {
+        "id": "final-aria-hidden",
+        "label": "Final aria-hidden",
+        "passed": true,
+        "status": "passed",
+        "actual": "false",
+        "expected": "false"
+      },
+      {
+        "id": "browser-errors",
+        "label": "No uncaught page errors",
+        "passed": true,
+        "actual": "none",
+        "expected": "none"
+      },
+      {
+        "id": "network-policy",
+        "label": "No forbidden network requests",
+        "passed": true,
+        "actual": "0",
+        "expected": "0 outside configured local origins"
+      }
+    ],
+    "findings": [
+      {
+        "type": "frame-step",
+        "summary": "Observed 15.00px over 7.00ms = 35.71px at16.667ms; exceeds supplied normalized budget 25",
+        "eventIds": [
+          "event-11",
+          "event-12",
+          "event-13"
+        ],
+        "sampleTimes": [
+          1119.8,
+          1126.8
+        ],
+        "confidence": "contract-violation"
+      }
+    ],
+    "final": {
+      "visible": true,
+      "attributes": {
+        "aria-labelledby": "cart-title",
+        "aria-modal": "true",
+        "role": "dialog",
+        "aria-hidden": "false"
+      },
+      "text": "YOUR SELECTIONThe bag (1)\u00d7\n    MONOLISTENING OBJECT / 01MONO\u00aeObsidian \u00b7 Soft-touch graphiteRemove item$780Quantity\u22121+Selected finishSubtotal$780Shipping and taxes are not calculated in this concept.Continue \u2197LOCAL CONCEPT STORE \u00b7 NO PAYMENT IS PROCESSED",
+      "x": 952,
+      "y": 0,
+      "opacity": 1
+    },
+    "evidence": {
+      "directory": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b",
+      "report": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/report.json",
+      "video": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/video.webm",
+      "poster": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/poster.png",
+      "finalScreenshot": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence/83793e48-f235-4608-9de4-5f466eab780b/final.png",
+      "videoOffsetMs": 6867
+    },
+    "resourceUri": "motion-evidence://capture/83793e48-f235-4608-9de4-5f466eab780b",
+    "limitations": [
+      "Use only trusted credential-free development pages; recordings are not automatically redacted.",
+      "Fresh browser context, no user profile, credentials or authenticated sessions are imported.",
+      "Only configured loopback origins can load resources; third-party network requests are blocked.",
+      "Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.",
+      "Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.",
+      "WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.",
+      "Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.",
+      "CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.",
+      "Source mappings and application marks are explicitly supplied annotations."
+    ]
+  }
+}

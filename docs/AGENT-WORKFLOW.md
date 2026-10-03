@@ -10,6 +10,8 @@ The primary user is a coding agent attached to the stdio server. The browser sho
 
 Configure the local MCP endpoint as described in [INTEGRATION.md](INTEGRATION.md). `motion_capture` can run browser interactions and trigger app actions, so an agent must stay inside the user's requested scope.
 
+Recipes can also include `{ "action": "scroll", "deltaY": 700 }` for scroll-linked interfaces. Each vertical wheel delta must be an integer between −1200 and 1200 pixels. The browser records trusted wheel events; normal scrolling still depends on the page's scroll container and pointer position. Recipes remain limited to 16 actions and 12 seconds. Use explicit `move` actions when the pointer must be over a particular scroll container.
+
 ## 2. Call the real tool with an explicit contract
 
 For the included example, a tool call has this structure:

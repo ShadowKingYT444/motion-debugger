@@ -1,75 +1,86 @@
-<p align="center"><img src="docs/assets/banner.svg" alt="Motion Debugger — see the frames your agent misses" width="100%"></p>
+# Motion Debugger
 
-**Design, build and debug moving interfaces with your coding agent.**
+**Build, inspect and repair animated interfaces with your coding agent.**
 
-Four focused skills guide visual design, real 3D UI and an evidence-led repair loop. A local MCP server gives the agent recorded frames and temporal measurements from the page it actually built.
+Motion Debugger captures a local page, inspects an interaction over time, and compares the result after a source repair. Four skills guide interface design, procedural 3D, evidence collection and a bounded repair workflow. The agent edits your source using its normal tools.
 
-[Setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Workflow DAG](docs/WORKFLOW.md) · [Demo](docs/DEMO.md)
+[Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
-## Install
+## Real demos
 
-Private preview · Node.js 22+ · no model API key
+The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
 
-```sh
-npm install -g ./motion-debugger-0.4.0.tgz
-motion-debugger init --local
-```
+- [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
+- [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
+- [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
 
-Choose your client and project. The wizard previews the MCP configuration and all four skills before writing anything. Chromium is an explicit download. Existing settings are preserved; conflicting skills are refused.
+**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. GPT-6.1 was not run.
 
-Supports **Codex, Claude Code, Cursor and VS Code/Copilot**. [Scripted setup →](docs/CLIENTS.md)
+![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
 
-The repository remains private and the package is not on npm. Use the supplied tarball; there is no public `npx` package to assume exists.
+This compares complete workflows, including Motion's bundled guidance. It does not isolate a tool's causal effect or establish a general coding-agent advantage. Function checks, contract results and visual observations are reported separately.
 
-## Give it a real task
+## Quickstart
 
-> Use motion-build-inspect-repair to build a premium product page with an interactive 3D hero. Inspect its motion, repair observed problems and show the before/after evidence.
+Private preview. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.4.0` is **not published on npm**.
 
-- **Design:** brief-led typography, layout, surfaces and complete interaction states
-- **3D:** procedural scenes, camera, lighting, responsive controls and reduced motion
-- **Observe:** real recordings, native image frames, events and explicit contracts
-- **Repair:** the host agent edits source, repeats the interaction and compares the result
-
-`motion_capture` → `motion_inspect` + `motion_frames` → agent source edit → `motion_compare`
-
-The [workflow is an explicit DAG](docs/WORKFLOW.md): brief → design → build → inspect → repair 1 → verify 1 → repair 2 → verify 2 → report, with early-pass and blocker exits. No unbounded retry loop.
-
-## See it work
-
-### Current drawer-repair demo
-
-The [drawer continuity case](cases/aer-drawer-continuity/README.md) repairs the saved page's abrupt dialog close and preserves its current pose during rapid keyboard reopening. From a source checkout, run:
+From the reviewed preview branch:
 
 ```sh
-npm run demo:repair
+git clone --branch work/local-motion-demo-20261003 \
+  https://github.com/ShadowKingYT444/motion-debugger.git
+cd motion-debugger
+npm ci
+npm run build
+node build/cli/index.js doctor
+node build/cli/index.js init --client codex --local --skills \
+  --project /absolute/path/to/your-app
 ```
 
-Open the printed loopback address for the live before/after pages and source-matched recordings when local evidence is present. [CI run 37071618067](https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37071618067) passed browser, lifecycle and fresh-package verification for source [`59511589a28bc10bd336985e8220dcf4e3d332a5`](https://github.com/ShadowKingYT444/motion-debugger/commit/59511589a28bc10bd336985e8220dcf4e3d332a5); its [browser evidence artifact](https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37071618067/artifacts/11255585567) contains the recordings and reports.
+`init` previews the exact project configuration and four skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
 
-Functional passes do not override failed cadence assertions or inconclusive temporal comparisons on software-rendered runners. The unchanged 80ms integrity gate still applies. See the [evidence architecture and timing limits](docs/EVIDENCE-ARCHITECTURE.md). This supplemental source repair establishes no aesthetic or agent-winner advantage.
+For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
 
-### Historical AER study: separate generation
+Then ask your agent:
 
-The [AER case study](studies/aer/README.md) started two independent agents from the same product brief, each generating its own initial source. The historical videos below belong to that separate-generation study; they are neither the requested [same-start repair ablation](studies/shared-start-aer/) nor the current drawer-repair demo. Initial source, agent-written repairs and actual browser evidence are preserved. It is one paired example, not a general benchmark.
+> Use motion-build-inspect-repair on my local app at http://127.0.0.1:3000. Check the details drawer under rapid open, close and keyboard reopening. Inspect the recorded frames, repair observed defects, and verify the same interaction again.
 
-#### Historical initial A/B outputs
+Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
 
-![Actual initial pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/initial-ab.gif)
+## Capture → inspect → repair → verify
 
-Full initial MP4s: [without plugin](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/baseline-initial.mp4) · [with plugin + skills](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/treatment-initial.mp4)
+| Tool | What the agent receives |
+| --- | --- |
+| `motion_capture` | WebM recording, screenshots, events, measurements and explicit contract results |
+| `motion_inspect` | A bounded time window with relevant events and samples |
+| `motion_frames` | Native PNG frames from the actual recording |
+| `motion_compare` | Before/after changes, comparability checks and final-state equivalence |
+| `motion_list` | Saved captures in the configured evidence directory |
 
-#### Historical outputs after evidence-led repairs
+Choose a unique target, repeatable actions and meaningful final-state expectations before the repair. Keep the same viewport, actions and contracts afterward. The [agent walkthrough](docs/AGENT-WORKFLOW.md) shows complete calls; the [workflow](docs/WORKFLOW.md) permits at most two repair attempts.
 
-![Actual repaired pages: without plugin on the left, with plugin and skills on the right](docs/assets/aer/final-ab.gif)
+Each capture produces:
 
-Full repaired MP4s: [without plugin](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/baseline-final.mp4) · [with plugin + skills](https://github.com/ShadowKingYT444/motion-debugger/raw/refs/heads/release/v0.3/docs/assets/aer/treatment-final.mp4)
+```text
+.motion-evidence/<capture-id>/
+├── video.webm     actual browser recording
+├── poster.png    starting page
+├── final.png     final page
+└── report.json   recipe, trace, findings and limitations
+```
 
-Animated previews play here; MP4 links download the full recordings. Both agents repaired real issues. This single pair does not establish a general plugin advantage, and normal-motion sampling remains inconclusive on the software-rendered runner. [Results, capture IDs and continuation limits →](studies/aer/RESULTS.md)
+## Agent integrations
 
-Run `npm run demo:study` from the source checkout to explore the actual saved pages. The smaller seeded fixtures remain available with `motion-debugger demo`.
+Project setup supports **Codex, Claude Code, Cursor and VS Code/Copilot** through the same local stdio MCP server. Replace `codex` in the setup command with `claude-code`, `cursor` or `vscode`.
 
-## Honest boundaries
+Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. This does not claim an interactive session in every editor. [Compatibility and setup details](docs/CLIENTS.md).
 
-Use trusted, credential-free local previews. Captures interact with the page and are not automatically redacted. A canvas rectangle cannot prove its internal animation is smooth; inspect the recorded frames. Skills guide the host agent rather than supplying a separate model or repair oracle.
+## Scope and limits
 
-[Development](CONTRIBUTING.md) · [Security](SECURITY.md) · [Verification](docs/V4-VERIFICATION.md) · [Taste attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)
+- Capture only trusted local pages. Recordings are not automatically redacted; no personal browser profile is imported.
+- Measurements evaluate your stated contracts. They are not an aesthetic score or proof of perceptual smoothness.
+- Weak sampling is inconclusive. The unchanged 80 ms integrity gate must pass before temporal comparisons can establish an improvement.
+- A canvas rectangle cannot reveal motion inside a 3D scene. Inspect video frames as well as measurements.
+- Source references and app marks are supplied annotations, not causes inferred from pixels.
+
+[Development and tests](CONTRIBUTING.md) · [Security](SECURITY.md) · [Evidence architecture](docs/EVIDENCE-ARCHITECTURE.md) · [Historical studies](studies/aer/README.md) · [Design attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)

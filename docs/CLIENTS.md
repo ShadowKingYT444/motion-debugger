@@ -54,6 +54,17 @@ For Cursor and VS Code, use the generated configuration in the appropriate file.
 
 After setup, ask the agent to list Motion Debugger's tools, then capture a permitted local interaction. An added configuration entry is not evidence of a successful connection.
 
+## Visible local recording for 3D pages
+
+The default browser is headless. On a local desktop, opt into a fresh visible browser when software rendering makes a 3D recording weak:
+
+```sh
+MOTION_BROWSER_MODE=headed motion-debugger doctor
+MOTION_BROWSER_MODE=headed motion-debugger capture recipe.json
+```
+
+For MCP, add `MOTION_BROWSER_MODE = "headed"` to the server's environment table (JSON clients use `"MOTION_BROWSER_MODE": "headed"`). This opens a separate temporary browser context on the local display. It does not import your browser profile or attach to an unrelated tab. Launch flags are unchanged. `doctor` reports the selected mode and renderer; reports retain the mode, and comparisons reject mixed modes. A visible browser still needs adequate sampling, so inspect the report rather than assume that hardware rendering proves smoothness. Remove the variable to restore the default. Headless servers without a display should keep the default.
+
 ## Narrow the target
 
 Set `MOTION_ALLOWED_ORIGINS` to your exact local preview origin. Set `MOTION_ARTIFACT_DIR` to a writable evidence directory. Source excerpts are optional and require explicit `MOTION_SOURCE_ROOTS`. Do not supply secrets or personal browser profiles.
@@ -84,3 +95,5 @@ The stdio endpoint is exercised with the official MCP SDK. Generated config shap
 - [VS Code MCP configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
 
 For captured evidence, contracts and tool-call examples, see [the agent workflow](AGENT-WORKFLOW.md). For runtime limitations, see [integration details](INTEGRATION.md).
+
+A successful `doctor` confirms launch and video finalization, not full viewport coverage or adequate sampling on a complex 3D page. In this laptop trial, headed recording cropped/padded the emulated viewport; maximizing did not repair the video stream. The published workflow recordings therefore use the default headless mode on both arms. Inspect actual frames and renderer diagnostics before treating a recording as usable evidence.

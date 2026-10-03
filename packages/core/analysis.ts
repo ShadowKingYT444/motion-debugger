@@ -76,6 +76,7 @@ export function compare(before:MotionCapture,after:MotionCapture):MotionComparis
   const fields=['animationBoundarySamples','maxAnimationBoundaryStepPx','maxAnimationBoundaryStepAt60HzPx','maxFrameStepPx','maxStepAt60HzPx','maxSampleGapMs','maxHeightStepPx','maxOpacityDrop','replacements','activeCancels','maxContainmentOverflowPx','containmentViolatingSamples'] as const;
   const deltas:MotionComparison['deltas']={};for(const field of fields){const a=before.metrics[field],b=after.metrics[field];if(typeof a==='number'&&typeof b==='number'&&Number.isFinite(a)&&Number.isFinite(b))deltas[field]={before:a,after:b,change:Number((b-a).toFixed(4))};}
   const issues:string[]=[];
+  if(before.environment.browserMode!==after.environment.browserMode)issues.push('Different browser mode; repeat both with the same runtime and display mode');
   for(const key of ['probeSha256','analyzerSha256'] as const)if(before.environment[key]!==after.environment[key])issues.push(`Different ${key}; repeat both with the same runtime`);
   if(before.coverage?.version!==after.coverage?.version)issues.push('Different lifecycle coverage analysis; repeat both with the same runtime');
   if((before.metrics.animationBoundarySamples!==undefined)!==(after.metrics.animationBoundarySamples!==undefined))issues.push('Different animation-boundary observation support; repeat both captures with the same probe');

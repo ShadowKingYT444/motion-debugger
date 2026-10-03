@@ -2,6 +2,7 @@ export type MotionAction =
   | { action:'click'|'hover'; selector:string }
   | { action:'key'; key:string }
   | { action:'move'; x:number; y:number }
+  | { action:'scroll'; deltaY:number }
   | { action:'wait'; ms:number };
 export interface MotionContract {
   /** Default continuous. Explicitly allow lifecycle absence without treating it as a lost recorder frame. */
@@ -67,7 +68,7 @@ export interface MotionFinding {
 }
 export interface MotionCapture {
   schemaVersion:'2.0';id:string;createdAt:string;recipe:CaptureRecipe;
-  environment:{browser:string;probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
+  environment:{browser:string;browserMode?:'headless'|'headed';probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
   events:MotionEvent[];samples:MotionSample[];metrics:MotionMetrics;
   coverage?:MotionCoverage;
   assertions:MotionAssertion[];findings:MotionFinding[];

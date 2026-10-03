@@ -70,11 +70,11 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       for(const target of targets)emit(type,type==='dom-add'?'Target node added':'Target node removed','browser-observed',{},target);
     });
   }).observe(document,{childList:true,subtree:true});
-  for(const type of ['click','pointermove','keydown'])document.addEventListener(type,event=>{
+  for(const type of ['click','pointermove','keydown','wheel'])document.addEventListener(type,event=>{
     if(type==='pointermove' && events.at(-1)?.type==='pointermove' && now()-events.at(-1)!.t<25)return;
     const target=event.target;
-    emit(type,type==='click'?'Click interaction':type==='keydown'?'Keyboard interaction':'Pointer moved','browser-observed',{
-      trusted:event.isTrusted,...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{})
+    emit(type,type==='click'?'Click interaction':type==='keydown'?'Keyboard interaction':type==='wheel'?'Scroll interaction':'Pointer moved','browser-observed',{
+      trusted:event.isTrusted,...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{}),...(event instanceof WheelEvent?{deltaX:event.deltaX,deltaY:event.deltaY,deltaMode:event.deltaMode}:{})
     },target instanceof Element&&matches(target)?target:undefined);
   },true);
   window.addEventListener('motion:mark',event=>{

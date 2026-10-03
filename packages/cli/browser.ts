@@ -26,6 +26,7 @@ export async function doctor(skipLaunch=false) {
     {name:'mcp-entry',ok:existsSync(path.join(packageRoot,'build/mcp/index.js')),detail:path.join(packageRoot,'build/mcp/index.js')},
     {name:'chromium-executable',ok:existsSync(executable),detail:executable}
   ];
+  let renderer:string|undefined;
   if(!skipLaunch&&existsSync(executable)) {
     const directory=await mkdtemp(path.join(os.tmpdir(),'motion-doctor-'));
     try{
@@ -34,6 +35,9 @@ export async function doctor(skipLaunch=false) {
         const context=await browser.newContext({recordVideo:{dir:directory,size:{width:320,height:320}}});
         const page=await context.newPage();await page.setContent('<title>Motion Debugger doctor</title><p>Recording check</p>');
         await page.screenshot();checks.push({name:'chromium-launch',ok:await page.title()==='Motion Debugger doctor',detail:browser.version()});
+        const session=await browser.newBrowserCDPSession();
+        try {const info=await session.send('SystemInfo.getInfo');renderer=String(info.gpu.auxAttributes?.glRenderer??'unavailable');}
+        finally {await session.detach();}
         const video=page.video();await context.close();
         checks.push({name:'recorded-video',ok:!!video&&(await stat(await video.path())).size>0,detail:'Actual browser recording and encoder finalized'});
       }finally{await browser.close()}
@@ -41,5 +45,5 @@ export async function doctor(skipLaunch=false) {
     finally {await rm(directory,{recursive:true,force:true})}
   }
   const ok=checks.every(check=>check.ok);
-  return {ok,package:`${metadata.name}@${metadata.version}`,checks,browserLaunchSkipped:skipLaunch,environment:{CHROMIUM_PATH:process.env.CHROMIUM_PATH??null,PLAYWRIGHT_BROWSERS_PATH:process.env.PLAYWRIGHT_BROWSERS_PATH??null},...(!ok?{nextSteps:['Run motion-debugger setup --browser to explicitly download the version-matched Chromium','For a custom browser, set CHROMIUM_PATH to its executable and rerun doctor','If Chromium exists but cannot launch, inspect the launch error for missing Linux libraries or sandbox restrictions']}:{})};
+  return {ok,package:`${metadata.name}@${metadata.version}`,checks,browserLaunchSkipped:skipLaunch,environment:{browserMode:options.headless?'headless':'headed',renderer:renderer??null,CHROMIUM_PATH:process.env.CHROMIUM_PATH??null,PLAYWRIGHT_BROWSERS_PATH:process.env.PLAYWRIGHT_BROWSERS_PATH??null},...(!ok?{nextSteps:['Run motion-debugger setup --browser to explicitly download the version-matched Chromium','For a custom browser, set CHROMIUM_PATH to its executable and rerun doctor','If Chromium exists but cannot launch, inspect the launch error for missing Linux libraries or sandbox restrictions']}:{})};
 }

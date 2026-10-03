@@ -1,0 +1,71 @@
+{
+  "entry": "${REPO_ROOT}/artifacts/workflow-consumer/node_modules/motion-debugger/build/cli/index.js",
+  "project": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment",
+  "origin": "http://127.0.0.1:4336",
+  "artifactRoot": "${REPO_ROOT}/studies/workflow-mono-20261003/treatment/.motion-evidence",
+  "output": "${REPO_ROOT}/artifacts/workflow-treatment/captures/drawer-reversal-after",
+  "browserMode": "headed",
+  "calls": [
+    {
+      "name": "motion_capture",
+      "arguments": {
+        "recipe": {
+          "url": "http://127.0.0.1:4336/",
+          "selector": ".cart-drawer",
+          "label": "Open, interrupt, and reopen the selected MONO bag",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "reducedMotion": "no-preference",
+          "durationMs": 5000,
+          "actions": [
+            {
+              "action": "click",
+              "selector": ".hero-copy button[data-add]"
+            },
+            {
+              "action": "click",
+              "selector": "button[data-open-cart]"
+            },
+            {
+              "action": "wait",
+              "ms": 140
+            },
+            {
+              "action": "key",
+              "key": "Escape"
+            },
+            {
+              "action": "wait",
+              "ms": 140
+            },
+            {
+              "action": "click",
+              "selector": "button[data-open-cart]"
+            },
+            {
+              "action": "wait",
+              "ms": 750
+            }
+          ],
+          "contract": {
+            "targetPresence": "continuous",
+            "maxFrameStepPx": 90,
+            "maxStepAt60HzPx": 25,
+            "maxSampleGapMs": 80,
+            "maxHeightStepPx": 2,
+            "final": {
+              "selector": ".cart-drawer",
+              "attributes": {
+                "aria-hidden": "false"
+              },
+              "textIncludes": "The bag",
+              "visible": true
+            }
+          }
+        }
+      }
+    }
+  ]
+}

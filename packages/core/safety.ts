@@ -10,6 +10,7 @@ export const RecipeSchema=z.object({
     z.object({action:z.literal('click'),selector}).strict(),z.object({action:z.literal('hover'),selector}).strict(),
     z.object({action:z.literal('key'),key:z.enum(['Escape','Enter','Space','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'])}).strict(),
     z.object({action:z.literal('move'),x:z.number().finite().min(0).max(1920),y:z.number().finite().min(0).max(1200)}).strict(),
+    z.object({action:z.literal('scroll'),deltaY:z.number().int().min(-1200).max(1200)}).strict(),
     z.object({action:z.literal('wait'),ms:z.number().int().min(0).max(4000)}).strict()
   ])).max(16),
   durationMs:z.number().int().min(500).max(12000).optional(),

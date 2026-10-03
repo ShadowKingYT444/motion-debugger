@@ -62,6 +62,13 @@ page with plain rAF logging, probe, and probe plus video. These observations
 are diagnostic associations, not causal estimates; unrecorded runs cannot
 replace the final recorded evidence.
 
+Capture reports also retain `browserMode`. Headless remains the default;
+`MOTION_BROWSER_MODE=headed` explicitly selects a fresh local display browser.
+Comparisons reject mixed modes. The renderer identifies the actual graphics
+backend, while the unchanged integrity gate still determines whether the
+recorded timing can support a temporal conclusion. Bounded vertical wheel
+actions and their browser-observed events support scroll-linked interfaces.
+
 `doctor` now finalizes an actual tiny browser recording, so a launch-only pass
 cannot hide a missing Playwright video encoder. The demo launcher preserves
 credential-free proxy URLs and public CA trust paths, with TLS verification
