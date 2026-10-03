@@ -1,5 +1,5 @@
 {
-  "status": "control-running",
+  "status": "local-testing-stopped-cloud-handoff",
   "model": "gpt-6.1-sol",
   "reasoning": "medium (local Standard setting verified)",
   "wallBudgetMinutes": 20,
@@ -20,7 +20,19 @@
   "deadlineOverall": "2026-10-03T10:23:00Z",
   "control": {
     "assignedStart": "2026-10-03T06:42:45.119848+00:00",
-    "deadline": "2026-10-03T07:02:45.119848+00:00"
+    "deadline": "2026-10-03T07:02:45.119848+00:00",
+    "freeze": {
+      "arm": "control",
+      "assignedDeadline": "2026-10-03T07:02:45.119Z",
+      "frozenAt": "2026-10-03T07:02:45.261Z",
+      "method": "Coordinator timer copied runtime source at deadline. Later worker edits cannot affect this endpoint.",
+      "sourceManifestSha256": "79cd8a7c918d31c35f2f27c52d73eac47eb5afeaed9b31871801800e87f150bc"
+    },
+    "completedEarly": true,
+    "sourceStableBeforeDeadline": true,
+    "agentModel": "gpt-6.1-sol",
+    "agentReasoning": "medium",
+    "ordinaryChecks": "EXECUTION.md in frozen-control, actual desktop/mobile/reduced/interruption/Undo; coordinator checks still pending"
   },
   "runtime": {
     "consumer": "/tmp/motion-packed-install-WAsw6Y",
@@ -30,6 +42,15 @@
     "browserMode": "headed",
     "recordingSurface": "1920x1080",
     "freshConsumerVerified": true,
-    "MCP": "actual SDK handshake + motion_list succeeded; treatment calls yet to run"
-  }
+    "MCP": "actual installed SDK tools used; all local capture attempts retained"
+  },
+  "treatment": {
+    "assignedStart": "2026-10-03T07:05:13.634458+00:00",
+    "deadline": "2026-10-03T07:25:13.634458+00:00",
+    "agentModel": "gpt-6.1-sol",
+    "agentReasoning": "medium",
+    "freezeStatus": "interrupted copy; no FREEZE.json or SOURCE-HASHES.json; complete working source retained separately"
+  },
+  "handoffAt": "2026-10-03T08:01:05.312226+00:00",
+  "next": "No further local builds, tests or recordings. Parent starts a separate ANTS Cloud trial."
 }

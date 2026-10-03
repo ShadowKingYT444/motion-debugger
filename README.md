@@ -14,7 +14,7 @@ The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives t
 - [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
 - [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
 
-**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. GPT-6.1 was not run.
+**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. The later GPT-6.1 follow-up is [preserved for handoff](handoffs/motion-local-20261003/README.md); it did not reach a verified final comparison.
 
 ![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
 
