@@ -5,8 +5,12 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promis
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { parseArgs, verifySnapshot, commandEnvironment, prepareSnapshot, startLoopbackServer, serveDist, launchViewer, SNAPSHOTS } from '../scripts/demo-study.mjs';
+import { ROOT, parseArgs, verifySnapshot, commandEnvironment, prepareSnapshot, startLoopbackServer, serveDist, launchViewer, SNAPSHOTS } from '../scripts/demo-study.mjs';
 const sha = value => createHash('sha256').update(value).digest('hex');
+test('committed saved AER snapshots retain their frozen source bytes', async () => {
+  for (const item of SNAPSHOTS) await verifySnapshot(path.join(ROOT, 'studies/aer', item.arm, item.stage));
+  await verifySnapshot(path.join(ROOT, 'studies/aer/treatment/repair-1'));
+});
 async function temp(t) { const dir = await mkdtemp(path.join(tmpdir(), 'study-demo-test-')); t.after(() => rm(dir, { recursive: true, force: true })); return dir; }
 async function fixture(dir) {
   await mkdir(path.join(dir, 'src'), { recursive: true });
