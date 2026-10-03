@@ -23,9 +23,11 @@ export function exampleRecipes(origin: string): Record<ExampleScenario, { before
         { action: 'key', key: 'Escape' }, { action: 'wait', ms: 110 },
         { action: 'click', selector: '#open-details' }, { action: 'wait', ms: 1100 }],
       contract: { maxStepAt60HzPx: 40, maxReplacements: 0, final: { attributes: { 'data-state': 'open' }, visible: true, textIncludes: 'Warm porcelain' } } };
+    // This target is intentionally absent until the Reveal button mounts it.
+    // Declare that lifecycle; recorder cadence still obeys the unchanged 80ms gate.
     if (scenario === 'reveal') return { ...common, selector: '#reveal-card', durationMs: 1800,
       actions: [{ action: 'click', selector: '#load-materials' }, { action: 'wait', ms: 1200 }],
-      contract: { maxHeightStepPx: 2, maxReplacements: 0, final: { attributes: { 'data-state': 'ready' }, visible: true, textIncludes: 'Good things,' } } };
+      contract: { targetPresence: 'may-disappear', maxHeightStepPx: 2, maxReplacements: 0, final: { attributes: { 'data-state': 'ready' }, visible: true, textIncludes: 'Good things,' } } };
     return { ...common, selector: '#buddy-pupil', durationMs: 1600,
       actions: [{ action: 'hover', selector: '#gaze-left' }, { action: 'wait', ms: 90 },
         { action: 'hover', selector: '#gaze-right' }, { action: 'wait', ms: 90 },
