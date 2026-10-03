@@ -46,6 +46,10 @@ For the included example, a tool call has this structure:
 
 The response provides the capture UUID, measured budgets/findings and actual video/poster/final screenshot paths. It does not return a fabricated explanation or edit source.
 
+A failed interaction remains an MCP error. For a page that passed the privacy scans and network policy, the error can include `status: "incomplete"`, the failed action and retained video/events. Use `motion_list` or `motion_inspect` to find this evidence. Its assertions cannot pass and `motion_compare` rejects it as improvement evidence. Privacy/security rejections purge pixels. A visible rectangle does not establish pointer clickability: test removal, timely Undo and restored quantity through actual unforced input, then check keyboard use separately.
+
+On headed displays, first decode a full-viewport calibration and a real scene. See [native recording setup](NATIVE-RECORDING.md) if the compositor scales the recorded page. GPU identity, pixel coverage and temporal cadence need separate verification.
+
 ## 3. Inspect a bounded time window
 
 Use the returned ID, not an invented one:

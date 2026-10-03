@@ -3,6 +3,7 @@ import {z} from 'zod';
 import {readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {capture,inspect,compact,compare,RecipeSchema,validateLocalUrl,recordedFrames} from '../core/index';
+import {CaptureFailureError} from '../core/capture';
 import type {CoreOptions} from '../core/types';
 
 export function optionsFromEnvironment():CoreOptions {
@@ -14,7 +15,7 @@ export function createMotionServer(options=optionsFromEnvironment()) {
   const server=new McpServer({name:'motion-debugger',version:'0.4.0'}, {instructions:'Capture bounded motion evidence on an explicitly requested local app, inspect findings and recorded images with motion_frames, then compare before/after under the same recipe. Interactions can change app state: get appropriate user authorization. No credentials, arbitrary shell, source edits, or external origins. Contracts are caller expectations, not universal quality scores. Return compact findings and evidence paths; use resources for full trace. Do not claim LLM improvement from detector ablation.'});
   const result=(data:unknown)=>({content:[{type:'text' as const,text:JSON.stringify(data,null,2)}],structuredContent:data as Record<string,unknown>});
   const protect=(handler:(args:any,extra?:any)=>Promise<unknown>)=>async(args:any,extra?:any)=>{
-    try{return result(await handler(args,extra))}catch(error){return {isError:true,content:[{type:'text' as const,text:error instanceof Error?error.message.split('\n')[0]:String(error)}]}}
+    try{return result(await handler(args,extra))}catch(error){if(error instanceof CaptureFailureError)return {...result(compact(error.evidence)),isError:true};return {isError:true,content:[{type:'text' as const,text:error instanceof Error?error.message.split('\n')[0]:String(error)}]}}
   };
   server.registerTool('motion_capture',{title:'Capture local motion evidence',description:'Run an explicit bounded click/hover/key/pointer/scroll recipe against a caller-chosen loopback URL and CSS target. Scroll deltas are limited to ±1200 pixels per action. Fresh browser; may change local app state. Saves actual WebM, screenshots and temporal evidence. Never imports credentials or edits code.',inputSchema:{recipe:RecipeSchema},annotations:{readOnlyHint:false,destructiveHint:true,openWorldHint:false}},protect(async({recipe},extra)=>compact(await capture(recipe,{...options,signal:extra?.signal}))));
   server.registerTool('motion_inspect',{title:'Inspect a motion capture',description:'Return compact measured contracts, findings, final state and artifact paths. Optionally return selected events and a bounded sample window; no arbitrary file reads.',inputSchema:{captureId:z.string().uuid(),fromMs:z.number().min(0).optional(),toMs:z.number().min(0).optional(),includeSamples:z.boolean().optional()},annotations:{readOnlyHint:true,openWorldHint:false}},protect(async({captureId,fromMs,toMs,includeSamples})=>{
@@ -33,7 +34,7 @@ export function createMotionServer(options=optionsFromEnvironment()) {
   });
   server.registerTool('motion_list',{title:'List local motion captures',description:'List IDs from this server’s configured evidence directory; does not search arbitrary files.',inputSchema:{},annotations:{readOnlyHint:true,openWorldHint:false}},protect(async()=>{
     const ids=await readdir(options.artifactRoot).catch(()=>[]);const reports=[];
-    for(const id of ids.filter(id=>/^[a-f\d-]{36}$/.test(id)).slice(-100))try{const report=await inspect(id,options);reports.push({id:report.id,label:report.recipe.label,createdAt:report.createdAt,passed:report.assertions.every(a=>a.passed)})}catch{}
+    for(const id of ids.filter(id=>/^[a-f\d-]{36}$/.test(id)).slice(-100))try{const report=await inspect(id,options);reports.push({id:report.id,label:report.recipe.label,createdAt:report.createdAt,status:report.status??'complete',passed:report.status!=='incomplete'&&report.assertions.every(a=>a.passed)})}catch{}
     return {captures:reports};
   }));
   server.registerResource('motion-capture',new ResourceTemplate('motion-evidence://capture/{captureId}',{list:undefined}),{description:'Full exported temporal evidence for a capture. Application marks and supplied source refs are annotations, not inferred source attribution.',mimeType:'application/json'},async(uri,{captureId})=>({contents:[{uri:uri.href,mimeType:'application/json',text:JSON.stringify(await inspect(String(captureId),options),null,2)}]}));

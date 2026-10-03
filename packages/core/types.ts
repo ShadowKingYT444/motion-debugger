@@ -67,13 +67,16 @@ export interface MotionFinding {
   confidence:'observed'|'contract-violation';
 }
 export interface MotionCapture {
+  /** Absent in legacy successful captures; incomplete captures cannot satisfy contracts. */
+  status?:'complete'|'incomplete';
+  failure?:{stage:string;actionIndex?:number;action?:MotionAction['action'];selector?:string;elapsedMs:number;message:string};
   schemaVersion:'2.0';id:string;createdAt:string;recipe:CaptureRecipe;
   environment:{browser:string;browserMode?:'headless'|'headed';probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
   events:MotionEvent[];samples:MotionSample[];metrics:MotionMetrics;
   coverage?:MotionCoverage;
   assertions:MotionAssertion[];findings:MotionFinding[];
   final:{visible:boolean;attributes:Record<string,string>;text:string;x:number|null;y:number|null;opacity:number|null};
-  artifacts:{directory:string;report:string;video:string;poster:string;finalScreenshot:string;videoOffsetMs:number};
+  artifacts:{directory:string;report:string;video:string;rawVideo?:string;recordingTransform?:{sourceSize:{width:number;height:number};crop:{x:number;y:number;width:number;height:number};scale:number;timeScale:number};recordingError?:string;poster:string;finalScreenshot:string;videoOffsetMs:number};
   limitations:string[];
 }
 export interface MotionComparison {

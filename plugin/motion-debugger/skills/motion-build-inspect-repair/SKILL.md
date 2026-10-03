@@ -31,6 +31,10 @@ Call the actual MCP tools in this sequence:
 
 If a wrapper exposes images only as base64 or local PNG paths, decode/view the actual images with available image tools. Receiving frame metadata is not the same as looking at the frame. Raw evidence is available at `motion-evidence://capture/<captureId>`.
 
+Treat functional journeys as ordered requirements. For a removal flow, remove the item, activate the visible Undo control while its toast is still available, and verify that the item and its prior quantity are restored. Verify ordinary pointer activation separately from keyboard focus/activation; success with Enter does not prove the control accepts a click. A nonzero rectangle, opacity and computed visibility establish rendered geometry, not clickability: overlays, hit testing, `pointer-events`, disabled state or occlusion can still block the interaction. Use actual unforced input and retain its failures.
+
+If `motion_capture` returns an error with `status: incomplete`, inspect its capture ID and recorded frames as evidence of the failed action. This report is discoverable through list/inspect/resources, but its incomplete trace and unmeasured final state cannot establish a passing contract or a completed before/after comparison. Repair the supported interaction failure, then rerun the same functional journey within the two-attempt bound. Privacy/security rejections intentionally retain no pixels.
+
 Choose only contracts that express the intended design. Frame/height/containment budgets are caller expectations, not universal quality scores. Use final-state expectations so a visually stable “repair” cannot simply disable the interaction. For canvas/3D, video-derived frames show internal scene motion; DOM rectangle metrics alone do not. Marked scene state and source references are annotations, not independently inferred causes.
 
 ## Diagnose and repair from evidence

@@ -44,7 +44,7 @@ export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:Captu
   if(!metrics.sufficientEvidence)assertions.at(-1)!.status='inconclusive';
   const c=recipe.contract;
   if(c?.maxFrameStepPx!==undefined)temporal('frame-step','Bounded per-frame position step',metrics.maxFrameStepPx<=c.maxFrameStepPx,`${metrics.maxFrameStepPx}px`,`≤${c.maxFrameStepPx}px (observed frame intervals ≤80ms)`);
-  if(c?.maxStepAt60HzPx!==undefined)temporal('normalized-step','Bounded displacement at a normalized 60Hz interval',metrics.maxStepAt60HzPx<=c.maxStepAt60HzPx,`${metrics.maxStepAt60HzPx}px /16.667ms`,`≤${c.maxStepAt60HzPx}px /16.667ms; displacement÷rAF Δt×16.667; actual read gaps/lag separately gated`);
+  if(c?.maxStepAt60HzPx!==undefined)temporal('normalized-step','Bounded interval-average velocity expressed as displacement per 16.667ms',metrics.maxStepAt60HzPx<=c.maxStepAt60HzPx,`${metrics.maxStepAt60HzPx}px /16.667ms`,`≤${c.maxStepAt60HzPx}px /16.667ms; displacement÷rAF Δt×16.667; actual read gaps/lag separately gated; not a perceptual smoothness score`);
   if(c?.maxStepAt60HzPx!==undefined&&boundaries.length)assert('animation-boundary-step','Bounded net geometry change across animation operations',boundaryPeak.normalized<=c.maxStepAt60HzPx,`${boundaryPeak.px.toFixed(3)}px over ${boundaryPeak.dt.toFixed(3)}ms; conservative 60Hz step ${boundaryPeak.normalized.toFixed(3)}px`,`≤${c.maxStepAt60HzPx}px; displacement ÷ max(observed Δt,16.667ms) ×16.667ms; not a painted-frame measurement`);
   if(c?.maxSampleGapMs!==undefined)assert('sample-gap','Adequate recorder sampling cadence',coverage.cadenceSufficient&&metrics.maxSampleGapMs<=c.maxSampleGapMs,`${metrics.maxSampleGapMs}ms`,`≤${c.maxSampleGapMs}ms`);
   if(c?.maxHeightStepPx!==undefined)temporal('height-step','Bounded per-frame height change',metrics.maxHeightStepPx<=c.maxHeightStepPx,`${metrics.maxHeightStepPx}px`,`≤${c.maxHeightStepPx}px`);
@@ -76,6 +76,7 @@ export function compare(before:MotionCapture,after:MotionCapture):MotionComparis
   const fields=['animationBoundarySamples','maxAnimationBoundaryStepPx','maxAnimationBoundaryStepAt60HzPx','maxFrameStepPx','maxStepAt60HzPx','maxSampleGapMs','maxHeightStepPx','maxOpacityDrop','replacements','activeCancels','maxContainmentOverflowPx','containmentViolatingSamples'] as const;
   const deltas:MotionComparison['deltas']={};for(const field of fields){const a=before.metrics[field],b=after.metrics[field];if(typeof a==='number'&&typeof b==='number'&&Number.isFinite(a)&&Number.isFinite(b))deltas[field]={before:a,after:b,change:Number((b-a).toFixed(4))};}
   const issues:string[]=[];
+  if(before.status==='incomplete'||after.status==='incomplete')issues.push('One or both captures are incomplete; retained failure evidence cannot establish improvement');
   if(before.environment.browserMode!==after.environment.browserMode)issues.push('Different browser mode; repeat both with the same runtime and display mode');
   for(const key of ['probeSha256','analyzerSha256'] as const)if(before.environment[key]!==after.environment[key])issues.push(`Different ${key}; repeat both with the same runtime`);
   if(before.coverage?.version!==after.coverage?.version)issues.push('Different lifecycle coverage analysis; repeat both with the same runtime');

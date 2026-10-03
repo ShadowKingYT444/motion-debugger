@@ -8,9 +8,9 @@
   "entry": "brief",
   "maxRepairAttempts": 2,
   "policy": {
-    "pass": "The requested behavior and final state work, relevant tests and unchanged meaningful contracts pass, and the host has viewed actual recorded intermediate frames and required viewport/reduced-motion variants.",
+    "pass": "The requested behavior and final state work, relevant tests and unchanged meaningful contracts pass, and the host has viewed actual recorded intermediate frames and required viewport/reduced-motion variants. Visible geometry alone does not prove clickability: verify unforced pointer use and keyboard use separately; a removal journey must exercise timely Undo and restore the prior quantity.",
     "repair_needed": "An observed defect has a specific, testable source hypothesis and a narrow repair is already authorized by the user's build/fix scope.",
-    "blocked": "A concrete environment, permission, evidence or reproduction blocker prevents a justified next step. Missing evidence is not a pass. Inconclusive evidence with no justified repair is a blocker.",
+    "blocked": "A concrete environment, permission, evidence or reproduction blocker prevents a justified next step. Missing evidence is not a pass. Inconclusive evidence with no justified repair is a blocker. Incomplete captures expose failed-action evidence but cannot count as completed captures or passing comparisons.",
     "unresolved": "A defect remains after the second repair/retest pair. Stop with the remaining failure and evidence; do not start a third repair.",
     "comparison": "Keep the original capture and every subsequent capture ID. Retest the same recipe, contracts, viewport and reduced-motion setting; inspect after frames and compare against the original baseline without loosening expectations.",
     "authority": "The host edits only authorized source. The graph grants no installation, credential, publication, production or unrelated action permissions. Stop and report when required permission is absent.",
@@ -58,7 +58,7 @@
       "steps": [
         "Record ordinary use and a relevant interruption/reversal with motion_capture using fixed, meaningful expectations; retain original capture IDs.",
         "Use motion_inspect on a bounded finding window and view actual motion_frames intermediate images, including internal canvas/3D motion when relevant.",
-        "Check required desktop, narrow and reduced-motion variants. Classify as pass, justified repair_needed or blocked; do not infer causality from cancellation or app annotations alone."
+        "Exercise the ordered functional journey with unforced pointer input; for removal use timely Undo and verify item/quantity restoration. Keep keyboard checks separate. Check required desktop, narrow and reduced-motion variants. Classify as pass, justified repair_needed or blocked; do not infer causality from cancellation or app annotations alone."
       ],
       "outcomes": ["pass", "repair_needed", "blocked"]
     },
