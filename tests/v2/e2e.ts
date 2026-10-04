@@ -37,7 +37,7 @@ const client=new Client({name:'coding-agent-motion-workflow-test',version:'0.2.0
 const results:unknown[]=[];
 try {
   await client.connect(transport);assert.equal(client.getServerVersion()?.name,'motion-debugger');
-  const tools=await client.listTools();assert.equal(tools.tools.length,5);
+  const tools=await client.listTools();assert.deepEqual(tools.tools.map(tool=>tool.name).sort(),['motion_capture','motion_compare','motion_frames','motion_inspect','motion_list','motion_recipe']);
   const verifier=spawn(process.execPath,['src/examples/verify-examples.mjs'],{cwd:process.cwd(),env:{...process.env,BASE_URL:origin,QA_OUTPUT:'artifacts/qa/examples'},stdio:['ignore','pipe','pipe']});
   let verifierLog='';verifier.stdout?.on('data',data=>verifierLog+=String(data));verifier.stderr?.on('data',data=>verifierLog+=String(data));
   const verifierCode=await new Promise<number|null>(resolve=>verifier.on('exit',resolve));
