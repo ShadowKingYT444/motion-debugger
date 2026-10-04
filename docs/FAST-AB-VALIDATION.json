@@ -1,8 +1,8 @@
 {
   "schemaVersion": "fast-ab-validation-1",
   "createdAt": "2026-10-04T21:28:22.410106+00:00",
-  "implementationCommit": "8f584d77948c589baf29df4a1a050226f6120667",
-  "scope": "PR #8 outcome evidence follow-up and quick packaged SIGNAL A/B viewer",
+  "implementationCommit": "6f9bb6699048810f6e612c73eccfe7048c4f9368",
+  "scope": "PR #8 outcome evidence follow-up, quick packaged SIGNAL A/B viewer, and the actual ASSEMBLY idle-render/input-clock repair exposed by CI",
   "checks": [
     {
       "name": "npm run check",
@@ -66,19 +66,46 @@
         "sha256": "ee5b6f670ebe6256dea5d64dd6d23fb701c79ab3511666d9bb460d061eac203b",
         "bytes": 28110
       }
+    },
+    {
+      "name": "Final npm run check after idle rendering/input-clock changes",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/final-check.log",
+        "sha256": "44e1e188a0bb6259ba537ec940c46410973ef632dad709348b76582e59bf0c71",
+        "bytes": 23372
+      }
+    },
+    {
+      "name": "Final fresh tarball dependency installation and native browser/SDK review",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/install/2026-10-04T21-53-37.549Z/verification.json",
+        "sha256": "33df32bd33959023be0f6e5f8021f6307f1f6975a2ad3af95010a9f07b95be38",
+        "bytes": 28433
+      }
+    },
+    {
+      "name": "All five ASSEMBLY native functional/pixel/idle-render scenarios",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/assembly/2026-10-04T21-49-03-127Z/browser-verification.json",
+        "sha256": "2b0973e11e293536a651204847789d3e7166f7745469e07b4fa21816dd3a110a",
+        "bytes": 1242654
+      }
     }
   ],
   "package": {
     "filename": "motion-debugger-0.5.0.tgz",
-    "integrity": "sha512-I4EWkNrkv0WZrXLOBehpHBaZvhJ3om/cd4LHFJs2M5IC6L7LlXvvwyvcbYgDB3Odec57BszVFBisRS8Vt0a1VA==",
-    "shasum": "442b38f1a9aea0e431ec81eaf213ca0b4e910f3a",
-    "size": 14989641,
-    "unpackedSize": 21008508,
-    "sha256": "c1382c9441a778b1461470e7f8292eea92c16fd45a17b5cfb731e5699e6da8ae",
+    "integrity": "sha512-Nm4hTcNw9BJuB0Nm5zVFoenybTPLtAVIvQ0Ql9giFAfYvswcbKTJiYiAEdCyuPS90ZHsLUTnZHTIlw9JGHCpgQ==",
+    "shasum": "94d936af768db5925cacde574383e0d71aeb11a5",
+    "size": 14992415,
+    "unpackedSize": 21015662,
+    "sha256": "b69b380a79d02ed5e7bfba3926c04e1a2d4674024a59e5f4f100fd008e758dda",
     "registryPublication": false,
     "provenance": {
-      "gitCommit": "8f584d77948c589baf29df4a1a050226f6120667",
-      "workingTree": "",
+      "gitCommit": "6f9bb6699048810f6e612c73eccfe7048c4f9368",
+      "workingTree": "M docs/FAST-AB-VALIDATION.json",
       "ci": "Not run: local consumer validation"
     }
   },
@@ -115,15 +142,84 @@
         "sha256": "08c98035ba7188a67944ed5efae9e6b55c1892fcf7c2fb7a5fe99d1094e95e96",
         "bytes": 714498
       }
-    ]
+    ],
+    "latestPackedRun": {
+      "path": "artifacts/install/2026-10-04T21-53-37.549Z/rail-viewer/2026-10-04T21-54-00.568Z/verification.json",
+      "sha256": "f115a23128f70ef63667d69668ed33ddec7c9adb74662c1e37799a9265b32d3f",
+      "bytes": 704
+    }
   },
   "ci": {
-    "scope": "These records describe local verification. Remote CI is separately available in the follow-up PR checks; no remote success inferred."
+    "scope": "Initial A/B and study checks passed; initial full verification failed in the existing ASSEMBLY packed review. Failure retained. Source repair and stronger packed outcome now pass locally; final PR checks separately report remote results.",
+    "headCommit": "42da2dd6afaefb79e50c4e807996401e5977183f",
+    "workflowCommit": "703bb0a87dc41a45ef6456cbf265a4e40b743e74",
+    "runUrl": "https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37236231268",
+    "status": "failed",
+    "failedCaptureId": "92cd9d98-389c-440e-abf9-df3427fe3c6a",
+    "failure": "Software WebGL repeatedly rendered unchanged idle frames (~120ms browser tasks); #open click exceeded its existing deadline. Cadence stayed inconclusive under the unchanged 80ms gate.",
+    "latestStatus": "Final PR checks pending at this local evidence recording; do not infer remote success."
   },
   "limits": [
     "No new native Codex/Claude/OpenCode host evaluation; CLI and official SDK protocol clients were tested.",
     "The A/B pair remains a single independent-agent workflow demonstration; no blinded preference winner or general superiority claim.",
     "True load/entrance probe timing and the four-arm campaign remain outside this follow-up.",
-    "Precommit browser reports retain their own exact collection commit/worktree provenance. The clean packed runtime is the implementationCommit above."
-  ]
+    "Precommit browser reports retain their own exact collection commit/worktree provenance. The final packed runtime is implementationCommit; its only prepack worktree difference is this documentation record, explicitly retained in package.provenance."
+  ],
+  "initialImplementationCommit": "8f584d77948c589baf29df4a1a050226f6120667",
+  "updatedAt": "2026-10-04T21:56:05.091603+00:00",
+  "initialPackage": {
+    "filename": "motion-debugger-0.5.0.tgz",
+    "integrity": "sha512-I4EWkNrkv0WZrXLOBehpHBaZvhJ3om/cd4LHFJs2M5IC6L7LlXvvwyvcbYgDB3Odec57BszVFBisRS8Vt0a1VA==",
+    "shasum": "442b38f1a9aea0e431ec81eaf213ca0b4e910f3a",
+    "size": 14989641,
+    "unpackedSize": 21008508,
+    "sha256": "c1382c9441a778b1461470e7f8292eea92c16fd45a17b5cfb731e5699e6da8ae",
+    "registryPublication": false,
+    "provenance": {
+      "gitCommit": "8f584d77948c589baf29df4a1a050226f6120667",
+      "workingTree": "",
+      "ci": "Not run: local consumer validation"
+    }
+  },
+  "assemblyRepair": {
+    "scope": "Reuse unchanged actual WebGL pixels; correct elapsed time at retargets; continue fresh actor observations. No timing, image quality, motion bounds or renderer fallback changes.",
+    "source": {
+      "path": "examples/assembly/app.mjs",
+      "sha256": "56d1423c8c5b94f12a3f2185508f740987935f48d21fcdfa0dd1177048f6c064",
+      "bytes": 8856
+    },
+    "harness": {
+      "path": "tests/assembly-browser.mjs",
+      "sha256": "5016b007c9b226fc07c88784bf4435254f66576979e94b1e0df1eba451de569f",
+      "bytes": 25597
+    },
+    "evidence": {
+      "path": "artifacts/assembly/2026-10-04T21-49-03-127Z/browser-verification.json",
+      "sha256": "2b0973e11e293536a651204847789d3e7166f7745469e07b4fa21816dd3a110a",
+      "bytes": 1242654
+    },
+    "retainedFailures": [
+      {
+        "path": "artifacts/assembly/2026-10-04T21-45-29-928Z/browser-verification.json",
+        "sha256": "7f55bc3db692bbe8a50a77a4c8512d8bb4a0eded43f77d07b4e11e6d3d1b57a2",
+        "bytes": 389059
+      },
+      {
+        "path": "artifacts/assembly/2026-10-04T21-47-19-782Z/browser-verification.json",
+        "sha256": "222d6cb538fcdf464f08a4af65c736ec1f6a0e36e5f570e7a772039c9b3bce0b",
+        "bytes": 889470
+      }
+    ],
+    "idleRenderCount": [
+      1,
+      1
+    ],
+    "idleSceneObservationsPerActor": 15,
+    "stationaryResizeRenderCount": [
+      1,
+      3
+    ],
+    "clarification": "The 250ms idle window has fewer than20samples and stays unverified for continuity. Some desktop motion windows remain unverified under80ms; functional/pixel checks do not turn these into a temporal pass.",
+    "harnessPositioning": "Explicitly position action controls before the corresponding motion window, as already done for the scrubber. Visitor films keep the actual navigation scrolls; a viewport translation is not silently graded as scene-local actor teleportation."
+  }
 }
