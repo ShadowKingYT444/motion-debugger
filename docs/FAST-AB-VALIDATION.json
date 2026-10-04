@@ -157,7 +157,21 @@
     "status": "failed",
     "failedCaptureId": "92cd9d98-389c-440e-abf9-df3427fe3c6a",
     "failure": "Software WebGL repeatedly rendered unchanged idle frames (~120ms browser tasks); #open click exceeded its existing deadline. Cadence stayed inconclusive under the unchanged 80ms gate.",
-    "latestStatus": "Final PR checks pending at this local evidence recording; do not infer remote success."
+    "latestStatus": "Final PR checks pending at this local evidence recording; do not infer remote success.",
+    "subsequentAttempts": [
+      {
+        "headCommit": "7c59c416b69389c66b447898e60566327ba4e474",
+        "workflowCommit": "f948db014bb053ecab03bd891fb2867f341970c6",
+        "runUrl": "https://github.com/ShadowKingYT444/motion-debugger/actions/runs/37238063707",
+        "status": "failed",
+        "failure": "Native ASSEMBLY suite timed out at the 300ms default rAF preference-readiness poll. Failure screenshot shows assembled endpoint; no event-to-render timing was recorded, so this is not evidence of a specific native 200ms violation.",
+        "evidence": {
+          "path": "artifacts/fast-ab/ci-reduced-failure/motion-evidence-f948db014bb053ecab03bd891fb2867f341970c6/assembly/2026-10-04T22-06-50-633Z/browser-verification.json",
+          "sha256": "c3d6af9f0852349e760a88b995049663b9f8a13d8e89b5aaafa6bde77730bca6",
+          "bytes": 254152
+        }
+      }
+    ]
   },
   "limits": [
     "No new native Codex/Claude/OpenCode host evaluation; CLI and official SDK protocol clients were tested.",
@@ -166,7 +180,7 @@
     "Precommit browser reports retain their own exact collection commit/worktree provenance. The final packed runtime is implementationCommit; its only prepack worktree difference is this documentation record, explicitly retained in package.provenance."
   ],
   "initialImplementationCommit": "8f584d77948c589baf29df4a1a050226f6120667",
-  "updatedAt": "2026-10-04T21:56:05.091603+00:00",
+  "updatedAt": "2026-10-04T22:18:38.073859+00:00",
   "initialPackage": {
     "filename": "motion-debugger-0.5.0.tgz",
     "integrity": "sha512-I4EWkNrkv0WZrXLOBehpHBaZvhJ3om/cd4LHFJs2M5IC6L7LlXvvwyvcbYgDB3Odec57BszVFBisRS8Vt0a1VA==",
@@ -208,6 +222,12 @@
         "path": "artifacts/assembly/2026-10-04T21-47-19-782Z/browser-verification.json",
         "sha256": "222d6cb538fcdf464f08a4af65c736ec1f6a0e36e5f570e7a772039c9b3bce0b",
         "bytes": 889470
+      },
+      {
+        "path": "artifacts/assembly/2026-10-04T22-14-06-400Z/browser-verification.json",
+        "sha256": "8e3c035718a42b8099d94d469590bc344bf4c330ca9c7933815761e733f19d90",
+        "bytes": 1124197,
+        "failure": "Measured native event completion passed desktop/mobile at3.3ms/1.9ms; fallback received no native preference event before unchanged300ms readiness deadline. This report is failed and retained."
       }
     ],
     "idleRenderCount": [
@@ -221,5 +241,19 @@
     ],
     "clarification": "The 250ms idle window has fewer than20samples and stays unverified for continuity. Some desktop motion windows remain unverified under80ms; functional/pixel checks do not turn these into a temporal pass.",
     "harnessPositioning": "Explicitly position action controls before the corresponding motion window, as already done for the scrubber. Visitor films keep the actual navigation scrolls; a viewport translation is not silently graded as scene-local actor teleportation."
+  },
+  "reducedMotionVerification": {
+    "scope": "Original handwritten ASSEMBLY browser verification; bounded latest native media event entry, actual paint/render-call completion and endpoint state. Browser emulation gets a native computed-style flush inside unchanged300ms timer polling. No synthetic events; unchanged200ms completion bound. Physical pixel presentation latency remains unverified.",
+    "validation": "Local and final CI verification pending at source commit; subsequent reports retain exact runtime provenance.",
+    "source": {
+      "path": "examples/assembly/app.mjs",
+      "sha256": "fc987b26cbc32ae5cec337719446fadbab66df7b1422b4bae2335ab58bd1bb1e",
+      "bytes": 9350
+    },
+    "harness": {
+      "path": "tests/assembly-browser.mjs",
+      "sha256": "e85e867acf85d05b929bb35c3b843c15c44d3a419f2b05e0edd22d4241aa9e81",
+      "bytes": 27960
+    }
   }
 }
