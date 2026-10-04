@@ -18,6 +18,9 @@ jobs:
         run: npm ci
       - name: Install Chromium and video dependencies
         run: npx playwright install --with-deps chromium
+      - name: Select version-matched Chromium for native fixtures
+        run: |
+          node --input-type=module -e 'import { chromium } from "playwright"; const executable = chromium.executablePath(); console.log(`CHROMIUM_PATH=${executable}`); console.log(`MOTION_CHROME_PATH=${executable}`);' >> "$GITHUB_ENV"
       - name: Typecheck, build, and analysis tests
         run: npm run check
       - name: Real browser capture and UI smoke tests
@@ -26,10 +29,19 @@ jobs:
         run: npm run test:v2:e2e
       - name: Lifecycle integrity and actual source-repair browser regression
         run: npm run test:coverage:browser && npm run test:repair:browser && npm run test:failure:browser
+      - name: Native construction recipes and positive task outcomes
+        run: |
+          npm run test:recipes:browser
+          npm run test:colony:browser
+          npm run test:sequence:browser
+          npm run test:kinetic:browser
+          npm run test:drag:browser
+          npm run test:duration:browser
+          npm run test:outcomes:browser
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke
-        run: npm run test:workflow && npm run test:demo && npm run test:demo:browser
+        run: npm run test:workflow && npm run test:demo && npm run test:demo:browser && npm run test:ants:browser
       - name: Record actual saved outputs for README
         run: node scripts/study/record-demo.mjs
       - name: Upload browser evidence
@@ -44,6 +56,7 @@ jobs:
             artifacts/install/
             artifacts/study-demo/
             artifacts/study-videos/
+            artifacts/loop-viewer-downloads/
             artifacts/repair-case/
             artifacts/v2/coverage/
           if-no-files-found: warn

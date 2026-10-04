@@ -1,3 +1,15 @@
+# Active follow-up — full workflow and motion-centered demo
+
+The user authorized a full workflow check, a motion-centered comparison, and committed/pushed results on `work/production-motion`, draft PR #9. Implementation and local verification are finished; GitHub checks for the final commit must pass before closing the active goal. No merge or publication is authorized or claimed.
+
+LOOP makes motion the product: Pulse/Weave/Orbit, palette/intensity, held scrubbing, pause/resume/replay and useful SVG/configuration exports. Two actual native sessions received identical initial inputs, references and thirty-minute budgets, with six minutes reserved for verification. Both completed with native CLI exit 0 before deadline. Their frozen source and immutable initial candidate are separate from the final production fixes. The outer manager PTY exit 143 after freezing has unknown cause and is recorded separately.
+
+Current fixes cover continuous kinetic spring transitions, renderer failure/recovery, paused changes, Play versus Resume, teardown, held native drag reversals, and universal capture deadlines. Seven exact authored recipe payloads are served through MCP. Five skills install into four destinations. Full check: 154 passed, one opt-in native viewer test skipped; separate native viewer suite: 16 passed. Final fresh npm install and all three extracted native-plugin transports passed actual capture, inspection and image-return checks. Native Claude Code/Cursor host discovery remains unverified.
+
+The independently preregistered review supports useful journeys in all eight arm/condition combinations: desktop, mobile, reduced motion and fallback. Eight lossless pause checks are exact; native resume changes pixels. Focused replay correction, original failed assertions, calibrated full recordings, export files, dense input-window hashes and 104 selected native film frames remain inspectable. Both sites deliver distinct original lit 3D; no overall quality or smoothness winner is established. Seventeen actual Motion MCP calls returned thirty native images; both temporal comparisons were inconclusive.
+
+LOOP source, results and viewer are under `studies/loop-studio`; `npm run demo:loop` opens the full compositions with real exports. Ants remains untouched. Final exact-byte local study/native handoff archives and release proof identities are recorded in `docs/RELEASE-0.5.0.json`. Browser binaries/global Codex/npm dependencies are not vendored. Small team ownership: creation library, independent outcomes, portable packaging/viewer, with parent integration and GitHub. Latest GitHub CI status is available on draft PR #9: https://github.com/ShadowKingYT444/motion-debugger/pull/9.
+
 # Production motion goal — release verification
 
 Working branch: `work/production-motion`. Full objective has reached a reviewable private 0.5.0 candidate; no publication or general superiority claim. Started from PR #7 and cherry-picked #8; seven-PR review and historic evidence remain preserved.

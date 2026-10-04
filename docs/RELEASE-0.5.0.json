@@ -3,17 +3,21 @@
   "status": "verified-private-release-candidate",
   "fullCheck": {
     "passed": true,
-    "tests": 124,
-    "log": "artifacts/ants-launch/FINAL-CHECK.log"
+    "tests": 155,
+    "passedTests": 154,
+    "skippedTests": 1,
+    "skip": "Native viewer opt-in test passes separately (16 tests).",
+    "log": "artifacts/loop-studio/FINAL-CHECK-3.log",
+    "sha256": "d2700d1922dac0c1cba31cc85bd5040383e298c4364dc645c48f58775502aeb0"
   },
   "freshInstall": {
     "schemaVersion": "1.0",
-    "startedAt": "2026-10-04T06:43:27.066Z",
+    "startedAt": "2026-10-04T09:19:52.883Z",
     "status": "passed",
     "node": "v24.20.0",
     "platform": "linux",
     "skipBrowser": false,
-    "consumer": "/tmp/motion-packed-install-OkKJDq",
+    "consumer": "/tmp/motion-packed-install-7Epv9l",
     "checks": [
       "package-built-and-packed",
       "fresh-npm-dependency-install",
@@ -24,25 +28,25 @@
       "confirmed-project-mcp-plus-skills-install",
       "packaged-four-client-skill-destinations",
       "installed-skills-idempotent-and-unrelated-preserved",
-      "installed-mcp-sdk-handshake-motion-list-and-six-exact-recipes",
-      "standalone-plugin-dependency-install-sdk-and-six-exact-recipes",
+      "installed-mcp-sdk-handshake-motion-list-and-seven-exact-recipes",
+      "standalone-plugin-dependency-install-sdk-and-seven-exact-recipes",
       "browser-launched",
       "packaged-demo-loopback-http-and-cross-origin-defense",
       "installed-cli-two-webm-captures-inspect-and-before-after-comparison"
     ],
     "package": {
       "filename": "motion-debugger-0.5.0.tgz",
-      "integrity": "sha512-moMFY0Q4ECIyPhJRqByIyCZ0hKKzdgv2tP40ohReXTlnRDHb96zZvyMbyD6PHmUJnYdIMtCkv50E1EQ2TNZkGA==",
-      "shasum": "071ffb85551ae50d81ece0561337a98c7fed46c1",
-      "size": 10319951,
-      "unpackedSize": 13693510
+      "integrity": "sha512-H9/REMuaUV4NBmxHm2anPdGwEA0Za69yGUN7PnUZUQjSeJIS8pdNvYYra1RBqRxiWBxucg3WU7PldkNMjouE0g==",
+      "shasum": "543251c06ad1d9bae3efd4495a2d18036378d2e1",
+      "size": 10345725,
+      "unpackedSize": 13794054
     },
     "comparison": {
       "schemaVersion": "2.0",
       "comparable": true,
       "comparabilityIssues": [],
-      "beforeId": "231089aa-aba0-4c9a-809f-4364d5821753",
-      "afterId": "f1f67634-2cc9-4b17-89ae-9594b551d298",
+      "beforeId": "59c31925-c202-483f-957a-330660c695d5",
+      "afterId": "682f0e94-1cd5-4de6-9474-156299918a1b",
       "contractsPassed": {
         "before": false,
         "after": true
@@ -68,14 +72,14 @@
           "change": 0
         },
         "maxFrameStepPx": {
-          "before": 284.109,
-          "after": 17.765,
-          "change": -266.344
+          "before": 283.958,
+          "after": 17.805,
+          "change": -266.153
         },
         "maxStepAt60HzPx": {
-          "before": 283.542,
-          "after": 17.729,
-          "change": -265.813
+          "before": 285.098,
+          "after": 17.77,
+          "change": -267.328
         },
         "maxSampleGapMs": {
           "before": 16.8,
@@ -83,9 +87,9 @@
           "change": 0
         },
         "maxHeightStepPx": {
-          "before": 6.419,
-          "after": 6.414,
-          "change": -0.005
+          "before": 6.746,
+          "after": 6.659,
+          "change": -0.087
         },
         "maxOpacityDrop": {
           "before": 0,
@@ -119,13 +123,13 @@
         "before": [
           {
             "type": "frame-step",
-            "summary": "Observed 284.11px over 16.70ms = 283.54px at16.667ms; exceeds supplied normalized budget 40",
+            "summary": "Observed 283.96px over 16.60ms = 285.10px at16.667ms; exceeds supplied normalized budget 40",
             "eventIds": [
               "event-5"
             ],
             "sampleTimes": [
-              1098.5,
-              1115.2
+              1115.1,
+              1131.7
             ],
             "confidence": "contract-violation"
           }
@@ -141,65 +145,308 @@
         "This comparison evaluates evidence/contracts. It is not a benchmark of LLM performance."
       ]
     },
-    "finishedAt": "2026-10-04T06:44:07.842Z"
+    "finishedAt": "2026-10-04T09:20:32.821Z"
   },
-  "testedTarballSha256": "176281e65fb03cb547d726e5e0d98ffe2ffe5e5d782c2fa6bd0a0b175a5fb958",
-  "scope": "Exact tested runtime and recipes; README and study result documentation were subsequently finalized without changing runtime source. Final portable package hashes are recorded separately.",
+  "testedTarballSha256": "33037a644cfdb92246576e3a7841c531228923621c05250edc462439cadbe3d9",
+  "scope": "Exact tested runtime/recipes. Documentation and study results finalized subsequently; trial candidate is separate. Portable archives record source349de33 dirtytrue, not a clean final commit.",
   "nativeProofs": {
-    "recipes": "artifacts/v2/recipes/browser-verification.json",
-    "colony": "artifacts/v2/colony/browser-verification.json",
-    "sequence": "artifacts/v2/sequence/browser-verification.json",
-    "outcomes": "artifacts/v2/outcomes/browser-verification.json"
+    "recipes": {
+      "path": "artifacts/v2/recipes/browser-verification.json",
+      "sha256": "595e34b2b3ee74f7903be3d403db0ef15ec03a72e7da1937bc27ff3b8d913a1f",
+      "status": "passed",
+      "runId": "2026-10-04T07-58-50-579Z"
+    },
+    "colony": {
+      "path": "artifacts/v2/colony/browser-verification.json",
+      "sha256": "8d61659c40da617324492c29d9ddf3fafb9cd4522646379709d82217ac106eae",
+      "status": "passed",
+      "runId": "2026-10-04T07-59-42-730Z"
+    },
+    "sequence": {
+      "path": "artifacts/v2/sequence/browser-verification.json",
+      "sha256": "c5e85471a3323885c646ecb4ac0ad04edb0bee2c19f209d20a65fcfb623bea4a",
+      "status": "passed",
+      "runId": "2026-10-04T07-58-50-590Z"
+    },
+    "kinetic": {
+      "path": "artifacts/v2/kinetic/browser-verification.json",
+      "sha256": "d9ce4161647feebcb9dbe9a608e93ed4ac68cba80c3f9fc156dc0bb22e6a248a",
+      "status": "passed",
+      "runId": "2026-10-04T08-43-34-654Z"
+    },
+    "drag": {
+      "path": "artifacts/v2/drag/1791100941461/verification.json",
+      "sha256": "def215427de267cfb58c2666a71c275cb1e467365e2ed368e71150c79cf7ba97",
+      "status": "passed",
+      "runId": "1791100941461"
+    },
+    "duration": {
+      "path": "artifacts/v2/duration/browser-verification.json",
+      "sha256": "5060021c6296284f49323a5edf84ba28722faf223f6e7d0085774d1b2c6686fe",
+      "status": "passed",
+      "runId": "duration"
+    },
+    "outcomes": {
+      "path": "artifacts/v2/outcomes/browser-verification.json",
+      "sha256": "4098568dc53f6d63ec67895dfdec868a7102da98b0c8aa9296049f2df190c0ad",
+      "status": "passed",
+      "runId": "2026-10-04T07-59-42-870Z"
+    }
   },
   "hostLoading": {
-    "codex": "Actual fresh project-local skill discovery and MCP use demonstrated in paired Ants trial. Trial candidate precedes final recipe refinements.",
-    "claude-code": "Archive/dependency/SDK validation; native host loading unverified",
-    "cursor": "Archive/dependency/SDK validation; native host loading unverified",
-    "vscode": "Configuration/skill destination verified; interactive discovery unverified"
+    "codex": "Actual fresh project-local five-skill/MCP use in LOOP and Ants; separate trial packages. Native Codex ZIP host discovery unverified.",
+    "claude-code": "Fresh ZIP/npm/SDK/native browser tools pass; interactive host loading unverified.",
+    "cursor": "Fresh ZIP/npm/SDK/native browser tools pass; interactive host loading unverified.",
+    "vscode": "Config and complete skill destination verified; interactive discovery unverified.",
+    "skills": "Exact fallback archive payload verified; Gemini/OpenCode discovery unverified."
   },
   "limits": [
-    "Single Ants pair does not establish overall visual or smoothness superiority.",
-    "Software renderer and inadequate temporal sampling prevent general cadence claims.",
-    "Ordinary fallback lossless pause strict identity differs by tiny raster amounts; preserved.",
-    "Private, UNLICENSED, unpublished release candidate."
+    "Single LOOP/Ants pairs do not establish general visual, smoothness or isolated causal-plugin superiority.",
+    "Software Chrome/25fps footage and weak trajectory coverage do not establish physical-GPU60fps smoothness.",
+    "Seeded install comparison verifies tool contracts, not an autonomous-agent advantage.",
+    "Private, UNLICENSED and unpublished. Native host discovery limits remain explicit."
   ],
   "portablePackages": {
-    "status": "passed-fresh-extraction-dependency-sdk-and-six-exact-recipes",
-    "proof": "artifacts/plugins/2026-10-04T06-46-25-176Z/portable-validation.json",
-    "releaseIndexSha256": "1509ea7563e6e4e1ddbe36b28a1a6f6225ae5bc7d304f94714644d007ed245ce",
-    "archives": {
-      "codex": {
-        "directory": "codex/motion-debugger",
+    "status": "passed",
+    "scope": "Final native SDK capture/inspect/list/three recorded-image responses from the exact preserved ZIP installations that passed isolated npmci and seven-source protocol checks. Actual native agent-host loading is unverified.",
+    "version": "0.5.0",
+    "source": {
+      "commit": "349de336f04bc33af50fb76f9753c9d7056ec9ef",
+      "dirty": true
+    },
+    "releaseIndexSha256": "3d4015b282244844ee97006b4899613b400ea5f9a9e1c54299c18d9b07bfff01",
+    "protocol": {
+      "path": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/portable-validation.json",
+      "sha256": "f17708e653bb9806f3c8fff9366bc8ef93cda9ad97979240b9bd124faee2edb6",
+      "status": "passed"
+    },
+    "native": {
+      "path": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/native-validation.json",
+      "sha256": "6ac7ae03197d207a21e6b8f38c13c0668b1a5770648bfb20f15a7f1771392f57",
+      "status": "passed"
+    },
+    "packages": [
+      {
+        "host": "codex",
         "archive": "motion-debugger-0.5.0-codex.zip",
-        "archiveSha256": "0898b284de47e5f83e28e0f35bfb94d30764b1c2ac43a1212294ab911f3b0b7a",
-        "payloadFiles": 30,
+        "archiveSha256": "2f367fb151ad89d22aced738825e107230f1519d1e713ce7912fa72af6879007",
+        "extractedRoot": "/tmp/motion-final-codex-lNVYoT/motion-debugger",
+        "entrypointSha256": "f7b5f7f269baa0e9c75987ed551eecdcff485043664bee4e4dd8998f766e5ac5",
+        "allPreservedPayloadHashesRechecked": true,
+        "server": {
+          "name": "motion-debugger",
+          "version": "0.5.0"
+        },
+        "sevenSourceHashesRechecked": true,
+        "captureId": "41c771d0-0d3a-4312-acd5-320a9a6e4998",
+        "delivery": "passed",
+        "assertionsPassed": true,
+        "samples": 85,
+        "frames": [
+          {
+            "file": "frame-0.png",
+            "sha256": "7b527a0747605c46a57cf6e2fba2c86d725a6a62c0bcb23029aceea0a1a5e353",
+            "bytes": 52838
+          },
+          {
+            "file": "frame-1.png",
+            "sha256": "7775cf3d7eb6f72bdff9280cb6a6f615d062d4dbb0703bdad892b9b28ead252c",
+            "bytes": 53480
+          },
+          {
+            "file": "frame-2.png",
+            "sha256": "dbad1c6589fe47532c39d391c2758828847246411f5f34247d3ce63e42b82ad8",
+            "bytes": 53388
+          }
+        ],
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/codex/captures/41c771d0-0d3a-4312-acd5-320a9a6e4998",
+          "report": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/codex/captures/41c771d0-0d3a-4312-acd5-320a9a6e4998/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/codex/captures/41c771d0-0d3a-4312-acd5-320a9a6e4998/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/codex/captures/41c771d0-0d3a-4312-acd5-320a9a6e4998/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/codex/captures/41c771d0-0d3a-4312-acd5-320a9a6e4998/final.png",
+          "videoOffsetMs": 648
+        },
+        "environment": {
+          "browser": "Chromium 152.0.7977.64",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "47e266e46ee8a749ef20c1a7f65d8a4d785a2db79d379824a743e10051d151ad",
+          "analyzerSha256": "3c1aaf13aeea755eb33822ca61cc23e716743d2b9e7d3330878ef70be7bea58b",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "no-preference"
+        },
         "hostValidation": "unverified"
       },
-      "claude-code": {
-        "directory": "claude-code/motion-debugger",
+      {
+        "host": "claude-code",
         "archive": "motion-debugger-0.5.0-claude-code.zip",
-        "archiveSha256": "caf0a4bf44817616931b1774e1ea7269864dd52e46ff7caa989d56368f8b047b",
-        "payloadFiles": 30,
+        "archiveSha256": "bdec9a2a2d81c78b5d6c1283e8d45e136f34ab570ce5696bf6996cd43ddbbd70",
+        "extractedRoot": "/tmp/motion-final-claude-code-CVgmLU/motion-debugger",
+        "entrypointSha256": "f7b5f7f269baa0e9c75987ed551eecdcff485043664bee4e4dd8998f766e5ac5",
+        "allPreservedPayloadHashesRechecked": true,
+        "server": {
+          "name": "motion-debugger",
+          "version": "0.5.0"
+        },
+        "sevenSourceHashesRechecked": true,
+        "captureId": "4b220463-cdec-4b23-9516-45b4411ec518",
+        "delivery": "passed",
+        "assertionsPassed": true,
+        "samples": 84,
+        "frames": [
+          {
+            "file": "frame-0.png",
+            "sha256": "85a1a958988216024a1f7d074ea4a5a654f007161a90c642604ed3793f372f46",
+            "bytes": 52226
+          },
+          {
+            "file": "frame-1.png",
+            "sha256": "003d11d5b7950479190e12f3aabdeff34f4bd472cb82bf4f514dce4124b70ce2",
+            "bytes": 53229
+          },
+          {
+            "file": "frame-2.png",
+            "sha256": "cfad3e62758932dd6b2c1b09865f81040d6714d731c28d99f579f1567a056da3",
+            "bytes": 53037
+          }
+        ],
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/claude-code/captures/4b220463-cdec-4b23-9516-45b4411ec518",
+          "report": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/claude-code/captures/4b220463-cdec-4b23-9516-45b4411ec518/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/claude-code/captures/4b220463-cdec-4b23-9516-45b4411ec518/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/claude-code/captures/4b220463-cdec-4b23-9516-45b4411ec518/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/claude-code/captures/4b220463-cdec-4b23-9516-45b4411ec518/final.png",
+          "videoOffsetMs": 655
+        },
+        "environment": {
+          "browser": "Chromium 152.0.7977.64",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "47e266e46ee8a749ef20c1a7f65d8a4d785a2db79d379824a743e10051d151ad",
+          "analyzerSha256": "3c1aaf13aeea755eb33822ca61cc23e716743d2b9e7d3330878ef70be7bea58b",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "no-preference"
+        },
         "hostValidation": "unverified"
       },
-      "cursor": {
-        "directory": "cursor/motion-debugger",
+      {
+        "host": "cursor",
         "archive": "motion-debugger-0.5.0-cursor.zip",
-        "archiveSha256": "73cc9ce639ce743f65a58a69c839cf065d9cdf48aedea49f6d2063b2db997d44",
-        "payloadFiles": 30,
-        "hostValidation": "unverified"
-      },
-      "skills": {
-        "directory": "skills/motion-debugger",
-        "archive": "motion-debugger-0.5.0-skills.zip",
-        "archiveSha256": "b904b63e4214b6ddb4db53e60b46e27c0888d0fd5923a37c97bcc93aeb6dd0e2",
-        "payloadFiles": 21,
+        "archiveSha256": "fdca8a1a19dc8eae10596dd0b06dcacdb099f45386e49d1f0c71898f4489db9a",
+        "extractedRoot": "/tmp/motion-final-cursor-IkI3cf/motion-debugger",
+        "entrypointSha256": "f7b5f7f269baa0e9c75987ed551eecdcff485043664bee4e4dd8998f766e5ac5",
+        "allPreservedPayloadHashesRechecked": true,
+        "server": {
+          "name": "motion-debugger",
+          "version": "0.5.0"
+        },
+        "sevenSourceHashesRechecked": true,
+        "captureId": "4f119ec8-f159-48ca-8d4d-7c62aa953037",
+        "delivery": "passed",
+        "assertionsPassed": true,
+        "samples": 85,
+        "frames": [
+          {
+            "file": "frame-0.png",
+            "sha256": "5116ba903b90029815fd94dc0f1d5c4a255c6d4a3a2a6ed1c0abb2cc5a5c8b0e",
+            "bytes": 52259
+          },
+          {
+            "file": "frame-1.png",
+            "sha256": "f31a5d823e4a47249c78bf1b4410943e80f6da9a85d188465eb89141f180208a",
+            "bytes": 53145
+          },
+          {
+            "file": "frame-2.png",
+            "sha256": "6550ef017678a3bf8a5bfb484a3ed633ef812da612ce153d462487659971c5f4",
+            "bytes": 53124
+          }
+        ],
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/cursor/captures/4f119ec8-f159-48ca-8d4d-7c62aa953037",
+          "report": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/cursor/captures/4f119ec8-f159-48ca-8d4d-7c62aa953037/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/cursor/captures/4f119ec8-f159-48ca-8d4d-7c62aa953037/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/cursor/captures/4f119ec8-f159-48ca-8d4d-7c62aa953037/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/artifacts/plugins/2026-10-04T09-13-24-334Z/native-2026-10-04T09-21-29-001Z/cursor/captures/4f119ec8-f159-48ca-8d4d-7c62aa953037/final.png",
+          "videoOffsetMs": 636
+        },
+        "environment": {
+          "browser": "Chromium 152.0.7977.64",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "47e266e46ee8a749ef20c1a7f65d8a4d785a2db79d379824a743e10051d151ad",
+          "analyzerSha256": "3c1aaf13aeea755eb33822ca61cc23e716743d2b9e7d3330878ef70be7bea58b",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "no-preference"
+        },
         "hostValidation": "unverified"
       }
-    },
-    "nativeHostLoading": "unverified; separate actual Codex project skill/MCP workflow documented in Ants study"
+    ]
   },
-  "localHandoff": {
+  "historicalAntsVerification": "RELEASE-0.5.0-ANTS.json",
+  "freshInstallProof": {
+    "path": "artifacts/install/2026-10-04T09-19-52.882Z/verification.json",
+    "sha256": "220c2bf6e5ebf8465167cd833788779f32aed9a79e0b1e1cd8c73106af717963"
+  },
+  "recipeSha256": {
+    "colony-scene.mjs": "3efd73e7ad2f0a57d52957b5d79749a28e3b6f6309b30978cabdab72ce3be386",
+    "drawer.mjs": "167eda611eb6b1745aedc86ba6c9ba7e64426c67ffbe09a8c0c37f5c71ddea1f",
+    "elapsed-sequence.mjs": "8ed1dae27c025228cbcfb7000f23dcc8d17443b456691689490a4f538064a6f7",
+    "kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+    "scroll-chapters.mjs": "71ee39ab4f473c68d218e920b54aef9da8387482d20944f575d1fb50fbc7741f",
+    "spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+    "task-handoff.mjs": "9f7ef1220975b24c2ff30eaa803b70abbb3c77a914dbfcb0741ab44cff784ae6"
+  },
+  "portableProof": {
+    "path": "artifacts/plugins/2026-10-04T09-13-24-334Z/final-validation.json",
+    "sha256": "0c80982398008657967910a3a437370c3ecc9a0eaa3199f1ac75dce4f0ee445d"
+  },
+  "viewerNativeProof": {
+    "path": "artifacts/loop-viewer-downloads/2026-10-04T08-58-05-554Z/browser-verification.json",
+    "sha256": "4918da4bf4f4de9b0913f41448c3afe816879c5df66e24cab3d09265d6b72dae"
+  },
+  "retainedFinalInstallFailures": [
+    {
+      "path": "artifacts/install/2026-10-04T08-56-56.707Z/verification.json",
+      "description": "Strict deadline exposed insufficient200ms input margin; bundled example now5400ms with identical actions/contracts."
+    },
+    {
+      "path": "artifacts/install/2026-10-04T09-01-59.586Z/verification.json",
+      "description": "Before-first-click deadline failure during concurrent software-rendered review. Incomplete evidence retained; subsequent sequential install passed, gates unchanged."
+    }
+  ],
+  "historicalLocalHandoff": {
     "index": "artifacts/ants-launch/handoff/README.md",
     "study": {
       "bytes": 326573391,
@@ -211,5 +458,45 @@
     },
     "verifiedPayloadFiles": 2700,
     "limits": "Original outcome capture source-binding missing; browser binaries and global Codex tooling not vendored. Final install is separate."
+  },
+  "frozenStudies": {
+    "loop": "../studies/loop-studio/RESULTS.json",
+    "ants": "../studies/ants-launch/RESULTS.json",
+    "trialCandidateSha256": "ceca9dd7b8cdfee0b234d3c706f50354bc7be125c69af72006d0f42650fda0a8"
+  },
+  "localHandoff": {
+    "index": "artifacts/loop-studio/handoff/README.md",
+    "manifest": "artifacts/loop-studio/handoff/MANIFEST.json",
+    "manifestSha256": "18cfc737e82edef45970d366073adf04eca1bd0eee96e6f71d8bc6cf06f8e310",
+    "archives": [
+      {
+        "file": "loop-study-evidence.tar.gz",
+        "bytes": 563857486,
+        "sha256": "28ccb4f00c120c97a638d6f5cbaa4452a7a06a97df01718eec10eeb99222b43e",
+        "payloadFiles": 2452,
+        "payloadBytes": 677675929,
+        "inventorySha256": "5ba7a7ac1d1967c7c49fd779ec8fc1184a04497fe6db11fdb67e41bffd7163d0",
+        "verification": "Every regular payload streamed from final archive and matched SHA256/size."
+      },
+      {
+        "file": "loop-native-evidence.tar.gz",
+        "bytes": 208184931,
+        "sha256": "cd7f2363b435710777e73ceffbeab6cee7219c484c1b94f01a59aefbd6e9e563",
+        "payloadFiles": 1199,
+        "payloadBytes": 244141737,
+        "inventorySha256": "f197f376f185d8ca51de7ef3ee50bc56a191cd808ad61f02c411765310e01afa",
+        "verification": "Every regular payload streamed from final archive and matched SHA256/size."
+      }
+    ],
+    "verifiedPayloadFiles": 3651,
+    "limits": [
+      "Evidence handoff, not an offline environment: browser binaries, global Codex/MCP implementations and npm dependencies are not vendored; lockfiles and exact Motion packages are retained.",
+      "Raw actual generation events are included. No parent task conversation history, credentials or personal browser profiles are included.",
+      "Original absolute paths in reports are preserved. Inventories map archived payloads to those original paths.",
+      "Both native CLI sessions completed with exit0. Outer manager terminal exit143 after its frozen marker has unknown cause; retained runner observation records this distinction.",
+      "Comparison uses the immutable initial candidate; subsequent production lifecycle/deadline fixes and packages have separate native verification.",
+      "Current-source is a later snapshot, not retroactive provenance for earlier runs. Each source-bound native report has its own recorded implementation/harness bytes.",
+      "Software rendering, single paired generation and 25fps footage do not establish a general quality, causal-plugin or physical-GPU smoothness advantage."
+    ]
   }
 }

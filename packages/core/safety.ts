@@ -16,6 +16,7 @@ export const RecipeSchema=z.object({
     z.object({action:z.literal('click'),selector}).strict(),z.object({action:z.literal('hover'),selector}).strict(),
     z.object({action:z.literal('key'),key:z.enum(['Escape','Enter','Space','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'])}).strict(),
     z.object({action:z.literal('move'),x:z.number().finite().min(0).max(1920),y:z.number().finite().min(0).max(1200)}).strict(),
+    z.object({action:z.literal('drag'),selector,points:z.array(z.object({x:z.number().finite().min(0).max(1),y:z.number().finite().min(0).max(1)}).strict()).min(2).max(12).describe('Ordered selector-relative coordinates in [0,1]; native pointer remains held through reversals. Border coordinates are inset half a CSS pixel.'),durationMs:z.number().int().min(100).max(2000).describe('Total held drag time, 100–2000ms, included in capture deadline.'),steps:z.number().int().min(2).max(60).optional().describe('Interpolation steps across the complete path; defaults to 24. Every supplied waypoint is visited, with at most 60 moves.')}).strict(),
     z.object({action:z.literal('scroll'),deltaY:z.number().int().min(-1200).max(1200)}).strict(),
     z.object({action:z.literal('wait'),ms:z.number().int().min(0).max(4000).describe('Each wait is at most 4000ms; all waits total at most 10000ms. Leave room for actual input before the capture/outcome deadline.')}).strict()
   ])).max(16),
@@ -53,4 +54,11 @@ export async function readSourceRef(ref:{file:string;line:number;endLine?:number
   const lines=content.split('\n'),end=Math.min(ref.endLine ?? ref.line+8,ref.line+40);
   if(ref.line>lines.length||end<ref.line)throw new Error('Invalid source line range');
   return {...ref,file,excerpt:lines.slice(ref.line-1,end).join('\n')};
+}
+
+/** Keep failed deadline captures observable while making impossible schedules explicit. */
+export function recipeWarnings(recipe:CaptureRecipe):string[] {
+  const deadline=Math.min(recipe.contract?.outcomes?.timeoutMs??recipe.durationMs??2400,recipe.durationMs??2400);
+  const scheduled=recipe.actions.reduce((sum,action)=>sum+(action.action==='wait'?action.ms:action.action==='drag'?action.durationMs:0),0);
+  return scheduled>=deadline?[`Scheduled waits and drags total ${scheduled}ms, at least the ${deadline}ms interaction/outcome deadline measured from capture start. Positive outcomes, when requested, are checked after actions; leave time for input and observation or use an ordinary browser for longer journeys.`]:[];
 }

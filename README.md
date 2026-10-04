@@ -4,11 +4,23 @@
 
 **Create expressive web motion. Watch the actual result. Refine it with your coding agent.**
 
-Tag `motion` with your ordinary website or app prompt. The plugin supplies six original runnable recipes—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
+Tag `motion` with your ordinary website or app prompt. The plugin supplies seven original runnable recipes—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences, kinetic fields and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
 
 [Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
 ## Real demos
+
+The [LOOP kinetic identity studio](studies/loop-studio/README.md) makes motion the product: sculptural Orbit, rhythmic Pulse, braided Weave, held scrubbing, rapid preset changes, playback and SVG/configuration exports. Two actual fresh Codex sessions received the same brief and thirty-minute budget. Both finished before the deadline; only the assisted session received `$motion` and the installed plugin. Full source, original-timing recordings and independently checked interactions accompany the comparison. This single pair does **not** establish overall visual or smoothness superiority.
+
+```sh
+npm run demo:loop
+```
+
+The viewer fits both complete desktop scenes, supports 390px previews and native fullscreen, and keeps real downloads working. [Brief and references](studies/loop-studio/BRIEF.md) · [Method](studies/loop-studio/METHOD.md) · [Results](studies/loop-studio/RESULTS.md) · [Actual MCP trace and native frames](studies/loop-studio/MCP-TRACE.json).
+
+![Actual Motion-assisted LOOP studio, captured in native Chrome](studies/loop-studio/evidence/independent/lossless/motion-desktop/initial.png)
+
+[Ordinary complete desktop journey](studies/loop-studio/evidence/independent/primary/ordinary-desktop/journey.webm) · [Motion complete desktop journey](studies/loop-studio/evidence/independent/primary/motion-desktop/journey.webm)
 
 The [Ants launch-page study](studies/ants-launch/README.md) contains two actual same-brief, twenty-minute Codex builds with original articulated 3D scenes, scroll choreography and a working four-stage task. Both complete the task, replay, interruption and keyboard journeys on desktop, mobile, reduced motion and WebGL fallback. Complete source-bound recordings and retained failures are included. This pair does **not** establish an overall animation or smoothness advantage.
 
@@ -16,7 +28,7 @@ The [Ants launch-page study](studies/ants-launch/README.md) contains two actual 
 npm run demo:ants
 ```
 
-Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The six runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
+Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The seven runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
 
 ![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
 
@@ -54,7 +66,7 @@ For a portable installation, run `npm pack`, install the resulting local tarball
 
 Then ask your agent:
 
-> $motion Build a beautiful launch page for a colony of helpful agents, with an interactive spatial hero, a working task demonstration, and polished transitions.
+> $motion Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
 
 For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
 

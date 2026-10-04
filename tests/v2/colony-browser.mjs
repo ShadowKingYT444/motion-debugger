@@ -1,24 +1,44 @@
 import {createServer} from 'node:http';
-import {readFile,mkdir,writeFile,access} from 'node:fs/promises';
+import {readFile,mkdir,writeFile,realpath,lstat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
+import {chromiumOptions} from '../../server/browser.ts';
 
 // Independent actual Chrome/WebGL check of the original scene factory defaults.
 // This integration fixture does not establish flagship art direction or agent gains.
 const root=path.resolve('artifacts/v2/colony'),runId=new Date().toISOString().replace(/[:.]/g,'-'),runRoot=path.join(root,runId);
 await mkdir(runRoot,{recursive:true});
-const candidates=[process.env.MOTION_THREE_DIR,path.resolve('studies/ants-launch/node_modules/three'),path.resolve('studies/ants-launch/shared/node_modules/three'),path.resolve('node_modules/three'),path.resolve(root,'dependencies/node_modules/three')].filter(Boolean);
-let threeRoot;
-for(const candidate of candidates){try{await access(path.join(candidate,'build/three.module.js'));threeRoot=candidate;break;}catch{}}
-if(!threeRoot)throw new Error('An existing local Three.js installation is required; set MOTION_THREE_DIR to its package directory');
-const version=JSON.parse(await readFile(path.join(threeRoot,'package.json'),'utf8')).version;
+const pinnedThreeVersion='0.186.1',sha=value=>createHash('sha256').update(value).digest('hex');
+const frozenRoot=path.resolve('studies/ants-launch/source/ordinary');
+const threeRoot=process.env.MOTION_THREE_DIR?path.resolve(process.env.MOTION_THREE_DIR):frozenRoot;
+const consumerMetadata={},vendorModules=new Map();
+async function ordinaryFile(base,name){const file=path.join(base,name);if(await realpath(file)!==file||!(await lstat(file)).isFile())throw new Error(`Three fixture must contain ordinary files: ${name}`);return readFile(file);}
+try{
+  const pkgBytes=await ordinaryFile(threeRoot,'package.json'),pkg=JSON.parse(pkgBytes);
+  if(process.env.MOTION_THREE_DIR){
+    if(pkg.version!==pinnedThreeVersion)throw new Error(`MOTION_THREE_DIR must contain pinned Three ${pinnedThreeVersion}; received ${pkg.version}`);
+    Object.assign(consumerMetadata,{mode:'explicit-local-package',version:pkg.version,root:threeRoot,packageSha256:sha(pkgBytes)});
+    await writeFile(path.join(runRoot,'consumer-package.json'),pkgBytes);
+    for(const name of ['three.module.js','three.core.js'])vendorModules.set(name,await ordinaryFile(threeRoot,`build/${name}`));
+  }else{
+    const manifestBytes=await ordinaryFile(frozenRoot,'SOURCE-HASHES.json'),hashes=JSON.parse(manifestBytes),lockBytes=await ordinaryFile(frozenRoot,'package-lock.json'),lock=JSON.parse(lockBytes);
+    if(pkg.dependencies?.three!==pinnedThreeVersion||lock.packages?.['node_modules/three']?.version!==pinnedThreeVersion)throw new Error(`Frozen consumer metadata must pin Three ${pinnedThreeVersion}`);
+    for(const [name,bytes]of [['package.json',pkgBytes],['package-lock.json',lockBytes]])if(sha(bytes)!==hashes[name])throw new Error(`Frozen consumer hash mismatch: ${name}`);
+    for(const name of ['three.module.js','three.core.js']){const bytes=await ordinaryFile(frozenRoot,`assets/${name}`);if(sha(bytes)!==hashes[`assets/${name}`])throw new Error(`Frozen Three vendor hash mismatch: ${name}`);vendorModules.set(name,bytes);}
+    Object.assign(consumerMetadata,{mode:'committed-frozen-vendor',version:pinnedThreeVersion,root:frozenRoot,manifestSha256:sha(manifestBytes),packageSha256:sha(pkgBytes),lockSha256:sha(lockBytes),registryIntegrity:lock.packages['node_modules/three'].integrity});
+    await mkdir(path.join(runRoot,'consumer'),{recursive:true});
+    for(const [name,bytes]of [['SOURCE-HASHES.json',manifestBytes],['package.json',pkgBytes],['package-lock.json',lockBytes]])await writeFile(path.join(runRoot,'consumer',name),bytes);
+  }
+  await writeFile(path.join(runRoot,'consumer.json'),JSON.stringify(consumerMetadata,null,2));
+}catch(error){const report=JSON.stringify({status:'failed',runId,stage:'consumer-setup',pinnedThreeVersion,error:error.stack},null,2);await writeFile(path.join(runRoot,'browser-verification.json'),report);await writeFile(path.join(root,'browser-verification.json'),report);throw error;}
+const version=pinnedThreeVersion;
 const recipeRoot=process.env.MOTION_COLONY_SOURCE_DIR?pathToFileURL(path.resolve(process.env.MOTION_COLONY_SOURCE_DIR)+path.sep):new URL('../../plugin/motion-debugger/skills/motion/recipes/',import.meta.url),modules=new Map();
 for(const name of ['spring','colony-scene'])modules.set(`/recipes/${name}.mjs`,await readFile(new URL(`${name}.mjs`,recipeRoot),'utf8'));
-for(const name of ['three.module.js','three.core.js'])modules.set(`/vendor/${name}`,await readFile(path.join(threeRoot,'build',name),'utf8'));
+for(const [name,bytes]of vendorModules)modules.set(`/vendor/${name}`,bytes);
 const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Actual colony WebGL verification</title>
 <style>*{box-sizing:border-box}body{margin:0;padding:28px;background:#f4eddf;color:#27241e;font:16px system-ui}main{max-width:1100px;margin:auto}h1{font-size:clamp(28px,4vw,46px);margin:8px 0}p{max-width:780px;line-height:1.5}canvas{display:block;width:100%;height:540px;background:#f4eddf;border:1px solid #c9c0ae;border-radius:16px}button{font:inherit;background:#fffaf0;color:inherit;border:1px solid #867b68;border-radius:8px;padding:12px 18px;cursor:pointer}button:focus-visible{outline:3px solid #1672d0;outline-offset:3px}nav{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}output{display:block;min-height:28px}@media(max-width:500px){body{padding:16px}canvas{height:380px}button{padding:10px 12px}}</style>
 <main><h1>Colony scene: real WebGL check</h1><p>Original recipe defaults. These walkers, lights, materials and camera are rendered by Chrome through a local Three.js module.</p><canvas id="colony" aria-label="Articulated ant colony"></canvas><nav aria-label="Scene controls"><button id="assemble">Assemble queue</button><button id="replay">Replay orbit</button><button id="pause">Pause</button></nav><output id="status" aria-live="polite">Starting renderer</output></main>
@@ -49,10 +69,11 @@ await writeFile(path.join(runRoot,'fixture.html'),html);
 for(const [name,source] of modules){const file=path.join(runRoot,'source',name.slice(1));await mkdir(path.dirname(file),{recursive:true});await writeFile(file,source);}
 const server=createServer((req,res)=>{if(req.url==='/'){res.setHeader('Content-Type','text/html');res.end(html);}else if(modules.has(req.url)){res.setHeader('Content-Type','text/javascript');res.end(modules.get(req.url));}else{res.statusCode=404;res.end('Not found');}});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-const origin=`http://127.0.0.1:${server.address().port}`,executablePath=process.env.MOTION_CHROME_PATH??'/usr/bin/google-chrome';
-const launch={executablePath,headless:true,args:['--no-sandbox','--disable-dev-shm-usage','--enable-webgl','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']};
-const results=[],browser=await chromium.launch(launch);
-const provenance={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),workingTree:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),chrome:browser.version(),launch,node:process.version,three:{version,root:threeRoot},fixtureSha256:createHash('sha256').update(html).digest('hex'),moduleSha256:Object.fromEntries([...modules].map(([name,source])=>[name,createHash('sha256').update(source).digest('hex')]))};
+const origin=`http://127.0.0.1:${server.address().port}`,defaults=chromiumOptions();
+const launch={...defaults,...(process.env.MOTION_CHROME_PATH?{executablePath:process.env.MOTION_CHROME_PATH}:{}),args:[...defaults.args,'--enable-webgl','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']};
+const results=[];let browser;
+try{browser=await chromium.launch(launch);}catch(error){await new Promise(resolve=>server.close(resolve));const report=JSON.stringify({status:'failed',runId,stage:'browser-launch',launch,consumerMetadata,error:error.stack},null,2);await writeFile(path.join(runRoot,'browser-verification.json'),report);await writeFile(path.join(root,'browser-verification.json'),report);throw error;}
+const provenance={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),workingTree:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),chrome:browser.version(),launch,node:process.version,three:consumerMetadata,fixtureSha256:createHash('sha256').update(html).digest('hex'),moduleSha256:Object.fromEntries([...modules].map(([name,source])=>[name,createHash('sha256').update(source).digest('hex')]))};
 let failure;
 try{
 for(const scenario of [{name:'desktop',viewport:{width:1180,height:850},reducedMotion:'no-preference'},{name:'mobile',viewport:{width:390,height:844},reducedMotion:'no-preference'},{name:'reduced-motion',viewport:{width:1180,height:850},reducedMotion:'reduce'}]){

@@ -1,0 +1,1913 @@
+{
+  "schemaVersion": 1,
+  "classifications": [
+    {
+      "issue": "Initial host100ms replay samples",
+      "classification": "Verifier timing oracle error",
+      "proof": "Native trace showed ordinary replay progress0at60.6ms,9at113.7ms; six sequentialUIreads arrivedlate under software-renderer load. Retainedfirstfailure."
+    },
+    {
+      "issue": "Second documentcapture microtask replay observations",
+      "classification": "Verifier event-order error",
+      "proof": "Microtask checkpoint can run beforetargetapphandler; focusedwindowbubble nativeeventtimeobservations required. Raworiginalassertions remainfailed."
+    },
+    {
+      "issue": "Untrusted app-created emptydownloadanchor clicks",
+      "classification": "Verifier input-classification error",
+      "proof": "Actualnativepointer/keyboard/input/change remaintrusted; app blobdownloadanchor.click event differs, retainedrawtrace."
+    },
+    {
+      "issue": "Initial fixed350ms Escape thenexporthidden",
+      "classification": "Verifier close-timing oracle and cascading failure",
+      "proof": "Native springmodal closes later; correctedunchangedfunctionalexpectation uses bounded2shiddenwait+openerrestoration; originalfailures retained."
+    },
+    {
+      "issue": "Initial ordinarymobilehiddenaboutnav",
+      "classification": "Semantic mapping error",
+      "proof": "LinkhiddeninactualresponsiveCSS, notadvertised atmobileviewport; mapping corrected."
+    },
+    {
+      "issue": "Initial reducedlosslessstaticcheckafter explicit resume",
+      "classification": "Verifier expectation mismatch",
+      "proof": "Reducedpref allows meaningful static creation path plus explicitoptinplay; correctednativepause selectsstaticcomposition. Originalfailedprogress/pixels retained."
+    },
+    {
+      "issue": "Initial ordinaryreduced extra-panelreopen4stimeout",
+      "classification": "Observed native action timeout and later modal-occlusion cascade; no universal product-defect claim",
+      "proof": "Trace recordsactualtrustedopenclick butPlaywright4s schedulingtimeout; followingcontrols wereblocked. Correctedbatch-observation runpasses same4scontrols, failedcapture preserved. Software-rendering resourcecontention observed."
+    },
+    {
+      "issue": "Initial MotionfallbackunexpectedChromeclose",
+      "classification": "Unknown browser termination, incompletecapture",
+      "proof": "No parenttermination; retainedpartialfilm/hash, journeyinterrupted/completenessfail andbrowser.newContexterror. No causalproductfailure inference."
+    },
+    {
+      "issue": "Second reducedindependentcalibrationwhite-only1sclip",
+      "classification": "Recorder readiness failure",
+      "proof": "1440x960/DPR1confirmedbutallfourdecodedcornerswhite; gatecorrectlystoppedbeforecandidate. Continuedfixturewaitsactual2RAF+1500ms/paintindicator, samefourcorner±20 pixelgate."
+    }
+  ],
+  "attempts": [
+    {
+      "attempt": "attempt-1791104118371-26ffb949",
+      "sourceDirectory": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949",
+      "status": "failed",
+      "error": "browser.newContext: Target page, context or browser has been closed\n    at async lossless (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:101:304)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2958",
+      "harness": {
+        "file": "/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs",
+        "bytes": 36567,
+        "sha256": "2217d81a1c9b6e405880079caf5cb39ea192fde6a013a648d90210bd6422433d"
+      },
+      "configurationSha256": "55f2082cc157adad1de08663e9bd1f93759d796276017b59a8aeb2e45a17f0db",
+      "primary": [
+        {
+          "arm": "ordinary",
+          "condition": "desktop",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:333\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "no-visible-or-uncaught-error",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: All recorded inputs must be browser-trusted\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:232\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:97)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/ordinary-desktop/page@0f89305a63735498e94cbac925afde8f.webm",
+            "bytes": 9928756,
+            "sha256": "2f9315fd6d2e01f6cbde00032f3b9f5c5e02694d2bd7da9d82c0fb590de7bb5d"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.054552854000000026,
+              "pageClock": {
+                "timeOrigin": 1791104120669.6,
+                "now": 37.80000001192093
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.4761441749999999,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 464
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.5618340299999995,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 1550.4000000059605
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 8.801583500000001,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 8738.5
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 9.856808787,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 9795.79999999702
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 9.860162801,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 9797.20000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 16.538521519,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 16540.59999999404
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 34.235973083000005,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 34234.90000000596
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 37.541577804,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 37531.29999999702
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 66.238134519,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 66175.09999999404
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 67.098964389,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 67035.79999999702
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 86.33127607899999,
+              "pageClock": {
+                "timeOrigin": 1791104120714.1,
+                "now": 86321.79999999702
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "desktop",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:333\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "details-pointer-keyboard-focus-and-escape",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:94:172\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:94:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "svg-and-json-current-composition",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#download-svg')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"download-svg\" class=\"primary-button\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    6 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async exportsCheck (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:61:177)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:95:167\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:95:44)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/motion-desktop/page@c62196aae3204ca4d3f491853158bff8.webm",
+            "bytes": 6881097,
+            "sha256": "3f78206d7621b7e31b97895e8d401ecfd2009c4deed713f2d0b499bcca77f0eb"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.061134797000006076,
+              "pageClock": {
+                "timeOrigin": 1791104269420.4,
+                "now": 42.29999999701977
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 1.9677822210000013,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 2001.0999999940395
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 3.1349998290000074,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 3118.3999999910593
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 9.536577000000019,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 9485
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 12.413962339999998,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 12359.09999999404
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 12.433456474000007,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 12381
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 19.11874874000001,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 19072.29999999702
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 25.07083930600001,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 24997.89999999106
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 25.893932936,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 25820.59999999404
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 34.48741082200001,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 34414.89999999106
+              }
+            },
+            {
+              "name": "export-attempt-end",
+              "hostSeconds": 38.51757582900001,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 38468.20000000298
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 51.470779246999996,
+              "pageClock": {
+                "timeOrigin": 1791104269466.8,
+                "now": 51460
+              }
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "condition": "mobile",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:333\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-nav-about",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.site-header nav a[href=\"#about\"]')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#about\">The idea</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    6 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "no-visible-or-uncaught-error",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: All recorded inputs must be browser-trusted\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:232\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:97)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:541:9)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/ordinary-mobile/page@6f29bf0ddd71bcf7e378718cc137b61a.webm",
+            "bytes": 6725724,
+            "sha256": "9ce721b31edb22075e7522008d664e5ea074272fe14270f45705140636a8760f"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.04750368300001719,
+              "pageClock": {
+                "timeOrigin": 1791104348230.8,
+                "now": 29.5
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.56150848400002,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 576.1000000089407
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.6537009090000065,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 1628.1000000089407
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 6.521650610000012,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 6470.20000000298
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 7.515343675000011,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 7463.4000000059605
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 7.516448848,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 7464.20000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 12.431970935999997,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 12407.90000000596
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 21.509882907999998,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 21483.60000000894
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 23.593939067,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 23569.5
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 44.08577467099999,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 44060.90000000596
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 46.22857904300003,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 46201.5
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 65.71135987000001,
+              "pageClock": {
+                "timeOrigin": 1791104348263.1,
+                "now": 65691.40000000596
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "mobile",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:333\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:92:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "details-pointer-keyboard-focus-and-escape",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:94:172\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:94:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "svg-and-json-current-composition",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#download-svg')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"download-svg\" class=\"primary-button\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not stable\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not visible\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    7 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async exportsCheck (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:61:177)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:95:167\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:95:44)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/motion-mobile/page@760fe4969239a2c4a5b8f82a7c59533c.webm",
+            "bytes": 4494619,
+            "sha256": "ba400555deec43daa715517eb102526c5c5fa301f3abe9d8eea0f2dcd58ae101"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.052479114999994636,
+              "pageClock": {
+                "timeOrigin": 1791104448400.6,
+                "now": 30.400000005960464
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 1.8987550709999632,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 1903.5
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 2.9777678259999956,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 2947.3999999910593
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 6.633249890999985,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 6575.399999991059
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 8.24866856099997,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 8201.39999999106
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 8.26108759099996,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 8217.79999999702
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 12.308117092999979,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 12265.09999999404
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 16.578337889999965,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 16520.20000000298
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 17.403875292000013,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 17345.70000000298
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 23.649751007999992,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 23604.70000000298
+              }
+            },
+            {
+              "name": "export-attempt-end",
+              "hostSeconds": 27.879188251999963,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 27829
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 38.08526085399999,
+              "pageClock": {
+                "timeOrigin": 1791104448433.8,
+                "now": 38067.39999999106
+              }
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "condition": "reduced",
+          "checks": [
+            {
+              "id": "advertised-pointer-panel-close",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#export-open')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"export-open\" class=\"export-open\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-study-card-pulse",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[data-study=\"pulse\"]')\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-study-card-weave",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[data-study=\"weave\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button data-study=\"weave\" class=\"study-card weave-card\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-study-card-orbit",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[data-study=\"orbit\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button data-study=\"orbit\" class=\"study-card orbit-card\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <rect width=\"1200\" height=\"760\" fill=\"#18191d\"></rect> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <rect width=\"1200\" height=\"760\" fill=\"#18191d\"></rect> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <rect width=\"1200\" height=\"760\" fill=\"#18191d\"></rect> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-nav-about",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.site-header nav a[href=\"#about\"]')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#about\">The idea</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"dialog-header\">…</div> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-about-create",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.about a')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#create\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button id=\"download-json\" class=\"download-button secondary\">…</button> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button id=\"download-json\" class=\"download-button secondary\">…</button> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button id=\"download-json\" class=\"download-button secondary\">…</button> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  3 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button id=\"download-json\" class=\"download-button secondary\">…</button> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button id=\"download-json\" class=\"download-button secondary\">…</button> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-nav-create",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.nav-create')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#create\" class=\"nav-create\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div class=\"dialog-header\">…</div> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-footer-home",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('footer .logo')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#\" class=\"logo\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    7 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-footer-top",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('footer>a:last-child')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#\">Back to top ↑</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    7 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-header-home",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.site-header .logo')\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#\" class=\"logo\" aria-label=\"LOOP home\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "advertised-hero-pause-resume",
+              "passed": false,
+              "error": "locator.click: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#stage-pause')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"stage-pause\" title=\"Play animation\" aria-label=\"Play animation\" class=\"stage-pause icon-button\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"export-explanation\">The SVG is a vector still of this captured pose. …</p> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <rect width=\"1200\" height=\"760\" fill=\"#18191d\"></rect> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"dialog-header\">…</div> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <p class=\"export-explanation\">The SVG is a vector still of this captured pose. …</p> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <rect width=\"1200\" height=\"760\" fill=\"#18191d\"></rect> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div class=\"dialog-header\">…</div> from <dialog open=\"\" class=\"open\" id=\"export-dialog\" aria-labelledby=\"export-title\">…</dialog> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n    at click (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:40:171)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:177\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:96:34)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "no-visible-or-uncaught-error",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: All recorded inputs must be browser-trusted\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:232\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:97)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:541:9)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/ordinary-reduced/page@f1f5728c6faa312bde86539e1ce95510.webm",
+            "bytes": 13030957,
+            "sha256": "2b1bddfc94d60e3e3f63d8203270e24976fa5e91caa8212884354f3c492c3721"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.05134990599995945,
+              "pageClock": {
+                "timeOrigin": 1791104507560,
+                "now": 29.5
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.5200353170000017,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 521.2000000029802
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.622993294999993,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 1616.7999999970198
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 8.759495712999954,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 8702.59999999404
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 10.034189358000003,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 9977.70000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 10.036142213999993,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 9978.59999999404
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 17.54330478799995,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 17561.20000000298
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 78.99096576399997,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 78935.89999999106
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 79.778769837,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 79721.70000000298
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 170.989448853,
+              "pageClock": {
+                "timeOrigin": 1791104507593.3,
+                "now": 170933.09999999404
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "reduced",
+          "checks": [
+            {
+              "id": "no-visible-or-uncaught-error",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: All recorded inputs must be browser-trusted\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:232\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:97)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/motion-reduced/page@afb15d09f8b6aa3c1b50fc5e855e7952.webm",
+            "bytes": 1903592,
+            "sha256": "910cf1d572f8c0b405e413cf7a3aa865d31f2a2cca1d9dcc500b023e3b742d1d"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.04906947300001047,
+              "pageClock": {
+                "timeOrigin": 1791104730560,
+                "now": 32.5
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 2.042915951999952,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 1991.2999999970198
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 3.049764453999931,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 2996.6000000089407
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 4.507021689999965,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 4453.70000000298
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 5.8455168539999285,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 5792.70000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 5.846539863999933,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 5793.4000000059605
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 7.191253197000012,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 7138
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 9.742626123999944,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 9689.5
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 9.945252382999984,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 9892.40000000596
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 17.114398810999933,
+              "pageClock": {
+                "timeOrigin": 1791104730595,
+                "now": 17061.40000000596
+              }
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "condition": "fallback",
+          "checks": [
+            {
+              "id": "no-visible-or-uncaught-error",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: All recorded inputs must be browser-trusted\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:232\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:98:97)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/ordinary-fallback/page@3ae501253bc4cf123f612065ea0313b4.webm",
+            "bytes": 3084973,
+            "sha256": "30470a0171afd03459976e106da2be1acef6c0eeb5aa0d44c5558e8e074f75b2"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.04551556900003925,
+              "pageClock": {
+                "timeOrigin": 1791104762173,
+                "now": 25.19999998807907
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.20438474200002382,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 157.09999999403954
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.2145985499999952,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 1163.3999999910593
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 2.7132539020000257,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 2661.8999999910593
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 3.714717946000048,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 3665.8999999910593
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 3.7182990429999774,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 3667.2000000029802
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 5.124700304000056,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 5073.20000000298
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 6.364005820000078,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 6321.0999999940395
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 7.246986535000032,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 7205.70000000298
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 10.242388305000029,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 10191.09999999404
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 10.518809227999999,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 10467.59999999404
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 21.657734371000085,
+              "pageClock": {
+                "timeOrigin": 1791104762202.8,
+                "now": 21606.70000000298
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "fallback",
+          "checks": [
+            {
+              "id": "pulse-weave-orbit-rapid-retargeting",
+              "passed": false,
+              "error": "page.waitForTimeout: Target page, context or browser has been closed\n    at /home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:90:352\n    at async check (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:90:43)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "journey-interrupted",
+              "passed": false,
+              "error": "page.evaluate: Target page, context or browser has been closed\n    at mark (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:85:765)\n    at journey (/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:90:508)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            },
+            {
+              "id": "complete-viewport-film",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Full journey must reach end\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:72:243\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at finalizeJourney (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:72:30)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:100:10)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104118371-26ffb949/motion-fallback/page@c2fddb528627dbbc3c44054987006e75.webm",
+            "bytes": 597740,
+            "sha256": "235a8c8daee26af5c13e9fc68585fbff83713ad65674a49dc907f94f3c2c5c4d"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.03887395100004505,
+              "pageClock": {
+                "timeOrigin": 1791104797385.6,
+                "now": 26.400000005960464
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.15235817999998108,
+              "pageClock": {
+                "timeOrigin": 1791104797414.4,
+                "now": 112.19999998807907
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.1642319429999917,
+              "pageClock": {
+                "timeOrigin": 1791104797414.4,
+                "now": 1121.5
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 2.632644745999947,
+              "pageClock": {
+                "timeOrigin": 1791104797414.4,
+                "now": 2589.7999999970198
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 3.6628566149999386,
+              "pageClock": {
+                "timeOrigin": 1791104797414.4,
+                "now": 3620.199999988079
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 3.666776037000003,
+              "pageClock": {
+                "timeOrigin": 1791104797414.4,
+                "now": 3624
+              }
+            }
+          ]
+        }
+      ],
+      "lossless": [
+        {
+          "arm": "ordinary",
+          "condition": "desktop",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "463",
+              "playback": "Play animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "463",
+              "playback": "Play animation"
+            },
+            "crop": {
+              "x": 459,
+              "y": 0,
+              "width": 897,
+              "height": 699
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104210672.9,
+              "now": 47743.40000000596
+            }
+          }
+        },
+        {
+          "arm": "motion",
+          "condition": "desktop",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "730",
+              "playback": "Resume motion"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "730",
+              "playback": "Resume motion"
+            },
+            "crop": {
+              "x": 57,
+              "y": 90,
+              "width": 556,
+              "height": 540
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104324582.2,
+              "now": 18645.80000001192
+            }
+          }
+        },
+        {
+          "arm": "ordinary",
+          "condition": "mobile",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "78",
+              "progress": "935",
+              "playback": "Play animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "78",
+              "progress": "935",
+              "playback": "Play animation"
+            },
+            "crop": {
+              "x": 23,
+              "y": 10,
+              "width": 343,
+              "height": 205
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104415794.2,
+              "now": 26658.5
+            }
+          }
+        },
+        {
+          "arm": "motion",
+          "condition": "mobile",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "508",
+              "playback": "Resume motion"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "508",
+              "playback": "Resume motion"
+            },
+            "crop": {
+              "x": 23,
+              "y": 0,
+              "width": 343,
+              "height": 260
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104488616.4,
+              "now": 15722.39999999106
+            }
+          }
+        },
+        {
+          "arm": "ordinary",
+          "condition": "reduced",
+          "checks": [
+            {
+              "id": "reduced-static-selected-progress",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'340' !== '40'\n\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:101:3318\n    at check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:56)\n    at lossless (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:101:3200)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:103:2958"
+            }
+          ],
+          "pause": {
+            "scope": "Selected static reduced composition across observation interval; playback API may remain running",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "340",
+              "playback": "Pause animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "40",
+              "playback": "Pause animation"
+            },
+            "crop": {
+              "x": 459,
+              "y": 0,
+              "width": 897,
+              "height": 699
+            },
+            "pixels": {
+              "exact": false,
+              "meanAbsChannelDelta": 18.913380531406283,
+              "channelsOver12": 0.18190768890526307
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104682080.8,
+              "now": 43902.10000000894
+            }
+          }
+        },
+        {
+          "arm": "motion",
+          "condition": "reduced",
+          "checks": [],
+          "pause": {
+            "scope": "Selected static reduced composition across observation interval; playback API may remain running",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "347",
+              "playback": "Resume motion"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "347",
+              "playback": "Resume motion"
+            },
+            "crop": {
+              "x": 57,
+              "y": 90,
+              "width": 556,
+              "height": 540
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104750793.4,
+              "now": 8867
+            }
+          }
+        },
+        {
+          "arm": "ordinary",
+          "condition": "fallback",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "493",
+              "playback": "Play animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "493",
+              "playback": "Play animation"
+            },
+            "crop": {
+              "x": 459,
+              "y": 0,
+              "width": 897,
+              "height": 699
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104786450,
+              "now": 9896.5
+            }
+          }
+        }
+      ],
+      "calibrationFiles": "failures/attempt1/calibration-*",
+      "rawReports": "failures/attempt1/",
+      "localFullAttemptRetained": true
+    },
+    {
+      "attempt": "attempt-1791104908417-ef4aee2c",
+      "sourceDirectory": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104908417-ef4aee2c",
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: Recorder full-viewport calibration failed\n    at calibrate (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:68:814)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:104:2687",
+      "harness": {
+        "file": "/home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs",
+        "bytes": 39595,
+        "sha256": "1f2610217dfc63e97a98a079cdab05072fe46944764facc9d92ff3726c567669"
+      },
+      "configurationSha256": "ea220bf1a907252651dd4b561ea4ee88c1af59bd7d5ed15b5910b760d89d7706",
+      "primary": [
+        {
+          "arm": "ordinary",
+          "condition": "desktop",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start at native handler completion\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:361\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:104:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104908417-ef4aee2c/ordinary-desktop/page@a7721abad66ea48d15afcbc581dadb3e.webm",
+            "bytes": 5344408,
+            "sha256": "1c756ee7be950c128e12142f6baefa00775c7137f2376bb0bc2a014cd9d594bf"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.045479017000000115,
+              "pageClock": {
+                "timeOrigin": 1791104910646.9,
+                "now": 28.299999997019768
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.43423874400000023,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 477.90000000596046
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.5723788840000001,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 1564.2000000029802
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 5.80598918,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 5754.300000011921
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 6.791528281999999,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 6739.70000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 6.793317656999999,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 6740.800000011921
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 8.040448798,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 8035.20000000298
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 9.745629993,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 9746.20000000298
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 10.62249827,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 10616.10000000894
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 24.224946973999998,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 24172.20000000298
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 24.793257983,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 24740.60000000894
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 43.181496351,
+              "pageClock": {
+                "timeOrigin": 1791104910680.2,
+                "now": 43175.70000000298
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "desktop",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start at native handler completion\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:361\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:104:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104908417-ef4aee2c/motion-desktop/page@09e537d927786a0c1a241aedbd158cf7.webm",
+            "bytes": 4618553,
+            "sha256": "0b04b7db07970112e78e20efa64e75fd6b57fff1bf94b072ef044da68765b74c"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.0503529969999945,
+              "pageClock": {
+                "timeOrigin": 1791104979154.7,
+                "now": 29.399999991059303
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 1.673377164999998,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 1712.699999988079
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 2.779184160999997,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 2767.0999999940395
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 6.466672410999992,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 6430.5
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 8.178516948000004,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 8129.5
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 8.18828543399999,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 8149
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 10.209248200999994,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 10174.59999999404
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 11.505393564999991,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 11450.5
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 12.308462165000005,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 12253.5
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 20.038228239999995,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 19983.29999999702
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 20.491651639000004,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 20437
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 33.04119238199999,
+              "pageClock": {
+                "timeOrigin": 1791104979187.5,
+                "now": 33027.5
+              }
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "condition": "mobile",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start at native handler completion\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:361\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:104:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104908417-ef4aee2c/ordinary-mobile/page@8d7c0b2a1cbeb19cdfb88d1032b350a9.webm",
+            "bytes": 4386124,
+            "sha256": "ef4fd9995826666d192945bef1868f1dda28440409137c563c3dc6c8ab03624b"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.037365228999988176,
+              "pageClock": {
+                "timeOrigin": 1791105030249.4,
+                "now": 25.100000008940697
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 0.3972692499999976,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 407.59999999403954
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 1.4609812509999902,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 1442.699999988079
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 4.595208842999986,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 4551.899999991059
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 5.556656275999995,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 5514.399999991059
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 5.558724576999986,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 5515.399999991059
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 7.6553454779999885,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 7637.79999999702
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 9.000770300999998,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 8981.59999999404
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 9.85100441599998,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 9831
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 21.901068581,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 21885.79999999702
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 22.769728857999986,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 22749.19999998808
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 38.305874324999984,
+              "pageClock": {
+                "timeOrigin": 1791105030277.5,
+                "now": 38285.79999999702
+              }
+            }
+          ]
+        },
+        {
+          "arm": "motion",
+          "condition": "mobile",
+          "checks": [
+            {
+              "id": "replay-start-state",
+              "passed": false,
+              "error": "AssertionError [ERR_ASSERTION]: Replay returns to start at native handler completion\n    at file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:361\n    at async check (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:36:50)\n    at async journey (file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:93:2)\n    at async file:///home/terryd/Projects/Prenium_Motion/tests/v2/loop-study-browser.mjs:104:2865"
+            }
+          ],
+          "rawVideo": {
+            "file": "/home/terryd/Projects/Prenium_Motion/artifacts/loop-studio/heldout/attempt-1791104908417-ef4aee2c/motion-mobile/page@d34658ed8b01c034e6501bfd4acd02a5.webm",
+            "bytes": 3271699,
+            "sha256": "12efd67624659ff0a26301a0702e97a35139e1b4938865d4fd2d1a978942e225"
+          },
+          "events": [
+            {
+              "name": "navigation-start",
+              "hostSeconds": 0.050566651000001,
+              "pageClock": {
+                "timeOrigin": 1791105086494,
+                "now": 34.099999994039536
+              }
+            },
+            {
+              "name": "navigation-complete",
+              "hostSeconds": 1.6715414190000155,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 1673.9000000059605
+              }
+            },
+            {
+              "name": "entrance-reviewed",
+              "hostSeconds": 2.7562687310000182,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 2722.7000000029802
+              }
+            },
+            {
+              "name": "held-scrub-start",
+              "hostSeconds": 5.224315751000017,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 5169.70000000298
+              }
+            },
+            {
+              "name": "held-scrub-end",
+              "hostSeconds": 6.321838019999996,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 6267.5
+              }
+            },
+            {
+              "name": "rapid-style-reversal-start",
+              "hostSeconds": 6.323544133000017,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 6268.70000000298
+              }
+            },
+            {
+              "name": "rapid-style-reversal-end",
+              "hostSeconds": 7.84166965299999,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 7786.800000011921
+              }
+            },
+            {
+              "name": "paused-start",
+              "hostSeconds": 8.989990598000004,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 8935
+              }
+            },
+            {
+              "name": "paused-end",
+              "hostSeconds": 9.794099825999991,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 9739.10000000894
+              }
+            },
+            {
+              "name": "export-start",
+              "hostSeconds": 16.318043286,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 16263.10000000894
+              }
+            },
+            {
+              "name": "useful-export-complete",
+              "hostSeconds": 16.72632770699999,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 16684.40000000596
+              }
+            },
+            {
+              "name": "journey-end",
+              "hostSeconds": 26.63484585099999,
+              "pageClock": {
+                "timeOrigin": 1791105086531.1,
+                "now": 26608
+              }
+            }
+          ]
+        }
+      ],
+      "lossless": [
+        {
+          "arm": "ordinary",
+          "condition": "desktop",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "569",
+              "playback": "Play animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "79",
+              "progress": "569",
+              "playback": "Play animation"
+            },
+            "crop": {
+              "x": 459,
+              "y": 0,
+              "width": 897,
+              "height": 699
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791104956785.5,
+              "now": 20468.89999999106
+            }
+          }
+        },
+        {
+          "arm": "motion",
+          "condition": "desktop",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "472",
+              "playback": "Resume motion"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "472",
+              "playback": "Resume motion"
+            },
+            "crop": {
+              "x": 57,
+              "y": 90,
+              "width": 556,
+              "height": 540
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791105015241.7,
+              "now": 12499.70000000298
+            }
+          }
+        },
+        {
+          "arm": "ordinary",
+          "condition": "mobile",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "78",
+              "progress": "524",
+              "playback": "Play animation"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "signal",
+              "intensity": "78",
+              "progress": "524",
+              "playback": "Play animation"
+            },
+            "crop": {
+              "x": 23,
+              "y": 10,
+              "width": 343,
+              "height": 205
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791105070159.1,
+              "now": 14935.20000000298
+            }
+          }
+        },
+        {
+          "arm": "motion",
+          "condition": "mobile",
+          "checks": [],
+          "pause": {
+            "scope": "Native paused composition across observation interval",
+            "a": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "458",
+              "playback": "Resume motion"
+            },
+            "b": {
+              "name": "VECTOR",
+              "style": "orbit",
+              "palette": "ember",
+              "intensity": "76",
+              "progress": "458",
+              "playback": "Resume motion"
+            },
+            "crop": {
+              "x": 23,
+              "y": 0,
+              "width": 343,
+              "height": 260
+            },
+            "pixels": {
+              "exact": true,
+              "meanAbsChannelDelta": 0,
+              "channelsOver12": 0
+            },
+            "nativeClock": {
+              "timeOrigin": 1791105114659.8,
+              "now": 11023.29999999702
+            }
+          }
+        }
+      ],
+      "calibrationFiles": "failures/attempt2/calibration-*",
+      "rawReports": "failures/attempt2/",
+      "localFullAttemptRetained": true
+    }
+  ]
+}

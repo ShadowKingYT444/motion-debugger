@@ -2,7 +2,7 @@
 
 Motion Debugger combines portable agent skills with local motion evidence tools. The host agent writes and repairs code; the MCP server records and inspects the running result.
 
-## Four focused skills
+## Five focused skills
 
 - `motion`: normal design prompt entry point; routes to original runnable recipes, design guidance and browser verification
 - `motion-design`: choose a brief-led visual direction, coherent typography/surfaces and complete interaction states
@@ -11,6 +11,8 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 - `motion-build-inspect-repair`: own a prompt-to-page build, diagnose actual observed defects, repair source in scope and verify the same interaction again
 
 For a new animated page, tag `motion` and give your ordinary website or app brief. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
+
+The `motion` recipe catalog contains seven original modules: springs, scroll chapters, articulated colonies, task handoffs, elapsed sequences, kinetic fields and reversible drawers. `motion_recipe` returns the exact packaged source and usage. The kinetic field owns interruptible pose channels and playback; your app supplies its geometry, materials, lighting and composition.
 
 ## Install skills and MCP together
 

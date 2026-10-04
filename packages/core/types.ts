@@ -2,6 +2,7 @@ export type MotionAction =
   | { action:'click'|'hover'; selector:string }
   | { action:'key'; key:string }
   | { action:'move'; x:number; y:number }
+  | { action:'drag'; selector:string; points:{x:number;y:number}[]; durationMs:number; steps?:number }
   | { action:'scroll'; deltaY:number }
   | { action:'wait'; ms:number };
 export interface MotionContract {

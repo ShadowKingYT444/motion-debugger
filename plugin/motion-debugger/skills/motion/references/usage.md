@@ -4,6 +4,29 @@ These modules are original Motion Debugger construction examples. They borrow no
 
 Copy required `.mjs` files together into the consumer project and import them with relative paths. The catalog returns all local dependencies for each recipe. Consumer CSS owns typography, color, layout and composition. Keep controls native (`button`, `dialog`, anchors); attach a dispose function to component unmount or navigation. All recurring loops and listeners require teardown. Do not create a second requestAnimationFrame loop around `animateSpring`.
 
+## Kinetic identity fields
+
+Copy `kinetic-field.mjs` and `spring.mjs` together. `createKineticField` owns its animation loop and calls `onChange` with stable `state.points` for Pulse, Weave and Orbit. Map normalized `x/y/z` into your SVG viewport or Three.js scene; author typography, glyphs, lighting, materials and camera framing for the brief. The primitive supplies motion and formations, so visual composition still belongs to the consumer.
+
+```js
+import {createKineticField} from './kinetic-field.mjs';
+const field = createKineticField({mode: 'orbit', onChange: state => {
+  renderPoints(state.points); // Renderer and DOM must already exist: initial callback is synchronous.
+  scrubber.value = state.progress;
+}});
+field.play();
+// Native input handler: direct timeline scrubbing, preserving paused/running state.
+scrubber.addEventListener('input', () => field.seek(Number(scrubber.value), {immediate: true}));
+// field.setMode('weave') preserves positions and velocities during retargeting.
+// field.pause(), resume(), replay(), setIntensity(value), and pose(mode) are explicit controls.
+```
+
+Default `seek(progress)` springs toward the selected pose; `{immediate:true}` applies the pose directly and clears velocity. Paused seeking remains paused. Progress 1 retains the endpoint while its cyclic phase is 0. Reduced motion retains the selected meaningful pose without a decorative loop. Render in the callback; do not wrap it in another requestAnimationFrame loop. Remove consumer listeners and call `field.dispose()` at teardown; separately dispose consumer geometry, materials and renderer. Verify held forward/backward scrubbing, rapid style changes, pause/replay and export state against the actual rendered output.
+
+While paused, explicit style or intensity changes settle to the new pose without advancing the timeline. `pause()` is safe inside `onChange`. A throwing renderer stops scheduling, retains the pose and exposes `state.error` with paused status; the original exception still surfaces. Fix the renderer and call `resume()` or `play()` to retry. A constructor callback failure cleans up owned resources before rethrowing.
+
+`play()` starts continuous playback; `resume()` restores the previous activity, including a finite pose transition that finishes and stops. Both preserve position and velocity. Use `replay()` when playback should restart at phase zero.
+
 ## Colony plus scroll narrative
 
 Use an existing project Three.js module (install through the project's ordinary dependency workflow if authorized). The canvas, render loop and responsive sizing belong to the consumer:

@@ -15,7 +15,8 @@ export function exampleRecipes(origin: string): Record<ExampleScenario, { before
     const common = { url: new URL(`/examples?scenario=${scenario}&mode=${mode}${scenario === 'kinetic' ? '&autoplay=0' : ''}`, origin).href,
       label: `${scenario} / ${mode === 'baseline' ? 'seeded defect' : 'handwritten repair'}`,
       viewport: { width: 1280, height: 1000 }, reducedMotion: 'no-preference' as const, sourceRefs };
-    if (scenario === 'kinetic') return { ...common, selector: '#courier-target', durationMs: 4400,
+    // Native target preparation and pointer input share this deadline with the 4200ms waits.
+    if (scenario === 'kinetic') return { ...common, selector: '#courier-target', durationMs: 5400,
       actions: [{ action: 'click', selector: '#courier-replay' }, { action: 'wait', ms: 4000 }, { action: 'wait', ms: 200 }],
       contract: { maxStepAt60HzPx: 40, maxReplacements: 0, final: { attributes: { 'data-state': 'delivered' }, visible: true } } };
     if (scenario === 'drawer') return { ...common, selector: '#product-drawer', durationMs: 2400,

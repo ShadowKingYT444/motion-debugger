@@ -43,7 +43,7 @@ test('failed Undo keeps incomplete decodable evidence through MCP; privacy and s
   const compact=failed.structuredContent as any;
   assert.equal(compact.status,'incomplete');assert.equal(compact.failure.stage,'interaction');
   assert.equal(compact.failure.actionIndex,2);assert.equal(compact.failure.action,'click');assert.equal(compact.failure.selector,'#undo');
-  assert.ok(compact.failure.elapsedMs>=3000);assert.equal(compact.metrics.sufficientEvidence,false);
+  assert.ok(compact.failure.elapsedMs>=500&&compact.failure.elapsedMs<1600,'Blocked input uses the declared 600ms interaction window rather than an unrelated 3-second timeout');assert.equal(compact.metrics.sufficientEvidence,false);
   assert.ok(compact.assertions.every((assertion:any)=>!assertion.passed));
   assert.equal(compact.evidence.finalScreenshot,'');
   const report=await inspect(compact.id,{artifactRoot});

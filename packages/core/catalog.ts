@@ -2,7 +2,7 @@ import {lstat, readFile, realpath} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
-export type MotionRecipeId = 'spring' | 'scroll-chapters' | 'colony-scene' | 'task-handoff' | 'drawer' | 'elapsed-sequence';
+export type MotionRecipeId = 'spring' | 'scroll-chapters' | 'colony-scene' | 'task-handoff' | 'drawer' | 'elapsed-sequence' | 'kinetic-field';
 export interface MotionRecipeMetadata {
   id: MotionRecipeId;
   title: string;
@@ -16,6 +16,7 @@ const entries: readonly MotionRecipeMetadata[] = [
   {id:'colony-scene',title:'Articulated colony scene',description:'Real meshes, camera and lighting; articulated walkers converge from orbital lanes into branching queues.',dependencies:['Consumer supplies its installed Three.js module and owned renderer'],files:['recipes/colony-scene.mjs','recipes/spring.mjs']},
   {id:'task-handoff',title:'Worker task handoff',description:'A persistent task token retargets between worker cards; completion fires only after arrival.',dependencies:[],files:['recipes/task-handoff.mjs','recipes/spring.mjs']},
   {id:'elapsed-sequence',title:'Elapsed task sequence',description:'Monotonic scripted phases with pause, resume, cancellation, hidden-tab suspension and meaningful reduced-motion poses; task progress is independent of rendering cadence.',dependencies:[],files:['recipes/elapsed-sequence.mjs']},
+  {id:'kinetic-field',title:'Kinetic identity field',description:'Original Pulse, Weave and Orbit formations with stable object identity, multiple continuous spring channels, elapsed phase and reduced-motion poses. Consumer owns SVG/Three geometry and lighting.',dependencies:[],files:['recipes/kinetic-field.mjs','recipes/spring.mjs']},
   {id:'drawer',title:'Reversible modal drawer',description:'Native dialog focus containment with velocity-preserving reversal, Escape and reduced motion.',dependencies:[],files:['recipes/drawer.mjs','recipes/spring.mjs']}
 ];
 const references = ['references/usage.md','references/evidence.md'] as const;

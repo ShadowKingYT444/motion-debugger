@@ -1,6 +1,6 @@
 ---
 name: motion
-description: Create and verify polished website motion from a normal website or app prompt. Use when the user tags Motion Debugger or asks for expressive animations, spatial scenes, scroll choreography or refined microinteractions. Includes runnable spring, scroll chapter, articulated colony, task handoff, elapsed task sequence and modal drawer recipes, then actual browser evidence.
+description: Create and verify polished website motion from a normal website or app prompt. Use when the user tags Motion Debugger or asks for expressive animations, spatial scenes, scroll choreography or refined microinteractions. Includes runnable spring, scroll chapter, articulated colony, task handoff, elapsed task sequence, kinetic identity field and modal drawer recipes, then actual browser evidence.
 ---
 
 # Build motion into the requested product
@@ -19,6 +19,7 @@ Read [usage](references/usage.md) and only the recipes needed. When MCP tools ar
 | --- | --- | --- |
 | Reversals and interruption | [spring](recipes/spring.mjs) | Preserve position and velocity across target changes. |
 | Scroll narrative | [scroll-chapters](recipes/scroll-chapters.mjs) | Measured progress drives a sticky scene and three meaningful chapters. |
+| Kinetic identity/editor | [kinetic-field](recipes/kinetic-field.mjs) | Distinct Pulse/Weave/Orbit formations with stable IDs and continuous multi-channel retargeting; author the product geometry and rendering. |
 | Spatial colony hero | [colony-scene](recipes/colony-scene.mjs) | Real lit meshes with articulated legs; scouts form branching task queues. |
 | Agents exchanging work | [task-handoff](recipes/task-handoff.mjs) | One persistent token moves between interactive worker cards and completes on arrival. |
 | Scripted task lifecycle | [elapsed-sequence](recipes/elapsed-sequence.mjs) | Pause, resume, cancel and replay using elapsed time; hidden tabs suspend and reduced motion keeps meaningful phase poses. |

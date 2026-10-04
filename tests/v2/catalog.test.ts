@@ -11,7 +11,7 @@ const modules = new URL('../../plugin/motion-debugger/skills/motion/recipes/',im
 const load = (name:string) => import(new URL(`${name}.mjs`,modules).href);
 
 test('catalog returns shipped complete source dependencies and rejects arbitrary paths',async()=>{
-  const catalog=motionCatalog();assert.equal(catalog.length,6);
+  const catalog=motionCatalog();assert.equal(catalog.length,7);
   catalog[0].files=['../../.env'];assert.deepEqual(motionCatalog()[0].files,['recipes/spring.mjs']);
   for(const entry of motionCatalog()){
     const recipe=await motionRecipe(entry.id);

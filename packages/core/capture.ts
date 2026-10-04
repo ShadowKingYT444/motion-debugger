@@ -8,7 +8,7 @@ import {recordingSurface,prepareRecordingPage,finalizeRecording} from '../../ser
 import {installBrowserProbe} from './browser-probe';
 import {analyze,analyzeDelivery} from './analysis';
 import {finiteGeometry,measureCoverage,targetState} from './coverage';
-import {validateRecipe,validateLocalUrl,readSourceRef} from './safety';
+import {validateRecipe,validateLocalUrl,readSourceRef,recipeWarnings} from './safety';
 import type {CaptureRecipe,CoreOptions,MotionCapture,MotionEvent,MotionSample,MotionContract,MotionDeliveryObservation} from './types';
 
 const privateSelector='input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"],[data-motion-private]';
@@ -63,6 +63,44 @@ function installOutcomeObserver(config:NonNullable<MotionContract['outcomes']>,d
 /** An unsuccessful interaction with explicitly incomplete, privacy-checked evidence. */
 export class CaptureFailureError extends Error {
   constructor(message:string,public readonly evidence:MotionCapture){super(message);this.name='CaptureFailureError'}
+}
+
+/** Native held pointer path. No DOM-dispatched input or forced hit testing. */
+export async function performNativeDrag(page:Page,action:Extract<CaptureRecipe['actions'][number],{action:'drag'}>,timeoutMs:number,signal?:AbortSignal) {
+  const started=performance.now(),deadline=started+timeoutMs;
+  const remaining=()=>Math.max(1,deadline-performance.now());
+  const check=()=>{if(signal?.aborted)throw new Error('Capture canceled during drag');if(performance.now()>=deadline)throw new Error('Drag action exceeds capture deadline');};
+  if(timeoutMs<action.durationMs)throw new Error('Drag duration exceeds remaining capture deadline');
+  const locator=page.locator(action.selector);
+  if(await locator.count()!==1)throw new Error('Drag selector must identify exactly one element');
+  if(await locator.evaluate(element=>element.matches('input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"]')||!!element.closest('[data-motion-private]')))throw new Error('Credential/private-field interactions are not supported');
+  const initialRect=await locator.boundingBox();
+  if(!initialRect||initialRect.width<=0||initialRect.height<=0)throw new Error('Drag target must have nonzero rendered geometry');
+  await locator.scrollIntoViewIfNeeded({timeout:remaining()});check();
+  const rect=await locator.boundingBox(),viewport=page.viewportSize();
+  if(!rect||rect.width<=0||rect.height<=0)throw new Error('Drag target must have nonzero rendered geometry');
+  if(!viewport||rect.x<0||rect.y<0||rect.x+rect.width>viewport.width||rect.y+rect.height>viewport.height)throw new Error('Drag target must fit inside the capture viewport');
+  const insetX=Math.min(.5,rect.width/2),insetY=Math.min(.5,rect.height/2);
+  const point=(p:{x:number;y:number})=>({x:rect.x+Math.min(rect.width-insetX,Math.max(insetX,p.x*rect.width)),y:rect.y+Math.min(rect.height-insetY,Math.max(insetY,p.y*rect.height))});
+  const first=point(action.points[0]);
+  await locator.hover({position:{x:first.x-rect.x,y:first.y-rect.y},timeout:remaining()});check();
+  const moves=Math.max(action.steps??24,action.points.length-1),segments=action.points.length-1;
+  if(deadline-performance.now()<action.durationMs)throw new Error('Drag duration exceeds remaining capture deadline after target preparation');
+  let held=false,dragFailed=false;
+  try {
+    await page.mouse.down();held=true;const pathStart=performance.now();
+    // Allocate interpolation to each segment so a sharp supplied reversal cannot be skipped.
+    for(let segment=0,completed=0;segment<segments;segment++){
+      const count=Math.floor((segment+1)*moves/segments)-Math.floor(segment*moves/segments);
+      const a=point(action.points[segment]),b=point(action.points[segment+1]);
+      for(let step=1;step<=count;step++){
+        check();const due=pathStart+action.durationMs*(++completed/moves),delay=due-performance.now();
+        if(delay>0)await page.waitForTimeout(Math.min(delay,remaining()));check();
+        await page.mouse.move(a.x+(b.x-a.x)*step/count,a.y+(b.y-a.y)*step/count);check();
+      }
+    }
+  } catch(error) {dragFailed=true;throw error;}
+  finally {if(held)try{await page.mouse.up();}catch(error){if(!dragFailed)throw error;}}
 }
 
 export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<MotionCapture> {
@@ -126,8 +164,9 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       actionIndex=index;
       if(options.signal?.aborted)throw new Error('Capture canceled');
       const remaining=Math.max(0,durationMs-(performance.now()-start));
-      if(recipe.contract?.outcomes&&remaining<=0)throw new Error('Capture deadline exceeded during interaction');
-      if(action.action==='wait'){if(recipe.contract?.outcomes&&action.ms>remaining)throw new Error('Wait action exceeds capture deadline');await page.waitForTimeout(action.ms);continue}
+      if(remaining<=0)throw new Error('Capture deadline exceeded during interaction');
+      if(action.action==='wait'){if(action.ms>remaining)throw new Error('Wait action exceeds capture deadline');await page.waitForTimeout(action.ms);continue}
+      if(action.action==='drag'){await performNativeDrag(page,action,Math.max(1,Math.min(3000,durationMs-(performance.now()-start))),options.signal);continue}
       if(action.action==='move'){await page.mouse.move(action.x,action.y);continue}
       if(action.action==='scroll'){await page.mouse.wheel(0,action.deltaY);continue}
       if(action.action==='key'){await page.keyboard.press(action.key);continue}
@@ -135,9 +174,10 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       if(await locator.count()!==1)throw new Error('Interaction selectors must identify exactly one element');
       const sensitive=await locator.evaluate(element=>element.matches('input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"]')||!!element.closest('[data-motion-private]'));
       if(sensitive){privacyPassed=false;throw new Error('Credential/private-field interactions are not supported')}
-      const actionTimeout=recipe.contract?.outcomes?Math.max(1,Math.min(3000,durationMs-(performance.now()-start))):3000;
+      const actionTimeout=Math.max(1,Math.min(3000,durationMs-(performance.now()-start)));
       if(action.action==='click')await locator.click({timeout:actionTimeout});else await locator.hover({timeout:actionTimeout});
     }
+    if(performance.now()-start>durationMs)throw new Error('Capture deadline exceeded during interaction');
     if(recipe.contract?.outcomes)await page.evaluate(()=>{(window as any).__motionOutcomes.finishActions()});
     stage='settling';actionIndex=undefined;
     await page.waitForTimeout(Math.max(0,durationMs-(performance.now()-start)));
@@ -227,5 +267,5 @@ export async function inspect(id:string,options:CoreOptions):Promise<MotionCaptu
   return JSON.parse(await readFile(path.join(path.resolve(options.artifactRoot),id,'report.json'),'utf8')) as MotionCapture;
 }
 export function compact(report:MotionCapture) {
-  return {id:report.id,...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,delivery:report.delivery??analyzeDelivery(report.recipe),assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
+  return {id:report.id,recipeWarnings:recipeWarnings(report.recipe),...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,delivery:report.delivery??analyzeDelivery(report.recipe),assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
 }
