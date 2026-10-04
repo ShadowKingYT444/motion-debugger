@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "fast-ab-validation-1",
+  "createdAt": "2026-10-04T21:28:22.410106+00:00",
+  "implementationCommit": "8f584d77948c589baf29df4a1a050226f6120667",
+  "scope": "PR #8 outcome evidence follow-up and quick packaged SIGNAL A/B viewer",
+  "checks": [
+    {
+      "name": "npm run check",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/check.log",
+        "sha256": "ff3cf969a03f3cc643d5f64d37cef8971f6819ebd000a35bf566388f07bdcbe5",
+        "bytes": 23370
+      }
+    },
+    {
+      "name": "Built npm + standalone MCP review through official SDK; not native agent-host validation",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/v2/review/browser-verification.json",
+        "sha256": "40f74e02d99c040ddb7e3157d939e9ca8910582fd3bfb7177c391a8b45d9308b",
+        "bytes": 23655
+      }
+    },
+    {
+      "name": "Native six-second completion and caught/absent/late outcome failures",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/v2/outcomes/2026-10-04T21-19-50-705Z/browser-verification.json",
+        "sha256": "5ecb7dd25875fe86ed80b20ef97493b53fd8c293f0707b9ffb3a22a6a6837336",
+        "bytes": 48695
+      }
+    },
+    {
+      "name": "Native dashboard and remount regression",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/e2e.log",
+        "sha256": "15da350b5b1ad13681acdc554555e5de7a8f6771c06fe07e232b395afbcb9de3",
+        "bytes": 1965
+      }
+    },
+    {
+      "name": "Native v2 SDK stdio integration",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/v2-e2e.log",
+        "sha256": "eeb10cdccdfd83f164b9f5db9a16bbce9c6bad1327b7a6b5b21dcb48f53efc7a",
+        "bytes": 409
+      }
+    },
+    {
+      "name": "Native duration regression",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/duration-browser.log",
+        "sha256": "cbff3ebb6680f3f8683f06ce46ee6465b1f8f97b1830756eed18326a1d4fecb5",
+        "bytes": 181
+      }
+    },
+    {
+      "name": "Fresh tarball own dependency install, packaged A/B viewer, native capture/review",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/install/2026-10-04T21-26-08.986Z/verification.json",
+        "sha256": "ee5b6f670ebe6256dea5d64dd6d23fb701c79ab3511666d9bb460d061eac203b",
+        "bytes": 28110
+      }
+    }
+  ],
+  "package": {
+    "filename": "motion-debugger-0.5.0.tgz",
+    "integrity": "sha512-I4EWkNrkv0WZrXLOBehpHBaZvhJ3om/cd4LHFJs2M5IC6L7LlXvvwyvcbYgDB3Odec57BszVFBisRS8Vt0a1VA==",
+    "shasum": "442b38f1a9aea0e431ec81eaf213ca0b4e910f3a",
+    "size": 14989641,
+    "unpackedSize": 21008508,
+    "sha256": "c1382c9441a778b1461470e7f8292eea92c16fd45a17b5cfb731e5699e6da8ae",
+    "registryPublication": false,
+    "provenance": {
+      "gitCommit": "8f584d77948c589baf29df4a1a050226f6120667",
+      "workingTree": "",
+      "ci": "Not run: local consumer validation"
+    }
+  },
+  "viewer": {
+    "sourceRun": {
+      "path": "artifacts/rail-viewer/2026-10-04T21-22-18.988Z/verification.json",
+      "sha256": "e114e0ed0d78cd1e037ef06a8932ac7323eab32717ed0a78cdd6abcb5738d695",
+      "bytes": 363
+    },
+    "packedRun": {
+      "path": "artifacts/install/2026-10-04T21-26-08.986Z/rail-viewer/2026-10-04T21-26-42.295Z/verification.json",
+      "sha256": "f05aad72a2100a12bdb1edb86ab529f42d35cc2182b1638725da90b1118bd59b",
+      "bytes": 704
+    },
+    "visualInspection": "Actual desktop/mobile screenshots and timed frames decoded from both native viewer films were inspected. Films preserve original timing.",
+    "originalFilms": [
+      {
+        "path": "studies/rail-dispatch/evidence/ordinary-desktop/journey.webm",
+        "sha256": "d5df51ae284fb7767087c5b2f932318a349110041a446813453376b609183295",
+        "bytes": 937415
+      },
+      {
+        "path": "studies/rail-dispatch/evidence/ordinary-mobile/journey.webm",
+        "sha256": "e57fb625588bf2786dad5c18f61c3825c297fbff5f95fe0647722f422659464c",
+        "bytes": 610302
+      },
+      {
+        "path": "studies/rail-dispatch/evidence/motion-desktop/journey.webm",
+        "sha256": "c5f00e1967ed85770806bead6272a825055fa42fd78e2b0d38a0a9722278b361",
+        "bytes": 963338
+      },
+      {
+        "path": "studies/rail-dispatch/evidence/motion-mobile/journey.webm",
+        "sha256": "08c98035ba7188a67944ed5efae9e6b55c1892fcf7c2fb7a5fe99d1094e95e96",
+        "bytes": 714498
+      }
+    ]
+  },
+  "ci": {
+    "scope": "These records describe local verification. Remote CI is separately available in the follow-up PR checks; no remote success inferred."
+  },
+  "limits": [
+    "No new native Codex/Claude/OpenCode host evaluation; CLI and official SDK protocol clients were tested.",
+    "The A/B pair remains a single independent-agent workflow demonstration; no blinded preference winner or general superiority claim.",
+    "True load/entrance probe timing and the four-arm campaign remain outside this follow-up.",
+    "Precommit browser reports retain their own exact collection commit/worktree provenance. The clean packed runtime is the implementationCommit above."
+  ]
+}
