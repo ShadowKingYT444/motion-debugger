@@ -16,7 +16,7 @@ The `motion` recipe catalog contains seven original modules: springs, scroll cha
 
 ## Install skills and MCP together
 
-Install the provided private tarball in a durable location, then run this command **from the project you want the agent to work on**:
+Build a local tarball from a reviewed checkout with `npm ci` followed by `npm pack`, then install the generated `motion-debugger-0.5.0.tgz` in a durable tools directory. The [client setup guide](CLIENTS.md#recommended-configuration-wizard) gives the installation commands; the [source quickstart](../README.md#quickstart) runs the built CLI directly. Then run this command **from the project you want the agent to work on**:
 
 ```sh
 motion-debugger init --local

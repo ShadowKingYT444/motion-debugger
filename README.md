@@ -8,6 +8,42 @@ Tag `motion` with your ordinary website or app prompt. The plugin supplies seven
 
 [Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
+## Quickstart
+
+Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.5.0` is **not published on npm**.
+
+From this reviewed checkout:
+
+```sh
+npm ci
+npm run build
+node build/cli/index.js doctor
+node build/cli/index.js init --client codex --local --skills \
+  --project /absolute/path/to/your-app
+```
+
+`init` previews the exact project configuration and five skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
+
+For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
+
+Then ask your agent:
+
+> $motion Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
+
+Invocation depends on the installed skill or plugin:
+
+| Host and installation | Design prompt entry |
+| --- | --- |
+| Codex project skill | `$motion` followed by your brief |
+| Claude Code plugin | `/motion-debugger:motion` followed by your brief |
+| Cursor plugin | `/motion` followed by your brief |
+
+See [package setup](docs/PLUGIN-PACKAGES.md) for the matching adapter and [client evidence](docs/CLIENTS.md#compatibility-evidence) for what has been verified.
+
+For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
+
+Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
+
 ## Real demos
 
 The [LOOP kinetic identity studio](studies/loop-studio/README.md) makes motion the product: sculptural Orbit, rhythmic Pulse, braided Weave, held scrubbing, rapid preset changes, playback and SVG/configuration exports. Two actual fresh Codex sessions received the same brief and thirty-minute budget. Both finished before the deadline; only the assisted session received `$motion` and the installed plugin. Full source, original-timing recordings and independently checked interactions accompany the comparison. This single pair does **not** establish overall visual or smoothness superiority.
@@ -33,44 +69,6 @@ Open the printed local URL to interact with both frozen pages and watch complete
 ![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
 
 [Ordinary complete recording](studies/ants-launch/evidence/runs/ordinary-desktop/page@0f7f72f1f3283e83b2a40f57bfafc0b1.webm) · [Motion complete recording](studies/ants-launch/evidence/runs/motion-desktop/page@5d57ced47dfc4cb585bbc9ee4a8ab754.webm)
-
-The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
-
-- [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
-- [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
-- [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
-
-**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. The later GPT-6.1 follow-up is [preserved for handoff](handoffs/motion-local-20261003/README.md); it did not reach a verified final comparison.
-
-![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
-
-This compares complete workflows, including Motion's bundled guidance. It does not isolate a tool's causal effect or establish a general coding-agent advantage. Function checks, contract results and visual observations are reported separately.
-
-## Quickstart
-
-Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.5.0` is **not published on npm**.
-
-From this reviewed checkout:
-
-```sh
-npm ci
-npm run build
-node build/cli/index.js doctor
-node build/cli/index.js init --client codex --local --skills \
-  --project /absolute/path/to/your-app
-```
-
-`init` previews the exact project configuration and five skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
-
-For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
-
-Then ask your agent:
-
-> $motion Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
-
-For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
-
-Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
 
 ## Capture → inspect → repair → verify
 
@@ -100,6 +98,25 @@ Each capture produces:
 Project setup supports **Codex, Claude Code, Cursor and VS Code/Copilot** through the same local stdio MCP server. Replace `codex` in the setup command with `claude-code`, `cursor` or `vscode`.
 
 Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. Portable Codex, Claude Code and Cursor ZIPs also have fresh dependency and SDK checks. Actual interactive compatibility is reported separately in [client evidence](docs/CLIENTS.md).
+
+## Earlier comparisons
+
+<details>
+<summary>MONO workflow trial and retained follow-up</summary>
+
+The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
+
+- [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
+- [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
+- [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
+
+**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. The later GPT-6.1 follow-up is [preserved for handoff](handoffs/motion-local-20261003/README.md); it did not reach a verified final comparison.
+
+![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
+
+This compares complete workflows, including Motion's bundled guidance. It does not isolate a tool's causal effect or establish a general coding-agent advantage. Function checks, contract results and visual observations are reported separately.
+
+</details>
 
 ## Scope and limits
 

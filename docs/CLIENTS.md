@@ -2,7 +2,14 @@
 
 All clients use the same local stdio server. No account, model API key, hosted service or remote upload is required by Motion Debugger.
 
-Version 0.5.0 is a private preview, not an npm-registry release. Install the provided tarball before using the local binary. Registry examples below describe the intended pinned launch after publication; do not run an unverified package of the same name.
+Version 0.5.0 is an unpublished preview. From a reviewed repository checkout, create the local package:
+
+```sh
+npm ci
+npm pack
+```
+
+`npm pack` builds the runtime and creates `motion-debugger-0.5.0.tgz` in that checkout. Use that exact file in the commands below, or follow the [source quickstart](../README.md#quickstart) to run the built CLI directly. Keep the installed runtime in a durable location.
 
 ## Recommended: configuration wizard
 
@@ -85,7 +92,9 @@ On Linux, missing system libraries may require Playwright's official dependency-
 
 ## Compatibility evidence
 
-The stdio endpoint is exercised with the official MCP SDK. Generated config shapes are based on the client documentation linked below and covered by parser/installer tests. Actual Claude, Cursor and VS Code interactive sessions are not claimed as tested. Host-specific trust and sandbox settings still apply.
+Actual fresh Codex sessions loaded the project-local skills and MCP server in the [LOOP](../studies/loop-studio/METHOD.md) and [Ants](../studies/ants-launch/METHOD.md) comparisons. Their recorded tool calls establish use in those sessions. This does not establish native Codex ZIP plugin discovery.
+
+The stdio endpoint is also exercised with the official MCP SDK. Generated config shapes are based on the client documentation linked below and covered by parser/installer tests. Extracted Codex, Claude Code and Cursor plugin packages pass fresh dependency, SDK and native browser tool checks. Interactive Claude Code, Cursor and VS Code sessions, and native ZIP host discovery, remain unverified. Host-specific trust and sandbox settings still apply.
 
 ## Sources checked 2026-10-02
 

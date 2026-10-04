@@ -1,3 +1,11 @@
+# Main branch integration — 2026-10-04
+
+The owner authorized merging PR #9, closing superseded PRs and starting local previews. PR #9 merged with its history preserved at `79fe65f53096be3fb3b124fa247ace36e7bbe110`; its tree matches verified head `f2896ea9119afe4ed290fe672f834877b5ff0a9a`. Both final PR checks passed: regression run `37197163640` and paired-study episodes run `37197163758`. PRs #2–#7 are included ancestors; #8 is an equivalent cherry-pick. All seven were closed after the merge, without deleting their branches.
+
+Presentation cleanup corrects the five-skill count, gives a complete local project setup and tarball creation path, distinguishes host invocation and actual Codex project use from unverified ZIP discovery, and folds the historical MONO trial below current demos. These are documentation changes; runtime, frozen studies, contracts and native proofs are unchanged. Repository visibility, licensing and npm publication are unchanged. Earlier checkpoints below record their original authorization and verification state.
+
+Detached local viewers use `http://127.0.0.1:4121/` for LOOP and `http://127.0.0.1:4120/` for Ants. Both report hash-verified source arms and available recordings. Logs and PIDs are under ignored `artifacts/local-preview/`.
+
 # Active follow-up — full workflow and motion-centered demo
 
 The user authorized a full workflow check, a motion-centered comparison, and committed/pushed results on `work/production-motion`, draft PR #9. Implementation and local verification are finished; GitHub checks for the final commit must pass before closing the active goal. No merge or publication is authorized or claimed.

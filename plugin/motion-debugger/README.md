@@ -1,6 +1,6 @@
 # Motion Debugger plugin
 
-Four portable design/build/evidence skills + bundled stdio MCP server. No automatic install, browser download, credentials, or host configuration changes.
+Five portable design/build/evidence skills + bundled stdio MCP server. No automatic install, browser download, credentials, or host configuration changes.
 
 From a built repository, this folder can be distributed on its own:
 
@@ -14,7 +14,13 @@ The second command installs only the locked runtime dependency. The third explic
 
 `.mcp.json` uses the host's `${PLUGIN_ROOT}` and `${PLUGIN_DATA}` substitutions. Build with `npm run build` from the repository root, then install this folder using your Codex plugin workflow. No actual host plugin installation is claimed as tested; the manifest and real SDK stdio handshake are validated.
 
-For Codex, Claude Code, Cursor, or VS Code without the plugin, use the main package CLI: `motion-debugger init --client <client>`. It previews the exact configuration and requires confirmation before applying a change. Use `--local` for an unpublished/local package; keep that installation in place.
+For Codex, Claude Code, Cursor, or VS Code using project skills and MCP, use the main package CLI from a durable local installation:
+
+```sh
+motion-debugger init --client codex --local --skills --project /absolute/path/to/app
+```
+
+Replace `codex` with `claude-code`, `cursor` or `vscode`. This previews the project MCP configuration and all five skill folders; review it before rerunning with `--apply` and approving the change. Noninteractive setup requires the exact `--confirm <confirmationToken>` from that preview. Keep the local installation in place because its absolute runtime path is recorded. See the [source quickstart](../../README.md#quickstart) to build the unpublished package.
 
 Source references remain optional, read-only annotations. Configure `MOTION_SOURCE_ROOTS` only for folders you intentionally want the server to read. Browser captures are restricted to loopback targets; interactions can change local app state, so agents must obtain appropriate authorization.
 
