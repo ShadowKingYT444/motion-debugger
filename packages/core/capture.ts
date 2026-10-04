@@ -6,12 +6,59 @@ import path from 'node:path';
 import {chromiumOptions} from '../../server/browser';
 import {recordingSurface,prepareRecordingPage,finalizeRecording} from '../../server/recording';
 import {installBrowserProbe} from './browser-probe';
-import {analyze} from './analysis';
+import {analyze,analyzeDelivery} from './analysis';
 import {finiteGeometry,measureCoverage,targetState} from './coverage';
 import {validateRecipe,validateLocalUrl,readSourceRef} from './safety';
-import type {CaptureRecipe,CoreOptions,MotionCapture,MotionEvent,MotionSample} from './types';
+import type {CaptureRecipe,CoreOptions,MotionCapture,MotionEvent,MotionSample,MotionContract,MotionDeliveryObservation} from './types';
 
 const privateSelector='input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"],[data-motion-private]';
+
+/** Declarative DOM observations only. No caller scripts or application marks establish completion. */
+function installOutcomeObserver(config:NonNullable<MotionContract['outcomes']>,durationMs:number) {
+  const start=performance.now(),deadline=Math.min(config.timeoutMs??durationMs,durationMs);
+  const forbiddenVisible:MotionDeliveryObservation['forbiddenVisible']=[],errors:string[]=[];
+  let required:MotionDeliveryObservation['required']=[],actionsComplete=false;
+  const sensitive='input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"],[data-motion-private]';
+  const visible=(element:Element)=>{
+    const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
+    return rect.width>0&&rect.height>0&&style.visibility!=='hidden'&&style.visibility!=='collapse'&&Number(style.opacity)>.01&&element.checkVisibility({checkOpacity:true,checkVisibilityCSS:true});
+  };
+  const observe=()=>{
+    const observedAtMs=performance.now()-start,next:MotionDeliveryObservation['required']=[];
+    for(const expected of config.required){
+      try {
+        const elements=document.querySelectorAll(expected.selector),element=elements[0];
+        if(element&&(element.matches(sensitive)||element.closest(sensitive)||element.querySelector(sensitive))){
+          if(!errors.includes('Outcome selector references private content'))errors.push('Outcome selector references private content');continue;
+        }
+        const attributes:Record<string,string>={};
+        if(element)for(const key of Object.keys(expected.attributes??{})){const value=element.getAttribute(key);if(value!==null)attributes[key]=value.slice(0,500);}
+        const text=element?.textContent?.trim().slice(0,1000)??'',isVisible=element?visible(element):false;
+        const passed=elements.length===1&&(expected.visible===undefined||expected.visible===isVisible)&&(expected.textIncludes===undefined||text.includes(expected.textIncludes))&&Object.entries(expected.attributes??{}).every(([key,value])=>attributes[key]===value);
+        next.push({id:expected.id,selector:expected.selector,count:elements.length,visible:isVisible,text,attributes,observedAtMs,passed,...(!passed?{reason:elements.length!==1?`Expected exactly one match, observed ${elements.length}`:'Observable condition not satisfied'}:{})});
+      }catch(error){if(!errors.includes(`Invalid outcome selector: ${expected.selector}`))errors.push(`Invalid outcome selector: ${expected.selector}`);}
+    }
+    // Only post-action observations made within the deadline may establish success.
+    if(actionsComplete&&observedAtMs<=deadline)required=next;
+    else if(actionsComplete&&observedAtMs>deadline&&next.some(item=>!item.passed)&&!errors.includes('Required final state is not satisfied'))errors.push('Required final state is not satisfied');
+    for(const selector of config.forbiddenVisible??[]){
+      try {
+        if(forbiddenVisible.some(item=>item.selector===selector))continue;
+        const element=[...document.querySelectorAll(selector)].find(visible);
+        if(element){
+          const privateContent=element.matches(sensitive)||!!element.closest(sensitive)||!!element.querySelector(sensitive);
+          forbiddenVisible.push({selector,observedAtMs,text:privateContent?'(private content omitted)':element.textContent?.trim().slice(0,500)??''});
+        }
+      }catch{if(!errors.includes(`Invalid forbidden selector: ${selector}`))errors.push(`Invalid forbidden selector: ${selector}`);}
+    }
+  };
+  const observer=new MutationObserver(observe);observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,characterData:true});
+  const timer=setInterval(observe,50);observe();
+  (window as any).__motionOutcomes={
+    finishActions(){actionsComplete=true;observe();if(performance.now()-start>deadline)errors.push('Actions completed after the functional outcome deadline');},
+    stop():MotionDeliveryObservation {observe();clearInterval(timer);observer.disconnect();return {required,forbiddenVisible,elapsedMs:performance.now()-start,errors};}
+  };
+}
 
 /** An unsuccessful interaction with explicitly incomplete, privacy-checked evidence. */
 export class CaptureFailureError extends Error {
@@ -34,7 +81,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
   let videoOffsetMs=0,start=performance.now();
   const errors:string[]=[],blocked:{url:string;method:string}[]=[];
   let gpu='unavailable',diagnostics={devicePixelRatio:1,visibilityState:'unavailable'};
-  const environment=()=>({browser:`Chromium ${browser.version()}`,browserMode:browserOptions.headless?'headless' as const:'headed' as const,viewport,diagnostics:{...diagnostics,webglRenderers:[gpu]},probeSha256:createHash('sha256').update(installBrowserProbe.toString()).digest('hex'),analyzerSha256:createHash('sha256').update([analyze,measureCoverage,targetState,finiteGeometry].map(fn=>fn.toString()).join('\n')).digest('hex'),clock:'page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start',reducedMotion:recipe.reducedMotion??'no-preference'});
+  const environment=()=>({browser:`Chromium ${browser.version()}`,browserMode:browserOptions.headless?'headless' as const:'headed' as const,viewport,diagnostics:{...diagnostics,webglRenderers:[gpu]},probeSha256:createHash('sha256').update(installBrowserProbe.toString()).digest('hex'),analyzerSha256:createHash('sha256').update([analyze,analyzeDelivery,installOutcomeObserver,measureCoverage,targetState,finiteGeometry].map(fn=>fn.toString()).join('\n')).digest('hex'),clock:'page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start',reducedMotion:recipe.reducedMotion??'no-preference'});
   try {
     if(options.signal?.aborted)throw new Error('Capture canceled');
     context=await browser.newContext({viewport,reducedMotion:recipe.reducedMotion??'no-preference',serviceWorkers:'block',recordVideo:{dir:directory,size:surface??viewport}});
@@ -72,13 +119,15 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     diagnostics=await page.evaluate(()=>({devicePixelRatio:window.devicePixelRatio,visibilityState:document.visibilityState}));
     await page.screenshot({path:path.join(directory,'poster.png'),animations:'allow',mask:[page.locator('input[type="password"]')]});
     if(!await page.evaluate(()=>typeof (window as any).__motionProbe?.start==='function'))throw new Error(`Motion probe initialization failed: ${errors[0]??'probe missing'}`);
-    await page.evaluate(()=>{(window as any).__motionProbe.start()});
+    await page.evaluate(`(()=>{const __name=(value)=>value;(window).__motionProbe.start();${recipe.contract?.outcomes?`(${installOutcomeObserver.toString()})(${JSON.stringify(recipe.contract.outcomes)},${durationMs});`:''}})()`);
     videoOffsetMs=Math.round(performance.now()-videoStart);
     start=performance.now();stage='interaction';
     for(const [index,action] of recipe.actions.entries()){
       actionIndex=index;
       if(options.signal?.aborted)throw new Error('Capture canceled');
-      if(action.action==='wait'){await page.waitForTimeout(action.ms);continue}
+      const remaining=Math.max(0,durationMs-(performance.now()-start));
+      if(recipe.contract?.outcomes&&remaining<=0)throw new Error('Capture deadline exceeded during interaction');
+      if(action.action==='wait'){if(recipe.contract?.outcomes&&action.ms>remaining)throw new Error('Wait action exceeds capture deadline');await page.waitForTimeout(action.ms);continue}
       if(action.action==='move'){await page.mouse.move(action.x,action.y);continue}
       if(action.action==='scroll'){await page.mouse.wheel(0,action.deltaY);continue}
       if(action.action==='key'){await page.keyboard.press(action.key);continue}
@@ -86,11 +135,15 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       if(await locator.count()!==1)throw new Error('Interaction selectors must identify exactly one element');
       const sensitive=await locator.evaluate(element=>element.matches('input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"]')||!!element.closest('[data-motion-private]'));
       if(sensitive){privacyPassed=false;throw new Error('Credential/private-field interactions are not supported')}
-      if(action.action==='click')await locator.click({timeout:3000});else await locator.hover({timeout:3000});
+      const actionTimeout=recipe.contract?.outcomes?Math.max(1,Math.min(3000,durationMs-(performance.now()-start))):3000;
+      if(action.action==='click')await locator.click({timeout:actionTimeout});else await locator.hover({timeout:actionTimeout});
     }
+    if(recipe.contract?.outcomes)await page.evaluate(()=>{(window as any).__motionOutcomes.finishActions()});
     stage='settling';actionIndex=undefined;
     await page.waitForTimeout(Math.max(0,durationMs-(performance.now()-start)));
     stage='finalization';
+    const outcomeObservation=recipe.contract?.outcomes?await page.evaluate(()=>(window as any).__motionOutcomes.stop()) as MotionDeliveryObservation:undefined;
+    const delivery=analyzeDelivery(effectiveRecipe,outcomeObservation);
     await page.evaluate(()=>{(window as any).__motionProbe.stop()});
     await page.screenshot({path:path.join(directory,'final.png'),animations:'allow',mask:[page.locator('input[type="password"]')]});
     const data=await page.evaluate(()=>{
@@ -110,6 +163,11 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     // A dynamically introduced private field must not survive final recording flush either.
     if(await page.locator(privateSelector).count()){privacyPassed=false;throw new Error('Sensitive/private page content appeared during capture')}
     const video=page.video();await context.close();if(!video)throw new Error('Browser did not create a recording');
+    if(outcomeObservation){
+      for(const message of errors)delivery.reasons.push(`Uncaught page error: ${message}`);
+      if(errors.length||blocked.length){delivery.status='failed';if(blocked.length)delivery.reasons.push('Forbidden network requests observed');}
+    }
+
     stage='recording-finalization';
     let recording:Pick<MotionCapture['artifacts'],'video'|'rawVideo'|'recordingTransform'|'recordingError'>,recordingFailure:MotionCapture['failure'];
     try{recording=await finalizeRecording(await video.path(),directory,viewport,surface)}catch(cause){
@@ -121,7 +179,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       result.assertions=result.assertions.map(assertion=>({...assertion,passed:false,status:'inconclusive',actual:'Recording did not finalize'}));
       result.assertions.push({id:'recording-completed',label:'Recording finalized',passed:false,status:'failed',actual:message,expected:'Decodable viewport video'});
     }
-    const report:MotionCapture={schemaVersion:'2.0',...(recordingFailure?{status:'incomplete' as const,failure:recordingFailure}:{}),id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:environment(),events:data.events,samples:data.samples,...result,final,artifacts:{directory,report:path.join(directory,'report.json'),...recording,poster:path.join(directory,'poster.png'),finalScreenshot:path.join(directory,'final.png'),videoOffsetMs},limitations:['Use only trusted credential-free development pages; recordings are not automatically redacted.','Fresh browser context, no user profile, credentials or authenticated sessions are imported.','Only configured loopback origins can load resources; third-party network requests are blocked.','Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.','Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.','WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.','Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.',
+    const report:MotionCapture={schemaVersion:'2.0',...(recordingFailure?{status:'incomplete' as const,failure:recordingFailure}:{}),id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:environment(),events:data.events,samples:data.samples,...result,delivery,final,artifacts:{directory,report:path.join(directory,'report.json'),...recording,poster:path.join(directory,'poster.png'),finalScreenshot:path.join(directory,'final.png'),videoOffsetMs},limitations:['Use only trusted credential-free development pages; recordings are not automatically redacted.','Fresh browser context, no user profile, credentials or authenticated sessions are imported.','Only configured loopback origins can load resources; third-party network requests are blocked.','Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.','Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.','Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.','WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.','Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.',
 'CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.','Source mappings and application marks are explicitly supplied annotations.']};
     if(recordingFailure)report.limitations.push('Incomplete recording: source pixels may remain available as rawVideo, but finalization failed and contracts/comparison cannot pass.');
     if(surface)report.limitations.push('Native compositor recording retains raw source and crops padding without scaling or timing changes. Display coverage requires separate decoded-frame calibration; screen bounds alone do not establish correct pixel coverage.');
@@ -137,6 +195,8 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
     if(retain&&page&&context){
       const failedAction=actionIndex===undefined?undefined:recipe.actions[actionIndex];
       const failure={stage,actionIndex,action:failedAction?.action,selector:failedAction&&'selector' in failedAction?failedAction.selector:undefined,elapsedMs:Math.round(performance.now()-start),message};
+      const failedOutcomeObservation=recipe.contract?.outcomes?await page.evaluate(()=>(window as any).__motionOutcomes?.stop()).catch(()=>undefined) as MotionDeliveryObservation|undefined:undefined;
+      const delivery=analyzeDelivery(effectiveRecipe,failedOutcomeObservation,false);
       const data=await page.evaluate(()=>{
         const trace=(window as any).__motionProbe;try{trace?.stop()}catch{}
         return {events:trace?.events??[],samples:trace?.samples??[]};
@@ -153,7 +213,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       result.metrics.sufficientEvidence=false;
       result.assertions=result.assertions.map(assertion=>({...assertion,passed:false,status:'inconclusive',actual:'Capture did not complete'}));
       result.assertions.push({id:'capture-completed',label:'Interaction recipe completed',passed:false,status:'failed',actual:`Action ${actionIndex} failed`,expected:'All requested actions complete'});
-      const report:MotionCapture={schemaVersion:'2.0',status:'incomplete',failure,id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:environment(),events:data.events,samples:data.samples,...result,final,artifacts:{directory,report:path.join(directory,'report.json'),...recording,poster:path.join(directory,'poster.png'),finalScreenshot:'',videoOffsetMs},limitations:['Incomplete capture: the interaction recipe failed; final state was not measured and contracts cannot pass.','Evidence is retained only after credential-free page scans pass and no network-policy rejection was observed.','A rendered visible target does not prove pointer clickability.','Video alignment is approximate. Empty artifact paths mean unavailable evidence.','Recorded samples and events describe only the observed portion; do not use an incomplete capture as a completed before/after comparison.','Opt-in native recordings retain their source and crop only viewport padding; crop metadata is not proof of pixel fidelity. Calibrate the full viewport separately.']};
+      const report:MotionCapture={schemaVersion:'2.0',status:'incomplete',failure,id,createdAt:new Date().toISOString(),recipe:effectiveRecipe,environment:environment(),events:data.events,samples:data.samples,...result,delivery,final,artifacts:{directory,report:path.join(directory,'report.json'),...recording,poster:path.join(directory,'poster.png'),finalScreenshot:'',videoOffsetMs},limitations:['Incomplete capture: the interaction recipe failed; final state was not measured and contracts cannot pass.','Evidence is retained only after credential-free page scans pass and no network-policy rejection was observed.','A rendered visible target does not prove pointer clickability.','Video alignment is approximate. Empty artifact paths mean unavailable evidence.','Recorded samples and events describe only the observed portion; do not use an incomplete capture as a completed before/after comparison.','Opt-in native recordings retain their source and crop only viewport padding; crop metadata is not proof of pixel fidelity. Calibrate the full viewport separately.']};
       await writeFile(report.artifacts.report,JSON.stringify(report,null,2));
       await writeFile(path.join(directory,'failure.json'),JSON.stringify({id,status:'incomplete',...failure,artifacts:report.artifacts},null,2));
       throw new CaptureFailureError(message,report);
@@ -167,5 +227,5 @@ export async function inspect(id:string,options:CoreOptions):Promise<MotionCaptu
   return JSON.parse(await readFile(path.join(path.resolve(options.artifactRoot),id,'report.json'),'utf8')) as MotionCapture;
 }
 export function compact(report:MotionCapture) {
-  return {id:report.id,...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
+  return {id:report.id,...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,delivery:report.delivery??analyzeDelivery(report.recipe),assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
 }

@@ -11,7 +11,7 @@ import {prepareSkills,installSkills,assertSkillsCurrent,skillNames,skillDirector
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 function run(args:string[],cwd=root){return spawnSync(process.execPath,[path.join(root,'build/cli/index.js'),...args],{cwd,encoding:'utf8'})}
 test('all client configurations preserve unrelated servers and use a pinned runtime',()=>{
-  for(const client of ['generic','claude-code','cursor','vscode'] as const){const key=client==='vscode'?'servers':'mcpServers';const output=JSON.parse(configText({client},JSON.stringify({theme:'dark',[key]:{existing:{command:'existing'}}})));assert.equal(output.theme,'dark');assert.equal(output[key].existing.command,'existing');assert.deepEqual(output[key]['motion-debugger'].args,['--yes','motion-debugger@0.4.0','mcp']);if(client==='vscode')assert.equal(output[key]['motion-debugger'].type,'stdio')}
+  for(const client of ['generic','claude-code','cursor','vscode'] as const){const key=client==='vscode'?'servers':'mcpServers';const output=JSON.parse(configText({client},JSON.stringify({theme:'dark',[key]:{existing:{command:'existing'}}})));assert.equal(output.theme,'dark');assert.equal(output[key].existing.command,'existing');assert.deepEqual(output[key]['motion-debugger'].args,['--yes','motion-debugger@0.5.0','mcp']);if(client==='vscode')assert.equal(output[key]['motion-debugger'].type,'stdio')}
 });
 test('Codex TOML is idempotent and does not replace unmanaged entries',()=>{
   const original='model = "test"\n\n[mcp_servers.other]\ncommand = "existing"\n';const output=configText({client:'codex',local:true},original);assert.ok(output.startsWith(original));assert.match(output,/\[mcp_servers.motion-debugger.env\]/);assert.equal(configText({client:'codex',local:true},output),output);assert.throws(()=>configText({client:'codex'},'[mcp_servers.motion-debugger]\ncommand="custom"\n'),/unmanaged/);assert.throws(()=>configText({client:'codex'},'# BEGIN motion-debugger (managed)\n'),/Malformed/)
@@ -29,7 +29,7 @@ test('init is read-only until exact diff confirmation, preserves content, backs 
   }finally{await rm(dir,{recursive:true,force:true})}
 });
 test('CLI errors are diagnosable and help/version work without repo tools',()=>{
-  assert.equal(run(['--version']).stdout.trim(),'0.4.0');assert.equal(run(['--help']).status,0);for(const args of [['typo'],['init','--client','invalid'],['demo','--port','bad'],['capture'],['config','--apply'],['doctor','--unrecognized'],['config','--origin','https://example.com']])assert.equal(run(args).status,1,JSON.stringify(args))
+  assert.equal(run(['--version']).stdout.trim(),'0.5.0');assert.equal(run(['--help']).status,0);for(const args of [['typo'],['init','--client','invalid'],['demo','--port','bad'],['capture'],['config','--apply'],['doctor','--unrecognized'],['config','--origin','https://example.com']])assert.equal(run(args).status,1,JSON.stringify(args))
 });
 
 test('init --local enters the human wizard while scripted destinations and approvals opt out',()=>{
@@ -54,14 +54,14 @@ async function assertInstalled(directory:string) {
     await compare(source,target);
   }
 }
-test('skills install previews all four complete skills for every supported workspace client',async()=>{
+test('skills install previews all five complete skills for every supported workspace client',async()=>{
   const dir=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-skills-clients-')));
   try {
     for(const client of ['codex','claude-code','cursor','vscode'] as const) {
       const project=path.join(dir,client);await mkdir(project);const destination=path.join(project,skillDirectories[client]!);
       const args=['skills','install','--client',client,'--project',project];
       const preview=run(args,dir);assert.equal(preview.status,0,preview.stderr);const plan=JSON.parse(preview.stdout);
-      assert.equal(plan.directory,destination);assert.equal(plan.skills.length,4);assert.equal(await exists(destination),false);
+      assert.equal(plan.directory,destination);assert.equal(plan.skills.length,5);assert.equal(await exists(destination),false);
       assert.equal(run([...args,'--apply'],dir).status,1);assert.equal(run([...args,'--apply','--confirm','bad'],dir).status,1);assert.equal(await exists(destination),false);
       const applied=run([...args,'--apply','--confirm',plan.confirmationToken],dir);assert.equal(applied.status,0,applied.stderr);await assertInstalled(destination);
       assert.equal(JSON.parse(run(args,dir).stdout).changed,false);assert.equal(run([...args,'--apply'],dir).status,0);
@@ -146,7 +146,7 @@ test('late config failure retains identical pre-existing skills and unrelated in
     for(const name of skillNames.filter(name=>name!=='motion-design'))await rm(path.join(destination,name),{recursive:true});
     await mkdir(path.join(destination,'unrelated'));await writeFile(path.join(destination,'unrelated/SKILL.md'),'keep');
     const args=['init','--client','codex','--local','--skills','--project',dir,'--config',path.join(destination,'motion-evidence')];
-    const preview=run(args,dir);assert.equal(preview.status,0,preview.stderr);const plan=JSON.parse(preview.stdout);assert.equal(plan.skills.skills[0].status,'unchanged');
+    const preview=run(args,dir);assert.equal(preview.status,0,preview.stderr);const plan=JSON.parse(preview.stdout);assert.equal(plan.skills.skills.find((skill:{name:string})=>skill.name==='motion-design').status,'unchanged');
     const result=run([...args,'--apply','--confirm',plan.confirmationToken],dir);assert.equal(result.status,1);
     assert.deepEqual((await readdir(destination)).sort(),['motion-design','unrelated']);assert.equal(await readFile(path.join(destination,'unrelated/SKILL.md'),'utf8'),'keep');
   }finally{await rm(dir,{recursive:true,force:true})}

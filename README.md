@@ -1,12 +1,22 @@
 # Motion Debugger
 
-**Build, inspect and repair animated interfaces with your coding agent.**
+![Motion Debugger: create, watch, refine](docs/assets/banner.svg)
 
-Motion Debugger captures a local page, inspects an interaction over time, and compares the result after a source repair. Four skills guide interface design, procedural 3D, evidence collection and a bounded repair workflow. The agent edits your source using its normal tools.
+**Create expressive web motion. Watch the actual result. Refine it with your coding agent.**
+
+Tag `motion` with your ordinary website or app prompt. The plugin supplies six original runnable recipes—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
 
 [Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
 ## Real demos
+
+The [Ants launch-page study](studies/ants-launch/README.md) contains two actual same-brief, twenty-minute Codex builds with original articulated 3D scenes, scroll choreography and a working four-stage task. Both complete the task, replay, interruption and keyboard journeys on desktop, mobile, reduced motion and WebGL fallback. Complete source-bound recordings and retained failures are included. This pair does **not** establish an overall animation or smoothness advantage.
+
+```sh
+npm run demo:ants
+```
+
+Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The six runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
 
 The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
 
@@ -22,14 +32,11 @@ This compares complete workflows, including Motion's bundled guidance. It does n
 
 ## Quickstart
 
-Private preview. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.4.0` is **not published on npm**.
+Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.5.0` is **not published on npm**.
 
-From the reviewed preview branch:
+From this reviewed checkout:
 
 ```sh
-git clone --branch work/local-motion-demo-20261003 \
-  https://github.com/ShadowKingYT444/motion-debugger.git
-cd motion-debugger
 npm ci
 npm run build
 node build/cli/index.js doctor
@@ -37,13 +44,15 @@ node build/cli/index.js init --client codex --local --skills \
   --project /absolute/path/to/your-app
 ```
 
-`init` previews the exact project configuration and four skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
+`init` previews the exact project configuration and five skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
 
 For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
 
 Then ask your agent:
 
-> Use motion-build-inspect-repair on my local app at http://127.0.0.1:3000. Check the details drawer under rapid open, close and keyboard reopening. Inspect the recorded frames, repair observed defects, and verify the same interaction again.
+> $motion Build a beautiful launch page for a colony of helpful agents, with an interactive spatial hero, a working task demonstration, and polished transitions.
+
+For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
 
 Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
 
@@ -51,13 +60,14 @@ Use a trusted, credential-free production preview. Motion blocks WebSockets, inc
 
 | Tool | What the agent receives |
 | --- | --- |
+| `motion_recipe` | Original runnable source, dependencies and integration/evidence guidance by recipe ID |
 | `motion_capture` | WebM recording, screenshots, events, measurements and explicit contract results |
 | `motion_inspect` | A bounded time window with relevant events and samples |
-| `motion_frames` | Native PNG frames from the actual recording |
+| `motion_frames` | PNG frames from the actual recording; whole-journey selection and detail bounds up to 1280×960 |
 | `motion_compare` | Before/after changes, comparability checks and final-state equivalence |
 | `motion_list` | Saved captures in the configured evidence directory |
 
-Choose a unique target, repeatable actions and meaningful final-state expectations before the repair. Keep the same viewport, actions and contracts afterward. The [agent walkthrough](docs/AGENT-WORKFLOW.md) shows complete calls; the [workflow](docs/WORKFLOW.md) permits at most two repair attempts.
+Choose a unique target, repeatable actions and meaningful positive outcome expectations before the repair. `contract.outcomes` can require result text, visibility and state attributes and reject visible error states within a deadline. Missing outcomes produce `delivery.status: unverified`; a stable canvas cannot establish that a task completed. Keep the same viewport, actions and contracts afterward. The [agent walkthrough](docs/AGENT-WORKFLOW.md) shows calls; the [workflow](docs/WORKFLOW.md) bounds each repair investigation.
 
 Each capture produces:
 
@@ -73,7 +83,7 @@ Each capture produces:
 
 Project setup supports **Codex, Claude Code, Cursor and VS Code/Copilot** through the same local stdio MCP server. Replace `codex` in the setup command with `claude-code`, `cursor` or `vscode`.
 
-Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. This does not claim an interactive session in every editor. [Compatibility and setup details](docs/CLIENTS.md).
+Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. Portable Codex, Claude Code and Cursor ZIPs also have fresh dependency and SDK checks. Actual interactive compatibility is reported separately in [client evidence](docs/CLIENTS.md).
 
 ## Scope and limits
 

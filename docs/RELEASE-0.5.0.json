@@ -1,0 +1,215 @@
+{
+  "version": "0.5.0",
+  "status": "verified-private-release-candidate",
+  "fullCheck": {
+    "passed": true,
+    "tests": 124,
+    "log": "artifacts/ants-launch/FINAL-CHECK.log"
+  },
+  "freshInstall": {
+    "schemaVersion": "1.0",
+    "startedAt": "2026-10-04T06:43:27.066Z",
+    "status": "passed",
+    "node": "v24.20.0",
+    "platform": "linux",
+    "skipBrowser": false,
+    "consumer": "/tmp/motion-packed-install-OkKJDq",
+    "checks": [
+      "package-built-and-packed",
+      "fresh-npm-dependency-install",
+      "installed-cli-version-and-core-import",
+      "four-client-config-formats",
+      "confirmed-config-write",
+      "packaged-five-complete-skills-catalog",
+      "confirmed-project-mcp-plus-skills-install",
+      "packaged-four-client-skill-destinations",
+      "installed-skills-idempotent-and-unrelated-preserved",
+      "installed-mcp-sdk-handshake-motion-list-and-six-exact-recipes",
+      "standalone-plugin-dependency-install-sdk-and-six-exact-recipes",
+      "browser-launched",
+      "packaged-demo-loopback-http-and-cross-origin-defense",
+      "installed-cli-two-webm-captures-inspect-and-before-after-comparison"
+    ],
+    "package": {
+      "filename": "motion-debugger-0.5.0.tgz",
+      "integrity": "sha512-moMFY0Q4ECIyPhJRqByIyCZ0hKKzdgv2tP40ohReXTlnRDHb96zZvyMbyD6PHmUJnYdIMtCkv50E1EQ2TNZkGA==",
+      "shasum": "071ffb85551ae50d81ece0561337a98c7fed46c1",
+      "size": 10319951,
+      "unpackedSize": 13693510
+    },
+    "comparison": {
+      "schemaVersion": "2.0",
+      "comparable": true,
+      "comparabilityIssues": [],
+      "beforeId": "231089aa-aba0-4c9a-809f-4364d5821753",
+      "afterId": "f1f67634-2cc9-4b17-89ae-9594b551d298",
+      "contractsPassed": {
+        "before": false,
+        "after": true
+      },
+      "functionalDelivery": {
+        "before": "unverified",
+        "after": "unverified"
+      },
+      "deltas": {
+        "animationBoundarySamples": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "maxAnimationBoundaryStepPx": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "maxAnimationBoundaryStepAt60HzPx": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "maxFrameStepPx": {
+          "before": 284.109,
+          "after": 17.765,
+          "change": -266.344
+        },
+        "maxStepAt60HzPx": {
+          "before": 283.542,
+          "after": 17.729,
+          "change": -265.813
+        },
+        "maxSampleGapMs": {
+          "before": 16.8,
+          "after": 16.8,
+          "change": 0
+        },
+        "maxHeightStepPx": {
+          "before": 6.419,
+          "after": 6.414,
+          "change": -0.005
+        },
+        "maxOpacityDrop": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "replacements": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "activeCancels": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "maxContainmentOverflowPx": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        },
+        "containmentViolatingSamples": {
+          "before": 0,
+          "after": 0,
+          "change": 0
+        }
+      },
+      "finalEquivalent": true,
+      "interpretation": "The after capture satisfies the supplied temporal/final-state assertions that the before capture violated. Functional delivery is reported separately. This establishes a measured improvement under this recipe, not a generic source-level root cause.",
+      "findings": {
+        "before": [
+          {
+            "type": "frame-step",
+            "summary": "Observed 284.11px over 16.70ms = 283.54px at16.667ms; exceeds supplied normalized budget 40",
+            "eventIds": [
+              "event-5"
+            ],
+            "sampleTimes": [
+              1098.5,
+              1115.2
+            ],
+            "confidence": "contract-violation"
+          }
+        ],
+        "after": []
+      },
+      "limitations": [
+        "Animation-operation boundaries are supplemental browser geometry reads, not painted frames; their conservative normalization clamps \u0394t to at least16.667ms. Old captures without boundary events cannot retrospectively reveal unsampled resets.",
+        "Normalized displacement is observed average velocity scaled to16.667ms; it does not establish perceptual smoothness.",
+        "Position-step budgets depend on the supplied recipe and sampling cadence; fast intentional motion can exceed them.",
+        "Active cancellation can be intentional retargeting; inspect geometry and caller contracts together.",
+        "Source refs are explicitly supplied mappings, not inferred code attribution.",
+        "This comparison evaluates evidence/contracts. It is not a benchmark of LLM performance."
+      ]
+    },
+    "finishedAt": "2026-10-04T06:44:07.842Z"
+  },
+  "testedTarballSha256": "176281e65fb03cb547d726e5e0d98ffe2ffe5e5d782c2fa6bd0a0b175a5fb958",
+  "scope": "Exact tested runtime and recipes; README and study result documentation were subsequently finalized without changing runtime source. Final portable package hashes are recorded separately.",
+  "nativeProofs": {
+    "recipes": "artifacts/v2/recipes/browser-verification.json",
+    "colony": "artifacts/v2/colony/browser-verification.json",
+    "sequence": "artifacts/v2/sequence/browser-verification.json",
+    "outcomes": "artifacts/v2/outcomes/browser-verification.json"
+  },
+  "hostLoading": {
+    "codex": "Actual fresh project-local skill discovery and MCP use demonstrated in paired Ants trial. Trial candidate precedes final recipe refinements.",
+    "claude-code": "Archive/dependency/SDK validation; native host loading unverified",
+    "cursor": "Archive/dependency/SDK validation; native host loading unverified",
+    "vscode": "Configuration/skill destination verified; interactive discovery unverified"
+  },
+  "limits": [
+    "Single Ants pair does not establish overall visual or smoothness superiority.",
+    "Software renderer and inadequate temporal sampling prevent general cadence claims.",
+    "Ordinary fallback lossless pause strict identity differs by tiny raster amounts; preserved.",
+    "Private, UNLICENSED, unpublished release candidate."
+  ],
+  "portablePackages": {
+    "status": "passed-fresh-extraction-dependency-sdk-and-six-exact-recipes",
+    "proof": "artifacts/plugins/2026-10-04T06-46-25-176Z/portable-validation.json",
+    "releaseIndexSha256": "1509ea7563e6e4e1ddbe36b28a1a6f6225ae5bc7d304f94714644d007ed245ce",
+    "archives": {
+      "codex": {
+        "directory": "codex/motion-debugger",
+        "archive": "motion-debugger-0.5.0-codex.zip",
+        "archiveSha256": "0898b284de47e5f83e28e0f35bfb94d30764b1c2ac43a1212294ab911f3b0b7a",
+        "payloadFiles": 30,
+        "hostValidation": "unverified"
+      },
+      "claude-code": {
+        "directory": "claude-code/motion-debugger",
+        "archive": "motion-debugger-0.5.0-claude-code.zip",
+        "archiveSha256": "caf0a4bf44817616931b1774e1ea7269864dd52e46ff7caa989d56368f8b047b",
+        "payloadFiles": 30,
+        "hostValidation": "unverified"
+      },
+      "cursor": {
+        "directory": "cursor/motion-debugger",
+        "archive": "motion-debugger-0.5.0-cursor.zip",
+        "archiveSha256": "73cc9ce639ce743f65a58a69c839cf065d9cdf48aedea49f6d2063b2db997d44",
+        "payloadFiles": 30,
+        "hostValidation": "unverified"
+      },
+      "skills": {
+        "directory": "skills/motion-debugger",
+        "archive": "motion-debugger-0.5.0-skills.zip",
+        "archiveSha256": "b904b63e4214b6ddb4db53e60b46e27c0888d0fd5923a37c97bcc93aeb6dd0e2",
+        "payloadFiles": 21,
+        "hostValidation": "unverified"
+      }
+    },
+    "nativeHostLoading": "unverified; separate actual Codex project skill/MCP workflow documented in Ants study"
+  },
+  "localHandoff": {
+    "index": "artifacts/ants-launch/handoff/README.md",
+    "study": {
+      "bytes": 326573391,
+      "sha256": "976e74b620ced49352cc63c36a0fca4b2011b5805cc4c9c1c01f2fc720739f32"
+    },
+    "native": {
+      "bytes": 39882979,
+      "sha256": "87c4b23a9e5d6a261e436a11d6639b60ccdb4ada79898e9c97021c30ccfcb969"
+    },
+    "verifiedPayloadFiles": 2700,
+    "limits": "Original outcome capture source-binding missing; browser binaries and global Codex tooling not vendored. Final install is separate."
+  }
+}

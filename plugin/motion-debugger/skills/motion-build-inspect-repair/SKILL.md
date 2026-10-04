@@ -15,19 +15,23 @@ Allow at most two evidence-led source repair attempts within this plan. After ve
 
 ## Build the requested product
 
-Read the brief, repository instructions and existing package setup. Write down the primary interaction, the intended visual result and important final state. Use `motion-design` for the page and `motion-3d-ui` when real spatial motion is needed. Preserve the user's requested stack and task; do not replace a difficult requirement with a different demo.
+Read the brief, repository instructions and existing package setup. Write down the primary interaction, the intended visual result and important final state. Use the `motion` router and `motion_recipe` for concrete interactive patterns, `motion-design` for the page and `motion-3d-ui` when real spatial motion is needed. Preserve the user's requested stack and task; do not replace a difficult requirement with a different demo.
 
-Implement the first usable version, then run a cheap native-browser functional check before investigating motion. Define and execute the primary input → positive result journey with a bounded deadline and an explicit visible-error check. A stable rectangle, a finished recording, equivalent endpoints or zero uncaught errors does not prove task completion: the app can catch an exception and remain stuck. Exercise actual browser timers and other browser APIs, not only mocks or Node tests. Fix a broken primary control before lower-priority easing. Keep time for verification within the total budget and preserve the last working source checkpoint.\n\nIf motion tools cannot connect or Chromium cannot launch, report that blocker; ordinary screenshots or static tests may still help, but do not label them recorded motion proof.
+Implement the first usable version, then run a cheap native-browser functional check before investigating motion. Define and execute the primary input → positive result journey with a bounded deadline and an explicit visible-error check. A stable rectangle, a finished recording, equivalent endpoints or zero uncaught errors does not prove task completion: the app can catch an exception and remain stuck. Exercise actual browser timers and other browser APIs, not only mocks or Node tests. Fix a broken primary control before lower-priority easing. Keep time for verification within the total budget and preserve the last working source checkpoint.
+
+If motion tools cannot connect or Chromium cannot launch, report that blocker; ordinary screenshots or static tests may still help, but do not label them recorded motion proof.
 
 ## Observe before diagnosing
 
 Choose the real loopback URL, a unique target and an authorized, repeatable interaction. Capture ordinary use plus a revealing interruption or reversal when applicable. Fix the recipe, viewport, reduced-motion setting, duration and meaningful expectations before comparing a repair.
 
-Choose duration and frame times from the whole intended interaction, including delayed completion and interruption, rather than relying on default duration or the first metric finding. Use an ordinary browser check for a journey that exceeds the tool's bounds; do not shorten the success criterion to fit. Inspect page-level desktop/narrow composition as well as target motion. During a narrow repair, preserve the approved layout, copy, assets and features unless the observed defect requires changing them.\n\nFor a temporal investigation, call the actual MCP tools in this sequence:
+Choose duration and frame times from the whole intended interaction, including delayed completion and interruption, rather than relying on default duration or the first metric finding. Use an ordinary browser check for a journey that exceeds the tool's bounds; do not shorten the success criterion to fit. Inspect page-level desktop/narrow composition as well as target motion. During a narrow repair, preserve the approved layout, copy, assets and features unless the observed defect requires changing them.
+
+For a temporal investigation, call the actual MCP tools in this sequence:
 
 1. `motion_capture({recipe})`: record the running interaction and keep its capture ID
 2. `motion_inspect({captureId, fromMs, toMs, includeSamples:true})`: inspect a bounded window near the reported finding; use events and sample cadence to distinguish an app jump from weak sampling
-3. `motion_frames({captureId, timestampsMs})`: consume the returned native PNG images around that window, or let the tool choose a finding window. Inspect more than endpoints. Seeking is approximate; the trace is the timing authority
+3. `motion_frames({captureId, selection:"journey", maxWidth:1280, maxHeight:960})`: consume the returned native PNG images spanning the whole capture. Then request `timestampsMs` around an interruption or defect for detailed review. Inspect more than endpoints. Seeking is approximate; the trace is the timing authority
 
 If a wrapper exposes images only as base64 or local PNG paths, decode/view the actual images with available image tools. Receiving frame metadata is not the same as looking at the frame. Raw evidence is available at `motion-evidence://capture/<captureId>`.
 
@@ -49,4 +53,6 @@ If verify 1 still shows a justified defect, continue to repair 2 and verify 2. A
 
 ## Deliver the product and proof
 
-Give the running preview/artifact, the principal behavior, changes made from the observed evidence, before/after IDs or links and remaining limits. Include desktop/narrow viewport and reduced-motion checks when relevant. Distinguish an agent-written repair from a handwritten reference branch, and a single run from evidence of general agent improvement.\n\nReport functional completion, visual review and temporal evidence separately, each as passed, failed or unverified with its evidence. Missing outcome evidence cannot become a successful delivery; a motion-contract pass cannot override a failed journey or a visibly worse composition.
+Give the running preview/artifact, the principal behavior, changes made from the observed evidence, before/after IDs or links and remaining limits. Include desktop/narrow viewport and reduced-motion checks when relevant. Distinguish an agent-written repair from a handwritten reference branch, and a single run from evidence of general agent improvement.
+
+Report functional completion, visual review and temporal evidence separately, each as passed, failed or unverified with its evidence. Missing outcome evidence cannot become a successful delivery; a motion-contract pass cannot override a failed journey or a visibly worse composition.

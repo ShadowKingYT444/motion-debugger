@@ -1,6 +1,6 @@
-# Local API contract
+# Controlled fixture HTTP API
 
-The source of truth is `src/types.ts`. Server uses same origin, default port 4173.
+This page documents the original controlled fixture’s HTTP API. Its source of truth is `src/types.ts`; the server uses the same origin, default port 4173. The production plugin uses MCP stdio and `packages/core/types.ts`; see [the agent workflow](AGENT-WORKFLOW.md) for recipe, completion-check, capture and frame calls.
 
 - `GET /api/health` returns `{ok:true, version:'0.1.0'}`
 - `GET /api/runs` returns `{runs: RunSummary[]}` newest first

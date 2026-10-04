@@ -25,7 +25,7 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger compare <before-id> <after-id>
   motion-debugger mcp
 
-init previews an exact config diff; --skills includes all four project skills.
+init previews an exact config diff; --skills includes all five project skills.
 Skills never overwrite different existing folders. All writes require explicit approval. setup --browser
 explicitly downloads Chromium. No postinstall, login, credentials or automatic config changes.
 Config defaults to the exact npm package version. --local uses this installation's absolute path.

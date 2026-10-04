@@ -1,6 +1,7 @@
 // Consumer-side validation: real dependency installation, never npm link or repo node_modules.
 import {mkdtemp,writeFile,readFile,rm,lstat,cp,mkdir,readdir,realpath} from 'node:fs/promises';
 import {appendFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {spawn,spawnSync} from 'node:child_process';
 import os from 'node:os';
 import path from 'node:path';
@@ -8,7 +9,7 @@ import assert from 'node:assert/strict';
 const skipBrowser=process.argv.includes('--skip-browser');
 if(process.argv.slice(2).some(arg=>arg!=='--skip-browser'))throw new Error('Only --skip-browser is supported');
 const root=process.cwd();const temp=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-packed-install-')));
-const proofDir=path.join(root,'artifacts/install');await rm(proofDir,{recursive:true,force:true});await mkdir(proofDir,{recursive:true});
+const proofDir=path.join(root,'artifacts/install',new Date().toISOString().replaceAll(':','-'));await mkdir(proofDir,{recursive:true});
 const proof={schemaVersion:'1.0',startedAt:new Date().toISOString(),status:'running',node:process.version,platform:process.platform,skipBrowser,consumer:temp,checks:[]};
 await writeFile(path.join(proofDir,'verification.json'),JSON.stringify(proof,null,2));
 const npm=process.platform==='win32'?'npm.cmd':'npm';
@@ -22,7 +23,7 @@ try {
   console.log(run(npm,['install','--omit=dev','--ignore-scripts','--no-audit','--no-fund',tarball]));
   proof.checks.push('fresh-npm-dependency-install');
   const installed=path.join(temp,'node_modules/motion-debugger');const installedStat=await lstat(installed);assert.equal(installedStat.isDirectory(),true);assert.equal(installedStat.isSymbolicLink(),false);
-  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.4.0');
+  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.5.0');
   run(process.execPath,['--input-type=module','-e','import {validateRecipe,compare} from "motion-debugger"; if(typeof validateRecipe!=="function"||typeof compare!=="function")process.exit(1)']);
   for(const client of ['codex','claude-code','cursor','vscode']) {const text=run(process.execPath,[binary,'config','--client',client,'--local']);assert.ok(text.includes('motion-debugger'));}
   proof.checks.push('installed-cli-version-and-core-import','four-client-config-formats');
@@ -30,11 +31,11 @@ try {
   run(process.execPath,[binary,'init','--config',config,'--local','--apply','--confirm',plan.confirmationToken]);assert.ok(JSON.parse(await readFile(config,'utf8')).mcpServers['motion-debugger']);
   proof.checks.push('confirmed-config-write');
   // The complete setup must work from the real installed tarball, not source files.
-  const skillNames=['motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair'];
+  const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair'];
   const workspace=path.join(temp,'consumer-app');await mkdir(workspace);
   const unrelated=path.join(workspace,'.agents/skills/unrelated');await mkdir(unrelated,{recursive:true});await writeFile(path.join(unrelated,'SKILL.md'),'Keep unrelated user instructions');
   const setupArgs=[binary,'init','--client','codex','--local','--skills','--project',workspace];
-  const complete=JSON.parse(run(process.execPath,setupArgs));assert.equal(complete.skills.skills.length,4);assert.equal(complete.target,path.join(workspace,'.codex/config.toml'));
+  const complete=JSON.parse(run(process.execPath,setupArgs));assert.equal(complete.skills.skills.length,5);assert.equal(complete.target,path.join(workspace,'.codex/config.toml'));
   assert.equal(await lstat(complete.target).then(()=>true,()=>false),false);
   run(process.execPath,[...setupArgs,'--apply','--confirm',complete.confirmationToken]);
   const compareFolder=async(source,destination)=>{assert.deepEqual((await readdir(destination)).sort(),(await readdir(source)).sort());for(const entry of await readdir(source,{withFileTypes:true})){if(entry.isDirectory())await compareFolder(path.join(source,entry.name),path.join(destination,entry.name));else assert.deepEqual(await readFile(path.join(destination,entry.name)),await readFile(path.join(source,entry.name)))}};
@@ -49,15 +50,17 @@ try {
     for(const name of skillNames)await compareFolder(path.join(installed,'plugin/motion-debugger/skills',name),path.join(project,directory,name));
   }
   console.log(run(process.execPath,[path.join(installed,'plugin/motion-debugger/scripts/check-skills.mjs')]));
-  proof.checks.push('packaged-four-complete-skills-catalog','confirmed-project-mcp-plus-skills-install','packaged-four-client-skill-destinations','installed-skills-idempotent-and-unrelated-preserved');
+  proof.checks.push('packaged-five-complete-skills-catalog','confirmed-project-mcp-plus-skills-install','packaged-four-client-skill-destinations','installed-skills-idempotent-and-unrelated-preserved');
 
-  const smoke=`import {Client} from '@modelcontextprotocol/sdk/client/index.js';import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';const client=new Client({name:'installed-package-smoke',version:'1.0.0'});await client.connect(new StdioClientTransport({command:process.execPath,args:[${JSON.stringify(binary)},'mcp']}));try{const tools=await client.listTools();if(!tools.tools.some(t=>t.name==='motion_capture'))throw new Error('Missing tool');const result=await client.callTool({name:'motion_list',arguments:{}});if(result.isError)throw new Error(JSON.stringify(result));console.log('Installed MCP handshake + motion_list passed')}finally{await client.close()}`;
+  const recipeDirectory=path.join(root,'plugin/motion-debugger/skills/motion/recipes');
+  const recipeHashes=Object.fromEntries(await Promise.all((await readdir(recipeDirectory)).filter(name=>name.endsWith('.mjs')).map(async name=>["recipes/"+name,createHash('sha256').update(await readFile(path.join(recipeDirectory,name))).digest('hex')])));
+  const smoke=`import {createHash} from 'node:crypto';import {Client} from '@modelcontextprotocol/sdk/client/index.js';import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';const client=new Client({name:'installed-package-smoke',version:'1.0.0'});await client.connect(new StdioClientTransport({command:process.execPath,args:[${JSON.stringify(binary)},'mcp']}));try{const tools=await client.listTools();if(!tools.tools.some(t=>t.name==='motion_capture'))throw new Error('Missing tool');const result=await client.callTool({name:'motion_list',arguments:{}});if(result.isError)throw new Error(JSON.stringify(result));const expected=${JSON.stringify(recipeHashes)};const catalog=await client.callTool({name:'motion_recipe',arguments:{}});if(catalog.isError||catalog.structuredContent?.recipes?.length!==6)throw new Error('Missing six-recipe catalog');for(const entry of catalog.structuredContent.recipes){const response=await client.callTool({name:'motion_recipe',arguments:{id:entry.id}});if(response.isError)throw new Error(JSON.stringify(response));for(const source of response.structuredContent.sources.filter(source=>source.language==='javascript'))if(createHash('sha256').update(source.source).digest('hex')!==expected[source.path])throw new Error('Packaged recipe source mismatch: '+source.path)};console.log('Installed MCP handshake + motion_list + six exact recipe sources passed')}finally{await client.close()}`;
   console.log(run(process.execPath,['--input-type=module','-e',smoke]));
-  proof.checks.push('installed-mcp-sdk-handshake-and-motion-list');
+  proof.checks.push('installed-mcp-sdk-handshake-motion-list-and-six-exact-recipes');
   const standalonePlugin=path.join(temp,'standalone-plugin');await cp(path.join(installed,'plugin/motion-debugger'),standalonePlugin,{recursive:true});
   console.log(run(npm,['ci','--omit=dev','--ignore-scripts','--no-audit','--no-fund'],standalonePlugin));
   console.log(run(process.execPath,['--input-type=module','-e',smoke.replace(JSON.stringify(binary)+",'mcp'",JSON.stringify(path.join(standalonePlugin,'scripts/mcp.mjs')))]));
-  proof.checks.push('standalone-plugin-dependency-install-and-sdk-handshake');
+  proof.checks.push('standalone-plugin-dependency-install-sdk-and-six-exact-recipes');
   console.log(run(process.execPath,[binary,'doctor',...(skipBrowser?['--skip-launch']:[])]));
   console.log(run(npm,['exec','--offline','--','motion-debugger','--version']));
   for(const scenario of ['kinetic','drawer','reveal','cursor']){const recipe=JSON.parse(run(process.execPath,[binary,'recipe',scenario]));assert.equal(recipe.sourceRefs,undefined);assert.ok(recipe.actions.length>0);}

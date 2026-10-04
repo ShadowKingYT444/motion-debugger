@@ -5,6 +5,8 @@ export type MotionAction =
   | { action:'scroll'; deltaY:number }
   | { action:'wait'; ms:number };
 export interface MotionContract {
+  /** Positive task completion checks, independent of temporal quality. Deadline is from capture start. */
+  outcomes?:{timeoutMs?:number;required:MotionOutcomeExpectation[];forbiddenVisible?:string[]};
   /** Default continuous. Explicitly allow lifecycle absence without treating it as a lost recorder frame. */
   targetPresence?:'continuous'|'may-disappear';
   maxFrameStepPx?:number;
@@ -17,6 +19,10 @@ export interface MotionContract {
   containment?:{selector:string;shape?:'rect'|'circle';maxOverflowPx:number;minOpacity?:number};
   final?: {selector?:string; attributes?:Record<string,string>; textIncludes?:string; visible?:boolean};
 }
+export interface MotionOutcomeExpectation {id:string;selector:string;attributes?:Record<string,string>;textIncludes?:string;visible?:boolean}
+export interface MotionOutcomeObservation {id:string;selector:string;count:number;visible:boolean;text:string;attributes:Record<string,string>;observedAtMs:number;passed:boolean;reason?:string}
+export interface MotionDeliveryObservation {required:MotionOutcomeObservation[];forbiddenVisible:{selector:string;observedAtMs:number;text:string}[];elapsedMs:number;errors?:string[]}
+export interface MotionDelivery extends MotionDeliveryObservation {status:'passed'|'failed'|'unverified';timeoutMs?:number;reasons:string[]}
 export interface CaptureRecipe {
   url:string; selector:string; label?:string;
   actions:MotionAction[];
@@ -74,6 +80,8 @@ export interface MotionCapture {
   environment:{browser:string;browserMode?:'headless'|'headed';probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
   events:MotionEvent[];samples:MotionSample[];metrics:MotionMetrics;
   coverage?:MotionCoverage;
+  /** Absent in legacy captures; absence never proves functional delivery. */
+  delivery?:MotionDelivery;
   assertions:MotionAssertion[];findings:MotionFinding[];
   final:{visible:boolean;attributes:Record<string,string>;text:string;x:number|null;y:number|null;opacity:number|null};
   artifacts:{directory:string;report:string;video:string;rawVideo?:string;recordingTransform?:{sourceSize:{width:number;height:number};crop:{x:number;y:number;width:number;height:number};scale:number;timeScale:number};recordingError?:string;poster:string;finalScreenshot:string;videoOffsetMs:number};
@@ -83,6 +91,7 @@ export interface MotionComparison {
   schemaVersion:'2.0';beforeId:string;afterId:string;
   comparable:boolean;comparabilityIssues:string[];
   contractsPassed:{before:boolean;after:boolean};
+  functionalDelivery?:{before:MotionDelivery['status'];after:MotionDelivery['status']};
   deltas:Record<string,{before:number;after:number;change:number}>;
   finalEquivalent:boolean;
   interpretation:string;

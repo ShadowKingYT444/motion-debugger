@@ -1,6 +1,6 @@
 # A practical coding-agent workflow
 
-For a new page, load [the design, 3D and build-inspect-repair skills](SKILLS.md). The full workflow starts from the product brief, builds real source, calls the evidence tools, and lets the host agent repair what it observes. The [AER paired case study](../studies/aer/README.md) preserves independent agent builds. The older seeded fixture below remains a focused transport/detector example.
+For a new page, tag `$motion` in the ordinary product brief. The [motion skill](SKILLS.md) routes creation through runnable spring, scroll, colony, handoff, elapsed sequence and drawer recipes. Call `motion_recipe` without an ID for the catalog, then with a returned ID for its exact source. The agent builds real source, watches the result, checks product outcomes, and repairs what it observes. The [Ants study](../studies/ants-launch/README.md) records the current comparison status; the [AER study](../studies/aer/README.md) preserves earlier independent builds.
 
 The primary user is a coding agent attached to the stdio server. The browser showcase supplies original test material; it is not the integration surface.
 
@@ -46,6 +46,8 @@ For the included example, a tool call has this structure:
 
 The response provides the capture UUID, measured budgets/findings and actual video/poster/final screenshot paths. It does not return a fabricated explanation or edit source.
 
+For a product journey, add positive outcomes to the contract, for example `"outcomes":{"timeoutMs":2200,"required":[{"id":"completed-plan","selector":"#result","visible":true,"textIncludes":"Plan complete"}],"forbiddenVisible":["#error"]}`. The deadline runs from capture start; positive checks are evaluated after the actions within that deadline. Transient visible errors are retained. `delivery` reports passed, failed or unverified separately from temporal quality. Without an outcome contract, functional delivery remains unverified. Selectors must identify one element; use explicit bounded attributes when checking application state.
+
 A failed interaction remains an MCP error. For a page that passed the privacy scans and network policy, the error can include `status: "incomplete"`, the failed action and retained video/events. Use `motion_list` or `motion_inspect` to find this evidence. Its assertions cannot pass and `motion_compare` rejects it as improvement evidence. Privacy/security rejections purge pixels. A visible rectangle does not establish pointer clickability: test removal, timely Undo and restored quantity through actual unforced input, then check keyboard use separately.
 
 On headed displays, first decode a full-viewport calibration and a real scene. See [native recording setup](NATIVE-RECORDING.md) if the compositor scales the recorded page. GPU identity, pixel coverage and temporal cadence need separate verification.
@@ -63,7 +65,7 @@ Use the returned ID, not an invented one:
 
 Read the clip or frames using your host's existing image/browser tools. Match measured geometry with explicit application/source annotations where available. An active cancellation is not automatically a bug: the intended drawer reversal legitimately cancels a tween.
 
-Call `motion_frames` with the capture ID to receive native MCP images from the actual recording around its first failing time window. Optional `timestampsMs` selects up to six capture-relative times. The server decodes the saved WebM; it does not rerender the app or invent a frame. Each image is labeled with requested capture time and actual video seek time. Video alignment is approximate, so use the sampled trace for exact timing claims.
+Call `motion_frames` with `selection:"journey"` to see six frames across the entire recording, then use `selection:"finding"` or explicit `timestampsMs` for detail. Optional `maxWidth` and `maxHeight` return larger images, bounded at 1280×960. The server decodes the saved WebM; it does not rerender the app or invent a frame. Each image reports requested capture time, video seek time, original dimensions and scale. Video alignment is approximate, so use the sampled trace for exact timing claims.
 
 ```json
 {"name":"motion_frames","arguments":{"captureId":"<returned-before-id>"}}

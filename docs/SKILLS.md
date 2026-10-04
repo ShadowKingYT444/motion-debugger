@@ -4,12 +4,13 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 
 ## Four focused skills
 
+- `motion`: normal design prompt entry point; routes to original runnable recipes, design guidance and browser verification
 - `motion-design`: choose a brief-led visual direction, coherent typography/surfaces and complete interaction states
 - `motion-3d-ui`: build original spatial scenes with the right renderer, deliberate camera/lighting, responsive controls and resource cleanup
 - `motion-evidence`: capture, inspect recorded images and compare temporal contracts for an existing interaction
 - `motion-build-inspect-repair`: own a prompt-to-page build, diagnose actual observed defects, repair source in scope and verify the same interaction again
 
-For a new animated page, start with `motion-build-inspect-repair`. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
+For a new animated page, tag `motion` and give your ordinary website or app brief. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
 
 ## Install skills and MCP together
 
@@ -19,7 +20,7 @@ Install the provided private tarball in a durable location, then run this comman
 motion-debugger init --local
 ```
 
-In an interactive terminal, choose Codex, Claude Code, Cursor or VS Code, keep the offered four-skill installation, review the exact project MCP destination and skill files, then type `yes` to apply. The browser download is a separate explicit choice. This is one guided setup for the evidence server **and** the design/build instructions. Keep the installed package in place because `--local` records its absolute runtime path.
+In an interactive terminal, choose Codex, Claude Code, Cursor or VS Code, keep the offered five-skill installation, review the exact project MCP destination and skill files, then type `yes` to apply. The browser download is a separate explicit choice. This is one guided setup for the evidence server **and** the design/build instructions. Keep the installed package in place because `--local` records its absolute runtime path.
 
 For a known client or a different workspace, use an exact project-scoped preview:
 
@@ -27,7 +28,7 @@ For a known client or a different workspace, use an exact project-scoped preview
 motion-debugger init --client codex --local --skills --project /absolute/path/to/app
 ```
 
-To apply interactively, add `--apply`. In a noninteractive terminal, review the JSON preview and rerun the same command with `--apply --confirm <confirmationToken>`. The token covers the exact MCP change and all four skill snapshots; changed destinations require a fresh preview. Without `--skills`, `init` keeps its existing MCP-only behavior. Without project flags, the original Codex MCP default remains its user configuration; combined skill setup uses the project's `.codex/config.toml` instead.
+To apply interactively, add `--apply`. In a noninteractive terminal, review the JSON preview and rerun the same command with `--apply --confirm <confirmationToken>`. The token covers the exact MCP change and all five skill snapshots; changed destinations require a fresh preview. Without `--skills`, `init` keeps its existing MCP-only behavior. Without project flags, the original Codex MCP default remains its user configuration; combined skill setup uses the project's `.codex/config.toml` instead.
 
 Already configured MCP? Install just the bundled skills, with no server-config changes:
 
@@ -48,11 +49,11 @@ Existing identical folders are retained. A folder with different contents or ext
 
 These commands change project files only after explicit approval. They do not bypass workspace trust, register a model endpoint or grant the agent extra permissions. Restart/reload your agent if its host needs that to discover new skills. Ask the agent to identify the selected skill and list `motion_capture`, `motion_frames`, `motion_inspect` and `motion_compare` before claiming the complete workflow is available. A successful install is not evidence that a host has loaded the skills or approved its MCP server.
 
-The Codex plugin manifest also exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all four skills. Other compatible clients can load `SKILL.md` explicitly when automatic discovery differs. For manual copying, Codex/Cursor can also use `.agents/skills/`, and VS Code supports `.agents/skills/` or `.claude/skills/`; keep the complete folders and review collisions.
+The Codex plugin manifest also exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all five skills. Other compatible clients can load `SKILL.md` explicitly when automatic discovery differs. For manual copying, Codex/Cursor can also use `.agents/skills/`, and VS Code supports `.agents/skills/` or `.claude/skills/`; keep the complete folders and review collisions.
 
 A direct starting prompt:
 
-> Use motion-build-inspect-repair from the installed Motion Debugger skills. Build the requested page, inspect its actual running motion, repair observed defects in the requested source, and show the before/after evidence. Use motion-3d-ui when real 3D is required.
+> $motion Build a distinctive launch page for a team of helpful agents, with an interactive spatial hero and polished transitions.
 
 The environment must provide normal code-edit/build tools, access to the app preview and the Motion Debugger MCP server. Skills do not supply credentials, a model endpoint or permission to publish.
 

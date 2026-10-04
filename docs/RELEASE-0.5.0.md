@@ -1,0 +1,13 @@
+# Motion Debugger 0.5.0 release candidate
+
+This private, unpublished candidate adds a normal-prompt motion router, six runnable construction modules, readonly MCP recipe discovery, positive task-outcome checks and whole-journey/detail frame inspection. The colony now has original articulated geometry, grounded lighting, responsive composition and instanced rendering. Drawer keyboard containment/opener restoration and elapsed task lifecycle have actual browser regressions.
+
+The seven reviewed PRs were consolidated by starting from #7 (including useful release/runtime/provenance work from #2–#6), then cherry-picking #8's independent timer diagnosis and functional-first guidance. #4's recovery history is preserved in the branch history. Existing failed MONO/AER studies remain visible. Missing original Ants files were not claimed as recovered.
+
+`npm run check` passes 124 tests across legacy behavior, core/SDK, install, workflow, demos and packaging. A fresh tarball install passes actual dependency installation, five-skill installation into four client destinations, SDK handshakes for npm and standalone plugin, all six exact recipe payloads, native Chrome launch, two WebM captures, inspection and a seeded contract comparison. [Machine-readable verification](RELEASE-0.5.0.json) records its tarball hash and local evidence paths. Native recipe, colony, elapsed-sequence and outcome checks additionally cover desktop/mobile/reduced motion, interruption, keyboard, teardown and useful completion.
+
+The [Ants study](../studies/ants-launch/README.md) demonstrates actual fresh-session tag/skill/MCP use with two matched native builds. Both complete useful journeys and deliver substantive original 3D. It does not establish a general aesthetic or smoothness advantage; normal browser testing also repaired the ordinary build's task clock. Study sources and trial runtime are frozen separately from subsequent release refinements. Complete source-bound footage, retained failures and independent expectations accompany the results.
+
+The [portable package builder](PLUGIN-PACKAGES.md) produces Codex, Claude Code, Cursor and standalone Agent Skills archives with exact file/archive hashes. Fresh dependency and SDK checks establish server compatibility; actual Claude Code/Cursor/Gemini/OpenCode host discovery remains unverified. The fallback archive is not a native plugin. Publication and licensing are unchanged.
+
+Reproduce the release checks with `npm ci`, `npm run check`, `npm run test:install`, then `npm run package:plugins`. Optional native suites are `test:recipes:browser`, `test:colony:browser`, `test:sequence:browser` and `test:outcomes:browser`. Open the frozen comparison with `npm run demo:ants`.

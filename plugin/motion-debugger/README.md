@@ -20,6 +20,6 @@ Source references remain optional, read-only annotations. Configure `MOTION_SOUR
 
 ## Skills and workflow
 
-Start with `motion-build-inspect-repair` for a new animated page, `motion-design` for visual direction, `motion-3d-ui` for spatial scenes, or `motion-evidence` for an existing temporal bug. The manifest discovers the `skills/` directory. MCP-only installation does not automatically install skills in a client. See [skill discovery and workflow setup](../../docs/SKILLS.md).
+Tag `motion` with your ordinary brief for a new animated page, `motion-design` for visual direction, `motion-3d-ui` for spatial scenes, or `motion-evidence` for an existing temporal bug. The manifest discovers the `skills/` directory. MCP-only installation does not automatically install skills in a client. See [skill discovery and workflow setup](../../docs/SKILLS.md).
 
 Run `node scripts/check-skills.mjs` from this plugin folder to verify the portable skill catalog and retained attribution. The design adaptation credits the pinned [Taste source](skills/motion-design/references/taste-provenance.md); its upstream MIT notice does not change Motion Debugger's project license.

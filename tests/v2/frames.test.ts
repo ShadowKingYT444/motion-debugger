@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,symlink} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import {frameSource,frameTimes,frameRequestAllowed,recordedFrames} from '../../packages/core/frames';
+import {frameSource,frameTimes,frameRequestAllowed,recordedFrames,frameDimensions} from '../../packages/core/frames';
 import type {MotionCapture} from '../../packages/core/types';
 
 const id='11111111-2222-4333-8444-555555555555';
@@ -29,6 +29,16 @@ test('frame selection includes observed identity and cancellation event windows'
   assert.deepEqual(frameTimes(identity),[300,400,500]);
   const cancel={...report(),findings:[{type:'active-animation-cancel',summary:'cancel observed',confidence:'observed',sampleTimes:[],eventIds:['cancel-1']}],events:[{id:'cancel-1',t:600,type:'animation-cancel',label:'cancel',origin:'browser-observed',detail:{}}]} as MotionCapture;
   assert.deepEqual(frameTimes(cancel),[500,600,700]);
+});
+test('journey selection covers the complete interaction instead of a single finding',()=>{
+  assert.deepEqual(frameTimes(report(),undefined,'journey'),[0,480,960,1440,1920,2400]);
+  assert.deepEqual(frameTimes(report(),[0,1200,2400],'journey'),[0,1200,2400]);
+});
+test('detail frames preserve aspect and never upscale or conceal source dimensions',()=>{
+  assert.deepEqual(frameDimensions(1280,800,{maxWidth:1280,maxHeight:960}),{width:1280,height:800,sourceWidth:1280,sourceHeight:800,scale:1});
+  assert.deepEqual(frameDimensions(390,844,{maxWidth:1280,maxHeight:960}),{width:390,height:844,sourceWidth:390,sourceHeight:844,scale:1});
+  assert.equal(frameDimensions(1280,800).width,720);
+  for(const bounds of [{maxWidth:99999},{maxHeight:-1},{maxWidth:NaN}])assert.throws(()=>frameDimensions(1280,800,bounds));
 });
 test('recorded frame source resolves fixed capture files and ignores untrusted report paths',async()=>{
   const root=await mkdtemp(path.join(os.tmpdir(),'motion-frame-source-')),directory=path.join(root,id);await mkdir(directory);

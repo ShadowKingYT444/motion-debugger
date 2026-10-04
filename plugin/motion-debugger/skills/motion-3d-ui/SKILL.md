@@ -30,7 +30,7 @@ Give the motion a beginning, a useful transformation and a settled pose. Layer p
 
 Use one time source and a stable scene graph. Store continuous simulation values in refs, mutable scene objects or the renderer's motion facilities rather than rerendering the entire UI every frame. Consider position and velocity when an interaction retargets unfinished motion. Inspect the result rather than assuming a spring setting guarantees continuity.
 
-Pointer input should map to a bounded scene-local intent. Keyboard/buttons must expose the same action, including pause, replay and reset where relevant. Avoid a separate “test animation” that exercises different state logic. Motion Debugger's recipe supports click, hover, key, pointer move and bounded wait; it does not currently synthesize drag-button gestures or scroll. Use an equivalent production control or a separate authorized browser test for those interactions, and name the distinction.
+Pointer input should map to a bounded scene-local intent. Keyboard/buttons must expose the same action, including pause, replay and reset where relevant. Avoid a separate “test animation” that exercises different state logic. Motion Debugger's recipe supports click, hover, key, pointer move, bounded vertical wheel scroll and bounded wait; it does not currently synthesize drag-button gestures. Use an equivalent production control or a separate authorized browser test for those interactions, and name the distinction.
 
 ## Keep it usable and affordable
 

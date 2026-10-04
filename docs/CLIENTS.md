@@ -2,18 +2,18 @@
 
 All clients use the same local stdio server. No account, model API key, hosted service or remote upload is required by Motion Debugger.
 
-Version 0.4.0 is a private preview, not an npm-registry release. Install the provided tarball before using the local binary. Registry examples below describe the intended pinned launch after publication; do not run an unverified package of the same name.
+Version 0.5.0 is a private preview, not an npm-registry release. Install the provided tarball before using the local binary. Registry examples below describe the intended pinned launch after publication; do not run an unverified package of the same name.
 
 ## Recommended: configuration wizard
 
 ```sh
-npm install -g ./motion-debugger-0.4.0.tgz
+npm install -g ./motion-debugger-0.5.0.tgz
 motion-debugger init --local
 ```
 
-Run the wizard from the application project. Choose a supported client, keep the offered four-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
+Run the wizard from the application project. Choose a supported client, keep the offered five-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
 
-Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.4.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
+Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.5.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
 
 The browser dependency is explicit:
 
@@ -22,11 +22,11 @@ motion-debugger setup --browser --client codex --local --skills --project /absol
 motion-debugger doctor
 ```
 
-The setup command can combine Chromium installation, configuration review and all four project skills. In an interactive terminal it asks for approval of the displayed file changes; in a noninteractive terminal it only previews them until you supply `--apply` and the exact confirmation token. The explicit browser download can run before that file-change review. It does not import browser credentials or silently trust an MCP server in your editor. Keep your host's normal approval prompts.
+The setup command can combine Chromium installation, configuration review and all five project skills. In an interactive terminal it asks for approval of the displayed file changes; in a noninteractive terminal it only previews them until you supply `--apply` and the exact confirmation token. The explicit browser download can run before that file-change review. It does not import browser credentials or silently trust an MCP server in your editor. Keep your host's normal approval prompts.
 
 ## Skills-only setup and safe updates
 
-If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve just the four skill folders. Use `claude-code`, `cursor` or `vscode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders are retained, differing or extra files are refused, and unrelated skill folders are preserved. The installer never overwrites existing skill instructions; preserve or move a colliding folder and review again. See [skill destinations and installer verification](SKILLS.md).
+If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve just the five skill folders. Use `claude-code`, `cursor` or `vscode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders are retained, differing or extra files are refused, and unrelated skill folders are preserved. The installer never overwrites existing skill instructions; preserve or move a colliding folder and review again. See [skill destinations and installer verification](SKILLS.md).
 
 `--project` scopes both generated MCP defaults and relative evidence/source-root paths to that project. Combined `--skills` setup defaults its project to the current directory. Explicit `--config PATH` still chooses the exact MCP file, so review it carefully. MCP-only `init` without either flag retains its existing default destinations, including the Codex user configuration.
 

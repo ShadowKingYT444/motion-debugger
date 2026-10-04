@@ -7,7 +7,14 @@ import {chromium} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
 import type {CoreOptions,MotionCapture} from './types';
 
-export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;width:number;height:number;path:string;sha256:string;png:Buffer}
+export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;width:number;height:number;sourceWidth:number;sourceHeight:number;scale:number;path:string;sha256:string;png:Buffer}
+export interface FrameOptions {selection?:'finding'|'journey';maxWidth?:number;maxHeight?:number}
+export function frameDimensions(sourceWidth:number,sourceHeight:number,options:FrameOptions={}) {
+  const {maxWidth=720,maxHeight=540}=options;
+  if(![sourceWidth,sourceHeight].every(value=>Number.isFinite(value)&&value>0)||!Number.isInteger(maxWidth)||!Number.isInteger(maxHeight)||maxWidth<120||maxWidth>1280||maxHeight<120||maxHeight>960)throw new Error('Frame dimensions must be bounded: width 120–1280, height 120–960');
+  const scale=Math.min(1,maxWidth/sourceWidth,maxHeight/sourceHeight);
+  return {width:Math.max(1,Math.round(sourceWidth*scale)),height:Math.max(1,Math.round(sourceHeight*scale)),sourceWidth,sourceHeight,scale};
+}
 const uuid=/^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i;
 export function frameRequestAllowed(host:string|undefined,requestOrigin:string|undefined,expectedOrigin:string) {
   if(!expectedOrigin)return false;
@@ -32,10 +39,12 @@ export async function frameSource(id:string,options:CoreOptions) {
   return {directory,video,size:videoStat.size,report,duration:duration!,offset};
 }
 
-export function frameTimes(report:MotionCapture,requested?:number[]) {
+export function frameTimes(report:MotionCapture,requested?:number[],selection:FrameOptions['selection']='finding') {
   const duration=report.recipe.durationMs!;
   if(requested&&(!Array.isArray(requested)||requested.length<1||requested.length>6||requested.some(t=>!Number.isFinite(t)||t<0||t>duration)))throw new Error('Request one to six finite timestamps within the capture duration');
   if(requested)return [...new Set(requested)].sort((a,b)=>a-b);
+  if(selection==='journey')return [...new Set(Array.from({length:6},(_,index)=>Math.round(duration*index/5)))];
+  if(selection!=='finding')throw new Error('Frame selection must be finding or journey');
   const ordered=[...(report.findings??[])].sort((a,b)=>Number(b.confidence==='contract-violation')-Number(a.confidence==='contract-violation'));
   let center:number|undefined;
   for(const finding of ordered){
@@ -47,9 +56,10 @@ export function frameTimes(report:MotionCapture,requested?:number[]) {
 }
 
 /** Decode the actual recording with the already installed Chromium; no rerun or synthetic frame. */
-export async function recordedFrames(id:string,options:CoreOptions,requested?:number[]) {
+export async function recordedFrames(id:string,options:CoreOptions,requested?:number[],frameOptions:FrameOptions={}) {
   if(options.signal?.aborted)throw new Error('Frame extraction canceled');
-  const source=await frameSource(id,options),times=frameTimes(source.report,requested);
+  frameDimensions(1,1,frameOptions);
+  const source=await frameSource(id,options),times=frameTimes(source.report,requested,frameOptions.selection);
   const token=randomUUID();let origin='';
   const server=createServer((req,res)=>{
     if(!frameRequestAllowed(req.headers.host,req.headers.origin,origin)){res.writeHead(403).end();return}
@@ -87,7 +97,7 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
     const output=path.join(source.directory,`frames-${randomUUID()}`);await mkdir(output);
     for(const captureTimeMs of times){
       if(options.signal?.aborted)throw new Error('Frame extraction canceled');
-      const frame=await page.evaluate(async milliseconds=>{
+      const frame=await page.evaluate(async ({milliseconds,maxWidth,maxHeight})=>{
         const video=document.querySelector('video')!;video.pause();
         const seek=Math.max(0,Math.min(milliseconds/1000,video.duration-.04));
         if(Math.abs(video.currentTime-seek)>.001)await new Promise<void>((resolve,reject)=>{
@@ -95,14 +105,14 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
           video.addEventListener('seeked',()=>{clearTimeout(timeout);resolve()},{once:true});video.currentTime=seek;
         });
         await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
-        const scale=Math.min(1,720/video.videoWidth,540/video.videoHeight),canvas=document.createElement('canvas');
+        const scale=Math.min(1,maxWidth/video.videoWidth,maxHeight/video.videoHeight),canvas=document.createElement('canvas');
         canvas.width=Math.max(1,Math.round(video.videoWidth*scale));canvas.height=Math.max(1,Math.round(video.videoHeight*scale));
         canvas.getContext('2d')!.drawImage(video,0,0,canvas.width,canvas.height);
-        return {png:canvas.toDataURL('image/png').split(',')[1],width:canvas.width,height:canvas.height,videoSeekMs:video.currentTime*1000};
-      },captureTimeMs+source.offset);
+        return {png:canvas.toDataURL('image/png').split(',')[1],width:canvas.width,height:canvas.height,sourceWidth:video.videoWidth,sourceHeight:video.videoHeight,scale,videoSeekMs:video.currentTime*1000};
+      },{milliseconds:captureTimeMs+source.offset,maxWidth:frameOptions.maxWidth??720,maxHeight:frameOptions.maxHeight??540});
       const png=Buffer.from(frame.png,'base64');if(png.length>2_000_000||!png.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error('Decoded frame is not a bounded PNG');
       const filename=path.join(output,`${frames.length+1}-${Math.round(captureTimeMs)}ms.png`);await writeFile(filename,png);
-      frames.push({captureTimeMs,videoSeekMs:Math.round(frame.videoSeekMs),width:frame.width,height:frame.height,path:filename,sha256:createHash('sha256').update(png).digest('hex'),png});
+      frames.push({captureTimeMs,videoSeekMs:Math.round(frame.videoSeekMs),width:frame.width,height:frame.height,sourceWidth:frame.sourceWidth,sourceHeight:frame.sourceHeight,scale:frame.scale,path:filename,sha256:createHash('sha256').update(png).digest('hex'),png});
     }
     const alignment='Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; seeking and alignment are approximate. Use rAF evidence for precise motion metrics.';
     await writeFile(path.join(output,'frames.json'),JSON.stringify({captureId:id,alignment,videoOffsetMs:source.offset,frames:frames.map(({png,...metadata})=>metadata)},null,2));

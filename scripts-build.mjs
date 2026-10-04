@@ -16,6 +16,10 @@ await chmod('plugin/motion-debugger/scripts/mcp.mjs',0o755);
 await rm('plugin/motion-debugger/scripts/cli.mjs',{force:true});
 const plugin=JSON.parse(await readFile('plugin/motion-debugger/.codex-plugin/plugin.json','utf8'));plugin.version=metadata.version;await writeFile('plugin/motion-debugger/.codex-plugin/plugin.json',JSON.stringify(plugin,null,2)+'\n');
 const pluginPackage=JSON.parse(await readFile('plugin/motion-debugger/package.json','utf8'));pluginPackage.version=metadata.version;pluginPackage.dependencies={playwright:metadata.dependencies.playwright};await writeFile('plugin/motion-debugger/package.json',JSON.stringify(pluginPackage,null,2)+'\n');
+const pluginLock=JSON.parse(await readFile('plugin/motion-debugger/package-lock.json','utf8'));
+if(pluginLock.packages[''].dependencies.playwright!==metadata.dependencies.playwright)throw new Error('Refresh the standalone plugin lockfile for the exact Playwright version before building');
+pluginLock.version=metadata.version;pluginLock.packages[''].version=metadata.version;
+await writeFile('plugin/motion-debugger/package-lock.json',JSON.stringify(pluginLock,null,2)+'\n');
 
 const bundledPackages=[...new Set(Object.keys(pluginBuild.metafile.inputs).filter(input=>input.startsWith('node_modules/')).map(input=>{const parts=input.split('/');return parts[1].startsWith('@')?`${parts[1]}/${parts[2]}`:parts[1]}))].sort();
 const notices=['Third-party packages bundled into scripts/mcp.mjs. These notices do not grant a license to the Motion Debugger project.'];

@@ -1,6 +1,6 @@
 {
   "name": "motion-debugger",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
-    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli",
+    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli && npm run test:workflow && npm run test:demo && npm run test:packages && npm run test:ants",
     "test:e2e": "node --import tsx --test tests/e2e.test.ts",
     "mcp": "node build/mcp/index.js",
     "cli": "node build/cli/index.js",
@@ -29,7 +29,15 @@
     "test:repair:browser": "node --import tsx tests/repair-case-browser.mjs",
     "test:coverage:browser": "node --import tsx tests/v2/coverage-browser.ts",
     "test:failure:browser": "node --import tsx --test tests/v2/failure-evidence-browser.ts",
-    "audit:runner": "node --import tsx scripts/runner-audit.mjs"
+    "audit:runner": "node --import tsx scripts/runner-audit.mjs",
+    "package:plugins": "node scripts/package-plugins.mjs",
+    "test:packages": "node --test tests/plugin-packages.test.mjs",
+    "test:outcomes:browser": "node --import tsx tests/v2/outcomes-browser.ts",
+    "test:recipes:browser": "node --import tsx tests/v2/recipes-browser.mjs",
+    "demo:ants": "node scripts/demo-ants.mjs",
+    "test:ants": "node --test tests/demo-ants.test.mjs",
+    "test:colony:browser": "node --import tsx tests/v2/colony-browser.mjs",
+    "test:sequence:browser": "node --import tsx tests/v2/sequence-browser.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.31.0",
@@ -50,7 +58,7 @@
     "typescript": "5.9.3",
     "vite": "7.3.6"
   },
-  "description": "Local temporal motion evidence for coding agents: library, CLI and MCP",
+  "description": "Create, inspect and refine expressive web motion with runnable recipes and browser evidence",
   "bin": {
     "motion-debugger": "build/cli/index.js",
     "motion-debugger-mcp": "build/mcp/index.js"

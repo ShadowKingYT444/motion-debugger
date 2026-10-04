@@ -1,4 +1,16 @@
-# Usage-budget checkpoint
+# Production motion goal — release verification
+
+Working branch: `work/production-motion`. Full objective has reached a reviewable private 0.5.0 candidate; no publication or general superiority claim. Started from PR #7 and cherry-picked #8; seven-PR review and historic evidence remain preserved.
+
+Implemented: five portable skills including `$motion` ordinary-prompt router; six original runnable recipes (spring, scroll chapters, instanced articulated colony, handoff, keyboard-safe drawer, elapsed sequence); readonly allowlisted MCP catalog; bounded positive journey outcomes; full-journey/detail native frames; reproducible host-specific archives; colorful banner and quickstart. Shared edits have one owner and workers' independent browser evidence remains retained.
+
+Verification: full build and 124 tests pass. Final-code fresh tarball install (2026-10-04T06-43-27.065Z) passes four destinations, five complete skills, npm/standalone SDK handshakes and all6 exact recipe payloads, actual browser launch and two WebM captures/inspection/comparison. Native outcome, recipe, colony and elapsed-sequence suites pass; failures preceding repairs and harness corrections remain retained. See docs/RELEASE-0.5.0.{md,json}. Documentation was finalized afterward without runtime changes; portable archives have separate hashes.
+
+Ants: actual same-brief/model-config/assets/browser/budget Codex pair froze at twenty-minute deadlines without final replies. Frozen source is untouched under studies/ants-launch/source. Both main journeys/controls pass across desktop/mobile/reduced/fallback; full recordings bind final source and runtime. Independent lossless pauses are exact7/8; ordinary fallback differs only in tiny raster amounts. Codec gates and prior harness/calibration failures stay preserved. Temporal evidence is inconclusive and no overall visual/smoothness advantage is claimed. Actual plugin recipes and MCP were used; model visual inspection and tool causality are not inferred from event logs. Original Ants source was missing, so new endpoints are not claimed as recovered originals.
+
+The current source adds further scene/drawer/elapsed improvements after the frozen trial; their native proofs are separate. Native Claude Code/Cursor host loading remains unverified despite package/SDK validation. License remains private/UNLICENSED. Parent owns final documentation, release package verification, reviewable commit/PR and local viewer; workers own evidence/archive closure only.
+
+## Historical usage-budget checkpoint
 
 Branch: work/demo-evidence-63eff24. Base: 63eff24c88dcbf42438230117834d8247e103367. Separate private Motion checkout; CivicLens untouched.
 
