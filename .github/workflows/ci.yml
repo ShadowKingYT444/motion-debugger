@@ -42,6 +42,8 @@ jobs:
           npm run test:outcomes:browser
       - name: SIGNAL desktop, mobile and reduced-motion visitor journeys
         run: npm run test:rail:browser && npm run test:rail:viewer
+      - name: ASSEMBLY native journeys and idle render regression
+        run: npm run test:assembly:browser
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke
@@ -63,6 +65,7 @@ jobs:
             artifacts/loop-viewer-downloads/
             artifacts/repair-case/
             artifacts/rail-viewer/
+            artifacts/assembly/
             artifacts/v2/coverage/
           if-no-files-found: warn
           retention-days: 7
