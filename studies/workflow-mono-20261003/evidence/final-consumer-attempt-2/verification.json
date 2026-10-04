@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0",
+  "startedAt": "2026-10-03T05:12:13.981Z",
+  "status": "passed",
+  "node": "v24.20.0",
+  "platform": "linux",
+  "skipBrowser": false,
+  "consumer": "/tmp/motion-packed-install-9qY8v5",
+  "checks": [
+    "package-built-and-packed",
+    "fresh-npm-dependency-install",
+    "installed-cli-version-and-core-import",
+    "four-client-config-formats",
+    "confirmed-config-write",
+    "packaged-four-complete-skills-catalog",
+    "confirmed-project-mcp-plus-skills-install",
+    "packaged-four-client-skill-destinations",
+    "installed-skills-idempotent-and-unrelated-preserved",
+    "installed-mcp-sdk-handshake-and-motion-list",
+    "standalone-plugin-dependency-install-and-sdk-handshake",
+    "browser-launched",
+    "packaged-demo-loopback-http-and-cross-origin-defense",
+    "installed-cli-two-webm-captures-inspect-and-before-after-comparison"
+  ],
+  "package": {
+    "filename": "motion-debugger-0.4.0.tgz",
+    "integrity": "sha512-9ikxQm3xziQ15qwBZ49ECIaZcGNe5TJ57kIxV+fdwMRdAaDt4f7nVQaXM/txTx3f7mwCCkfncwsACekrveSQjA==",
+    "shasum": "473d4f76e0ccac74569563d7eeca44718659254e",
+    "size": 10230327,
+    "unpackedSize": 13377179
+  },
+  "comparison": {
+    "schemaVersion": "2.0",
+    "comparable": true,
+    "comparabilityIssues": [],
+    "beforeId": "400d9958-2d90-474e-ab0d-6ecdb47c8335",
+    "afterId": "0fa8cab0-1a59-4542-9bf7-c04f2b23ea6e",
+    "contractsPassed": {
+      "before": false,
+      "after": true
+    },
+    "deltas": {
+      "animationBoundarySamples": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "maxAnimationBoundaryStepPx": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "maxAnimationBoundaryStepAt60HzPx": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "maxFrameStepPx": {
+        "before": 283.908,
+        "after": 41.338,
+        "change": -242.57
+      },
+      "maxStepAt60HzPx": {
+        "before": 285.048,
+        "after": 17.757,
+        "change": -267.291
+      },
+      "maxSampleGapMs": {
+        "before": 66.7,
+        "after": 66.7,
+        "change": 0
+      },
+      "maxHeightStepPx": {
+        "before": 14.659,
+        "after": 11.094,
+        "change": -3.565
+      },
+      "maxOpacityDrop": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "replacements": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "activeCancels": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "maxContainmentOverflowPx": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      },
+      "containmentViolatingSamples": {
+        "before": 0,
+        "after": 0,
+        "change": 0
+      }
+    },
+    "finalEquivalent": true,
+    "interpretation": "The after capture satisfies the supplied contracts that the before capture violated. This establishes a measured improvement under this recipe, not a generic source-level root cause.",
+    "findings": {
+      "before": [
+        {
+          "type": "frame-step",
+          "summary": "Observed 283.91px over 16.60ms = 285.05px at16.667ms; exceeds supplied normalized budget 40",
+          "eventIds": [
+            "event-5"
+          ],
+          "sampleTimes": [
+            1304.8,
+            1321.4
+          ],
+          "confidence": "contract-violation"
+        }
+      ],
+      "after": []
+    },
+    "limitations": [
+      "Animation-operation boundaries are supplemental browser geometry reads, not painted frames; their conservative normalization clamps Δt to at least16.667ms. Old captures without boundary events cannot retrospectively reveal unsampled resets.",
+      "Normalized displacement is observed average velocity scaled to16.667ms; it does not establish perceptual smoothness.",
+      "Position-step budgets depend on the supplied recipe and sampling cadence; fast intentional motion can exceed them.",
+      "Active cancellation can be intentional retargeting; inspect geometry and caller contracts together.",
+      "Source refs are explicitly supplied mappings, not inferred code attribution.",
+      "This comparison evaluates evidence/contracts. It is not a benchmark of LLM performance."
+    ]
+  },
+  "finishedAt": "2026-10-03T05:14:16.376Z"
+}

@@ -1,0 +1,780 @@
+{
+  "frozen": true,
+  "mappingCreatedAt": "2026-10-04T08:55:18.052784+00:00",
+  "mappingScope": "Post-freeze semantic mapping; user journeys and expectations remain preregistered. Native release 70% correspondence, replay <=50/1000 after100ms; screenshot preview target adapts to each actual responsive layout. Immediate SVG then JSON downloads retained.",
+  "arms": {
+    "ordinary": {
+      "url": "http://127.0.0.1:46313",
+      "sourceDirectory": "/home/terryd/Projects/Prenium_Motion/studies/loop-studio/source/ordinary",
+      "sourceDigest": "86c990d50ee165005594464cef3a8df98f5ee41daa39381d9df6364be1e3163e",
+      "mapping": {
+        "stage": "#artwork",
+        "conditions": {
+          "mobile": {
+            "stage": ".mobile-specimen",
+            "extras": [
+              {
+                "id": "palette-acid",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"acid\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "acid"
+                }
+              },
+              {
+                "id": "palette-signal",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"signal\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "signal"
+                }
+              },
+              {
+                "id": "palette-glacier",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"glacier\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "glacier"
+                }
+              },
+              {
+                "id": "pointer-panel-close",
+                "actions": [
+                  {
+                    "selector": "#export-open",
+                    "waitMs": 400
+                  },
+                  {
+                    "selector": "#export-close",
+                    "waitMs": 400
+                  }
+                ]
+              },
+              {
+                "id": "study-card-pulse",
+                "actions": [
+                  {
+                    "selector": "button[data-study=\"pulse\"]",
+                    "waitMs": 700
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-style][aria-pressed=\"true\"]",
+                  "attribute": "data-style",
+                  "equals": "pulse"
+                }
+              },
+              {
+                "id": "study-card-weave",
+                "actions": [
+                  {
+                    "selector": "button[data-study=\"weave\"]",
+                    "waitMs": 700
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-style][aria-pressed=\"true\"]",
+                  "attribute": "data-style",
+                  "equals": "weave"
+                }
+              },
+              {
+                "id": "study-card-orbit",
+                "actions": [
+                  {
+                    "selector": "button[data-study=\"orbit\"]",
+                    "waitMs": 700
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-style][aria-pressed=\"true\"]",
+                  "attribute": "data-style",
+                  "equals": "orbit"
+                }
+              },
+              {
+                "id": "nav-about",
+                "actions": [
+                  {
+                    "selector": ".site-header nav a[href=\"#about\"]",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "about-create",
+                "actions": [
+                  {
+                    "selector": ".about a",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "nav-create",
+                "actions": [
+                  {
+                    "selector": ".nav-create",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "footer-home",
+                "actions": [
+                  {
+                    "selector": "footer .logo",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "footer-top",
+                "actions": [
+                  {
+                    "selector": "footer>a:last-child",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "header-home",
+                "actions": [
+                  {
+                    "selector": ".site-header .logo",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "hero-pause-resume",
+                "actions": [
+                  {
+                    "selector": "#stage-pause",
+                    "waitMs": 250
+                  },
+                  {
+                    "selector": "#stage-pause",
+                    "waitMs": 250
+                  }
+                ]
+              },
+              {
+                "id": "mobile-preview-pause-resume",
+                "actions": [
+                  {
+                    "selector": "#mobile-play",
+                    "waitMs": 250
+                  },
+                  {
+                    "selector": "#mobile-play",
+                    "waitMs": 250
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "progressDomain": {
+          "min": 0,
+          "max": 1000
+        },
+        "replayObserveMs": 100,
+        "replayMaxProgress": 50,
+        "errorSelectors": [
+          "[role='alert']",
+          "[data-motion-error]"
+        ],
+        "state": {
+          "name": {
+            "selector": "#brand-name",
+            "property": "value"
+          },
+          "style": {
+            "selector": "button[data-style][aria-pressed=\"true\"]",
+            "attribute": "data-style"
+          },
+          "palette": {
+            "selector": "button[data-palette][aria-pressed=\"true\"]",
+            "attribute": "data-palette"
+          },
+          "intensity": {
+            "selector": "#intensity",
+            "property": "value"
+          },
+          "progress": {
+            "selector": "#timeline",
+            "property": "value"
+          },
+          "playback": {
+            "selector": "#play",
+            "attribute": "aria-label"
+          }
+        },
+        "playbackValues": {
+          "playing": [
+            "Pause animation"
+          ],
+          "paused": [
+            "Play animation"
+          ]
+        },
+        "controls": {
+          "cta": ".hero-cta",
+          "name": "#brand-name",
+          "styles": {
+            "Pulse": "button[data-style=\"pulse\"]",
+            "Weave": "button[data-style=\"weave\"]",
+            "Orbit": "button[data-style=\"orbit\"]"
+          },
+          "palette": {
+            "kind": "buttons",
+            "choice": "button[data-palette=\"signal\"]"
+          },
+          "intensity": "#intensity",
+          "scrubber": "#timeline",
+          "play": "#play",
+          "pause": "#play",
+          "resume": "#play",
+          "replay": "#replay",
+          "details": "#export-open",
+          "panel": "#export-dialog",
+          "exportSvg": "#download-svg",
+          "exportJson": "#download-json"
+        },
+        "exports": {
+          "name": {
+            "path": "name"
+          },
+          "style": {
+            "path": "style"
+          },
+          "palette": {
+            "path": "palette.id"
+          },
+          "intensity": {
+            "path": "intensity"
+          }
+        },
+        "extras": [
+          {
+            "id": "palette-acid",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"acid\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "acid"
+            }
+          },
+          {
+            "id": "palette-signal",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"signal\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "signal"
+            }
+          },
+          {
+            "id": "palette-glacier",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"glacier\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "glacier"
+            }
+          },
+          {
+            "id": "pointer-panel-close",
+            "actions": [
+              {
+                "selector": "#export-open",
+                "waitMs": 400
+              },
+              {
+                "selector": "#export-close",
+                "waitMs": 400
+              }
+            ]
+          },
+          {
+            "id": "study-card-pulse",
+            "actions": [
+              {
+                "selector": "button[data-study=\"pulse\"]",
+                "waitMs": 700
+              }
+            ],
+            "expected": {
+              "selector": "button[data-style][aria-pressed=\"true\"]",
+              "attribute": "data-style",
+              "equals": "pulse"
+            }
+          },
+          {
+            "id": "study-card-weave",
+            "actions": [
+              {
+                "selector": "button[data-study=\"weave\"]",
+                "waitMs": 700
+              }
+            ],
+            "expected": {
+              "selector": "button[data-style][aria-pressed=\"true\"]",
+              "attribute": "data-style",
+              "equals": "weave"
+            }
+          },
+          {
+            "id": "study-card-orbit",
+            "actions": [
+              {
+                "selector": "button[data-study=\"orbit\"]",
+                "waitMs": 700
+              }
+            ],
+            "expected": {
+              "selector": "button[data-style][aria-pressed=\"true\"]",
+              "attribute": "data-style",
+              "equals": "orbit"
+            }
+          },
+          {
+            "id": "nav-about",
+            "actions": [
+              {
+                "selector": ".site-header nav a[href=\"#about\"]",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "about-create",
+            "actions": [
+              {
+                "selector": ".about a",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "nav-create",
+            "actions": [
+              {
+                "selector": ".nav-create",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "footer-home",
+            "actions": [
+              {
+                "selector": "footer .logo",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "footer-top",
+            "actions": [
+              {
+                "selector": "footer>a:last-child",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "header-home",
+            "actions": [
+              {
+                "selector": ".site-header .logo",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "hero-pause-resume",
+            "actions": [
+              {
+                "selector": "#stage-pause",
+                "waitMs": 250
+              },
+              {
+                "selector": "#stage-pause",
+                "waitMs": 250
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "motion": {
+      "url": "http://127.0.0.1:40813",
+      "sourceDirectory": "/home/terryd/Projects/Prenium_Motion/studies/loop-studio/source/motion",
+      "sourceDigest": "8041ba96471f2f5812bc8f4d995362bdce9d2e1d4ca3d3e2715f31ffe8a9f43a",
+      "mapping": {
+        "stage": "#live-preview",
+        "conditions": {
+          "mobile": {
+            "stage": "#live-preview",
+            "extras": [
+              {
+                "id": "palette-acid",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"acid\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "acid"
+                }
+              },
+              {
+                "id": "palette-ember",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"ember\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "ember"
+                }
+              },
+              {
+                "id": "palette-ice",
+                "actions": [
+                  {
+                    "selector": "button[data-palette=\"ice\"]",
+                    "waitMs": 150
+                  }
+                ],
+                "expected": {
+                  "selector": "button[data-palette][aria-pressed=\"true\"]",
+                  "attribute": "data-palette",
+                  "equals": "ice"
+                }
+              },
+              {
+                "id": "pointer-panel-close",
+                "actions": [
+                  {
+                    "selector": "#export-open",
+                    "waitMs": 400
+                  },
+                  {
+                    "selector": "#export-close",
+                    "waitMs": 400
+                  }
+                ]
+              },
+              {
+                "id": "about-create",
+                "actions": [
+                  {
+                    "selector": ".about a",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "nav-create",
+                "actions": [
+                  {
+                    "selector": ".header nav a[href=\"#studio\"]",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "stage-create",
+                "actions": [
+                  {
+                    "selector": ".stage-link",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "footer-home",
+                "actions": [
+                  {
+                    "selector": "footer .wordmark",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "header-home",
+                "actions": [
+                  {
+                    "selector": ".header .wordmark",
+                    "waitMs": 750
+                  }
+                ]
+              },
+              {
+                "id": "hero-pause-resume",
+                "actions": [
+                  {
+                    "selector": "#hero-pause",
+                    "waitMs": 250
+                  },
+                  {
+                    "selector": "#hero-pause",
+                    "waitMs": 250
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "progressDomain": {
+          "min": 0,
+          "max": 1000
+        },
+        "replayObserveMs": 100,
+        "replayMaxProgress": 50,
+        "errorSelectors": [
+          "[role='alert']",
+          "[data-motion-error]"
+        ],
+        "state": {
+          "name": {
+            "selector": "#brand-name",
+            "property": "value"
+          },
+          "style": {
+            "selector": "button[data-mode][aria-pressed=\"true\"]",
+            "attribute": "data-mode"
+          },
+          "palette": {
+            "selector": "button[data-palette][aria-pressed=\"true\"]",
+            "attribute": "data-palette"
+          },
+          "intensity": {
+            "selector": "#intensity",
+            "property": "value"
+          },
+          "progress": {
+            "selector": "#timeline",
+            "property": "value"
+          },
+          "playback": {
+            "selector": "#play",
+            "attribute": "aria-label"
+          }
+        },
+        "playbackValues": {
+          "playing": [
+            "Pause motion"
+          ],
+          "paused": [
+            "Resume motion"
+          ]
+        },
+        "controls": {
+          "cta": ".hero-cta",
+          "name": "#brand-name",
+          "styles": {
+            "Pulse": "button[data-mode=\"pulse\"]",
+            "Weave": "button[data-mode=\"weave\"]",
+            "Orbit": "button[data-mode=\"orbit\"]"
+          },
+          "palette": {
+            "kind": "buttons",
+            "choice": "button[data-palette=\"ember\"]"
+          },
+          "intensity": "#intensity",
+          "scrubber": "#timeline",
+          "play": "#play",
+          "pause": "#play",
+          "resume": "#play",
+          "replay": "#replay",
+          "details": "#export-open",
+          "panel": "#export-panel",
+          "exportSvg": "#download-svg",
+          "exportJson": "#download-json"
+        },
+        "exports": {
+          "name": {
+            "path": "name"
+          },
+          "style": {
+            "path": "style"
+          },
+          "palette": {
+            "path": "palette.id"
+          },
+          "intensity": {
+            "path": "intensity",
+            "scale": 0.01
+          }
+        },
+        "extras": [
+          {
+            "id": "palette-acid",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"acid\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "acid"
+            }
+          },
+          {
+            "id": "palette-ember",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"ember\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "ember"
+            }
+          },
+          {
+            "id": "palette-ice",
+            "actions": [
+              {
+                "selector": "button[data-palette=\"ice\"]",
+                "waitMs": 150
+              }
+            ],
+            "expected": {
+              "selector": "button[data-palette][aria-pressed=\"true\"]",
+              "attribute": "data-palette",
+              "equals": "ice"
+            }
+          },
+          {
+            "id": "pointer-panel-close",
+            "actions": [
+              {
+                "selector": "#export-open",
+                "waitMs": 400
+              },
+              {
+                "selector": "#export-close",
+                "waitMs": 400
+              }
+            ]
+          },
+          {
+            "id": "nav-about",
+            "actions": [
+              {
+                "selector": ".header nav a[href=\"#about\"]",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "about-create",
+            "actions": [
+              {
+                "selector": ".about a",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "nav-create",
+            "actions": [
+              {
+                "selector": ".header nav a[href=\"#studio\"]",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "stage-create",
+            "actions": [
+              {
+                "selector": ".stage-link",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "footer-home",
+            "actions": [
+              {
+                "selector": "footer .wordmark",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "header-home",
+            "actions": [
+              {
+                "selector": ".header .wordmark",
+                "waitMs": 750
+              }
+            ]
+          },
+          {
+            "id": "hero-pause-resume",
+            "actions": [
+              {
+                "selector": "#hero-pause",
+                "waitMs": 250
+              },
+              {
+                "selector": "#hero-pause",
+                "waitMs": 250
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

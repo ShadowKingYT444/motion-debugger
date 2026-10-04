@@ -1,0 +1,11 @@
+// Serve only owned, frozen workflow endpoints and their actual recordings.
+import express from 'express';
+import path from 'node:path';
+const root=process.cwd(),study=path.resolve(root,'studies/workflow-mono-20261003');
+const app=express();
+for(const arm of ['control','treatment'])app.use(`/${arm}`,express.static(path.join(study,`frozen-${arm}`,'dist')));
+app.use('/media',express.static(path.join(root,'docs/assets/workflow-mono-20261003')));
+app.get('/',(_,res)=>res.type('html').send(`<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width"><title>Motion Debugger: independent workflow comparison</title><style>body{font:16px system-ui;max-width:1280px;margin:32px auto;padding:20px;background:#f4f2ed;color:#242624}section{display:grid;grid-template-columns:1fr 1fr;gap:24px}video{width:100%;background:#deddd7}h1{font-size:32px;letter-spacing:-.03em}p{line-height:1.6}a{color:inherit}@media(max-width:700px){section{grid-template-columns:1fr}}</style></head><body><h1>Two builds. One product brief.</h1><p>Independent from-scratch builds with the same demanding audio-site brief, GPT-6-Luna Max and twenty-minute wall-clock budget. The Motion arm receives its installed skills and actual MCP tools. This compares complete workflows; it does not isolate a single tool's causal effect. Recorded journeys use the same viewport and visitor goals. Both final videos use headless SwiftShader. Sampling failed the 80 ms gate; these videos do not prove smoother motion. Motion's Undo control failed. No overall Motion advantage or GPT-6.1 result is claimed. See the private repository report for checks and preserved trials.</p><section><div><h2>Ordinary build and refinement</h2><video controls preload="metadata" src="/media/control.mp4"></video><p><a href="/control/">Explore ordinary result</a></p></div><div><h2>Motion build, inspect and repair</h2><video controls preload="metadata" src="/media/treatment.mp4"></video><p><a href="/treatment/">Explore Motion result</a></p></div></section></body></html>`));
+const port=Number(process.env.MOTION_LOCAL_TRIAL_PORT||4340);
+const server=app.listen(port,'127.0.0.1',()=>console.log(`LOCAL_TRIAL_READY http://127.0.0.1:${port}`));
+for(const signal of ['SIGTERM','SIGINT'])process.on(signal,()=>server.close(()=>process.exit(0)));

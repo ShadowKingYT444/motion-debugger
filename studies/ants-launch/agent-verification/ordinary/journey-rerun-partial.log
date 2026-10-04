@@ -1,0 +1,40 @@
+PASS WebGL canvas visible
+PASS Launch runs task
+PASS Pause holds elapsed
+PASS Resume advances
+PASS Cancel resets task
+PASS Cancel disabled after cancellation
+PASS Stage 1 completes
+PASS Stage 2 completes
+PASS Stage 3 completes
+PASS Stage 4 completes
+PASS Task completes
+PASS Read plan opens drawer
+PASS Finished plan contains schedule
+PASS Drawer contains keyboard focus
+PASS Escape closes drawer
+PASS Drawer restores trigger focus
+PASS Replay starts fresh
+PASS Replay resets elapsed
+PASS Stage details keyboard operation
+PASS Close button works
+PASS About shows concept disclaimer
+PASS Rapid scroll reversal restores hero
+PASS Mobile no horizontal overflow
+PASS Mobile launch and pause
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Error: strict mode violation: locator('[data-stage="0"]') resolved to 2 elements:
+    1) <body data-stage="0" data-mode="paused">…</body> aka getByText('Skip to interactive demo ANTHROPIC ANTSThe ideaThe colonyAbout this concept ↗')
+    2) <button data-stage="0">…</button> aka getByRole('button', { name: '01 Assign the brief One task' })
+
+Call log:
+[2m  - waiting for locator('[data-stage="0"]')[22m
+
+    at /tmp/motion-ants-paired-htb15s4s/ordinary/evidence/journey-test.mjs:12:790 {
+  log: [ `  - waiting for locator('[data-stage="0"]')` ]
+}
+
+Node.js v24.20.0

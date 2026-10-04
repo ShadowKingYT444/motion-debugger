@@ -1,0 +1,199 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"id\": \"a9f1b5f8-ed53-4640-95dd-ebd64b37fd47\",\n  \"label\": \"Ordinary workflow: cart (through removal)\",\n  \"url\": \"http://127.0.0.1:4340/control/\",\n  \"selector\": \".cart-dialog\",\n  \"environment\": {\n    \"browser\": \"Chromium 152.0.7977.64\",\n    \"browserMode\": \"headless\",\n    \"viewport\": {\n      \"width\": 1280,\n      \"height\": 900\n    },\n    \"diagnostics\": {\n      \"devicePixelRatio\": 1,\n      \"visibilityState\": \"visible\",\n      \"webglRenderers\": [\n        \"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)\"\n      ]\n    },\n    \"probeSha256\": \"59ca893c90bef065ac93458c932058fcb17369d37846ba4cde68a548ede87f0b\",\n    \"analyzerSha256\": \"3235062ad5a3a4ba25e6da736af8bdd37ba549cbe690b01e0198afb99bf6201a\",\n    \"clock\": \"page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start\",\n    \"reducedMotion\": \"no-preference\"\n  },\n  \"metrics\": {\n    \"animationBoundarySamples\": 0,\n    \"maxAnimationBoundaryStepPx\": 0,\n    \"maxAnimationBoundaryStepAt60HzPx\": 0,\n    \"absentSamples\": 0,\n    \"hiddenSamples\": 43,\n    \"visibleSamples\": 33,\n    \"invalidSamples\": 0,\n    \"maxObservedSampleGapMs\": 288.8,\n    \"maxProbeReadMs\": 4.4,\n    \"maxVisibleSampleGapMs\": 266.7,\n    \"maxObservationLagMs\": 203.5,\n    \"sufficientEvidence\": false,\n    \"validSamples\": 76,\n    \"sampleCount\": 76,\n    \"observedDurationMs\": 11945,\n    \"replacements\": 0,\n    \"animationStarts\": 6,\n    \"activeCancels\": 0,\n    \"maxFrameStepPx\": 0,\n    \"maxStepAt60HzPx\": 0,\n    \"maxSampleGapMs\": 283.2,\n    \"maxHeightStepPx\": 0,\n    \"p95FrameStepPx\": 0,\n    \"maxOpacityDrop\": 0,\n    \"nodeIdentities\": [\n      \"node-1\"\n    ],\n    \"maxContainmentOverflowPx\": 0,\n    \"containmentViolatingSamples\": 0\n  },\n  \"coverage\": {\n    \"version\": \"1\",\n    \"cadenceSufficient\": false,\n    \"targetCoverageSufficient\": true,\n    \"targetPresence\": \"may-disappear\",\n    \"intervals\": [\n      {\n        \"state\": \"hidden\",\n        \"fromMs\": 0,\n        \"toMs\": 4745.3,\n        \"samples\": 36\n      },\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 4745.3,\n        \"toMs\": 4961.9,\n        \"samples\": 1\n      },\n      {\n        \"state\": \"hidden\",\n        \"fromMs\": 4961.9,\n        \"toMs\": 5745.2,\n        \"samples\": 5\n      },\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 5745.2,\n        \"toMs\": 5978.6,\n        \"samples\": 1\n      },\n      {\n        \"state\": \"hidden\",\n        \"fromMs\": 5978.6,\n        \"toMs\": 6461.8,\n        \"samples\": 2\n      },\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 6461.8,\n        \"toMs\": 11945,\n        \"samples\": 31\n      }\n    ],\n    \"reasons\": [\n      \"Recorder coverage insufficient: ordered true, first 0ms, last 11945ms, rAF gap 283.200ms, observation gap 288.800ms, read lag 203.500ms; unchanged 80ms gate.\"\n    ]\n  },\n  \"assertions\": [\n    {\n      \"id\": \"valid-trajectory\",\n      \"label\": \"Finite observed trajectory\",\n      \"passed\": false,\n      \"status\": \"inconclusive\",\n      \"actual\": \"76 valid samples; first 0.0ms; ordered timestamps true; last 11945.0ms; maximum gap 283.2ms\",\n      \"expected\": \"Strictly increasing nonnegative timestamps; \u226520 observed frames and \u226520 visible samples; target policy may-disappear; finite samples starting \u226480ms (unless may-disappear) and through 11900ms; maximum gap \u226480ms\"\n    },\n    {\n      \"id\": \"normalized-step\",\n      \"label\": \"Bounded displacement at a normalized 60Hz interval\",\n      \"passed\": false,\n      \"status\": \"inconclusive\",\n      \"actual\": \"0px /16.667ms; insufficient temporal coverage\",\n      \"expected\": \"\u22641000px /16.667ms; displacement\u00f7rAF \u0394t\u00d716.667; actual read gaps/lag separately gated\"\n    },\n    {\n      \"id\": \"height-step\",\n      \"label\": \"Bounded per-frame height change\",\n      \"passed\": false,\n      \"status\": \"inconclusive\",\n      \"actual\": \"0px; insufficient temporal coverage\",\n      \"expected\": \"\u22642000px\"\n    },\n    {\n      \"id\": \"final-visible\",\n      \"label\": \"Final visibility\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"true\",\n      \"expected\": \"true\"\n    },\n    {\n      \"id\": \"final-text\",\n      \"label\": \"Final text content\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"MONO / YOUR SELECTIONYour bag.\u00d7\\n      MRoom for something good.Your bag is ready when you are.Explore finishes \u2197\\n      Removed from your bag.Undo\\n      Subtotal$0Local concept checkout. No payment or \",\n      \"expected\": \"$0\"\n    },\n    {\n      \"id\": \"browser-errors\",\n      \"label\": \"No uncaught page errors\",\n      \"passed\": true,\n      \"actual\": \"none\",\n      \"expected\": \"none\"\n    },\n    {\n      \"id\": \"network-policy\",\n      \"label\": \"No forbidden network requests\",\n      \"passed\": true,\n      \"actual\": \"0\",\n      \"expected\": \"0 outside configured local origins\"\n    }\n  ],\n  \"findings\": [],\n  \"final\": {\n    \"visible\": true,\n    \"attributes\": {\n      \"aria-labelledby\": \"cart-title\",\n      \"open\": \"\"\n    },\n    \"text\": \"MONO / YOUR SELECTIONYour bag.\u00d7\\n      MRoom for something good.Your bag is ready when you are.Explore finishes \u2197\\n      Removed from your bag.Undo\\n      Subtotal$0Local concept checkout. No payment or order is processed.Continue to checkout \u2197Continue exploring \u2193\",\n    \"x\": 760,\n    \"y\": 0,\n    \"opacity\": 1\n  },\n  \"evidence\": {\n    \"directory\": \"${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47\",\n    \"report\": \"${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/report.json\",\n    \"video\": \"${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/video.webm\",\n    \"poster\": \"${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/poster.png\",\n    \"finalScreenshot\": \"${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/final.png\",\n    \"videoOffsetMs\": 3621\n  },\n  \"resourceUri\": \"motion-evidence://capture/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47\",\n  \"limitations\": [\n    \"Use only trusted credential-free development pages; recordings are not automatically redacted.\",\n    \"Fresh browser context, no user profile, credentials or authenticated sessions are imported.\",\n    \"Only configured loopback origins can load resources; third-party network requests are blocked.\",\n    \"Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.\",\n    \"Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.\",\n    \"WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.\",\n    \"Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.\",\n    \"CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.\",\n    \"Source mappings and application marks are explicitly supplied annotations.\"\n  ]\n}"
+    }
+  ],
+  "structuredContent": {
+    "id": "a9f1b5f8-ed53-4640-95dd-ebd64b37fd47",
+    "label": "Ordinary workflow: cart (through removal)",
+    "url": "http://127.0.0.1:4340/control/",
+    "selector": ".cart-dialog",
+    "environment": {
+      "browser": "Chromium 152.0.7977.64",
+      "browserMode": "headless",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "diagnostics": {
+        "devicePixelRatio": 1,
+        "visibilityState": "visible",
+        "webglRenderers": [
+          "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+        ]
+      },
+      "probeSha256": "59ca893c90bef065ac93458c932058fcb17369d37846ba4cde68a548ede87f0b",
+      "analyzerSha256": "3235062ad5a3a4ba25e6da736af8bdd37ba549cbe690b01e0198afb99bf6201a",
+      "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+      "reducedMotion": "no-preference"
+    },
+    "metrics": {
+      "animationBoundarySamples": 0,
+      "maxAnimationBoundaryStepPx": 0,
+      "maxAnimationBoundaryStepAt60HzPx": 0,
+      "absentSamples": 0,
+      "hiddenSamples": 43,
+      "visibleSamples": 33,
+      "invalidSamples": 0,
+      "maxObservedSampleGapMs": 288.8,
+      "maxProbeReadMs": 4.4,
+      "maxVisibleSampleGapMs": 266.7,
+      "maxObservationLagMs": 203.5,
+      "sufficientEvidence": false,
+      "validSamples": 76,
+      "sampleCount": 76,
+      "observedDurationMs": 11945,
+      "replacements": 0,
+      "animationStarts": 6,
+      "activeCancels": 0,
+      "maxFrameStepPx": 0,
+      "maxStepAt60HzPx": 0,
+      "maxSampleGapMs": 283.2,
+      "maxHeightStepPx": 0,
+      "p95FrameStepPx": 0,
+      "maxOpacityDrop": 0,
+      "nodeIdentities": [
+        "node-1"
+      ],
+      "maxContainmentOverflowPx": 0,
+      "containmentViolatingSamples": 0
+    },
+    "coverage": {
+      "version": "1",
+      "cadenceSufficient": false,
+      "targetCoverageSufficient": true,
+      "targetPresence": "may-disappear",
+      "intervals": [
+        {
+          "state": "hidden",
+          "fromMs": 0,
+          "toMs": 4745.3,
+          "samples": 36
+        },
+        {
+          "state": "visible",
+          "fromMs": 4745.3,
+          "toMs": 4961.9,
+          "samples": 1
+        },
+        {
+          "state": "hidden",
+          "fromMs": 4961.9,
+          "toMs": 5745.2,
+          "samples": 5
+        },
+        {
+          "state": "visible",
+          "fromMs": 5745.2,
+          "toMs": 5978.6,
+          "samples": 1
+        },
+        {
+          "state": "hidden",
+          "fromMs": 5978.6,
+          "toMs": 6461.8,
+          "samples": 2
+        },
+        {
+          "state": "visible",
+          "fromMs": 6461.8,
+          "toMs": 11945,
+          "samples": 31
+        }
+      ],
+      "reasons": [
+        "Recorder coverage insufficient: ordered true, first 0ms, last 11945ms, rAF gap 283.200ms, observation gap 288.800ms, read lag 203.500ms; unchanged 80ms gate."
+      ]
+    },
+    "assertions": [
+      {
+        "id": "valid-trajectory",
+        "label": "Finite observed trajectory",
+        "passed": false,
+        "status": "inconclusive",
+        "actual": "76 valid samples; first 0.0ms; ordered timestamps true; last 11945.0ms; maximum gap 283.2ms",
+        "expected": "Strictly increasing nonnegative timestamps; \u226520 observed frames and \u226520 visible samples; target policy may-disappear; finite samples starting \u226480ms (unless may-disappear) and through 11900ms; maximum gap \u226480ms"
+      },
+      {
+        "id": "normalized-step",
+        "label": "Bounded displacement at a normalized 60Hz interval",
+        "passed": false,
+        "status": "inconclusive",
+        "actual": "0px /16.667ms; insufficient temporal coverage",
+        "expected": "\u22641000px /16.667ms; displacement\u00f7rAF \u0394t\u00d716.667; actual read gaps/lag separately gated"
+      },
+      {
+        "id": "height-step",
+        "label": "Bounded per-frame height change",
+        "passed": false,
+        "status": "inconclusive",
+        "actual": "0px; insufficient temporal coverage",
+        "expected": "\u22642000px"
+      },
+      {
+        "id": "final-visible",
+        "label": "Final visibility",
+        "passed": true,
+        "status": "passed",
+        "actual": "true",
+        "expected": "true"
+      },
+      {
+        "id": "final-text",
+        "label": "Final text content",
+        "passed": true,
+        "status": "passed",
+        "actual": "MONO / YOUR SELECTIONYour bag.\u00d7\n      MRoom for something good.Your bag is ready when you are.Explore finishes \u2197\n      Removed from your bag.Undo\n      Subtotal$0Local concept checkout. No payment or ",
+        "expected": "$0"
+      },
+      {
+        "id": "browser-errors",
+        "label": "No uncaught page errors",
+        "passed": true,
+        "actual": "none",
+        "expected": "none"
+      },
+      {
+        "id": "network-policy",
+        "label": "No forbidden network requests",
+        "passed": true,
+        "actual": "0",
+        "expected": "0 outside configured local origins"
+      }
+    ],
+    "findings": [],
+    "final": {
+      "visible": true,
+      "attributes": {
+        "aria-labelledby": "cart-title",
+        "open": ""
+      },
+      "text": "MONO / YOUR SELECTIONYour bag.\u00d7\n      MRoom for something good.Your bag is ready when you are.Explore finishes \u2197\n      Removed from your bag.Undo\n      Subtotal$0Local concept checkout. No payment or order is processed.Continue to checkout \u2197Continue exploring \u2193",
+      "x": 760,
+      "y": 0,
+      "opacity": 1
+    },
+    "evidence": {
+      "directory": "${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47",
+      "report": "${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/report.json",
+      "video": "${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/video.webm",
+      "poster": "${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/poster.png",
+      "finalScreenshot": "${REPO_ROOT}/artifacts/final-recordings/control/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47/final.png",
+      "videoOffsetMs": 3621
+    },
+    "resourceUri": "motion-evidence://capture/a9f1b5f8-ed53-4640-95dd-ebd64b37fd47",
+    "limitations": [
+      "Use only trusted credential-free development pages; recordings are not automatically redacted.",
+      "Fresh browser context, no user profile, credentials or authenticated sessions are imported.",
+      "Only configured loopback origins can load resources; third-party network requests are blocked.",
+      "Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.",
+      "Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.",
+      "WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.",
+      "Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.",
+      "CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.",
+      "Source mappings and application marks are explicitly supplied annotations."
+    ]
+  }
+}

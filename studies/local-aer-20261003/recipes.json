@@ -1,0 +1,155 @@
+{
+  "demo": {
+    "url": "http://127.0.0.1:4317",
+    "selector": "#scene",
+    "label": "Matched AER interaction demo",
+    "durationMs": 12000,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "reducedMotion": "no-preference",
+    "actions": [
+      {
+        "action": "wait",
+        "ms": 1000
+      },
+      {
+        "action": "click",
+        "selector": "[data-speed=\"3\"]"
+      },
+      {
+        "action": "wait",
+        "ms": 1400
+      },
+      {
+        "action": "click",
+        "selector": "#power"
+      },
+      {
+        "action": "wait",
+        "ms": 1000
+      },
+      {
+        "action": "click",
+        "selector": "#power"
+      },
+      {
+        "action": "click",
+        "selector": "#orbit-left"
+      },
+      {
+        "action": "wait",
+        "ms": 600
+      },
+      {
+        "action": "click",
+        "selector": "#reset-view"
+      },
+      {
+        "action": "click",
+        "selector": ".details-trigger"
+      },
+      {
+        "action": "wait",
+        "ms": 300
+      },
+      {
+        "action": "key",
+        "key": "Escape"
+      },
+      {
+        "action": "wait",
+        "ms": 80
+      },
+      {
+        "action": "key",
+        "key": "Enter"
+      },
+      {
+        "action": "wait",
+        "ms": 800
+      },
+      {
+        "action": "key",
+        "key": "Escape"
+      }
+    ],
+    "contract": {
+      "maxSampleGapMs": 80,
+      "maxReplacements": 0,
+      "final": {
+        "visible": true,
+        "attributes": {
+          "data-power": "true",
+          "data-speed": "3"
+        }
+      }
+    }
+  },
+  "drawer": {
+    "url": "http://127.0.0.1:4317",
+    "selector": "#details",
+    "label": "Interrupted keyboard drawer",
+    "durationMs": 2600,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "reducedMotion": "no-preference",
+    "actions": [
+      {
+        "action": "click",
+        "selector": ".details-trigger"
+      },
+      {
+        "action": "wait",
+        "ms": 180
+      },
+      {
+        "action": "key",
+        "key": "Escape"
+      },
+      {
+        "action": "wait",
+        "ms": 60
+      },
+      {
+        "action": "key",
+        "key": "Enter"
+      },
+      {
+        "action": "wait",
+        "ms": 120
+      },
+      {
+        "action": "key",
+        "key": "Escape"
+      },
+      {
+        "action": "wait",
+        "ms": 60
+      },
+      {
+        "action": "key",
+        "key": "Enter"
+      },
+      {
+        "action": "wait",
+        "ms": 500
+      }
+    ],
+    "contract": {
+      "targetPresence": "may-disappear",
+      "maxSampleGapMs": 80,
+      "maxStepAt60HzPx": 55,
+      "maxReplacements": 0,
+      "final": {
+        "visible": true,
+        "attributes": {
+          "open": ""
+        }
+      }
+    }
+  }
+}

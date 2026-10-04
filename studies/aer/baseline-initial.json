@@ -1,0 +1,79 @@
+{
+  "arm": "baseline",
+  "phase": "initial",
+  "project": "studies/aer/baseline/initial",
+  "selectors": {
+    "canvas": "#fan-canvas",
+    "power": "#power-toggle",
+    "speeds": "[data-speed]",
+    "drawer": "#details-drawer",
+    "open": "#open-details",
+    "close": "#close-details"
+  },
+  "actions": [
+    {
+      "action": "wait",
+      "ms": 1500
+    },
+    {
+      "action": "click",
+      "selector": "#open-details",
+      "screenshot": "drawer-open"
+    },
+    {
+      "action": "key",
+      "key": "Escape",
+      "screenshot": "drawer-closed"
+    },
+    {
+      "action": "click",
+      "selector": "#power-toggle"
+    },
+    {
+      "action": "wait",
+      "ms": 400
+    },
+    {
+      "action": "click",
+      "selector": "#power-toggle"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"3\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"1\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"2\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"3\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"1\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-speed=\"2\"]"
+    },
+    {
+      "action": "drag",
+      "selector": "#fan-canvas",
+      "screenshot": "after-orbit"
+    },
+    {
+      "action": "key",
+      "key": "Tab"
+    },
+    {
+      "action": "key",
+      "key": "Enter",
+      "screenshot": "keyboard-action"
+    }
+  ]
+}

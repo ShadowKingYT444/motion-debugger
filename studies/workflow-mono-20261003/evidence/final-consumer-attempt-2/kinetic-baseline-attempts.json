@@ -1,0 +1,184 @@
+[
+  {
+    "attempt": 1,
+    "captureId": "88daf592-44a7-4210-a271-f13d9120a58a",
+    "metrics": {
+      "animationBoundarySamples": 0,
+      "maxAnimationBoundaryStepPx": 0,
+      "maxAnimationBoundaryStepAt60HzPx": 0,
+      "absentSamples": 0,
+      "hiddenSamples": 0,
+      "visibleSamples": 162,
+      "invalidSamples": 0,
+      "maxObservedSampleGapMs": 89.2,
+      "maxProbeReadMs": 0.7,
+      "maxVisibleSampleGapMs": 89.2,
+      "maxObservationLagMs": 37.9,
+      "sufficientEvidence": false,
+      "validSamples": 162,
+      "sampleCount": 162,
+      "observedDurationMs": 4437,
+      "replacements": 0,
+      "animationStarts": 0,
+      "activeCancels": 0,
+      "maxFrameStepPx": 280.764,
+      "maxStepAt60HzPx": 140.523,
+      "maxSampleGapMs": 83.3,
+      "maxHeightStepPx": 13.37,
+      "p95FrameStepPx": 29.169,
+      "maxOpacityDrop": 0,
+      "nodeIdentities": [
+        "node-1"
+      ],
+      "maxContainmentOverflowPx": 0,
+      "containmentViolatingSamples": 0
+    },
+    "assertions": [
+      {
+        "id": "valid-trajectory",
+        "label": "Finite observed trajectory",
+        "passed": false,
+        "status": "inconclusive",
+        "actual": "162 valid samples; first 3.8ms; ordered timestamps true; last 4437.0ms; maximum gap 83.3ms",
+        "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 4300ms; maximum gap ≤80ms"
+      },
+      {
+        "id": "normalized-step",
+        "label": "Bounded displacement at a normalized 60Hz interval",
+        "passed": false,
+        "status": "failed",
+        "actual": "140.523px /16.667ms",
+        "expected": "≤40px /16.667ms; displacement÷rAF Δt×16.667; actual read gaps/lag separately gated"
+      },
+      {
+        "id": "identity",
+        "label": "Target identity continuity",
+        "passed": true,
+        "status": "passed",
+        "actual": "0",
+        "expected": "≤0 replacements"
+      },
+      {
+        "id": "final-visible",
+        "label": "Final visibility",
+        "passed": true,
+        "status": "passed",
+        "actual": "true",
+        "expected": "true"
+      },
+      {
+        "id": "final-data-state",
+        "label": "Final data-state",
+        "passed": true,
+        "status": "passed",
+        "actual": "delivered",
+        "expected": "delivered"
+      },
+      {
+        "id": "browser-errors",
+        "label": "No uncaught page errors",
+        "passed": true,
+        "actual": "none",
+        "expected": "none"
+      },
+      {
+        "id": "network-policy",
+        "label": "No forbidden network requests",
+        "passed": true,
+        "actual": "0",
+        "expected": "0 outside configured local origins"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "captureId": "400d9958-2d90-474e-ab0d-6ecdb47c8335",
+    "metrics": {
+      "animationBoundarySamples": 0,
+      "maxAnimationBoundaryStepPx": 0,
+      "maxAnimationBoundaryStepAt60HzPx": 0,
+      "absentSamples": 0,
+      "hiddenSamples": 0,
+      "visibleSamples": 168,
+      "invalidSamples": 0,
+      "maxObservedSampleGapMs": 63.1,
+      "maxProbeReadMs": 3,
+      "maxVisibleSampleGapMs": 66.7,
+      "maxObservationLagMs": 21.8,
+      "sufficientEvidence": true,
+      "validSamples": 168,
+      "sampleCount": 168,
+      "observedDurationMs": 4471.3,
+      "replacements": 0,
+      "animationStarts": 0,
+      "activeCancels": 0,
+      "maxFrameStepPx": 283.908,
+      "maxStepAt60HzPx": 285.048,
+      "maxSampleGapMs": 66.7,
+      "maxHeightStepPx": 14.659,
+      "p95FrameStepPx": 21.172,
+      "maxOpacityDrop": 0,
+      "nodeIdentities": [
+        "node-1"
+      ],
+      "maxContainmentOverflowPx": 0,
+      "containmentViolatingSamples": 0
+    },
+    "assertions": [
+      {
+        "id": "valid-trajectory",
+        "label": "Finite observed trajectory",
+        "passed": true,
+        "status": "passed",
+        "actual": "168 valid samples; first 21.5ms; ordered timestamps true; last 4471.3ms; maximum gap 66.7ms",
+        "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 4300ms; maximum gap ≤80ms"
+      },
+      {
+        "id": "normalized-step",
+        "label": "Bounded displacement at a normalized 60Hz interval",
+        "passed": false,
+        "status": "failed",
+        "actual": "285.048px /16.667ms",
+        "expected": "≤40px /16.667ms; displacement÷rAF Δt×16.667; actual read gaps/lag separately gated"
+      },
+      {
+        "id": "identity",
+        "label": "Target identity continuity",
+        "passed": true,
+        "status": "passed",
+        "actual": "0",
+        "expected": "≤0 replacements"
+      },
+      {
+        "id": "final-visible",
+        "label": "Final visibility",
+        "passed": true,
+        "status": "passed",
+        "actual": "true",
+        "expected": "true"
+      },
+      {
+        "id": "final-data-state",
+        "label": "Final data-state",
+        "passed": true,
+        "status": "passed",
+        "actual": "delivered",
+        "expected": "delivered"
+      },
+      {
+        "id": "browser-errors",
+        "label": "No uncaught page errors",
+        "passed": true,
+        "actual": "none",
+        "expected": "none"
+      },
+      {
+        "id": "network-policy",
+        "label": "No forbidden network requests",
+        "passed": true,
+        "actual": "0",
+        "expected": "0 outside configured local origins"
+      }
+    ]
+  }
+]

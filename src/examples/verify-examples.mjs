@@ -85,3 +85,4 @@ try {
   await context.close(); await browser.close();
 }
 console.log(JSON.stringify({ checks: checks.length, passed: checks.every(item => item.passed), screenshots: output }, null, 2));
+await import('./verify-kinetic.mjs');

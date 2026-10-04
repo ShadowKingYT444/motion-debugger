@@ -12,6 +12,9 @@ test('generic contracts reject local protocol, credential, remote and hidden rec
   assert.throws(()=>validateRecipe({...recipe,actions:[{action:'fill',selector:'input',value:'secret'}]},options));
   assert.throws(()=>validateRecipe({...recipe,viewport:{width:320,height:320},actions:[{action:'move',x:900,y:10}]},options));
   assert.ok(validateRecipe(recipe,options));
+  assert.ok(validateRecipe({...recipe,actions:[{action:'scroll',deltaY:1200},{action:'scroll',deltaY:-1200}]},options));
+  for(const deltaY of [1201,-1201,Infinity,NaN,1.5])assert.throws(()=>validateRecipe({...recipe,actions:[{action:'scroll',deltaY}]},options));
+  assert.throws(()=>validateRecipe({...recipe,actions:[{action:'scroll',deltaY:100,script:'alert(1)'}]},options));
 });
 test('empty/null evidence cannot pass temporal contracts',()=>{
   const result=analyze([],[],recipe,final);assert.equal(result.assertions.find(a=>a.id==='valid-trajectory')?.passed,false);assert.equal(result.assertions.find(a=>a.id==='containment')?.passed,false);
@@ -49,4 +52,14 @@ test('comparison refuses mismatched recipes or failed capture integrity, and sor
   assert.equal(compare(before,after).comparable,false);
   after.recipe=recipe;before.assertions.find(a=>a.id==='browser-errors')!.passed=false;
   const result=compare(before,after);assert.equal(result.comparable,false);assert.match(result.interpretation,/no improvement claim/);
+  before.assertions.find(a=>a.id==='browser-errors')!.passed=true;
+  before.environment.browserMode='headless';after.environment.browserMode='headed';
+  const mixedMode=compare(before,after);assert.equal(mixedMode.comparable,false);
+  assert.ok(mixedMode.comparabilityIssues.some(issue=>issue.includes('Different browser mode')));
+  after.environment.browserMode='headless';assert.equal(compare(before,after).comparable,true);
+});
+
+test('final attributes accept observable accessibility state and reject credential/value requests',()=>{
+ for(const attributes of [{'aria-busy':'false',open:'',role:'status'},{'data-state':'ready'}])assert.ok(validateRecipe({...recipe,contract:{final:{attributes}}},options));
+ for(const key of ['value','data-token','aria-secret','onclick'])assert.throws(()=>validateRecipe({...recipe,contract:{final:{attributes:{[key]:'anything'}}}},options));
 });

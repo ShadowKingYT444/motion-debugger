@@ -1,0 +1,93 @@
+[
+  {
+    "attempt": 1,
+    "captureId": "0fa8cab0-1a59-4542-9bf7-c04f2b23ea6e",
+    "metrics": {
+      "animationBoundarySamples": 0,
+      "maxAnimationBoundaryStepPx": 0,
+      "maxAnimationBoundaryStepAt60HzPx": 0,
+      "absentSamples": 0,
+      "hiddenSamples": 0,
+      "visibleSamples": 162,
+      "invalidSamples": 0,
+      "maxObservedSampleGapMs": 72.4,
+      "maxProbeReadMs": 1.4,
+      "maxVisibleSampleGapMs": 72.4,
+      "maxObservationLagMs": 23.3,
+      "sufficientEvidence": true,
+      "validSamples": 162,
+      "sampleCount": 162,
+      "observedDurationMs": 4501.4,
+      "replacements": 0,
+      "animationStarts": 0,
+      "activeCancels": 0,
+      "maxFrameStepPx": 41.338,
+      "maxStepAt60HzPx": 17.757,
+      "maxSampleGapMs": 66.7,
+      "maxHeightStepPx": 11.094,
+      "p95FrameStepPx": 25.039,
+      "maxOpacityDrop": 0,
+      "nodeIdentities": [
+        "node-1"
+      ],
+      "maxContainmentOverflowPx": 0,
+      "containmentViolatingSamples": 0
+    },
+    "assertions": [
+      {
+        "id": "valid-trajectory",
+        "label": "Finite observed trajectory",
+        "passed": true,
+        "status": "passed",
+        "actual": "162 valid samples; first 1.5ms; ordered timestamps true; last 4501.4ms; maximum gap 66.7ms",
+        "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 4300ms; maximum gap ≤80ms"
+      },
+      {
+        "id": "normalized-step",
+        "label": "Bounded displacement at a normalized 60Hz interval",
+        "passed": true,
+        "status": "passed",
+        "actual": "17.757px /16.667ms",
+        "expected": "≤40px /16.667ms; displacement÷rAF Δt×16.667; actual read gaps/lag separately gated"
+      },
+      {
+        "id": "identity",
+        "label": "Target identity continuity",
+        "passed": true,
+        "status": "passed",
+        "actual": "0",
+        "expected": "≤0 replacements"
+      },
+      {
+        "id": "final-visible",
+        "label": "Final visibility",
+        "passed": true,
+        "status": "passed",
+        "actual": "true",
+        "expected": "true"
+      },
+      {
+        "id": "final-data-state",
+        "label": "Final data-state",
+        "passed": true,
+        "status": "passed",
+        "actual": "delivered",
+        "expected": "delivered"
+      },
+      {
+        "id": "browser-errors",
+        "label": "No uncaught page errors",
+        "passed": true,
+        "actual": "none",
+        "expected": "none"
+      },
+      {
+        "id": "network-policy",
+        "label": "No forbidden network requests",
+        "passed": true,
+        "actual": "0",
+        "expected": "0 outside configured local origins"
+      }
+    ]
+  }
+]

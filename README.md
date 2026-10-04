@@ -1,147 +1,112 @@
 # Motion Debugger
 
-**Temporal browser evidence for coding agents.** A local TypeScript library, CLI, and real stdio MCP server that records caller-chosen app interactions, evaluates explicit motion contracts, and compares before/after evidence.
+![Motion Debugger: create, watch, refine](docs/assets/banner.svg)
 
-The coding agent is the primary interface. The browser examples are original test material, and the old dashboard is an optional v1 evidence viewer. No paid inference API, deployment, credentials, or autonomous source editing.
+**Create expressive web motion. Watch the actual result. Refine it with your coding agent.**
 
-## What it does
+Tag `motion` with your ordinary website or app prompt. The plugin supplies seven original runnable recipes—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences, kinetic fields and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
 
-- Capture a loopback URL, unique CSS target, and a bounded click/hover/key/pointer recipe
-- Record real WebM, screenshots, request/app events, DOM identity, Web Animations lifecycle, and rAF geometry/opacity/transform
-- Evaluate caller-specified continuity, height-change, containment, identity/cancellation, and final-state contracts
-- Return compact findings, relevant time windows, source annotations and local evidence paths to an agent
-- Compare only equivalent recipes/contracts, allowing explicit before/after URL variants
+[Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
-A screenshot of the final state can miss a transient defect. The included detector/evidence ablation demonstrates that distinction; it is **not** a claim that an LLM performs better.
+## Real demos
 
-## Quick start
-
-Requires Node.js 22+.
+The [LOOP kinetic identity studio](studies/loop-studio/README.md) makes motion the product: sculptural Orbit, rhythmic Pulse, braided Weave, held scrubbing, rapid preset changes, playback and SVG/configuration exports. Two actual fresh Codex sessions received the same brief and thirty-minute budget. Both finished before the deadline; only the assisted session received `$motion` and the installed plugin. Full source, original-timing recordings and independently checked interactions accompany the comparison. This single pair does **not** establish overall visual or smoothness superiority.
 
 ```sh
-git clone --branch mvp https://github.com/ShadowKingYT444/motion-debugger.git
-cd motion-debugger
+npm run demo:loop
+```
+
+The viewer fits both complete desktop scenes, supports 390px previews and native fullscreen, and keeps real downloads working. [Brief and references](studies/loop-studio/BRIEF.md) · [Method](studies/loop-studio/METHOD.md) · [Results](studies/loop-studio/RESULTS.md) · [Actual MCP trace and native frames](studies/loop-studio/MCP-TRACE.json).
+
+![Actual Motion-assisted LOOP studio, captured in native Chrome](studies/loop-studio/evidence/independent/lossless/motion-desktop/initial.png)
+
+[Ordinary complete desktop journey](studies/loop-studio/evidence/independent/primary/ordinary-desktop/journey.webm) · [Motion complete desktop journey](studies/loop-studio/evidence/independent/primary/motion-desktop/journey.webm)
+
+The [Ants launch-page study](studies/ants-launch/README.md) contains two actual same-brief, twenty-minute Codex builds with original articulated 3D scenes, scroll choreography and a working four-stage task. Both complete the task, replay, interruption and keyboard journeys on desktop, mobile, reduced motion and WebGL fallback. Complete source-bound recordings and retained failures are included. This pair does **not** establish an overall animation or smoothness advantage.
+
+```sh
+npm run demo:ants
+```
+
+Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The seven runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
+
+![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
+
+[Ordinary complete recording](studies/ants-launch/evidence/runs/ordinary-desktop/page@0f7f72f1f3283e83b2a40f57bfafc0b1.webm) · [Motion complete recording](studies/ants-launch/evidence/runs/motion-desktop/page@5d57ced47dfc4cb585bbc9ee4a8ab754.webm)
+
+The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
+
+- [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
+- [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
+- [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
+
+**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. The later GPT-6.1 follow-up is [preserved for handoff](handoffs/motion-local-20261003/README.md); it did not reach a verified final comparison.
+
+![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
+
+This compares complete workflows, including Motion's bundled guidance. It does not isolate a tool's causal effect or establish a general coding-agent advantage. Function checks, contract results and visual observations are reported separately.
+
+## Quickstart
+
+Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.5.0` is **not published on npm**.
+
+From this reviewed checkout:
+
+```sh
 npm ci
-npx playwright install chromium
 npm run build
+node build/cli/index.js doctor
+node build/cli/index.js init --client codex --local --skills \
+  --project /absolute/path/to/your-app
 ```
 
-On Linux, Playwright may need its official system dependencies: `npx playwright install --with-deps chromium`.
+`init` previews the exact project configuration and five skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
 
-### Connect a coding agent
+For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
 
-Print an absolute-path stdio configuration without changing your host:
+Then ask your agent:
 
-```sh
-node build/cli/index.js config
-```
+> $motion Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
 
-Codex supports local stdio MCP servers. You can add the built server yourself with:
+For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
 
-```sh
-codex mcp add motion-debugger -- node /absolute/path/to/motion-debugger/build/mcp/index.js
-```
+Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
 
-This command is an optional user-operated setup step; the repository does not run it or modify your Codex configuration. Codex MCP setup, host scope and approval options are documented in the [official MCP guide](https://developers.openai.com/codex/mcp).
+## Capture → inspect → repair → verify
 
-The repo also contains a [Codex compatibility plugin package](plugin/motion-debugger/) with a skill, manifest and bundled MCP entrypoint. Its structure is validated with the official plugin scaffold validator. Actual installation into your Codex host remains a user step; the protocol endpoint is tested with an actual SDK client. See [integration details](docs/INTEGRATION.md).
-
-### Tools
-
-| Tool | Result |
+| Tool | What the agent receives |
 | --- | --- |
-| `motion_capture` | Actual capture, compact contracts/findings and artifact paths |
-| `motion_inspect` | Compact evidence plus bounded event/sample window |
-| `motion_compare` | Comparable before/after deltas and final-state equivalence |
-| `motion_list` | Captures in the configured evidence directory |
+| `motion_recipe` | Original runnable source, dependencies and integration/evidence guidance by recipe ID |
+| `motion_capture` | WebM recording, screenshots, events, measurements and explicit contract results |
+| `motion_inspect` | A bounded time window with relevant events and samples |
+| `motion_frames` | PNG frames from the actual recording; whole-journey selection and detail bounds up to 1280×960 |
+| `motion_compare` | Before/after changes, comparability checks and final-state equivalence |
+| `motion_list` | Saved captures in the configured evidence directory |
 
-Full evidence is available through `motion-evidence://capture/<capture-id>`. The server also exposes `motion-evidence://guide`. It writes JSON-RPC only to stdout; diagnostics go to stderr.
+Choose a unique target, repeatable actions and meaningful positive outcome expectations before the repair. `contract.outcomes` can require result text, visibility and state attributes and reject visible error states within a deadline. Missing outcomes produce `delivery.status: unverified`; a stable canvas cannot establish that a task completed. Keep the same viewport, actions and contracts afterward. The [agent walkthrough](docs/AGENT-WORKFLOW.md) shows calls; the [workflow](docs/WORKFLOW.md) bounds each repair investigation.
 
-### CLI and library
-
-```sh
-npm start                                      # local example app, loopback only
-node build/cli/index.js capture recipe.json
-node build/cli/index.js inspect <capture-id>
-node build/cli/index.js compare <before-id> <after-id>
-```
-
-```ts
-import { capture, compare } from 'motion-debugger';
-const before = await capture(recipe, { artifactRoot: './.motion-evidence' });
-```
-
-The package exports the same core used by MCP and CLI. `npm pack --dry-run` verifies the distributable; no package is published automatically.
-
-## A useful agent workflow
-
-1. Give your agent the local development URL, selector and permitted interactions
-2. Define intended motion contracts, rather than ask for an unexplained “quality score”
-3. Capture the before version and inspect the failing time window and recorded frames
-4. Make a narrow source change through the coding tools/permissions you already use
-5. Capture the after version with the same interactions, viewport and contracts
-6. Compare temporal behavior and independently preserve the intended final state
-
-See [the practical agent tool-call walkthrough](docs/AGENT-WORKFLOW.md).
-
-The plugin itself never writes a source patch. Source refs are caller-supplied mappings under explicit read-only roots, not code inferred from pixels. App marks remain labeled annotations.
-
-## Original example families
-
-Open http://127.0.0.1:4173/examples after `npm start`.
-
-- **Interrupted product drawer:** a hand-illustrated porcelain object, with open/close/reopen interruption. Seeded endpoint resets versus continuation from the actual current transform
-- **Live material reveal:** real delayed API response changes a card's height. Seeded reflow jump versus reserved space and a measured reveal
-- **Curious cursor buddy:** an original procedural character with reversing gaze. Seeded pupil overshoot versus bounded, continuous retargeting
-
-Recipes live in `src/examples/recipes.ts`. These are intentionally seeded defects and handwritten repair branches, not claims of an autonomous agent repair. The core accepts other trusted loopback pages; it is not hardcoded to these selectors or fixtures.
-
-## Safety and scope
-
-Use **trusted, credential-free development apps**. Do not point the tool at authenticated, private, medical, financial, payment, destructive-action or credential-bearing pages. Fresh contexts do not import your browser profile, cookies or credentials, but an app could render sensitive content without authentication. Recordings are not automatically redacted.
-
-- Only loopback HTTP(S) URLs; no userinfo or credential-like URL parameters
-- Resources restricted to the capture origin and explicitly configured loopback origins
-- WebSocket connections blocked; use a production preview if your dev server's HMR relies on them
-- Password/private-marked pages and private/credential-field interaction targets rejected
-- Bounded interactions; no arbitrary JavaScript, shell, typed secrets or source mutation
-- Clicks/keys can change the local app and trigger HTTP mutations. The host must obtain appropriate authorization
-- Source refs require explicit `MOTION_SOURCE_ROOTS`, realpath containment, safe web-source extensions and size limits
-- Evidence stays in the configured local directory; no uploads or external analysis are performed by the tool
-
-Environment settings: `MOTION_ARTIFACT_DIR`, comma-separated `MOTION_ALLOWED_ORIGINS`, platform-delimited `MOTION_SOURCE_ROOTS`, optional `CHROMIUM_PATH`.
-
-## Verification
-
-```sh
-npm run check          # production build, v1 regression tests, v2 core/security/stdio tests
-npm run test:e2e       # preserved v1 browser proof
-npm run test:v2:e2e    # actual SDK client captures three before/after pairs and detector ablation
-npm pack --dry-run
-```
-
-The first full v2 hosted proof passed: drawer normalized displacement 67.258→31.112px, reveal height step 180→0px, and pupil containment overflow 12.358→0px, with equivalent final state. See [the exact v2 verification record](docs/V2-VERIFICATION.md) for the tested head, capture IDs, security checks and limits.
-
-The restricted build computer cannot launch Chromium. Actual browser verification runs in GitHub Actions using the official browser installer. See the workflow and its artifacts for the measured results at the current PR head. The v1 proof and exact older provenance remain in [docs/VERIFICATION.md](docs/VERIFICATION.md); v1 source is preserved in commit `e9724dd6f1f0b8878216568541dea6db8f4d8d36`.
-
-## Design choices and prior art
-
-Animation recording, agentic runtime inspection, motion audits and visual editors already exist. [The source-grounded research rationale](docs/PRIOR-ART.md) covers web-motion-skill, Replay MCP, MotionScore and Motion Studio. This project makes no novelty or superiority claim. Its narrow emphasis is portable, inspectable temporal contracts and before/after proof for a coding workflow.
-
-## Layout
+Each capture produces:
 
 ```text
-packages/core/          browser recorder, contracts, safety and comparison
-packages/mcp/           actual SDK stdio server, tools and resources
-packages/cli/           command-line client over the same core
-plugin/motion-debugger/ compatibility plugin and agent skill
-src/examples/           original motion test material and shared recipes
-src/dashboard/          optional preserved v1 viewer
-src/fixture/            preserved v1 regression fixture
-server/                 local examples/API server and v1 capture
- tests/v2/              core/security, real transport and hosted browser workflow
+.motion-evidence/<capture-id>/
+├── video.webm     actual browser recording
+├── poster.png    starting page
+├── final.png     final page
+└── report.json   recipe, trace, findings and limitations
 ```
 
-## Limits
+## Agent integrations
 
-Sampling can miss sub-frame defects; normalized step equals displacement ÷ sample elapsed time × 16.667ms, with an explicit cadence gate. It does not prove perceptual smoothness; frame-step budgets depend on cadence and intended motion. Cancellation may be legitimate retargeting. Containment uses axis-aligned boxes or an explicitly selected circular assumption. Source attribution is supplied, not inferred. A passing contract is not a universal motion-quality score, accessibility audit, performance certification or coding-agent benchmark.
+Project setup supports **Codex, Claude Code, Cursor and VS Code/Copilot** through the same local stdio MCP server. Replace `codex` in the setup command with `claude-code`, `cursor` or `vscode`.
+
+Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. Portable Codex, Claude Code and Cursor ZIPs also have fresh dependency and SDK checks. Actual interactive compatibility is reported separately in [client evidence](docs/CLIENTS.md).
+
+## Scope and limits
+
+- Capture only trusted local pages. Recordings are not automatically redacted; no personal browser profile is imported.
+- Measurements evaluate your stated contracts. They are not an aesthetic score or proof of perceptual smoothness.
+- Weak sampling is inconclusive. The unchanged 80 ms integrity gate must pass before temporal comparisons can establish an improvement.
+- A canvas rectangle cannot reveal motion inside a 3D scene. Inspect video frames as well as measurements.
+- Source references and app marks are supplied annotations, not causes inferred from pixels.
+
+[Development and tests](CONTRIBUTING.md) · [Security](SECURITY.md) · [Evidence architecture](docs/EVIDENCE-ARCHITECTURE.md) · [Historical studies](studies/aer/README.md) · [Design attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)
