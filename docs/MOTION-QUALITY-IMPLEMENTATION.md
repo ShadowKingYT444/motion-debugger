@@ -14,11 +14,9 @@ The owner requested implementation, local usefulness validation, then an ASSEMBL
 - Demonstrate usefulness with labeled development fixtures before creating ASSEMBLY. The demo is a hand-authored implementation until actual evaluated agent arms exist, and must say so.
 - Keep the proposal campaign manifest non-runnable. Freeze demo design separately, including actor names, endpoints and accepted responsive layouts. Do not manufacture an ordinary winner/loser.
 
-## Work in progress
+## Verification scope
 
-Actor measurement and negative controls; transition schema/bindings and authoring workflow; native review/replay/MCP/CLI; serial browser calibration; packed distribution; then original ASSEMBLY fixture and normal-speed visitor recording.
-
-Verification results, exact commit and artifact hashes will be recorded below once executed. No release or publication is requested.
+Local usefulness and the original ASSEMBLY engineering demo are authorized. Full host pilot, blinded preferences, native ZIP discovery, release and publication remain pending. The numerical demo contract remains a development contract; scene annotations cannot freeze an independent painted-motion calibration.
 
 ## Current delivered scope
 
@@ -29,3 +27,9 @@ The original ASSEMBLY engineering app and a separate instantaneous functional sc
 The first ASSEMBLY desktop/mobile/reduced/fallback/forced-WebGL suite passed, retaining full native films and endpoint images. Control updates were corrected after actual resume clicks failed when their descendants were continuously replaced. Camera framing was corrected after an actual screenshot showed a cropped parked lens; this was original scaffold calibration before any study freeze. Bounds were not relaxed. The observer now uses the browser-only build of the same core scene adapter and records projected bounds after rendering.
 
 The native reusable pattern fixture initially failed on mobile because its initial performance.now() could be later than the first rAF timestamp. Establishing the clock in the first callback fixed the actual fixture; spring validation stayed strict. Native desktop/mobile/reduced pattern verification then passed, with actual moving bounds and label clearance checked.
+
+## Native host compatibility repair
+
+The first two clean Codex0.160 sessions loaded the namespaced project skill but could not discover `motion_review`. Official SDK acceptance did not establish native host acceptance. The actual incompatibility was six draft7 tuple-valued `items` sites: the host expects one schema object ([version-pinned parser](https://raw.githubusercontent.com/openai/codex/rust-v0.160.0/codex-rs/tools/src/json_schema/types.rs)). Removing an object default was insufficient and was reverted. The wire schema now represents homogeneous orientation/scale triples as arrays with exact length3 and descriptive units; every call still passes the unchanged core tuple, unit, binding and acyclicity validation before capture. Both failed native sessions and their logs are retained.
+
+Standalone actor and review outcomes now remain unverified when requested continuity lacks its measurement budget or adequate velocity adjacency. The missing-evidence regressions pass. Source references accept authored `.mjs`/`.cjs` modules under the same explicit roots, file-size and private-path restrictions. Native review cost separates measured capture, decode and other review work; caller wall time additionally counts packet persistence and transport.
