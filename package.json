@@ -9,7 +9,7 @@
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
-    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli && npm run test:workflow && npm run test:demo && npm run test:packages && npm run test:ants && npm run test:study",
+    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli && npm run test:workflow && npm run test:demo && npm run test:packages && npm run test:ants && npm run test:study && npm run test:assembly",
     "test:e2e": "node --import tsx --test tests/e2e.test.ts",
     "mcp": "node build/mcp/index.js",
     "cli": "node build/cli/index.js",
@@ -43,7 +43,15 @@
     "test:drag:browser": "node --import tsx tests/v2/drag-browser.ts",
     "demo:loop": "node scripts/demo-loop.mjs",
     "test:duration:browser": "node --import tsx tests/v2/duration-browser.ts",
-    "test:ants:browser": "MOTION_VIEWER_BROWSER=1 node --import tsx --test tests/demo-ants.test.mjs"
+    "test:ants:browser": "MOTION_VIEWER_BROWSER=1 node --import tsx --test tests/demo-ants.test.mjs",
+    "test:actors:browser": "node --import tsx tests/v2/actor-calibration-browser.ts",
+    "test:review:browser": "node --import tsx tests/v2/review-browser.ts",
+    "test:transitions:browser": "node tests/v2/transition-patterns-browser.mjs",
+    "demo:assembly": "node scripts/demo-assembly.mjs",
+    "test:assembly:browser": "node tests/assembly-browser.mjs",
+    "test:assembly": "node --test tests/assembly-scaffold.test.mjs",
+    "test:authoring:browser": "node --import tsx tests/v2/authoring-browser.ts",
+    "test:codex:host": "node scripts/validate-native-codex.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.31.0",

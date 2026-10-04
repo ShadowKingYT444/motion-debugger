@@ -1,6 +1,6 @@
 # A practical coding-agent workflow
 
-For a new page, tag `$motion` in the ordinary product brief. The [motion skill](SKILLS.md) routes creation through runnable spring, scroll, colony, handoff, elapsed sequence and drawer recipes. Call `motion_recipe` without an ID for the catalog, then with a returned ID for its exact source. The agent builds real source, watches the result, checks product outcomes, and repairs what it observes. The [Ants study](../studies/ants-launch/README.md) records the current comparison status; the [AER study](../studies/aer/README.md) preserves earlier independent builds.
+For a new page, tag `$motion-debugger` (or the legacy `$motion`) in the ordinary product brief. The [motion skill](SKILLS.md) routes creation through runnable spring, scroll, colony, handoff, elapsed sequence and drawer recipes. Call `motion_recipe` without an ID for the catalog, then with a returned ID for its exact source. The agent builds real source, watches the result, checks product outcomes, and repairs what it observes. The [Ants study](../studies/ants-launch/README.md) records the current comparison status; the [AER study](../studies/aer/README.md) preserves earlier independent builds.
 
 The primary user is a coding agent attached to the stdio server. The browser showcase supplies original test material; it is not the integration surface.
 
@@ -106,3 +106,9 @@ The automated ablation compares:
 - With temporal evidence: intended continuity, height-change or containment contracts, which expose the intermediate defects and check the repair branch
 
 The harness uses the official SDK client over actual MCP stdio: initialization, tool discovery, capture calls, resource reads, inspection and comparison. Those fixture tests do not benchmark an LLM. Their result establishes integration and detector behavior. The separate AER study documents actual independent coding-agent runs, with its own limitations.
+
+## Review one transition
+
+For an existing design, derive the version1 transition plan and actor bindings, freeze protected source bytes, and keep functional completion separate from continuity, response and human preference. `motion_review` accepts `{plan, recipe, budget, captureId?, priorCaptureId?}` and returns a compact packet plus up to six actual native image blocks. The CLI equivalent is `motion-debugger review /absolute/request.json`. `motion_probe` (CLI `probe /absolute/request.json`) runs fresh-context offset grids and retains every attempt. See [authoring and cost/checkpoint rules](WORKFLOW.md#constrained-authoring-in-an-existing-design) and the [portable binding/pattern reference](../plugin/motion-debugger/skills/motion/references/transition-authoring.md).
+
+Actor observations are bounded at eight DOM/SVG and sixteen opt-in scene actors. Missing requested continuity budgets or adequate evidence remain unverified. App-reported Three.js poses and projected bounds never independently pass painted motion. Native video alignment is approximate; returned frames retain requested times, decoded media timestamps when available, and unknown alignment uncertainty. Use the playable saved recording and native images for visual review; do not infer display FPS or taste from geometry.

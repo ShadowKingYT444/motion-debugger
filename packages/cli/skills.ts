@@ -3,13 +3,14 @@ import {lstat,readdir,readFile,mkdir,writeFile,rename,rm} from 'node:fs/promises
 import path from 'node:path';
 import type {Client} from './config';
 
-export const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair'] as const;
+export const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'] as const;
 export const skillDirectories:Partial<Record<Client,string>>={codex:'.agents/skills','claude-code':'.claude/skills',cursor:'.cursor/skills',vscode:'.github/skills'};
 type FileEntry={path:string;data:Buffer};
 type Snapshot={directories:string[];files:FileEntry[]};
 export interface SkillInstallPlan {
   project:string;directory:string;source:string;
   skills:{name:string;target:string;status:'install'|'unchanged';snapshot:Snapshot}[];
+  preservedSkills:{name:string;target:string;reason:string;snapshot:Snapshot}[];
 }
 function digest(snapshot:Snapshot){return {directories:snapshot.directories,files:snapshot.files.map(file=>({path:file.path,sha256:createHash('sha256').update(file.data).digest('hex')}))}}
 function same(a:Snapshot,b:Snapshot){return JSON.stringify(digest(a))===JSON.stringify(digest(b))}
@@ -39,27 +40,38 @@ async function snapshotTree(root:string):Promise<Snapshot|undefined> {
   }
   await visit(root);return result;
 }
+/** Namespaced project entry carries owned recipes even when a foreign /motion is preserved. */
+async function packagedSnapshot(source:string,name:string):Promise<Snapshot|undefined> {
+  const snapshot=await snapshotTree(path.join(source,name));
+  if(!snapshot||name!=='motion-debugger')return snapshot;
+  const shared=await snapshotTree(path.join(source,'motion'));if(!shared)throw new Error('Missing shared Motion Debugger recipes');
+  const sharedFiles=shared.files.filter(file=>file.path.startsWith('recipes/')||file.path.startsWith('references/'));
+  const directories=[...new Set([...snapshot.directories,...shared.directories.filter(directory=>directory==='recipes'||directory.startsWith('recipes/')||directory==='references'||directory.startsWith('references/'))])].sort();
+  return {directories,files:[...snapshot.files,...sharedFiles].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0)};
+}
 export async function prepareSkills(client:Client,projectInput:string,packageRoot:string):Promise<SkillInstallPlan> {
   const relative=skillDirectories[client];if(!relative)throw new Error('Skills require --client codex, claude-code, cursor, or vscode');
   const project=path.resolve(projectInput);if(project===path.parse(project).root)throw new Error('Choose a project directory, not a filesystem root');
   await assertSafePath(project);if(!(await stat(project))?.isDirectory())throw new Error(`Project directory must already exist: ${project}`);
   const directory=path.join(project,relative),source=path.join(packageRoot,'plugin/motion-debugger/skills');await assertSafePath(directory);
-  const skills:SkillInstallPlan['skills']=[];
+  const skills:SkillInstallPlan['skills']=[],preservedSkills:SkillInstallPlan['preservedSkills']=[];
   for(const name of skillNames) {
-    const snapshot=await snapshotTree(path.join(source,name));if(!snapshot||!snapshot.files.some(file=>file.path==='SKILL.md'))throw new Error(`Packaged skill is missing SKILL.md: ${name}`);
+    const snapshot=await packagedSnapshot(source,name);if(!snapshot||!snapshot.files.some(file=>file.path==='SKILL.md'))throw new Error(`Packaged skill is missing SKILL.md: ${name}`);
     const target=path.join(directory,name),existing=await snapshotTree(target);
+    if(existing&&!same(existing,snapshot)&&name==='motion'){preservedSkills.push({name,target,reason:'Foreign /motion entry preserved; use $motion-debugger',snapshot:existing});continue;}
     if(existing&&!same(existing,snapshot))throw new Error(`Skill collision at ${target}. Nothing was written. Preserve or move that folder and review again; existing skill instructions are never overwritten`);
     skills.push({name,target,status:existing?'unchanged':'install',snapshot});
   }
-  return {project,directory,source,skills};
+  return {project,directory,source,skills,preservedSkills};
 }
 export function skillsPreview(plan:SkillInstallPlan) {
-  return {project:plan.project,directory:plan.directory,skills:plan.skills.map(({name,target,status,snapshot})=>({name,target,status,...digest(snapshot)}))};
+  return {project:plan.project,directory:plan.directory,preservedSkills:plan.preservedSkills.map(({name,target,reason})=>({name,target,reason})),skills:plan.skills.map(({name,target,status,snapshot})=>({name,target,status,...digest(snapshot)}))};
 }
 export async function assertSkillsCurrent(plan:SkillInstallPlan) {
   await assertSafePath(plan.project);await assertSafePath(plan.directory);
+  for(const preserved of plan.preservedSkills){const current=await snapshotTree(preserved.target);if(!current||!same(current,preserved.snapshot))throw new Error(`Preserved skill changed after preview: ${preserved.target}. Nothing was written; rerun to review it`);}
   for(const skill of plan.skills) {
-    const source=await snapshotTree(path.join(plan.source,skill.name)),existing=await snapshotTree(skill.target);
+    const source=await packagedSnapshot(plan.source,skill.name),existing=await snapshotTree(skill.target);
     if(!source||!same(source,skill.snapshot)|| (skill.status==='install'?!!existing:!existing||!same(existing,skill.snapshot)))throw new Error(`Skill source or destination changed after preview: ${skill.target}. Nothing was written; rerun to review it`);
   }
 }

@@ -39,7 +39,7 @@ test('missing, ambiguous, zero and offscreen targets cannot start a drag',async(
 });
 test('actual MCP protocol exposes drag and keeps failed/unverified delivery separate in lists',async()=>{
  const root=await mkdtemp(path.join(os.tmpdir(),'motion-drag-protocol-'));
- for(const [index,delivery]of ['passed','failed','unverified'].entries()){const id=`10000000-0000-4000-8000-${String(index).padStart(12,'0')}`;await mkdir(path.join(root,id));await writeFile(path.join(root,id,'report.json'),JSON.stringify({id,createdAt:'fixture',recipe,delivery:{status:delivery},assertions:[{passed:true}]}));}
+ for(const [index,delivery]of ['passed','failed','unverified'].entries()){const id=`10000000-0000-4000-8000-${String(index).padStart(12,'0')}`;await mkdir(path.join(root,id));await writeFile(path.join(root,id,'report.json'),JSON.stringify({schemaVersion:'2.0',id,createdAt:'fixture',recipe,delivery:{status:delivery},assertions:[{passed:true}]}));}
  const server=createMotionServer({artifactRoot:root}),client=new Client({name:'native-drag-protocol',version:'1'}),[a,b]=InMemoryTransport.createLinkedPair();
  try{await server.connect(a);await client.connect(b);const listed=await client.listTools();assert.match(JSON.stringify(listed.tools.find(t=>t.name==='motion_capture')?.inputSchema),/Ordered selector-relative coordinates/);const result=await client.callTool({name:'motion_list',arguments:{}});const captures=(JSON.parse((result.content as any)[0].text) as any).captures;assert.equal(captures.length,3);for(const row of captures){assert.equal(row.temporalPassed,true);assert.equal(row.passed,row.delivery==='passed');if(row.delivery==='unverified')assert.match(row.assessment,/Temporal contracts only/);}}finally{await client.close();await server.close();}
 });

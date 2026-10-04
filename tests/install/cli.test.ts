@@ -54,14 +54,14 @@ async function assertInstalled(directory:string) {
     await compare(source,target);
   }
 }
-test('skills install previews all five complete skills for every supported workspace client',async()=>{
+test('skills install previews all six complete skills for every supported workspace client',async()=>{
   const dir=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-skills-clients-')));
   try {
     for(const client of ['codex','claude-code','cursor','vscode'] as const) {
       const project=path.join(dir,client);await mkdir(project);const destination=path.join(project,skillDirectories[client]!);
       const args=['skills','install','--client',client,'--project',project];
       const preview=run(args,dir);assert.equal(preview.status,0,preview.stderr);const plan=JSON.parse(preview.stdout);
-      assert.equal(plan.directory,destination);assert.equal(plan.skills.length,5);assert.equal(await exists(destination),false);
+      assert.equal(plan.directory,destination);assert.equal(plan.skills.length,6);assert.equal(await exists(destination),false);
       assert.equal(run([...args,'--apply'],dir).status,1);assert.equal(run([...args,'--apply','--confirm','bad'],dir).status,1);assert.equal(await exists(destination),false);
       const applied=run([...args,'--apply','--confirm',plan.confirmationToken],dir);assert.equal(applied.status,0,applied.stderr);await assertInstalled(destination);
       assert.equal(JSON.parse(run(args,dir).stdout).changed,false);assert.equal(run([...args,'--apply'],dir).status,0);

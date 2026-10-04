@@ -57,7 +57,7 @@ test('SDK recipe catalog delivers all seven exact authored modules and their int
   for(const entry of entries) {
     const response=await call(client,{id:entry.id}) as MotionRecipeSource;
     assert.equal(response.id,entry.id);assert.deepEqual(response.files,entry.files);
-    assert.deepEqual(response.sources.map(source=>source.path),[...entry.files,'references/usage.md','references/evidence.md']);
+    assert.deepEqual(response.sources.map(source=>source.path),[...entry.files,'references/usage.md','references/evidence.md',...(entry.files.includes('recipes/transition-patterns.mjs')?['references/transition-authoring.md']:[])]);
     for(const source of response.sources) {
       assert.deepEqual(Buffer.from(source.source,'utf8'),await readFile(new URL(source.path,skill)),`${entry.id} ships exact ${source.path} bytes`);
       if(source.language==='javascript')delivered.add(source.path);
@@ -65,5 +65,5 @@ test('SDK recipe catalog delivers all seven exact authored modules and their int
   }
   const authored=(await readdir(new URL('recipes/',skill))).filter(name=>name.endsWith('.mjs')).map(name=>'recipes/'+name).sort();
   assert.deepEqual([...delivered].sort(),authored,'Every authored recipe is discoverable through the MCP catalog');
-  assert.equal(delivered.size,7);
+  assert.equal(delivered.size,10);
 });

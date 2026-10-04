@@ -7,8 +7,15 @@ import {chromium} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
 import type {CoreOptions,MotionCapture} from './types';
 
-export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;width:number;height:number;sourceWidth:number;sourceHeight:number;scale:number;path:string;sha256:string;png:Buffer}
-export interface FrameOptions {selection?:'finding'|'journey';maxWidth?:number;maxHeight?:number}
+export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;decodedPresentationTimeMs?:number|null;alignmentUncertaintyMs?:number|null;kind?:'context'|'detail';crop?:{x:number;y:number;width:number;height:number};width:number;height:number;sourceWidth:number;sourceHeight:number;scale:number;path:string;sha256:string;png:Buffer}
+export interface FrameOptions {selection?:'finding'|'journey';maxWidth?:number;maxHeight?:number;detail?:{x:number;y:number;width:number;height:number}}
+const frameCache=new Map<string,{captureId:string;alignment:string;videoOffsetMs:number;frames:RecordedFrame[]}>();
+let cacheBytes=0;
+const cacheLimit=16_000_000;
+const clonePacket=(packet:{captureId:string;alignment:string;videoOffsetMs:number;frames:RecordedFrame[]})=>({...packet,frames:packet.frames.map(frame=>({...frame,...(frame.crop?{crop:{...frame.crop}}:{}),png:Buffer.from(frame.png)}))});
+export function validateDetail(detail:FrameOptions['detail'],viewport:{width:number;height:number}) {
+  if(detail&&(!Object.values(detail).every(Number.isFinite)||detail.x<0||detail.y<0||detail.width<=0||detail.height<=0||detail.x+detail.width>viewport.width||detail.y+detail.height>viewport.height))throw new Error('Detail crop must fit inside the declared viewport in CSS pixels');
+}
 export function frameDimensions(sourceWidth:number,sourceHeight:number,options:FrameOptions={}) {
   const {maxWidth=720,maxHeight=540}=options;
   if(![sourceWidth,sourceHeight].every(value=>Number.isFinite(value)&&value>0)||!Number.isInteger(maxWidth)||!Number.isInteger(maxHeight)||maxWidth<120||maxWidth>1280||maxHeight<120||maxHeight>960)throw new Error('Frame dimensions must be bounded: width 120–1280, height 120–960');
@@ -60,6 +67,11 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
   if(options.signal?.aborted)throw new Error('Frame extraction canceled');
   frameDimensions(1,1,frameOptions);
   const source=await frameSource(id,options),times=frameTimes(source.report,requested,frameOptions.selection);
+  validateDetail(frameOptions.detail,source.report.environment.viewport);
+  const videoHash=createHash('sha256').update(await readFile(source.video)).digest('hex');
+  const key=createHash('sha256').update(JSON.stringify({directory:source.directory,videoHash,offset:source.offset,id,times,frameOptions})).digest('hex');
+  const cached=frameCache.get(key);
+  if(cached){frameCache.delete(key);frameCache.set(key,cached);return {...clonePacket(cached),cacheHit:true,videoSha256:videoHash};}
   const token=randomUUID();let origin='';
   const server=createServer((req,res)=>{
     if(!frameRequestAllowed(req.headers.host,req.headers.origin,origin)){res.writeHead(403).end();return}
@@ -97,25 +109,40 @@ export async function recordedFrames(id:string,options:CoreOptions,requested?:nu
     const output=path.join(source.directory,`frames-${randomUUID()}`);await mkdir(output);
     for(const captureTimeMs of times){
       if(options.signal?.aborted)throw new Error('Frame extraction canceled');
-      const frame=await page.evaluate(async ({milliseconds,maxWidth,maxHeight})=>{
+      const decoded=await page.evaluate(async ({milliseconds,maxWidth,maxHeight,detail,viewport})=>{
         const video=document.querySelector('video')!;video.pause();
+        let presentationTimeMs:number|null=null;
+        const callback=typeof video.requestVideoFrameCallback==='function'?video.requestVideoFrameCallback((_now,metadata)=>{presentationTimeMs=metadata.mediaTime*1000}):null;
         const seek=Math.max(0,Math.min(milliseconds/1000,video.duration-.04));
         if(Math.abs(video.currentTime-seek)>.001)await new Promise<void>((resolve,reject)=>{
           const timeout=setTimeout(()=>reject(new Error('Recorded frame seek timed out')),5000);
           video.addEventListener('seeked',()=>{clearTimeout(timeout);resolve()},{once:true});video.currentTime=seek;
         });
         await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
-        const scale=Math.min(1,maxWidth/video.videoWidth,maxHeight/video.videoHeight),canvas=document.createElement('canvas');
-        canvas.width=Math.max(1,Math.round(video.videoWidth*scale));canvas.height=Math.max(1,Math.round(video.videoHeight*scale));
-        canvas.getContext('2d')!.drawImage(video,0,0,canvas.width,canvas.height);
-        return {png:canvas.toDataURL('image/png').split(',')[1],width:canvas.width,height:canvas.height,sourceWidth:video.videoWidth,sourceHeight:video.videoHeight,scale,videoSeekMs:video.currentTime*1000};
-      },{milliseconds:captureTimeMs+source.offset,maxWidth:frameOptions.maxWidth??720,maxHeight:frameOptions.maxHeight??540});
+        if(callback!==null)video.cancelVideoFrameCallback(callback);
+        const output=[];
+        for(const crop of [null,...(detail?[detail]:[])]){
+          const sx=crop?crop.x/viewport.width*video.videoWidth:0,sy=crop?crop.y/viewport.height*video.videoHeight:0;
+          const sw=crop?crop.width/viewport.width*video.videoWidth:video.videoWidth,sh=crop?crop.height/viewport.height*video.videoHeight:video.videoHeight;
+          const scale=Math.min(1,maxWidth/sw,maxHeight/sh),canvas=document.createElement('canvas');
+          canvas.width=Math.max(1,Math.round(sw*scale));canvas.height=Math.max(1,Math.round(sh*scale));
+          canvas.getContext('2d')!.drawImage(video,sx,sy,sw,sh,0,0,canvas.width,canvas.height);
+          output.push({png:canvas.toDataURL('image/png').split(',')[1],width:canvas.width,height:canvas.height,sourceWidth:video.videoWidth,sourceHeight:video.videoHeight,scale,videoSeekMs:video.currentTime*1000,decodedPresentationTimeMs:presentationTimeMs,alignmentUncertaintyMs:null,kind:crop?'detail' as const:'context' as const,...(crop?{crop}:{})});
+        }
+        return output;
+      },{milliseconds:captureTimeMs+source.offset,maxWidth:frameOptions.maxWidth??720,maxHeight:frameOptions.maxHeight??540,detail:frameOptions.detail,viewport:source.report.environment.viewport});
+      for(const frame of decoded){
       const png=Buffer.from(frame.png,'base64');if(png.length>2_000_000||!png.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error('Decoded frame is not a bounded PNG');
       const filename=path.join(output,`${frames.length+1}-${Math.round(captureTimeMs)}ms.png`);await writeFile(filename,png);
       frames.push({captureTimeMs,videoSeekMs:Math.round(frame.videoSeekMs),width:frame.width,height:frame.height,sourceWidth:frame.sourceWidth,sourceHeight:frame.sourceHeight,scale:frame.scale,path:filename,sha256:createHash('sha256').update(png).digest('hex'),png});
+      Object.assign(frames.at(-1)!,{decodedPresentationTimeMs:frame.decodedPresentationTimeMs,alignmentUncertaintyMs:frame.alignmentUncertaintyMs,kind:frame.kind,...(frame.crop?{crop:frame.crop}:{})});
+      }
     }
-    const alignment='Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; seeking and alignment are approximate. Use rAF evidence for precise motion metrics.';
+    const alignment='Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.';
     await writeFile(path.join(output,'frames.json'),JSON.stringify({captureId:id,alignment,videoOffsetMs:source.offset,frames:frames.map(({png,...metadata})=>metadata)},null,2));
-    return {captureId:id,alignment,videoOffsetMs:source.offset,frames};
+    const result={captureId:id,alignment,videoOffsetMs:source.offset,frames};
+    const bytes=frames.reduce((sum,frame)=>sum+frame.png.length,0);
+    if(bytes<=cacheLimit){while(cacheBytes+bytes>cacheLimit&&frameCache.size){const oldKey=frameCache.keys().next().value!;cacheBytes-=frameCache.get(oldKey)!.frames.reduce((sum,frame)=>sum+frame.png.length,0);frameCache.delete(oldKey);}frameCache.set(key,clonePacket(result));cacheBytes+=bytes;}
+    return {...result,cacheHit:false,videoSha256:videoHash};
   }finally{options.signal?.removeEventListener('abort',abort);try{await browser?.close()}finally{server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()))}}
 }

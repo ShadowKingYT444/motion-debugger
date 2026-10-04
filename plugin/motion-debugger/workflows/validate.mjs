@@ -15,6 +15,16 @@ export function validateWorkflow(graph) {
   if (graph.execution !== 'host-agent' || graph.runnerIncluded !== false) fail('must declare host-agent execution without a runner');
   if (graph.referenceBase !== 'plugin-root') fail('references must be plugin-root relative');
   if (!Number.isInteger(graph.maxRepairAttempts) || graph.maxRepairAttempts < 0) fail('invalid maxRepairAttempts');
+  if (graph.authoring !== undefined) {
+    const authoring = graph.authoring;
+    if (!authoring || !Number.isInteger(authoring.maxCandidates) || authoring.maxCandidates < 1 || authoring.maxCandidates > 3) fail('authoring requires at most three candidates');
+    for (const key of ['functionalFirst','protectedByteHashesRequired','nativeEventFrameEvidenceRequired','abstentionAllowed','lastVerifiedCheckpointRequired']) if (authoring[key] !== true) fail(`authoring requires ${key}`);
+    if (authoring.posePreviewMayEstablishTiming !== false) fail('pose preview cannot establish native timing');
+    for (const [key, expected] of Object.entries({roles:['current','minimal-revision','alternative-staging'],criteria:['meaning','response','trackability','visual-preference'],costIncludes:['candidate-rendering','review','decoding','failed-attempts']})) {
+      strings(authoring[key], `authoring ${key}`);
+      if (JSON.stringify([...authoring[key]].sort()) !== JSON.stringify([...expected].sort())) fail(`invalid authoring ${key}`);
+    }
+  }
   if (!Array.isArray(graph.nodes) || !graph.nodes.length || !Array.isArray(graph.edges)) fail('missing nodes or edges');
   const nodes = new Map(), outgoing = new Map();
   for (const node of graph.nodes) {

@@ -14,9 +14,9 @@ const entries: readonly MotionRecipeMetadata[] = [
   {id:'spring',title:'Interruptible spring',description:'Exact critically damped retargeting preserves position and velocity; reduced motion snaps to the meaningful target.',dependencies:[],files:['recipes/spring.mjs']},
   {id:'scroll-chapters',title:'Scroll chapter choreography',description:'Measured sticky scroll range drives chapter state, a single spring and a consumer scene renderer.',dependencies:[],files:['recipes/scroll-chapters.mjs','recipes/spring.mjs']},
   {id:'colony-scene',title:'Articulated colony scene',description:'Real meshes, camera and lighting; articulated walkers converge from orbital lanes into branching queues.',dependencies:['Consumer supplies its installed Three.js module and owned renderer'],files:['recipes/colony-scene.mjs','recipes/spring.mjs']},
-  {id:'task-handoff',title:'Worker task handoff',description:'A persistent task token retargets between worker cards; completion fires only after arrival.',dependencies:[],files:['recipes/task-handoff.mjs','recipes/spring.mjs']},
+  {id:'task-handoff',title:'Worker task handoff',description:'A persistent task token retargets between worker cards; completion fires only after arrival.',dependencies:[],files:['recipes/task-handoff.mjs','recipes/spring.mjs','recipes/transition-bindings.mjs','recipes/transition-patterns.mjs']},
   {id:'elapsed-sequence',title:'Elapsed task sequence',description:'Monotonic scripted phases with pause, resume, cancellation, hidden-tab suspension and meaningful reduced-motion poses; task progress is independent of rendering cadence.',dependencies:[],files:['recipes/elapsed-sequence.mjs']},
-  {id:'kinetic-field',title:'Kinetic identity field',description:'Original Pulse, Weave and Orbit formations with stable object identity, multiple continuous spring channels, elapsed phase and reduced-motion poses. Consumer owns SVG/Three geometry and lighting.',dependencies:[],files:['recipes/kinetic-field.mjs','recipes/spring.mjs']},
+  {id:'kinetic-field',title:'Kinetic identity field',description:'Original Pulse, Weave and Orbit formations with stable object identity, multiple continuous spring channels, elapsed phase and reduced-motion poses. Consumer owns SVG/Three geometry and lighting.',dependencies:[],files:['recipes/kinetic-field.mjs','recipes/spring.mjs','recipes/transition-bindings.mjs','recipes/transition-patterns.mjs','recipes/scene-actor-adapter.mjs']},
   {id:'drawer',title:'Reversible modal drawer',description:'Native dialog focus containment with velocity-preserving reversal, Escape and reduced motion.',dependencies:[],files:['recipes/drawer.mjs','recipes/spring.mjs']}
 ];
 const references = ['references/usage.md','references/evidence.md'] as const;
@@ -52,7 +52,7 @@ export async function motionRecipe(id: string): Promise<MotionRecipeSource> {
   if (!entry) throw new Error(`Unknown motion recipe; choose ${entries.map(item=>item.id).join(', ')}`);
   const root = await catalogRoot();
   const sources: MotionRecipeSource['sources'] = [];
-  for (const relative of [...entry.files,...references]) {
+  for (const relative of [...entry.files,...references,...(entry.files.includes('recipes/transition-patterns.mjs')?['references/transition-authoring.md']:[])]) {
     const file = path.join(root,relative), stat = await lstat(file);
     if (!stat.isFile() || stat.isSymbolicLink() || await realpath(file) !== file) throw new Error('Motion recipe source must be an ordinary packaged file');
     if (stat.size > 65536) throw new Error('Motion recipe source exceeds 64 KiB');

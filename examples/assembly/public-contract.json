@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "assembly-engineering-1",
+  "status": "development-contract-awaiting-native-calibration",
+  "scope": "Original hand-authored engineering demonstration and public regression requirements. This is not an agent comparison or a superiority result.",
+  "campaign": {
+    "runnable": false,
+    "protocol": "../../docs/assembly-demo.protocol.json",
+    "reason": "Host trials, independent repetitions, hidden schedules, blind judgments and frozen study inputs remain pending."
+  },
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 960
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "initialState": {
+    "selected": "standard",
+    "view": "assembled",
+    "progress": 0
+  },
+  "selectors": {
+    "stage": "#stage",
+    "open": "#open",
+    "lens": "[data-lens]",
+    "inspect": "#inspect",
+    "scrubber": "#scrubber",
+    "pause": "#pause",
+    "replay": "#replay",
+    "export": "#export",
+    "status": "#status",
+    "selection": "#selection",
+    "fallback": "#fallback"
+  },
+  "actors": [
+    "body",
+    "lens",
+    "ring",
+    "sensor",
+    "label"
+  ],
+  "inputPolicy": {
+    "selection": "latest-input-wins",
+    "retarget": "Preserve current visible position and velocity; do not reset to an endpoint or disable controls.",
+    "scrub": "Held direct seek follows pointer in both directions. Release and cancellation keep the held pose paused. Resume moves toward the current desired endpoint.",
+    "replay": "An explicit replay may reset to the assembled pose and then open. Its authorized reset is excluded from retarget continuity."
+  },
+  "acceptance": {
+    "maxInputToObservedChangeMs": 150,
+    "maxSettlingMs": 2000,
+    "settledProgressTolerance": 0.01,
+    "screenPositionToleranceCssPx": 4,
+    "maxStepAt60HzPx": 45,
+    "requiredLensTravelCssPx": 20,
+    "scrubProgressTolerance": 0.025,
+    "pauseProgressTolerance": 0.001,
+    "pauseWorldPositionTolerance": 0.0001,
+    "sceneClockGateMs": 80,
+    "maxProjectedProbeGapMs": 80,
+    "minimumVisibleActorSamples": 20,
+    "reducedMotionSettleMs": 200,
+    "export": {
+      "format": "assembly-config-1",
+      "product": "ASSEMBLY",
+      "selectionMustMatch": true
+    }
+  },
+  "calibration": {
+    "status": "pending-actual-native-app-validation",
+    "evidence": null,
+    "thresholdPolicy": "Calibrate the development fixture before freezing agent study inputs. Do not loosen thresholds to make a failed run pass.",
+    "sceneObservation": "App-reported post-render projected geometry. It cannot independently certify painted pixels.",
+    "responseObservation": "Browser-observed trusted input to first changed post-render scene annotation; independently rendered response is unverified without aligned native pixels.",
+    "nativeFrameTimingBudget": null,
+    "humanTrackability": "unverified",
+    "aestheticPreference": "unverified"
+  },
+  "protectedDesign": {
+    "manifest": "design-manifest.json",
+    "preserve": [
+      "layout",
+      "copy",
+      "geometry",
+      "materials",
+      "lights",
+      "camera definition",
+      "assembled and exploded endpoint poses",
+      "approved responsive layouts"
+    ],
+    "allowed": [
+      "motion parameters",
+      "motion sequencing",
+      "explicit opt-in observation hooks"
+    ],
+    "endpointScreenshotsRequired": true,
+    "sourceHashesRequired": true
+  },
+  "requirements": [
+    "All controls remain enabled and keyboard reachable while moving.",
+    "Opening, rapid wide-to-standard-to-tele selection, reversal and inspector finish in the latest requested useful state.",
+    "Held scrub reversals and pointer cancellation preserve the held pose and paused playback state.",
+    "Pause stops motion and resume preserves state; replay completes from its explicit reset.",
+    "Export downloads real selected configuration JSON with the selected lens and requested final view.",
+    "Reduced motion works from load and when the media preference changes during motion.",
+    "No WebGL, including forced context failure, renders a useful SVG fallback with the same controls and export.",
+    "Desktop and narrow viewports do not overflow horizontally; resize during motion preserves latest state.",
+    "Actual native recordings, endpoint screenshots, source provenance and failed-run artifacts are retained.",
+    "Encoded video cadence and callback state cannot certify display FPS, pixel presentation latency, aesthetic quality or human trackability."
+  ],
+  "actorBindings": [
+    {
+      "id": "body",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "ring",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "sensor",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "lens-wide",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "lens-standard",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "lens-tele",
+      "kind": "scene",
+      "coordinateSpace": "viewport-css-px"
+    },
+    {
+      "id": "label",
+      "kind": "dom",
+      "selector": "#actor-label",
+      "coordinateSpace": "viewport-css-px"
+    }
+  ],
+  "selectedLensIdentity": "The selected physical scene actor is lens-${selected}. Track its stable object identity; do not treat the convenience debug lens alias as physical-node continuity."
+}

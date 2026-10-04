@@ -21,101 +21,157 @@
       "id": "brief",
       "kind": "task",
       "label": "Brief",
-      "references": ["skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Read the user's request, repository instructions and existing stack; record scope and authorized local interaction.",
-        "Fix the primary behavior, intended visual result, final state and required test variants before implementation."
+        "Fix the primary behavior, intended visual result, final state and required test variants before implementation.",
+        "Freeze protected design byte hashes and explicit permitted source/parameter edits; retain a last verified source checkpoint."
       ],
-      "outcomes": ["complete", "blocked"]
+      "outcomes": [
+        "complete",
+        "blocked"
+      ]
     },
     {
       "id": "design",
       "kind": "task",
       "label": "Design",
-      "references": ["skills/motion-design/SKILL.md", "skills/motion-3d-ui/SKILL.md"],
+      "references": [
+        "skills/motion-design/SKILL.md",
+        "skills/motion-3d-ui/SKILL.md"
+      ],
       "steps": [
         "Choose one visual direction consistent with the requested product and existing design system.",
-        "For spatial UI, select a renderer that actually supports the requested depth and motion; define accessible controls and reduced-motion behavior."
+        "For spatial UI, select a renderer that actually supports the requested depth and motion; define accessible controls and reduced-motion behavior.",
+        "For existing designs derive stable actor bindings, explicit units/clocks, acyclic transition beats and latest-input policy without replacing objects, materials or composition."
       ],
-      "outcomes": ["complete", "blocked"]
+      "outcomes": [
+        "complete",
+        "blocked"
+      ]
     },
     {
       "id": "build",
       "kind": "task",
       "label": "Build",
-      "references": ["skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Implement the first usable version with real controls and states; start its trusted credential-free loopback preview.",
-        "Check compilation, console errors and principal behavior. Record a concrete blocker if preview or evidence tools cannot run."
+        "Check compilation, console errors and principal behavior. Record a concrete blocker if preview or evidence tools cannot run.",
+        "Build at most three candidates: current, minimal revision and optional alternative staging, within one measured total budget including previews, reviews, decoding and failed attempts."
       ],
-      "outcomes": ["complete", "blocked"]
+      "outcomes": [
+        "complete",
+        "blocked"
+      ]
     },
     {
       "id": "inspect",
       "kind": "inspection",
       "label": "Inspect",
-      "references": ["skills/motion-evidence/SKILL.md", "skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-evidence/SKILL.md",
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Record ordinary use and a relevant interruption/reversal with motion_capture using fixed, meaningful expectations; retain original capture IDs.",
         "Use motion_inspect on a bounded finding window and view actual motion_frames intermediate images, including internal canvas/3D motion when relevant.",
-        "Exercise the ordered functional journey with unforced pointer input; for removal use timely Undo and verify item/quantity restoration. Keep keyboard checks separate. Check required desktop, narrow and reduced-motion variants. Classify as pass, justified repair_needed or blocked; do not infer causality from cancellation or app annotations alone."
+        "Exercise the ordered functional journey with unforced pointer input; for removal use timely Undo and verify item/quantity restoration. Keep keyboard checks separate. Check required desktop, narrow and reduced-motion variants. Classify as pass, justified repair_needed or blocked; do not infer causality from cancellation or app annotations alone.",
+        "Reject functional failures and changed protected hashes first. Compare motion meaning, response, trackability and visual preference separately, citing native capture/event/frame evidence, or abstain and retain the last verified checkpoint. Pose previews do not establish timing."
       ],
-      "outcomes": ["pass", "repair_needed", "blocked"]
+      "outcomes": [
+        "pass",
+        "repair_needed",
+        "blocked"
+      ]
     },
     {
       "id": "repair1",
       "kind": "repair",
       "attempt": 1,
       "label": "Repair 1",
-      "references": ["skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Connect the observed defect to a testable source hypothesis and apply the smallest authorized repair through the host's coding tools.",
         "Preserve the requested feature and original evidence; do not copy a prewritten reference fix or weaken the expectations."
       ],
-      "outcomes": ["repaired", "blocked"]
+      "outcomes": [
+        "repaired",
+        "blocked"
+      ]
     },
     {
       "id": "verify1",
       "kind": "verification",
       "attempt": 1,
       "label": "Verify 1",
-      "references": ["skills/motion-evidence/SKILL.md", "skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-evidence/SKILL.md",
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Rerun relevant tests and motion_capture for the same interaction, contracts and required variants; preserve all new capture IDs.",
         "Call motion_compare against the original baseline, inspect bounded after windows and view actual after frames; verify the intended final state.",
-        "Classify as pass, another justified repair_needed or blocked."
+        "Classify as pass, another justified repair_needed or blocked.",
+        "Verify protected bytes and save recoverable permitted source only after native functional verification; count all review/decoding costs."
       ],
-      "outcomes": ["pass", "repair_needed", "blocked"]
+      "outcomes": [
+        "pass",
+        "repair_needed",
+        "blocked"
+      ]
     },
     {
       "id": "repair2",
       "kind": "repair",
       "attempt": 2,
       "label": "Repair 2",
-      "references": ["skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Use the remaining observed failure and source evidence to apply a second narrow authorized repair.",
         "Keep the original feature, expectations and all captures; this is the final repair attempt in this graph."
       ],
-      "outcomes": ["repaired", "blocked"]
+      "outcomes": [
+        "repaired",
+        "blocked"
+      ]
     },
     {
       "id": "verify2",
       "kind": "verification",
       "attempt": 2,
       "label": "Verify 2",
-      "references": ["skills/motion-evidence/SKILL.md", "skills/motion-build-inspect-repair/SKILL.md"],
+      "references": [
+        "skills/motion-evidence/SKILL.md",
+        "skills/motion-build-inspect-repair/SKILL.md"
+      ],
       "steps": [
         "Retest the same interaction and variants, rerun relevant tests, compare with the original capture and view after frames; retain every capture ID.",
-        "Classify as pass, unresolved remaining defect or blocked. Do not add another repair/retest pair."
+        "Classify as pass, unresolved remaining defect or blocked. Do not add another repair/retest pair.",
+        "Verify protected bytes and save recoverable permitted source only after native functional verification; count all review/decoding costs."
       ],
-      "outcomes": ["pass", "unresolved", "blocked"]
+      "outcomes": [
+        "pass",
+        "unresolved",
+        "blocked"
+      ]
     },
     {
       "id": "report",
       "kind": "terminal",
       "label": "Report",
-      "results": ["passed", "unresolved"],
+      "results": [
+        "passed",
+        "unresolved"
+      ],
       "steps": [
         "Deliver the product/preview, principal behavior, evidence-led changes, test results and all before/after capture IDs or paths.",
         "State passed only when the pass policy is met; otherwise report the unresolved defect after the bound and any limits without claiming completion."
@@ -126,7 +182,9 @@
       "id": "blockedreport",
       "kind": "terminal",
       "label": "Blocked report",
-      "results": ["blocked"],
+      "results": [
+        "blocked"
+      ],
       "steps": [
         "Report the exact blocked action, target and reason, available evidence and completed checks.",
         "Request only the permission or environment change actually needed; label missing motion evidence and do not manufacture a passing result."
@@ -135,24 +193,138 @@
     }
   ],
   "edges": [
-    {"from": "brief", "outcome": "complete", "to": "design"},
-    {"from": "brief", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "design", "outcome": "complete", "to": "build"},
-    {"from": "design", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "build", "outcome": "complete", "to": "inspect"},
-    {"from": "build", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "inspect", "outcome": "pass", "to": "report", "result": "passed"},
-    {"from": "inspect", "outcome": "repair_needed", "to": "repair1"},
-    {"from": "inspect", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "repair1", "outcome": "repaired", "to": "verify1"},
-    {"from": "repair1", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "verify1", "outcome": "pass", "to": "report", "result": "passed"},
-    {"from": "verify1", "outcome": "repair_needed", "to": "repair2"},
-    {"from": "verify1", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "repair2", "outcome": "repaired", "to": "verify2"},
-    {"from": "repair2", "outcome": "blocked", "to": "blockedreport", "result": "blocked"},
-    {"from": "verify2", "outcome": "pass", "to": "report", "result": "passed"},
-    {"from": "verify2", "outcome": "unresolved", "to": "report", "result": "unresolved"},
-    {"from": "verify2", "outcome": "blocked", "to": "blockedreport", "result": "blocked"}
-  ]
+    {
+      "from": "brief",
+      "outcome": "complete",
+      "to": "design"
+    },
+    {
+      "from": "brief",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "design",
+      "outcome": "complete",
+      "to": "build"
+    },
+    {
+      "from": "design",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "build",
+      "outcome": "complete",
+      "to": "inspect"
+    },
+    {
+      "from": "build",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "inspect",
+      "outcome": "pass",
+      "to": "report",
+      "result": "passed"
+    },
+    {
+      "from": "inspect",
+      "outcome": "repair_needed",
+      "to": "repair1"
+    },
+    {
+      "from": "inspect",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "repair1",
+      "outcome": "repaired",
+      "to": "verify1"
+    },
+    {
+      "from": "repair1",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "verify1",
+      "outcome": "pass",
+      "to": "report",
+      "result": "passed"
+    },
+    {
+      "from": "verify1",
+      "outcome": "repair_needed",
+      "to": "repair2"
+    },
+    {
+      "from": "verify1",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "repair2",
+      "outcome": "repaired",
+      "to": "verify2"
+    },
+    {
+      "from": "repair2",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    },
+    {
+      "from": "verify2",
+      "outcome": "pass",
+      "to": "report",
+      "result": "passed"
+    },
+    {
+      "from": "verify2",
+      "outcome": "unresolved",
+      "to": "report",
+      "result": "unresolved"
+    },
+    {
+      "from": "verify2",
+      "outcome": "blocked",
+      "to": "blockedreport",
+      "result": "blocked"
+    }
+  ],
+  "authoring": {
+    "maxCandidates": 3,
+    "roles": [
+      "current",
+      "minimal-revision",
+      "alternative-staging"
+    ],
+    "functionalFirst": true,
+    "protectedByteHashesRequired": true,
+    "nativeEventFrameEvidenceRequired": true,
+    "posePreviewMayEstablishTiming": false,
+    "criteria": [
+      "meaning",
+      "response",
+      "trackability",
+      "visual-preference"
+    ],
+    "abstentionAllowed": true,
+    "lastVerifiedCheckpointRequired": true,
+    "costIncludes": [
+      "candidate-rendering",
+      "review",
+      "decoding",
+      "failed-attempts"
+    ]
+  }
 }

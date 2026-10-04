@@ -151,3 +151,10 @@ test('root npm package includes graph, validator, opt-in instructions and diagra
   const files = new Set(packed.files.map(file => file.path));
   for (const file of ['plugin/motion-debugger/workflows/build-inspect-repair.json', 'plugin/motion-debugger/workflows/validate.mjs', 'plugin/motion-debugger/workflows/README.md', 'docs/WORKFLOW.md']) assert.ok(files.has(file), `${file} is packaged`);
 });
+
+ test('authoring validator rejects expanded candidates, missing protected proof and collapsed criteria', () => {
+  let value=clone();value.authoring.maxCandidates=4;assert.throws(()=>validateWorkflow(value),/three candidates/);
+  value=clone();value.authoring.protectedByteHashesRequired=false;assert.throws(()=>validateWorkflow(value),/protectedByteHashesRequired/);
+  value=clone();value.authoring.posePreviewMayEstablishTiming=true;assert.throws(()=>validateWorkflow(value),/native timing/);
+  value=clone();value.authoring.criteria=['taste-score'];assert.throws(()=>validateWorkflow(value),/criteria/);
+ });

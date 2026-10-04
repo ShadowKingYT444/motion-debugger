@@ -34,6 +34,18 @@ flowchart TD
 
 The repair nodes are autonomous within the user's authorized scope. They do not require another approval merely to continue an already requested build/fix. They also do not authorize unrelated installs, credentials, publication or production changes. The host applies its existing confirmation policy. A terminal report ends this plan; any subsequent continuation is a separate plan, not a hidden back edge.
 
+## Constrained authoring in an existing design
+
+Derive a versioned transition plan from the ordinary brief. Preserve stable logical actors and owned renderer bindings, source locations, protected attributes, acyclic beats, explicit CSS-pixel/scene-unit coordinates and radians, input policy and useful final state. Resolve relative DOM positions at transition start and invalidate bindings when layout/viewport/scene changes. The runtime app can still reverse and reopen; acyclicity applies to bounded phase dependencies and this host plan.
+
+Freeze exact protected file hashes and permitted source/parameter edits before construction. Compare at most three candidates: current, minimal revision and optional alternative staging. Native rendering, reviews, tool calls, frame decoding and failed attempts all count against the same total budget. The validator checks these declared bounds and required policies; it does not execute them.
+
+Reject failed or unverified function and changed protected design first. Keep motion meaning, response, trackability and visual preference separate, cite actual delivered native capture/event/frame evidence and allow abstention. Pose previews cannot establish native input latency or FPS. The `selectMotionCandidate` helper guards cost, eligibility and citation correspondence without computing an aesthetic score. A critic still needs calibration against blinded humans before becoming the main selector.
+
+Retain a recoverable checkpoint of exact permitted source bytes only after native functional verification and unchanged protected hashes. Keep plan/actor bindings, capture IDs, regression recipe and measured costs with it. A later failing revision returns to the last verified checkpoint through normal host source-editing tools. The existing two-repair bound remains the default. See [transition authoring](../plugin/motion-debugger/skills/motion/references/transition-authoring.md) for bindings and the three original-object construction patterns.
+
+The `$motion-debugger` entry avoids an invocation collision with other animation kits exposing `/motion`. Project installation previews six entries; a foreign `motion` folder is preserved and the namespaced entry receives its own recipes. This installer behavior does not establish native host discovery or a comparative agent benefit. Historical study prompts and packages stay frozen.
+
 ## Shipped files and references
 
 - Machine-readable graph: [`plugin/motion-debugger/workflows/build-inspect-repair.json`](../plugin/motion-debugger/workflows/build-inspect-repair.json)

@@ -9,7 +9,11 @@ for(const entry of ['core','mcp','cli']) {
   if(entry!=='core')await chmod(`build/${entry}/index.js`,0o755);
 }
 await rm('build/assets',{recursive:true,force:true});await mkdir('build/assets/src',{recursive:true});
+// Ship the browser-only post-render adapter without Node/Playwright dependencies.
+await build({entryPoints:['packages/core/scene-adapter.ts'],outfile:'plugin/motion-debugger/skills/motion/recipes/scene-actor-adapter.mjs',platform:'browser',target:'es2022',format:'esm',bundle:true});
+await cp('plugin/motion-debugger/skills/motion/recipes/scene-actor-adapter.mjs','examples/assembly/motion/scene-actor-adapter.mjs');
 await cp('dist','build/assets/dist',{recursive:true});await cp('src/fixture','build/assets/src/fixture',{recursive:true});await cp('src/examples','build/assets/src/examples',{recursive:true});
+await cp('examples/assembly','build/assets/assembly',{recursive:true});
 await mkdir('plugin/motion-debugger/scripts',{recursive:true});
 const pluginBuild=await build({metafile:true,entryPoints:['packages/mcp/index.ts'],outfile:'plugin/motion-debugger/scripts/mcp.mjs',platform:'node',target:'node22',format:'esm',bundle:true,external:['playwright'],sourcemap:false,banner:{js:'#!/usr/bin/env node'}});
 await chmod('plugin/motion-debugger/scripts/mcp.mjs',0o755);

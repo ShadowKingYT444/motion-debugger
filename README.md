@@ -4,13 +4,13 @@
 
 **Create expressive web motion. Watch the actual result. Refine it with your coding agent.**
 
-Tag `motion` with your ordinary website or app prompt. The plugin supplies seven original runnable recipes—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences, kinetic fields and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
+Tag `motion-debugger` (or the legacy `motion`) with your ordinary website or app prompt. The plugin supplies seven recipe IDs with original runnable sources—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences, kinetic fields and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
 
 [Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
 
 ## Quickstart
 
-Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. Version `0.5.0` is **not published on npm**.
+Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. The public registry does **not serve version `0.5.0`**; use the reviewed local tarball.
 
 From this reviewed checkout:
 
@@ -22,23 +22,23 @@ node build/cli/index.js init --client codex --local --skills \
   --project /absolute/path/to/your-app
 ```
 
-`init` previews the exact project configuration and five skill folders. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
+`init` previews the exact project configuration and six skill entries. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
 
 For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
 
 Then ask your agent:
 
-> $motion Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
+> $motion-debugger Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
 
 Invocation depends on the installed skill or plugin:
 
 | Host and installation | Design prompt entry |
 | --- | --- |
-| Codex project skill | `$motion` followed by your brief |
-| Claude Code plugin | `/motion-debugger:motion` followed by your brief |
-| Cursor plugin | `/motion` followed by your brief |
+| Codex project skill | `$motion-debugger` followed by your brief |
+| Claude Code plugin | `/motion-debugger:motion-debugger` followed by your brief |
+| Cursor plugin | `/motion-debugger` followed by your brief |
 
-See [package setup](docs/PLUGIN-PACKAGES.md) for the matching adapter and [client evidence](docs/CLIENTS.md#compatibility-evidence) for what has been verified.
+These are the configured namespaced entries; native ZIP discovery remains unverified. The legacy `motion` entry remains available when it does not collide with another kit. Project installation preserves a differing `/motion` folder and includes owned recipes in the namespaced folder. See [package setup](docs/PLUGIN-PACKAGES.md) for the matching adapter and [client evidence](docs/CLIENTS.md#compatibility-evidence) for what has been verified.
 
 For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
 
@@ -64,7 +64,7 @@ The [Ants launch-page study](studies/ants-launch/README.md) contains two actual 
 npm run demo:ants
 ```
 
-Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The seven runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
+Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The current seven recipe IDs and their source modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
 
 ![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
 
@@ -75,6 +75,8 @@ Open the printed local URL to interact with both frozen pages and watch complete
 | Tool | What the agent receives |
 | --- | --- |
 | `motion_recipe` | Original runnable source, dependencies and integration/evidence guidance by recipe ID |
+| `motion_review` | Transition plan, actor observations, event-linked native images and bounded review packet |
+| `motion_probe` | Fresh-context interruption grids, retained attempts and bounded failure minimization |
 | `motion_capture` | WebM recording, screenshots, events, measurements and explicit contract results |
 | `motion_inspect` | A bounded time window with relevant events and samples |
 | `motion_frames` | PNG frames from the actual recording; whole-journey selection and detail bounds up to 1280×960 |
@@ -127,3 +129,11 @@ This compares complete workflows, including Motion's bundled guidance. It does n
 - Source references and app marks are supplied annotations, not causes inferred from pixels.
 
 [Development and tests](CONTRIBUTING.md) · [Security](SECURITY.md) · [Evidence architecture](docs/EVIDENCE-ARCHITECTURE.md) · [Historical studies](studies/aer/README.md) · [Design attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)
+
+## Actor-aware preview and ASSEMBLY
+
+The PR #10 implementation adds editable transition plans, DOM/SVG/opt-in Three.js bindings, three construction patterns, protected-design checkpoints and native review. The namespaced `motion-debugger` skill coexists with a foreign `/motion` skill. Legacy capture reports keep schema 2.0; actor/review capability fields are explicitly versioned.
+
+Run `npm run demo:assembly` for the original camera configurator, or visit `/assembly/` in the packed CLI demo. Open, reverse, change lenses mid-flight, scrub, inspect and save. [Demo/source and common scaffold](examples/assembly/README.md) · [Implementation and validation status](docs/MOTION-QUALITY-IMPLEMENTATION.md).
+
+Actual browser detector calibration catches internal canvas jumps and smooth spoofed annotations; it preserves fast valid travel and direct-scrub exclusions. This supports motion review/regression usefulness. The ASSEMBLY app is hand-authored. The eighteen-session host pilot and blind preference review remain pending; no agent superiority or physical display FPS claim is made.

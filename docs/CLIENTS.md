@@ -18,7 +18,7 @@ npm install -g ./motion-debugger-0.5.0.tgz
 motion-debugger init --local
 ```
 
-Run the wizard from the application project. Choose a supported client, keep the offered five-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
+Run the wizard from the application project. Choose a supported client, keep the offered six-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
 
 Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.5.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
 
@@ -29,11 +29,11 @@ motion-debugger setup --browser --client codex --local --skills --project /absol
 motion-debugger doctor
 ```
 
-The setup command can combine Chromium installation, configuration review and all five project skills. In an interactive terminal it asks for approval of the displayed file changes; in a noninteractive terminal it only previews them until you supply `--apply` and the exact confirmation token. The explicit browser download can run before that file-change review. It does not import browser credentials or silently trust an MCP server in your editor. Keep your host's normal approval prompts.
+The setup command can combine Chromium installation, configuration review and all six project skill entries. In an interactive terminal it asks for approval of the displayed file changes; in a noninteractive terminal it only previews them until you supply `--apply` and the exact confirmation token. The explicit browser download can run before that file-change review. It does not import browser credentials or silently trust an MCP server in your editor. Keep your host's normal approval prompts.
 
 ## Skills-only setup and safe updates
 
-If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve just the five skill folders. Use `claude-code`, `cursor` or `vscode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders are retained, differing or extra files are refused, and unrelated skill folders are preserved. The installer never overwrites existing skill instructions; preserve or move a colliding folder and review again. See [skill destinations and installer verification](SKILLS.md).
+If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve the six project skill entries. Use `claude-code`, `cursor` or `vscode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders and unrelated skill folders are retained. A differing `motion` folder is preserved and disclosed in `preservedSkills`; use the namespaced `$motion-debugger` entry, which includes its own recipes and references in project installations. Other differing named folders or extra files are refused before writing. The installer never overwrites existing skill instructions; preserve or move those colliding folders and review again. See [skill destinations and installer verification](SKILLS.md).
 
 `--project` scopes both generated MCP defaults and relative evidence/source-root paths to that project. Combined `--skills` setup defaults its project to the current directory. Explicit `--config PATH` still chooses the exact MCP file, so review it carefully. MCP-only `init` without either flag retains its existing default destinations, including the Codex user configuration.
 
@@ -92,7 +92,7 @@ On Linux, missing system libraries may require Playwright's official dependency-
 
 ## Compatibility evidence
 
-Actual fresh Codex sessions loaded the project-local skills and MCP server in the [LOOP](../studies/loop-studio/METHOD.md) and [Ants](../studies/ants-launch/METHOD.md) comparisons. Their recorded tool calls establish use in those sessions. This does not establish native Codex ZIP plugin discovery.
+Actual fresh Codex sessions loaded the project-local skills and MCP server in the [LOOP](../studies/loop-studio/METHOD.md) and [Ants](../studies/ants-launch/METHOD.md) comparisons. Their recorded tool calls establish use of their frozen baseline packages in those sessions. They do not establish discovery of this upgraded package or native Codex ZIP plugins. Current upgrade checks and remaining host limits are recorded in [implementation status](MOTION-QUALITY-IMPLEMENTATION.md).
 
 The stdio endpoint is also exercised with the official MCP SDK. Generated config shapes are based on the client documentation linked below and covered by parser/installer tests. Extracted Codex, Claude Code and Cursor plugin packages pass fresh dependency, SDK and native browser tool checks. Interactive Claude Code, Cursor and VS Code sessions, and native ZIP host discovery, remain unverified. Host-specific trust and sandbox settings still apply.
 

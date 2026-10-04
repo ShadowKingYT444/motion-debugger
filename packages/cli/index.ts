@@ -1,7 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {createInterface} from 'node:readline/promises';
-import {recordedFrames,capture,inspect,compact,compare,validateLocalUrl,validateRecipe} from '../core/index';
+import {recordedFrames,capture,inspect,compact,compare,validateLocalUrl,validateRecipe,motionReview,motionProbe} from '../core/index';
 import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
 import {clients,configText,init,installSkillsOnly,metadata,type Client,type InitOptions} from './config';
@@ -20,12 +20,14 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger demo [--port 4173] [--data-dir .motion-debugger/demo]
   motion-debugger recipe kinetic|drawer|reveal|cursor [--mode baseline|fixed] [--origin <loopback>]
   motion-debugger capture recipe.json
+  motion-debugger review review.json
+  motion-debugger probe probe.json
   motion-debugger frames <capture-id>
   motion-debugger inspect <capture-id>
   motion-debugger compare <before-id> <after-id>
   motion-debugger mcp
 
-init previews an exact config diff; --skills includes all five project skills.
+init previews an exact config diff; --skills includes the project skills and namespaced motion-debugger entry.
 Skills never overwrite different existing folders. All writes require explicit approval. setup --browser
 explicitly downloads Chromium. No postinstall, login, credentials or automatic config changes.
 Config defaults to the exact npm package version. --local uses this installation's absolute path.
@@ -87,6 +89,10 @@ try {
     delete recipe.sourceRefs;result=validateRecipe(recipe,{artifactRoot:'.motion-evidence'});
   }else if(command==='capture') {
     if(args.length!==1)throw new Error('capture requires exactly one recipe JSON path');const recipe=JSON.parse(await readFile(path.resolve(args[0]),'utf8'));result=compact(await capture(recipe,optionsFromEnvironment()));
+  }else if(command==='review'||command==='probe') {
+    if(args.length!==1)throw new Error(`${command} requires exactly one request JSON path`);
+    const request=JSON.parse(await readFile(path.resolve(args[0]),'utf8'));
+    if(command==='review')result=(await motionReview(request,optionsFromEnvironment())).metadata;else result=await motionProbe(request,optionsFromEnvironment());
   }else if(command==='frames') {
     if(args.length!==1)throw new Error('frames requires exactly one capture UUID');
     const strip=await recordedFrames(args[0],optionsFromEnvironment());result={...strip,frames:strip.frames.map(({png,...frame})=>frame)};

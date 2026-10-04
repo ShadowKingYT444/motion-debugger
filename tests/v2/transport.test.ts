@@ -13,7 +13,7 @@ for (const entry of ['build/mcp/index.js','plugin/motion-debugger/scripts/mcp.mj
   try {
     await client.connect(transport);
     assert.equal(client.getServerVersion()?.name,'motion-debugger');
-    const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name).sort(),['motion_capture','motion_compare','motion_frames','motion_inspect','motion_list','motion_recipe']);
+    const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name).sort(),['motion_capture','motion_compare','motion_frames','motion_inspect','motion_list','motion_probe','motion_recipe','motion_review']);
     assert.equal(tools.find(t=>t.name==='motion_capture')?.annotations?.readOnlyHint,false);
     // Native hosts need the clock semantics in the schema, not only an optional document.
     const schema=JSON.stringify(tools.find(t=>t.name==='motion_capture')?.inputSchema);
@@ -22,6 +22,8 @@ for (const entry of ['build/mcp/index.js','plugin/motion-debugger/scripts/mcp.mj
     const list=await client.callTool({name:'motion_list',arguments:{}});assert.notEqual(list.isError,true);
     const guide=await client.readResource({uri:'motion-evidence://guide'});assert.match((guide.contents[0] as {text:string}).text,/same recipe/);
     const invalid=await client.callTool({name:'motion_capture',arguments:{recipe:{url:'https://example.com',selector:'#target',actions:[]}}});assert.equal(invalid.isError,true);
+    const invalidReview=await client.callTool({name:'motion_review',arguments:{plan:{},recipe:{url:'https://example.com',selector:'#target',actions:[]}}});assert.equal(invalidReview.isError,true);
+    const invalidProbe=await client.callTool({name:'motion_probe',arguments:{recipe:{url:'https://example.com',selector:'#target',actions:[]},beforeActionIndex:0,offsetsMs:[10]}});assert.equal(invalidProbe.isError,true);
     const invalidInspect=await client.callTool({name:'motion_inspect',arguments:{captureId:'../../.env'}});assert.equal(invalidInspect.isError,true);
     const catalog=await client.callTool({name:'motion_recipe',arguments:{}});assert.notEqual(catalog.isError,true);
     const recipe=await client.callTool({name:'motion_recipe',arguments:{id:'spring'}});assert.notEqual(recipe.isError,true);

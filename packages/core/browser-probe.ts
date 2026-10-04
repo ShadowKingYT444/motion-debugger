@@ -1,16 +1,22 @@
-import type {CaptureRecipe,MotionEvent,MotionSample} from './types';
+import type {CaptureRecipe,MotionEvent,MotionSample,MotionActorSample,MotionPerformanceDiagnostics,MotionSceneActorSnapshot} from './types';
 
-export function installBrowserProbe(config:{selector:string;containment?:CaptureRecipe['contract'] extends infer _ ? {selector:string;shape?:'rect'|'circle';maxOverflowPx:number;minOpacity?:number} : never}) {
-  const events:MotionEvent[]=[],samples:MotionSample[]=[];
+export function installBrowserProbe(config:{selector:string;actors?:CaptureRecipe['actors'];containment?:CaptureRecipe['contract'] extends infer _ ? {selector:string;shape?:'rect'|'circle';maxOverflowPx:number;minOpacity?:number} : never}) {
+  const events:MotionEvent[]=[],samples:MotionSample[]=[],actorSamples:MotionActorSample[]=[];
+  const actors=config.actors??[],domActors=actors.filter(actor=>actor.kind!=='scene'),sceneIds=new Set(actors.filter(actor=>actor.kind==='scene').map(actor=>actor.id));
+  if(domActors.length>8||sceneIds.size>16||new Set(actors.map(actor=>actor.id)).size!==actors.length)throw new Error('Actor bindings require unique IDs, at most 8 DOM/SVG and 16 scene actors');
+  const performanceDiagnostics:MotionPerformanceDiagnostics={actorObservation:{maxScenePublishMs:0,retainedBytes:0,retainedSamples:0,truncated:false,maxReadMs:0},longAnimationFrames:{status:'unsupported',thresholdMs:50,excludesPresentationTime:true}};
+  // Copies are bounded; excess observations remain visibly incomplete rather than silently wrapping.
+  let actorOverflow=false,actorBytes=0;
+  const appendActor=(sample:MotionActorSample)=>{const serialized=JSON.stringify(sample,null,2),bytes=serialized.length+serialized.split('\n').length*4+1;if(actorSamples.length<12000&&actorBytes+bytes<=2500000){actorSamples.push(sample);actorBytes+=bytes;performanceDiagnostics.actorObservation!.retainedBytes=actorBytes;performanceDiagnostics.actorObservation!.retainedSamples=actorSamples.length}else if(!actorOverflow){actorOverflow=true;performanceDiagnostics.actorObservation!.truncated=true;emit('actor-buffer-overflow','Actor observation buffer exhausted','browser-observed')}};
   const ids=new WeakMap<Element,string>();let idSequence=0,animationSequence=0,startTime:number|null=null,raf=0,generation=0,running=false,maxReadMs=0,superseded=0;
   const now=()=>startTime===null?-1:Number((performance.now()-startTime).toFixed(3));
   const nodeId=(node:Element)=>{if(!ids.has(node))ids.set(node,`node-${++idSequence}`);return ids.get(node)!};
-  const matches=(node:Element)=>{try{return node.matches(config.selector)}catch{return false}};
-  const logicalId=(node:Element)=>node.getAttribute('data-motion-id') || node.id || config.selector;
+  const matches=(node:Element)=>{try{return node.matches(config.selector)||domActors.some(actor=>'selector' in actor&&node.matches(actor.selector))}catch{return false}};
+  const logicalId=(node:Element)=>node.getAttribute('data-motion-id') || node.id || domActors.find(actor=>'selector' in actor&&node.matches(actor.selector))?.id || config.selector;
   const emit=(type:string,label:string,origin:MotionEvent['origin'],detail:MotionEvent['detail']={},node?:Element,animationId?:string)=>{
     if(startTime===null)return;
     const event:MotionEvent={id:`event-${events.length+1}`,t:now(),type,label,origin,detail};
-    if(node){event.nodeId=nodeId(node);event.logicalId=logicalId(node)}if(animationId)event.animationId=animationId;
+    if(node){event.nodeId=nodeId(node);event.logicalId=logicalId(node);const actor=domActors.find(binding=>'selector' in binding&&node.matches(binding.selector));if(actor){event.detail={...detail,actorId:actor.id,...(!node.matches(config.selector)?{actorOnly:true}:{})}}}if(animationId)event.animationId=animationId;
     events.push(event);
   };
   // A rAF interval can hide a reset between cancel() and animate(). Observe the
@@ -70,13 +76,15 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       for(const target of targets)emit(type,type==='dom-add'?'Target node added':'Target node removed','browser-observed',{},target);
     });
   }).observe(document,{childList:true,subtree:true});
-  for(const type of ['click','pointermove','keydown','wheel'])document.addEventListener(type,event=>{
+  for(const type of ['click','pointermove','pointerdown','pointerup','pointercancel','keydown','wheel'])document.addEventListener(type,event=>{
     if(type==='pointermove' && events.at(-1)?.type==='pointermove' && now()-events.at(-1)!.t<25)return;
     const target=event.target;
     emit(type,type==='click'?'Click interaction':type==='keydown'?'Keyboard interaction':type==='wheel'?'Scroll interaction':'Pointer moved','browser-observed',{
-      trusted:event.isTrusted,...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{}),...(event instanceof WheelEvent?{deltaX:event.deltaX,deltaY:event.deltaY,deltaMode:event.deltaMode}:{})
+      trusted:event.isTrusted,...(target instanceof Element?{selector:target.id?`#${target.id}`:target.tagName.toLowerCase()}:{}),...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{}),...(event instanceof WheelEvent?{deltaX:event.deltaX,deltaY:event.deltaY,deltaMode:event.deltaMode}:{})
     },target instanceof Element&&matches(target)?target:undefined);
   },true);
+  window.addEventListener('resize',()=>emit('resize','Viewport changed','browser-observed',{width:innerWidth,height:innerHeight}));
+  if(typeof matchMedia==='function')matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>emit('reduced-motion','Reduced-motion preference changed','browser-observed',{reduced:event.matches}));
   window.addEventListener('motion:mark',event=>{
     const detail=(event as CustomEvent).detail;if(!detail||typeof detail!=='object')return;
     const data:MotionEvent['detail']={};
@@ -93,6 +101,50 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
   try {new PerformanceObserver(list=>{
     for(const entry of list.getEntries())if(startTime!==null&&entry.startTime>=startTime)emit('long-task','Browser main-thread long task','browser-observed',{startMs:Number((entry.startTime-startTime).toFixed(3)),durationMs:Number(entry.duration.toFixed(3))});
   }).observe({type:'longtask',buffered:false})}catch{}
+  try {
+    if(PerformanceObserver.supportedEntryTypes?.includes('long-animation-frame')){
+      const observer=new PerformanceObserver(list=>{
+        for(const entry of list.getEntries()){
+          if(startTime===null||entry.startTime<startTime)continue;
+          const loaf=entry as PerformanceEntry & {blockingDuration?:number;renderStart?:number;styleAndLayoutStart?:number;scripts?:{sourceURL?:string;sourceFunctionName?:string;duration?:number}[]};
+          const detail:MotionEvent['detail']={startMs:Number((entry.startTime-startTime).toFixed(3)),durationMs:Number(entry.duration.toFixed(3))};
+          for(const key of ['blockingDuration','renderStart','styleAndLayoutStart'] as const)if(typeof loaf[key]==='number'&&Number.isFinite(loaf[key]))detail[key]=key==='blockingDuration'?loaf[key]!:Number((loaf[key]!-startTime).toFixed(3));
+          for(const [i,script] of (loaf.scripts??[]).slice(0,4).entries()){
+            try{if(script.sourceURL)detail[`script${i}Path`]=new URL(script.sourceURL,location.href).pathname.slice(0,200)}catch{}
+            if(typeof script.duration==='number')detail[`script${i}DurationMs`]=Number(script.duration.toFixed(3));
+            if(typeof script.sourceFunctionName==='string')detail[`script${i}Function`]=script.sourceFunctionName.slice(0,100);
+          }
+          emit('long-animation-frame','Browser rendering update over 50ms; excludes presentation time','browser-observed',detail);
+        }
+      });
+      observer.observe({type:'long-animation-frame',buffered:false});
+      performanceDiagnostics.longAnimationFrames.status='supported';
+    }
+  }catch{performanceDiagnostics.longAnimationFrames.status='observer-error'}
+  const numericArray=(value:unknown,length:number)=>Array.isArray(value)&&value.length===length&&value.every(n=>typeof n==='number'&&Number.isFinite(n))?value.slice() as number[]:null;
+  const point=(value:unknown)=>{const p=value as {x?:unknown;y?:unknown;z?:unknown}|null;return p&&[p.x,p.y,p.z].every(n=>typeof n==='number'&&Number.isFinite(n))?{x:p.x as number,y:p.y as number,z:p.z as number}:undefined};
+  (window as unknown as {__motionActors:unknown}).__motionActors={
+    /** Call once after renderer.render(), using the same consumer clock; never installs a rAF. */
+    publish:(batch:MotionSceneActorSnapshot[],renderTimestampMs=performance.now())=>{
+      const publishStart=performance.now();
+      if(!running||!Array.isArray(batch)||batch.length>16||!Number.isFinite(renderTimestampMs)||renderTimestampMs<startTime!||renderTimestampMs>performance.now()+1)return false;
+      const seen=new Set<string>(),pending:MotionActorSample[]=[];
+      for(const item of batch){
+        if(!item||typeof item.actorId!=='string'||item.actorId.length>80||seen.has(item.actorId))return false;
+        seen.add(item.actorId);
+        // An app can publish its bounded scene while a recipe opts into a subset.
+        // Unknown IDs are ignored, never promoted into evidence for a configured actor.
+        if(!sceneIds.has(item.actorId))continue;
+        if(typeof item.visible!=='boolean')return false;
+        const transform=numericArray(item.transform,16),cameraWorldMatrix=numericArray(item.cameraWorldMatrix,16),cameraProjectionMatrix=numericArray(item.cameraProjectionMatrix,16),rect=item.screen;
+        if(!transform||!cameraWorldMatrix||!cameraProjectionMatrix||rect!==null&&(!rect||![rect.x,rect.y,rect.width,rect.height].every(Number.isFinite)||rect.width<0||rect.height<0))return false;
+        pending.push({actorId:item.actorId,kind:'scene',origin:'app-reported',t:Number((renderTimestampMs-startTime!).toFixed(3)),observedAtMs:now(),renderTimeMs:Number((renderTimestampMs-startTime!).toFixed(3)),nodeId:null,visible:item.visible,screen:rect?{x:rect.x,y:rect.y,width:rect.width,height:rect.height}:null,transform,worldPosition:point(item.worldPosition),orientationRadians:point(item.orientationRadians),cameraWorldMatrix,cameraProjectionMatrix});
+      }
+      for(const sample of pending)appendActor(sample);
+      performanceDiagnostics.actorObservation!.maxScenePublishMs=Math.max(performanceDiagnostics.actorObservation!.maxScenePublishMs,performance.now()-publishStart);
+      return true;
+    }
+  };
   const observe=(frameTime:number)=>{
     const readStart=performance.now();
     const sampleTime=Number(Math.max(0,frameTime-startTime!).toFixed(3));
@@ -110,7 +162,14 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
       const hidden=rect.width<=0||rect.height<=0||style.display==='none'||style.visibility==='hidden'||style.visibility==='collapse'||Number(style.opacity)<=.01;
       samples.push({t:sampleTime,observedAtMs,geometryTimeMs:observedAtMs,targetState:hidden?'hidden':'visible',nodeId:nodeId(node),logicalId:logicalId(node),x:rect.x,y:rect.y,width:rect.width,height:rect.height,opacity:Number(style.opacity),translateX:matrix.m41,translateY:matrix.m42,scaleX:Math.hypot(matrix.a,matrix.b),scaleY:Math.hypot(matrix.c,matrix.d),rotationDeg:Math.atan2(matrix.b,matrix.a)*180/Math.PI,animationTime:animation?Number(animation.currentTime ?? 0):null,containmentOverflowPx:overflow,containerRect});
     }else samples.push({t:sampleTime,observedAtMs,geometryTimeMs:observedAtMs,targetState:'absent',nodeId:null,logicalId:null,x:null,y:null,width:null,height:null,opacity:null,translateX:null,translateY:null,scaleX:null,scaleY:null,rotationDeg:null,animationTime:null,containmentOverflowPx:null,containerRect:null});
-    maxReadMs=Math.max(maxReadMs,performance.now()-readStart);
+    for(const actor of domActors){
+      if(!('selector' in actor))continue;
+      const matches=document.querySelectorAll(actor.selector),element=matches.length===1?matches[0]:null;
+      if(!element){appendActor({actorId:actor.id,kind:actor.kind,origin:'browser-observed',t:sampleTime,observedAtMs:now(),nodeId:null,visible:false,screen:null,transform:null});continue;}
+      const rect=element.getBoundingClientRect(),style=getComputedStyle(element),matrix=style.transform==='none'?new DOMMatrix():new DOMMatrix(style.transform);
+      appendActor({actorId:actor.id,kind:actor.kind,origin:'browser-observed',t:sampleTime,observedAtMs:now(),nodeId:nodeId(element),visible:rect.width>0&&rect.height>0&&style.display!=='none'&&style.visibility!=='hidden'&&Number(style.opacity)>.01,screen:{x:rect.x,y:rect.y,width:rect.width,height:rect.height},transform:Array.from(matrix.toFloat64Array())});
+    }
+    maxReadMs=Math.max(maxReadMs,performance.now()-readStart);performanceDiagnostics.actorObservation!.maxReadMs=maxReadMs;
   };
   // MessageChannel avoids the nested-timer clamp while still observing after
   // the app's callbacks for this rAF. Never read an older frame after a newer
@@ -127,8 +186,8 @@ export function installBrowserProbe(config:{selector:string;containment?:Capture
     raf=requestAnimationFrame(sample);
   };
   (window as unknown as {__motionProbe:unknown}).__motionProbe={
-    events,samples,startTime,
-    start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;maxReadMs=0;superseded=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
+    events,samples,actorSamples,performanceDiagnostics,startTime,
+    start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;actorSamples.length=0;actorOverflow=false;actorBytes=0;performanceDiagnostics.actorObservation={maxScenePublishMs:0,retainedBytes:0,retainedSamples:0,truncated:false,maxReadMs:0};maxReadMs=0;superseded=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
     stop:()=>{for(const [node,batch] of boundaries)finishBoundary(node,batch);running=false;generation++;cancelAnimationFrame(raf);emit('probe-cost','Geometry read cost and superseded post-rAF tasks','browser-observed',{maxReadMs:Number(maxReadMs.toFixed(3)),supersededTasks:superseded});emit('capture-end','Capture window ended','runner')},
     mark:(type:string,label:string,detail:MotionEvent['detail'])=>emit(type,label,'runner',detail),
     time:now

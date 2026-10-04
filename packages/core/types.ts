@@ -2,9 +2,12 @@ export type MotionAction =
   | { action:'click'|'hover'; selector:string }
   | { action:'key'; key:string }
   | { action:'move'; x:number; y:number }
-  | { action:'drag'; selector:string; points:{x:number;y:number}[]; durationMs:number; steps?:number }
+  | { action:'drag'; selector:string; points:{x:number;y:number}[]; durationMs:number; steps?:number; end?:'release'|'cancel' }
   | { action:'scroll'; deltaY:number }
-  | { action:'wait'; ms:number };
+  | { action:'wait'; ms:number }
+  | { action:'resize'; width:number; height:number }
+  | { action:'pointer-cancel' }
+  | { action:'reduced-motion'; value:'reduce'|'no-preference' };
 export interface MotionContract {
   /** Positive task completion checks, independent of temporal quality. Deadline is from capture start. */
   outcomes?:{timeoutMs?:number;required:MotionOutcomeExpectation[];forbiddenVisible?:string[]};
@@ -31,6 +34,7 @@ export interface CaptureRecipe {
   viewport?:{width:number;height:number};
   reducedMotion?:'reduce'|'no-preference';
   contract?:MotionContract;
+  actors?:MotionActorBinding[];
   sourceRefs?:Record<string,{file:string;line:number;endLine?:number}>;
 }
 export interface MotionEvent {
@@ -38,7 +42,7 @@ export interface MotionEvent {
   origin:'browser-observed'|'app-annotated'|'runner';
   nodeId?:string; animationId?:string; logicalId?:string;
   detail:Record<string,string|number|boolean|null>;
-  source?:{file:string;line:number;endLine?:number;excerpt:string};
+  source?:{file:string;line:number;endLine?:number;excerpt:string;sha256?:string};
 }
 export interface MotionSample {
   targetState?:'absent'|'hidden'|'visible';
@@ -81,6 +85,9 @@ export interface MotionCapture {
   environment:{browser:string;browserMode?:'headless'|'headed';probeSha256?:string;analyzerSha256?:string;diagnostics?:{devicePixelRatio:number;visibilityState:string;webglRenderers:string[]};viewport:{width:number;height:number};clock:string;reducedMotion:string};
   events:MotionEvent[];samples:MotionSample[];metrics:MotionMetrics;
   coverage?:MotionCoverage;
+  actorSamples?:MotionActorSample[];
+  actorAnalysis?:MotionActorAnalysis;
+  performanceDiagnostics?:MotionPerformanceDiagnostics;
   /** Absent in legacy captures; absence never proves functional delivery. */
   delivery?:MotionDelivery;
   assertions:MotionAssertion[];findings:MotionFinding[];
@@ -104,4 +111,54 @@ export interface CoreOptions {
   allowedOrigins?:string[];
   sourceRoots?:string[];
   signal?:AbortSignal;
+}
+
+/** Opt-in observation, with explicit units and intent. Scene reports cannot certify pixels. */
+export type MotionActorBinding = {
+  id:string;
+  acceptance?:{
+    continuity?:'position'|'position-and-velocity'|'none';
+    inputPolicy?:'retarget'|'direct-scrub'|'cut';
+    maxStepAt60HzPx?:number;
+    maxVelocityChangePxPerMs?:number;
+    maxReplacements?:number;
+    destination?:{x:number;y:number;tolerancePx:number;deadlineMs:number;settleMs?:number};
+    minTravelPx?:number;
+  };
+} & ({kind:'dom'|'svg';selector:string}|{kind:'scene'});
+export interface MotionActorSample {
+  actorId:string;kind:MotionActorBinding['kind'];
+  origin:'browser-observed'|'app-reported'|'recorded-pixels';
+  /** Capture-relative clock; DOM reads follow app callbacks, scene reads follow its render call. */
+  t:number;observedAtMs:number;renderTimeMs?:number;
+  nodeId:string|null;visible:boolean|null;
+  screen:{x:number;y:number;width:number;height:number}|null;
+  /** Column-major local transform for DOM, world transform for scene, radians in scene orientation. */
+  transform:number[]|null;
+  worldPosition?:{x:number;y:number;z:number};
+  orientationRadians?:{x:number;y:number;z:number};
+  cameraWorldMatrix?:number[];cameraProjectionMatrix?:number[];
+}
+export interface MotionActorResult {
+  actorId:string;kind:MotionActorBinding['kind'];
+  evidence:'browser-geometry'|'app-reported-scene'|'recorded-pixels';
+  status:'passed'|'failed'|'unverified';pixelStatus:'unverified'|'observed';
+  coverage:{sufficient:boolean;sampleCount:number;maxGapMs:number;reasons:string[]};
+  metrics:{maxStepAt60HzPx:number;maxStepPx:number;travelPx:number;replacements:number;maxVelocityChangePxPerMs:number;arrivalAtMs:number|null};
+  assertions:MotionAssertion[];
+  findings:{type:'position-step'|'velocity-change'|'identity-replacement'|'arrival'|'travel';summary:string;sampleTimes:number[];eventIds:string[]}[];
+}
+export interface MotionActorAnalysis {
+  version:'1';status:'passed'|'failed'|'unverified';actors:MotionActorResult[];
+  limitations:string[];
+}
+export interface MotionPerformanceDiagnostics {
+  actorObservation?:{maxScenePublishMs:number;retainedBytes:number;retainedSamples:number;truncated:boolean;maxReadMs:number};
+  longAnimationFrames:{status:'supported'|'unsupported'|'observer-error';thresholdMs:50;excludesPresentationTime:true};
+}
+/** A post-render snapshot is an app annotation, even when it comes from Three.js. */
+export interface MotionSceneActorSnapshot {
+  actorId:string;visible:boolean;screen:MotionActorSample['screen'];transform:number[];
+  worldPosition?:{x:number;y:number;z:number};orientationRadians?:{x:number;y:number;z:number};
+  cameraWorldMatrix:number[];cameraProjectionMatrix:number[];
 }

@@ -41,6 +41,7 @@ export async function startDemo({port,dataDir}:{port:number;dataDir:string}) {
   app.get('/api/source',async(req,res)=>{if(req.query.file!=='src/fixture/Fixture.tsx')return res.status(400).json({error:'Only demo fixture source is available'});res.json({file:req.query.file,content:await readFile(path.join(dataDir,'src/fixture/Fixture.tsx'),'utf8')})});
   app.get('/api/fixture-data',async(req,res)=>{const delay=Number(req.query.delay);if(!Number.isInteger(delay)||delay<150||delay>800)return res.status(400).json({error:'delay must be 150–800 ms'});await new Promise(resolve=>setTimeout(resolve,delay));res.json({id:'card-42',revision:1,title:'Motion lab workspace',status:'ready'})});
   app.use('/artifacts/runs',express.static(path.join(dataDir,'artifacts/runs'),{index:false,dotfiles:'deny'}));
+  app.use('/assembly',express.static(path.join(assets,'assembly'),{dotfiles:'deny',setHeaders:res=>res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'")}));
   app.use(express.static(path.join(assets,'dist')));
   app.use((req,res)=>req.path.startsWith('/api/')?res.status(404).json({error:'API route not found'}):res.sendFile(path.join(assets,'dist/index.html')));
   app.use((error:Error & {status?:number},_req:express.Request,res:express.Response,_next:express.NextFunction)=>res.status(error.status&&error.status>=400&&error.status<600?error.status:500).json({error:error.message}));

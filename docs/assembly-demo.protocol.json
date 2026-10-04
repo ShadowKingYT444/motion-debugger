@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "proposal-1",
+  "id": "assembly-motion-creation-pilot",
+  "status": "proposed-not-executed",
+  "runnable": false,
+  "auditDate": "2026-10-04",
+  "auditedRepositoryCommit": "6887824e3a3d64e8a8702615a88072ff2b968410",
+  "taskType": "motion-creation-from-common-functional-scaffold",
+  "documents": {
+    "upgrade": "MOTION-QUALITY-UPGRADE.md",
+    "protocol": "ASSEMBLY-DEMO-PROTOCOL.md"
+  },
+  "budget": {
+    "authorizedByThisPR": false,
+    "hosts": ["codex", "claude-code"],
+    "arms": ["strong-ordinary", "current-motion-debugger", "upgraded-motion-debugger"],
+    "independentRepetitionsPerHostArm": 3,
+    "sessions": 18,
+    "minutesPerSession": 30,
+    "verificationReserveMinutes": 6,
+    "maximumAgentWallMinutes": 540,
+    "excludes": ["fixture-authoring", "independent-evaluation", "human-review"],
+    "concurrentGPUComparisons": false
+  },
+  "sharedInputs": {
+    "appSourceSha256": null,
+    "assetManifestSha256": null,
+    "dependencyLockSha256": null,
+    "protectedDesignManifestSha256": null,
+    "actorBindingsSha256": null,
+    "endpointBaselineSha256": null,
+    "publicTaskContractSha256": null,
+    "referencePermissionsManifestSha256": null,
+    "ordinaryToolAndSkillManifestSha256": null
+  },
+  "interventions": {
+    "currentPluginPackageSha256": null,
+    "upgradedPluginPackageSha256": null,
+    "loadedSkillFilesManifestSha256": null,
+    "entrypointCollisionPolicy": null,
+    "paidCompetitorFeaturesTested": false
+  },
+  "execution": {
+    "hostAndModelSettingsSha256": null,
+    "deviceBrowserRendererManifestSha256": null,
+    "randomizationScheduleSha256": null,
+    "retryAndInfrastructureFailurePolicySha256": null,
+    "warmColdCachePolicy": null,
+    "independentEvaluatorSha256": null,
+    "hiddenInputScheduleCommitmentSha256": null,
+    "captureCalibrationSha256": null,
+    "actualInputTimesRequired": true,
+    "postFreezeManualRepairAllowed": false,
+    "crossArmOutputAccessAllowed": false
+  },
+  "conditions": {
+    "desktopViewport": {"width": 1440, "height": 960},
+    "narrowViewport": {"width": 390, "height": 844},
+    "variants": ["normal-motion", "reduced-motion", "webgl-unavailable"],
+    "physicalMobilePerformanceVerified": false,
+    "realTimePerformanceEvidenceRequired": true,
+    "posePreviewMayEstablishFrameRate": false
+  },
+  "publicAcceptanceValuesToCalibrateAndFreeze": {
+    "inputToObservedResponseMs": null,
+    "settlingTimeMs": null,
+    "screenPositionToleranceCssPx": null,
+    "orientationToleranceRad": null,
+    "interruptionContinuityTolerance": null,
+    "allowedLabelOverlapDurationMs": null,
+    "nativeFrameTimingBudget": null
+  },
+  "proposedMetrics": [
+    "complete-app-functional-and-design-preservation-pass-rate",
+    "blind-motion-preference-with-ties",
+    "selected-part-tracking-accuracy",
+    "transition-specific-continuity-and-arrival",
+    "native-work-and-frame-timing-with-method-and-uncertainty",
+    "agent-wall-time-and-tool-cost",
+    "instrumentation-overhead"
+  ],
+  "negativeControls": [
+    "legitimate-fast-transition",
+    "intentional-cut-where-allowed",
+    "direct-pointer-scrub",
+    "smooth-app-annotation-with-incorrect-pixels"
+  ],
+  "preserve": {
+    "legacyIntegrityGateMs": 80,
+    "historicalStudiesImmutable": true,
+    "allFailedAttemptsRetained": true,
+    "privacy": "trusted-credential-free-local-origins-only"
+  },
+  "confirmatoryStudy": {
+    "sampleSize": null,
+    "practicalEffectAndNonRegressionMargins": null,
+    "analysisPlanSha256": null,
+    "heldOutTaskManifestSha256": null,
+    "generalSuperiorityClaimAllowedFromPilot": false
+  },
+  "results": null,
+  "runnerRequirement": "Refuse execution until a follow-up version explicitly authorizes the campaign, sets runnable=true, and fills every sharedInputs, interventions, execution, and publicAcceptanceValuesToCalibrateAndFreeze null. Confirmatory claims additionally require a frozen confirmatory study and actual results."
+}

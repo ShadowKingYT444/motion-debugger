@@ -1,9 +1,10 @@
-import type {CaptureRecipe,MotionSample,MotionEvent,MotionCapture,MotionMetrics,MotionAssertion,MotionFinding,MotionComparison,MotionDelivery,MotionDeliveryObservation} from './types';
+import type {CaptureRecipe,MotionSample,MotionEvent,MotionCapture,MotionMetrics,MotionAssertion,MotionFinding,MotionComparison,MotionDelivery,MotionDeliveryObservation,MotionActorSample} from './types';
+import {analyzeActors} from './actor-analysis';
 import {finiteGeometry,measureCoverage,targetState} from './coverage';
 export const validSample=finiteGeometry;
-export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:CaptureRecipe,final:MotionCapture['final']) {
+export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:CaptureRecipe,final:MotionCapture['final'],actorSamples:MotionActorSample[]=[]) {
   // App marks may use browser event names; their labels never establish browser evidence.
-  const observedEvents=events.filter(event=>event.origin==='browser-observed');
+  const observedEvents=events.filter(event=>event.origin==='browser-observed'&&event.detail.actorOnly!==true);
   const orderedTimes=samples.every((sample,index)=>Number.isFinite(sample.t)&&sample.t>=0&&(index===0||sample.t>samples[index-1].t));
   const coverageResult=measureCoverage(samples,recipe),coverage=coverageResult.coverage;
   const valid=samples.filter(validSample),heightSteps:number[]=[],steps:{px:number;normalized:number;dt:number;before:number;after:number}[]=[],drops:{value:number;before:number;after:number}[]=[];
@@ -21,7 +22,7 @@ export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:Captu
   // rendered frames. Clamp the denominator to one 60Hz interval so sub-ms
   // instrumentation time cannot amplify tiny legitimate changes into huge speeds.
   const boundaries=events.flatMap(event=>{
-    if(event.origin!=='browser-observed'||event.type!=='animation-boundary'||!event.nodeId)return [];
+    if(event.origin!=='browser-observed'||event.detail.actorOnly===true||event.type!=='animation-boundary'||!event.nodeId)return [];
     const d=event.detail,fields=['fromMs','toMs','fromX','fromY','toX','toY','fromOpacity','toOpacity'];
     if(!fields.every(key=>typeof d[key]==='number'&&Number.isFinite(d[key])))return [];
     const dt=Number(d.toMs)-Number(d.fromMs);
@@ -70,7 +71,7 @@ export function analyze(samples:MotionSample[],events:MotionEvent[],recipe:Captu
   }
   if(c?.maxOpacityDrop!==undefined&&metrics.maxOpacityDrop>c.maxOpacityDrop){const worst=drops.reduce((max,drop)=>drop.value>max.value?drop:max,{value:0,before:0,after:0});findings.push({type:'opacity-drop',summary:`Observed opacity drop ${metrics.maxOpacityDrop} exceeds caller budget`,eventIds:[],sampleTimes:[worst.before,worst.after],confidence:'contract-violation'})}
   if(c?.containment&&metrics.containmentViolatingSamples)findings.push({type:'containment-overflow',summary:`Visible target exceeds ${c.containment.shape??'rect'} container by up to ${metrics.maxContainmentOverflowPx}px`,eventIds:[],sampleTimes:containment.filter(s=>s.containmentOverflowPx!>c.containment!.maxOverflowPx).map(s=>s.t).slice(0,8),confidence:'contract-violation'});
-  return {metrics,assertions,findings,coverage};
+  return {metrics,assertions,findings,coverage,...(recipe.actors?.length?{actorAnalysis:analyzeActors(actorSamples,events,recipe)}:{})};
 }
 export function compare(before:MotionCapture,after:MotionCapture):MotionComparison {
   const fields=['animationBoundarySamples','maxAnimationBoundaryStepPx','maxAnimationBoundaryStepAt60HzPx','maxFrameStepPx','maxStepAt60HzPx','maxSampleGapMs','maxHeightStepPx','maxOpacityDrop','replacements','activeCancels','maxContainmentOverflowPx','containmentViolatingSamples'] as const;
@@ -82,9 +83,11 @@ export function compare(before:MotionCapture,after:MotionCapture):MotionComparis
   if(before.coverage?.version!==after.coverage?.version)issues.push('Different lifecycle coverage analysis; repeat both with the same runtime');
   if((before.metrics.animationBoundarySamples!==undefined)!==(after.metrics.animationBoundarySamples!==undefined))issues.push('Different animation-boundary observation support; repeat both captures with the same probe');
   const stable=(value:unknown):unknown=>Array.isArray(value)?value.map(stable):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,stable(v)])):value;
-  for(const key of ['selector','actions','viewport','reducedMotion','durationMs','contract'] as const)if(JSON.stringify(stable(before.recipe[key]))!==JSON.stringify(stable(after.recipe[key])))issues.push(`Different ${key}`);
+  for(const key of ['selector','actions','viewport','reducedMotion','durationMs','contract','actors'] as const)if(JSON.stringify(stable(before.recipe[key]))!==JSON.stringify(stable(after.recipe[key])))issues.push(`Different ${key}`);
   if(!before.metrics.sufficientEvidence||!after.metrics.sufficientEvidence)issues.push('One or both captures lack sufficient finite temporal evidence');
   for(const [label,report] of [['before',before],['after',after]] as const)for(const id of ['valid-trajectory','browser-errors','network-policy'])if(!report.assertions.some(assertion=>assertion.id===id&&assertion.passed))issues.push(`${label} capture integrity check ${id} is missing or failed`);
+  if(before.actorAnalysis?.version!==after.actorAnalysis?.version)issues.push('Different actor observation analysis; repeat both with the same runtime');
+  if(before.actorAnalysis&&before.actorAnalysis.status!=='passed'||after.actorAnalysis&&after.actorAnalysis.status!=='passed')issues.push('One or both captures have failed or unverified actor contracts; app-reported scene poses cannot establish a visible-motion comparison');
   const comparable=issues.length===0;
   const finalEquivalent=before.final.visible===after.final.visible&&before.final.text===after.final.text&&JSON.stringify(stable(before.final.attributes))===JSON.stringify(stable(after.final.attributes));
   const beforePassed=before.assertions.every(a=>a.passed),afterPassed=after.assertions.every(a=>a.passed);

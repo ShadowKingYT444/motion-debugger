@@ -7,6 +7,8 @@ description: Create and verify polished website motion from a normal website or 
 
 The user's ordinary design prompt remains the brief. Tagging this skill supplies concrete motion construction and verification; do not require the user to write a second animation specification. Read the project first, preserve its stack and primary journeys, and select a clear visual direction with `motion-design`. Use `motion-3d-ui` for spatial composition. A plugin tag alone does not prove the MCP server is connected.
 
+For an existing design, use the constrained [transition authoring workflow](references/transition-authoring.md): freeze protected bytes, bind the user's actors, and compare at most three motion candidates with native event/frame evidence. The namespaced `$motion-debugger` entry is available when another animation kit supplies `/motion`.
+
 Identify one main story the motion should communicate: agents assembling around a task, work changing hands, an explanation unfolding with scroll, or an interface responding to a decision. Create a few deliberate moments with clear start, transition, completion and interruption states. Avoid applying the same entrance animation to every section.
 
 If browser access is available and the brief benefits from visual references, inspect official reference pages for composition and live behavior. Retain the URL and what was actually observed. Static images establish framing and materials; they do not establish timing or smoothness. Prefer references relevant to the user's requested identity. Do not invent a product launch or copy protected artwork into the app. Use original geometry and project assets.
@@ -17,6 +19,7 @@ Read [usage](references/usage.md) and only the recipes needed. When MCP tools ar
 
 | Moment | Recipe | Concrete use |
 | --- | --- | --- |
+| Existing design transitions | [bindings](recipes/transition-bindings.mjs) and [patterns](recipes/transition-patterns.mjs) | Persistent handoff, staged decomposition and drag release over the user's original DOM/SVG/Three objects. |
 | Reversals and interruption | [spring](recipes/spring.mjs) | Preserve position and velocity across target changes. |
 | Scroll narrative | [scroll-chapters](recipes/scroll-chapters.mjs) | Measured progress drives a sticky scene and three meaningful chapters. |
 | Kinetic identity/editor | [kinetic-field](recipes/kinetic-field.mjs) | Distinct Pulse/Weave/Orbit formations with stable IDs and continuous multi-channel retargeting; author the product geometry and rendering. |

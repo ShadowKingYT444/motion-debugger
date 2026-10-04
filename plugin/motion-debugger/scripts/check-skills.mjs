@@ -20,7 +20,7 @@ for(const entry of await readdir(skillRoot,{withFileTypes:true})){
   if(text.includes('\\n\\n'))throw new Error(`Literal escaped paragraph separator in skill: ${entry.name}`);
   names.add(name);skills.push({name,description,file:path.relative(pluginRoot,file)});
 }
-for(const required of ['motion','motion-design','motion-3d-ui','motion-build-inspect-repair','motion-evidence'])if(!names.has(required))throw new Error(`Missing required skill: ${required}`);
+for(const required of ['motion','motion-design','motion-3d-ui','motion-build-inspect-repair','motion-evidence','motion-debugger'])if(!names.has(required))throw new Error(`Missing required skill: ${required}`);
 await access(path.join(skillRoot,'motion-design/references/taste-LICENSE.txt'));
 await access(path.join(skillRoot,'motion-design/references/taste-provenance.md'));
 console.log(JSON.stringify({ok:true,plugin:manifest.name,skills:skills.sort((a,b)=>a.name.localeCompare(b.name))},null,2));
