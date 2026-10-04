@@ -80,7 +80,19 @@ try {
       const recipeFile=path.join(temp,`kinetic-${mode}.json`);await writeFile(recipeFile,run(process.execPath,[binary,'recipe','kinetic','--mode',mode,'--origin',`http://127.0.0.1:${port}`]));
       let captured;const attempts=[];
       for(let attempt=1;attempt<=3;attempt++){
-        captured=JSON.parse(run(process.execPath,[binary,'capture',recipeFile]));
+        try{captured=JSON.parse(run(process.execPath,[binary,'capture',recipeFile]));}
+        catch(error){
+          // A failed runner action is incomplete evidence, not a valid motion-contract result.
+          // Retain and explicitly label it before retrying the identical recipe/thresholds.
+          const partial=[];
+          for(const id of await readdir(path.join(temp,'.motion-evidence'))){try{const report=JSON.parse(await readFile(path.join(temp,'.motion-evidence',id,'report.json'),'utf8'));if(report.recipe?.url===JSON.parse(await readFile(recipeFile,'utf8')).url&&report.status==='incomplete')partial.push(report);}catch{}}
+          const report=partial.sort((a,b)=>b.createdAt.localeCompare(a.createdAt))[0];
+          if(!report||report.failure?.stage!=='interaction'||!/(deadline|timeout)/i.test(report.failure.message??''))throw error;
+          attempts.push({attempt,captureId:report.id,status:'incomplete',infrastructureFailure:report.failure});
+          await writeFile(path.join(proofDir,`kinetic-${mode}-attempts.json`),JSON.stringify(attempts,null,2));
+          if(attempt===3)throw error;
+          continue;
+        }
         attempts.push({attempt,captureId:captured.id,metrics:captured.metrics,assertions:captured.assertions});
         await writeFile(path.join(proofDir,`kinetic-${mode}-attempts.json`),JSON.stringify(attempts,null,2));
         if(captured.metrics.sufficientEvidence)break;
