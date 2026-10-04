@@ -88,6 +88,6 @@ Recordings and reports stay local in `.motion-evidence/`. Capture trusted, crede
 node build/cli/index.js demo
 ```
 
-Open the printed URL to explore the bundled examples. For the new railway workflow A/B, run `npm run demo:rail` and open its comparison viewer.
+Open the printed URL to explore the bundled examples, or **http://127.0.0.1:4173/ab/** for the railway workflow A/B. Both apps and the original desktop/mobile films ship in the tarball. Switch between live apps and recorded journeys; play, pause and seek both films with one control. The checkout also offers `npm run demo:rail` on port 4123.
 
 [Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)

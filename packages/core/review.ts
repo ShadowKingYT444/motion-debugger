@@ -42,7 +42,7 @@ export function reviewRecipe(plan:TransitionPlan,recipe:CaptureRecipe):CaptureRe
   return recipe;
 }
 
-/** Priority beats: flagged event, interruption, trigger, arrival, then peak travel/handoff. */
+/** Priority beats: visible functional error, flagged motion event, interruption, trigger, arrival, then peak travel/handoff. */
 export function reviewFrameTimes(report:MotionCapture,maxFrames=6):number[] {
   if(!Number.isInteger(maxFrames)||maxFrames<1||maxFrames>6)throw new Error('Review frame budget must be one to six');
   const duration=report.recipe.durationMs??2400;
@@ -50,7 +50,8 @@ export function reviewFrameTimes(report:MotionCapture,maxFrames=6):number[] {
   const selected:number[]=[];
   const add=(t:number|undefined)=>{if(t!==undefined&&Number.isFinite(t)&&selected.length<maxFrames){const value=clamp(t);if(!selected.includes(value))selected.push(value)}};
   const flagged=report.actorAnalysis?.actors.flatMap(actor=>actor.findings).find(finding=>finding.sampleTimes.length);
-  const center=flagged?.sampleTimes[0]??report.findings.find(finding=>finding.confidence==='contract-violation')?.sampleTimes[0];
+  const errorTime=report.delivery?.forbiddenVisible?.map(error=>error.observedAtMs).filter(Number.isFinite).sort((a,b)=>a-b)[0];
+  const center=errorTime??flagged?.sampleTimes[0]??report.findings.find(finding=>finding.confidence==='contract-violation')?.sampleTimes[0];
   if(center!==undefined){add(center);add(center-60);add(center+60);}
   const events=report.events.filter(event=>event.origin==='browser-observed'&&event.detail.trusted===true&&inputs.has(event.type));
   const interruptions=events.slice(1);

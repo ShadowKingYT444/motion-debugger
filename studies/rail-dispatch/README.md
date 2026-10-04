@@ -7,7 +7,9 @@ npm ci
 npm run demo:rail
 ```
 
-Open **http://127.0.0.1:4123**. Switch between live apps and recorded journeys; use **Restart both** to start the original recordings together. Live desktop frames use 1440×1300 so both control decks remain visible; mobile frames use 390×844. Recordings preserve their verified 1440×960 and 390×844 viewports. You can also open either app at full size.
+Open **http://127.0.0.1:4123**. Switch between live apps and recorded journeys; use **Restart both** to start the original recordings together. **Play both**, **Pause both** and the keyboard-accessible **Journey time** slider control both original films. Seeking pauses both; original per-arm action times and simulation clocks still differ. Live desktop frames use 1440×1300 so both control decks remain visible; mobile frames use 390×844. Recordings preserve their verified 1440×960 and 390×844 viewports. You can also open either app at full size.
+
+The same viewer, both frozen apps and four byte-identical native films also ship with the package: run `motion-debugger demo`, then open **http://127.0.0.1:4173/ab/**. This needs no source checkout or app dependency builds. The package omits development capture trees.
 
 ![Actual initial desktop apps: ordinary left, Motion-assisted right](evidence/comparison.png)
 
@@ -35,6 +37,7 @@ Actual desktop/mobile screenshots and timed native-film frames were inspected. B
 
 ```sh
 npm run test:rail:browser
+npm run test:rail:viewer
 ```
 
 Browser campaigns should run serially. The runner retains failures in reports; a failed check never becomes a hardcoded passing result. CI also runs the common journeys. The current recordings are local runs; remote CI status is reported separately.

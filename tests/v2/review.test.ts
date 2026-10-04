@@ -13,6 +13,14 @@ test('event evidence prioritizes an actual interruption and keeps arrival within
   assert.deepEqual(reviewFrameTimes(flagged,3),[340,400,460]);
   assert.throws(()=>reviewFrameTimes(report(),7));
 });
+test('review frames prioritize the earliest observed forbidden error over motion findings',()=>{
+  const failed=report();
+  failed.findings=[{type:'frame-step',confidence:'contract-violation',sampleTimes:[400],eventIds:[],summary:'seeded reset'}];
+  failed.delivery={status:'failed',required:[],elapsedMs:1000,reasons:['Visible caught error'],forbiddenVisible:[{selector:'#later-error',observedAtMs:600,text:'Later error'},{selector:'#task-error',observedAtMs:280,text:'Illegal invocation'}]};
+  assert.deepEqual(reviewFrameTimes(failed,1),[280]);
+  assert.deepEqual(reviewFrameTimes(failed,3),[220,280,340]);
+  assert.deepEqual(reviewFrameTimes(failed,6),[100,220,280,340,350,1000]);
+});
 test('review keeps incomplete, weak, delivery failure and scene annotation outcomes distinct',()=>{
   assert.equal(reviewSummary(report(),plan).summary.outcome,'passed');
   assert.equal(reviewSummary({...report(),status:'incomplete'},plan).summary.outcome,'failed');

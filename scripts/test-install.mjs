@@ -73,8 +73,26 @@ try {
   assert.equal((await fetch(`http://127.0.0.1:${port}/api/runs`,{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://untrusted.example'},body:'{}'})).status,403);
   assert.match(await (await fetch(`http://127.0.0.1:${port}/assembly/`)).text(),/ASSEMBLY/);
   assert.equal((await fetch(`http://127.0.0.1:${port}/assembly/assets/vendor/three.module.js`)).status,200);
+  assert.equal((await fetch(`http://127.0.0.1:${port}/ab`,{redirect:'manual'})).status,308);
+  assert.match(await (await fetch(`http://127.0.0.1:${port}/ab/`)).text(),/SIGNAL/);
+  for(const arm of ['ordinary','motion']) {
+    assert.match(await (await fetch(`http://127.0.0.1:${port}/ab/${arm}/`)).text(),/SIGNAL/);
+    for(const size of ['desktop','mobile']) {
+      const file=`${arm}-${size}/journey.webm`;
+      const film=await fetch(`http://127.0.0.1:${port}/ab/evidence/${file}`);
+      assert.equal(film.status,200);
+      assert.equal(createHash('sha256').update(Buffer.from(await film.arrayBuffer())).digest('hex'),createHash('sha256').update(await readFile(path.join(root,'studies/rail-dispatch/evidence',file))).digest('hex'));
+    }
+  }
+  assert.equal((await fetch(`http://127.0.0.1:${port}/ab/missing.js`)).status,404);
+  assert.equal((await fetch(`http://127.0.0.1:${port}/ab/motion/evidence/capture-trace.json`)).status,404);
+  proof.checks.push('packaged-signal-apps-and-four-byte-identical-native-films');
   proof.checks.push('packaged-demo-loopback-http-and-cross-origin-defense','packaged-assembly-original-asset-route');
   if(!skipBrowser) {
+    const viewerTest=path.join(temp,'rail-viewer-browser.mjs');await cp(path.join(root,'tests/rail-viewer-browser.mjs'),viewerTest);
+    console.log(run(process.execPath,[viewerTest,'--origin',`http://127.0.0.1:${port}/ab/`]));
+    await cp(path.join(temp,'artifacts/rail-viewer'),path.join(proofDir,'rail-viewer'),{recursive:true});
+    proof.checks.push('installed-signal-live-apps-paired-play-pause-keyboard-seek-and-mobile-viewer');
     const ids=[];
     for(const mode of ['baseline','fixed']){
       const recipeFile=path.join(temp,`kinetic-${mode}.json`);await writeFile(recipeFile,run(process.execPath,[binary,'recipe','kinetic','--mode',mode,'--origin',`http://127.0.0.1:${port}`]));

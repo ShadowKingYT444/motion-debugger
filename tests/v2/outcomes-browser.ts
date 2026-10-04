@@ -11,10 +11,10 @@ import type {CaptureRecipe,MotionCapture} from '../../packages/core/types';
 const artifactDirectory=path.resolve('artifacts/v2/outcomes'),runId=new Date().toISOString().replace(/[:.]/g,'-'),runRoot=path.join(artifactDirectory,runId),artifactRoot=path.join(runRoot,'captures');
 await mkdir(artifactRoot,{recursive:true});
 const sha=(bytes:string|Buffer)=>createHash('sha256').update(bytes).digest('hex');
-const scenarios=['caught','missing','ambiguous','late','actions-late','valid','exploratory'];
+const scenarios=['caught','missing','ambiguous','late','actions-late','valid','long-valid','exploratory'];
 const fixtureHtml=(scenario:string)=>`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Seeded outcome fixture: ${scenario}</title><button id="run">Run task</button><div id="target" style="width:40px;height:40px;background:green">Stable</div><div id="result" data-state="pending">Pending</div><div id="error" hidden></div><script>
     document.querySelector('#run').onclick=()=>{
-      ${scenario==='caught'?`setTimeout(()=>{try {const bad=document.createElement;bad('div')}catch(error){document.querySelector('#error').hidden=false;document.querySelector('#error').textContent=error.message;setTimeout(()=>document.querySelector('#error').hidden=true,25)}document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},120);`:scenario==='missing'?`document.querySelector('#result').remove();`:scenario==='ambiguous'?`setTimeout(()=>{const other=document.createElement('div');other.id='result';other.textContent='Ready';other.dataset.state='complete';document.body.append(other);document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},120);`:scenario==='late'?`setTimeout(()=>{document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},450);`:`setTimeout(()=>{document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},120);`}
+      ${scenario==='caught'?`setTimeout(()=>{try {const bad=document.createElement;bad('div')}catch(error){document.querySelector('#error').hidden=false;document.querySelector('#error').textContent=error.message;setTimeout(()=>document.querySelector('#error').hidden=true,25)}document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},120);`:scenario==='missing'?`document.querySelector('#result').remove();`:scenario==='ambiguous'?`setTimeout(()=>{const other=document.createElement('div');other.id='result';other.textContent='Ready';other.dataset.state='complete';document.body.append(other);document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},120);`:`setTimeout(()=>{document.querySelector('#result').textContent='Ready';document.querySelector('#result').dataset.state='complete'},${scenario==='late'?450:scenario==='long-valid'?6000:120});`}
     };
   </script></html>`;
 const fixtures=new Map(scenarios.map(scenario=>[scenario,Buffer.from(fixtureHtml(scenario))]));
@@ -41,7 +41,8 @@ async function saveRecipe(name:string,recipe:CaptureRecipe){const bytes=JSON.str
 async function captureArtifacts(artifacts:Record<string,unknown>){const files:Record<string,{file:string;sha256:string;bytes:number}>={};for(const key of ['report','video','rawVideo','poster','finalScreenshot']){const value=artifacts[key];if(typeof value!=='string'||!value)continue;const absolute=path.resolve(value);if(!absolute.startsWith(artifactRoot+path.sep)||await realpath(absolute)!==absolute||!(await lstat(absolute)).isFile())throw new Error(`Unexpected capture artifact: ${key}`);const bytes=await readFile(absolute);files[key]={file:path.relative(runRoot,absolute),sha256:sha(bytes),bytes:bytes.length};}return files;}
 try {
   for(const scenario of scenarios){
-    const recipe:CaptureRecipe={url:`${origin}/${scenario}`,selector:'#target',durationMs:650,viewport:{width:640,height:480},actions:[{action:'click',selector:'#run'},...(scenario==='actions-late'?[{action:'wait' as const,ms:300}]:[])],contract:{maxFrameStepPx:2,maxSampleGapMs:80,...(scenario==='exploratory'?{}:{outcomes:{timeoutMs:scenario==='late'||scenario==='actions-late'?300:650,required:[{id:'result',selector:'#result',visible:true,textIncludes:'Ready',attributes:{'data-state':'complete'}}],forbiddenVisible:['#error']}})}};
+    const durationMs=scenario==='long-valid'?6500:650;
+    const recipe:CaptureRecipe={url:`${origin}/${scenario}`,selector:'#target',durationMs,viewport:{width:640,height:480},actions:[{action:'click',selector:'#run'},...(scenario==='actions-late'?[{action:'wait' as const,ms:300}]:[])],contract:{maxFrameStepPx:2,maxSampleGapMs:80,...(scenario==='exploratory'?{}:{outcomes:{timeoutMs:scenario==='late'||scenario==='actions-late'?300:durationMs,required:[{id:'result',selector:'#result',visible:true,textIncludes:'Ready',attributes:{'data-state':'complete'}}],forbiddenVisible:['#error']}})}};
     const inputRecipe=await saveRecipe(scenario,recipe),served=await fetch(recipe.url);assert.equal(served.status,200);assert.equal(sha(Buffer.from(await served.arrayBuffer())),provenance.fixtures[scenario].sha256,'Served fixture bytes match the archived source');
     const started=performance.now();let report:MotionCapture;
     try{report=await capture(recipe,{artifactRoot});}catch(error){if(error instanceof CaptureFailureError){results.push({scenario,id:error.evidence.id,fixture:provenance.fixtures[scenario],inputRecipe,effectiveRecipe:await saveRecipe(`${scenario}-effective`,error.evidence.recipe),unexpectedCaptureFailure:error.message,environment:error.evidence.environment,delivery:error.evidence.delivery,artifacts:error.evidence.artifacts,artifactFiles:await captureArtifacts(error.evidence.artifacts)});}throw error;}
@@ -49,7 +50,7 @@ try {
     results.push({scenario,id:report.id,fixture:provenance.fixtures[scenario],inputRecipe,effectiveRecipe:await saveRecipe(`${scenario}-effective`,report.recipe),wallMs,environment:report.environment,delivery:report.delivery,metrics:report.metrics,artifacts:report.artifacts,artifactFiles:await captureArtifacts(report.artifacts)});
     assert.ok(report.assertions.find(a=>a.id==='browser-errors')?.passed,'Caught app failures are not uncaught page errors');
     assert.equal(report.metrics.maxFrameStepPx,0,'Stable geometry does not establish successful completion');
-    assert.equal(report.delivery?.status,scenario==='valid'?'passed':scenario==='exploratory'?'unverified':'failed',JSON.stringify(report.delivery));
+    assert.equal(report.delivery?.status,scenario==='valid'||scenario==='long-valid'?'passed':scenario==='exploratory'?'unverified':'failed',JSON.stringify(report.delivery));
     assert.equal(compact(report).delivery.status,report.delivery?.status);
     if(scenario==='caught'){
       assert.equal(report.delivery?.forbiddenVisible.length,1,'Persist transient caught errors even after their UI disappears');
@@ -60,7 +61,8 @@ try {
     if(scenario==='actions-late')assert.match(report.delivery!.reasons.join(' '),/Actions completed after/);
     if(scenario==='ambiguous')assert.equal(report.delivery!.required[0].count,2);
     if(scenario==='late')assert.equal(report.delivery!.required[0].passed,false,'Completion after outcome deadline does not pass');
-    assert.ok(report.delivery!.elapsedMs<=900,'Outcome waits stay inside capture window; recording finalization is separate');
+    if(scenario==='long-valid')assert.ok(report.delivery!.required[0].observedAtMs>=6000,'Completion requires the actual six-second browser timer');
+    assert.ok(report.delivery!.elapsedMs<=durationMs+250,'Outcome waits stay inside capture window; recording finalization is separate');
     console.log(JSON.stringify({scenario,delivery:report.delivery,wallMs}));
   }
   const deadlineRecipe:CaptureRecipe={url:`${origin}/valid`,selector:'#target',durationMs:500,actions:[{action:'wait',ms:700}],contract:{outcomes:{required:[{id:'result',selector:'#result',textIncludes:'Ready'}]}}},inputRecipe=await saveRecipe('capture-deadline',deadlineRecipe);
