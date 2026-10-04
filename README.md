@@ -18,6 +18,10 @@ npm run demo:ants
 
 Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The six runnable creation modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
 
+![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
+
+[Ordinary complete recording](studies/ants-launch/evidence/runs/ordinary-desktop/page@0f7f72f1f3283e83b2a40f57bfafc0b1.webm) · [Motion complete recording](studies/ants-launch/evidence/runs/motion-desktop/page@5d57ced47dfc4cb585bbc9ee4a8ab754.webm)
+
 The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
 
 - [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
