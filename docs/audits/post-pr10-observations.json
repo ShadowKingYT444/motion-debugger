@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "auditCommit": "fde065cdea0aecb4631e9106b48e0b53e327a8df",
+  "auditDate": "2026-10-04",
+  "runtimeModified": false,
+  "sources": {
+    "packages/core/transitions.ts": {
+      "bytes": 7607,
+      "gitBlobSha1": "69efb6ae63b98d810a0e7a3649a0bb6ec1c12e26",
+      "sha256": "ce17e9946576747367f6db58c4b2e1d1e4f4966a1ef90cff11c0896b3a61f91d"
+    },
+    "packages/core/actor-analysis.ts": {
+      "bytes": 9267,
+      "gitBlobSha1": "7d5548303cc408865731232208d05271fff27817",
+      "sha256": "ac84d45b3239eee2b21cf839e7278b31f471e580d82b015bb64691efcad6ca0e"
+    },
+    "packages/core/review.ts": {
+      "bytes": 15288,
+      "gitBlobSha1": "822a94b77d2b76585309934b4e22f0a05045621e",
+      "sha256": "a5b2ccb808f76e540c460b37407d6db31e86b40bf4bf0beb89bbe9a670137928"
+    },
+    "packages/core/replay.ts": {
+      "bytes": 5561,
+      "gitBlobSha1": "7d696c76bf6fc01a6477dd1f3dbfc6852f4c2e88",
+      "sha256": "05d64e9307fa0febf63ef376d8844b18eb0753fe357aca2df4d840b5b8f39c8a"
+    }
+  },
+  "execution": {
+    "node": "22.16.0",
+    "browser": "144.0.7559.96",
+    "playwrightDriver": "1.57.0-beta-1764944708000",
+    "lockedRepositoryDependencies": false,
+    "method": "Exact Git-blob-verified source, TypeScript-transpiled function bodies. Local adapters changed module loading only. Transition validation used the installed Playwright bundle Zod. Portable committed scripts target normal repository imports.",
+    "limitations": [
+      "Not a clean npm ci or full repository suite.",
+      "Not full capture/MCP/browser-probe execution.",
+      "Native fixture uses an independent geometry collector; no video or displayed-pixel latency measurement.",
+      "No new agent generation, README demo implementation, publication, or superiority test."
+    ]
+  },
+  "unit": {
+    "fixtures": "synthetic timelines/report envelopes",
+    "exitCode": 1,
+    "tests": 7,
+    "passedControls": 2,
+    "failedRegressions": 5,
+    "cases": [
+      {
+        "id": "control",
+        "observed": "simple correctly timed motion passes"
+      },
+      {
+        "id": "R1",
+        "observed": "all forbidden selectors can be removed without rejection"
+      },
+      {
+        "id": "R1b",
+        "observed": "one of two required forbidden selectors can be removed without rejection"
+      },
+      {
+        "id": "R2",
+        "correctResponseMs": 20,
+        "reviewResponseMs": 520,
+        "observedStatus": "failed"
+      },
+      {
+        "id": "R3",
+        "terminalTargetX": 100,
+        "finalX": 300,
+        "arrivalAssertion": "passed"
+      },
+      {
+        "id": "R4",
+        "visibleForbiddenState": "#error",
+        "deliveryStatus": "failed",
+        "captureStatus": "incomplete",
+        "probeClassification": "infrastructure-failure"
+      },
+      {
+        "id": "control-incomplete",
+        "observed": "no-established-product-defect remains infrastructure-failure"
+      }
+    ]
+  },
+  "native": {
+    "scope": "Native Chromium DOM geometry and unforced click observations, passed to hash-verified shipped analysis/review functions. An independent fixture collector is used, NOT the shipped capture/probe/MCP transport. No video or display-performance claim.",
+    "harness": "tests/diagnostics/post-pr10.native.mjs",
+    "runs": [
+      {
+        "scenario": "unrelated-input",
+        "sampleCount": 104,
+        "coverage": {
+          "sufficient": true,
+          "sampleCount": 104,
+          "maxGapMs": 17.100000000093132,
+          "reasons": []
+        },
+        "trustedInputs": [
+          {
+            "id": "event-1",
+            "t": 167.30000000004657,
+            "type": "click",
+            "label": "unrelated",
+            "origin": "browser-observed",
+            "detail": {
+              "trusted": true,
+              "selector": "#unrelated"
+            }
+          },
+          {
+            "id": "event-2",
+            "t": 632.3000000000466,
+            "type": "click",
+            "label": "move-part",
+            "origin": "browser-observed",
+            "detail": {
+              "trusted": true,
+              "selector": "#move-part"
+            }
+          }
+        ],
+        "correctInputResponseMs": 28.5,
+        "reviewInputResponseMs": 493.5,
+        "reviewResponseStatus": "failed",
+        "destinationX": 100,
+        "finalObservedX": 100,
+        "arrivalAssertion": {
+          "id": "actor:part:arrival",
+          "label": "Actor reaches destination and settles",
+          "passed": true,
+          "status": "passed",
+          "actual": "943.700ms",
+          "expected": "1 CSS px tolerance by 1726ms, settle 100ms"
+        },
+        "reviewSettlingStatus": "passed"
+      },
+      {
+        "scenario": "leaves-destination",
+        "sampleCount": 76,
+        "coverage": {
+          "sufficient": true,
+          "sampleCount": 76,
+          "maxGapMs": 22.599999999976717,
+          "reasons": []
+        },
+        "trustedInputs": [
+          {
+            "id": "event-1",
+            "t": 164.59999999997672,
+            "type": "click",
+            "label": "move-part",
+            "origin": "browser-observed",
+            "detail": {
+              "trusted": true,
+              "selector": "#move-part"
+            }
+          }
+        ],
+        "correctInputResponseMs": 28.300000000046566,
+        "reviewInputResponseMs": 28.300000000046566,
+        "reviewResponseStatus": "passed",
+        "destinationX": 100,
+        "finalObservedX": 300,
+        "arrivalAssertion": {
+          "id": "actor:part:arrival",
+          "label": "Actor reaches destination and settles",
+          "passed": true,
+          "status": "passed",
+          "actual": "475.800ms",
+          "expected": "1 CSS px tolerance by 1258ms, settle 100ms"
+        },
+        "reviewSettlingStatus": "passed"
+      }
+    ],
+    "fullLocalCollectorOutputSha256": "3c4cac2345f4039240d68e8ba99e806602f847a5a37a15ba0c44b5988d164073",
+    "retention": "This file is a compact run summary. The portable native fixture writes full per-sample observations to its new --out directory. Full original output is retained in the conversation workspace."
+  },
+  "notClassifiedAsBug": "The start of a verified stable interval can be a valid settling-time definition. Excluding the confirmation dwell from that definition alone was not counted as a defect."
+}
