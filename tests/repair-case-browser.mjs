@@ -27,16 +27,20 @@ async function observeReversal(page,fromX){
  }),fromX);
 }
 const report={scope:'New source-repair case; actual browser behavior and SDK MCP transport, not a blind-agent benchmark or universal motion-quality score',sourceCommit:'63eff24c88dcbf42438230117834d8247e103367',checks:[],errors:[],captures:[],comparisons:[]};
+report.harnessSha256=createHash('sha256').update(await readFile(new URL(import.meta.url))).digest('hex');
 report.implementationCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 report.runtimeSha256=createHash('sha256').update(await readFile(path.join(ROOT,'build/mcp/index.js'))).digest('hex');
 try {
  session=await launchRepairCase(options);
- browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
+ const executablePath=process.env.MOTION_CHROME_PATH??process.env.CHROMIUM_PATH;
+ browser=await chromium.launch({...(executablePath?{executablePath}:{})});
+ report.browser={version:browser.version(),executablePath:executablePath??'Playwright default headless shell'};
  for(const item of session.snapshots){
   const context=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:output,size:{width:1440,height:1000}},serviceWorkers:'block'});
   await context.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===item.origin||['data:','blob:'].includes(u.protocol))return route.continue();report.errors.push('Blocked external request '+u.origin);return route.abort()});
   const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));
   await page.addInitScript(()=>{window.reopenBoundaries=[];document.addEventListener('click',event=>{if(event.target.closest('[data-open-details]')){const d=document.querySelector('#details'),r=d.getBoundingClientRect();window.reopenBoundaries.push({t:performance.now(),x:r.x,width:r.width,open:d.open});}},true);window.drawerTrace=[];window.traceDrawer=false;window.traceStart=0;function sample(t){if(window.traceDrawer){const d=document.querySelector('#details'),r=d.getBoundingClientRect();window.drawerTrace.push({t:t-window.traceStart,open:d.open,x:r.x,width:r.width,opacity:Number(getComputedStyle(d).opacity),display:getComputedStyle(d).display})}requestAnimationFrame(sample)}requestAnimationFrame(sample)});
+  await page.addInitScript(()=>{window.nativeDialogEvents=[];document.addEventListener('DOMContentLoaded',()=>{const d=document.querySelector('#details');for(const type of ['cancel','close'])d.addEventListener(type,event=>window.nativeDialogEvents.push({type,t:performance.now(),open:d.open,defaultPrevented:event.defaultPrevented,display:getComputedStyle(d).display,width:d.getBoundingClientRect().width}))})});
   await page.goto(item.origin,{waitUntil:'networkidle'});await page.waitForTimeout(1000);
   for(const width of [1440,960,390,320]){
    await page.setViewportSize({width,height:1000});
@@ -53,8 +57,11 @@ try {
   assert.equal(await page.locator('#power').getAttribute('aria-pressed'),'true');
   await page.locator('[data-open-details]').first().click();await page.waitForTimeout(500);
   await page.evaluate(()=>{window.drawerTrace=[];window.traceDrawer=true;window.traceStart=performance.now()});
+  const closeStart=await page.evaluate(()=>{const d=document.querySelector('#details');return {t:performance.now(),open:d.open,focused:document.activeElement?.id,rect:d.getBoundingClientRect().toJSON(),display:getComputedStyle(d).display,animations:d.getAnimations().map(a=>({playState:a.playState,currentTime:a.currentTime}))}});
   await page.keyboard.press('Escape');await page.waitForTimeout(160);
   const exitTrace=await page.evaluate(()=>window.drawerTrace);
+  const closeEnd=await page.evaluate(()=>{const d=document.querySelector('#details');return {t:performance.now(),open:d.open,focused:document.activeElement?.id,rect:d.getBoundingClientRect().toJSON(),display:getComputedStyle(d).display,animations:d.getAnimations().map(a=>({playState:a.playState,currentTime:a.currentTime}))}});
+  await writeFile(path.join(output,`${item.stage}-exit-observation.json`),JSON.stringify({browser:report.browser,sourceDigest:item.sourceDigest,distDigest:item.distDigest,closeStart,closeEnd,exitTrace,nativeEvents:await page.evaluate(()=>window.nativeDialogEvents)},null,2));
   const exiting=exitTrace.filter(x=>!x.open&&x.width>0);
   if(item.stage==='before')assert.equal(exiting.length,0,'Original close removes the rendered drawer immediately');
   else assert.ok(exiting.length>=2,'Repair retains actual intermediate exit frames');
