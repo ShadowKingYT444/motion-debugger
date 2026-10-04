@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fast-ab-validation-1",
   "createdAt": "2026-10-04T21:28:22.410106+00:00",
-  "implementationCommit": "6f9bb6699048810f6e612c73eccfe7048c4f9368",
+  "implementationCommit": "80e077e1a2a18e29f070609e11c8a1d803cc6778",
   "scope": "PR #8 outcome evidence follow-up, quick packaged SIGNAL A/B viewer, and the actual ASSEMBLY idle-render/input-clock repair exposed by CI",
   "checks": [
     {
@@ -93,19 +93,46 @@
         "sha256": "2b0973e11e293536a651204847789d3e7166f7745469e07b4fa21816dd3a110a",
         "bytes": 1242654
       }
+    },
+    {
+      "name": "Final check after bounded native preference verification",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/fast-ab/reduced-final-check.log",
+        "sha256": "1d0be898bcfeab28611cc762786a122ee01be4b62441492bd85d927f75ce49ed",
+        "bytes": 23379
+      }
+    },
+    {
+      "name": "Final clean fresh tarball independent installation, native A/B viewer and CLI/SDK capture/review",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/install/2026-10-04T22-21-13.928Z/verification.json",
+        "sha256": "b4c948a27b762ad1ce968531dc96c3b7990152ff46b7c1fb31fba543bac5fc45",
+        "bytes": 28397
+      }
+    },
+    {
+      "name": "Final five-scenario native ASSEMBLY verification with measured native media event completion",
+      "status": "passed",
+      "evidence": {
+        "path": "artifacts/assembly/2026-10-04T22-18-51-223Z/browser-verification.json",
+        "sha256": "27fff7438ad7f310eb48956e3a16e0add7daf97b1f32c497f96de250c0bebd56",
+        "bytes": 1213154
+      }
     }
   ],
   "package": {
     "filename": "motion-debugger-0.5.0.tgz",
-    "integrity": "sha512-Nm4hTcNw9BJuB0Nm5zVFoenybTPLtAVIvQ0Ql9giFAfYvswcbKTJiYiAEdCyuPS90ZHsLUTnZHTIlw9JGHCpgQ==",
-    "shasum": "94d936af768db5925cacde574383e0d71aeb11a5",
-    "size": 14992415,
-    "unpackedSize": 21015662,
-    "sha256": "b69b380a79d02ed5e7bfba3926c04e1a2d4674024a59e5f4f100fd008e758dda",
+    "integrity": "sha512-1rzVQYJED2gUzH0H7R3iZCFe0uze39qLtbeT5EU2s+0gA53XuG39VR//htOl5GZZlX5rCljV6Qg9pX/WqixxTA==",
+    "shasum": "e02acd8e6ba65ec0cf2a913993425ed11d551ec7",
+    "size": 14994693,
+    "unpackedSize": 21022550,
+    "sha256": "565dc1d221893611f62967fc860b8beb363dc07a80267daa2dc2cd99acbed8de",
     "registryPublication": false,
     "provenance": {
-      "gitCommit": "6f9bb6699048810f6e612c73eccfe7048c4f9368",
-      "workingTree": "M docs/FAST-AB-VALIDATION.json",
+      "gitCommit": "80e077e1a2a18e29f070609e11c8a1d803cc6778",
+      "workingTree": "",
       "ci": "Not run: local consumer validation"
     }
   },
@@ -144,8 +171,8 @@
       }
     ],
     "latestPackedRun": {
-      "path": "artifacts/install/2026-10-04T21-53-37.549Z/rail-viewer/2026-10-04T21-54-00.568Z/verification.json",
-      "sha256": "f115a23128f70ef63667d69668ed33ddec7c9adb74662c1e37799a9265b32d3f",
+      "path": "artifacts/install/2026-10-04T22-21-13.928Z/rail-viewer/2026-10-04T22-21-44.690Z/verification.json",
+      "sha256": "aa8683a2a11b94db18417afbf3ae3744fb3baf2bb7fe4ea673a9e8825faa0672",
       "bytes": 704
     }
   },
@@ -157,7 +184,7 @@
     "status": "failed",
     "failedCaptureId": "92cd9d98-389c-440e-abf9-df3427fe3c6a",
     "failure": "Software WebGL repeatedly rendered unchanged idle frames (~120ms browser tasks); #open click exceeded its existing deadline. Cadence stayed inconclusive under the unchanged 80ms gate.",
-    "latestStatus": "Final PR checks pending at this local evidence recording; do not infer remote success.",
+    "latestStatus": "Final source and fresh packed consumer pass locally at80e077e. Final remote checks pending at this evidence recording; consult PR checks for the actual result.",
     "subsequentAttempts": [
       {
         "headCommit": "7c59c416b69389c66b447898e60566327ba4e474",
@@ -177,10 +204,10 @@
     "No new native Codex/Claude/OpenCode host evaluation; CLI and official SDK protocol clients were tested.",
     "The A/B pair remains a single independent-agent workflow demonstration; no blinded preference winner or general superiority claim.",
     "True load/entrance probe timing and the four-arm campaign remain outside this follow-up.",
-    "Precommit browser reports retain their own exact collection commit/worktree provenance. The final packed runtime is implementationCommit; its only prepack worktree difference is this documentation record, explicitly retained in package.provenance."
+    "Reports retain their own exact collection commit and worktree provenance. The final clean packed runtime is implementationCommit; later changes only update this documentation receipt. Final remote CI checks report their own exact checkout SHA."
   ],
   "initialImplementationCommit": "8f584d77948c589baf29df4a1a050226f6120667",
-  "updatedAt": "2026-10-04T22:18:38.073859+00:00",
+  "updatedAt": "2026-10-04T22:23:23.616029+00:00",
   "initialPackage": {
     "filename": "motion-debugger-0.5.0.tgz",
     "integrity": "sha512-I4EWkNrkv0WZrXLOBehpHBaZvhJ3om/cd4LHFJs2M5IC6L7LlXvvwyvcbYgDB3Odec57BszVFBisRS8Vt0a1VA==",
@@ -244,7 +271,7 @@
   },
   "reducedMotionVerification": {
     "scope": "Original handwritten ASSEMBLY browser verification; bounded latest native media event entry, actual paint/render-call completion and endpoint state. Browser emulation gets a native computed-style flush inside unchanged300ms timer polling. No synthetic events; unchanged200ms completion bound. Physical pixel presentation latency remains unverified.",
-    "validation": "Local and final CI verification pending at source commit; subsequent reports retain exact runtime provenance.",
+    "validation": "passed on clean80e077e: all five native scenarios with actual native events, endpoint screenshots and timed visitor films inspected; physical presentation latency unverified",
     "source": {
       "path": "examples/assembly/app.mjs",
       "sha256": "fc987b26cbc32ae5cec337719446fadbab66df7b1422b4bae2335ab58bd1bb1e",
@@ -254,6 +281,52 @@
       "path": "tests/assembly-browser.mjs",
       "sha256": "e85e867acf85d05b929bb35c3b843c15c44d3a419f2b05e0edd22d4241aa9e81",
       "bytes": 27960
+    },
+    "evidence": {
+      "path": "artifacts/assembly/2026-10-04T22-18-51-223Z/browser-verification.json",
+      "sha256": "27fff7438ad7f310eb48956e3a16e0add7daf97b1f32c497f96de250c0bebd56",
+      "bytes": 1213154
+    },
+    "measurements": [
+      {
+        "scenario": "desktop",
+        "requestToNativeEventMs": 49.69999998807907,
+        "eventToRenderCallCompletedMs": 2.9000000059604645
+      },
+      {
+        "scenario": "mobile",
+        "requestToNativeEventMs": 27.400000005960464,
+        "eventToRenderCallCompletedMs": 3.5
+      },
+      {
+        "scenario": "reduced",
+        "requestToNativeEventMs": null,
+        "eventToRenderCallCompletedMs": null
+      },
+      {
+        "scenario": "fallback",
+        "requestToNativeEventMs": 8.799999982118607,
+        "eventToRenderCallCompletedMs": 0.6000000238418579
+      },
+      {
+        "scenario": "forced-webgl-failure",
+        "requestToNativeEventMs": 9.5,
+        "eventToRenderCallCompletedMs": 0.699999988079071
+      }
+    ]
+  },
+  "previousPackage": {
+    "filename": "motion-debugger-0.5.0.tgz",
+    "integrity": "sha512-Nm4hTcNw9BJuB0Nm5zVFoenybTPLtAVIvQ0Ql9giFAfYvswcbKTJiYiAEdCyuPS90ZHsLUTnZHTIlw9JGHCpgQ==",
+    "shasum": "94d936af768db5925cacde574383e0d71aeb11a5",
+    "size": 14992415,
+    "unpackedSize": 21015662,
+    "sha256": "b69b380a79d02ed5e7bfba3926c04e1a2d4674024a59e5f4f100fd008e758dda",
+    "registryPublication": false,
+    "provenance": {
+      "gitCommit": "6f9bb6699048810f6e612c73eccfe7048c4f9368",
+      "workingTree": "M docs/FAST-AB-VALIDATION.json",
+      "ci": "Not run: local consumer validation"
     }
   }
 }
