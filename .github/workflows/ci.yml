@@ -18,9 +18,9 @@ jobs:
         run: npm ci
       - name: Install Chromium and video dependencies
         run: npx playwright install --with-deps chromium
-      - name: Select version-matched Chromium for native fixtures
+      - name: Select version-matched Chromium for direct native fixtures
         run: |
-          node --input-type=module -e 'import { chromium } from "playwright"; const executable = chromium.executablePath(); console.log(`CHROMIUM_PATH=${executable}`); console.log(`MOTION_CHROME_PATH=${executable}`);' >> "$GITHUB_ENV"
+          node --input-type=module -e 'import { chromium } from "playwright"; const executable = chromium.executablePath(); console.log(`MOTION_CHROME_PATH=${executable}`);' >> "$GITHUB_ENV"
       - name: Typecheck, build, and analysis tests
         run: npm run check
       - name: Real browser capture and UI smoke tests

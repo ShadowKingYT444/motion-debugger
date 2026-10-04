@@ -34,7 +34,7 @@ npm run test:duration:browser
 npm run test:outcomes:browser
 ```
 
-An explicitly selected local Chrome/Chromium binary can replace the two environment values. These are process-local selectors, not host configuration changes. CI selects the installed Playwright binary and runs all seven suites; its always-run evidence upload preserves both successful and failed runs under `artifacts/v2/`.
+An explicitly selected local Chrome/Chromium binary can replace the two environment values. These are process-local selectors, not host configuration changes. CI selects the installed full Playwright binary for direct native fixtures; core captures retain Playwright's default version-matched headless shell and existing explicit browser override. CI runs all seven suites; its always-run evidence upload preserves both successful and failed runs under `artifacts/v2/`.
 
 The colony suite needs no separate Three installation: it reads committed `studies/ants-launch/source/ordinary/assets/three.module.js` and `three.core.js` at pinned Three **0.186.1**, verifies their frozen SHA 256 entries and the consumer package/lock hashes, and copies the exact consumed bytes and metadata into its own run directory. It does not edit or execute the frozen app. An optional `MOTION_THREE_DIR=/absolute/path/to/node_modules/three` override must have that exact package version; its actual module bytes and source mode are recorded. WebGL verification uses ANGLE/SwiftShader and reports software-renderer evidence, not a physical GPU performance verdict.
 
