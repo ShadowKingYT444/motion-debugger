@@ -10,16 +10,17 @@ import {assertSafePath,prepareSkills,skillsPreview,assertSkillsCurrent,installSk
 
 export const packageRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 export const metadata=JSON.parse(await readFile(path.join(packageRoot,'package.json'),'utf8')) as {name:string;version:string};
-export const clients=['generic','codex','claude-code','cursor','vscode'] as const;
+export const clients=['generic','codex','claude-code','cursor','vscode','opencode'] as const;
 export type Client=typeof clients[number];
 export interface InitOptions {client:Client;config?:string;local?:boolean;origin?:string;artifactDir?:string;sourceRoots?:string[];apply?:boolean;confirm?:string;skills?:boolean;project?:string}
 export function defaultConfig(client:Client,project?:string) {
-  if(project){const base=path.resolve(project);return path.join(base,client==='codex'?'.codex/config.toml':client==='claude-code'?'.mcp.json':client==='cursor'?'.cursor/mcp.json':client==='vscode'?'.vscode/mcp.json':'.motion-debugger/mcp.json')}
+  if(project){const base=path.resolve(project);return path.join(base,client==='codex'?'.codex/config.toml':client==='claude-code'?'.mcp.json':client==='cursor'?'.cursor/mcp.json':client==='vscode'?'.vscode/mcp.json':client==='opencode'?'opencode.json':'.motion-debugger/mcp.json')}
   switch(client) {
     case 'codex':return path.join(process.env.CODEX_HOME??path.join(homedir(),'.codex'),'config.toml');
     case 'claude-code':return path.resolve('.mcp.json');
     case 'cursor':return path.resolve('.cursor/mcp.json');
     case 'vscode':return path.resolve('.vscode/mcp.json');
+    case 'opencode':return path.resolve('opencode.json');
     default:return path.resolve('.motion-debugger/mcp.json');
   }
 }
@@ -42,11 +43,12 @@ export function configText(options:InitOptions,before='') {
     if(/^\s*\[mcp_servers\.(?:motion-debugger|"motion-debugger"|'motion-debugger')(?:\]|\.)/m.test(unmanaged))throw new Error('Existing unmanaged Motion Debugger TOML entry; remove or reconcile it manually first');
     return starts===1?before.slice(0,before.indexOf(start))+block+before.slice(before.indexOf(end)+end.length):`${before}${before&&!before.endsWith('\n')?'\n':''}${before?'\n':''}${block}\n`;
   }
-  const key=options.client==='vscode'?'servers':'mcpServers';
+  const key=options.client==='opencode'?'mcp':options.client==='vscode'?'servers':'mcpServers';
   const existing=before.trim()?JSON.parse(before):{};
   if(!existing||typeof existing!=='object'||Array.isArray(existing))throw new Error('Configuration root must be a JSON object (JSONC comments are not supported; merge the preview manually)');
   if(existing[key]!==undefined&&(!existing[key]||typeof existing[key]!=='object'||Array.isArray(existing[key])))throw new Error(`${key} must be an object`);
-  const server=options.client==='vscode'?{type:'stdio',...entry}:entry;
+  if(options.client==='opencode'&&existing.mcp?.servers)throw new Error('OpenCode v2 configuration detected. This installer targets OpenCode 1.x; merge a v2 snippet manually instead');
+  const server=options.client==='opencode'?{type:'local',command:[entry.command,...entry.args],environment:entry.env,enabled:true}:options.client==='vscode'?{type:'stdio',...entry}:entry;
   return JSON.stringify({...existing,[key]:{...existing[key],'motion-debugger':server}},null,2)+'\n';
 }
 async function readConfig(target:string){

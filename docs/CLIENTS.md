@@ -33,7 +33,7 @@ The setup command can combine Chromium installation, configuration review and al
 
 ## Skills-only setup and safe updates
 
-If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve the six project skill entries. Use `claude-code`, `cursor` or `vscode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders and unrelated skill folders are retained. A differing `motion` folder is preserved and disclosed in `preservedSkills`; use the namespaced `$motion-debugger` entry, which includes its own recipes and references in project installations. Other differing named folders or extra files are refused before writing. The installer never overwrites existing skill instructions; preserve or move those colliding folders and review again. See [skill destinations and installer verification](SKILLS.md).
+If MCP is already connected, run `motion-debugger skills install --client codex --project /absolute/path/to/app --apply` to review and approve the six project skill entries. Use `claude-code`, `cursor`, `vscode` or `opencode` for the other supported clients. A preview lists every copied file and its SHA-256 digest. Identical folders and unrelated skill folders are retained. A differing `motion` folder is preserved and disclosed in `preservedSkills`; use the namespaced `$motion-debugger` entry, which includes its own recipes and references in project installations. Other differing named folders or extra files are refused before writing. The installer never overwrites existing skill instructions; preserve or move those colliding folders and review again. See [skill destinations and installer verification](SKILLS.md).
 
 `--project` scopes both generated MCP defaults and relative evidence/source-root paths to that project. Combined `--skills` setup defaults its project to the current directory. Explicit `--config PATH` still chooses the exact MCP file, so review it carefully. MCP-only `init` without either flag retains its existing default destinations, including the Codex user configuration.
 
@@ -45,8 +45,9 @@ If MCP is already connected, run `motion-debugger skills install --client codex 
 | Claude Code | `.mcp.json` | `mcpServers` |
 | Cursor | `.cursor/mcp.json` | `mcpServers`, `type: "stdio"` |
 | VS Code / Copilot | `.vscode/mcp.json` | `servers`, `type: "stdio"` |
+| OpenCode 1.x | `opencode.json` | `mcp`, `type: "local"`, command array, `environment` |
 
-Generate a complete snippet with `motion-debugger config --client codex --local` (replace `codex` with `claude-code`, `cursor` or `vscode`). Merge it rather than replace unrelated servers. Explicit `--config PATH` selects a destination; the preview shows which file will change.
+Generate a complete snippet with `motion-debugger config --client codex --local` (replace `codex` with `claude-code`, `cursor`, `vscode` or `opencode`). Merge it rather than replace unrelated servers. Explicit `--config PATH` selects a destination; the preview shows which file will change.
 
 ### Official client commands
 
@@ -106,3 +107,11 @@ The stdio endpoint is also exercised with the official MCP SDK. Generated config
 For captured evidence, contracts and tool-call examples, see [the agent workflow](AGENT-WORKFLOW.md). For runtime limitations, see [integration details](INTEGRATION.md).
 
 A successful `doctor` confirms launch and video finalization, not full viewport coverage or adequate sampling on a complex 3D page. In this laptop trial, headed recording cropped/padded the emulated viewport; maximizing did not repair the video stream. The published workflow recordings therefore use the default headless mode on both arms. Inspect actual frames and renderer diagnostics before treating a recording as usable evidence.
+
+## OpenCode
+
+For OpenCode 1.x, use `init --client opencode --local --skills --project /absolute/path/to/app`. The installer previews and merges `opencode.json` and installs six entries under `.opencode/skills/`. Reload OpenCode, then run `opencode mcp list` from the app directory. Ask the agent to load the `motion-debugger` skill and use `motion_recipe`.
+
+The [OpenCode 1.x MCP documentation](https://opencode.ai/docs/mcp-servers/) uses server names directly under `mcp`, `enabled`, a command array and `environment`. [OpenCode v2](https://opencode.ai/v2/docs/mcp-servers) instead nests names under `mcp.servers` and uses `disabled`. The installer refuses a detected v2 structure; merge a v2 configuration manually, retaining the same absolute command and environment. Skills remain at the [documented project location](https://opencode.ai/docs/skills/).
+
+Local check on 2026-10-04: OpenCode 1.18.31 parsed this format, connected to the source-built Motion stdio server, and discovered both supported skill locations. An actual agent invocation was attempted without a model override; its configured NVIDIA provider returned HTTP 403 “Authorization failed” before any Motion tool call. MCP discovery passes; model-driven tool use remains unverified. [Exact scope and result](OPENCODE-VALIDATION.json).

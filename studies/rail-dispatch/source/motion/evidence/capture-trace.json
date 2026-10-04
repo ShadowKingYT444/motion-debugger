@@ -1,0 +1,1199 @@
+[
+  {
+    "request": {
+      "name": "motion_capture",
+      "arguments": {
+        "recipe": {
+          "url": "http://127.0.0.1:4134",
+          "selector": "#network",
+          "label": "SIGNAL desktop",
+          "durationMs": 4000,
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "reducedMotion": "no-preference",
+          "actions": [
+            {
+              "action": "wait",
+              "ms": 300
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#summit"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#overview"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "click",
+              "selector": "#pause"
+            },
+            {
+              "action": "drag",
+              "selector": "#scrub",
+              "points": [
+                {
+                  "x": 0.2,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.8,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.35,
+                  "y": 0.5
+                }
+              ],
+              "durationMs": 400
+            },
+            {
+              "action": "wait",
+              "ms": 300
+            }
+          ],
+          "contract": {
+            "outcomes": {
+              "required": [
+                {
+                  "id": "summit-selected",
+                  "selector": "#service-name",
+                  "textIncludes": "Summit"
+                },
+                {
+                  "id": "paused",
+                  "selector": "#pause",
+                  "textIncludes": "Resume"
+                }
+              ]
+            },
+            "maxReplacements": 0
+          }
+        }
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c\",\n  \"recipeWarnings\": [],\n  \"label\": \"SIGNAL desktop\",\n  \"url\": \"http://127.0.0.1:4134\",\n  \"selector\": \"#network\",\n  \"environment\": {\n    \"browser\": \"Chromium 153.0.8010.12\",\n    \"browserMode\": \"headless\",\n    \"viewport\": {\n      \"width\": 1440,\n      \"height\": 1000\n    },\n    \"diagnostics\": {\n      \"devicePixelRatio\": 1,\n      \"visibilityState\": \"visible\",\n      \"webglRenderers\": [\n        \"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)\"\n      ]\n    },\n    \"probeSha256\": \"5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01\",\n    \"analyzerSha256\": \"528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb\",\n    \"clock\": \"page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start\",\n    \"reducedMotion\": \"no-preference\"\n  },\n  \"metrics\": {\n    \"animationBoundarySamples\": 0,\n    \"maxAnimationBoundaryStepPx\": 0,\n    \"maxAnimationBoundaryStepAt60HzPx\": 0,\n    \"absentSamples\": 0,\n    \"hiddenSamples\": 0,\n    \"visibleSamples\": 240,\n    \"invalidSamples\": 0,\n    \"maxObservedSampleGapMs\": 21,\n    \"maxProbeReadMs\": 0.3,\n    \"maxVisibleSampleGapMs\": 21,\n    \"maxObservationLagMs\": 10.8,\n    \"sufficientEvidence\": true,\n    \"validSamples\": 240,\n    \"sampleCount\": 240,\n    \"observedDurationMs\": 3991,\n    \"replacements\": 0,\n    \"animationStarts\": 0,\n    \"activeCancels\": 0,\n    \"maxFrameStepPx\": 262,\n    \"maxStepAt60HzPx\": 261.477,\n    \"maxSampleGapMs\": 16.8,\n    \"maxHeightStepPx\": 0,\n    \"p95FrameStepPx\": 0,\n    \"maxOpacityDrop\": 0,\n    \"nodeIdentities\": [\n      \"node-1\"\n    ],\n    \"maxContainmentOverflowPx\": 0,\n    \"containmentViolatingSamples\": 0\n  },\n  \"coverage\": {\n    \"version\": \"1\",\n    \"cadenceSufficient\": true,\n    \"targetCoverageSufficient\": true,\n    \"targetPresence\": \"continuous\",\n    \"intervals\": [\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 7.8,\n        \"toMs\": 3991,\n        \"samples\": 240\n      }\n    ],\n    \"reasons\": []\n  },\n  \"delivery\": {\n    \"required\": [\n      {\n        \"id\": \"summit-selected\",\n        \"selector\": \"#service-name\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"Summit Limited\",\n        \"attributes\": {},\n        \"observedAtMs\": 3994.300000011921,\n        \"passed\": true\n      },\n      {\n        \"id\": \"paused\",\n        \"selector\": \"#pause\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"▶ Resume\",\n        \"attributes\": {},\n        \"observedAtMs\": 3994.300000011921,\n        \"passed\": true\n      }\n    ],\n    \"forbiddenVisible\": [],\n    \"elapsedMs\": 4003.9000000059605,\n    \"errors\": [],\n    \"timeoutMs\": 4000,\n    \"status\": \"passed\",\n    \"reasons\": []\n  },\n  \"assertions\": [\n    {\n      \"id\": \"valid-trajectory\",\n      \"label\": \"Finite observed trajectory\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"240 valid samples; first 7.8ms; ordered timestamps true; last 3991.0ms; maximum gap 16.8ms\",\n      \"expected\": \"Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms\"\n    },\n    {\n      \"id\": \"identity\",\n      \"label\": \"Target identity continuity\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"0\",\n      \"expected\": \"≤0 replacements\"\n    },\n    {\n      \"id\": \"browser-errors\",\n      \"label\": \"No uncaught page errors\",\n      \"passed\": true,\n      \"actual\": \"none\",\n      \"expected\": \"none\"\n    },\n    {\n      \"id\": \"network-policy\",\n      \"label\": \"No forbidden network requests\",\n      \"passed\": true,\n      \"actual\": \"0\",\n      \"expected\": \"0 outside configured local origins\"\n    }\n  ],\n  \"findings\": [],\n  \"final\": {\n    \"visible\": true,\n    \"attributes\": {},\n    \"text\": \"NORTH SEASUMMIT RIDGECENTRAL DISTRICT\\n\\n\\n\\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS\",\n    \"x\": 58.59375,\n    \"y\": 102.375,\n    \"opacity\": 1\n  },\n  \"evidence\": {\n    \"directory\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c\",\n    \"report\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/report.json\",\n    \"video\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/video.webm\",\n    \"poster\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/poster.png\",\n    \"finalScreenshot\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/final.png\",\n    \"videoOffsetMs\": 810\n  },\n  \"resourceUri\": \"motion-evidence://capture/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c\",\n  \"limitations\": [\n    \"Use only trusted credential-free development pages; recordings are not automatically redacted.\",\n    \"Fresh browser context, no user profile, credentials or authenticated sessions are imported.\",\n    \"Only configured loopback origins can load resources; third-party network requests are blocked.\",\n    \"Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.\",\n    \"Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.\",\n    \"Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.\",\n    \"WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.\",\n    \"Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.\",\n    \"CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.\",\n    \"Source mappings and application marks are explicitly supplied annotations.\"\n  ]\n}"
+        }
+      ],
+      "structuredContent": {
+        "id": "3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c",
+        "recipeWarnings": [],
+        "label": "SIGNAL desktop",
+        "url": "http://127.0.0.1:4134",
+        "selector": "#network",
+        "environment": {
+          "browser": "Chromium 153.0.8010.12",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01",
+          "analyzerSha256": "528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "no-preference"
+        },
+        "metrics": {
+          "animationBoundarySamples": 0,
+          "maxAnimationBoundaryStepPx": 0,
+          "maxAnimationBoundaryStepAt60HzPx": 0,
+          "absentSamples": 0,
+          "hiddenSamples": 0,
+          "visibleSamples": 240,
+          "invalidSamples": 0,
+          "maxObservedSampleGapMs": 21,
+          "maxProbeReadMs": 0.3,
+          "maxVisibleSampleGapMs": 21,
+          "maxObservationLagMs": 10.8,
+          "sufficientEvidence": true,
+          "validSamples": 240,
+          "sampleCount": 240,
+          "observedDurationMs": 3991,
+          "replacements": 0,
+          "animationStarts": 0,
+          "activeCancels": 0,
+          "maxFrameStepPx": 262,
+          "maxStepAt60HzPx": 261.477,
+          "maxSampleGapMs": 16.8,
+          "maxHeightStepPx": 0,
+          "p95FrameStepPx": 0,
+          "maxOpacityDrop": 0,
+          "nodeIdentities": [
+            "node-1"
+          ],
+          "maxContainmentOverflowPx": 0,
+          "containmentViolatingSamples": 0
+        },
+        "coverage": {
+          "version": "1",
+          "cadenceSufficient": true,
+          "targetCoverageSufficient": true,
+          "targetPresence": "continuous",
+          "intervals": [
+            {
+              "state": "visible",
+              "fromMs": 7.8,
+              "toMs": 3991,
+              "samples": 240
+            }
+          ],
+          "reasons": []
+        },
+        "delivery": {
+          "required": [
+            {
+              "id": "summit-selected",
+              "selector": "#service-name",
+              "count": 1,
+              "visible": true,
+              "text": "Summit Limited",
+              "attributes": {},
+              "observedAtMs": 3994.300000011921,
+              "passed": true
+            },
+            {
+              "id": "paused",
+              "selector": "#pause",
+              "count": 1,
+              "visible": true,
+              "text": "▶ Resume",
+              "attributes": {},
+              "observedAtMs": 3994.300000011921,
+              "passed": true
+            }
+          ],
+          "forbiddenVisible": [],
+          "elapsedMs": 4003.9000000059605,
+          "errors": [],
+          "timeoutMs": 4000,
+          "status": "passed",
+          "reasons": []
+        },
+        "assertions": [
+          {
+            "id": "valid-trajectory",
+            "label": "Finite observed trajectory",
+            "passed": true,
+            "status": "passed",
+            "actual": "240 valid samples; first 7.8ms; ordered timestamps true; last 3991.0ms; maximum gap 16.8ms",
+            "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms"
+          },
+          {
+            "id": "identity",
+            "label": "Target identity continuity",
+            "passed": true,
+            "status": "passed",
+            "actual": "0",
+            "expected": "≤0 replacements"
+          },
+          {
+            "id": "browser-errors",
+            "label": "No uncaught page errors",
+            "passed": true,
+            "actual": "none",
+            "expected": "none"
+          },
+          {
+            "id": "network-policy",
+            "label": "No forbidden network requests",
+            "passed": true,
+            "actual": "0",
+            "expected": "0 outside configured local origins"
+          }
+        ],
+        "findings": [],
+        "final": {
+          "visible": true,
+          "attributes": {},
+          "text": "NORTH SEASUMMIT RIDGECENTRAL DISTRICT\n\n\n\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS",
+          "x": 58.59375,
+          "y": 102.375,
+          "opacity": 1
+        },
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c",
+          "report": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/final.png",
+          "videoOffsetMs": 810
+        },
+        "resourceUri": "motion-evidence://capture/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c",
+        "limitations": [
+          "Use only trusted credential-free development pages; recordings are not automatically redacted.",
+          "Fresh browser context, no user profile, credentials or authenticated sessions are imported.",
+          "Only configured loopback origins can load resources; third-party network requests are blocked.",
+          "Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.",
+          "Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.",
+          "Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.",
+          "WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.",
+          "Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.",
+          "CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.",
+          "Source mappings and application marks are explicitly supplied annotations."
+        ]
+      }
+    },
+    "elapsedMs": 5393.575391
+  },
+  {
+    "request": {
+      "name": "motion_frames",
+      "arguments": {
+        "captureId": "3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c",
+        "timestampsMs": [
+          0,
+          700,
+          1300,
+          3000
+        ],
+        "maxWidth": 1280,
+        "maxHeight": 960
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"captureId\": \"3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c\",\n  \"alignment\": \"Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.\",\n  \"videoOffsetMs\": 810,\n  \"frames\": [\n    {\n      \"captureTimeMs\": 0,\n      \"videoSeekMs\": 810,\n      \"width\": 1280,\n      \"height\": 889,\n      \"sourceWidth\": 1440,\n      \"sourceHeight\": 1000,\n      \"scale\": 0.8888888888888888,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/1-0ms.png\",\n      \"sha256\": \"8f03c2a8c4cb3f200d418e87ed72bec5a3890c1a7ace2017464f6b5fe1a123ed\",\n      \"decodedPresentationTimeMs\": 800,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 700,\n      \"videoSeekMs\": 1510,\n      \"width\": 1280,\n      \"height\": 889,\n      \"sourceWidth\": 1440,\n      \"sourceHeight\": 1000,\n      \"scale\": 0.8888888888888888,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/2-700ms.png\",\n      \"sha256\": \"8d2e753ea7d8b9856bd3786c14b472066d8cbc79878b1baaedb52d5996bee10c\",\n      \"decodedPresentationTimeMs\": 1480,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 1300,\n      \"videoSeekMs\": 2110,\n      \"width\": 1280,\n      \"height\": 889,\n      \"sourceWidth\": 1440,\n      \"sourceHeight\": 1000,\n      \"scale\": 0.8888888888888888,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/3-1300ms.png\",\n      \"sha256\": \"220e1e7c77fba650f40e50a06792fa24e1bad761eb2d38b65f1abbe1c4ac3cd5\",\n      \"decodedPresentationTimeMs\": 2080,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 3000,\n      \"videoSeekMs\": 3810,\n      \"width\": 1280,\n      \"height\": 889,\n      \"sourceWidth\": 1440,\n      \"sourceHeight\": 1000,\n      \"scale\": 0.8888888888888888,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/4-3000ms.png\",\n      \"sha256\": \"c91737beb124388d822800485607adf97fc87ee49758a0e9229485f68773f80d\",\n      \"decodedPresentationTimeMs\": 3800,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    }\n  ],\n  \"cacheHit\": false,\n  \"videoSha256\": \"02725c0ab6be2e566dbe6f70ad1c28f7041bff379ee4fee64e73b26069c76286\"\n}"
+        },
+        {
+          "type": "text",
+          "text": "Capture 0ms; recorded video seek 810ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "desktop-frames-2.png",
+          "sha256": "8f03c2a8c4cb3f200d418e87ed72bec5a3890c1a7ace2017464f6b5fe1a123ed"
+        },
+        {
+          "type": "text",
+          "text": "Capture 700ms; recorded video seek 1510ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "desktop-frames-4.png",
+          "sha256": "8d2e753ea7d8b9856bd3786c14b472066d8cbc79878b1baaedb52d5996bee10c"
+        },
+        {
+          "type": "text",
+          "text": "Capture 1300ms; recorded video seek 2110ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "desktop-frames-6.png",
+          "sha256": "220e1e7c77fba650f40e50a06792fa24e1bad761eb2d38b65f1abbe1c4ac3cd5"
+        },
+        {
+          "type": "text",
+          "text": "Capture 3000ms; recorded video seek 3810ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "desktop-frames-8.png",
+          "sha256": "c91737beb124388d822800485607adf97fc87ee49758a0e9229485f68773f80d"
+        }
+      ],
+      "structuredContent": {
+        "captureId": "3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c",
+        "alignment": "Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.",
+        "videoOffsetMs": 810,
+        "frames": [
+          {
+            "captureTimeMs": 0,
+            "videoSeekMs": 810,
+            "width": 1280,
+            "height": 889,
+            "sourceWidth": 1440,
+            "sourceHeight": 1000,
+            "scale": 0.8888888888888888,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/1-0ms.png",
+            "sha256": "8f03c2a8c4cb3f200d418e87ed72bec5a3890c1a7ace2017464f6b5fe1a123ed",
+            "decodedPresentationTimeMs": 800,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 700,
+            "videoSeekMs": 1510,
+            "width": 1280,
+            "height": 889,
+            "sourceWidth": 1440,
+            "sourceHeight": 1000,
+            "scale": 0.8888888888888888,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/2-700ms.png",
+            "sha256": "8d2e753ea7d8b9856bd3786c14b472066d8cbc79878b1baaedb52d5996bee10c",
+            "decodedPresentationTimeMs": 1480,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 1300,
+            "videoSeekMs": 2110,
+            "width": 1280,
+            "height": 889,
+            "sourceWidth": 1440,
+            "sourceHeight": 1000,
+            "scale": 0.8888888888888888,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/3-1300ms.png",
+            "sha256": "220e1e7c77fba650f40e50a06792fa24e1bad761eb2d38b65f1abbe1c4ac3cd5",
+            "decodedPresentationTimeMs": 2080,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 3000,
+            "videoSeekMs": 3810,
+            "width": 1280,
+            "height": 889,
+            "sourceWidth": 1440,
+            "sourceHeight": 1000,
+            "scale": 0.8888888888888888,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/3fcf5fb5-2b6c-4f30-9b7f-1eaa008dc48c/frames-5d5822ed-9891-468d-ac17-dd4e2e2b519e/4-3000ms.png",
+            "sha256": "c91737beb124388d822800485607adf97fc87ee49758a0e9229485f68773f80d",
+            "decodedPresentationTimeMs": 3800,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          }
+        ],
+        "cacheHit": false,
+        "videoSha256": "02725c0ab6be2e566dbe6f70ad1c28f7041bff379ee4fee64e73b26069c76286"
+      }
+    },
+    "elapsedMs": 945.8826170000002
+  },
+  {
+    "request": {
+      "name": "motion_capture",
+      "arguments": {
+        "recipe": {
+          "url": "http://127.0.0.1:4134",
+          "selector": "#network",
+          "label": "SIGNAL mobile",
+          "durationMs": 4000,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "reducedMotion": "no-preference",
+          "actions": [
+            {
+              "action": "wait",
+              "ms": 300
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#summit"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#overview"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "click",
+              "selector": "#pause"
+            },
+            {
+              "action": "drag",
+              "selector": "#scrub",
+              "points": [
+                {
+                  "x": 0.2,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.8,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.35,
+                  "y": 0.5
+                }
+              ],
+              "durationMs": 400
+            },
+            {
+              "action": "wait",
+              "ms": 300
+            }
+          ],
+          "contract": {
+            "outcomes": {
+              "required": [
+                {
+                  "id": "summit-selected",
+                  "selector": "#service-name",
+                  "textIncludes": "Summit"
+                },
+                {
+                  "id": "paused",
+                  "selector": "#pause",
+                  "textIncludes": "Resume"
+                }
+              ]
+            },
+            "maxReplacements": 0
+          }
+        }
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"2a029758-a25f-4849-843a-33e42e142ec2\",\n  \"recipeWarnings\": [],\n  \"label\": \"SIGNAL mobile\",\n  \"url\": \"http://127.0.0.1:4134\",\n  \"selector\": \"#network\",\n  \"environment\": {\n    \"browser\": \"Chromium 153.0.8010.12\",\n    \"browserMode\": \"headless\",\n    \"viewport\": {\n      \"width\": 390,\n      \"height\": 844\n    },\n    \"diagnostics\": {\n      \"devicePixelRatio\": 1,\n      \"visibilityState\": \"visible\",\n      \"webglRenderers\": [\n        \"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)\"\n      ]\n    },\n    \"probeSha256\": \"5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01\",\n    \"analyzerSha256\": \"528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb\",\n    \"clock\": \"page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start\",\n    \"reducedMotion\": \"no-preference\"\n  },\n  \"metrics\": {\n    \"animationBoundarySamples\": 0,\n    \"maxAnimationBoundaryStepPx\": 0,\n    \"maxAnimationBoundaryStepAt60HzPx\": 0,\n    \"absentSamples\": 0,\n    \"hiddenSamples\": 0,\n    \"visibleSamples\": 240,\n    \"invalidSamples\": 0,\n    \"maxObservedSampleGapMs\": 20.4,\n    \"maxProbeReadMs\": 0.2,\n    \"maxVisibleSampleGapMs\": 20.4,\n    \"maxObservationLagMs\": 11.7,\n    \"sufficientEvidence\": true,\n    \"validSamples\": 240,\n    \"sampleCount\": 240,\n    \"observedDurationMs\": 3990.4,\n    \"replacements\": 0,\n    \"animationStarts\": 0,\n    \"activeCancels\": 0,\n    \"maxFrameStepPx\": 479,\n    \"maxStepAt60HzPx\": 480.924,\n    \"maxSampleGapMs\": 16.8,\n    \"maxHeightStepPx\": 0,\n    \"p95FrameStepPx\": 0,\n    \"maxOpacityDrop\": 0,\n    \"nodeIdentities\": [\n      \"node-1\"\n    ],\n    \"maxContainmentOverflowPx\": 0,\n    \"containmentViolatingSamples\": 0\n  },\n  \"coverage\": {\n    \"version\": \"1\",\n    \"cadenceSufficient\": true,\n    \"targetCoverageSufficient\": true,\n    \"targetPresence\": \"continuous\",\n    \"intervals\": [\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 7.2,\n        \"toMs\": 3990.4,\n        \"samples\": 240\n      }\n    ],\n    \"reasons\": []\n  },\n  \"delivery\": {\n    \"required\": [\n      {\n        \"id\": \"summit-selected\",\n        \"selector\": \"#service-name\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"Summit Limited\",\n        \"attributes\": {},\n        \"observedAtMs\": 3993.5999999940395,\n        \"passed\": true\n      },\n      {\n        \"id\": \"paused\",\n        \"selector\": \"#pause\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"▶ Resume\",\n        \"attributes\": {},\n        \"observedAtMs\": 3993.5999999940395,\n        \"passed\": true\n      }\n    ],\n    \"forbiddenVisible\": [],\n    \"elapsedMs\": 4001.399999976158,\n    \"errors\": [],\n    \"timeoutMs\": 4000,\n    \"status\": \"passed\",\n    \"reasons\": []\n  },\n  \"assertions\": [\n    {\n      \"id\": \"valid-trajectory\",\n      \"label\": \"Finite observed trajectory\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"240 valid samples; first 7.2ms; ordered timestamps true; last 3990.4ms; maximum gap 16.8ms\",\n      \"expected\": \"Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms\"\n    },\n    {\n      \"id\": \"identity\",\n      \"label\": \"Target identity continuity\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"0\",\n      \"expected\": \"≤0 replacements\"\n    },\n    {\n      \"id\": \"browser-errors\",\n      \"label\": \"No uncaught page errors\",\n      \"passed\": true,\n      \"actual\": \"none\",\n      \"expected\": \"none\"\n    },\n    {\n      \"id\": \"network-policy\",\n      \"label\": \"No forbidden network requests\",\n      \"passed\": true,\n      \"actual\": \"0\",\n      \"expected\": \"0 outside configured local origins\"\n    }\n  ],\n  \"findings\": [],\n  \"final\": {\n    \"visible\": true,\n    \"attributes\": {},\n    \"text\": \"NORTH SEASUMMIT RIDGECENTRAL DISTRICT\\n\\n\\n\\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS\",\n    \"x\": 16.59375,\n    \"y\": 292.3125,\n    \"opacity\": 1\n  },\n  \"evidence\": {\n    \"directory\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2\",\n    \"report\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/report.json\",\n    \"video\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/video.webm\",\n    \"poster\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/poster.png\",\n    \"finalScreenshot\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/final.png\",\n    \"videoOffsetMs\": 608\n  },\n  \"resourceUri\": \"motion-evidence://capture/2a029758-a25f-4849-843a-33e42e142ec2\",\n  \"limitations\": [\n    \"Use only trusted credential-free development pages; recordings are not automatically redacted.\",\n    \"Fresh browser context, no user profile, credentials or authenticated sessions are imported.\",\n    \"Only configured loopback origins can load resources; third-party network requests are blocked.\",\n    \"Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.\",\n    \"Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.\",\n    \"Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.\",\n    \"WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.\",\n    \"Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.\",\n    \"CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.\",\n    \"Source mappings and application marks are explicitly supplied annotations.\"\n  ]\n}"
+        }
+      ],
+      "structuredContent": {
+        "id": "2a029758-a25f-4849-843a-33e42e142ec2",
+        "recipeWarnings": [],
+        "label": "SIGNAL mobile",
+        "url": "http://127.0.0.1:4134",
+        "selector": "#network",
+        "environment": {
+          "browser": "Chromium 153.0.8010.12",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01",
+          "analyzerSha256": "528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "no-preference"
+        },
+        "metrics": {
+          "animationBoundarySamples": 0,
+          "maxAnimationBoundaryStepPx": 0,
+          "maxAnimationBoundaryStepAt60HzPx": 0,
+          "absentSamples": 0,
+          "hiddenSamples": 0,
+          "visibleSamples": 240,
+          "invalidSamples": 0,
+          "maxObservedSampleGapMs": 20.4,
+          "maxProbeReadMs": 0.2,
+          "maxVisibleSampleGapMs": 20.4,
+          "maxObservationLagMs": 11.7,
+          "sufficientEvidence": true,
+          "validSamples": 240,
+          "sampleCount": 240,
+          "observedDurationMs": 3990.4,
+          "replacements": 0,
+          "animationStarts": 0,
+          "activeCancels": 0,
+          "maxFrameStepPx": 479,
+          "maxStepAt60HzPx": 480.924,
+          "maxSampleGapMs": 16.8,
+          "maxHeightStepPx": 0,
+          "p95FrameStepPx": 0,
+          "maxOpacityDrop": 0,
+          "nodeIdentities": [
+            "node-1"
+          ],
+          "maxContainmentOverflowPx": 0,
+          "containmentViolatingSamples": 0
+        },
+        "coverage": {
+          "version": "1",
+          "cadenceSufficient": true,
+          "targetCoverageSufficient": true,
+          "targetPresence": "continuous",
+          "intervals": [
+            {
+              "state": "visible",
+              "fromMs": 7.2,
+              "toMs": 3990.4,
+              "samples": 240
+            }
+          ],
+          "reasons": []
+        },
+        "delivery": {
+          "required": [
+            {
+              "id": "summit-selected",
+              "selector": "#service-name",
+              "count": 1,
+              "visible": true,
+              "text": "Summit Limited",
+              "attributes": {},
+              "observedAtMs": 3993.5999999940395,
+              "passed": true
+            },
+            {
+              "id": "paused",
+              "selector": "#pause",
+              "count": 1,
+              "visible": true,
+              "text": "▶ Resume",
+              "attributes": {},
+              "observedAtMs": 3993.5999999940395,
+              "passed": true
+            }
+          ],
+          "forbiddenVisible": [],
+          "elapsedMs": 4001.399999976158,
+          "errors": [],
+          "timeoutMs": 4000,
+          "status": "passed",
+          "reasons": []
+        },
+        "assertions": [
+          {
+            "id": "valid-trajectory",
+            "label": "Finite observed trajectory",
+            "passed": true,
+            "status": "passed",
+            "actual": "240 valid samples; first 7.2ms; ordered timestamps true; last 3990.4ms; maximum gap 16.8ms",
+            "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms"
+          },
+          {
+            "id": "identity",
+            "label": "Target identity continuity",
+            "passed": true,
+            "status": "passed",
+            "actual": "0",
+            "expected": "≤0 replacements"
+          },
+          {
+            "id": "browser-errors",
+            "label": "No uncaught page errors",
+            "passed": true,
+            "actual": "none",
+            "expected": "none"
+          },
+          {
+            "id": "network-policy",
+            "label": "No forbidden network requests",
+            "passed": true,
+            "actual": "0",
+            "expected": "0 outside configured local origins"
+          }
+        ],
+        "findings": [],
+        "final": {
+          "visible": true,
+          "attributes": {},
+          "text": "NORTH SEASUMMIT RIDGECENTRAL DISTRICT\n\n\n\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS",
+          "x": 16.59375,
+          "y": 292.3125,
+          "opacity": 1
+        },
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2",
+          "report": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/final.png",
+          "videoOffsetMs": 608
+        },
+        "resourceUri": "motion-evidence://capture/2a029758-a25f-4849-843a-33e42e142ec2",
+        "limitations": [
+          "Use only trusted credential-free development pages; recordings are not automatically redacted.",
+          "Fresh browser context, no user profile, credentials or authenticated sessions are imported.",
+          "Only configured loopback origins can load resources; third-party network requests are blocked.",
+          "Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.",
+          "Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.",
+          "Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.",
+          "WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.",
+          "Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.",
+          "CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.",
+          "Source mappings and application marks are explicitly supplied annotations."
+        ]
+      }
+    },
+    "elapsedMs": 4771.794863
+  },
+  {
+    "request": {
+      "name": "motion_frames",
+      "arguments": {
+        "captureId": "2a029758-a25f-4849-843a-33e42e142ec2",
+        "timestampsMs": [
+          0,
+          700,
+          1300,
+          3000
+        ],
+        "maxWidth": 1280,
+        "maxHeight": 960
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"captureId\": \"2a029758-a25f-4849-843a-33e42e142ec2\",\n  \"alignment\": \"Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.\",\n  \"videoOffsetMs\": 608,\n  \"frames\": [\n    {\n      \"captureTimeMs\": 0,\n      \"videoSeekMs\": 608,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/1-0ms.png\",\n      \"sha256\": \"76fecb3f792e818b12f72c96abc6875d95851bd8a3e806f7535d4ace1c5ee00b\",\n      \"decodedPresentationTimeMs\": 600,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 700,\n      \"videoSeekMs\": 1308,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/2-700ms.png\",\n      \"sha256\": \"e8e6b29c7f2e4065d739e991b9e95118a7adbae4b310884301da5e9aed6d1a72\",\n      \"decodedPresentationTimeMs\": 1280,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 1300,\n      \"videoSeekMs\": 1908,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/3-1300ms.png\",\n      \"sha256\": \"6001125a7ae29b74ad1911fd5ade295919fd8d79bdb2e0ce8cb0ce67aff74f0b\",\n      \"decodedPresentationTimeMs\": 1880,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 3000,\n      \"videoSeekMs\": 3608,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/4-3000ms.png\",\n      \"sha256\": \"f6e09f411e259f880e8baaa56ca14159988fb25bcbce8c3f1687b5f4a9023598\",\n      \"decodedPresentationTimeMs\": 3600,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    }\n  ],\n  \"cacheHit\": false,\n  \"videoSha256\": \"2a0e1b313cb69b8e1f0534ef954b8a18690daf9e5e044e8ad95caaa564706342\"\n}"
+        },
+        {
+          "type": "text",
+          "text": "Capture 0ms; recorded video seek 608ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "mobile-frames-2.png",
+          "sha256": "76fecb3f792e818b12f72c96abc6875d95851bd8a3e806f7535d4ace1c5ee00b"
+        },
+        {
+          "type": "text",
+          "text": "Capture 700ms; recorded video seek 1308ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "mobile-frames-4.png",
+          "sha256": "e8e6b29c7f2e4065d739e991b9e95118a7adbae4b310884301da5e9aed6d1a72"
+        },
+        {
+          "type": "text",
+          "text": "Capture 1300ms; recorded video seek 1908ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "mobile-frames-6.png",
+          "sha256": "6001125a7ae29b74ad1911fd5ade295919fd8d79bdb2e0ce8cb0ce67aff74f0b"
+        },
+        {
+          "type": "text",
+          "text": "Capture 3000ms; recorded video seek 3608ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "mobile-frames-8.png",
+          "sha256": "f6e09f411e259f880e8baaa56ca14159988fb25bcbce8c3f1687b5f4a9023598"
+        }
+      ],
+      "structuredContent": {
+        "captureId": "2a029758-a25f-4849-843a-33e42e142ec2",
+        "alignment": "Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.",
+        "videoOffsetMs": 608,
+        "frames": [
+          {
+            "captureTimeMs": 0,
+            "videoSeekMs": 608,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/1-0ms.png",
+            "sha256": "76fecb3f792e818b12f72c96abc6875d95851bd8a3e806f7535d4ace1c5ee00b",
+            "decodedPresentationTimeMs": 600,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 700,
+            "videoSeekMs": 1308,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/2-700ms.png",
+            "sha256": "e8e6b29c7f2e4065d739e991b9e95118a7adbae4b310884301da5e9aed6d1a72",
+            "decodedPresentationTimeMs": 1280,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 1300,
+            "videoSeekMs": 1908,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/3-1300ms.png",
+            "sha256": "6001125a7ae29b74ad1911fd5ade295919fd8d79bdb2e0ce8cb0ce67aff74f0b",
+            "decodedPresentationTimeMs": 1880,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 3000,
+            "videoSeekMs": 3608,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/2a029758-a25f-4849-843a-33e42e142ec2/frames-66ddea72-1c00-4399-bdbb-63a796bd05b3/4-3000ms.png",
+            "sha256": "f6e09f411e259f880e8baaa56ca14159988fb25bcbce8c3f1687b5f4a9023598",
+            "decodedPresentationTimeMs": 3600,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          }
+        ],
+        "cacheHit": false,
+        "videoSha256": "2a0e1b313cb69b8e1f0534ef954b8a18690daf9e5e044e8ad95caaa564706342"
+      }
+    },
+    "elapsedMs": 541.9601650000004
+  },
+  {
+    "request": {
+      "name": "motion_capture",
+      "arguments": {
+        "recipe": {
+          "url": "http://127.0.0.1:4134",
+          "selector": "#network",
+          "label": "SIGNAL reduced",
+          "durationMs": 4000,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "reducedMotion": "reduce",
+          "actions": [
+            {
+              "action": "wait",
+              "ms": 300
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#summit"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#overview"
+            },
+            {
+              "action": "wait",
+              "ms": 180
+            },
+            {
+              "action": "click",
+              "selector": "#focus"
+            },
+            {
+              "action": "click",
+              "selector": "#pause"
+            },
+            {
+              "action": "drag",
+              "selector": "#scrub",
+              "points": [
+                {
+                  "x": 0.2,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.8,
+                  "y": 0.5
+                },
+                {
+                  "x": 0.35,
+                  "y": 0.5
+                }
+              ],
+              "durationMs": 400
+            },
+            {
+              "action": "wait",
+              "ms": 300
+            }
+          ],
+          "contract": {
+            "outcomes": {
+              "required": [
+                {
+                  "id": "summit-selected",
+                  "selector": "#service-name",
+                  "textIncludes": "Summit"
+                },
+                {
+                  "id": "paused",
+                  "selector": "#pause",
+                  "textIncludes": "Resume"
+                }
+              ]
+            },
+            "maxReplacements": 0
+          }
+        }
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"e5302494-1c03-46dc-95bf-75d2c45069d1\",\n  \"recipeWarnings\": [],\n  \"label\": \"SIGNAL reduced\",\n  \"url\": \"http://127.0.0.1:4134\",\n  \"selector\": \"#network\",\n  \"environment\": {\n    \"browser\": \"Chromium 153.0.8010.12\",\n    \"browserMode\": \"headless\",\n    \"viewport\": {\n      \"width\": 390,\n      \"height\": 844\n    },\n    \"diagnostics\": {\n      \"devicePixelRatio\": 1,\n      \"visibilityState\": \"visible\",\n      \"webglRenderers\": [\n        \"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)\"\n      ]\n    },\n    \"probeSha256\": \"5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01\",\n    \"analyzerSha256\": \"528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb\",\n    \"clock\": \"page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start\",\n    \"reducedMotion\": \"reduce\"\n  },\n  \"metrics\": {\n    \"animationBoundarySamples\": 0,\n    \"maxAnimationBoundaryStepPx\": 0,\n    \"maxAnimationBoundaryStepAt60HzPx\": 0,\n    \"absentSamples\": 0,\n    \"hiddenSamples\": 0,\n    \"visibleSamples\": 240,\n    \"invalidSamples\": 0,\n    \"maxObservedSampleGapMs\": 20.1,\n    \"maxProbeReadMs\": 0.2,\n    \"maxVisibleSampleGapMs\": 20.1,\n    \"maxObservationLagMs\": 9.9,\n    \"sufficientEvidence\": true,\n    \"validSamples\": 240,\n    \"sampleCount\": 240,\n    \"observedDurationMs\": 3984.8,\n    \"replacements\": 0,\n    \"animationStarts\": 0,\n    \"activeCancels\": 0,\n    \"maxFrameStepPx\": 479,\n    \"maxStepAt60HzPx\": 480.924,\n    \"maxSampleGapMs\": 16.8,\n    \"maxHeightStepPx\": 0,\n    \"p95FrameStepPx\": 0,\n    \"maxOpacityDrop\": 0,\n    \"nodeIdentities\": [\n      \"node-1\"\n    ],\n    \"maxContainmentOverflowPx\": 0,\n    \"containmentViolatingSamples\": 0\n  },\n  \"coverage\": {\n    \"version\": \"1\",\n    \"cadenceSufficient\": true,\n    \"targetCoverageSufficient\": true,\n    \"targetPresence\": \"continuous\",\n    \"intervals\": [\n      {\n        \"state\": \"visible\",\n        \"fromMs\": 1.6,\n        \"toMs\": 3984.8,\n        \"samples\": 240\n      }\n    ],\n    \"reasons\": []\n  },\n  \"delivery\": {\n    \"required\": [\n      {\n        \"id\": \"summit-selected\",\n        \"selector\": \"#service-name\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"Summit Limited\",\n        \"attributes\": {},\n        \"observedAtMs\": 3988.5,\n        \"passed\": true\n      },\n      {\n        \"id\": \"paused\",\n        \"selector\": \"#pause\",\n        \"count\": 1,\n        \"visible\": true,\n        \"text\": \"▶ Resume\",\n        \"attributes\": {},\n        \"observedAtMs\": 3988.5,\n        \"passed\": true\n      }\n    ],\n    \"forbiddenVisible\": [],\n    \"elapsedMs\": 4001.300000011921,\n    \"errors\": [],\n    \"timeoutMs\": 4000,\n    \"status\": \"passed\",\n    \"reasons\": []\n  },\n  \"assertions\": [\n    {\n      \"id\": \"valid-trajectory\",\n      \"label\": \"Finite observed trajectory\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"240 valid samples; first 1.6ms; ordered timestamps true; last 3984.8ms; maximum gap 16.8ms\",\n      \"expected\": \"Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms\"\n    },\n    {\n      \"id\": \"identity\",\n      \"label\": \"Target identity continuity\",\n      \"passed\": true,\n      \"status\": \"passed\",\n      \"actual\": \"0\",\n      \"expected\": \"≤0 replacements\"\n    },\n    {\n      \"id\": \"browser-errors\",\n      \"label\": \"No uncaught page errors\",\n      \"passed\": true,\n      \"actual\": \"none\",\n      \"expected\": \"none\"\n    },\n    {\n      \"id\": \"network-policy\",\n      \"label\": \"No forbidden network requests\",\n      \"passed\": true,\n      \"actual\": \"0\",\n      \"expected\": \"0 outside configured local origins\"\n    }\n  ],\n  \"findings\": [],\n  \"final\": {\n    \"visible\": true,\n    \"attributes\": {},\n    \"text\": \"NORTH SEASUMMIT RIDGECENTRAL DISTRICT\\n\\n\\n\\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS\",\n    \"x\": 16.59375,\n    \"y\": 292.3125,\n    \"opacity\": 1\n  },\n  \"evidence\": {\n    \"directory\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1\",\n    \"report\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/report.json\",\n    \"video\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/video.webm\",\n    \"poster\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/poster.png\",\n    \"finalScreenshot\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/final.png\",\n    \"videoOffsetMs\": 611\n  },\n  \"resourceUri\": \"motion-evidence://capture/e5302494-1c03-46dc-95bf-75d2c45069d1\",\n  \"limitations\": [\n    \"Use only trusted credential-free development pages; recordings are not automatically redacted.\",\n    \"Fresh browser context, no user profile, credentials or authenticated sessions are imported.\",\n    \"Only configured loopback origins can load resources; third-party network requests are blocked.\",\n    \"Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.\",\n    \"Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.\",\n    \"Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.\",\n    \"WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.\",\n    \"Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.\",\n    \"CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.\",\n    \"Source mappings and application marks are explicitly supplied annotations.\"\n  ]\n}"
+        }
+      ],
+      "structuredContent": {
+        "id": "e5302494-1c03-46dc-95bf-75d2c45069d1",
+        "recipeWarnings": [],
+        "label": "SIGNAL reduced",
+        "url": "http://127.0.0.1:4134",
+        "selector": "#network",
+        "environment": {
+          "browser": "Chromium 153.0.8010.12",
+          "browserMode": "headless",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "diagnostics": {
+            "devicePixelRatio": 1,
+            "visibilityState": "visible",
+            "webglRenderers": [
+              "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)"
+            ]
+          },
+          "probeSha256": "5ac439d7a08f08dd80fd001099ee768e883f44c4c3aad727ee6e73f668d18d01",
+          "analyzerSha256": "528cedcbcf80254742414e260d96c41042180fb6840c169193fc95d6d97107bb",
+          "clock": "page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start",
+          "reducedMotion": "reduce"
+        },
+        "metrics": {
+          "animationBoundarySamples": 0,
+          "maxAnimationBoundaryStepPx": 0,
+          "maxAnimationBoundaryStepAt60HzPx": 0,
+          "absentSamples": 0,
+          "hiddenSamples": 0,
+          "visibleSamples": 240,
+          "invalidSamples": 0,
+          "maxObservedSampleGapMs": 20.1,
+          "maxProbeReadMs": 0.2,
+          "maxVisibleSampleGapMs": 20.1,
+          "maxObservationLagMs": 9.9,
+          "sufficientEvidence": true,
+          "validSamples": 240,
+          "sampleCount": 240,
+          "observedDurationMs": 3984.8,
+          "replacements": 0,
+          "animationStarts": 0,
+          "activeCancels": 0,
+          "maxFrameStepPx": 479,
+          "maxStepAt60HzPx": 480.924,
+          "maxSampleGapMs": 16.8,
+          "maxHeightStepPx": 0,
+          "p95FrameStepPx": 0,
+          "maxOpacityDrop": 0,
+          "nodeIdentities": [
+            "node-1"
+          ],
+          "maxContainmentOverflowPx": 0,
+          "containmentViolatingSamples": 0
+        },
+        "coverage": {
+          "version": "1",
+          "cadenceSufficient": true,
+          "targetCoverageSufficient": true,
+          "targetPresence": "continuous",
+          "intervals": [
+            {
+              "state": "visible",
+              "fromMs": 1.6,
+              "toMs": 3984.8,
+              "samples": 240
+            }
+          ],
+          "reasons": []
+        },
+        "delivery": {
+          "required": [
+            {
+              "id": "summit-selected",
+              "selector": "#service-name",
+              "count": 1,
+              "visible": true,
+              "text": "Summit Limited",
+              "attributes": {},
+              "observedAtMs": 3988.5,
+              "passed": true
+            },
+            {
+              "id": "paused",
+              "selector": "#pause",
+              "count": 1,
+              "visible": true,
+              "text": "▶ Resume",
+              "attributes": {},
+              "observedAtMs": 3988.5,
+              "passed": true
+            }
+          ],
+          "forbiddenVisible": [],
+          "elapsedMs": 4001.300000011921,
+          "errors": [],
+          "timeoutMs": 4000,
+          "status": "passed",
+          "reasons": []
+        },
+        "assertions": [
+          {
+            "id": "valid-trajectory",
+            "label": "Finite observed trajectory",
+            "passed": true,
+            "status": "passed",
+            "actual": "240 valid samples; first 1.6ms; ordered timestamps true; last 3984.8ms; maximum gap 16.8ms",
+            "expected": "Strictly increasing nonnegative timestamps; ≥20 observed frames and ≥20 visible samples; target policy continuous; finite samples starting ≤80ms (unless may-disappear) and through 3900ms; maximum gap ≤80ms"
+          },
+          {
+            "id": "identity",
+            "label": "Target identity continuity",
+            "passed": true,
+            "status": "passed",
+            "actual": "0",
+            "expected": "≤0 replacements"
+          },
+          {
+            "id": "browser-errors",
+            "label": "No uncaught page errors",
+            "passed": true,
+            "actual": "none",
+            "expected": "none"
+          },
+          {
+            "id": "network-policy",
+            "label": "No forbidden network requests",
+            "passed": true,
+            "actual": "0",
+            "expected": "0 outside configured local origins"
+          }
+        ],
+        "findings": [],
+        "final": {
+          "visible": true,
+          "attributes": {},
+          "text": "NORTH SEASUMMIT RIDGECENTRAL DISTRICT\n\n\n\nOld PortH / 01CentralH / S / VEast QuayH / VSummitS / 01Ridge ParkS / VNorthgateS / 03West JunctionH / VN Harbor Summit Valley51° 28′ N   00° 04′ WSUMMIT / STATION FOCUS",
+          "x": 16.59375,
+          "y": 292.3125,
+          "opacity": 1
+        },
+        "evidence": {
+          "directory": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1",
+          "report": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/report.json",
+          "video": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/video.webm",
+          "poster": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/poster.png",
+          "finalScreenshot": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/final.png",
+          "videoOffsetMs": 611
+        },
+        "resourceUri": "motion-evidence://capture/e5302494-1c03-46dc-95bf-75d2c45069d1",
+        "limitations": [
+          "Use only trusted credential-free development pages; recordings are not automatically redacted.",
+          "Fresh browser context, no user profile, credentials or authenticated sessions are imported.",
+          "Only configured loopback origins can load resources; third-party network requests are blocked.",
+          "Frame-step, height, opacity and containment are supplied contracts, not universal motion-quality scores.",
+          "Functional delivery uses bounded post-action DOM conditions and sticky visible forbidden-state observations. It is independent of temporal quality; absent outcomes are unverified. Visibility checks do not prove unoccluded pixels or general usability. Polling is 50ms with mutation observations; an error shorter than observation coverage can escape.",
+          "Mutations are timestamped at MutationObserver delivery; recording seeks use approximate host offsets.",
+          "WAAPI cancel/start batches include supplemental before/after geometry reads after microtasks. They are not painted-frame evidence and do not increase rAF sample counts. Geometry reads may force style/layout work. CSS-only changes and old captures do not gain these boundaries.",
+          "Post-rAF tasks use MessageChannel. Geometry reads and recorder work can perturb the runner; observedAtMs, probe cost and actual gaps are reported. Visible means nonzero rendered geometry and computed visibility/opacity, not proof of unoccluded pixels.",
+          "CSS cancellation events and Web Animations calls are observed where available; arbitrary animation-library internals are not inferred.",
+          "Source mappings and application marks are explicitly supplied annotations."
+        ]
+      }
+    },
+    "elapsedMs": 4790.444283999999
+  },
+  {
+    "request": {
+      "name": "motion_frames",
+      "arguments": {
+        "captureId": "e5302494-1c03-46dc-95bf-75d2c45069d1",
+        "timestampsMs": [
+          0,
+          700,
+          1300,
+          3000
+        ],
+        "maxWidth": 1280,
+        "maxHeight": 960
+      }
+    },
+    "response": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"captureId\": \"e5302494-1c03-46dc-95bf-75d2c45069d1\",\n  \"alignment\": \"Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.\",\n  \"videoOffsetMs\": 611,\n  \"frames\": [\n    {\n      \"captureTimeMs\": 0,\n      \"videoSeekMs\": 611,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/1-0ms.png\",\n      \"sha256\": \"b4495700433667b2fc7970b7ea341a5e55bd551d3129115913baa68624723ecc\",\n      \"decodedPresentationTimeMs\": 600,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 700,\n      \"videoSeekMs\": 1311,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/2-700ms.png\",\n      \"sha256\": \"49eb4905d536569d951de2cbb7894f0ef23437b0cf376ec6771ea782326876df\",\n      \"decodedPresentationTimeMs\": 1280,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 1300,\n      \"videoSeekMs\": 1911,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/3-1300ms.png\",\n      \"sha256\": \"8f5f2d6c2692c93fe05f3526b9ce7cbc24588685cf454abc3c69b8038daefa6e\",\n      \"decodedPresentationTimeMs\": 1880,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    },\n    {\n      \"captureTimeMs\": 3000,\n      \"videoSeekMs\": 3611,\n      \"width\": 390,\n      \"height\": 844,\n      \"sourceWidth\": 390,\n      \"sourceHeight\": 844,\n      \"scale\": 1,\n      \"path\": \"/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/4-3000ms.png\",\n      \"sha256\": \"3705bfaafafab7efc399c723778ac3e6137dd4dfdb8e9018ae5c9cb12cb796cc\",\n      \"decodedPresentationTimeMs\": 3600,\n      \"alignmentUncertaintyMs\": null,\n      \"kind\": \"context\"\n    }\n  ],\n  \"cacheHit\": false,\n  \"videoSha256\": \"47706e5aa94c04d659797e0420a174c395cd6941ad7634bac9446cf408b4fd38\"\n}"
+        },
+        {
+          "type": "text",
+          "text": "Capture 0ms; recorded video seek 611ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "reduced-frames-2.png",
+          "sha256": "b4495700433667b2fc7970b7ea341a5e55bd551d3129115913baa68624723ecc"
+        },
+        {
+          "type": "text",
+          "text": "Capture 700ms; recorded video seek 1311ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "reduced-frames-4.png",
+          "sha256": "49eb4905d536569d951de2cbb7894f0ef23437b0cf376ec6771ea782326876df"
+        },
+        {
+          "type": "text",
+          "text": "Capture 1300ms; recorded video seek 1911ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "reduced-frames-6.png",
+          "sha256": "8f5f2d6c2692c93fe05f3526b9ce7cbc24588685cf454abc3c69b8038daefa6e"
+        },
+        {
+          "type": "text",
+          "text": "Capture 3000ms; recorded video seek 3611ms (approximate alignment)"
+        },
+        {
+          "type": "image",
+          "mimeType": "image/png",
+          "file": "reduced-frames-8.png",
+          "sha256": "3705bfaafafab7efc399c723778ac3e6137dd4dfdb8e9018ae5c9cb12cb796cc"
+        }
+      ],
+      "structuredContent": {
+        "captureId": "e5302494-1c03-46dc-95bf-75d2c45069d1",
+        "alignment": "Actual recorded-video frames. Capture timestamps are mapped with the measured host videoOffsetMs; alignment uncertainty is uncalibrated (null). videoSeekMs is a requested seek, not an originating frame timestamp. decodedPresentationTimeMs is decoder mediaTime where available. DOM rAF geometry and app scene reports are separate evidence, not pixel presentation clocks.",
+        "videoOffsetMs": 611,
+        "frames": [
+          {
+            "captureTimeMs": 0,
+            "videoSeekMs": 611,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/1-0ms.png",
+            "sha256": "b4495700433667b2fc7970b7ea341a5e55bd551d3129115913baa68624723ecc",
+            "decodedPresentationTimeMs": 600,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 700,
+            "videoSeekMs": 1311,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/2-700ms.png",
+            "sha256": "49eb4905d536569d951de2cbb7894f0ef23437b0cf376ec6771ea782326876df",
+            "decodedPresentationTimeMs": 1280,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 1300,
+            "videoSeekMs": 1911,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/3-1300ms.png",
+            "sha256": "8f5f2d6c2692c93fe05f3526b9ce7cbc24588685cf454abc3c69b8038daefa6e",
+            "decodedPresentationTimeMs": 1880,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          },
+          {
+            "captureTimeMs": 3000,
+            "videoSeekMs": 3611,
+            "width": 390,
+            "height": 844,
+            "sourceWidth": 390,
+            "sourceHeight": 844,
+            "scale": 1,
+            "path": "/home/terryd/Projects/Prenium_Motion/studies/rail-dispatch/source/motion/evidence/captures/e5302494-1c03-46dc-95bf-75d2c45069d1/frames-83608b5f-3f17-45f1-88bc-c5ebfd2213e8/4-3000ms.png",
+            "sha256": "3705bfaafafab7efc399c723778ac3e6137dd4dfdb8e9018ae5c9cb12cb796cc",
+            "decodedPresentationTimeMs": 3600,
+            "alignmentUncertaintyMs": null,
+            "kind": "context"
+          }
+        ],
+        "cacheHit": false,
+        "videoSha256": "47706e5aa94c04d659797e0420a174c395cd6941ad7634bac9446cf408b4fd38"
+      }
+    },
+    "elapsedMs": 479.8017089999994
+  }
+]

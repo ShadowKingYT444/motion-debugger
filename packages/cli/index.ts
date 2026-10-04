@@ -10,11 +10,11 @@ import {shouldUseInitWizard,prepareInitWizard} from './wizard';
 
 const help=`Motion Debugger ${metadata.version} — temporal evidence for coding agents
 
-  motion-debugger init [--client codex|claude-code|cursor|vscode] [--config path]
+  motion-debugger init [--client codex|claude-code|cursor|vscode|opencode] [--config path]
   motion-debugger init ... --skills [--project path] --apply [--confirm <preview-token>]
-  motion-debugger skills install --client codex|claude-code|cursor|vscode [--project path]
+  motion-debugger skills install --client codex|claude-code|cursor|vscode|opencode [--project path]
   motion-debugger skills install ... --apply [--confirm <preview-token>]
-  motion-debugger config [--client generic|codex|claude-code|cursor|vscode] [--local]
+  motion-debugger config [--client generic|codex|claude-code|cursor|vscode|opencode] [--local]
   motion-debugger setup --browser [--client <client>] [--config path]
   motion-debugger doctor [--skip-launch]
   motion-debugger demo [--port 4173] [--data-dir .motion-debugger/demo]

@@ -4,7 +4,7 @@ import path from 'node:path';
 import type {Client} from './config';
 
 export const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'] as const;
-export const skillDirectories:Partial<Record<Client,string>>={codex:'.agents/skills','claude-code':'.claude/skills',cursor:'.cursor/skills',vscode:'.github/skills'};
+export const skillDirectories:Partial<Record<Client,string>>={codex:'.agents/skills','claude-code':'.claude/skills',cursor:'.cursor/skills',vscode:'.github/skills',opencode:'.opencode/skills'};
 type FileEntry={path:string;data:Buffer};
 type Snapshot={directories:string[];files:FileEntry[]};
 export interface SkillInstallPlan {
@@ -50,7 +50,7 @@ async function packagedSnapshot(source:string,name:string):Promise<Snapshot|unde
   return {directories,files:[...snapshot.files,...sharedFiles].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0)};
 }
 export async function prepareSkills(client:Client,projectInput:string,packageRoot:string):Promise<SkillInstallPlan> {
-  const relative=skillDirectories[client];if(!relative)throw new Error('Skills require --client codex, claude-code, cursor, or vscode');
+  const relative=skillDirectories[client];if(!relative)throw new Error('Skills require --client codex, claude-code, cursor, vscode, or opencode');
   const project=path.resolve(projectInput);if(project===path.parse(project).root)throw new Error('Choose a project directory, not a filesystem root');
   await assertSafePath(project);if(!(await stat(project))?.isDirectory())throw new Error(`Project directory must already exist: ${project}`);
   const directory=path.join(project,relative),source=path.join(packageRoot,'plugin/motion-debugger/skills');await assertSafePath(directory);

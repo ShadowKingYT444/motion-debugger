@@ -1,139 +1,93 @@
-# Motion Debugger
+<p align="center">
+  <img src="docs/assets/wordmark.svg" alt="Motion Debugger" width="360">
+</p>
 
-![Motion Debugger: create, watch, refine](docs/assets/banner.svg)
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-22%2B-43853d" alt="Node.js 22+">
+  <img src="https://img.shields.io/badge/transport-MCP-6366f1" alt="MCP transport">
+  <img src="https://img.shields.io/badge/status-local_preview-f59e0b" alt="Local preview">
+</p>
 
-**Create expressive web motion. Watch the actual result. Refine it with your coding agent.**
+<p align="center"><b>Build motion. Watch it. Make it better.</b></p>
 
-Tag `motion-debugger` (or the legacy `motion`) with your ordinary website or app prompt. The plugin supplies seven recipe IDs with original runnable sources—interruptible springs, scroll chapters, articulated 3D colonies, task handoffs, elapsed task sequences, kinetic fields and reversible drawers—plus design guidance and local browser tools. Positive journey outcomes, recorded images and temporal contracts keep functional completion, visual review and measurements separate. Your agent edits source using its normal tools.
+<p align="center">
+  <a href="#quickstart">Quickstart</a> · <a href="#coding-agents">Coding agents</a> · <a href="#how-it-works">How it works</a> · <a href="docs/AGENT-WORKFLOW.md">Documentation</a>
+</p>
 
-[Quickstart](#quickstart) · [Client setup](docs/CLIENTS.md) · [Skills](docs/SKILLS.md) · [Tool examples](docs/AGENT-WORKFLOW.md)
+![Motion Debugger: expressive motion, real browser evidence](docs/assets/banner.svg)
+
+Motion Debugger gives coding agents a way to build and refine animated interfaces with **actual browser recordings**. It combines motion design skills, runnable animation recipes, actor-aware review and local MCP tools. Use it for interactive product pages, SVG choreography, canvas scenes and 3D interfaces.
 
 ## Quickstart
 
-Private release candidate. Requires Node.js 22+ and a Chromium browser. No model API key is required by this tool. The public registry does **not serve version `0.5.0`**; use the reviewed local tarball.
-
-From this reviewed checkout:
+Requires **Node.js 22+** and Chromium. This is an unpublished local preview; install from GitHub rather than npm.
 
 ```sh
+git clone https://github.com/ShadowKingYT444/motion-debugger.git
+cd motion-debugger
 npm ci
 npm run build
+node build/cli/index.js setup --browser
 node build/cli/index.js doctor
+```
+
+Connect it to your application project:
+
+```sh
 node build/cli/index.js init --client codex --local --skills \
   --project /absolute/path/to/your-app
 ```
 
-`init` previews the exact project configuration and six skill entries. Review the output, then rerun with `--apply` and approve the preview. In a noninteractive terminal, use its exact `--confirm <confirmationToken>`. Existing unrelated settings and skills are preserved. If `doctor` reports no browser, run `node build/cli/index.js setup --browser`, then run `doctor` again.
+The command previews the MCP configuration and skill files. Review it, then rerun with `--apply` to confirm in an interactive terminal. For scripts, add `--apply --confirm <confirmationToken>` from that exact preview. Keep this checkout in place: `--local` registers its absolute runtime path. Unrelated settings and skill files are preserved.
 
-For a portable installation, run `npm pack`, install the resulting local tarball into a stable tools directory, and use its `motion-debugger` binary. [Full installation options](docs/CLIENTS.md).
+For a portable installation, run `npm pack`, then install the resulting tarball in a stable tools directory. [Installation details](docs/CLIENTS.md).
 
-Then ask your agent:
+## Coding agents
 
-> $motion-debugger Build a beautiful kinetic identity studio. Let visitors shape a moving mark, scrub and replay it, and export their design. Include a sculptural 3D preview and polished interactions.
+Replace `codex` in the setup command with your client:
 
-Invocation depends on the installed skill or plugin:
+| Agent | `--client` | Project MCP configuration | Skills |
+| --- | --- | --- | --- |
+| Codex | `codex` | `.codex/config.toml` | `.agents/skills/` |
+| Claude Code | `claude-code` | `.mcp.json` | `.claude/skills/` |
+| Cursor | `cursor` | `.cursor/mcp.json` | `.cursor/skills/` |
+| VS Code / Copilot | `vscode` | `.vscode/mcp.json` | `.github/skills/` |
+| OpenCode 1.x | `opencode` | `opencode.json` | `.opencode/skills/` |
 
-| Host and installation | Design prompt entry |
+Reload your agent after installation and check that Motion's MCP tools are connected. OpenCode v2 uses a different configuration format; see [client setup](docs/CLIENTS.md#opencode). Native plugin package options are in the [plugin guide](docs/PLUGIN-PACKAGES.md).
+
+In Codex, start with:
+
+> $motion-debugger Build a railway dispatch console with moving trains, curved routes, timetable scrubbing and interruptible station transitions. Watch the result and refine the motion.
+
+For other agents, ask it to **load the `motion-debugger` skill** and provide your brief. To improve an existing app, include its local preview URL and the interaction that needs work.
+
+## How it works
+
+1. **Create** — the agent uses motion design guidance and runnable recipes to build your interface.
+2. **Watch** — Motion records a repeatable visitor journey in a fresh Chromium context.
+3. **Inspect** — the agent receives native video frames, events, actor observations and explicit contract results.
+4. **Refine** — it edits your source, then repeats the same journey to check the change.
+
+| Tool | Purpose |
 | --- | --- |
-| Codex project skill | `$motion-debugger` followed by your brief |
-| Claude Code plugin | `/motion-debugger:motion-debugger` followed by your brief |
-| Cursor plugin | `/motion-debugger` followed by your brief |
+| `motion_recipe` | Get runnable animation patterns and integration guidance |
+| `motion_review` | Review transitions with actor observations and native images |
+| `motion_probe` | Try interruption offsets and retain failure evidence |
+| `motion_capture` | Record a local interaction with explicit expectations |
+| `motion_inspect` | Inspect events and measurements around a moment |
+| `motion_frames` | Extract images from the actual recording |
+| `motion_compare` | Compare equivalent before/after journeys |
+| `motion_list` | Find saved captures |
 
-These are the configured namespaced entries; native ZIP discovery remains unverified. The legacy `motion` entry remains available when it does not collide with another kit. Project installation preserves a differing `/motion` folder and includes owned recipes in the namespaced folder. See [package setup](docs/PLUGIN-PACKAGES.md) for the matching adapter and [client evidence](docs/CLIENTS.md#compatibility-evidence) for what has been verified.
+Recordings and reports stay local in `.motion-evidence/`. Capture trusted, credential-free local pages. Measurements check your stated contracts; visual taste remains a human judgment.
 
-For an existing app, include its preview URL and the behavior you want improved. For portable Codex, Claude Code, Cursor and generic skill packages, run `npm run package:plugins` after building. [Package formats, local installation and validation limits](docs/PLUGIN-PACKAGES.md).
-
-Use a trusted, credential-free production preview. Motion blocks WebSockets, including development-server HMR.
-
-## Real demos
-
-The [LOOP kinetic identity studio](studies/loop-studio/README.md) makes motion the product: sculptural Orbit, rhythmic Pulse, braided Weave, held scrubbing, rapid preset changes, playback and SVG/configuration exports. Two actual fresh Codex sessions received the same brief and thirty-minute budget. Both finished before the deadline; only the assisted session received `$motion` and the installed plugin. Full source, original-timing recordings and independently checked interactions accompany the comparison. This single pair does **not** establish overall visual or smoothness superiority.
+## Try it locally
 
 ```sh
-npm run demo:loop
+node build/cli/index.js demo
 ```
 
-The viewer fits both complete desktop scenes, supports 390px previews and native fullscreen, and keeps real downloads working. [Brief and references](studies/loop-studio/BRIEF.md) · [Method](studies/loop-studio/METHOD.md) · [Results](studies/loop-studio/RESULTS.md) · [Actual MCP trace and native frames](studies/loop-studio/MCP-TRACE.json).
+Open the printed URL to explore the bundled examples. For the new railway workflow A/B, run `npm run demo:rail` and open its comparison viewer.
 
-![Actual Motion-assisted LOOP studio, captured in native Chrome](studies/loop-studio/evidence/independent/lossless/motion-desktop/initial.png)
-
-[Ordinary complete desktop journey](studies/loop-studio/evidence/independent/primary/ordinary-desktop/journey.webm) · [Motion complete desktop journey](studies/loop-studio/evidence/independent/primary/motion-desktop/journey.webm)
-
-The [Ants launch-page study](studies/ants-launch/README.md) contains two actual same-brief, twenty-minute Codex builds with original articulated 3D scenes, scroll choreography and a working four-stage task. Both complete the task, replay, interruption and keyboard journeys on desktop, mobile, reduced motion and WebGL fallback. Complete source-bound recordings and retained failures are included. This pair does **not** establish an overall animation or smoothness advantage.
-
-```sh
-npm run demo:ants
-```
-
-Open the printed local URL to interact with both frozen pages and watch complete recordings. The viewer verifies source and recording hashes, supports narrow-screen previews and fullscreen, and serves each page on its own origin. Read the [method](studies/ants-launch/METHOD.md) and [results](studies/ants-launch/RESULTS.md). The current seven recipe IDs and their source modules are in the [motion catalog](plugin/motion-debugger/skills/motion/recipes/).
-
-![Actual Motion-assisted Ants page, captured in native Chrome](studies/ants-launch/evidence/runs/motion-desktop/initial-screenshot.png)
-
-[Ordinary complete recording](studies/ants-launch/evidence/runs/ordinary-desktop/page@0f7f72f1f3283e83b2a40f57bfafc0b1.webm) · [Motion complete recording](studies/ants-launch/evidence/runs/motion-desktop/page@5d57ced47dfc4cb585bbc9ee4a8ab754.webm)
-
-## Capture → inspect → repair → verify
-
-| Tool | What the agent receives |
-| --- | --- |
-| `motion_recipe` | Original runnable source, dependencies and integration/evidence guidance by recipe ID |
-| `motion_review` | Transition plan, actor observations, event-linked native images and bounded review packet |
-| `motion_probe` | Fresh-context interruption grids, retained attempts and bounded failure minimization |
-| `motion_capture` | WebM recording, screenshots, events, measurements and explicit contract results |
-| `motion_inspect` | A bounded time window with relevant events and samples |
-| `motion_frames` | PNG frames from the actual recording; whole-journey selection and detail bounds up to 1280×960 |
-| `motion_compare` | Before/after changes, comparability checks and final-state equivalence |
-| `motion_list` | Saved captures in the configured evidence directory |
-
-Choose a unique target, repeatable actions and meaningful positive outcome expectations before the repair. `contract.outcomes` can require result text, visibility and state attributes and reject visible error states within a deadline. Missing outcomes produce `delivery.status: unverified`; a stable canvas cannot establish that a task completed. Keep the same viewport, actions and contracts afterward. The [agent walkthrough](docs/AGENT-WORKFLOW.md) shows calls; the [workflow](docs/WORKFLOW.md) bounds each repair investigation.
-
-Each capture produces:
-
-```text
-.motion-evidence/<capture-id>/
-├── video.webm     actual browser recording
-├── poster.png    starting page
-├── final.png     final page
-└── report.json   recipe, trace, findings and limitations
-```
-
-## Agent integrations
-
-Project setup supports **Codex, Claude Code, Cursor and VS Code/Copilot** through the same local stdio MCP server. Replace `codex` in the setup command with `claude-code`, `cursor` or `vscode`.
-
-Fresh tarball installation, the official MCP SDK connection, real tool calls, browser captures and all four configuration formats are tested. Portable Codex, Claude Code and Cursor ZIPs also have fresh dependency and SDK checks. Actual interactive compatibility is reported separately in [client evidence](docs/CLIENTS.md).
-
-## Earlier comparisons
-
-<details>
-<summary>MONO workflow trial and retained follow-up</summary>
-
-The [MONO workflow comparison](studies/workflow-mono-20261003/README.md) gives two independent agents the same demanding audio-product brief, GPT-6-Luna Max model and twenty-minute budget. One builds and refines with ordinary tools; the other uses Motion's installed skills and actual MCP tools. The recordings show matched visitor journeys through their independently built sites.
-
-- [Ordinary workflow: full recording](docs/assets/workflow-mono-20261003/control.mp4)
-- [Motion workflow: full recording](docs/assets/workflow-mono-20261003/treatment.mp4)
-- [Prompt, source, tool traces and findings](studies/workflow-mono-20261003/README.md)
-
-**Result:** Motion made an evidence-led easing repair, but this trial did not demonstrate a better overall site. Its Undo control failed and both final recordings had weak temporal sampling. The later GPT-6.1 follow-up is [preserved for handoff](handoffs/motion-local-20261003/README.md); it did not reach a verified final comparison.
-
-![Actual frozen ordinary and Motion interfaces](docs/assets/workflow-mono-20261003/comparison.png)
-
-This compares complete workflows, including Motion's bundled guidance. It does not isolate a tool's causal effect or establish a general coding-agent advantage. Function checks, contract results and visual observations are reported separately.
-
-</details>
-
-## Scope and limits
-
-- Capture only trusted local pages. Recordings are not automatically redacted; no personal browser profile is imported.
-- Measurements evaluate your stated contracts. They are not an aesthetic score or proof of perceptual smoothness.
-- Weak sampling is inconclusive. The unchanged 80 ms integrity gate must pass before temporal comparisons can establish an improvement.
-- A canvas rectangle cannot reveal motion inside a 3D scene. Inspect video frames as well as measurements.
-- Source references and app marks are supplied annotations, not causes inferred from pixels.
-
-[Development and tests](CONTRIBUTING.md) · [Security](SECURITY.md) · [Evidence architecture](docs/EVIDENCE-ARCHITECTURE.md) · [Historical studies](studies/aer/README.md) · [Design attribution](plugin/motion-debugger/skills/motion-design/references/taste-provenance.md)
-
-## Actor-aware preview and ASSEMBLY
-
-The PR #10 implementation adds editable transition plans, DOM/SVG/opt-in Three.js bindings, three construction patterns, protected-design checkpoints and native review. The namespaced `motion-debugger` skill coexists with a foreign `/motion` skill. Legacy capture reports keep schema 2.0; actor/review capability fields are explicitly versioned.
-
-Run `npm run demo:assembly` for the original camera configurator, or visit `/assembly/` in the packed CLI demo. Open, reverse, change lenses mid-flight, scrub, inspect and save. [Demo/source and common scaffold](examples/assembly/README.md) · [Implementation and validation status](docs/MOTION-QUALITY-IMPLEMENTATION.md).
-
-Actual browser detector calibration catches internal canvas jumps and smooth spoofed annotations; it preserves fast valid travel and direct-scrub exclusions. This supports motion review/regression usefulness. The ASSEMBLY app is hand-authored. The eighteen-session host pilot and blind preference review remain pending; no agent superiority or physical display FPS claim is made.
+[Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)

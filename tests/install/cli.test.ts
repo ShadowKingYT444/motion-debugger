@@ -57,7 +57,7 @@ async function assertInstalled(directory:string) {
 test('skills install previews all six complete skills for every supported workspace client',async()=>{
   const dir=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-skills-clients-')));
   try {
-    for(const client of ['codex','claude-code','cursor','vscode'] as const) {
+    for(const client of ['codex','claude-code','cursor','vscode','opencode'] as const) {
       const project=path.join(dir,client);await mkdir(project);const destination=path.join(project,skillDirectories[client]!);
       const args=['skills','install','--client',client,'--project',project];
       const preview=run(args,dir);assert.equal(preview.status,0,preview.stderr);const plan=JSON.parse(preview.stdout);
@@ -158,4 +158,13 @@ test('rollback preserves user changes made after installation and removes other 
     await writeFile(path.join(destination,'motion-evidence/custom.txt'),'user changes');await assert.rejects(rollback(),/preserved changed/);
     assert.deepEqual(await readdir(destination),['motion-evidence']);assert.equal(await readFile(path.join(destination,'motion-evidence/custom.txt'),'utf8'),'user changes');
   }finally{await rm(dir,{recursive:true,force:true})}
+});
+
+ test('OpenCode 1.x config merges servers and preserves settings while refusing v2 shapes',()=>{
+  const prior={model:'keep',mcp:{other:{type:'local',command:['keep'],enabled:false}},permission:{edit:'ask'}};
+  const parsed=JSON.parse(configText({client:'opencode',local:true},JSON.stringify(prior)));
+  assert.equal(parsed.model,'keep');assert.deepEqual(parsed.permission,prior.permission);assert.deepEqual(parsed.mcp.other,prior.mcp.other);
+  assert.equal(parsed.mcp['motion-debugger'].type,'local');assert.equal(parsed.mcp['motion-debugger'].enabled,true);
+  assert.ok(Array.isArray(parsed.mcp['motion-debugger'].command));assert.ok(parsed.mcp['motion-debugger'].environment.MOTION_ARTIFACT_DIR);
+  assert.throws(()=>configText({client:'opencode',local:true},JSON.stringify({mcp:{servers:{other:{}}}})),/v2 configuration/);
 });
