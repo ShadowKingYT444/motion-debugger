@@ -5,6 +5,17 @@ import path from 'node:path';
 import {capture,inspect,compact,compare,RecipeSchema,validateLocalUrl,recordedFrames,motionCatalog,motionRecipe,motionReview,ReviewSchema,motionProbe,ProbeSchema} from '../core/index';
 import {CaptureFailureError} from '../core/capture';
 import type {CoreOptions} from '../core/types';
+import {transitionPoseSchema} from '../core/transitions';
+
+// Codex 0.160's JSON Schema subset expects one `items` schema, not draft-7 tuple arrays.
+// These poses are homogeneous numeric triples. Advertise exact-length arrays while the
+// unchanged core schema remains authoritative for tuple length, units and graph constraints.
+const triple=z.array(z.number().finite()).length(3).describe('Exactly three finite x/y/z values');
+const poseWire=z.object({...transitionPoseSchema.shape,orientationRad:triple.optional(),scale:z.array(z.number().finite().positive()).length(3).describe('Exactly three positive scale values').optional()}).strict();
+const planShape=ReviewSchema.shape.plan.shape;
+const beatWire=z.object({...planShape.beats.element.shape,from:poseWire,to:poseWire}).strict();
+const acceptedWire=z.object({...planShape.acceptance.shape.actors.element.shape,destination:poseWire}).strict();
+const planWire=z.object({...planShape,beats:z.array(beatWire).min(1).max(24),acceptance:z.object({...planShape.acceptance.shape,actors:z.array(acceptedWire).min(1).max(24)}).strict()}).strict();
 
 export function optionsFromEnvironment():CoreOptions {
   const allowedOrigins=(process.env.MOTION_ALLOWED_ORIGINS??'').split(',').map(value=>value.trim()).filter(Boolean);
@@ -19,12 +30,10 @@ export function createMotionServer(options=optionsFromEnvironment()) {
   };
   server.registerTool('motion_recipe',{title:'Find runnable motion recipes',description:'Read the bundled original interactive motion catalog or one complete recipe by ID. Returns runnable source, integration guidance and evidence requirements for spring retargeting, scroll choreography, articulated 3D colonies, task handoffs, elapsed-time sequences, kinetic fields and drawers. No network, arbitrary file access, installation or source edits. Adapt to the user’s brief, then verify the real result.',inputSchema:{id:z.string().min(1).max(64).optional()},annotations:{readOnlyHint:true,openWorldHint:false}},protect(async({id})=>id?motionRecipe(id):{recipes:motionCatalog(),workflow:{limits:{durationMs:12000,actions:16,waitPerActionMs:4000,totalWaitMs:10000,dragDurationMs:2000,dragWaypoints:12},outcomeDeadline:'From capture START, including actions and waits. Omit timeoutMs to use durationMs. Late/impossible budgets remain failed evidence with recipeWarnings.',chooseTarget:'Track a unique moving DOM landmark for continuity. A stationary canvas box needs actual recorded frames for internal motion.',exampleNeedsAppSelectors:true,exampleCapture:{recipe:{url:'http://127.0.0.1:4173',selector:'#preview',durationMs:3000,actions:[{action:'click',selector:'#play'},{action:'wait',ms:700},{action:'click',selector:'#pause'},{action:'drag',selector:'#scrubber',points:[{x:.15,y:.5},{x:.85,y:.5},{x:.35,y:.5}],durationMs:800},{action:'wait',ms:300}],contract:{outcomes:{required:[{id:'paused-composition',selector:'#status',visible:true,textIncludes:'Paused'}],forbiddenVisible:['#app-error']}}}},next:'Capture, inspect and view native frames; edit with ordinary coding tools; rerun unchanged recipe and compare. Record full entrance/export journeys with ordinary browser tools when longer than12seconds.'}}));
   server.registerTool('motion_capture',{title:'Capture local motion evidence',description:'Run an explicit bounded click/hover/key/native drag/pointer/scroll recipe against a caller-chosen loopback URL and CSS target. Native drag uses selector-relative points in[0,1] with at most12 waypoints and2000ms held duration. Scroll deltas are limited to ±1200 pixels per action. Fresh browser; may change local app state. Saves actual WebM, screenshots and temporal evidence. Never imports credentials or edits code.',inputSchema:{recipe:RecipeSchema},annotations:{readOnlyHint:false,destructiveHint:true,openWorldHint:false}},protect(async({recipe},extra)=>compact(await capture(recipe,{...options,signal:extra?.signal}))));
-  // Codex 0.160 rejects an object-valued JSON Schema default during tool discovery.
-  // Keep identical defaults in motionReview; expose the optional object without that annotation.
-  const reviewInput={...ReviewSchema.shape,budget:ReviewSchema.shape.budget.unwrap().optional()};
+  const reviewInput={...ReviewSchema.shape,plan:planWire};
   server.registerTool('motion_review',{title:'Review one native motion journey',description:'Capture or reuse the exact declared journey, validate its transition plan and actor bindings, and return a compact review plus at most six native PNGs. Keeps functional delivery, geometry, app scene annotations, pixel review and preference separate. Supports a prior capture comparison. Does not edit source or certify aesthetic quality/FPS. May interact with the local app. No silent retries.',inputSchema:reviewInput,annotations:{readOnlyHint:false,destructiveHint:true,openWorldHint:false}},async(args,extra)=>{
     try {
-      const reviewed=await motionReview(args,{...options,signal:extra?.signal});
+      const reviewed=await motionReview(ReviewSchema.parse(args),{...options,signal:extra?.signal});
       const content:Array<{type:'text';text:string}|{type:'image';mimeType:'image/png';data:string}>=[{type:'text',text:JSON.stringify(reviewed.metadata,null,2)}];
       for(const frame of reviewed.frames)content.push({type:'text',text:`${frame.kind??'context'} at requested capture ${frame.captureTimeMs}ms; decoded mediaTime ${frame.decodedPresentationTimeMs??'unavailable'}ms; alignment uncertainty uncalibrated`},{type:'image',mimeType:'image/png',data:frame.png.toString('base64')});
       return {content,structuredContent:reviewed.metadata};
