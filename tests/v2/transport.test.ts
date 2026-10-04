@@ -15,6 +15,9 @@ for (const entry of ['build/mcp/index.js','plugin/motion-debugger/scripts/mcp.mj
     assert.equal(client.getServerVersion()?.name,'motion-debugger');
     const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name).sort(),['motion_capture','motion_compare','motion_frames','motion_inspect','motion_list','motion_probe','motion_recipe','motion_review']);
     assert.equal(tools.find(t=>t.name==='motion_capture')?.annotations?.readOnlyHint,false);
+    const budget=tools.find(t=>t.name==='motion_review')?.inputSchema.properties?.budget as {type?:string;default?:unknown;properties?:Record<string,{default?:unknown}>};
+    assert.equal(budget.type,'object');assert.equal(budget.default,undefined,'Native host schema omits object-valued defaults');
+    assert.equal(budget.properties?.maxFrames.default,6,'Scalar bounds/defaults remain exposed');
     // Native hosts need the clock semantics in the schema, not only an optional document.
     const schema=JSON.stringify(tools.find(t=>t.name==='motion_capture')?.inputSchema);
     assert.match(schema,/Deadline from capture START/);
