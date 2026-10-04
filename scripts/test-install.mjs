@@ -26,7 +26,7 @@ try {
   const installed=path.join(temp,'node_modules/motion-debugger');const installedStat=await lstat(installed);assert.equal(installedStat.isDirectory(),true);assert.equal(installedStat.isSymbolicLink(),false);
   const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.5.0');
   run(process.execPath,['--input-type=module','-e','import {validateRecipe,compare,motionReview,motionProbe,validateTransitionPlan} from "motion-debugger"; if([validateRecipe,compare,motionReview,motionProbe,validateTransitionPlan].some(fn=>typeof fn!=="function"))process.exit(1)']);
-  for(const client of ['codex','claude-code','cursor','vscode']) {const text=run(process.execPath,[binary,'config','--client',client,'--local']);assert.ok(text.includes('motion-debugger'));}
+  for(const client of ['codex','claude-code','cursor','vscode','opencode']) {const text=run(process.execPath,[binary,'config','--client',client,'--local']);assert.ok(text.includes('motion-debugger'));}
   proof.checks.push('installed-cli-version-and-core-import','four-client-config-formats');
   const config=path.join(temp,'mcp.json');const plan=JSON.parse(run(process.execPath,[binary,'init','--config',config,'--local']));
   run(process.execPath,[binary,'init','--config',config,'--local','--apply','--confirm',plan.confirmationToken]);assert.ok(JSON.parse(await readFile(config,'utf8')).mcpServers['motion-debugger']);
@@ -45,7 +45,7 @@ try {
   assert.equal(await readFile(path.join(unrelated,'SKILL.md'),'utf8'),'Keep unrelated user instructions');
   assert.match(await readFile(complete.target,'utf8'),/mcp_servers\.motion-debugger/);
   const repeated=JSON.parse(run(process.execPath,setupArgs));assert.equal(repeated.changed,false);assert.equal(repeated.skillsChanged,false);
-  for(const [client,directory] of [['claude-code','.claude/skills'],['cursor','.cursor/skills'],['vscode','.github/skills']]) {
+  for(const [client,directory] of [['claude-code','.claude/skills'],['cursor','.cursor/skills'],['vscode','.github/skills'],['opencode','.opencode/skills']]) {
     const project=path.join(temp,`consumer-${client}`);await mkdir(project);
     const args=[binary,'skills','install','--client',client,'--project',project],preview=JSON.parse(run(process.execPath,args));
     run(process.execPath,[...args,'--apply','--confirm',preview.confirmationToken]);

@@ -1,5 +1,7 @@
-name: Verify motion regression proof
+name: Motion Debugger CI
 on:
+  push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -38,6 +40,8 @@ jobs:
           npm run test:drag:browser
           npm run test:duration:browser
           npm run test:outcomes:browser
+      - name: SIGNAL desktop, mobile and reduced-motion visitor journeys
+        run: npm run test:rail:browser
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
       - name: Saved study launcher and actual browser smoke

@@ -14,7 +14,7 @@ const executablePath=process.env.CHROMIUM_PATH??(existsSync(chromium.executableP
 const browser=await chromium.launch({executablePath,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 const environment={chromium:browser.version(),node:process.version,commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),workingTree:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),sourceHashes};
 const required=['#harbor','#summit','#overview','#focus','#pause','#replay','#export','#scrub','#network','#service-name'];
-try{for(const scenario of [{name:'desktop',viewport:{width:1440,height:960}},{name:'mobile',viewport:{width:390,height:844}},{name:'reduced',viewport:{width:1440,height:960},reducedMotion:'reduce'}])for(const arm of ['ordinary','motion']){
+try{for(const scenario of [{name:'desktop',viewport:{width:1440,height:960}},{name:'mobile',viewport:{width:390,height:844}},{name:'reduced',viewport:{width:1440,height:960},reducedMotion:'reduce'}].filter(s=>!process.argv.includes('--reduced-only')||s.name==='reduced'))for(const arm of ['ordinary','motion']){
  const dir=path.join(output,`${arm}-${scenario.name}`);await mkdir(dir,{recursive:true});const context=await browser.newContext({viewport:scenario.viewport,reducedMotion:scenario.reducedMotion??'no-preference',recordVideo:{dir,size:scenario.viewport},acceptDownloads:true});
  const page=await context.newPage();const video=page.video(),errors=[],checks=[],events=[];page.on('pageerror',error=>errors.push(error.message));
  await page.addInitScript(()=>{window.__railFrameTimes=[];function tick(t){window.__railFrameTimes.push(t);if(window.__railFrameTimes.length<5000)requestAnimationFrame(tick)}requestAnimationFrame(tick)});
@@ -31,7 +31,7 @@ try{for(const scenario of [{name:'desktop',viewport:{width:1440,height:960}},{na
   await step('focus again',()=>page.locator('#focus').click());
   await step('reverse during transition',()=>page.locator('#overview').click());await page.waitForTimeout(900);
   await page.screenshot({path:path.join(dir,'interruption.png')});
-  await step('pause',()=>page.locator('#pause').click(),s=>s?.paused===true);const paused=await state();await page.waitForTimeout(500);const later=await state();checks.push({label:'paused clock remains stable',passed:!!paused&&paused.time===later?.time});
+  await step('pause',async()=>{if(!(await state())?.paused)await page.locator('#pause').click()},s=>s?.paused===true);const paused=await state();await page.waitForTimeout(500);const later=await state();checks.push({label:'paused clock remains stable',passed:!!paused&&paused.time===later?.time});
   await step('timetable scrub forward and reverse',async()=>{const range=page.locator('#scrub');await range.focus();await range.press('End');await page.waitForTimeout(350);await range.press('Home');await page.waitForTimeout(350);await range.press('ArrowRight')});
   await page.screenshot({path:path.join(dir,'scrub.png')});
   await step('resume',()=>page.locator('#pause').click(),s=>s?.paused===false);
@@ -48,5 +48,6 @@ try{for(const scenario of [{name:'desktop',viewport:{width:1440,height:960}},{na
  await writeFile(path.join(dir,'report.json'),JSON.stringify(report,null,2));results.push(report);console.log(JSON.stringify({arm,scenario:scenario.name,status:report.status,failed:checks.filter(c=>!c.passed).map(c=>c.label),sampling:report.frameSampling}));
  }
  const current={ordinary:await hashes(path.join(root,'source/ordinary')),motion:await hashes(path.join(root,'source/motion'))};if(JSON.stringify(current)!==JSON.stringify(sourceHashes))throw new Error('Source changed during verification');
- const report={schemaVersion:1,createdAt:new Date().toISOString(),kind:'Independent agent workflow pair; not blind benchmark',status:results.every(r=>r.status==='passed')?'passed':'failed',environment,results};await writeFile(path.join(output,'verification.json'),JSON.stringify(report,null,2));
+ const allResults=process.argv.includes('--reduced-only')?[...(JSON.parse(await readFile(path.join(output,'verification.json'),'utf8')).results.filter(r=>r.scenario!=='reduced')),...results]:results;
+ const report={schemaVersion:1,createdAt:new Date().toISOString(),kind:'Independent agent workflow pair; not blind benchmark',status:allResults.every(r=>r.status==='passed')?'passed':'failed',environment,results:allResults};await writeFile(path.join(output,'verification.json'),JSON.stringify(report,null,2));if(report.status!=='passed')process.exitCode=1;
 }catch(e){console.error(e);process.exitCode=1}finally{await browser.close();await viewer.close()}

@@ -1,0 +1,2378 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-04T19:58:17.638Z",
+  "kind": "Independent agent workflow pair; not blind benchmark",
+  "status": "passed",
+  "environment": {
+    "chromium": "153.0.8010.12",
+    "node": "v24.20.0",
+    "commit": "e0bcb1ba9762520c4cafc50c8765b26e1717d54f",
+    "workingTree": "M .github/workflows/ci.yml\n M scripts/test-install.mjs\n M tests/rail-browser.mjs\n?? studies/rail-dispatch/evidence/",
+    "sourceHashes": {
+      "ordinary": {
+        "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+        "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+      },
+      "motion": {
+        "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+        "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+        "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+        "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+        "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+        "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+        "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+      }
+    }
+  },
+  "results": [
+    {
+      "arm": "ordinary",
+      "scenario": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "reducedMotion": "no-preference",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1591.0999999940395,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.7658999999934
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.9075499999926
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1865.5999999940395,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.9075499999926
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 523.0325499999922
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2784.199999988079,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 523.3658499999905
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.49919999999
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 3050.7999999821186,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.49919999999
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.6325499999892
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3317,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.6325499999892
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.7658499999885
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3582.5999999940395,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.7658499999885
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.8991999999882
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4818.699999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 524.382499999986
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 524.3991499999859
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5586.5,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 524.3991499999859
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6618.9000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.20830000000000026
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6881.9000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.21665000000000018
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.11665000000000011
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 7149,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.11665000000000011
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.23334999999999997
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7385.299999982119,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.23334999999999997
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.36669999999999997
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 503,
+        "maxGapMs": 16.800000000000182,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "edd7a0fa58654bf7eeb27cb21baca390f9606cc542352011bc2ca0a7d0769916",
+          "bytes": 257
+        },
+        "final.png": {
+          "sha256": "292085a3aa9fd5cd3d8bd8faddb0415aa08575fbe7dcbf2cf2a3e2062294e1e9",
+          "bytes": 179227
+        },
+        "initial.png": {
+          "sha256": "8c6d6e902e5cb7b86c41a4b201d65eab0cb13665f5ed80d7d721e582434ce3e6",
+          "bytes": 187516
+        },
+        "interruption.png": {
+          "sha256": "770271c9bee687fcb9356657d3f85dec6740a7c19c963d198e2a15d9be69cdea",
+          "bytes": 187219
+        },
+        "journey.webm": {
+          "sha256": "d5df51ae284fb7767087c5b2f932318a349110041a446813453376b609183295",
+          "bytes": 937415
+        },
+        "scrub.png": {
+          "sha256": "4c4e80b2f82cc0683c5980318200e89ce90b0a648dd2a8e2b4205a1d29d825e2",
+          "bytes": 186602
+        }
+      },
+      "sourceHashes": {
+        "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+        "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "2e61034043b278f3d7170006476f1f52e0cc42a7",
+        "workingTree": "M README.md\n M docs/CLIENTS.md\n M docs/SKILLS.md\n M docs/assets/banner.svg\n M package.json\n M packages/cli/config.ts\n M packages/cli/index.ts\n M packages/cli/skills.ts\n M packages/cli/wizard.ts\n M tests/install/cli.test.ts\n?? docs/OPENCODE-VALIDATION.json\n?? docs/assets/wordmark.svg\n?? scripts/demo-rail.mjs\n?? studies/rail-dispatch/\n?? tests/rail-browser.mjs",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    },
+    {
+      "arm": "motion",
+      "scenario": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "reducedMotion": "no-preference",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1539.0999999940395,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.483299999999999
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.7666999999999977
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1817,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.7666999999999977
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 2.033299999999997
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2736.2999999821186,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 2.683299999999995
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 2.9498999999999946
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 3002.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 2.9498999999999946
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.2165999999999935
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3276.399999976158,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.2165999999999935
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 3.4832999999999923
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3547.7999999821186,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 3.4832999999999923
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.766599999999992
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4788.299999982119,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 4.733199999999999
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 4.7665999999999995
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5551,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 4.7665999999999995
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6572.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.31670000000000076
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6835.699999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.31670000000000076
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.2166000000000004
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 7100.399999976158,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.2166000000000004
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.4500000000000002
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7340,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.4500000000000002
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.7000000000000004
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 501,
+        "maxGapMs": 16.80000000000109,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "62cae73b51cbae540ebfd98cc9c3085ccdf90b8281f13170cb56fc1b0772daed",
+          "bytes": 144
+        },
+        "final.png": {
+          "sha256": "d9c62095064f3779df8f55bc16403e24c573c50e5062f881bfe5345803a762b1",
+          "bytes": 191550
+        },
+        "initial.png": {
+          "sha256": "cfc8a161fcc12b321e0ba0fb4f44f862290725b33c38389670a57dee1f552588",
+          "bytes": 198543
+        },
+        "interruption.png": {
+          "sha256": "3f1de2e1d8549ef95798bcfb54504872512904f550fea811e0b9d44b860bc04b",
+          "bytes": 197343
+        },
+        "journey.webm": {
+          "sha256": "c5f00e1967ed85770806bead6272a825055fa42fd78e2b0d38a0a9722278b361",
+          "bytes": 963338
+        },
+        "scrub.png": {
+          "sha256": "056c67555472b5eee2cbba848d8f63e572812f441b885d6889706a12b1484ddc",
+          "bytes": 188128
+        }
+      },
+      "sourceHashes": {
+        "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+        "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+        "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+        "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+        "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+        "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+        "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "2e61034043b278f3d7170006476f1f52e0cc42a7",
+        "workingTree": "M README.md\n M docs/CLIENTS.md\n M docs/SKILLS.md\n M docs/assets/banner.svg\n M package.json\n M packages/cli/config.ts\n M packages/cli/index.ts\n M packages/cli/skills.ts\n M packages/cli/wizard.ts\n M tests/install/cli.test.ts\n?? docs/OPENCODE-VALIDATION.json\n?? docs/assets/wordmark.svg\n?? scripts/demo-rail.mjs\n?? studies/rail-dispatch/\n?? tests/rail-browser.mjs",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    },
+    {
+      "arm": "ordinary",
+      "scenario": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "reducedMotion": "no-preference",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1507.7999999821186,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.7339999999966
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.8672999999959
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1776.0999999940395,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 522.8672999999959
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 522.9922999999952
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2690.199999988079,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 523.3255999999936
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.4589499999931
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 2955.7999999821186,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.4589499999931
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.5838999999926
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3222.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.5922499999925
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.717249999992
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3489.0999999940395,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 523.7255999999919
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 523.8505999999915
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4690.0999999940395,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 524.3255499999893
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 524.3422499999892
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5453.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 524.3422499999892
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6432.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.20830000000000015
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6703.799999982119,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.21665000000000006
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.10840000000000011
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 6972.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.11669999999999983
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.2333499999999999
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7205.299999982119,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.2333499999999999
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.35835
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 491,
+        "maxGapMs": 16.800000000000182,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "6b945130471ff388c18c7b5e28d417e60730b3f7a2105a750267708fb2fffd83",
+          "bytes": 257
+        },
+        "final.png": {
+          "sha256": "2eba63c23c7caadd72e6afadc4eedfa7440a59400bf11d0db5aa0fac651e8905",
+          "bytes": 55507
+        },
+        "initial.png": {
+          "sha256": "fbc417fca74ae5481245bdcc4e7983d7012c0aaace79703d401d1535d005b490",
+          "bytes": 76344
+        },
+        "interruption.png": {
+          "sha256": "6479c866f1f437be1b1cf728125bd0ae1a0254122f215ddf50a400743896716a",
+          "bytes": 75027
+        },
+        "journey.webm": {
+          "sha256": "e57fb625588bf2786dad5c18f61c3825c297fbff5f95fe0647722f422659464c",
+          "bytes": 610302
+        },
+        "scrub.png": {
+          "sha256": "6a461e60d2bd1d7c365a3b1eaf6f4e5d86a5e900ba2f0a08233dbba701fbde35",
+          "bytes": 48615
+        }
+      },
+      "sourceHashes": {
+        "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+        "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "2e61034043b278f3d7170006476f1f52e0cc42a7",
+        "workingTree": "M README.md\n M docs/CLIENTS.md\n M docs/SKILLS.md\n M docs/assets/banner.svg\n M package.json\n M packages/cli/config.ts\n M packages/cli/index.ts\n M packages/cli/skills.ts\n M packages/cli/wizard.ts\n M tests/install/cli.test.ts\n?? docs/OPENCODE-VALIDATION.json\n?? docs/assets/wordmark.svg\n?? scripts/demo-rail.mjs\n?? studies/rail-dispatch/\n?? tests/rail-browser.mjs",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    },
+    {
+      "arm": "motion",
+      "scenario": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "reducedMotion": "no-preference",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1491.5,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.4498999999999989
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.6998999999999982
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1753,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 1.6998999999999982
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 1.9664999999999975
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2668.600000023842,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 2.6165999999999956
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 2.899799999999995
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 2942.600000023842,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 2.899799999999995
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.1498999999999944
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3203.4000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.1498999999999944
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 3.433199999999994
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3477.2000000178814,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 3.433199999999994
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 3.6831999999999936
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4674.4000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 4.633100000000001
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 4.666500000000002
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5446,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 4.666500000000002
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6423.4000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.30000000000000004
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6686.600000023842,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.30000000000000004
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.21669999999999986
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 6958.300000011921,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.21669999999999986
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.4500000000000002
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7192.800000011921,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.4500000000000002
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.7000000000000004
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 491,
+        "maxGapMs": 16.800000000000182,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "62cae73b51cbae540ebfd98cc9c3085ccdf90b8281f13170cb56fc1b0772daed",
+          "bytes": 144
+        },
+        "final.png": {
+          "sha256": "89ac081be4cad9ef8caac2ea9c81b493b727bd29051936c74bd670744c010d4c",
+          "bytes": 41721
+        },
+        "initial.png": {
+          "sha256": "fe0e33c16b14acafb139a0e54a6a668851158751aaeb6b300e67c769806beaa4",
+          "bytes": 77226
+        },
+        "interruption.png": {
+          "sha256": "3954eabc5196abdbfa705f624643aabf030215d8a8bb18e057861ca674a040f4",
+          "bytes": 77419
+        },
+        "journey.webm": {
+          "sha256": "08c98035ba7188a67944ed5efae9e6b55c1892fcf7c2fb7a5fe99d1094e95e96",
+          "bytes": 714498
+        },
+        "scrub.png": {
+          "sha256": "39d4ff44f4bfd14b4c8e8d7a934e147c4f9794160c7da6ff32be7c8875cf7e4a",
+          "bytes": 77203
+        }
+      },
+      "sourceHashes": {
+        "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+        "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+        "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+        "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+        "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+        "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+        "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "2e61034043b278f3d7170006476f1f52e0cc42a7",
+        "workingTree": "M README.md\n M docs/CLIENTS.md\n M docs/SKILLS.md\n M docs/assets/banner.svg\n M package.json\n M packages/cli/config.ts\n M packages/cli/index.ts\n M packages/cli/skills.ts\n M packages/cli/wizard.ts\n M tests/install/cli.test.ts\n?? docs/OPENCODE-VALIDATION.json\n?? docs/assets/wordmark.svg\n?? scripts/demo-rail.mjs\n?? studies/rail-dispatch/\n?? tests/rail-browser.mjs",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    },
+    {
+      "arm": "ordinary",
+      "scenario": "reduced",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "reducedMotion": "reduce",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1551.300000011921,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1827,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2740.5,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 3002.800000011921,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3269.9000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3536.4000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4762.700000017881,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5493.200000017881,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 522
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6492.700000017881,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.20830000000000026
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6748,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.20830000000000026
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.1083000000000002
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 7002.800000011921,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.1083000000000002
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.22495000000000037
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7235.700000017881,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.22495000000000037
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0.35830000000000034
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 494,
+        "maxGapMs": 16.800000000000182,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "375a71ea031e0edadd7863fe43af7b947e6b7a120a77d4c757d1cd677f1d0833",
+          "bytes": 257
+        },
+        "final.png": {
+          "sha256": "6115f56d3d9f2710749c487c9934cd8772451647ed62525cbf3a550067ee059d",
+          "bytes": 177983
+        },
+        "initial.png": {
+          "sha256": "234f12d12d3bb37badba64fc131ba0b3c8965506a4a9467605f6567f043cb454",
+          "bytes": 187023
+        },
+        "interruption.png": {
+          "sha256": "b1a4c51c9b58938ffccdc0f10e2abe2529735abe63c657e260cd147bd9d2d368",
+          "bytes": 187716
+        },
+        "journey.webm": {
+          "sha256": "60a4b0b8c6ee84d5fd1acf04e05d0bf47300aa70ab329acb2e4f77e373d9e781",
+          "bytes": 770973
+        },
+        "scrub.png": {
+          "sha256": "3155023970f6fdb877b93881eb275aaf665eae05181fb61a9d249e24dda6ae23",
+          "bytes": 185772
+        }
+      },
+      "sourceHashes": {
+        "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+        "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "e0bcb1ba9762520c4cafc50c8765b26e1717d54f",
+        "workingTree": "M .github/workflows/ci.yml\n M scripts/test-install.mjs\n M tests/rail-browser.mjs\n?? studies/rail-dispatch/evidence/",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    },
+    {
+      "arm": "motion",
+      "scenario": "reduced",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "reducedMotion": "reduce",
+      "status": "passed",
+      "checks": [
+        {
+          "label": "visible #harbor",
+          "passed": true
+        },
+        {
+          "label": "visible #summit",
+          "passed": true
+        },
+        {
+          "label": "visible #overview",
+          "passed": true
+        },
+        {
+          "label": "visible #focus",
+          "passed": true
+        },
+        {
+          "label": "visible #pause",
+          "passed": true
+        },
+        {
+          "label": "visible #replay",
+          "passed": true
+        },
+        {
+          "label": "visible #export",
+          "passed": true
+        },
+        {
+          "label": "visible #scrub",
+          "passed": true
+        },
+        {
+          "label": "visible #network",
+          "passed": true
+        },
+        {
+          "label": "visible #service-name",
+          "passed": true
+        },
+        {
+          "label": "select Harbor",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "pause",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "paused clock remains stable",
+          "passed": true
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "resume",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "replay",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "passed": true,
+          "error": null
+        },
+        {
+          "label": "no horizontal page overflow",
+          "passed": true
+        },
+        {
+          "label": "no uncaught page errors",
+          "passed": true
+        }
+      ],
+      "events": [
+        {
+          "label": "select Harbor",
+          "pagePerformanceNowMs": 1535.800000011921,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "station focus",
+          "pagePerformanceNowMs": 1800.5,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "switch Summit mid-focus",
+          "pagePerformanceNowMs": 2718.199999988079,
+          "before": {
+            "service": "Harbor",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "overview reversal",
+          "pagePerformanceNowMs": 2984.199999988079,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "focus again",
+          "pagePerformanceNowMs": 3249.4000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "reverse during transition",
+          "pagePerformanceNowMs": 3514.9000000059605,
+          "before": {
+            "service": "Summit",
+            "view": "focus",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "pause",
+          "pagePerformanceNowMs": 4750,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "timetable scrub forward and reverse",
+          "pagePerformanceNowMs": 5522.5,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "resume",
+          "pagePerformanceNowMs": 6568.699999988079,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": true,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.1
+          },
+          "error": null
+        },
+        {
+          "label": "replay",
+          "pagePerformanceNowMs": 6833.5,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0.1
+          },
+          "after": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "keyboard service selection",
+          "pagePerformanceNowMs": 7099.800000011921,
+          "before": {
+            "service": "Summit",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        },
+        {
+          "label": "configuration export",
+          "pagePerformanceNowMs": 7338.5,
+          "before": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "after": {
+            "service": "Harbor",
+            "view": "overview",
+            "paused": false,
+            "time": 0
+          },
+          "error": null
+        }
+      ],
+      "errors": [],
+      "frameSampling": {
+        "samples": 503,
+        "maxGapMs": 16.80000000000109,
+        "integrityGateMs": 80,
+        "adequate": true,
+        "scope": "Browser rAF timing; not physical display FPS or painted train continuity"
+      },
+      "assets": {
+        "dispatch.json": {
+          "sha256": "d8f2223f45c000a92052f1edd6bd5207e41ef88fcb67d2f01aa5e969c8651706",
+          "bytes": 126
+        },
+        "final.png": {
+          "sha256": "5fef152b46024a4b3684cd2a3ff1bbf93db9fa9e5b63b95d0acb59f52aa5faa8",
+          "bytes": 191409
+        },
+        "initial.png": {
+          "sha256": "149a4e3251820664938804ed91efe596aa61ca7b4219ff7533ed7b53b8374e7c",
+          "bytes": 198559
+        },
+        "interruption.png": {
+          "sha256": "de293ec37703ce1a10556a6339998eb8dd1b710bbe69e8ebfcedfce4ebe44444",
+          "bytes": 196924
+        },
+        "journey.webm": {
+          "sha256": "3923db80ad54df2468c87756f6de5d3a2dad0821e98eb8b0e91b23fd1af563c1",
+          "bytes": 799747
+        },
+        "scrub.png": {
+          "sha256": "03fbc1edccb1d07bafd6e1c730c76181cc95756a890b675e0c8820fd8ad7e905",
+          "bytes": 188146
+        }
+      },
+      "sourceHashes": {
+        "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+        "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+        "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+        "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+        "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+        "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+        "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+      },
+      "environment": {
+        "chromium": "153.0.8010.12",
+        "node": "v24.20.0",
+        "commit": "e0bcb1ba9762520c4cafc50c8765b26e1717d54f",
+        "workingTree": "M .github/workflows/ci.yml\n M scripts/test-install.mjs\n M tests/rail-browser.mjs\n?? studies/rail-dispatch/evidence/",
+        "sourceHashes": {
+          "ordinary": {
+            "README.md": "7d602201687623efcb31c44e0ca64c19223982910d99101db9cbbd1ddf3ecb8f",
+            "index.html": "aec10911fca139edcb1637a41193eaf512a078570337bbe27633d0a09b1477ec"
+          },
+          "motion": {
+            "app.js": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+            "index.html": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+            "recipes/kinetic-field.mjs": "000a8d35e0cd09d44745ef8a7b274d9170ac4a7f496658429eeb57aa32ca06dc",
+            "recipes/spring.mjs": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+            "recipes/transition-bindings.mjs": "87d70a7e736c3acb0afc08f3d068f6becf79e766fb8ac23d14956f566ac9ed74",
+            "recipes/transition-patterns.mjs": "b85091c79d5ac4a014979663df9dba329c5323419ae5eb56ff653c81e64cca52",
+            "style.css": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4"
+          }
+        }
+      }
+    }
+  ]
+}
