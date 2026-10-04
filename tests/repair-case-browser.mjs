@@ -26,7 +26,21 @@ async function observeReversal(page,fromX){
   requestAnimationFrame(read);
  }),fromX);
 }
-const report={scope:'New source-repair case; actual browser behavior and SDK MCP transport, not a blind-agent benchmark or universal motion-quality score',sourceCommit:'63eff24c88dcbf42438230117834d8247e103367',checks:[],errors:[],captures:[],comparisons:[]};
+// Native CSS transitions may start after a delayed compositor commit. Wait for
+// observed completion when a step intends a fully closed drawer; interruption
+// waits and all intermediate/reversal assertions retain their original timing.
+async function waitForClosed(page) {
+ const observe=()=>page.evaluate(()=>{const d=document.querySelector('#details'),r=d.getBoundingClientRect();return {t:performance.now(),open:d.open,modal:d.matches(':modal'),display:getComputedStyle(d).display,width:r.width,focusedTag:document.activeElement.tagName,focusedId:document.activeElement.id,focusedText:document.activeElement.textContent.slice(0,80),animations:d.getAnimations().map(a=>({time:a.currentTime,state:a.playState,pending:a.pending})),events:window.nativeDialogEvents,trace:window.drawerTrace}});
+ const before=await observe();let failure;
+ try{await page.waitForFunction(()=>{const d=document.querySelector('#details');return !d.open&&getComputedStyle(d).display==='none'},undefined,{timeout:3000});}
+ catch(error){failure=error;throw error;}
+ finally{
+  const after=await observe();const observation={url:page.url(),before,after,waitMs:after.t-before.t,status:failure?'failed':'passed',error:failure?.message};
+  report.closeSettlements.push(observation);await writeFile(path.join(output,`close-settlement-${report.closeSettlements.length}.json`),JSON.stringify(observation,null,2));
+ }
+}
+
+const report={scope:'New source-repair case; actual browser behavior and SDK MCP transport, not a blind-agent benchmark or universal motion-quality score',sourceCommit:'63eff24c88dcbf42438230117834d8247e103367',checks:[],errors:[],captures:[],comparisons:[],closeSettlements:[]};
 report.harnessSha256=createHash('sha256').update(await readFile(new URL(import.meta.url))).digest('hex');
 report.implementationCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 report.runtimeSha256=createHash('sha256').update(await readFile(path.join(ROOT,'build/mcp/index.js'))).digest('hex');
@@ -65,7 +79,7 @@ try {
   const exiting=exitTrace.filter(x=>!x.open&&x.width>0);
   if(item.stage==='before')assert.equal(exiting.length,0,'Original close removes the rendered drawer immediately');
   else assert.ok(exiting.length>=2,'Repair retains actual intermediate exit frames');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(500);await waitForClosed(page);
   assert.equal(await page.locator('#details').evaluate(d=>getComputedStyle(d).display),'none');
   assert.equal(await page.locator('[data-open-details]').first().evaluate(el=>document.activeElement===el),true,'Escape restores opener focus');
   // Keyboard-native open / interrupted close / reopen. No fixed-mode URL or source substitution.
@@ -79,7 +93,7 @@ try {
   await page.waitForTimeout(450);assert.equal(await page.locator('#details').evaluate(d=>d.open),true);
   if(item.stage==='after'){assert.ok(reversalFrom.width>0);assert.ok(immediateReopen.x<=reversalEventFrom.x+2,'Reentry preserves the current pose');assert.ok(reversalObservations.at(-1).x<reversalEventFrom.x,'Reopening reverses the visible exit toward the open pose');assert.ok(reversalObservations.every(s=>s.x<=reversalEventFrom.x+2),'No outward reset during reversal')}
   await page.screenshot({path:path.join(output,`${item.stage}-reopened.png`)});
-  await page.keyboard.press('Escape');await page.waitForTimeout(500);
+  await page.keyboard.press('Escape');await page.waitForTimeout(500);await waitForClosed(page);
   const repeated=[];
   if(item.stage==='after')for(const width of [1440,390]){
    await page.setViewportSize({width,height:1000});
@@ -99,11 +113,11 @@ try {
     const to=await page.locator('#details').evaluate(d=>d.getBoundingClientRect().x);
     assert.ok(to<=eventFrom.x+2,'Reentry continues toward its open pose');
     repeated.push({width,delay,from,eventFrom,immediate,to,observations});
-    await page.waitForTimeout(450);await page.keyboard.press('Escape');await page.waitForTimeout(450);
+    await page.waitForTimeout(450);await page.keyboard.press('Escape');await page.waitForTimeout(450);await waitForClosed(page);
    }
   }
   await page.setViewportSize({width:390,height:844});await page.locator('[data-open-details]').first().click();await page.waitForTimeout(450);
-  await page.screenshot({path:path.join(output,`${item.stage}-mobile-drawer.png`)});await page.keyboard.press('Escape');await page.waitForTimeout(450);
+  await page.screenshot({path:path.join(output,`${item.stage}-mobile-drawer.png`)});await page.keyboard.press('Escape');await page.waitForTimeout(450);await waitForClosed(page);
   await page.setViewportSize({width:1440,height:1000});
   const resumedA=await canvas.screenshot();await page.waitForTimeout(300);const resumedB=await canvas.screenshot();
   assert.notEqual(createHash('sha256').update(resumedA).digest('hex'),createHash('sha256').update(resumedB).digest('hex'),'The real 3D renderer resumes after the exit');
