@@ -45,13 +45,14 @@ const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="vie
 <script type="module">
 import * as THREE from '/vendor/three.module.js';import {createColonyScene} from '/recipes/colony-scene.mjs';
 const canvas=document.querySelector('#colony'),status=document.querySelector('#status'),media=matchMedia('(prefers-reduced-motion: reduce)');
+// The recipe uses elapsed seconds. Preserve full rAF time on slow software renderers.
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,preserveDrawingBuffer:true});
 const colony=createColonyScene({THREE,renderer,count:18,reducedMotion:media.matches});
 let frame,last,disposed=false;window.events=[];window.frameTimes=[];
 const resize=()=>{const {width,height}=canvas.getBoundingClientRect();if(width&&height)colony.resize(width,height,devicePixelRatio);};
 const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
 const preference=()=>colony.setReducedMotion(media.matches);media.addEventListener('change',preference);
-function draw(time){if(disposed)return;const delta=last===undefined?0:(time-last)/1000;if(delta>0)window.frameTimes.push(delta*1000);last=time;colony.update(Math.min(.05,delta));status.textContent=colony.state.progress===1?'Queue assembled':colony.state.paused?'Paused':colony.state.reducedMotion?'Reduced motion: static orbit':'Orbit active';frame=requestAnimationFrame(draw);}
+function draw(time){if(disposed)return;const delta=last===undefined?0:(time-last)/1000;if(delta>0)window.frameTimes.push(delta*1000);last=time;colony.update(delta);status.textContent=colony.state.progress===1?'Queue assembled':colony.state.paused?'Paused':colony.state.reducedMotion?'Reduced motion: static orbit':'Orbit active';frame=requestAnimationFrame(draw);}
 document.querySelector('#assemble').onclick=()=>{colony.setProgress(1);window.events.push({kind:'assemble',time:performance.now()});};
 document.querySelector('#replay').onclick=()=>{colony.setProgress(0);window.events.push({kind:'replay',time:performance.now()});};
 document.querySelector('#pause').onclick=event=>{colony.setPaused(!colony.state.paused);event.target.textContent=colony.state.paused?'Resume':'Pause';window.events.push({kind:'pause',time:performance.now(),paused:colony.state.paused});};
