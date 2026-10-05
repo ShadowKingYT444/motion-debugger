@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "motion-value-audit-1",
+  "status": "observed-limitations-not-runtime-fixes",
+  "audit": {
+    "main": "fde065cdea0aecb4631e9106b48e0b53e327a8df",
+    "newestVisibleImplementation": "4157fd25a696c8de1eef0f0fad83b0cd4b1fa622",
+    "implementationPR": 12,
+    "priorAuditPR": 11,
+    "runtimeChangesInThisPR": false,
+    "agentBenchmarkExecuted": false,
+    "scope": "Native Chromium setContent observations using the exact shipped browser probe and analyzer bodies (execution provenance is in runtimeInputs). No page navigation, shipped capture orchestration, native-agent run, preference benchmark or physical display FPS claim."
+  },
+  "artifact": {
+    "runId": 37239837186,
+    "artifactId": 11316858363,
+    "ciMergeCheckout": "b93652a78db3c76f87ff503ea91af1adc6355e45",
+    "zipSha256": "fcbfda194086ee2aaf0c4a1df3770260082c233aebc2cb7c56c7d0770b6c85a2",
+    "packageSha256": "1810160fd3dacf0a19674bcb69db1e5bb410fee6cf62bc87884c128b33147b98",
+    "packageArchivePath": "install/2026-10-04T22-34-21.197Z/motion-debugger-0.5.0.tgz",
+    "receiptNote": "CI receipt retains re-recorded SIGNAL output modifications, not changes to the analyzed core source. CI films are not fresh agent generations or the historical local films."
+  },
+  "execution": {
+    "node": "v22.16.0",
+    "chromium": "144.0.7559.96",
+    "playwrightDriver": "1.57.0-beta-1764944708000",
+    "repositoryLockedPlaywrightUsed": false,
+    "typescript": "5.8.3",
+    "loading": "Exact function bodies compiled from the CI tarball source map. Only module paths and type-only imports adapted; schemas and full core package are not loaded.",
+    "navigation": "setContent; external requests blocked",
+    "input": "actual unforced clicks and native held mouse input; real timers and rAF",
+    "traceCollection": "exact shipped installBrowserProbe body",
+    "analysis": "exact shipped analyze/analyzeActors bodies compiled from package source maps",
+    "script": "tests/diagnostics/motion-value-sensitivity.mjs",
+    "scriptSha256": "e1b9a355b293ff3c8b00755e4d5716675bc594e4fd8b84653b751f3746475e5c",
+    "localAdapters": {
+      "coreSha256": "cf0a572de09687da71d3909016564a366fe6ecef3a1572c790850884cffc5cc4",
+      "probeSha256": "195e145746c43967518bb0b8a243aaead59570af030bfe6d2a5e9f788cdd5520"
+    },
+    "terminalConditionMethod": "Direct native DOM read; SIGNAL conditions correspond to historical Summit/Resume checks, not a rerun of capture/outcome orchestration."
+  },
+  "sourceIdentity": [
+    {
+      "path": "packages/core/actor-analysis.ts",
+      "sha256": "ac84d45b3239eee2b21cf839e7278b31f471e580d82b015bb64691efcad6ca0e",
+      "gitBlob": "7d5548303cc408865731232208d05271fff27817"
+    },
+    {
+      "path": "packages/core/coverage.ts",
+      "sha256": "ca41a302b613201d3389e0c88a29a0e25a1a1c027f1d7e6470e1390ef54a4e1a",
+      "gitBlob": "e843db6595d9b105589547a5aa32535a96b834d7"
+    },
+    {
+      "path": "packages/core/analysis.ts",
+      "sha256": "5aca129d49a1b79a6218c6e75c62edcbf22b6ce0a07862a9ff1984f84da48382",
+      "gitBlob": "c0d33d797bcccd44722841828fa4b2883dc90574"
+    },
+    {
+      "path": "packages/core/browser-probe.ts",
+      "sha256": "57220bf4cbeabe007f066e5d59c51d72f3776abea0bb67fe04a096828f6c453d",
+      "gitBlob": "ca949e7f5fafd1eb0b9c62f34d014f6a88a45d87"
+    },
+    {
+      "path": "packages/core/review.ts",
+      "sha256": "e3fec58d053153135bfcee9d1a90fc2d1fc55456b073cc6e5fbb34ef8145a0ff",
+      "functions": [
+        "reviewFrameTimes"
+      ]
+    }
+  ],
+  "signalSourceInputs": [
+    {
+      "file": "index.html",
+      "sha256": "bfe067e631209ade155bccd45286bfb980e211a95f08c970f680e6f4348382ac",
+      "bytes": 4941
+    },
+    {
+      "file": "style.css",
+      "sha256": "3f6b7f8e71328ccb20d74e894624b6deb4ed86af7b306555915344de5bce8ac4",
+      "bytes": 6915
+    },
+    {
+      "file": "app.js",
+      "sha256": "c4ff1c259ac70c31962459c13aa367906b35827a293cb6f55139754c900bbb27",
+      "bytes": 5929
+    },
+    {
+      "file": "recipes/spring.mjs",
+      "sha256": "2f2b2f87df492741753a414598e4fecc0b062fc27acdaaaa9f0ca182259d7d36",
+      "bytes": 3135
+    }
+  ],
+  "finalRun": {
+    "caseCount": 5,
+    "scenarios": [
+      {
+        "case": "signal",
+        "seeded": false,
+        "declaredTerminalConditionsPassed": true,
+        "uncaughtPageErrors": [],
+        "legacyCoverageSufficient": true,
+        "sampleCount": 234,
+        "actorSampleCount": 0,
+        "actorStatus": null,
+        "actors": [],
+        "observedVisibleTrainGroups": 9,
+        "observedHalfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": null,
+        "fixtureSha256": "dceb375100655235bf75c94275b784f85e617c2d058dbdd5a47dd595e013aba6",
+        "traceSha256": "f6669673d38f9c4f75109d19a256dc84553d7abcf88733978d37032c06a8c92a",
+        "videoSha256": "8e8bb32f1d9143d186003b527f27b0b8835315ad7efffc246fb3c31ae800e22d",
+        "legacyChecksPassed": true
+      },
+      {
+        "case": "signal-hidden",
+        "seeded": true,
+        "declaredTerminalConditionsPassed": true,
+        "uncaughtPageErrors": [],
+        "legacyCoverageSufficient": true,
+        "sampleCount": 240,
+        "actorSampleCount": 0,
+        "actorStatus": null,
+        "actors": [],
+        "observedVisibleTrainGroups": 0,
+        "observedHalfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": null,
+        "fixtureSha256": "daef7411b65a33f49474b59c38330abebd3a304b1819b4f5c3a4295c8d60fc19",
+        "traceSha256": "f202dba5b5d0d48ea31d5bdbfc16ce5d4a30d3d8f9f95639c45264bd88097ef8",
+        "videoSha256": "4e4ef61ab8c1eb1bb25149cf0183f3d73c4f09fd877f644c426787fa480d2922",
+        "legacyChecksPassed": true
+      },
+      {
+        "case": "reference",
+        "seeded": false,
+        "declaredTerminalConditionsPassed": true,
+        "uncaughtPageErrors": [],
+        "legacyCoverageSufficient": true,
+        "sampleCount": 121,
+        "actorSampleCount": 242,
+        "actorStatus": "passed",
+        "actors": [
+          {
+            "id": "mark",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 17.600000000000023,
+            "maxStepAt60HzPx": 5.6491844005623495,
+            "travelPx": 200
+          },
+          {
+            "id": "label",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 17.700000000000017,
+            "maxStepAt60HzPx": 5.6491844005623495,
+            "travelPx": 200
+          }
+        ],
+        "observedVisibleTrainGroups": null,
+        "observedHalfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": 7.62939453125e-06,
+        "fixtureSha256": "faca495649e2ddf1ccb289ef0334611ec44a87b93ee16392fe86c8710a390e09",
+        "traceSha256": "b11ea7210220e6540e5d3be44ca39f6ec279dadbe76c3f865b295b8d64af3bcc",
+        "videoSha256": "a89b9c9b8e89f9984f0fa5faf7b83271fa53959e3ee92579cd8d924b3a762721",
+        "legacyChecksPassed": true
+      },
+      {
+        "case": "rotation-flip",
+        "seeded": true,
+        "declaredTerminalConditionsPassed": true,
+        "uncaughtPageErrors": [],
+        "legacyCoverageSufficient": true,
+        "sampleCount": 121,
+        "actorSampleCount": 242,
+        "actorStatus": "passed",
+        "actors": [
+          {
+            "id": "mark",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 19,
+            "maxStepAt60HzPx": 5.6219544073547985,
+            "travelPx": 200
+          },
+          {
+            "id": "label",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 19,
+            "maxStepAt60HzPx": 5.6219544073547985,
+            "travelPx": 200
+          }
+        ],
+        "observedVisibleTrainGroups": null,
+        "observedHalfTurnJumps": 8,
+        "maxLabelHorizontalAnchorErrorCssPx": 7.62939453125e-06,
+        "fixtureSha256": "19d91f9aea530101193e61ddf34ca618dbe0d33e46681f50e7ffec70c958163b",
+        "traceSha256": "ad1e2c9589c1a5e99bf1880cd0838a937155cdc6fec335173bd57a13bb6c44d1",
+        "videoSha256": "4010df3483bea26c6b5525ec6758e4ecb79fc46c63fe033247861b4d9dc3ce94",
+        "legacyChecksPassed": true
+      },
+      {
+        "case": "label-drift",
+        "seeded": true,
+        "declaredTerminalConditionsPassed": true,
+        "uncaughtPageErrors": [],
+        "legacyCoverageSufficient": true,
+        "sampleCount": 121,
+        "actorSampleCount": 242,
+        "actorStatus": "passed",
+        "actors": [
+          {
+            "id": "mark",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 17.599999999999994,
+            "maxStepAt60HzPx": 5.616775666824496,
+            "travelPx": 200
+          },
+          {
+            "id": "label",
+            "status": "passed",
+            "coverageSufficient": true,
+            "sampleCount": 121,
+            "maxGapMs": 17.599999999999994,
+            "maxStepAt60HzPx": 7.380230436599774,
+            "travelPx": 200
+          }
+        ],
+        "observedVisibleTrainGroups": null,
+        "observedHalfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": 45.98179626464844,
+        "fixtureSha256": "d21df2742f97c2cc6288b6feaefd199440e88e3a894a5df027134653faece177",
+        "traceSha256": "00166099acd249af5ad71aef86ba966bf55f68c032780ce355b2889598f92af4",
+        "videoSha256": "c1b693bd056e1861e21233075f2470e5efea4b636aabccde8eefce027617b818",
+        "legacyChecksPassed": true
+      }
+    ]
+  },
+  "earlierCompleteRun": {
+    "resultSha256": "274e6b65e8089f01705213a60782909b30014b008d832c62dfd599b8e06fa794",
+    "cases": [
+      {
+        "case": "signal",
+        "legacyCoverageSufficient": true,
+        "actorStatus": null,
+        "visibleTrainGroups": 9,
+        "halfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": null
+      },
+      {
+        "case": "signal-hidden",
+        "legacyCoverageSufficient": true,
+        "actorStatus": null,
+        "visibleTrainGroups": 0,
+        "halfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": null
+      },
+      {
+        "case": "reference",
+        "legacyCoverageSufficient": true,
+        "actorStatus": "passed",
+        "visibleTrainGroups": null,
+        "halfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": 7.62939453125e-06
+      },
+      {
+        "case": "rotation-flip",
+        "legacyCoverageSufficient": true,
+        "actorStatus": "passed",
+        "visibleTrainGroups": null,
+        "halfTurnJumps": 8,
+        "maxLabelHorizontalAnchorErrorCssPx": 7.62939453125e-06
+      },
+      {
+        "case": "label-drift",
+        "legacyCoverageSufficient": true,
+        "actorStatus": "passed",
+        "visibleTrainGroups": null,
+        "halfTurnJumps": 0,
+        "maxLabelHorizontalAnchorErrorCssPx": 45.985992431640625
+      }
+    ]
+  },
+  "frameSelectionUnit": {
+    "scope": "Synthetic report unit input, not a recorded capture",
+    "requestedMaxFrames": 6,
+    "returnedTimes": [
+      100,
+      740,
+      800,
+      860,
+      900,
+      4000
+    ],
+    "lateFindingAtMs": 3400,
+    "detailSourceTimes": [
+      740,
+      800,
+      860
+    ]
+  },
+  "actorComparisonUnit": {
+    "scope": "Synthetic report guard test only; not a recorded before/after repair",
+    "beforeActorStatus": "failed",
+    "afterActorStatus": "passed",
+    "sameRecipe": true,
+    "declaredCoverageSufficient": true,
+    "result": {
+      "comparable": false,
+      "comparabilityIssues": [
+        "One or both captures have failed or unverified actor contracts; app-reported scene poses cannot establish a visible-motion comparison"
+      ],
+      "contractsPassed": {
+        "before": true,
+        "after": true
+      },
+      "functionalDelivery": {
+        "before": "passed",
+        "after": "passed"
+      },
+      "finalEquivalent": true
+    }
+  },
+  "unsuccessfulEndToEndAttempts": [
+    {
+      "name": "standalone-mcp-first-attempt",
+      "result": "missing Playwright ffmpeg helper",
+      "followup": "temporary local adapter to installed system ffmpeg; no production/source changes"
+    },
+    {
+      "name": "standalone-mcp-second-attempt",
+      "result": "page.goto ERR_BLOCKED_BY_ADMINISTRATOR for loopback navigation",
+      "followup": "no policy bypass; used separate native setContent calibration, not a full MCP-capture claim"
+    }
+  ],
+  "interpretation": {
+    "hiddenTrainCase": "Coverage/configuration hole. Existing explicit actor or positive visibility checks can detect it.",
+    "rotationAndLabelCases": "Per-actor position/identity/travel passes are not orientation or cross-actor relationship checks. These are missing expressible intent checks, not a violated promise of universal aesthetic grading.",
+    "frames": "Synthetic unit evidence-selection input only. It is not an actual multi-defect recording.",
+    "limit": "No conclusion about the original SIGNAL app having these seeded defects, no full locked-dependency/native-host suite, no preference benchmark, no physical display FPS measurement."
+  },
+  "earlierPortableRun": {
+    "resultSha256": "1e272472a2ca1e1eb94057879794330319bda976f557939b5325690ec7080a2d",
+    "sameQualitativeOutcomes": true,
+    "labelErrorCssPx": 45.96412658691406,
+    "rotationJumps": 8
+  }
+}
