@@ -7,7 +7,8 @@ import {chromiumOptions} from '../../server/browser';
 import {recordingSurface,prepareRecordingPage,finalizeRecording} from '../../server/recording';
 import {installBrowserProbe} from './browser-probe';
 import {analyze,analyzeDelivery} from './analysis';
-import {analyzeActors} from './actor-analysis';
+import {analyzeActors,actorAnalyzerImplementationSource} from './actor-analysis';
+import {assessCapture} from './assessment';
 import {finiteGeometry,measureCoverage,targetState} from './coverage';
 import {validateRecipe,validateLocalUrl,readSourceRef,recipeWarnings} from './safety';
 import type {CaptureRecipe,CoreOptions,MotionCapture,MotionEvent,MotionSample,MotionContract,MotionDeliveryObservation,MotionActorSample,MotionPerformanceDiagnostics} from './types';
@@ -122,7 +123,7 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
   let videoOffsetMs=0,start=performance.now();
   const errors:string[]=[],blocked:{url:string;method:string}[]=[];
   let gpu='unavailable',diagnostics={devicePixelRatio:1,visibilityState:'unavailable'};
-  const environment=()=>({browser:`Chromium ${browser.version()}`,browserMode:browserOptions.headless?'headless' as const:'headed' as const,viewport,diagnostics:{...diagnostics,webglRenderers:[gpu]},probeSha256:createHash('sha256').update(installBrowserProbe.toString()).digest('hex'),analyzerSha256:createHash('sha256').update([analyze,analyzeActors,analyzeDelivery,installOutcomeObserver,measureCoverage,targetState,finiteGeometry].map(fn=>fn.toString()).join('\n')).digest('hex'),clock:'page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start',reducedMotion:recipe.reducedMotion??'no-preference'});
+  const environment=()=>({browser:`Chromium ${browser.version()}`,browserMode:browserOptions.headless?'headless' as const:'headed' as const,viewport,diagnostics:{...diagnostics,webglRenderers:[gpu]},probeSha256:createHash('sha256').update(installBrowserProbe.toString()).digest('hex'),analyzerSha256:createHash('sha256').update([analyze.toString(),actorAnalyzerImplementationSource(),analyzeDelivery.toString(),installOutcomeObserver.toString(),measureCoverage.toString(),targetState.toString(),finiteGeometry.toString()].join('\n')).digest('hex'),clock:'page time origin: geometry observed in a post-rAF task after app callbacks, labeled with its rAF frame timestamp; observedAtMs and geometryTimeMs record read time; displacement normalization uses the associated rAF interval; actual read gaps and lag are independently gated; superseded samples omitted; performance.now for events and supplemental WAAPI operation-boundary reads; relative to capture start',reducedMotion:recipe.reducedMotion??'no-preference'});
   try {
     if(options.signal?.aborted)throw new Error('Capture canceled');
     context=await browser.newContext({viewport,hasTouch:recipe.actions.some(action=>action.action==='pointer-cancel'||action.action==='drag'&&action.end==='cancel'),reducedMotion:recipe.reducedMotion??'no-preference',serviceWorkers:'block',recordVideo:{dir:directory,size:surface??viewport}});
@@ -169,20 +170,22 @@ export async function capture(input:CaptureRecipe,options:CoreOptions):Promise<M
       const remaining=Math.max(0,durationMs-(performance.now()-start));
       if(remaining<=0)throw new Error('Capture deadline exceeded during interaction');
       await page.evaluate(({index,action})=>(window as any).__motionProbe.mark('action-request','Runner requests input',{index,action,requestedAtMs:(window as any).__motionProbe.time()}),{index,action:action.action});
-      if(action.action==='resize'){await page.setViewportSize({width:action.width,height:action.height});continue}
-      if(action.action==='reduced-motion'){await page.emulateMedia({reducedMotion:action.value});continue}
-      if(action.action==='pointer-cancel'){const session=await context.newCDPSession(page);try{await session.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});await page.mouse.up();}finally{await session.detach()}continue}
-      if(action.action==='wait'){if(action.ms>remaining)throw new Error('Wait action exceeds capture deadline');await page.waitForTimeout(action.ms);continue}
-      if(action.action==='drag'){await performNativeDrag(page,action,Math.max(1,Math.min(3000,durationMs-(performance.now()-start))),options.signal);continue}
-      if(action.action==='move'){await page.mouse.move(action.x,action.y);continue}
-      if(action.action==='scroll'){await page.mouse.wheel(0,action.deltaY);continue}
-      if(action.action==='key'){await page.keyboard.press(action.key);continue}
-      const locator=page.locator(action.selector);
-      if(await locator.count()!==1)throw new Error('Interaction selectors must identify exactly one element');
-      const sensitive=await locator.evaluate(element=>element.matches('input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"]')||!!element.closest('[data-motion-private]'));
-      if(sensitive){privacyPassed=false;throw new Error('Credential/private-field interactions are not supported')}
-      const actionTimeout=Math.max(1,Math.min(3000,durationMs-(performance.now()-start)));
-      if(action.action==='click')await locator.click({timeout:actionTimeout});else await locator.hover({timeout:actionTimeout});
+      try {
+        if(action.action==='resize'){await page.setViewportSize({width:action.width,height:action.height});continue}
+        if(action.action==='reduced-motion'){await page.emulateMedia({reducedMotion:action.value});continue}
+        if(action.action==='pointer-cancel'){const session=await context.newCDPSession(page);try{await session.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});await page.mouse.up();}finally{await session.detach()}continue}
+        if(action.action==='wait'){if(action.ms>remaining)throw new Error('Wait action exceeds capture deadline');await page.waitForTimeout(action.ms);continue}
+        if(action.action==='drag'){await performNativeDrag(page,action,Math.max(1,Math.min(3000,durationMs-(performance.now()-start))),options.signal);continue}
+        if(action.action==='move'){await page.mouse.move(action.x,action.y);continue}
+        if(action.action==='scroll'){await page.mouse.wheel(0,action.deltaY);continue}
+        if(action.action==='key'){await page.keyboard.press(action.key);continue}
+        const locator=page.locator(action.selector);
+        if(await locator.count()!==1)throw new Error('Interaction selectors must identify exactly one element');
+        const sensitive=await locator.evaluate(element=>element.matches('input[type="password"],input[autocomplete="current-password"],input[autocomplete="new-password"],input[autocomplete="cc-number"]')||!!element.closest('[data-motion-private]'));
+        if(sensitive){privacyPassed=false;throw new Error('Credential/private-field interactions are not supported')}
+        const actionTimeout=Math.max(1,Math.min(3000,durationMs-(performance.now()-start)));
+        if(action.action==='click')await locator.click({timeout:actionTimeout});else await locator.hover({timeout:actionTimeout});
+      } finally {await page.evaluate(index=>(window as any).__motionProbe.mark('action-complete','Runner completed input',{index}),index).catch(()=>{});}
     }
     if(performance.now()-start>durationMs)throw new Error('Capture deadline exceeded during interaction');
     if(recipe.contract?.outcomes)await page.evaluate(()=>{(window as any).__motionOutcomes.finishActions()});
@@ -279,5 +282,5 @@ export async function inspect(id:string,options:CoreOptions):Promise<MotionCaptu
   return report;
 }
 export function compact(report:MotionCapture) {
-  return {id:report.id,recipeWarnings:recipeWarnings(report.recipe),...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,actorAnalysis:report.actorAnalysis,performanceDiagnostics:report.performanceDiagnostics,delivery:report.delivery??analyzeDelivery(report.recipe),assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
+  return {id:report.id,assessment:assessCapture(report),recipeWarnings:recipeWarnings(report.recipe),...(report.status?{status:report.status,failure:report.failure}:{}),label:report.recipe.label,url:report.recipe.url,selector:report.recipe.selector,environment:report.environment,metrics:report.metrics,coverage:report.coverage,actorAnalysis:report.actorAnalysis,performanceDiagnostics:report.performanceDiagnostics,delivery:report.delivery??analyzeDelivery(report.recipe),assertions:report.assertions,findings:report.findings,final:report.final,evidence:report.artifacts,resourceUri:`motion-evidence://capture/${report.id}`,limitations:report.limitations};
 }

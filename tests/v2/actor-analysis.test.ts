@@ -1,8 +1,9 @@
 import test from 'node:test';
 import {runInNewContext} from 'node:vm';
+import {createHash} from 'node:crypto';
 import {installBrowserProbe} from '../../packages/core/browser-probe';
 import assert from 'node:assert/strict';
-import {analyzeActors} from '../../packages/core/actor-analysis';
+import {analyzeActors,actorAnalyzerImplementationSource} from '../../packages/core/actor-analysis';
 import {createSceneActorAdapter} from '../../packages/core/scene-adapter';
 import {measurePixelActorContinuity,observeActorPixels} from '../../packages/core/pixel-actors';
 import type {CaptureRecipe,MotionActorBinding,MotionActorSample} from '../../packages/core/types';
@@ -31,6 +32,60 @@ test('arrival requires dwell and travel so frozen poses cannot win',()=>{
   const actor={...binding,acceptance:{destination:{x:252,y:0,tolerancePx:5,deadlineMs:1000,settleMs:32},minTravelPx:20}};
   const frozen=samples().map(sample=>({...sample,screen:{...sample.screen!,x:252}}));
   const result=analyzeActors(frozen,[],recipe(actor));assert.equal(result.status,'failed');assert.equal(result.actors[0].metrics.arrivalAtMs,0);assert.equal(result.actors[0].findings[0].type,'travel');
+});
+test('a historical waypoint arrival cannot hide the wrong terminal pose',()=>{
+  const actor:MotionActorBinding={...binding,acceptance:{destination:{x:100,y:0,tolerancePx:2,deadlineMs:700,settleMs:32},minTravelPx:20}};
+  const departed=samples().map((sample,index)=>({...sample,screen:{...sample.screen!,x:index<20?index*5:index<32?100:150}}));
+  const result=analyzeActors(departed,[],recipe(actor)),part=result.actors[0];
+  assert.equal(part.status,'failed');assert.equal(part.metrics.arrivalAtMs,null);assert.equal(part.metrics.terminalDepartureAtMs,512);assert.equal(part.findings.some(finding=>finding.type==='terminal-departure'),true);
+});
+test('explicit waypoint hold ends at its mapped input epoch while implicit destinations remain terminal',()=>{
+  const destination={x:100,y:0,tolerancePx:2,deadlineMs:500,settleMs:32,mode:'waypoint' as const,afterActionIndex:0,holdUntilActionIndex:1};
+  const actor:MotionActorBinding={...binding,acceptance:{destination,minTravelPx:20}},events=[{id:'start',t:100,type:'click',label:'generic',origin:'browser-observed' as const,detail:{trusted:true,actionIndex:0}},{id:'next',t:600,type:'click',label:'generic',origin:'browser-observed' as const,detail:{trusted:true,actionIndex:1}}];
+  const waypoint=samples().map(sample=>({...sample,screen:{...sample.screen!,x:sample.t<160?sample.t/1.6:sample.t<=600?100:180}}));const passed=analyzeActors(waypoint,events,recipe(actor)).actors[0];assert.equal(passed.assertions.find(item=>item.id.endsWith(':arrival'))?.status,'passed');
+  const leftEarly=waypoint.map(sample=>sample.t>=500&&sample.t<600?{...sample,screen:{...sample.screen!,x:180}}:sample);const failed=analyzeActors(leftEarly,events,recipe(actor)).actors[0];assert.equal(failed.status,'failed');assert.equal(failed.findings.some(item=>item.type==='terminal-departure'),true);
+  const missing=analyzeActors(waypoint,[],recipe(actor)).actors[0];assert.equal(missing.assertions.find(item=>item.id.endsWith(':arrival'))?.status,'inconclusive');
+});
+test('wrapped DOM orientation and independent anchor geometry honor explicit units and phases',()=>{
+  const oriented=samples().map((sample,index)=>({...sample,orientationRadians:{x:0,y:0,z:index<32?3.1:-3.1}}));
+  const orientation:MotionActorBinding={...binding,acceptance:{...binding.acceptance,orientation:{axis:'z',unit:'radian',maxStepAt60HzRad:.2,destinationRad:-3.1,toleranceRad:.02}}};
+  const wrapped=analyzeActors(oriented,[],recipe(orientation)).actors[0];assert.equal(wrapped.status,'passed');assert.ok(wrapped.metrics.maxOrientationStepAt60HzRad!<.1);
+  const jumped=oriented.map((sample,index)=>({...sample,orientationRadians:{x:0,y:0,z:index<32?0:Math.PI}}));const jump=analyzeActors(jumped,[],recipe({...orientation,acceptance:{...orientation.acceptance,orientation:{axis:'z',unit:'radian',maxStepAt60HzRad:.2}}})).actors[0];assert.equal(jump.status,'failed');assert.equal(jump.findings[0].type,'orientation-step');
+  const part=samples(),anchor=part.map(sample=>({...sample,actorId:'label',screen:{...sample.screen!,x:sample.screen!.x-10}}));
+  const anchored:MotionActorBinding={...binding,acceptance:{...binding.acceptance,anchor:{actorId:'label',space:'screen',unit:'css-px',offset:{x:10,y:0},tolerancePx:2}}},label:MotionActorBinding={id:'label',kind:'dom',selector:'#label'};
+  const anchorRecipe={...recipe(anchored),actors:[anchored,label]};assert.equal(analyzeActors([...part,...anchor],[],anchorRecipe).actors[0].assertions.find(assertion=>assertion.id==='actor:part:anchor')?.status,'passed');
+  anchor.forEach((sample,index)=>{if(index>24)sample.screen!.x-=46;});const drift=analyzeActors([...part,...anchor],[],anchorRecipe).actors[0];assert.equal(drift.status,'failed');assert.equal(drift.findings.some(finding=>finding.type==='anchor-drift'),true);
+  const phased={...anchored,acceptance:{...anchored.acceptance,anchor:{...anchored.acceptance!.anchor!,phase:{afterEventLabel:'open'}}}};const missing=analyzeActors([...part,...anchor],[],{...anchorRecipe,actors:[phased,label]}).actors[0];assert.equal(missing.assertions.find(assertion=>assertion.id==='actor:part:anchor')?.status,'inconclusive');
+});
+test('orientation needs complete finite phase coverage and cannot reuse a stale terminal angle',()=>{
+  const actor:MotionActorBinding={...binding,acceptance:{...binding.acceptance,orientation:{axis:'z',unit:'radian',maxStepAt60HzRad:.2,destinationRad:1,toleranceRad:.02}}};
+  const partial=samples().map((sample,index)=>({...sample,transform:index<20?[Math.cos(index/19),Math.sin(index/19),0,0,-Math.sin(index/19),Math.cos(index/19),0,0,0,0,1,0,0,0,0,1]:null}));
+  const result=analyzeActors(partial,[],recipe(actor)).actors[0];assert.equal(result.status,'unverified');assert.equal(result.metrics.orientationSampleCount,20);assert.equal(result.assertions.find(item=>item.id.endsWith(':orientation-destination'))?.status,'inconclusive');
+  const interior:MotionActorSample[]=samples().map(sample=>({...sample,orientationRadians:{x:0,y:0,z:1}}));interior[32]={...interior[32],orientationRadians:undefined};assert.equal(analyzeActors(interior,[],recipe(actor)).actors[0].status,'unverified');
+  const crossing=samples().map((sample,index)=>({...sample,orientationRadians:{x:0,y:0,z:index<32?Math.PI-.02:-Math.PI+.02}}));const crossingActor={...actor,acceptance:{...actor.acceptance,orientation:{axis:'z' as const,unit:'radian' as const,maxStepAt60HzRad:.2,destinationRad:-Math.PI+.02,toleranceRad:.02}}};assert.equal(analyzeActors(crossing,[],recipe(crossingActor)).actors[0].status,'passed');
+});
+test('anchor pairs are one-to-one, same-frame, phase-scoped and independently covered',()=>{
+  const subject=samples(),reference=subject.filter((_,index)=>index%2===0).map(sample=>({...sample,actorId:'label',screen:{...sample.screen!,x:sample.screen!.x-10}}));
+  const anchored:MotionActorBinding={...binding,acceptance:{...binding.acceptance,anchor:{actorId:'label',space:'screen',unit:'css-px',offset:{x:10,y:0},tolerancePx:2,phase:{startMs:200,endMs:600}}}},label:MotionActorBinding={id:'label',kind:'dom',selector:'#label'};
+  const sparse=analyzeActors([...subject,...reference],[],{...recipe(anchored),actors:[anchored,label]}).actors[0];assert.equal(sparse.status,'unverified');assert.ok(sparse.metrics.anchorUniqueReferenceCount!<20);
+  const complete=subject.map(sample=>({...sample,actorId:'label',screen:{...sample.screen!,x:sample.screen!.x-10}}));assert.equal(analyzeActors([...subject,...complete],[],{...recipe(anchored),actors:[anchored,label]}).actors[0].assertions.find(item=>item.id.endsWith(':anchor'))?.status,'passed');
+  const outOfPhase=complete.map(sample=>({...sample,t:sample.t+700,observedAtMs:sample.observedAtMs+700}));assert.equal(analyzeActors([...subject,...outOfPhase],[],{...recipe(anchored),actors:[anchored,label]}).actors[0].status,'unverified');
+  const wrongOrigin=complete.map(sample=>({...sample,origin:'app-reported' as const}));assert.equal(analyzeActors([...subject,...wrongOrigin],[],{...recipe(anchored),actors:[anchored,label]}).actors[0].status,'unverified');
+});
+test('anchor pairing cannot hide an adequately sampled interior drift behind a paired-observation hole',()=>{
+  const subject=samples(),reference=subject.map((sample,index)=>({...sample,actorId:'label',t:sample.t+(index>=24&&index<=34?1:0),observedAtMs:sample.observedAtMs+(index>=24&&index<=34?1:0),screen:{...sample.screen!,x:sample.screen!.x-10-(index>=24&&index<=34?100:0)}}));
+  const anchored:MotionActorBinding={...binding,acceptance:{...binding.acceptance,anchor:{actorId:'label',space:'screen',unit:'css-px',offset:{x:10,y:0},tolerancePx:2}}},label:MotionActorBinding={id:'label',kind:'dom',selector:'#label'};
+  const result=analyzeActors([...subject,...reference],[],{...recipe(anchored),actors:[anchored,label]}).actors[0],assertion=result.assertions.find(item=>item.id.endsWith(':anchor'))!;
+  assert.equal(result.coverage.sufficient,true,'The subject remains independently well sampled');
+  assert.equal(result.metrics.anchorPairCount,52,'Eleven interior same-frame observations are absent inside the 0–1000ms phase');
+  assert.equal(result.metrics.maxAnchorErrorPx,0,'The unpaired drifting observations must not be silently treated as zero-error evidence');
+  assert.equal(result.metrics.anchorPairMaxFrameGapMs,192);
+  assert.equal(result.metrics.anchorPairMaxReadGapMs,192);
+  assert.equal(assertion.status,'inconclusive');
+  assert.equal(result.status,'unverified');
+});
+test('actor analyzer identity includes private helper semantics',()=>{
+  const source=actorAnalyzerImplementationSource(),changed=source.replace('Math.atan2(Math.sin(value),Math.cos(value))','Math.acos(Math.cos(value))');assert.notEqual(changed,source);assert.notEqual(createHash('sha256').update(source).digest('hex'),createHash('sha256').update(changed).digest('hex'));assert.match(source,/wrappedAngle/);
 });
 test('scene adapter copies after consumer render and bounds actors without adding a scheduler',()=>{
   const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];let batch:any;

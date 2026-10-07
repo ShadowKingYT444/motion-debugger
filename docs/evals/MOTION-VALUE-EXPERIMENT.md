@@ -1,6 +1,6 @@
 # Test useful motion feedback, not a lucky redesign
 
-Status: proposed protocol, not a completed or authorized agent campaign. Read the [source audit and calibration](../audits/MOTION-VALUE-AUDIT.md) first.
+Status: protocol plus one attempted bounded 3-task × 3-arm × 1-repetition pilot. All nine generation sessions were `agent-failed`; no completed product cohort exists. A final-package regrade of the preserved bytes is retained at `artifacts/motion-value-regrade/2026-10-07T08-00-00Z-final/RESULTS.json`, but it is not a replacement for successful agent trials. See [`FINAL_REPORT.md`](../../FINAL_REPORT.md) and read the [source audit and calibration](../audits/MOTION-VALUE-AUDIT.md) first.
 
 ## 1. The question
 
@@ -62,7 +62,7 @@ Primary use is natural: score all assigned C runs, even when the agent never cal
 
 A separately labeled, guided-exposure diagnostic can explicitly ask C to bind relevant actors and review the transition. It answers whether the tools help when correctly used. It cannot substitute for the ordinary product experience or be compared to A with an uncounted extra instruction/budget.
 
-Proposed pilot: three tasks × three arms × two repetitions = 18 sessions on one host. Cap each session at 60 minutes, with a planned working checkpoint near 45 minutes and the remainder reserved for observation/refinement. This is at most 18 agent-hours of wall budget before grading, not a cost quote. No sessions are launched by this PR. Seek approval before provisioning paid runtime.
+Proposed full pilot: three tasks × three arms × two repetitions = 18 sessions on one host. Cap each session at 60 minutes, with a planned working checkpoint near 45 minutes and the remainder reserved for observation/refinement. This is at most 18 agent-hours of wall budget before grading, not a cost quote. The attempted nine-session diagnostic below does not satisfy this design. Seek approval before provisioning any future paid runtime.
 
 Count initial installation/context overhead, actor/plan setup, tool and decoding work, failed attempts, source editing, and review. Record missing timing rather than entering zero. Run browser-heavy measurements serially or on equivalent isolated workers so one arm is not measured under another arm's rendering load.
 
@@ -125,6 +125,16 @@ Lead with a real 12–18 second normal-speed FIELD excerpt showing a connected t
 Below it, show a separate same-design before/after only when actual Motion-guided work earns it. Name the defect, show the native event/window, the narrow source change, and the independent non-regression check. A real contribution is more convincing than another side-by-side restyle.
 
 Do not replace the existing truthful footage with a fabricated winning demo. If the next evaluation finds verification savings but no preference gain, launch with that narrower claim. A general promise of better motion design requires evidence across tasks, not just a more elaborate hero.
+
+## 9. Retained execution record
+
+The bounded one-repetition attempt is frozen at `artifacts/bello-root-fix/attempt-2/motion-value-pilot/2026-10-07T05-41-07.202Z`. It used Codex CLI 0.155.1 with the configured `gpt-6.1-sol`/`xhigh` settings and package SHA-256 `c012b9cd15b86c1b318c2e3508dd965f321e517f0197f05a229aee439950367b`. That host rejected the configured model: all nine sessions ended `agent-failed` after roughly three to five seconds, none produced an initial checkpoint, and no Motion arm adopted Motion tools. Three construction final-source directories changed, but those bytes are not completed products or verified repairs.
+
+The regrade-only runner subsequently validated the frozen source digests and held-out commitment and exercised the preserved final bytes with the final package. Its completed receipt is `artifacts/motion-value-regrade/2026-10-07T08-00-00Z-final/RESULTS.json` (SHA-256 `44d7d2e96c9c87c5848bfd163d02dc976c995b0b3b0975dbeec03add77945162`): 9 sessions, 0 agent-completed, 0 function-passed, 0 motion-consistency-passed, and 0 Motion adoption. Several held-out controls were absent and timed out, which is retained as a failure rather than imputed as a score.
+
+The final regrade package is SHA-256 `f8333df107382aa4123dddcfd1cc6dcace49da55ac646768998ab82c094c6ac2`; evaluator SHA-256 is `0b89d1ca53cdfdb999967ea4093fd8d70ef291c4b251efddfb0a7ac724f14aed`; regrade runner SHA-256 is `95e4e5293afac89a99ebe3abaed01f0815b3f3677bbe5b5bc40a8b2f8710df8e`. Browser grades describe only the bytes that existed after failed generation. They provide no successful before/after repair pair, causal Motion evidence, aesthetic preference, or product-effectiveness cohort.
+
+Separately, the matched detector calibration compares commit `4157fd25a696c8de1eef0f0fad83b0cd4b1fa622` with the final runtime on identical fixtures and actions. The old runtime was blind to the newly declared wrapped-orientation and independent-anchor guarantees; the final runtime rejects the planted 3.1733-radian flip and 45.980 CSS px anchor drift while the reference still passes. This establishes detector sensitivity, not agent or product superiority. Exact artifacts and identities are in [`FINAL_REPORT.md`](../../FINAL_REPORT.md).
 
 ## Primary technical references
 

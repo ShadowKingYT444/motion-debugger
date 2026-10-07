@@ -21,6 +21,8 @@ Both builders produced functioning, motion-heavy interfaces. The ordinary result
 
 The common checks passed on **desktop, mobile and reduced motion for both apps**: service selection, interruption/reversal, pause stability, timetable input, resume, replay, keyboard selection, export and absence of page errors/overflow. This verifies those journeys; it does not score aesthetics or prove that Motion produced better animation. No human preference winner is declared.
 
+The final rerun is retained at `artifacts/rail-runs/2026-10-07T06-57-42-516Z-e45fdaf3/verification.json` (SHA-256 `52dea6d70c4c5958e9f8054857d7f43091ea90ee402c6b4d9c018a8565fc8fc0`). Each of the six journeys passed 29 checks. Station focus is measured relative to that arm's pre-click camera scale rather than against a cross-arm absolute zoom, and reduced-motion verification preserves each frozen app's declared policy: the ordinary arm begins paused; the Motion arm retains running timetable state with its reduced presentation.
+
 The ordinary app initially pauses under reduced motion. The assisted app retains running timetable state while using its reduced-motion presentation. The first harness incorrectly clicked Pause in both without inspecting initial state; that resumed the already-paused ordinary app. [Original reports and films](evidence/retained-harness-assumption/NOTE.md) remain available. The corrected harness establishes/retains paused state before checking the clock. Neither application changed.
 
 ## Method and evidence

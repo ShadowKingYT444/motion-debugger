@@ -5,6 +5,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import path from 'node:path';
 import {chromium} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
+import {captureFailureMoments} from './assessment';
 import type {CoreOptions,MotionCapture} from './types';
 
 export interface RecordedFrame {captureTimeMs:number;videoSeekMs:number;decodedPresentationTimeMs?:number|null;alignmentUncertaintyMs?:number|null;kind?:'context'|'detail';crop?:{x:number;y:number;width:number;height:number};width:number;height:number;sourceWidth:number;sourceHeight:number;scale:number;path:string;sha256:string;png:Buffer}
@@ -52,14 +53,13 @@ export function frameTimes(report:MotionCapture,requested?:number[],selection:Fr
   if(requested)return [...new Set(requested)].sort((a,b)=>a-b);
   if(selection==='journey')return [...new Set(Array.from({length:6},(_,index)=>Math.round(duration*index/5)))];
   if(selection!=='finding')throw new Error('Frame selection must be finding or journey');
-  const ordered=[...(report.findings??[])].sort((a,b)=>Number(b.confidence==='contract-violation')-Number(a.confidence==='contract-violation'));
-  let center:number|undefined;
-  for(const finding of ordered){
-    center=finding.sampleTimes?.find(Number.isFinite)??report.events?.find(event=>finding.eventIds?.includes(event.id)&&Number.isFinite(event.t))?.t;
-    if(center!==undefined)break;
-  }
-  center??=duration/2;
-  return [...new Set([center-100,center,center+100].map(t=>Math.round(Math.max(0,Math.min(duration,t)))))];
+  const clamp=(time:number)=>Math.round(Math.max(0,Math.min(duration,time))),moments=captureFailureMoments(report);
+  if(!moments.length){const center=duration/2;return [...new Set([center-100,center,center+100].map(clamp))];}
+  const selected:number[]=[];const add=(time:number)=>{const value=clamp(time);if(!selected.includes(value)&&selected.length<6)selected.push(value);};
+  // Give every distinct failure one overview before spending the remaining budget on detail.
+  for(const moment of moments)add(moment.timeMs);
+  for(const moment of moments){add(moment.timeMs-100);add(moment.timeMs+100);}
+  return selected.sort((a,b)=>a-b);
 }
 
 /** Decode the actual recording with the already installed Chromium; no rerun or synthetic frame. */

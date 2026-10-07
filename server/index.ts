@@ -80,8 +80,11 @@ app.get('/api/fixture-data',async(req,res)=>{
 });
 app.use('/artifacts/runs',express.static(path.join(root,'artifacts/runs'),{index:false,dotfiles:'deny',setHeaders:res=>res.setHeader('Cache-Control','no-cache')}));
 if(existsSync(path.join(root,'dist/index.html'))) {
-  app.use(express.static(path.join(root,'dist')));
-  app.use((_req,res)=>res.sendFile(path.join(root,'dist/index.html')));
+  const distRoot=path.join(root,'dist');
+  const sendIndex=(_req:express.Request,res:express.Response)=>res.sendFile('index.html',{root:distRoot});
+  for(const route of ['/fixture','/evidence-v1','/report'])app.get(route,sendIndex);
+  app.use(express.static(distRoot));
+  app.use(sendIndex);
 }else{
   const vite=await createViteServer({root,server:{middlewareMode:true,host:'127.0.0.1'},appType:'spa'});
   app.use(vite.middlewares);

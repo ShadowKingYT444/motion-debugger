@@ -1,12 +1,13 @@
 export {capture,inspect,compact,CaptureFailureError} from './capture';
 export {analyze,analyzeDelivery,compare,validSample} from './analysis';
+export {assessCapture,captureFailureMoments,productFailureSignature} from './assessment';
 export {validateRecipe,validateLocalUrl,RecipeSchema,readSourceRef} from './safety';
 export type * from './types';
 export {recordedFrames,frameSource,frameTimes} from './frames';
 export type {RecordedFrame,FrameOptions} from './frames';
 export {motionCatalog,motionRecipe} from './catalog';
 
-export {motionReview,reviewSummary,reviewFrameTimes,reviewRecipe,ReviewSchema} from './review';
+export {motionReview,reviewSummary,reviewFrameTimes,reviewFrameSelection,reviewRecipe,ReviewSchema} from './review';
 export type {ReviewRequest,ReviewStatus} from './review';
 export {motionProbe,interruptionRecipes,probeClassification,ProbeSchema} from './replay';
 export type {ProbeRequest} from './replay';
@@ -15,7 +16,7 @@ export type {TransitionPlan,TransitionActor,TransitionBeat} from './transitions'
 export {createSceneActorAdapter} from './scene-adapter';
 export {snapshotProtectedDesign,verifyProtectedDesign,selectMotionCandidate,createVerifiedMotionCheckpoint} from './authoring';
 export type {ProtectedDesignManifest,MotionCandidate,CandidateJudgment,AuthoringSelection,VerifiedMotionCheckpoint,AuthoringEvidence} from './authoring';
-export {analyzeActors} from './actor-analysis';
+export {analyzeActors,actorAnalyzerImplementationSource} from './actor-analysis';
 export {observeActorPixels,measurePixelActorContinuity} from './pixel-actors';
 export type {NativePixelFrame,ActorPixelMask} from './pixel-actors';
 export type {SceneMatrix,SceneObject,SceneCamera,SceneActorRegistration,SceneActorSink} from './scene-adapter';

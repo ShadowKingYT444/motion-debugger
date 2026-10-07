@@ -31,6 +31,8 @@ init previews an exact config diff; --skills includes the project skills and nam
 Skills never overwrite different existing folders. All writes require explicit approval. setup --browser
 explicitly downloads Chromium. No postinstall, login, credentials or automatic config changes.
 Config defaults to the exact npm package version. --local uses this installation's absolute path.
+Review recipes can bind stable DOM/SVG actors, complete orientation/anchor phases, terminal or
+waypoint holds, and versioned beat-to-action indexes. Unsupported or insufficient evidence stays unverified.
 Config flags: --origin <loopback-origin>, --artifact-dir <path>, --source-root <path> (repeatable)
 Environment: MOTION_ARTIFACT_DIR, MOTION_ALLOWED_ORIGINS, MOTION_SOURCE_ROOTS, CHROMIUM_PATH`;
 const [command,...args]=process.argv.slice(2);

@@ -30,6 +30,10 @@ test('frame selection includes observed identity and cancellation event windows'
   const cancel={...report(),findings:[{type:'active-animation-cancel',summary:'cancel observed',confidence:'observed',sampleTimes:[],eventIds:['cancel-1']}],events:[{id:'cancel-1',t:600,type:'animation-cancel',label:'cancel',origin:'browser-observed',detail:{}}]} as MotionCapture;
   assert.deepEqual(frameTimes(cancel),[500,600,700]);
 });
+test('default finding frames include actor and forbidden-visible product failures',()=>{
+  const value={...report(),findings:[],delivery:{status:'failed',required:[],elapsedMs:2000,reasons:[],forbiddenVisible:[{selector:'#fatal',observedAtMs:1600,text:'Fatal'}]},actorAnalysis:{version:'1',status:'failed',limitations:[],actors:[{actorId:'part',kind:'dom',status:'failed',evidence:'browser-geometry',pixelStatus:'unverified',coverage:{sufficient:true,sampleCount:30,maxGapMs:16,reasons:[]},metrics:{maxStepAt60HzPx:40,maxStepPx:40,travelPx:100,replacements:0,maxVelocityChangePxPerMs:0,arrivalAtMs:null},assertions:[],findings:[{type:'position-step',summary:'actor jump',sampleTimes:[400],eventIds:[]}]}]}} as unknown as MotionCapture;
+  const times=frameTimes(value);assert.ok(times.includes(400));assert.ok(times.includes(1600));
+});
 test('journey selection covers the complete interaction instead of a single finding',()=>{
   assert.deepEqual(frameTimes(report(),undefined,'journey'),[0,480,960,1440,1920,2400]);
   assert.deepEqual(frameTimes(report(),[0,1200,2400],'journey'),[0,1200,2400]);

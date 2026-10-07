@@ -9,8 +9,8 @@ export async function launchRail(port=4123){
  app.use('/ordinary',express.static(path.join(root,'source/ordinary'),{dotfiles:'deny'}));
  app.use('/motion',express.static(path.join(root,'source/motion'),{dotfiles:'deny'}));
  app.use('/evidence',express.static(path.join(root,'evidence'),{dotfiles:'deny'}));
- app.get('/viewer.js',(_req,res)=>res.sendFile(path.join(root,'viewer.js')));
- app.get('/',(_req,res)=>res.sendFile(path.join(root,'viewer.html')));
+ app.get('/viewer.js',(_req,res)=>res.sendFile('viewer.js',{root}));
+ app.get('/',(_req,res)=>res.sendFile('viewer.html',{root}));
  const server=await new Promise(resolve=>{const s=app.listen(port,'127.0.0.1',()=>resolve(s))});
  return {origin:`http://127.0.0.1:${server.address().port}`,close:()=>new Promise(r=>server.close(r))};
 }

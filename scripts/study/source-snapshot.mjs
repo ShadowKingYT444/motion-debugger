@@ -3,7 +3,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
-const excluded = new Set(['.git','.codex','.agents','node_modules','evidence','artifacts','.motion-evidence','.motion-debugger','dist']);
+const excluded = new Set(['.git','.codex','.agents','node_modules','evidence','artifacts','.motion-evidence','.motion-debugger','dist','INITIAL_CHECKPOINT','CONSTRUCTION_MATERIALS']);
 /** Freeze regular application inputs, never follow links or include generated recordings/logs. */
 export async function snapshotSource(source, destination) {
   const files={}, skipped=[]; let total=0;

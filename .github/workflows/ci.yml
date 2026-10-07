@@ -31,6 +31,8 @@ jobs:
         run: npm run test:v2:e2e
       - name: Lifecycle integrity and actual source-repair browser regression
         run: npm run test:coverage:browser && npm run test:repair:browser && npm run test:failure:browser
+      - name: Actor, review, authoring and transition upgrade regressions
+        run: npm run test:actors:browser && npm run test:review:browser && npm run test:authoring:browser && npm run test:transitions:browser
       - name: Native construction recipes and positive task outcomes
         run: |
           npm run test:recipes:browser
@@ -65,6 +67,7 @@ jobs:
             artifacts/loop-viewer-downloads/
             artifacts/repair-case/
             artifacts/rail-viewer/
+            artifacts/rail-runs/
             artifacts/assembly/
             artifacts/v2/coverage/
           if-no-files-found: warn

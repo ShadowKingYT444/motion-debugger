@@ -35,7 +35,7 @@ if(pluginLock.packages[''].dependencies.playwright!==metadata.dependencies.playw
 pluginLock.version=metadata.version;pluginLock.packages[''].version=metadata.version;
 await writeFile('plugin/motion-debugger/package-lock.json',JSON.stringify(pluginLock,null,2)+'\n');
 
-const bundledPackages=[...new Set(Object.keys(pluginBuild.metafile.inputs).filter(input=>input.startsWith('node_modules/')).map(input=>{const parts=input.split('/');return parts[1].startsWith('@')?`${parts[1]}/${parts[2]}`:parts[1]}))].sort();
+const bundledPackages=[...new Set(Object.keys(pluginBuild.metafile.inputs).flatMap(input=>{const parts=input.replaceAll('\\','/').split('/'),index=parts.lastIndexOf('node_modules');if(index<0||!parts[index+1])return[];return[parts[index+1].startsWith('@')?`${parts[index+1]}/${parts[index+2]}`:parts[index+1]]}))].sort();
 const notices=['Third-party packages bundled into scripts/mcp.mjs. These notices do not grant a license to the Motion Debugger project.'];
 for(const name of bundledPackages){const base=`node_modules/${name}`;const pkg=JSON.parse(await readFile(`${base}/package.json`,'utf8'));let licenseText;for(const filename of ['LICENSE','LICENSE.txt','LICENSE.md','license','license.txt','COPYING']){try{licenseText=await readFile(`${base}/${filename}`,'utf8');break}catch{}}if(!licenseText)throw new Error(`Missing third-party license for bundled package ${name}`);notices.push(`\n===== ${name}@${pkg.version} (${pkg.license??'see license'}) =====\n${licenseText}`)}
 await writeFile('plugin/motion-debugger/THIRD_PARTY_LICENSES.txt',notices.join('\n')+'\n');

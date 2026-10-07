@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {ReviewSchema,reviewFrameTimes,reviewSummary,motionReview} from '../../packages/core/review';
+import {ReviewSchema,reviewFrameTimes,reviewFrameSelection,reviewSummary,motionReview} from '../../packages/core/review';
 import {interruptionRecipes,probeClassification,motionProbe} from '../../packages/core/replay';
 import {validateDetail} from '../../packages/core/frames';
 import type {MotionCapture} from '../../packages/core/types';
@@ -13,13 +13,14 @@ test('event evidence prioritizes an actual interruption and keeps arrival within
   assert.deepEqual(reviewFrameTimes(flagged,3),[340,400,460]);
   assert.throws(()=>reviewFrameTimes(report(),7));
 });
-test('review frames prioritize the earliest observed forbidden error over motion findings',()=>{
+test('review frames cover distinct product and motion failures before detail duplication',()=>{
   const failed=report();
   failed.findings=[{type:'frame-step',confidence:'contract-violation',sampleTimes:[400],eventIds:[],summary:'seeded reset'}];
   failed.delivery={status:'failed',required:[],elapsedMs:1000,reasons:['Visible caught error'],forbiddenVisible:[{selector:'#later-error',observedAtMs:600,text:'Later error'},{selector:'#task-error',observedAtMs:280,text:'Illegal invocation'}]};
   assert.deepEqual(reviewFrameTimes(failed,1),[280]);
-  assert.deepEqual(reviewFrameTimes(failed,3),[220,280,340]);
-  assert.deepEqual(reviewFrameTimes(failed,6),[100,220,280,340,350,1000]);
+  assert.deepEqual(reviewFrameTimes(failed,3),[280,400,600]);
+  assert.deepEqual(reviewFrameTimes(failed,6),[220,280,340,400,460,600]);
+  const partial=reviewFrameSelection(failed,2);assert.equal(partial.coveredFindings.length,2);assert.equal(partial.uncoveredFindings.length,1);assert.deepEqual(partial.followUpRequest?.timestampsMs,[600]);
 });
 test('review keeps incomplete, weak, delivery failure and scene annotation outcomes distinct',()=>{
   assert.equal(reviewSummary(report(),plan).summary.outcome,'passed');
@@ -42,6 +43,8 @@ test('weak/incomplete captures cannot masquerade as application failures in offs
   assert.equal(probeClassification({...report(),status:'incomplete'}),'infrastructure-failure');
   assert.equal(probeClassification({...report(),metrics:{...report().metrics,sufficientEvidence:false}}),'infrastructure-failure');
   assert.equal(probeClassification({...report(),delivery:undefined}),'unverified');
+  const observed={...report(),status:'incomplete' as const,delivery:{status:'failed' as const,required:[],forbiddenVisible:[{selector:'#fatal',observedAtMs:250,text:'Fatal'}],elapsedMs:300,reasons:['Visible forbidden state']}};assert.equal(probeClassification(observed),'failed');
+  const timeout={...report(),status:'incomplete' as const,delivery:{status:'failed' as const,required:[],forbiddenVisible:[],elapsedMs:300,reasons:['Capture did not complete before timeout']}};assert.equal(probeClassification(timeout),'infrastructure-failure');
 });
 test('detail crops must preserve native viewport provenance',()=>{
   validateDetail({x:20,y:30,width:100,height:100},{width:800,height:600});

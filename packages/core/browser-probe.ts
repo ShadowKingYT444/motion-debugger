@@ -8,7 +8,7 @@ export function installBrowserProbe(config:{selector:string;actors?:CaptureRecip
   // Copies are bounded; excess observations remain visibly incomplete rather than silently wrapping.
   let actorOverflow=false,actorBytes=0;
   const appendActor=(sample:MotionActorSample)=>{const serialized=JSON.stringify(sample,null,2),bytes=serialized.length+serialized.split('\n').length*4+1;if(actorSamples.length<12000&&actorBytes+bytes<=2500000){actorSamples.push(sample);actorBytes+=bytes;performanceDiagnostics.actorObservation!.retainedBytes=actorBytes;performanceDiagnostics.actorObservation!.retainedSamples=actorSamples.length}else if(!actorOverflow){actorOverflow=true;performanceDiagnostics.actorObservation!.truncated=true;emit('actor-buffer-overflow','Actor observation buffer exhausted','browser-observed')}};
-  const ids=new WeakMap<Element,string>();let idSequence=0,animationSequence=0,startTime:number|null=null,raf=0,generation=0,running=false,maxReadMs=0,superseded=0;
+  const ids=new WeakMap<Element,string>();let idSequence=0,animationSequence=0,startTime:number|null=null,raf=0,generation=0,running=false,maxReadMs=0,superseded=0,activeActionIndex:number|null=null;
   const now=()=>startTime===null?-1:Number((performance.now()-startTime).toFixed(3));
   const nodeId=(node:Element)=>{if(!ids.has(node))ids.set(node,`node-${++idSequence}`);return ids.get(node)!};
   const matches=(node:Element)=>{try{return node.matches(config.selector)||domActors.some(actor=>'selector' in actor&&node.matches(actor.selector))}catch{return false}};
@@ -80,7 +80,7 @@ export function installBrowserProbe(config:{selector:string;actors?:CaptureRecip
     if(type==='pointermove' && events.at(-1)?.type==='pointermove' && now()-events.at(-1)!.t<25)return;
     const target=event.target;
     emit(type,type==='click'?'Click interaction':type==='keydown'?'Keyboard interaction':type==='wheel'?'Scroll interaction':'Pointer moved','browser-observed',{
-      trusted:event.isTrusted,...(target instanceof Element?{selector:target.id?`#${target.id}`:target.tagName.toLowerCase()}:{}),...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{}),...(event instanceof WheelEvent?{deltaX:event.deltaX,deltaY:event.deltaY,deltaMode:event.deltaMode}:{})
+      trusted:event.isTrusted,...(activeActionIndex!==null?{actionIndex:activeActionIndex}:{}),...(target instanceof Element?{selector:target.id?`#${target.id}`:target.tagName.toLowerCase()}:{}),...(event instanceof MouseEvent?{x:event.clientX,y:event.clientY,button:event.button,buttons:event.buttons}:{}),...(event instanceof PointerEvent?{pointerId:event.pointerId,pointerType:event.pointerType,isPrimary:event.isPrimary}:{}),...(event instanceof KeyboardEvent?{key:event.key}:{}),...(event instanceof WheelEvent?{deltaX:event.deltaX,deltaY:event.deltaY,deltaMode:event.deltaMode}:{})
     },target instanceof Element&&matches(target)?target:undefined);
   },true);
   window.addEventListener('resize',()=>emit('resize','Viewport changed','browser-observed',{width:innerWidth,height:innerHeight}));
@@ -189,7 +189,7 @@ export function installBrowserProbe(config:{selector:string;actors?:CaptureRecip
     events,samples,actorSamples,performanceDiagnostics,startTime,
     start:()=>{for(const batch of boundaries.values())clearTimeout(batch.timer);boundaries.clear();events.length=0;samples.length=0;actorSamples.length=0;actorOverflow=false;actorBytes=0;performanceDiagnostics.actorObservation={maxScenePublishMs:0,retainedBytes:0,retainedSamples:0,truncated:false,maxReadMs:0};maxReadMs=0;superseded=0;startTime=performance.now();running=true;emit('capture-start','Capture window started','runner');raf=requestAnimationFrame(sample)},
     stop:()=>{for(const [node,batch] of boundaries)finishBoundary(node,batch);running=false;generation++;cancelAnimationFrame(raf);emit('probe-cost','Geometry read cost and superseded post-rAF tasks','browser-observed',{maxReadMs:Number(maxReadMs.toFixed(3)),supersededTasks:superseded});emit('capture-end','Capture window ended','runner')},
-    mark:(type:string,label:string,detail:MotionEvent['detail'])=>emit(type,label,'runner',detail),
+    mark:(type:string,label:string,detail:MotionEvent['detail'])=>{if(type==='action-request'&&typeof detail.index==='number')activeActionIndex=detail.index;emit(type,label,'runner',detail);if(type==='action-complete')activeActionIndex=null;},
     time:now
   };
 }

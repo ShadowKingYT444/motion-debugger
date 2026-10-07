@@ -13,6 +13,26 @@ Obtain tool schema and current limits from the connected server; do not invent a
 
 The ordinary browser remains available for outcome assertions, keyboard journeys, screenshots and long interactions. Capture tools are observation tools; the host coding agent writes source and tests. Do not loosen budgets after seeing a failure.
 
+For internal actors, bind the actual moving DOM/SVG element rather than a static scene container. Orientation uses radians and needs finite ordered browser reads at every sample through both declared phase boundaries; a stale early transform cannot establish the terminal pose. A screen anchor registers both actors and needs one-to-one same-frame geometry with bounded read skew. App-published scene poses are annotations, not independent painted evidence. When any requested feature is unsupported, annotation-only or insufficient, leave it unverified rather than converting it into a pass.
+
+Map review beats to executable recipe actions with `intent.schemaVersion: 1` and action indexes. This prevents button labels or prose from being guessed as input intent and causes every mapped epoch to be evaluated. Distinguish a destination that must remain through capture end from a waypoint that may depart after a later mapped action. Legacy destinations with no mode remain conservatively terminal.
+
+```json
+{
+  "actions": [{"action":"click","selector":"#advance"},{"action":"click","selector":"#next"}],
+  "intent": {"schemaVersion":1,"beats":[{"beatId":"advance-part","actionIndexes":[0]}]},
+  "actors": [{
+    "id":"part","kind":"dom","selector":"[data-motion-id=part]",
+    "acceptance": {
+      "destination":{"x":240,"y":120,"tolerancePx":3,"deadlineMs":900,"settleMs":50,"mode":"waypoint","afterActionIndex":0,"holdUntilActionIndex":1},
+      "orientation":{"axis":"z","unit":"radian","maxStepAt60HzRad":0.25,"phase":{"startMs":100,"endMs":900}}
+    }
+  }]
+}
+```
+
+These are generic contracts, not proof that an unlabeled internal element corresponds to product intent. Keep the identical recipe, actors, phases and budgets for before/after comparison.
+
 The interaction deadline also applies to exploratory captures without outcomes. Overlong waits or blocked inputs retain incomplete evidence rather than a completed report. `recipeWarnings` identifies known wait/drag schedules that exhaust the budget; leave additional room for real input. For held scrubbing, use `action:"drag"`, a unique selector, 2–12 normalized `{x,y}` waypoints and 100–2000ms duration. Every reversal is visited while the native pointer stays down, then it is released even on failure. Match the recorded range to its actual thumb geometry; observe release state separately from any playback that resumes afterward.
 
 Canvas movement needs footage of the canvas contents. A static DOM box can contain rich motion or a stalled renderer. Frame cadence, motion continuity, meaningful final state and visual composition are separate observations. Static screenshots cannot establish smoothness; sparse frames and dropped/insufficient footage are inconclusive. Report the exact source revision, runtime, viewport, captures and checks. Distinguish protocol/tool connectivity from an actual fresh agent-host invocation.

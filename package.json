@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --import tsx server/index.ts",
-    "build": "tsc --noEmit && tsc -p tsconfig.library.json && vite build && node scripts-build.mjs",
+    "build": "tsc --noEmit && tsc -p tsconfig.library.json && vite build --configLoader runner && node scripts-build.mjs",
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
@@ -38,7 +38,7 @@
     "test:ants": "node --import tsx --test tests/demo-ants.test.mjs",
     "test:colony:browser": "node --import tsx tests/v2/colony-browser.mjs",
     "test:sequence:browser": "node --import tsx tests/v2/sequence-browser.mjs",
-    "test:study": "node --test tests/study-audit.test.mjs",
+    "test:study": "node --test tests/study-audit.test.mjs tests/motion-value-evaluator.test.mjs",
     "test:kinetic:browser": "node tests/v2/kinetic-field-browser.mjs",
     "test:drag:browser": "node --import tsx tests/v2/drag-browser.ts",
     "demo:loop": "node scripts/demo-loop.mjs",

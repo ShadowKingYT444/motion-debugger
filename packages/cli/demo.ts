@@ -46,13 +46,13 @@ export async function startDemo({port,dataDir}:{port:number;dataDir:string}) {
   ab.use('/ordinary',express.static(path.join(rail,'source/ordinary'),{dotfiles:'deny'}));
   ab.use('/motion',express.static(path.join(rail,'source/motion'),{dotfiles:'deny'}));
   ab.use('/evidence',express.static(path.join(rail,'evidence'),{dotfiles:'deny'}));
-  ab.get('/viewer.js',(_req,res)=>res.sendFile(path.join(rail,'viewer.js')));
-  ab.get('/',(_req,res)=>res.sendFile(path.join(rail,'viewer.html')));
+  ab.get('/viewer.js',(_req,res)=>res.sendFile('viewer.js',{root:rail}));
+  ab.get('/',(_req,res)=>res.sendFile('viewer.html',{root:rail}));
   ab.use((_req,res)=>res.status(404).send('A/B asset not found'));
   app.get('/ab',(req,res,next)=>req.path==='/ab'?res.redirect(308,'/ab/'):next());
   app.use('/ab/',ab);
   app.use(express.static(path.join(assets,'dist')));
-  app.use((req,res)=>req.path.startsWith('/api/')?res.status(404).json({error:'API route not found'}):res.sendFile(path.join(assets,'dist/index.html')));
+  app.use((req,res)=>req.path.startsWith('/api/')?res.status(404).json({error:'API route not found'}):res.sendFile('index.html',{root:path.join(assets,'dist')}));
   app.use((error:Error & {status?:number},_req:express.Request,res:express.Response,_next:express.NextFunction)=>res.status(error.status&&error.status>=400&&error.status<600?error.status:500).json({error:error.message}));
   const server=app.listen(port,'127.0.0.1');
   await new Promise<void>((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject)});

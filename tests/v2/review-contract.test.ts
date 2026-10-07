@@ -4,7 +4,7 @@ import {mkdtemp,mkdir,writeFile,readFile,readdir,rm,symlink} from 'node:fs/promi
 import path from 'node:path';
 import os from 'node:os';
 import {randomUUID} from 'node:crypto';
-import {reviewRecipe,reviewSummary,reviewFrameTimes,motionReview} from '../../packages/core/review';
+import {reviewRecipe,reviewSummary,reviewFrameTimes,motionReview,interactionEpochs} from '../../packages/core/review';
 import {inspect} from '../../packages/core/capture';
 import {validateRecipe,RecipeSchema} from '../../packages/core/safety';
 import {probeClassification,probeFailureSignature} from '../../packages/core/replay';
@@ -31,13 +31,17 @@ test('native review refuses weakened plan bindings, continuity, travel, identity
   refuses(value=>delete value.actors[0].acceptance.destination,/destination differs/);
   refuses(value=>value.actors[0].acceptance.destination.x=90,/destination differs/);
   refuses(value=>value.actors[0].acceptance.destination.tolerancePx=3,/destination differs/);
+  refuses(value=>delete value.contract.outcomes,/missing plan-required functional outcomes/);
+  refuses(value=>delete value.contract.outcomes.forbiddenVisible,/missing plan-required forbidden-visible/);
+  refuses(value=>value.contract.outcomes.forbiddenVisible=[],/missing plan-required forbidden-visible/);
+  const multiple=plan();multiple.acceptance.forbiddenVisible.push('#fatal');assert.throws(()=>reviewRecipe(multiple,recipe()),/#fatal/);
   const preview=plan();preview.clock='controlled-preview-ms';assert.throws(()=>reviewRecipe(preview,recipe()),/Native review requires/);
 });
 
 test('absent baseline or response keeps native intent outcome unverified despite declarative actor passes',()=>{
   const baseline=report();const verified=reviewSummary(baseline,plan());assert.equal(verified.summary.outcome,'passed');assert.equal(verified.transitions[0].measurements.inputToObservedGeometryChangeMs,30);assert.equal(verified.transitions[0].measurements.settlingMs,300);
   const missingBefore=report();missingBefore.actorSamples=missingBefore.actorSamples!.slice(1);const beforeSummary=reviewSummary(missingBefore,plan());assert.equal(beforeSummary.transitions[0].measurements.responseStatus,'unverified');assert.equal(beforeSummary.summary.outcome,'unverified');
-  const frozen=report();frozen.actorSamples!.forEach(sample=>{sample.screen!.x=10;});const responseSummary=reviewSummary(frozen,plan());assert.equal(responseSummary.transitions[0].measurements.responseStatus,'unverified');assert.equal(responseSummary.summary.outcome,'unverified');
+  const frozen=report();frozen.actorSamples!.forEach(sample=>{sample.screen!.x=10;});const responseSummary=reviewSummary(frozen,plan());assert.equal(responseSummary.transitions[0].measurements.responseStatus,'failed');assert.equal(responseSummary.summary.outcome,'failed');assert.equal(responseSummary.transitions[0].measurements.responseEpochs[0].status,'failed');
 });
 
 test('response and settling use observed trusted input and enforce required bounds separately',()=>{
@@ -54,8 +58,50 @@ test('synthetic app input cannot establish response or displace trusted frame-se
 });
 
 test('definite useful-outcome failure survives weak cadence and failure signatures distinguish defects',()=>{
-  const weak=report();weak.metrics.sufficientEvidence=false;weak.delivery!.status='failed';assert.equal(probeClassification(weak),'failed');assert.deepEqual(probeFailureSignature(weak),['functional-delivery']);
+  const weak=report();weak.metrics.sufficientEvidence=false;weak.delivery!.status='failed';weak.delivery!.forbiddenVisible=[{selector:'#error',observedAtMs:300,text:'Error'}];assert.equal(probeClassification(weak),'failed');assert.deepEqual(probeFailureSignature(weak),['forbidden-visible:#error']);
   const reset=report();reset.assertions=[{id:'actor:lens:position',label:'Position',passed:false,status:'failed',actual:'unit reset',expected:'continuous'}];assert.deepEqual(probeFailureSignature(reset),['actor:lens:position']);assert.notDeepEqual(probeFailureSignature(reset),probeFailureSignature(weak));
+});
+
+test('every explicitly mapped input epoch is evaluated and an earlier violation cannot be hidden by a passing final input',()=>{
+  const value=report();value.recipe.actions=[{action:'click',selector:'#go'},{action:'click',selector:'#back'}];value.recipe.intent={schemaVersion:1,beats:[{beatId:'handoff',actionIndexes:[0,1]}]};
+  value.events=[{id:'go',t:100,type:'click',label:'generic',origin:'browser-observed',detail:{trusted:true,selector:'#go',actionIndex:0}},{id:'back',t:600,type:'click',label:'generic',origin:'browser-observed',detail:{trusted:true,selector:'#back',actionIndex:1}}];
+  value.actorSamples=Array.from({length:61},(_,index)=>{const t=index*20,x=t<320?10:t<620?40:100;return{...report().actorSamples![0],t,observedAtMs:t,screen:{...report().actorSamples![0].screen!,x}}});value.actorAnalysis!.actors[0].metrics.arrivalAtMs=700;
+  const measurement=reviewSummary(value,plan()).transitions[0].measurements;assert.equal(measurement.inputAttribution,'explicit-action-metadata');assert.deepEqual(measurement.responseEpochs.map((epoch:any)=>epoch.responseMs),[220,20]);assert.deepEqual(measurement.responseEpochs.map((epoch:any)=>epoch.status),['failed','passed']);assert.equal(measurement.responseStatus,'failed');assert.equal(reviewSummary(value,plan()).summary.outcome,'failed');
+  delete value.recipe.intent;const unknown=reviewSummary(value,plan()).transitions[0].measurements;assert.equal(unknown.inputAttribution,'unattributable');assert.equal(unknown.responseStatus,'unverified');
+});
+test('no-change response exemption uses the uniquely mapped beat target, not the global final destination',()=>{
+  const value=report(),twoBeatPlan=plan();
+  twoBeatPlan.beats=[
+    {id:'go',actorIds:['lens'],trigger:'go',purpose:'Move away from the final pose',from:pose(100),to:pose(50),after:[],overlapMs:0,durationMs:300},
+    {id:'back',actorIds:['lens'],trigger:'back',purpose:'Return to the final pose',from:pose(50),to:pose(100),after:['go'],overlapMs:0,durationMs:300}
+  ];
+  value.recipe.actions=[{action:'click',selector:'#go'},{action:'click',selector:'#back'}];
+  value.recipe.intent={schemaVersion:1,beats:[{beatId:'go',actionIndexes:[0]},{beatId:'back',actionIndexes:[1]}]};
+  value.events=[{id:'go',t:100,type:'click',label:'go',origin:'browser-observed',detail:{trusted:true,selector:'#go',actionIndex:0}},{id:'back',t:600,type:'click',label:'back',origin:'browser-observed',detail:{trusted:true,selector:'#back',actionIndex:1}}];
+  value.actorSamples=Array.from({length:61},(_,index)=>({...report().actorSamples![0],t:index*20,observedAtMs:index*20,screen:{...report().actorSamples![0].screen!,x:100}}));
+  value.actorAnalysis!.actors[0].metrics.arrivalAtMs=600;
+  assert.doesNotThrow(()=>reviewRecipe(twoBeatPlan,value.recipe));
+  const summary=reviewSummary(value,twoBeatPlan);
+  assert.deepEqual(summary.transitions[0].measurements.responseEpochs.map((epoch:any)=>epoch.status),['failed','no-change-valid-pose']);
+  assert.equal(summary.transitions[0].measurements.responseStatus,'failed');
+  assert.equal(summary.summary.outcome,'failed');
+});
+test('a uniquely mapped input already at its own screen-space beat target remains a valid no-op',()=>{
+  const value=report();value.recipe.intent={schemaVersion:1,beats:[{beatId:'handoff',actionIndexes:[0]}]};value.events[0].detail.actionIndex=0;
+  value.actorSamples=Array.from({length:51},(_,index)=>({...report().actorSamples![0],t:index*20,observedAtMs:index*20,screen:{...report().actorSamples![0].screen!,x:100}}));
+  value.actorAnalysis!.actors[0].metrics.arrivalAtMs=100;
+  const summary=reviewSummary(value,plan());assert.equal(summary.transitions[0].measurements.responseEpochs[0].status,'no-change-valid-pose');assert.equal(summary.transitions[0].measurements.responseStatus,'passed');assert.equal(summary.summary.outcome,'passed');
+});
+test('ambiguous beat-to-action correspondence cannot grant a no-change response pass',()=>{
+  const value=report(),ambiguous=plan();ambiguous.beats.push({id:'alternate',actorIds:['lens'],trigger:'alternate',purpose:'A second possible target',from:pose(100),to:pose(50),after:[],overlapMs:0,durationMs:300});
+  value.recipe.intent={schemaVersion:1,beats:[{beatId:'handoff',actionIndexes:[0]},{beatId:'alternate',actionIndexes:[0]}]};value.events[0].detail.actionIndex=0;value.actorSamples=Array.from({length:51},(_,index)=>({...report().actorSamples![0],t:index*20,observedAtMs:index*20,screen:{...report().actorSamples![0].screen!,x:100}}));
+  const summary=reviewSummary(value,ambiguous);assert.equal(summary.transitions[0].measurements.responseEpochs[0].status,'unverified-target-correspondence');assert.equal(summary.transitions[0].measurements.responseStatus,'unverified');assert.equal(summary.summary.outcome,'unverified');
+});
+test('pointer epochs require concrete contact and control identity, including overlap and cancellation',()=>{
+  const event=(id:string,t:number,type:string,selector:string,pointerId?:number)=>({id,t,type,label:'Pointer moved',origin:'browser-observed' as const,detail:{trusted:true,selector,...(pointerId===undefined?{}:{pointerId,pointerType:'mouse'})}});
+  const epochs=interactionEpochs([event('go-down',100,'pointerdown','#go',1),event('back-down',110,'pointerdown','#back',2),event('back-up',120,'pointerup','#back',2),event('back-click',125,'click','#back',2),event('go-up',130,'pointerup','#go',1),event('go-click',135,'click','#go',1)]);assert.deepEqual(epochs.map(epoch=>epoch.events.map(item=>item.id)),[['back-down','back-up','back-click'],['go-down','go-up','go-click']]);assert.deepEqual(epochs.map(epoch=>epoch.clock.id),['back-click','go-click']);
+  const canceled=interactionEpochs([event('down',10,'pointerdown','#go',4),event('cancel',20,'pointercancel','#go',4)]);assert.equal(canceled.length,1);assert.equal(canceled[0].clock.id,'cancel');
+  const uncertain=interactionEpochs([event('down-u',10,'pointerdown','#go'),event('up-u',20,'pointerup','#go'),event('click-u',25,'click','#go')]);assert.equal(uncertain.length,3);assert.ok(uncertain.every(epoch=>epoch.association==='uncertain'));
 });
 
 test('reused review writes only beneath validated artifact root, ignoring report-supplied directory',async()=>{
@@ -91,4 +137,10 @@ test('requested velocity continuity cannot pass without adequate actor velocity 
   const verified=reviewSummary(report(),plan());assert.equal(verified.transitions[0].measurements.velocityStatus,'passed');assert.equal(verified.summary.outcome,'passed');
   const positionOnly=plan();positionOnly.acceptance.actors[0].continuity='position';
   const notRequested=reviewSummary(missing,positionOnly);assert.equal(notRequested.transitions[0].measurements.velocityStatus,'not-requested');assert.equal(notRequested.summary.outcome,'passed');
+});
+test('feature coverage reports evidence state instead of treating assertion presence as measurement',()=>{
+  const missing=report(),features=reviewSummary(missing,plan()).featureCoverage.actors[0].features;assert.equal(features.position.status,'unsupported-unverified');assert.equal(features.velocity.status,'independent-measured-passed');assert.equal(features.destination.status,'unsupported-unverified');
+  const insufficient=report();insufficient.actorAnalysis!.actors[0].coverage.sufficient=false;assert.equal(reviewSummary(insufficient,plan()).featureCoverage.actors[0].features.velocity.status,'insufficient');
+  const failed=report();failed.actorAnalysis!.actors[0].assertions[0].status='failed';failed.actorAnalysis!.actors[0].assertions[0].passed=false;assert.equal(reviewSummary(failed,plan()).featureCoverage.actors[0].features.velocity.status,'independent-measured-failed');
+  const scene=report();scene.actorAnalysis!.actors[0].evidence='app-reported-scene';assert.equal(reviewSummary(scene,plan()).featureCoverage.actors[0].features.velocity.status,'annotation-only');
 });

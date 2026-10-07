@@ -35,6 +35,11 @@ export interface CaptureRecipe {
   reducedMotion?:'reduce'|'no-preference';
   contract?:MotionContract;
   actors?:MotionActorBinding[];
+  /** Versioned executable correspondence between plan beats and runner actions. */
+  intent?:{
+    schemaVersion:1;
+    beats:{beatId:string;actionIndexes:number[]}[];
+  };
   sourceRefs?:Record<string,{file:string;line:number;endLine?:number}>;
 }
 export interface MotionEvent {
@@ -99,8 +104,12 @@ export interface MotionComparison {
   schemaVersion:'2.0';beforeId:string;afterId:string;
   comparable:boolean;comparabilityIssues:string[];
   contractsPassed:{before:boolean;after:boolean};
+  actorContractsPassed?:{before:boolean;after:boolean};
   functionalDelivery?:{before:MotionDelivery['status'];after:MotionDelivery['status']};
   deltas:Record<string,{before:number;after:number;change:number}>;
+  actorDeltas?:Record<string,{before:number;after:number;change:number}>;
+  improvements?:string[];
+  regressions?:string[];
   finalEquivalent:boolean;
   interpretation:string;
   findings:{before:MotionFinding[];after:MotionFinding[]};
@@ -122,10 +131,34 @@ export type MotionActorBinding = {
     maxStepAt60HzPx?:number;
     maxVelocityChangePxPerMs?:number;
     maxReplacements?:number;
-    destination?:{x:number;y:number;tolerancePx:number;deadlineMs:number;settleMs?:number};
+    destination?:{
+      x:number;y:number;tolerancePx:number;deadlineMs:number;settleMs?:number;
+      /** Legacy omission is conservatively terminal through the capture end. */
+      mode?:'terminal'|'waypoint';
+      /** Explicit runner action epoch that activates this destination. */
+      afterActionIndex?:number;
+      /** Required for a waypoint: retain the pose until this later action starts. */
+      holdUntilActionIndex?:number;
+    };
     minTravelPx?:number;
+    /** Browser-observed 2D orientation. Angles and bounds are radians. */
+    orientation?:{
+      axis:'z';unit:'radian';maxStepAt60HzRad?:number;
+      destinationRad?:number;toleranceRad?:number;
+      phase?:MotionActorPhase;
+    };
+    /** Browser-observed center-to-center relationship to another registered actor. */
+    anchor?:{
+      actorId:string;space:'screen';unit:'css-px';
+      offset:{x:number;y:number};tolerancePx:number;phase?:MotionActorPhase;
+    };
   };
 } & ({kind:'dom'|'svg';selector:string}|{kind:'scene'});
+export interface MotionActorPhase {
+  startMs?:number;endMs?:number;
+  afterEventLabel?:string;
+  eventOccurrence?:'first'|'latest';
+}
 export interface MotionActorSample {
   actorId:string;kind:MotionActorBinding['kind'];
   origin:'browser-observed'|'app-reported'|'recorded-pixels';
@@ -144,9 +177,9 @@ export interface MotionActorResult {
   evidence:'browser-geometry'|'app-reported-scene'|'recorded-pixels';
   status:'passed'|'failed'|'unverified';pixelStatus:'unverified'|'observed';
   coverage:{sufficient:boolean;sampleCount:number;maxGapMs:number;reasons:string[]};
-  metrics:{maxStepAt60HzPx:number;maxStepPx:number;travelPx:number;replacements:number;maxVelocityChangePxPerMs:number;arrivalAtMs:number|null};
+  metrics:{maxStepAt60HzPx:number;maxStepPx:number;travelPx:number;replacements:number;maxVelocityChangePxPerMs:number;arrivalAtMs:number|null;destinationConfirmedAtMs?:number|null;terminalDepartureAtMs?:number|null;maxOrientationStepAt60HzRad?:number;finalOrientationErrorRad?:number|null;orientationSampleCount?:number;orientationMaxReadGapMs?:number;maxAnchorErrorPx?:number;anchorPairCount?:number;anchorUniqueSubjectCount?:number;anchorUniqueReferenceCount?:number;anchorMaxReadSkewMs?:number;anchorPairMaxFrameGapMs?:number;anchorPairMaxReadGapMs?:number;anchorPairMaxObservationLagMs?:number};
   assertions:MotionAssertion[];
-  findings:{type:'position-step'|'velocity-change'|'identity-replacement'|'arrival'|'travel';summary:string;sampleTimes:number[];eventIds:string[]}[];
+  findings:{type:'position-step'|'velocity-change'|'identity-replacement'|'arrival'|'terminal-departure'|'travel'|'orientation-step'|'orientation-destination'|'anchor-drift';summary:string;sampleTimes:number[];eventIds:string[]}[];
 }
 export interface MotionActorAnalysis {
   version:'1';status:'passed'|'failed'|'unverified';actors:MotionActorResult[];
