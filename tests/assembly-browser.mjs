@@ -54,6 +54,7 @@ const results=[],provenance={gitCommit:execFileSync('git',['rev-parse','HEAD'],{
 const scenarios=[{name:'desktop',viewport:contract.viewports.desktop},{name:'mobile',viewport:contract.viewports.mobile},{name:'reduced',viewport:contract.viewports.desktop,reducedMotion:'reduce'},{name:'fallback',viewport:contract.viewports.desktop,fallback:true},{name:'forced-webgl-failure',viewport:contract.viewports.mobile,forcedFallback:true}];
 let browser,failure;
 const accept=contract.acceptance;
+const browserEventObservationTimeoutMs=5000;
 const read=page=>page.evaluate(()=>window.__assemblyDebug);
 const requiredControls=['#open','[data-lens="wide"]','[data-lens="standard"]','[data-lens="tele"]','#inspect','#scrubber','#pause','#replay','#export'];
 async function assertControls(page){for(const selector of requiredControls){const control=page.locator(selector);assert.equal(await control.count(),1,selector);assert.equal(await control.isEnabled(),true,`${selector} must remain enabled`);assert.equal(await control.evaluate(node=>node.tabIndex>=0),true,`${selector} must be keyboard reachable`);}}
@@ -153,10 +154,10 @@ try{
       await page.click('#open');await page.waitForTimeout(50);
       const expectsPreferenceEvent=!await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches);
       const preferenceRequestAtMs=await page.evaluate(()=>{window.__assemblyPreferenceStyleRead=null;return performance.now()});
-      reducedMotionTiming={method:'App-reported native preference event to completed render call and observed endpoint state; not physical pixel presentation latency',preferenceRequestAtMs,expectsPreferenceEvent,event:null};
+      reducedMotionTiming={method:'App-reported native preference event to completed render call and observed endpoint state; not physical pixel presentation latency',preferenceRequestAtMs,expectsPreferenceEvent,browserEventObservationTimeoutMs,eventToRenderAcceptanceMs:accept.reducedMotionSettleMs,event:null};
       await page.emulateMedia({reducedMotion:'reduce'});
-      // Flush browser-emulated media styles inside the existing observation deadline; only the browser dispatches the event.
-      try{await page.waitForFunction(expectsEvent=>{if(window.__assemblyPreferenceStyleRead===null)window.__assemblyPreferenceStyleRead={fontSize:getComputedStyle(document.documentElement).fontSize,completedAtMs:performance.now()};const state=window.__assemblyDebug;return state.reducedMotion===true&&(!expectsEvent||state.preferenceChange?.matches===true&&state.preferenceChange.renderCallCompletedAtMs!==null)},expectsPreferenceEvent,{timeout:accept.reducedMotionSettleMs+100,polling:25});}
+      // This wait only bounds browser emulation and native event delivery; the unchanged acceptance gate below separately bounds app event-to-render-call completion.
+      try{await page.waitForFunction(expectsEvent=>{if(window.__assemblyPreferenceStyleRead===null)window.__assemblyPreferenceStyleRead={fontSize:getComputedStyle(document.documentElement).fontSize,completedAtMs:performance.now()};const state=window.__assemblyDebug;return state.reducedMotion===true&&(!expectsEvent||state.preferenceChange?.matches===true&&state.preferenceChange.renderCallCompletedAtMs!==null)},expectsPreferenceEvent,{timeout:browserEventObservationTimeoutMs,polling:25});}
       finally{const state=await read(page),event=state.preferenceChange,observation=await page.evaluate(()=>({observedAtMs:performance.now(),styleRead:window.__assemblyPreferenceStyleRead}));reducedMotionTiming={...reducedMotionTiming,...observation,event,requestToNativeEventMs:event?event.eventAtMs-preferenceRequestAtMs:null,eventToRenderCallCompletedMs:event&&event.renderCallCompletedAtMs!==null?event.renderCallCompletedAtMs-event.eventAtMs:null,observedPose:{view:state.view,progress:state.progress,settled:state.settled,playing:state.playing}};}
       if(expectsPreferenceEvent){
         const event=reducedMotionTiming.event;assert.ok(event?.matches===true&&event.eventAtMs>=preferenceRequestAtMs,'An actual native reduced-motion event must be observed');
