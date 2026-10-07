@@ -41,12 +41,12 @@ test('native review refuses weakened plan bindings, continuity, travel, identity
 test('absent baseline or response keeps native intent outcome unverified despite declarative actor passes',()=>{
   const baseline=report();const verified=reviewSummary(baseline,plan());assert.equal(verified.summary.outcome,'passed');assert.equal(verified.transitions[0].measurements.inputToObservedGeometryChangeMs,30);assert.equal(verified.transitions[0].measurements.settlingMs,300);
   const missingBefore=report();missingBefore.actorSamples=missingBefore.actorSamples!.slice(1);const beforeSummary=reviewSummary(missingBefore,plan());assert.equal(beforeSummary.transitions[0].measurements.responseStatus,'unverified');assert.equal(beforeSummary.summary.outcome,'unverified');
-  const frozen=report();frozen.actorSamples!.forEach(sample=>{sample.screen!.x=10;});const responseSummary=reviewSummary(frozen,plan());assert.equal(responseSummary.transitions[0].measurements.responseStatus,'failed');assert.equal(responseSummary.summary.outcome,'failed');assert.equal(responseSummary.transitions[0].measurements.responseEpochs[0].status,'failed');
+  const frozen=report();frozen.actorSamples!.forEach(sample=>{sample.screen!.x=10;});const responseSummary=reviewSummary(frozen,plan());assert.equal(responseSummary.transitions[0].measurements.responseStatus,'failed');assert.equal(responseSummary.summary.outcome,'failed');assert.equal(responseSummary.summary.temporalContracts,'failed');assert.equal(responseSummary.summary.nextInspection,'lens');assert.equal(responseSummary.transitions[0].measurements.responseEpochs[0].status,'failed');
 });
 
 test('response and settling use observed trusted input and enforce required bounds separately',()=>{
   const slow=report();slow.actorSamples![1].observedAtMs=200;slow.actorSamples![1].t=200;assert.equal(reviewSummary(slow,plan()).transitions[0].measurements.responseStatus,'failed');assert.equal(reviewSummary(slow,plan()).summary.outcome,'failed');
-  const late=report();late.actorAnalysis!.actors[0].metrics.arrivalAtMs=700;const summary=reviewSummary(late,plan());assert.equal(summary.transitions[0].measurements.settlingMs,600);assert.equal(summary.transitions[0].measurements.settlingStatus,'failed');assert.equal(summary.summary.outcome,'failed');
+  const late=report();late.actorAnalysis!.actors[0].metrics.arrivalAtMs=700;const summary=reviewSummary(late,plan());assert.equal(summary.transitions[0].measurements.settlingMs,600);assert.equal(summary.transitions[0].measurements.settlingStatus,'failed');assert.equal(summary.summary.outcome,'failed');assert.equal(summary.summary.temporalContracts,'failed');assert.equal(summary.summary.nextInspection,'lens');
   const orientation=plan();orientation.acceptance.actors[0].destination.orientationRad=[0,1,0];assert.equal(reviewSummary(report(),orientation).summary.outcome,'unverified');
   const world=plan();world.acceptance.actors[0].destination.position={x:1,y:2,space:'world',unit:'scene-unit'};assert.equal(reviewSummary(report(),world).transitions[0].measurements.destinationStatus,'unverified-projection');assert.equal(reviewSummary(report(),world).summary.outcome,'unverified');
 });
@@ -85,6 +85,8 @@ test('no-change response exemption uses the uniquely mapped beat target, not the
   assert.deepEqual(summary.transitions[0].measurements.responseEpochs.map((epoch:any)=>epoch.status),['failed','no-change-valid-pose']);
   assert.equal(summary.transitions[0].measurements.responseStatus,'failed');
   assert.equal(summary.summary.outcome,'failed');
+  assert.equal(summary.summary.temporalContracts,'failed');
+  assert.equal(summary.summary.nextInspection,'lens');
 });
 test('a uniquely mapped input already at its own screen-space beat target remains a valid no-op',()=>{
   const value=report();value.recipe.intent={schemaVersion:1,beats:[{beatId:'handoff',actionIndexes:[0]}]};value.events[0].detail.actionIndex=0;
