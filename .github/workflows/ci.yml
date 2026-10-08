@@ -33,6 +33,8 @@ jobs:
         run: npm run test:v2:e2e
       - name: Lifecycle integrity and actual source-repair browser regression
         run: npm run test:coverage:browser && npm run test:repair:browser && npm run test:failure:browser
+      - name: Page critique detects seeded defects and passes the kit-built control
+        run: npm run test:critique:browser
       - name: Actor, review, authoring and transition upgrade regressions
         run: npm run test:actors:browser && npm run test:review:browser && npm run test:authoring:browser && npm run test:transitions:browser
       - name: Native construction recipes and positive task outcomes

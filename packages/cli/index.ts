@@ -1,6 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {createInterface} from 'node:readline/promises';
+import {critique,critiqueMarkdown} from '../core/critique';
 import {recordedFrames,capture,inspect,compact,compare,validateLocalUrl,validateRecipe,motionReview,motionProbe} from '../core/index';
 import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
@@ -19,6 +20,8 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger doctor [--skip-launch]
   motion-debugger demo [--port 4173] [--data-dir .motion-debugger/demo]
   motion-debugger recipe kinetic|drawer|reveal|cursor [--mode baseline|fixed] [--origin <loopback>]
+  motion-debugger agents-md [--skills-dir .agents/skills]   print instructions for AGENTS.md/CLAUDE.md/GEMINI.md
+  motion-debugger critique <url|index.html|folder> [--out dir] [--json] [--offline] [--desktop-only]
   motion-debugger capture recipe.json
   motion-debugger review review.json
   motion-debugger probe probe.json
@@ -36,6 +39,10 @@ waypoint holds, and versioned beat-to-action indexes. Unsupported or insufficien
 Config flags: --origin <loopback-origin>, --artifact-dir <path>, --source-root <path> (repeatable)
 Environment: MOTION_ARTIFACT_DIR, MOTION_ALLOWED_ORIGINS, MOTION_SOURCE_ROOTS, CHROMIUM_PATH`;
 const [command,...args]=process.argv.slice(2);
+export function agentsMarkdown(skillsDir?:string) {
+  const skill=skillsDir?`\`${skillsDir.replace(/\/$/,'')}/premium-motion/SKILL.md\``:'the premium-motion skill (installed with `motion-debugger skills install`, or bundled in the motion-debugger package under plugin/motion-debugger/skills/premium-motion)';
+  return `## Motion Debugger\n\nFor any web page, UI or animation work in this project, read and follow ${skill} before writing code, and review the rendered result with \`motion-debugger critique <folder-or-local-url>\` (or the \`motion_critique\` MCP tool). Open the contact-sheet images it writes, fix what they show, and critique again before you finish.\n`;
+}
 function configOptions(input:string[]):InitOptions {
   const options:InitOptions={client:'generic'};
   for(let i=0;i<input.length;i++) {
@@ -100,6 +107,17 @@ try {
     const strip=await recordedFrames(args[0],optionsFromEnvironment());result={...strip,frames:strip.frames.map(({png,...frame})=>frame)};
   }else if(command==='inspect') {
     if(args.length!==1)throw new Error('inspect requires exactly one capture UUID');result=compact(await inspect(args[0],optionsFromEnvironment()));
+  }else if(command==='agents-md') {
+    // Provider-neutral standing instructions: append to AGENTS.md, CLAUDE.md, GEMINI.md, .cursorrules, etc.
+    const dir=args[0]==='--skills-dir'?args[1]:undefined;if(args.length&&!dir)throw new Error('agents-md accepts only --skills-dir <path>');
+    process.stdout.write(agentsMarkdown(dir));
+  }else if(command==='critique') {
+    let target:string|undefined,outDir:string|undefined,json=false,offline=false;const viewports:Array<'desktop'|'mobile'>=['desktop','mobile'];
+    for(let i=0;i<args.length;i++){const flag=args[i];if(flag==='--out'){outDir=args[++i];if(!outDir)throw new Error('--out requires a directory')}else if(flag==='--json')json=true;else if(flag==='--offline')offline=true;else if(flag==='--desktop-only')viewports.splice(1);else if(flag.startsWith('--'))throw new Error(`Unknown option: ${flag}`);else if(target)throw new Error('critique accepts one URL or path');else target=flag}
+    if(!target)throw new Error('critique requires a loopback URL, an HTML file or a folder containing index.html');
+    const report=await critique(target,{outDir,offline,viewports,allowedOrigins:optionsFromEnvironment().allowedOrigins});
+    const reportDir=outDir?path.resolve(outDir):path.dirname(Object.values(report.images)[0]??'.');
+    if(json)result=report;else process.stdout.write(critiqueMarkdown(report,reportDir)+`\nFull report: ${path.join(reportDir,'report.json')}\n`);
   }else if(command==='compare') {
     if(args.length!==2)throw new Error('compare requires before and after capture UUIDs');result=compare(await inspect(args[0],optionsFromEnvironment()),await inspect(args[1],optionsFromEnvironment()));
   }else throw new Error(`Unknown command: ${command}. Run motion-debugger --help`);

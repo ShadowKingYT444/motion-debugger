@@ -20,3 +20,5 @@ export {analyzeActors,actorAnalyzerImplementationSource} from './actor-analysis'
 export {observeActorPixels,measurePixelActorContinuity} from './pixel-actors';
 export type {NativePixelFrame,ActorPixelMask} from './pixel-actors';
 export type {SceneMatrix,SceneObject,SceneCamera,SceneActorRegistration,SceneActorSink} from './scene-adapter';
+export {critique,critiqueMarkdown,serveStatic,classifyEasing} from './critique';
+export type {CritiqueReport,CritiqueFinding,CritiqueOptions} from './critique';

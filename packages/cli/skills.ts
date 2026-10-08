@@ -3,7 +3,7 @@ import {lstat,readdir,readFile,mkdir,writeFile,rename,rm} from 'node:fs/promises
 import path from 'node:path';
 import type {Client} from './config';
 
-export const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'] as const;
+export const skillNames=['premium-motion','motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'] as const;
 export const skillDirectories:Partial<Record<Client,string>>={codex:'.agents/skills','claude-code':'.claude/skills',cursor:'.cursor/skills',vscode:'.github/skills',opencode:'.opencode/skills'};
 type FileEntry={path:string;data:Buffer};
 type Snapshot={directories:string[];files:FileEntry[]};

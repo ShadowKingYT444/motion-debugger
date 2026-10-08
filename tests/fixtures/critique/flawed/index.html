@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seeded defects</title>
+<!-- Labeled seeded defects for the critique regression suite: linear simultaneous entrance,
+     a reveal that never fires, static sections, silent controls, no reduced-motion handling,
+     a fixed-width block that overflows phones, and low-contrast copy. -->
+<style>
+  body { margin: 0; font-family: serif; }
+  section { min-height: 520px; padding: 40px; }
+  .hero h1, .hero p, .hero .row { animation: rise 900ms linear both; }
+  @keyframes rise { from { transform: translateY(40px); opacity: 0; } }
+  .ghost { opacity: 0; transition: opacity .5s linear; }
+  .ghost.shown { opacity: 1; }
+  .wide { width: 620px; height: 40px; background: #eee; }
+  .muted { color: #c4c4c4; }
+  a, button { color: #222; background: none; border: 1px solid #222; padding: 10px 14px; font: inherit; text-decoration: none; }
+  a:focus, button:focus { outline: none; }
+</style></head>
+<body>
+  <section class="hero"><h1>Seeded defects page</h1><p class="muted">Low contrast supporting copy that is hard to read.</p>
+    <div class="row"><a href="#one">First</a> <a href="#two" class="b">Second</a> <button>Third</button> <button class="d">Fourth</button></div></section>
+  <section><h2 class="ghost">This heading never becomes visible</h2><div class="wide"></div></section>
+  <section><h2>Static section</h2><p>Plain text.</p></section>
+  <section><h2>Another static section</h2><p>Plain text.</p></section>
+</body></html>

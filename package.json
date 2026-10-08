@@ -9,7 +9,7 @@
     "start": "node --import tsx server/index.ts",
     "test": "node --import tsx --test tests/qa.test.ts tests/analysis.test.ts tests/api.test.ts",
     "capture": "node --import tsx server/capture-cli.ts",
-    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli && npm run test:workflow && npm run test:demo && npm run test:packages && npm run test:ants && npm run test:study && npm run test:assembly",
+    "check": "npm run build && npm test && npm run test:v2 && npm run test:cli && npm run test:workflow && npm run test:demo && npm run test:packages && npm run test:ants && npm run test:study && npm run test:assembly && npm run test:critique",
     "test:e2e": "node --import tsx --test tests/e2e.test.ts",
     "mcp": "node build/mcp/index.js",
     "cli": "node build/cli/index.js",
@@ -54,7 +54,10 @@
     "test:codex:host": "node scripts/validate-native-codex.mjs",
     "demo:rail": "node scripts/demo-rail.mjs",
     "test:rail:browser": "node tests/rail-browser.mjs",
-    "test:rail:viewer": "node tests/rail-viewer-browser.mjs"
+    "test:rail:viewer": "node tests/rail-viewer-browser.mjs",
+    "test:critique": "node --import tsx --test tests/critique.test.ts",
+    "test:critique:browser": "node --import tsx tests/critique-browser.mjs",
+    "critique": "node build/cli/index.js critique"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.31.0",
