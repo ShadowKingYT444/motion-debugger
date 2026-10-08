@@ -46,7 +46,8 @@ export const critiqueInitScript=String.raw`(() => {
         target: path(target) + (pseudo || ''), duration: Number(timing.duration) || 0, delay: Number(timing.delay) || 0,
         iterations: timing.iterations === Infinity ? 'infinite' : timing.iterations, easing: timing.easing || 'linear',
         ...props(anim), seenAt: Math.round(performance.now() - mc.t0),
-        docTop: rect ? Math.round(rect.top + scrollY) : null, inView: rect ? rect.bottom > 0 && rect.top < innerHeight : null
+        docTop: rect ? Math.round(rect.top + scrollY) : null, inView: rect ? rect.bottom > 0 && rect.top < innerHeight : null,
+        onHovered: !!(target && target.closest && target.closest('[data-mc-h]'))
       });
       if (target) target.__mcAnimated = true;
     }
@@ -93,7 +94,18 @@ export const critiqueStaticScript=String.raw`(() => {
     }
     return parts.join(' > ');
   };
-  const effectiveOpacity = (el) => { let o = 1; for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); o *= Number(s.opacity); if (s.visibility === 'hidden' || s.display === 'none') return 0; } return o; };
+  // A clip-path that collapses to zero area hides content as completely as opacity 0.
+  const collapsed = (el, clip) => {
+    if (!clip || clip === 'none') return false;
+    if (/^(circle|ellipse)\(\s*0(px|%)?[\s)]/.test(clip)) return true;
+    const inset = clip.match(/^inset\(([^)]*)\)/); if (!inset) return false;
+    const r = el.getBoundingClientRect();
+    const len = (x, size) => x.endsWith('%') ? parseFloat(x) / 100 * size : parseFloat(x) || 0;
+    const v = inset[1].split(/\s+round\s+/)[0].trim().split(/\s+/);
+    const [t, ri = t, b = t, l = ri] = v;
+    return len(t, r.height) + len(b, r.height) >= r.height - 0.5 || len(l, r.width) + len(ri, r.width) >= r.width - 0.5;
+  };
+  const effectiveOpacity = (el) => { let o = 1; for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); o *= Number(s.opacity); if (s.visibility === 'hidden' || s.display === 'none' || collapsed(n, s.clipPath)) return 0; } return o; };
   const intentionallyHidden = (el) => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { if (n.hidden || n.getAttribute('aria-hidden') === 'true' || n.inert) return true; const s = getComputedStyle(n); if (s.position === 'fixed' && n !== document.body) return true; if (n.localName === 'dialog' && !n.open) return true; } return false; };
   const hasOwnText = (el) => [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 2);
   const textEls = [...document.body.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,a,button,span,blockquote,figcaption,label,td,th,dt,dd,img,svg,small,strong,em')].filter(el => {

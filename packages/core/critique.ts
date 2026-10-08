@@ -14,7 +14,7 @@ import {critiqueInitScript,critiqueSectionMotionScript,critiqueSectionsScript,cr
 
 export type Severity='blocker'|'major'|'minor'|'polish';
 export interface CritiqueFinding {id:string;severity:Severity;area:'motion'|'interaction'|'layout'|'visual'|'accessibility'|'runtime';title:string;evidence:string;fix:string}
-export interface RecordedAnimation {id:number;phase:string;kind:string;name:string;target:string;duration:number;delay:number;iterations:number|'infinite';easing:string;properties:string[];keyframeEasings:string[];seenAt:number;docTop:number|null;inView:boolean|null}
+export interface RecordedAnimation {id:number;phase:string;kind:string;name:string;target:string;duration:number;delay:number;iterations:number|'infinite';easing:string;properties:string[];keyframeEasings:string[];seenAt:number;docTop:number|null;inView:boolean|null;onHovered?:boolean}
 export interface CritiqueOptions {outDir?:string;viewports?:Array<'desktop'|'mobile'>;reducedMotion?:boolean;hover?:boolean;offline?:boolean;allowedOrigins?:string[];signal?:AbortSignal}
 export interface CritiqueReport {
   url:string;createdAt:string;score:number;grade:string;findings:CritiqueFinding[];
@@ -160,9 +160,9 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
               const before=await snapshot();const box=await handle.boundingBox();if(!box)continue;
               const pad=24;const clip={x:Math.max(0,box.x-pad),y:Math.max(0,box.y-pad),width:Math.min(DESKTOP.width-Math.max(0,box.x-pad),box.width+pad*2),height:Math.min(DESKTOP.height-Math.max(0,box.y-pad),box.height+pad*2)};
               const beforePng=clip.width>4&&clip.height>4&&crops.length<12?await page.screenshot({type:'jpeg',quality:80,clip}):null;
-              const count=await page.evaluate('window.__mc.anims.length') as number;
+              const count=await page.evaluate('window.__mc.anims.length') as number;// only animations on the hovered control count as its feedback
               await page.mouse.move(box.x+box.width/2,box.y+box.height/2,{steps:4});await sleep(420);
-              const after=await snapshot();const animated=(await page.evaluate(`window.__mc.anims.length`) as number)>count;
+              const after=await snapshot();const animated=await page.evaluate(`window.__mc.anims.slice(${count}).some(a => a.onHovered)`) as boolean;
               if(beforePng&&crops.length<12)crops.push({label:`${info.label} — rest`,png:beforePng},{label:`${info.label} — hover`,png:await page.screenshot({type:'jpeg',quality:80,clip})});
               hover.tested++;if(before!==after)hover.responsive++;else hover.silent.push(info.label||info.sig);if(animated)hover.animated++;
             }catch{/* detached or obscured controls are skipped rather than counted */}
@@ -249,7 +249,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
     const layoutAnimated=animations.filter(anim=>anim.properties.some(property=>layoutProperty.test(property))&&anim.duration>=120);
     const layoutJs=Object.values(mutations).reduce((sum,bucket)=>sum+bucket.layout,0);
     if(layoutAnimated.length>=2||layoutJs>40)add({id:'layout-properties-animated',severity:'minor',area:'motion',title:'Layout properties are animated',evidence:`${layoutAnimated.length} animations/transitions on ${[...new Set(layoutAnimated.flatMap(anim=>anim.properties.filter(property=>layoutProperty.test(property))))].slice(0,5).join(', ')||'layout'}; ${layoutJs} inline-style layout writes.`,fix:'Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr→1fr or measure once and animate a scale/clip.'});
-    const slowHover=animations.filter(anim=>anim.phase==='hover'&&anim.duration>600&&anim.iterations!=='infinite');
+    const slowHover=animations.filter(anim=>anim.phase==='hover'&&anim.onHovered&&anim.duration>600&&anim.iterations!=='infinite');
     if(slowHover.length>=2)add({id:'slow-hover',severity:'minor',area:'interaction',title:'Hover feedback is sluggish',evidence:`${slowHover.length} hover transitions last over 600 ms (e.g. ${slowHover[0].target}: ${Math.round(slowHover[0].duration)} ms).`,fix:'Hover/press feedback should start immediately and settle in 150–300ms; longer feels laggy under the pointer.'});
     const tooFast=ui.filter(anim=>anim.phase!=='hover'&&anim.duration>0&&anim.duration<120&&anim.properties.some(property=>/transform|opacity/.test(property)));
     if(tooFast.length>=4)add({id:'reveals-too-fast',severity:'polish',area:'motion',title:'Some reveals are too quick to register',evidence:`${tooFast.length} non-hover animations under 120 ms.`,fix:'Content reveals read best at 500–900ms with ease-out; micro-feedback 120–250ms.'});

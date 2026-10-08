@@ -86,10 +86,17 @@
     const targets = $$('[data-reveal],[data-split],[data-count]');
     if (reduce.matches || !('IntersectionObserver' in window)) { targets.forEach(reveal); return; }
     // Low threshold + negative bottom margin: tall elements on phones still trigger.
+    // A fully clipped element reports intersectionRatio 0 and never crosses a threshold,
+    // so clip reveals watch their parent instead.
+    const watched = new Map();
     const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) if (entry.isIntersecting) { reveal(entry.target); io.unobserve(entry.target); }
+      for (const entry of entries) if (entry.isIntersecting) { (watched.get(entry.target) || []).forEach(reveal); watched.delete(entry.target); io.unobserve(entry.target); }
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    targets.forEach((el) => io.observe(el));
+    for (const el of targets) {
+      const sentinel = el.dataset.reveal === 'clip' && el.parentElement ? el.parentElement : el;
+      if (!watched.has(sentinel)) { watched.set(sentinel, []); io.observe(sentinel); }
+      watched.get(sentinel).push(el);
+    }
     // Safety net: anything already scrolled past (anchor jumps, restored scroll) is shown.
     addEventListener('load', () => setTimeout(() => targets.forEach((el) => { if (el.getBoundingClientRect().bottom < 0) reveal(el); }), 400));
   }
