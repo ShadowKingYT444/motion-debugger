@@ -143,7 +143,16 @@ ${visibilityHelpers}  // Inactive carousel slides, tab panels and success messag
   }
   const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
   const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
-  const background = (el) => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); if (s.backgroundImage && s.backgroundImage !== 'none') return null; const c = parse(s.backgroundColor); if (c && c.a > 0.85) return c; } return { r: 255, g: 255, b: 255, a: 1 }; };
+  // Resolve what is actually painted under the text: the paint stack at the text's centre, so a
+  // sliding pill or card behind (but not around) the label counts. Images/gradients → unknown.
+  const background = (el) => {
+    const r = el.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const stack = x >= 0 && y >= 0 && x < innerWidth && y < innerHeight ? document.elementsFromPoint(x, y) : [];
+    const below = stack.length ? stack.filter(n => n !== el && !el.contains(n)) : [];
+    const chain = below.length ? below : (() => { const list = []; for (let n = el.parentElement; n && n.nodeType === 1; n = n.parentElement) list.push(n); return list; })();
+    for (const n of [el, ...chain]) { const s = getComputedStyle(n); if (s.backgroundImage && s.backgroundImage !== 'none') return null; const c = parse(s.backgroundColor); if (c && c.a > 0.85 && Number(s.opacity) > 0.85) return c; }
+    return { r: 255, g: 255, b: 255, a: 1 };
+  };
   const contrast = [];
   let checked = 0;
   for (const el of textEls) {
