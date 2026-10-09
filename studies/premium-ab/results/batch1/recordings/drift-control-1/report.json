@@ -1,0 +1,8001 @@
+{
+  "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/5836d1e1-fa23-4581-b296-9efcaffe569a/scratchpad/ab/drift/control-1/site",
+  "createdAt": "2026-10-09T00:24:39.811Z",
+  "score": 51,
+  "grade": "D",
+  "findings": [
+    {
+      "id": "controls-without-hover",
+      "severity": "major",
+      "area": "interaction",
+      "title": "Interactive elements give no hover feedback",
+      "evidence": "4/12 distinct controls did not change on hover: Drift, How it works, Get Drift, Monthly.",
+      "fix": "Every link/button needs a state change: buttons lift 1–2px or shift background with a 160–240ms ease-out transition and a pressed scale(.97); text links animate an underline (scaleX 0→1 from the left); cards raise shadow and scale media 1.03."
+    },
+    {
+      "id": "low-contrast",
+      "severity": "major",
+      "area": "accessibility",
+      "title": "Text contrast is too low",
+      "evidence": "4/37 checked text elements fail WCAG AA, e.g. \"*Illustrative figures from an internal p\" 4.07:1, \"Testimonials are illustrative sample sto\" 4.07:1, \"© 2026 Drift Sleep Labs. A concept brand\" 4.36:1.",
+      "fix": "Muted text still needs ≥4.5:1 (≥3:1 for 24px+). Raise lightness contrast of secondary text instead of lowering opacity."
+    },
+    {
+      "id": "entrance-too-slow",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Entrance sequence is long",
+      "evidence": "Load animations span 3825 ms.",
+      "fix": "Keep the hero sequence ≲1.6 s from first paint to settled; shorten delays rather than durations. Visitors should be able to read the headline within ~600 ms."
+    },
+    {
+      "id": "layout-properties-animated",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Layout properties are animated",
+      "evidence": "1338 animations/transitions on height, width, top; 23871 inline-style layout writes.",
+      "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr→1fr or measure once and animate a scale/clip."
+    },
+    {
+      "id": "too-much-ambient-motion",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Many elements loop forever",
+      "evidence": "27 distinct elements run infinite animations.",
+      "fix": "Limit ambient loops to one or two focal elements (a hero visual, a marquee). Constant motion everywhere competes with content and drains battery; pause off-screen loops."
+    },
+    {
+      "id": "small-tap-targets",
+      "severity": "minor",
+      "area": "accessibility",
+      "title": "Tap targets are small on mobile",
+      "evidence": "section#hero > a.scroll-hint 22×36, footer.footer > div.wrap.foot-grid > div > a 160×30, footer.footer > div.wrap.foot-grid > div > a 160×30, footer.footer > div.wrap.foot-grid > div > a 160×30",
+      "fix": "Give touch controls at least 44×44px of hit area (padding or a pseudo-element hit box)."
+    },
+    {
+      "id": "small-mobile-text",
+      "severity": "minor",
+      "area": "visual",
+      "title": "Body text is small on mobile",
+      "evidence": "5 paragraphs under 14px at 390px.",
+      "fix": "Keep body copy ≥16px on phones."
+    },
+    {
+      "id": "sections-without-motion",
+      "severity": "polish",
+      "area": "motion",
+      "title": "Some sections are static",
+      "evidence": "Static on scroll: footer.footer (y=11164).",
+      "fix": "Consider a subtle reveal for these sections so the page keeps a consistent rhythm, or keep them deliberately calm if they are dense reading areas."
+    }
+  ],
+  "motion": {
+    "animations": 1715,
+    "byPhase": {
+      "load": 243,
+      "scroll": 397,
+      "hover": 1075
+    },
+    "easings": {
+      "custom-curve": 1628,
+      "default-ease": 51
+    },
+    "durations": {
+      "p10": 700,
+      "median": 1000,
+      "p90": 1100
+    },
+    "properties": {
+      "transform": 149,
+      "opacity": 104,
+      "boxShadow": 15,
+      "translate": 1,
+      "height": 1240,
+      "width": 78,
+      "top": 21,
+      "filter": 66,
+      "backgroundColor": 29,
+      "background-color": 29,
+      "color": 8,
+      "box-shadow": 6,
+      "borderBottomColor": 2,
+      "border-bottom-color": 2,
+      "borderLeftColor": 2,
+      "border-left-color": 2,
+      "borderRightColor": 2,
+      "border-right-color": 2,
+      "borderTopColor": 2,
+      "border-top-color": 2
+    },
+    "entranceSpanMs": 3825,
+    "entranceStartGroups": 14,
+    "jsMotionMutations": 641,
+    "sectionCoverage": {
+      "sections": 9,
+      "withMotion": 8,
+      "missing": [
+        "footer.footer (y=11164)"
+      ]
+    },
+    "hover": {
+      "tested": 12,
+      "responsive": 8,
+      "animated": 7,
+      "silent": [
+        "Drift",
+        "How it works",
+        "Get Drift",
+        "Monthly"
+      ]
+    },
+    "focus": {
+      "tested": 8,
+      "visible": 8
+    },
+    "reducedMotion": {
+      "rule": true,
+      "runningLongAnimations": 0,
+      "hiddenAfterScroll": 0
+    },
+    "frameStats": {
+      "scrollFrames": 805,
+      "over32ms": 49,
+      "over50ms": 0,
+      "p95Ms": 33.3
+    },
+    "layoutShift": 0.006,
+    "longAnimationFrames": 1
+  },
+  "pages": {
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "docHeight": 11494,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 223,
+      "contrast": [
+        {
+          "selector": "div.wrap > div.sci-grid > header.sec-head.left > p.fine",
+          "text": "*Illustrative figures from an internal p",
+          "ratio": 4.07,
+          "need": 4.5
+        },
+        {
+          "selector": "section#stories > p.fine.wrap",
+          "text": "Testimonials are illustrative sample sto",
+          "ratio": 4.07,
+          "need": 4.5
+        },
+        {
+          "selector": "body > footer.footer > div.wrap.foot-bot > span",
+          "text": "© 2026 Drift Sleep Labs. A concept brand",
+          "ratio": 4.36,
+          "need": 4.5
+        },
+        {
+          "selector": "body > footer.footer > div.wrap.foot-bot > span",
+          "text": "Made for the hours you’re not watching.",
+          "ratio": 4.36,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 4,
+      "contrastChecked": 37,
+      "families": {
+        "Fraunces": 1757,
+        "Manrope": 4112
+      },
+      "bodySize": 12,
+      "h1Size": 121.6,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [],
+      "smallText": 0,
+      "media": {
+        "canvas": 2,
+        "video": 0,
+        "svg": 18,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 23,
+      "title": "Drift — The AI sleep coach that listens to your night"
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "docHeight": 13656,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 216,
+      "contrast": [
+        {
+          "selector": "div.wrap > div.sci-grid > header.sec-head.left > p.fine",
+          "text": "*Illustrative figures from an internal p",
+          "ratio": 4.07,
+          "need": 4.5
+        },
+        {
+          "selector": "section#stories > p.fine.wrap",
+          "text": "Testimonials are illustrative sample sto",
+          "ratio": 4.07,
+          "need": 4.5
+        },
+        {
+          "selector": "body > footer.footer > div.wrap.foot-bot > span",
+          "text": "© 2026 Drift Sleep Labs. A concept brand",
+          "ratio": 4.36,
+          "need": 4.5
+        },
+        {
+          "selector": "body > footer.footer > div.wrap.foot-bot > span",
+          "text": "Made for the hours you’re not watching.",
+          "ratio": 4.36,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 4,
+      "contrastChecked": 37,
+      "families": {
+        "Fraunces": 1757,
+        "Manrope": 4054
+      },
+      "bodySize": 12,
+      "h1Size": 51.2,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [
+        {
+          "selector": "section#hero > a.scroll-hint",
+          "w": 22,
+          "h": 36
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        },
+        {
+          "selector": "footer.footer > div.wrap.foot-grid > div > a",
+          "w": 160,
+          "h": 30
+        }
+      ],
+      "smallText": 5,
+      "media": {
+        "canvas": 2,
+        "video": 0,
+        "svg": 18,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 23,
+      "title": "Drift — The AI sleep coach that listens to your night"
+    }
+  },
+  "images": {
+    "hover": "hover.png",
+    "desktopEntrance": "desktop-entrance.png",
+    "desktopScroll": "desktop-scroll.png",
+    "desktopFull": "desktop-full.jpg",
+    "mobile": "mobile.png"
+  },
+  "notes": [
+    "Desktop journey took 32.8s",
+    "External origins requested: https://fonts.googleapis.com, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+  ],
+  "animations": [
+    {
+      "id": 1,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "navIn",
+      "target": "header#nav",
+      "duration": 1200,
+      "delay": 200,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": -16,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 2,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.hero-inner > div.hero-copy > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 103,
+      "docTop": 190,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 3,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wordUp",
+      "target": "h1#heroTitle > span.line > span.w",
+      "duration": 1400,
+      "delay": 350,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": 313,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 4,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wordUp",
+      "target": "h1#heroTitle > span.line > span.w",
+      "duration": 1400,
+      "delay": 459.99999999999994,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": 433,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 5,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wordUp",
+      "target": "h1#heroTitle > span.line > span.w",
+      "duration": 1400,
+      "delay": 570,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": 439,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 6,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wordUp",
+      "target": "h1#heroTitle > span.line > span.w.it",
+      "duration": 1400,
+      "delay": 679.9999999999999,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": 554,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 7,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wordUp",
+      "target": "h1#heroTitle > span.line > span.w.it",
+      "duration": 1400,
+      "delay": 790,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 103,
+      "docTop": 552,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 8,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "bob",
+      "target": "div#phone",
+      "duration": 7000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 103,
+      "docTop": 221,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 9,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ringOut",
+      "target": "div.screen > div.orb-wrap > svg.orb > circle.ring.r1",
+      "duration": 8000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "ease-out"
+      ],
+      "seenAt": 103,
+      "docTop": 411,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 10,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ringOut",
+      "target": "div.screen > div.orb-wrap > svg.orb > circle.ring.r2",
+      "duration": 8000,
+      "delay": 2600,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "ease-out"
+      ],
+      "seenAt": 103,
+      "docTop": 396,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 11,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ringOut",
+      "target": "div.screen > div.orb-wrap > svg.orb > circle.ring.r3",
+      "duration": 8000,
+      "delay": 5200,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "ease-out"
+      ],
+      "seenAt": 103,
+      "docTop": 396,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 12,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "breathe",
+      "target": "div.screen > div.orb-wrap > svg.orb > circle.core",
+      "duration": 8000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 103,
+      "docTop": 420,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 13,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div#phone > div.screen > div.s-chip > i",
+      "duration": 2200,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 812,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 14,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "fl",
+      "target": "section#hero > div.hero-inner > div.hero-phone.reveal > div.float.f1",
+      "duration": 6000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 362,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 15,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "fl",
+      "target": "section#hero > div.hero-inner > div.hero-phone.reveal > div.float.f2",
+      "duration": 7000,
+      "delay": -2000,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 662,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 16,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "wheel",
+      "target": "section#hero > a.scroll-hint > span",
+      "duration": 2200,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 104,
+      "docTop": 896,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 17,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "marq",
+      "target": "div#stripTrack",
+      "duration": 38000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 104,
+      "docTop": 973,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 18,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.wrap > header.sec-head > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 1294,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 19,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "bp",
+      "target": "div.scene > div.breath > svg > circle.b-pulse",
+      "duration": 7000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 1747,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 20,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "rise",
+      "target": "div#stage > div.scene > div.sunrise > div.sun-disc",
+      "duration": 9000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 1955,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 21,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.wrap > header.sec-head.center > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 4263,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 22,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.sci-grid > header.sec-head.left > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 5545,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 23,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.wrap > header.sec-head.center > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 6988,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 24,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "phase",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-moon > div.phase::after",
+      "duration": 9000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7218,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 25,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "lock",
+      "target": "article.bcard.spot > div.b-viz.viz-lock > svg > path.shackle",
+      "duration": 5000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 104,
+      "docTop": 7568,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 26,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "spin",
+      "target": "div.bento > article.bcard.b-wide > div.b-viz.viz-orbit > div.o.o1",
+      "duration": 9000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 104,
+      "docTop": 7878,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 27,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "spin",
+      "target": "div.bento > article.bcard.b-wide > div.b-viz.viz-orbit > div.o.o2",
+      "duration": 14000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 104,
+      "docTop": 7853,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 28,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "spin",
+      "target": "div.bento > article.bcard.b-wide > div.b-viz.viz-orbit > div.o.o3",
+      "duration": 20000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 104,
+      "docTop": 7828,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 29,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "breathe",
+      "target": "div.bento > article.bcard.b-wide > div.b-viz.viz-orbit > span.core",
+      "duration": 8000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 30,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 1600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7930,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 31,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 2100,
+      "delay": -400,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7911,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 32,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 1300,
+      "delay": -900,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7887,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 33,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 2100,
+      "delay": -400,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7911,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 34,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 1600,
+      "delay": -200,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7922,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 35,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 1300,
+      "delay": -900,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7887,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 36,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 1600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7930,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 37,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "eq",
+      "target": "div.bento > article.bcard.spot > div.b-viz.viz-eq > i",
+      "duration": 2100,
+      "delay": -400,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 7911,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 38,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "header.sec-head.split > div > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 8544,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 39,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "div.wrap > header.sec-head.center > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 9378,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 40,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ang",
+      "target": "section#plans > div.wrap > div.plan-grid > article.plan.featured::before",
+      "duration": 6000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [],
+      "keyframeEasings": [],
+      "seenAt": 104,
+      "docTop": 9647,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 41,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "moonrise",
+      "target": "section#download > div.dl-moon",
+      "duration": 12000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 104,
+      "docTop": 10448,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 42,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "section#download > div.wrap.dl-inner > p.eyebrow.reveal > span.dot",
+      "duration": 2600,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease"
+      ],
+      "seenAt": 104,
+      "docTop": 10623,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 43,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 611,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 44,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 637,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 45,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 664,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 46,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "top",
+      "target": "div#cursor > i",
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "top"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 4641,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 47,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#exMix > div.em > div.bar > i",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 5076,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 48,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#exMix > div.em > div.bar > i",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 5076,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 49,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#exMix > div.em > div.bar > i",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 5076,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 50,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#exMix > div.em > div.bar > i",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 5076,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 51,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#billing > span.thumb",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 237,
+      "docTop": 9519,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 52,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 183,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 53,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 183,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 54,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 183,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 55,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.lede.reveal",
+      "duration": 1100,
+      "delay": 700,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 603,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 56,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.lede.reveal",
+      "duration": 1100,
+      "delay": 700,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 603,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 57,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#hero > div.hero-inner > div.hero-copy > p.lede.reveal",
+      "duration": 1100,
+      "delay": 700,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 603,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 58,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#hero > div.hero-inner > div.hero-copy > div.cta-row.reveal",
+      "duration": 1100,
+      "delay": 850,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 735,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 59,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > div.hero-inner > div.hero-copy > div.cta-row.reveal",
+      "duration": 1100,
+      "delay": 850,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 735,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 60,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#hero > div.hero-inner > div.hero-copy > div.cta-row.reveal",
+      "duration": 1100,
+      "delay": 850,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 735,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 61,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#hero > div.hero-inner > div.hero-phone.reveal",
+      "duration": 1100,
+      "delay": 600,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 221,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 62,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > div.hero-inner > div.hero-phone.reveal",
+      "duration": 1100,
+      "delay": 600,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 221,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 63,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#hero > div.hero-inner > div.hero-phone.reveal",
+      "duration": 1100,
+      "delay": 600,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 269,
+      "docTop": 221,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 64,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div#billing > span.thumb",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 621,
+      "docTop": 9484,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 65,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 66,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1704,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 67,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 68,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1725,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 69,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1716,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 70,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 71,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1719,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 72,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1705,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 73,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1714,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 74,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1721,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 75,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1721,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 76,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 77,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1724,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 78,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1708,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 79,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1720,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 80,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1719,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 81,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 82,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 83,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 84,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1715,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 85,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 86,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1715,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 87,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1814,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 88,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1827,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 89,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 90,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 91,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 92,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1822,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 93,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1826,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 94,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1831,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 95,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1818,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 96,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 97,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1817,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 98,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1831,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 99,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1827,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 100,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1831,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 101,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1822,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 102,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1816,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 103,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1811,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 104,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1812,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 105,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1826,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 106,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 107,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 108,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1812,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 109,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1929,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 110,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1923,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 111,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1918,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 112,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1918,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 113,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1932,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 114,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1922,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 115,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 116,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 117,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1933,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 118,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 119,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1920,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 120,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1916,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 121,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1919,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 122,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1929,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 123,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 124,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1653,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 125,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1923,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 126,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1920,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 127,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1919,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 128,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1931,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 129,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1918,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 130,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 1933,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 131,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2037,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 132,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 133,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 134,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 135,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2037,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 136,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 137,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 138,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 139,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 140,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 141,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 142,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 143,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2037,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 144,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 145,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 146,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 147,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 148,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 149,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 150,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 151,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 152,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 1654,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 153,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 2851,
+      "docTop": 567,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 154,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 2851,
+      "docTop": 593,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 155,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.mix > div.mix-row > div.bar > i",
+      "duration": 1200,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 2851,
+      "docTop": 620,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 156,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 157,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1717,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 158,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1722,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 159,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 160,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1715,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 161,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 162,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1714,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 163,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1715,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 164,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 165,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 166,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1705,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 167,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1709,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 168,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3061,
+      "docTop": 1705,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 169,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1708,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 170,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 171,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1714,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 172,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1708,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 173,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1708,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 174,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1715,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 175,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1722,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 176,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1721,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 177,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1725,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 178,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1824,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 179,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1811,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 180,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1814,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 181,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1820,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 182,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1831,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 183,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 184,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1817,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 185,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1829,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 186,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1820,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 187,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1817,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 188,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1818,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 189,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1827,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 190,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1824,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 191,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1819,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 192,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 193,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1830,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 194,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1824,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 195,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1823,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 196,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1822,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 197,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1819,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 198,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1819,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 199,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 200,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1932,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 201,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 202,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1925,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 203,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1925,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 204,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 205,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1933,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 206,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1927,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 207,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 208,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1936,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 209,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 210,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1925,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 211,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 212,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1932,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 213,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1930,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 214,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1933,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 215,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 216,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1929,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 217,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 218,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1933,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 219,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1937,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 220,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1927,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 221,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 1931,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 222,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 223,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 224,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 225,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 226,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 227,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 228,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 229,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 230,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 231,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 232,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 233,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 234,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 235,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 236,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 237,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 238,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 239,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 240,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 241,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 242,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 243,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3062,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 244,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "background-color",
+      "target": "header#nav",
+      "duration": 400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "backgroundColor",
+        "background-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3723,
+      "docTop": 127,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 245,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#hero > div.hero-inner > div.hero-copy > ul.hero-meta.reveal",
+      "duration": 1100,
+      "delay": 1000,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3742,
+      "docTop": 853,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 246,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > div.hero-inner > div.hero-copy > ul.hero-meta.reveal",
+      "duration": 1100,
+      "delay": 1000,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3742,
+      "docTop": 853,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 247,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#hero > div.hero-inner > div.hero-copy > ul.hero-meta.reveal",
+      "duration": 1100,
+      "delay": 1000,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3742,
+      "docTop": 853,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 248,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#how > div.wrap > header.sec-head > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3873,
+      "docTop": 1287,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 249,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#how > div.wrap > header.sec-head > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3873,
+      "docTop": 1287,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 250,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#how > div.wrap > header.sec-head > p.eyebrow.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3873,
+      "docTop": 1287,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 251,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#how > div.wrap > header.sec-head > h2.h2.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3906,
+      "docTop": 1325,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 252,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#how > div.wrap > header.sec-head > h2.h2.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3906,
+      "docTop": 1325,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 253,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#how > div.wrap > header.sec-head > h2.h2.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3906,
+      "docTop": 1325,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 254,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "filter",
+      "target": "section#how > div.wrap > header.sec-head > p.sub.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "filter"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3958,
+      "docTop": 1412,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 255,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#how > div.wrap > header.sec-head > p.sub.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3958,
+      "docTop": 1412,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 256,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "section#how > div.wrap > header.sec-head > p.sub.reveal",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3958,
+      "docTop": 1412,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 257,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1721,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 258,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1707,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 259,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1716,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 260,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1711,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 261,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 262,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 263,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1710,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 264,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1723,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 265,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1724,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 266,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1719,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 267,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1723,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 268,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1723,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 269,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1712,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 270,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1710,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 271,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1707,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 272,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1706,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 273,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1718,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 274,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1712,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 275,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1709,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 276,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1708,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 277,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1720,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 278,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1717,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 279,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1829,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 280,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1809,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 281,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1815,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 282,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1816,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 283,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1821,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 284,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1815,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 285,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1823,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 286,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1830,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 287,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1822,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 288,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 289,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1827,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 290,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4453,
+      "docTop": 1809,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 291,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1819,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 292,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1820,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 293,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1829,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 294,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1813,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 295,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 296,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1831,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 297,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1810,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 298,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1830,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 299,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1830,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 300,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1819,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 301,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1932,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 302,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 303,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 304,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 305,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1932,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 306,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1919,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 307,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1916,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 308,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 309,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1929,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 310,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1922,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 311,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1931,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 312,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1920,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 313,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1918,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 314,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1923,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 315,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 316,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 317,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1936,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 318,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1936,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 319,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 320,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1935,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 321,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1919,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 322,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 1924,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 323,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 324,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 325,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 326,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 327,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 328,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2037,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 329,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 330,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 331,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 332,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 333,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 334,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 335,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 336,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 337,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 338,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 339,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 340,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 341,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 342,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 343,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2039,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 344,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark.flat > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4454,
+      "docTop": 2038,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 345,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1717,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 346,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1724,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 347,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1723,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 348,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1717,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 349,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1713,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 350,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1717,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 351,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1725,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 352,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1718,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 353,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1717,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 354,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1724,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 355,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1718,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 356,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1717,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 357,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1712,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 358,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1713,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 359,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1721,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 360,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1706,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 361,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1716,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 362,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1723,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 363,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1711,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 364,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1710,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 365,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1713,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 366,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1721,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 367,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1823,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 368,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1827,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 369,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4920,
+      "docTop": 1822,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 370,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1830,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 371,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1829,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 372,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1824,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 373,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1824,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 374,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1829,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 375,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1829,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 376,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1810,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 377,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1817,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 378,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1817,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 379,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1821,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 380,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1817,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 381,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1822,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 382,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1813,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 383,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1813,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 384,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1822,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 385,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1811,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 386,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1816,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 387,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1831,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 388,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1816,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 389,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1931,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 390,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1918,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 391,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1932,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 392,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1927,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 393,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1934,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 394,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1920,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 395,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1923,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 396,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1925,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 397,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1925,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 398,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1919,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 399,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1930,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 400,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "height",
+      "target": "div.sig-list > div.sig > div.spark > i",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "height"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1921,
+      "inView": true,
+      "onHovered": false
+    }
+  ]
+}

@@ -28,3 +28,24 @@ try{
   assert.ok(good.score>=90,`control should score ≥90, got ${good.score}`);
   console.log(JSON.stringify({flawed:{score:flawed.score,findings:[...ids]},crafted:{score:good.score,findings:good.findings.map(finding=>finding.id)}},null,2));
 }finally{await rm(work,{recursive:true,force:true})}
+
+// Protocol path: an actual MCP SDK stdio client (what any MCP host speaks) calls motion_critique on
+// both shipped servers and receives findings plus native PNG contact sheets.
+import {Client} from '@modelcontextprotocol/sdk/client/index.js';
+import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';
+for(const entry of ['build/mcp/index.js','plugin/motion-debugger/scripts/mcp.mjs']){
+  const evidence=await mkdtemp(path.join(os.tmpdir(),'critique-mcp-'));
+  const client=new Client({name:'critique-protocol-verifier',version:'1.0.0'});
+  try{
+    await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,entry)],cwd:root,env:{PATH:process.env.PATH??'',HOME:process.env.HOME??'',MOTION_ARTIFACT_DIR:evidence},stderr:'pipe'}));
+    const result=await client.callTool({name:'motion_critique',arguments:{target:path.join(root,'tests/fixtures/critique/flawed'),desktopOnly:true}});
+    assert.notEqual(result.isError,true,JSON.stringify(result.content).slice(0,300));
+    const text=result.content.filter(item=>item.type==='text').map(item=>item.text).join('\n');
+    assert.match(text,/stays invisible|Content stays invisible/,'MCP critique reports the seeded invisible content');
+    const images=result.content.filter(item=>item.type==='image');
+    assert.ok(images.length>=2,'MCP critique returns contact sheets as image content');
+    assert.ok(images.every(image=>image.mimeType==='image/png'&&Buffer.from(image.data,'base64').subarray(1,4).toString()==='PNG'),'images are real PNGs');
+    assert.ok(result.structuredContent.score<45);
+    console.log(`MCP ${entry}: ${images.length} images, score ${result.structuredContent.score}`);
+  }finally{await client.close();await rm(evidence,{recursive:true,force:true})}
+}

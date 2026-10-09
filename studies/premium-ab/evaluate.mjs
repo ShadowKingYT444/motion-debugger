@@ -2,7 +2,7 @@
 // Evaluate a premium-motion A/B run tree (<root>/<task>/<arm>-<seed>/site).
 //   node --import tsx studies/premium-ab/evaluate.mjs record   --root <runs> --out <eval>
 //   node --import tsx studies/premium-ab/evaluate.mjs packets  --root <runs> --out <eval> [--seed 7]
-//   node --import tsx studies/premium-ab/evaluate.mjs summarize --out <eval>
+//   node --import tsx studies/premium-ab/evaluate.mjs summarize --out <eval> [--key sealed/packet-key.json] [--judgments dir]
 // record: re-renders every site with the same neutral recorder (both arms, same build) and keeps
 //         objective metrics. Contact sheets are the judges' only view of each site.
 // packets: blinded pairs per (task, seed); each pair appears twice with A/B swapped, under unrelated
@@ -78,12 +78,13 @@ if(mode==='packets'){
 }
 
 if(mode==='summarize'){
-  const key=JSON.parse(await readFile(path.join(out,'packet-key.json'),'utf8'));
+  const key=JSON.parse(await readFile(path.resolve(args.key??path.join(out,'packet-key.json')),'utf8'));
+  const judgments=path.resolve(args.judgments??path.join(out,'judgments'));
   const metrics=JSON.parse(await readFile(path.join(out,'metrics.json'),'utf8'));
   const dims=['visual_design','motion_quality','interaction_polish','mobile_robustness','overall_premium'];
   const rows=[];
   for(const entry of key){
-    const file=path.join(out,'judgments',`${entry.packet}.json`);if(!await exists(file))continue;
+    const file=path.join(judgments,`${entry.packet}.json`);if(!await exists(file))continue;
     const verdict=JSON.parse(await readFile(file,'utf8'));
     const arm=(label)=>label==='A'?entry.A:label==='B'?entry.B:'tie';
     rows.push({...entry,winner:arm(verdict.winner),confidence:verdict.confidence,scores:{[entry.A]:verdict.scores.A,[entry.B]:verdict.scores.B},positionPicked:verdict.winner,rationale:verdict.rationale});

@@ -1,0 +1,521 @@
+{
+  "judgments": 16,
+  "wins": {
+    "treatment": 11,
+    "control": 5,
+    "tie": 0
+  },
+  "pairOutcomes": {
+    "ledgerline-1": "treatment",
+    "norr-2": "treatment",
+    "halo-2": "control",
+    "norr-1": "treatment",
+    "halo-1": "treatment",
+    "ledgerline-2": "control",
+    "drift-2": "treatment",
+    "drift-1": "split"
+  },
+  "position": {
+    "A": 7,
+    "B": 9,
+    "tie": 0
+  },
+  "dimension": {
+    "visual_design": {
+      "control": 7.69,
+      "treatment": 8
+    },
+    "motion_quality": {
+      "control": 5.81,
+      "treatment": 7.69
+    },
+    "interaction_polish": {
+      "control": 6.63,
+      "treatment": 7.19
+    },
+    "mobile_robustness": {
+      "control": 6.31,
+      "treatment": 7.81
+    },
+    "overall_premium": {
+      "control": 6.56,
+      "treatment": 7.75
+    }
+  },
+  "objective": {
+    "score": {
+      "control": 50.75,
+      "treatment": 96.13
+    },
+    "blockers": {
+      "control": 0.38,
+      "treatment": 0
+    },
+    "majors": {
+      "control": 2,
+      "treatment": 0
+    },
+    "animations": {
+      "control": 1141.63,
+      "treatment": 637.88
+    },
+    "sectionCoverage": {
+      "control": 0.93,
+      "treatment": 0.97
+    },
+    "hoverResponsive": {
+      "control": 0.67,
+      "treatment": 0.84
+    },
+    "focusVisible": {
+      "control": 1,
+      "treatment": 1
+    },
+    "customEasingShare": {
+      "control": 0.79,
+      "treatment": 0.52
+    },
+    "cls": {
+      "control": 0.91,
+      "treatment": 0.01
+    },
+    "reducedMotionHandled": {
+      "control": "8/8",
+      "treatment": "8/8"
+    }
+  },
+  "rows": [
+    {
+      "packet": "p01",
+      "task": "ledgerline",
+      "seed": 1,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 6,
+          "interaction_polish": 7,
+          "mobile_robustness": 7,
+          "overall_premium": 6
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 6,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "B has a more distinctive art direction (ruled ledger-paper background, editorial serif with italic vermilion accents) and a richer hero, where a masked serif headline reveal is staggered with the live code/ledger panel. A's acid-green dark SaaS look is competent but generic, and its hero leaves the right half empty. On scroll, B tells a pinned four-step 'one payment, four moves' story with stepping flow-diagram states and dense, finished sections throughout. A's step sequence is solid, but several desktop viewports (around 8100-9450px) are mostly empty dark space with headings cut off at the fold, and a stray beige band appears in both its desktop and mobile frames. A's hover states (lime-to-white fill with glow, outline pills) are bolder than B's underline and darken treatment, but that does not make up for the gap elsewhere."
+    },
+    {
+      "packet": "p02",
+      "task": "norr",
+      "seed": 2,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "high",
+      "scores": {
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 4,
+          "interaction_polish": 6,
+          "mobile_robustness": 5,
+          "overall_premium": 5
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "A holds a near-empty preloader for over 2 s (still showing on the mobile first viewport), and even after the entrance its hero headline sits half-masked behind the tree silhouettes; project illustrations also show stray black bars and several scroll frames are mostly blank or faded mid-reveal. B builds its hero within ~1.3 s with a staggered headline and a tree-ring drawing itself, then carries a pinned process sequence where the timber frame assembles step by step, all in a cohesive warm-paper/forest palette. B's hovers (colour-shifting lifted pills, underlines, card lift) are crisp, whereas A's custom cursor blob obscures labels. B's phone layout is clean and fully populated."
+    },
+    {
+      "packet": "p03",
+      "task": "halo",
+      "seed": 2,
+      "A": "control",
+      "B": "treatment",
+      "winner": "control",
+      "confidence": "low",
+      "scores": {
+        "control": {
+          "visual_design": 9,
+          "motion_quality": 7,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A has the stronger art direction: a giant gradient 'Halo' wordmark behind the speaker, a shift from dark to a warm cream materials section with tactile fabric/oak/aluminium arches, an exploded wireframe of the cylinder, and a closing oversized wordmark, plus more expressive hover (custom cursor ring, amber fill with glow). B's entrance is cleaner (masked line reveal of 'Sound, held in a ring of light' with the product present by ~280 ms), whereas A flashes its full layout at 80 ms, blanks, then slowly rebuilds and only settles near 2 s. B's sticky labelled exploded view and room-plan interaction are well executed but its uniformly dark palette and subtler hovers feel less distinctive; both phone layouts are clean with no clipping."
+    },
+    {
+      "packet": "p04",
+      "task": "norr",
+      "seed": 1,
+      "A": "treatment",
+      "B": "control",
+      "winner": "treatment",
+      "confidence": "high",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 3,
+          "interaction_polish": 5,
+          "mobile_robustness": 5,
+          "overall_premium": 4
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A's hero assembles with intent: the headline rises in, the tree-ring drawing grows outward, and the CTAs and stats follow by about 1.3 s. Its scroll story then moves through stat counters, a project carousel, and a dark process section where a timber frame draws itself step by step. B shows only a 'Atelier Norr' preloader for 3 s, followed by a blank dark viewport, and the 'top (after entrance)' desktop frame and the mobile first viewport are still empty or stuck on the loader, so its hero is never seen. B's later sections are attractive (dark green and sand palette, illustrated project cards, a line-drawn process), but its custom-cursor blob covers button labels on hover and some hover crops change nothing, while A has clear, consistent underline, fill and shadow states."
+    },
+    {
+      "packet": "p05",
+      "task": "halo",
+      "seed": 2,
+      "A": "treatment",
+      "B": "control",
+      "winner": "control",
+      "confidence": "medium",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 7
+        },
+        "control": {
+          "visual_design": 9,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "B has the bolder art direction: a huge metallic 'Halo' wordmark with the speaker rising in front of it, an exploded wireframe view, and a dark-to-cream rhythm with textured arch material swatches and a giant footer wordmark. A is refined and coherent but stays one warm-dark register throughout, with a pinned scrollytelling teardown and a room-placement plan. B's entrance flashes the whole finished hero at ~80 ms, blanks it, then rebuilds it, while A's masked headline and ring-light reveal is cleaner. B's hover states are more expressive (amber fill, glow) but its custom cursor ring covers the labels, whereas A's underline-and-glow feedback is quieter but always legible."
+    },
+    {
+      "packet": "p06",
+      "task": "halo",
+      "seed": 1,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 5,
+          "interaction_polish": 6,
+          "mobile_robustness": 5,
+          "overall_premium": 6
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "A hides everything behind a near-blank loader for over 2 s (and the mobile first viewport is still that loader), then lands on a hero showing only a giant clipped 'H' with a stray black ellipse cutting across the nav. Its scroll story is rich, with the exploded-parts sequence, material cards and the big 'Halo' footer, but its hover states rely on a blend-mode cursor blob that turns buttons blue and orange and looks garish. B choreographs a fast, staggered hero: nav first, then a masked 'Sound, / in the round.' headline, CTAs, the speaker and the price, all settled by ~2 s. It follows with a coherent sticky exploded view, a material picker and feature widgets, plus restrained hover states (underlines, glow, ring) and a clean, complete mobile layout. B's only visible flaw is stat counters in 'The numbers, plainly' that appear to lack digits in the captured frame."
+    },
+    {
+      "packet": "p07",
+      "task": "halo",
+      "seed": 1,
+      "A": "treatment",
+      "B": "control",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 5,
+          "interaction_polish": 5,
+          "mobile_robustness": 5,
+          "overall_premium": 6
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A's hero assembles with a clear stagger (masked headline, CTAs, speaker, then price) and is complete by ~1.3 s, and its scroll story (exploded four-part view, stats, light materials section, specs) stays clean through to the footer. B has more ambitious art direction (exploded parts, frequency-response chart, giant 'Halo' footer), but a preloader holds the screen for over 2 s and at 3 s and even 'after entrance' the hero shows only a lone 'H' under a curtain arc; the mobile first viewport is still the loader. B's custom-cursor difference-blend hover turns buttons into garish blue/orange blobs, whereas A's hovers (underlines, glow, ring highlight) are restrained and clear."
+    },
+    {
+      "packet": "p08",
+      "task": "ledgerline",
+      "seed": 1,
+      "A": "treatment",
+      "B": "control",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 6,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 7,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 7
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A has a distinctive editorial art direction (warm paper ground, serif headline with italic rust accent) and a complete desktop hero where the headline lines rise in sequence and a live code/ledger panel joins them, followed by a pinned payment-flow diagram that advances through its steps as you scroll. B's dark/lime look is more generic, and its desktop hero leaves the right half empty, with the CTA floating oddly mid-right. Several of B's scroll frames (around 8100px and 9450px) are mostly empty, although its four-step payment scrollytelling and lime sign-up finale are strong. B's hover feedback is richer (lime-to-white invert with glow, outlined pills), while A's is limited to thin underlines and a slight darken; both phone layouts are clean."
+    },
+    {
+      "packet": "p09",
+      "task": "ledgerline",
+      "seed": 2,
+      "A": "treatment",
+      "B": "control",
+      "winner": "control",
+      "confidence": "medium",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 7
+        },
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "A has a refined, original editorial look: warm paper, a serif headline with an orange italic, and a quick line-mask hero reveal. Its scroll-driven transfer stepper (Request to Settle) tells the story well, but several mid-page sections read sparse and one heading is still mid-fade at 675px. B's hero copy is held back for about 1.3 s behind a particle intro, which costs it. After that, B shows richer and more varied motion: an animated rail-routing diagram, a ledger that reconciles, a live API console, an availability heatmap with latency charts, and a pricing calculator, plus a deliberate switch from dark to light for pricing. B's hover states are also more assertive (lime-to-white flip with glow, pill nav highlight), and both phone layouts are clean, so B reads as more award-ready overall even though its dark-and-lime fintech look is the more familiar trope."
+    },
+    {
+      "packet": "p10",
+      "task": "drift",
+      "seed": 2,
+      "A": "treatment",
+      "B": "control",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 6,
+          "overall_premium": 7
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A has a cohesive gold-on-midnight serif art direction and a quick, staggered hero entrance: the headline is already arriving at 250 ms and the phone mock follows it in. Its pinned 'one night, four hand-offs' sequence advances the clock and sleep graph from 11:40 to 2:55 to 6:10 as you scroll, and the page ends on a sunrise. B's purple aurora look with teal italic accents is just as rich and has more section variety, but its first viewport stays blank until about 850 ms. On mobile, B has visible collisions: a sticky card covers the 'Sound that responds' heading, and device chips overlap the 'Works with what you already own' text. A's phone layout is clean. Hover feedback is comparable: A uses underline reveals and a button lift, while B uses glow and brightening."
+    },
+    {
+      "packet": "p11",
+      "task": "drift",
+      "seed": 1,
+      "A": "treatment",
+      "B": "control",
+      "winner": "control",
+      "confidence": "low",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 7,
+          "overall_premium": 7
+        },
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 7,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "B has the more distinctive art direction: a large glowing moon over layered hills in the hero, a purple-to-gold gradient palette and a rising-moon 'Tonight, let go.' finale. A is restrained and refined, with a gold serif hero, a pinned how-it-works section whose clock and hypnogram change as you scroll, and fully visible pricing cards. A's entrance settles cleanly by about 850 ms. B's masked headline reveal leaves the hero mostly empty until about 1.3 s, and some of B's desktop scroll frames are half empty. Both mobile layouts hold up, though each has a large blank gap at one scroll position, and the hover states are comparable: an underline on nav links and a lift and glow on the pill buttons."
+    },
+    {
+      "packet": "p12",
+      "task": "ledgerline",
+      "seed": 2,
+      "A": "control",
+      "B": "treatment",
+      "winner": "control",
+      "confidence": "low",
+      "scores": {
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 7,
+          "interaction_polish": 8,
+          "mobile_robustness": 7,
+          "overall_premium": 7
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A's dark, lime-accented art direction carries a wider range of scroll storytelling: a rail-routing diagram, a ledger panel that fills in, uptime bars, latency charts, a light-toned pricing section with a bill estimator, and a large wordmark in the footer. Its weak spot is the entrance, where the headline stays hidden behind a particle burst for about 1.2 s. B has a refined editorial serif look, a faster staggered mask reveal in the hero, and a strong sticky 'follow a single transfer' stepper, plus more nuanced hovers (underline, lift shadow, outline). However, B shows a still-fading section heading at 675px, an empty ledger table at 2970px on mobile, and a mostly blank p99 latency card at 8509px on mobile. Both are close to award level, and A edges ahead on richness and robustness."
+    },
+    {
+      "packet": "p13",
+      "task": "norr",
+      "seed": 1,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "high",
+      "scores": {
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 3,
+          "interaction_polish": 5,
+          "mobile_robustness": 4,
+          "overall_premium": 4
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 8,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "A spends the entire 3 s entrance on a dark 'Atelier Norr' preloader, and the desktop top-after-entrance frame and mobile first viewport are still blank or stuck on the loader at 100%, so the hero is never seen. That undercuts its otherwise handsome dark-green and timber illustration sections. B brings in its nav, eyebrow, headline lines and an expanding growth-ring drawing in a clear stagger by ~850 ms, then tells a scroll-linked Listen/Draw/Mill/Raise story in which the timber frame builds up step by step. B's hover states (Enquire fill, underlines, deepening CTA shadow, filled scroll dial) are crisp and consistent, while A's cursor blob covers the button labels and one control is clipped."
+    },
+    {
+      "packet": "p14",
+      "task": "drift",
+      "seed": 2,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 6,
+          "interaction_polish": 7,
+          "mobile_robustness": 5,
+          "overall_premium": 7
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "Both share a polished dark serif-plus-phone-mockup hero. A's first viewport is still essentially blank at 500 ms, while B's headline is already rising by 250 ms. B also has stronger scroll storytelling: a pinned 'One night, four hand-offs' sleep chart redraws through the night (11:40, 2:55, 6:10), copy brightens as you scroll, and a 'Six rooms' soundscape gallery moves across the screen. On mobile, A has visible overlaps (a card sitting over the 'Sound that responds' heading and gear chips colliding with 'Works with what you already own'), whereas B's phone layout stays clean throughout."
+    },
+    {
+      "packet": "p15",
+      "task": "norr",
+      "seed": 2,
+      "A": "treatment",
+      "B": "control",
+      "winner": "treatment",
+      "confidence": "high",
+      "scores": {
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 8,
+          "overall_premium": 8
+        },
+        "control": {
+          "visual_design": 7,
+          "motion_quality": 5,
+          "interaction_polish": 6,
+          "mobile_robustness": 5,
+          "overall_premium": 6
+        }
+      },
+      "positionPicked": "A",
+      "rationale": "A stages a crisp entrance: headline lines rise in sequence while a tree-ring motif draws itself by ~1.3 s, then the scroll story pays off with a scrubbed text-colour reveal, a horizontal project gallery, and a process section whose timber frame assembles step by step. B holds a near-empty 'Atelier Norr' preloader for over 2 s (the mobile first viewport is still the loader), and its hero headline is still clipped mid-reveal at 3 s and after the entrance. B's layered-mountain hero and dark/cream palette are atmospheric, but its project cards show stray black bars on desktop and mobile, and its custom cursor blob covers labels like 'Selected work' on hover. A's hovers are restrained but clear: underlines, dark-to-rust pill fills with glow, and card lift."
+    },
+    {
+      "packet": "p16",
+      "task": "drift",
+      "seed": 1,
+      "A": "control",
+      "B": "treatment",
+      "winner": "treatment",
+      "confidence": "medium",
+      "scores": {
+        "control": {
+          "visual_design": 8,
+          "motion_quality": 6,
+          "interaction_polish": 7,
+          "mobile_robustness": 7,
+          "overall_premium": 7
+        },
+        "treatment": {
+          "visual_design": 8,
+          "motion_quality": 8,
+          "interaction_polish": 7,
+          "mobile_robustness": 7,
+          "overall_premium": 8
+        }
+      },
+      "positionPicked": "B",
+      "rationale": "A has the more illustrative art direction: a lavender moon over layered hills and a glowing planet in the closing CTA. But its hero stays empty except for a clipped 'Sleep' mask reveal until about 1.3 s, and several scroll frames show large, nearly empty dark areas (around 4725px on desktop, and the dim Guide-to-Wake gap on mobile). B's hero is composed by about 500–850 ms with a cleanly staggered headline and a phone that slides up. As you scroll, B tells a clear story: a manifesto lit word by word, then a sticky sleep chart whose clock moves from 21:30 to 02:01 to 05:19 as the steps advance, followed by a complete pricing grid. Hover feedback is comparable on both (underline wipes and pill glow/lift), though A's capture includes two empty hidden-control crops."
+    }
+  ]
+}

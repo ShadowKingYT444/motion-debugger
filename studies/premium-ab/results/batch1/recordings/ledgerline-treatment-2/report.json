@@ -1,0 +1,7874 @@
+{
+  "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/5836d1e1-fa23-4581-b296-9efcaffe569a/scratchpad/ab/ledgerline/treatment-2/site",
+  "createdAt": "2026-10-09T00:35:11.689Z",
+  "score": 88,
+  "grade": "B",
+  "findings": [
+    {
+      "id": "entrance-too-slow",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Entrance sequence is long",
+      "evidence": "Load animations span 3557 ms.",
+      "fix": "Keep the hero sequence ≲1.6 s from first paint to settled; shorten delays rather than durations. Visitors should be able to read the headline within ~600 ms."
+    },
+    {
+      "id": "layout-properties-animated",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Layout properties are animated",
+      "evidence": "2 animations/transitions on width; 0 inline-style layout writes.",
+      "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr→1fr or measure once and animate a scale/clip."
+    },
+    {
+      "id": "some-low-contrast",
+      "severity": "polish",
+      "area": "accessibility",
+      "title": "A few text elements have low contrast",
+      "evidence": "\"Monthly\" 1.1:1",
+      "fix": "Raise contrast of these elements to at least 4.5:1."
+    }
+  ],
+  "motion": {
+    "animations": 801,
+    "byPhase": {
+      "load": 54,
+      "scroll": 323,
+      "hover": 424
+    },
+    "easings": {
+      "custom-curve": 394,
+      "linear": 401,
+      "spring-or-steps": 2
+    },
+    "durations": {
+      "p10": 140,
+      "median": 280,
+      "p90": 800
+    },
+    "properties": {
+      "transform": 169,
+      "opacity": 389,
+      "boxShadow": 14,
+      "backgroundPositionX": 1,
+      "backgroundPositionY": 1,
+      "color": 11,
+      "translate": 90,
+      "scale": 2,
+      "strokeDashoffset": 2,
+      "stroke-dashoffset": 2,
+      "width": 2,
+      "backgroundColor": 19,
+      "background-color": 19,
+      "box-shadow": 13,
+      "fill": 26,
+      "stroke": 13,
+      "gridTemplateRows": 19,
+      "grid-template-rows": 19,
+      "borderBottomColor": 8,
+      "border-bottom-color": 8,
+      "borderLeftColor": 8,
+      "border-left-color": 8,
+      "borderRightColor": 8,
+      "border-right-color": 8,
+      "borderTopColor": 8,
+      "border-top-color": 8,
+      "backgroundSize": 13,
+      "background-size": 13
+    },
+    "entranceSpanMs": 3557,
+    "entranceStartGroups": 11,
+    "jsMotionMutations": 154,
+    "sectionCoverage": {
+      "sections": 10,
+      "withMotion": 10,
+      "missing": []
+    },
+    "hover": {
+      "tested": 12,
+      "responsive": 10,
+      "animated": 10,
+      "silent": [
+        "Skip to content",
+        "Monthly"
+      ]
+    },
+    "focus": {
+      "tested": 8,
+      "visible": 8
+    },
+    "reducedMotion": {
+      "rule": true,
+      "runningLongAnimations": 0,
+      "hiddenAfterScroll": 0
+    },
+    "frameStats": {
+      "scrollFrames": 827,
+      "over32ms": 0,
+      "over50ms": 0,
+      "p95Ms": 16.8
+    },
+    "layoutShift": 0.011,
+    "longAnimationFrames": 1
+  },
+  "pages": {
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "docHeight": 11554,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 340,
+      "contrast": [
+        {
+          "selector": "section#pricing > div.container > div.billing > button.bill.is-on",
+          "text": "Monthly",
+          "ratio": 1.1,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 1,
+      "contrastChecked": 198,
+      "families": {
+        "Geist": 3446,
+        "Geist Mono": 859,
+        "Instrument Serif": 894,
+        "monospace": 427
+      },
+      "bodySize": 12,
+      "h1Size": 109.44,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [],
+      "smallText": 0,
+      "media": {
+        "canvas": 0,
+        "video": 0,
+        "svg": 16,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 25,
+      "title": "Ledgerline — Real-time payments and ledgers API"
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "docHeight": 14693,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 325,
+      "contrast": [
+        {
+          "selector": "section#pricing > div.container > div.billing > button.bill.is-on",
+          "text": "Monthly",
+          "ratio": 1.1,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 1,
+      "contrastChecked": 188,
+      "families": {
+        "Geist": 3361,
+        "Geist Mono": 728,
+        "Instrument Serif": 894,
+        "monospace": 427
+      },
+      "bodySize": 12,
+      "h1Size": 58.5,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [
+        {
+          "selector": "div.container > div.footer-grid > div > a.brand",
+          "w": 120,
+          "h": 26
+        },
+        {
+          "selector": "div.container > div.footer-grid > nav > a.mk-link",
+          "w": 24,
+          "h": 40
+        }
+      ],
+      "smallText": 1,
+      "media": {
+        "canvas": 0,
+        "video": 0,
+        "svg": 16,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 25,
+      "title": "Ledgerline — Real-time payments and ledgers API"
+    }
+  },
+  "images": {
+    "hover": "hover.png",
+    "desktopEntrance": "desktop-entrance.png",
+    "desktopScroll": "desktop-scroll.png",
+    "desktopFull": "desktop-full.jpg",
+    "mobile": "mobile.png"
+  },
+  "notes": [
+    "Desktop journey took 31.5s",
+    "External origins requested: https://fonts.googleapis.com, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+  ],
+  "animations": [
+    {
+      "id": 1,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "margin-draw",
+      "target": "section#top > div.hero-rules::before",
+      "duration": 1100,
+      "delay": 100,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 94,
+      "docTop": 0,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 2,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "ping",
+      "target": "section#top > div.container.hero-grid > p.eyebrow.hero-eyebrow > span.live-dot::after",
+      "duration": 2400,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 94,
+      "docTop": 166,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 3,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "mk-marquee",
+      "target": "main#main > section.proof > div.mk-marquee-wrap.proof-marquee > div",
+      "duration": 46000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 95,
+      "docTop": 1103,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 4,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "block-pulse",
+      "target": "div.bento > article.tile.tile-chain > div.chain > div.block.block-new",
+      "duration": 3200,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.65, 0, 0.35, 1)"
+      ],
+      "seenAt": 95,
+      "docTop": 7998,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 5,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "sweep",
+      "target": "section#signup > div.signup-lines::after",
+      "duration": 6000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "backgroundPositionX",
+        "backgroundPositionY"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.65, 0, 0.35, 1)"
+      ],
+      "seenAt": 95,
+      "docTop": 10659,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 6,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "span#respStatus",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6516,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 7,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6550,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 8,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6550,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 9,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6573,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 10,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6573,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 11,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6596,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 12,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6596,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 13,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6619,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 14,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6619,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 15,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6641,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 16,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6641,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 17,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 239,
+      "docTop": 6664,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 18,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6664,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 19,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6687,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 20,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6687,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 21,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6710,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 22,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6710,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 23,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6732,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 24,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6732,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 25,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6755,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 26,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6755,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 27,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6778,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 28,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 120,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 240,
+      "docTop": 6778,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 29,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#top > div.container.hero-grid > p.eyebrow.hero-eyebrow",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 162,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 30,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#top > div.container.hero-grid > p.eyebrow.hero-eyebrow",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 162,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 31,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.container.hero-grid > h1.hero-title > span.hl > span.hl-in",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 307,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 32,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.container.hero-grid > h1.hero-title > span.hl > span.hl-in",
+      "duration": 1100,
+      "delay": 169.99999999999997,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 416,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 33,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > p.lede.hero-rise",
+      "duration": 800,
+      "delay": 420,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 462,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 34,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > p.lede.hero-rise",
+      "duration": 900,
+      "delay": 420,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 462,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 35,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > div.cta-row.hero-rise",
+      "duration": 800,
+      "delay": 510,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 641,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 36,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > div.cta-row.hero-rise",
+      "duration": 900,
+      "delay": 510,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 641,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 37,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > ul.hero-facts.hero-rise",
+      "duration": 800,
+      "delay": 600,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 733,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 38,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#top > div.container.hero-grid > div.hero-copy > ul.hero-facts.hero-rise",
+      "duration": 900,
+      "delay": 600,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 733,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 39,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#top > div.container.hero-grid > div.hero-visual",
+      "duration": 1000,
+      "delay": 380,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 40,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "scale",
+      "target": "section#top > div.container.hero-grid > div.hero-visual",
+      "duration": 1200,
+      "delay": 380,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "scale"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 351,
+      "docTop": 463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 41,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#top > div.container.hero-grid > div.hero-visual",
+      "duration": 1200,
+      "delay": 380,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 352,
+      "docTop": 463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 42,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "stroke-dashoffset",
+      "target": "section#top > svg.hero-line > path.hero-line-draw",
+      "duration": 1400,
+      "delay": 250,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "strokeDashoffset",
+        "stroke-dashoffset"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 352,
+      "docTop": 942,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 43,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "div.console > div.console-bar > div.tabs > span.tab-ink.is-placed",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 510,
+      "docTop": 6086,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 44,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "width",
+      "target": "section#pricing > div.container > div.billing > span.tab-ink.is-placed",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "width"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 510,
+      "docTop": 9617,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 45,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "ol#ledgerList",
+      "duration": 520,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 2834,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 46,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-in",
+      "target": "ol#ledgerList > li.ledger-row.is-new",
+      "duration": 450,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2834,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 47,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-flash",
+      "target": "ol#ledgerList > li.ledger-row.is-new::before",
+      "duration": 900,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2834,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 48,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-in",
+      "target": "ol#ledgerList > li.ledger-row.is-new",
+      "duration": 450,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2834,
+      "docTop": 497,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 49,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-flash",
+      "target": "ol#ledgerList > li.ledger-row.is-new::before",
+      "duration": 900,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2834,
+      "docTop": 497,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 50,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "ol#ledgerList",
+      "duration": 520,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 2850,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 51,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-in",
+      "target": "ol#ledgerList > li.ledger-row.is-new",
+      "duration": 450,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2851,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 52,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-flash",
+      "target": "ol#ledgerList > li.ledger-row.is-new::before",
+      "duration": 900,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2851,
+      "docTop": 455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 53,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-in",
+      "target": "ol#ledgerList > li.ledger-row.is-new",
+      "duration": 450,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2851,
+      "docTop": 497,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 54,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "row-flash",
+      "target": "ol#ledgerList > li.ledger-row.is-new::before",
+      "duration": 900,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.16, 1, 0.3, 1)"
+      ],
+      "seenAt": 2851,
+      "docTop": 497,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 55,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "background-color",
+      "target": "html.mk-js.is-ready > body > header.nav.is-scrolled > div.nav-inner",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "backgroundColor",
+        "background-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3684,
+      "docTop": 127,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 56,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "box-shadow",
+      "target": "html.mk-js.is-ready > body > header.nav.is-scrolled > div.nav-inner",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "boxShadow",
+        "box-shadow"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3684,
+      "docTop": 127,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 57,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#proofTitle",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3721,
+      "docTop": 1042,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 58,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "html.mk-js.is-ready > body > header.nav.is-scrolled",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 464,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 59,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 60,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 61,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 90,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 62,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 90,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 63,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 64,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 65,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 270,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 66,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section.proof > div.container > dl.metrics > div.is-in",
+      "duration": 800,
+      "delay": 270,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3834,
+      "docTop": 1240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 67,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#product > div.container > p.eyebrow.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 3931,
+      "docTop": 1498,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 68,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4734,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 69,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4734,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 70,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4734,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 71,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4734,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 72,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4734,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 73,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 74,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 75,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 76,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 77,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 78,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 79,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 80,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 81,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 82,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 83,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 84,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 85,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 86,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 87,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 88,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4771,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 89,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 90,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 91,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 92,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 93,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 94,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4830,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 95,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 96,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 97,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1604,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 98,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 99,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 100,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 101,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 102,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 103,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 104,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 105,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 106,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 2281,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 107,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 2281,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 108,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 2281,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 109,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > text",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4831,
+      "docTop": 2322,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 110,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 111,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 112,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 113,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 114,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1670,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 115,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 116,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 117,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 118,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 119,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 120,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 121,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 122,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 123,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 124,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 125,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4885,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 126,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1736,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 127,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 128,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 129,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 130,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 131,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 132,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 133,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "p#manifesto > span.w",
+      "duration": 140,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 4921,
+      "docTop": 1802,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 134,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3014,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 135,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3014,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 136,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3051,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 137,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3051,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 138,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3117,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 139,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 3117,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 140,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step.is-active > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6181,
+      "docTop": 3154,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 141,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step.is-active > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6181,
+      "docTop": 3154,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 142,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ul#entries > li.entry.on",
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6181,
+      "docTop": 3055,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 143,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "ul#entries > li.entry.on",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6181,
+      "docTop": 3055,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 144,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7020,
+      "docTop": 3251,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 145,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7020,
+      "docTop": 3251,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 146,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7020,
+      "docTop": 3251,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 147,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > text",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7020,
+      "docTop": 3292,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 148,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3744,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 149,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3744,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 150,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3781,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 151,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3781,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 152,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3847,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 153,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3847,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 154,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step.is-active > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3884,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 155,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step.is-active > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3884,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 156,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ul#entries > li.entry.on",
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3782,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 157,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "ul#entries > li.entry.on",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3782,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 158,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ul#entries > li.entry.on",
+      "duration": 500,
+      "delay": 90,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3834,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 159,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "ul#entries > li.entry.on",
+      "duration": 600,
+      "delay": 90,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7170,
+      "docTop": 3834,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 160,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7381,
+      "docTop": 4039,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 161,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7381,
+      "docTop": 4039,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 162,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7381,
+      "docTop": 4039,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 163,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > text",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7381,
+      "docTop": 4080,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 164,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7530,
+      "docTop": 4588,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 165,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7530,
+      "docTop": 4588,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 166,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step > div > div.step-more",
+      "duration": 401.26109143977817,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4625,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 167,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4625,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 168,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4689,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 169,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4689,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 170,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step.is-active > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4726,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 171,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step.is-active > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4726,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 172,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "background-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "backgroundColor",
+        "background-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 173,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "border-bottom-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderBottomColor",
+        "border-bottom-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 174,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "border-left-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderLeftColor",
+        "border-left-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 175,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "border-right-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderRightColor",
+        "border-right-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 176,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "border-top-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderTopColor",
+        "border-top-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 177,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 178,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ul#entries > li.entry.entry-total",
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 179,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "ul#entries > li.entry.entry-total",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7531,
+      "docTop": 4673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 180,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 8400,
+      "docTop": 4826,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 181,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 8400,
+      "docTop": 4826,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 182,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.scene > svg.pipe > g.node.on > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 8400,
+      "docTop": 4826,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 183,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node.on > text",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 8400,
+      "docTop": 4867,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 184,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#api > div.container.api-grid > div.api-copy > p.eyebrow.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6049,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 185,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6152,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 186,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6153,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 187,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6154,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 188,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6218,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 189,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6219,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 190,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 300,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6219,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 191,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 360,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6287,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 192,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#apiTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 420,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9391,
+      "docTop": 6285,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 193,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#api > div.container.api-grid > div.console.is-in",
+      "duration": 800,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9450,
+      "docTop": 6069,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 194,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#api > div.container.api-grid > div.console.is-in",
+      "duration": 800,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9450,
+      "docTop": 6069,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 195,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#api > div.container.api-grid > div.api-copy > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9534,
+      "docTop": 6336,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 196,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#api > div.container.api-grid > div.api-copy > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9534,
+      "docTop": 6336,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 197,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9571,
+      "docTop": 6496,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 198,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9571,
+      "docTop": 6496,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 199,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 80,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9571,
+      "docTop": 6534,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 200,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 80,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9571,
+      "docTop": 6534,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 201,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 160,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9631,
+      "docTop": 6572,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 202,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 160,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9631,
+      "docTop": 6572,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 203,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9631,
+      "docTop": 6610,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 204,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container.api-grid > div.api-copy > ul.checks > li.is-in",
+      "duration": 800,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9631,
+      "docTop": 6610,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 205,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.section-head > p.eyebrow.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10531,
+      "docTop": 6990,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 206,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7094,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 207,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7095,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 208,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7094,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 209,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7094,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 210,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7094,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 211,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#relTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 300,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10584,
+      "docTop": 7094,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 212,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.section-head > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10620,
+      "docTop": 7144,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 213,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.section-head > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10620,
+      "docTop": 7144,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 214,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-uptime",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10681,
+      "docTop": 7269,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 215,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-uptime",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10681,
+      "docTop": 7269,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 216,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-regions",
+      "duration": 800,
+      "delay": 80,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10681,
+      "docTop": 7269,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 217,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-regions",
+      "duration": 800,
+      "delay": 80,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10681,
+      "docTop": 7269,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 218,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 219,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 9.000000000000002,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 220,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 18.000000000000004,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 221,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 27.000000000000004,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 222,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 36.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 223,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 45.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 224,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 54.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 225,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 63,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 226,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 72.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 227,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 81.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 228,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 90.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 229,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 99,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 230,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 108.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 231,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 117.00000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 232,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 126,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 233,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 135,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 234,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 144.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 235,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 153.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 236,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 162.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 237,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 171,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 238,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 180.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 239,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 189.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 240,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 198,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 241,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 207.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 242,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 216.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 243,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 225.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 244,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 234.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 245,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 243.00000000000003,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 246,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 252,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 247,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 261,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 248,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 270,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 249,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 279,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 250,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 288.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 251,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 297.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 252,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 306.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 253,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 315.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 254,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 324.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 255,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 333,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 256,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 342,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 257,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 351.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 258,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 360.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 259,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 369.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 260,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 378.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 261,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 387.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 262,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 396,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 263,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 405,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 264,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 414.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 265,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 423.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 266,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 432.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 267,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 441.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 268,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 450.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 269,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 459.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 270,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 468.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 271,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 477.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 272,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 486.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 273,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 495.00000000000006,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 274,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 504,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 275,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 513,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 276,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 522,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 277,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 531,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 278,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 540,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 279,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i.warn",
+      "duration": 700,
+      "delay": 549,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 280,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 558,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 281,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 567.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 282,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 576.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 283,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 585.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 284,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 594.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 285,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 603.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 286,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 612.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 287,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 621.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 288,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 630.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 289,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 639.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 290,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 648.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 291,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 657,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 292,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 666,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 293,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 675,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 294,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 684,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 295,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 693.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 296,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 702.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 297,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 711.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 298,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 720.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 299,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 729.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 300,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 738.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 301,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 747.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 302,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 756.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 303,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 765.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 304,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 774.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 305,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 783.0000000000001,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 306,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 792,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 307,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#bars > i",
+      "duration": 700,
+      "delay": 801,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10772,
+      "docTop": 7613,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 308,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "span#respStatus",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6422,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 309,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6464,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 310,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6464,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 311,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 55,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6487,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 312,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 55,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6487,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 313,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 110,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6510,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 314,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 110,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6510,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 315,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 165,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6533,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 316,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 165,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6533,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 317,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 220,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6555,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 318,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 220,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6555,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 319,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 275,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6578,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 320,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 275,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6578,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 321,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 330,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6601,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 322,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 330,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6601,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 323,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 385,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6624,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 324,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 385,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6624,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 325,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 440,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6646,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 326,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 440,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6646,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 327,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 495,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6669,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 328,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 495,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6669,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 329,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "pre#resp > code > span.rl",
+      "duration": 360,
+      "delay": 550,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6692,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 330,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "pre#resp > code > span.rl",
+      "duration": 480,
+      "delay": 550,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 6692,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 331,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-chain",
+      "duration": 800,
+      "delay": 160,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 332,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-chain",
+      "duration": 800,
+      "delay": 160,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 333,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-sec",
+      "duration": 800,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 334,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-sec",
+      "duration": 800,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 335,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-latency",
+      "duration": 800,
+      "delay": 320,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 336,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#reliability > div.container > div.bento > article.tile.tile-latency",
+      "duration": 800,
+      "delay": 320,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7701,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 337,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.bento > article.tile.tile-latency > svg.spark > path.spark-area",
+      "duration": 900,
+      "delay": 900,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7926,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 338,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "stroke-dashoffset",
+      "target": "div.bento > article.tile.tile-latency > svg.spark > path.spark-line",
+      "duration": 1800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "strokeDashoffset",
+        "stroke-dashoffset"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11635,
+      "docTop": 7926,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 339,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8362,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 340,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8363,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 341,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8361,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 342,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8426,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 343,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8430,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 344,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#custTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 300,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11881,
+      "docTop": 8493,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 345,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#customers > div.container > div.cust-grid > figure.quote.quote-feature",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12031,
+      "docTop": 8565,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 346,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "scale",
+      "target": "section#customers > div.container > div.cust-grid > figure.quote.quote-feature",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "scale"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12031,
+      "docTop": 8565,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 347,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container > div.cust-grid > div.cust-side > figure.quote.quote-small",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12031,
+      "docTop": 8575,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 348,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container > div.cust-grid > div.cust-side > figure.quote.quote-small",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12031,
+      "docTop": 8575,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 349,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div.container > div.cust-grid > div.cust-side > figure.quote.quote-small",
+      "duration": 800,
+      "delay": 110,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12122,
+      "docTop": 8871,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 350,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div.container > div.cust-grid > div.cust-side > figure.quote.quote-small",
+      "duration": 800,
+      "delay": 110,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 12122,
+      "docTop": 8871,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 351,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.section-head > p.eyebrow.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13134,
+      "docTop": 9383,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 352,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13134,
+      "docTop": 9488,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 353,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13134,
+      "docTop": 9488,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 354,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13134,
+      "docTop": 9486,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 355,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13134,
+      "docTop": 9488,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 356,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13135,
+      "docTop": 9488,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 357,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#priceTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 300,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13135,
+      "docTop": 9486,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 358,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.section-head > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13171,
+      "docTop": 9538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 359,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#pricing > div.container > div.section-head > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13171,
+      "docTop": 9538,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 360,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.billing.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 13981,
+      "docTop": 9612,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 361,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.plans > article.plan.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 362,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#pricing > div.container > div.plans > article.plan.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 363,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.plans > article.plan.plan-featured",
+      "duration": 800,
+      "delay": 100,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 364,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#pricing > div.container > div.plans > article.plan.plan-featured",
+      "duration": 800,
+      "delay": 100,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 365,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#pricing > div.container > div.plans > article.plan.is-in",
+      "duration": 800,
+      "delay": 200,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 366,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#pricing > div.container > div.plans > article.plan.is-in",
+      "duration": 800,
+      "delay": 200,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14034,
+      "docTop": 9722,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 367,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#signTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14371,
+      "docTop": 10610,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 368,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#signTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 60,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14371,
+      "docTop": 10611,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 369,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#signTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14371,
+      "docTop": 10610,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 370,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#signTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 180,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14371,
+      "docTop": 10610,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 371,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "h2#signTitle > span.mk-mask > span.mk-piece",
+      "duration": 1100,
+      "delay": 240,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14371,
+      "docTop": 10700,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 372,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "form#signupForm",
+      "duration": 800,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14431,
+      "docTop": 10686,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 373,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "form#signupForm",
+      "duration": 800,
+      "delay": 120,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14431,
+      "docTop": 10686,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 374,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#signup > div.container.signup-grid > div > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14484,
+      "docTop": 10750,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 375,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "section#signup > div.container.signup-grid > div > p.lede.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 14484,
+      "docTop": 10750,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 376,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "body > footer.footer > div.container > p.wordmark.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 15420,
+      "docTop": 11252,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 377,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "body > footer.footer > div.container > p.wordmark.is-in",
+      "duration": 800,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 15420,
+      "docTop": 11252,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 378,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "html.mk-js.is-ready > body > header.nav.is-scrolled",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17490,
+      "docTop": 10597,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 379,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17940,
+      "docTop": 4554,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 380,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17940,
+      "docTop": 4554,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 381,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div.scene > svg.pipe > g.node > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17941,
+      "docTop": 4554,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 382,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node > text",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17941,
+      "docTop": 4597,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 383,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 384,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step.is-active",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4240,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 385,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step.is-active > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4277,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 386,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step.is-active > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4277,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 387,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4303,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 388,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "div#steps > article.step",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4303,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 389,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "grid-template-rows",
+      "target": "div#steps > article.step > div > div.step-more",
+      "duration": 420,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "properties": [
+        "gridTemplateRows",
+        "grid-template-rows"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4340,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 390,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "article.step > div > div.step-more > p",
+      "duration": 300,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4340,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 391,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "background-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "backgroundColor",
+        "background-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 392,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "border-bottom-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderBottomColor",
+        "border-bottom-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 393,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "border-left-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderLeftColor",
+        "border-left-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 394,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "border-right-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderRightColor",
+        "border-right-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 395,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "border-top-color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "borderTopColor",
+        "border-top-color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 396,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "span#stateChip",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 3949,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 397,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ul#entries > li.entry.entry-total",
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4315,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 398,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "translate",
+      "target": "ul#entries > li.entry.entry-total",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "properties": [
+        "translate"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 17967,
+      "docTop": 4315,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 399,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "fill",
+      "target": "div.scene > svg.pipe > g.node > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "fill"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 18001,
+      "docTop": 3583,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 400,
+      "phase": "hover",
+      "kind": "CSSTransition",
+      "name": "stroke",
+      "target": "div.scene > svg.pipe > g.node > circle",
+      "duration": 280,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "linear",
+      "properties": [
+        "stroke"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 18001,
+      "docTop": 3583,
+      "inView": true,
+      "onHovered": false
+    }
+  ]
+}
