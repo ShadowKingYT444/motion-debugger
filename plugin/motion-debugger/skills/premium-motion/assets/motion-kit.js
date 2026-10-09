@@ -1,4 +1,4 @@
-/*! motion-kit.js — premium-motion skill (Motion Debugger). Dependency-free, ~4 KB min.
+/*! motion-kit.js — premium-motion skill (Motion Debugger). Dependency-free, ~7 KB min.
  * Copy next to your page and load with <script src="motion-kit.js" defer></script>.
  * Pair with motion-kit.css. Every effect is opt-in through data attributes and is
  * safe without JavaScript (content stays visible) and under prefers-reduced-motion.
@@ -16,6 +16,19 @@
  *   data-tilt="6"                3D tilt toward the pointer (max degrees)
  *   data-marquee                 duplicates children for a seamless loop (CSS does the motion)
  *   data-nav                     toggles .is-scrolled after 24px and .is-hidden when scrolling down
+ *
+ * Scroll scenes (the advanced layer — see TASTE.md for when to use which):
+ *   data-hscroll + [data-hscroll-track]  pinned section whose track slides sideways as you scroll down
+ *                                (phones and reduced motion fall back to a native swipe row)
+ *   data-stack                   on a parent: children pin and pile up; covered cards recede (--cover 0→1)
+ *   data-expand                  inside a data-progress parent: media grows from an inset card to full-bleed
+ *   data-exit                    hero/section content drifts up, shrinks and fades as it scrolls away (--exit)
+ *   data-read                    words brighten one by one as the block is read (--read 0→1)
+ *   data-draw / data-draw="scrub"  <svg> strokes draw on reveal, or follow the nearest --p
+ *   data-scramble                text resolves from scrambled glyphs when revealed
+ *   data-bg="#0E0E0C" data-ink="#F3EFE6"  the page background and ink cross-fade while this section
+ *                                holds the middle of the viewport (opt-in: html.mk-themed sets body colours)
+ *   --velocity on <html>         smoothed scroll speed, -1…1, for skew/stretch (.mk-velocity-skew, marquees)
  */
 (() => {
   const root = document.documentElement;
@@ -62,6 +75,47 @@
     requestAnimationFrame(tick);
   }
 
+  const GLYPHS = '!<>-_\\/[]{}=+*^?#ABCDEFXYZ0123456789';
+  function scramble(el) {
+    const target = el.dataset.scrambleText || el.textContent;
+    el.dataset.scrambleText = target;
+    el.classList.add('mk-live');
+    if (reduce.matches) { el.textContent = target; return; }
+    el.setAttribute('aria-label', target);
+    const duration = Number(el.dataset.scrambleDuration || 1100);
+    const start = performance.now() + (parseFloat(el.style.getPropertyValue('--mk-delay')) || 0);
+    const frame = (now) => {
+      const t = Math.max(0, Math.min(1, (now - start) / duration));
+      const settled = Math.floor(target.length * (1 - Math.pow(1 - t, 3)));
+      el.textContent = target.slice(0, settled) + [...target.slice(settled)].map((c) => (c === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join('');
+      if (t < 1) requestAnimationFrame(frame); else { el.textContent = target; el.removeAttribute('aria-label'); }
+    };
+    requestAnimationFrame(frame);
+  }
+
+  function wrapWords(el) {
+    if (el.dataset.readDone) return;
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) if (walker.currentNode.nodeValue.trim()) nodes.push(walker.currentNode);
+    const total = nodes.reduce((n, node) => n + node.nodeValue.trim().split(/\s+/).length, 0);
+    let index = 0;
+    for (const node of nodes) {
+      const fragment = document.createDocumentFragment();
+      for (const part of node.nodeValue.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { fragment.append(part); continue; }
+        const span = document.createElement('span');
+        span.className = 'mk-w';
+        span.style.setProperty('--t', (index++ / total).toFixed(4));
+        span.textContent = part;
+        fragment.append(span);
+      }
+      node.replaceWith(fragment);
+    }
+    el.dataset.readDone = '1';
+  }
+
   function reveal(el) {
     el.classList.add('is-in');
     if (el.hasAttribute('data-reveal')) {
@@ -69,6 +123,7 @@
       const delay = parseFloat(el.style.getPropertyValue('--mk-delay')) || 0;
       setTimeout(() => { el.removeAttribute('data-reveal'); el.classList.remove('is-in'); }, delay + 1300);
     }
+    if (el.hasAttribute('data-scramble')) scramble(el);
     if (el.dataset.count !== undefined) count(el);
     $$('[data-count]', el).forEach(count);
   }
@@ -83,7 +138,14 @@
       });
     }
     for (const el of $$('[data-delay]')) if (!el.style.getPropertyValue('--mk-delay')) el.style.setProperty('--mk-delay', `${el.dataset.delay}ms`);
-    const targets = $$('[data-reveal],[data-split],[data-count]');
+    for (const svg of $$('svg[data-draw]')) {
+      $$('path,line,polyline,polygon,circle,ellipse,rect', svg).forEach((shape, i) => {
+        shape.setAttribute('pathLength', '1');
+        shape.classList.add('mk-draw-path');
+        shape.style.setProperty('--di', i);
+      });
+    }
+    const targets = $$('[data-reveal],[data-split],[data-count],[data-scramble],svg[data-draw]:not([data-draw="scrub"])');
     if (reduce.matches || !('IntersectionObserver' in window)) { targets.forEach(reveal); return; }
     // Low threshold + negative bottom margin: tall elements on phones still trigger.
     // A fully clipped element reports intersectionRatio 0 and never crosses a threshold,
@@ -114,13 +176,116 @@
     });
   }
 
+  const clamp01 = (value) => Math.min(1, Math.max(0, value));
+  const narrow = matchMedia('(max-width: 760px)');
+
+  function setupHscroll() {
+    for (const section of $$('[data-hscroll]')) {
+      const track = section.querySelector('[data-hscroll-track]');
+      if (!track) continue;
+      let stage = track.parentElement;
+      if (stage === section) { stage = document.createElement('div'); section.insertBefore(stage, track); stage.appendChild(track); }
+      stage.classList.add('mk-pin');
+      let distance = 0;
+      const size = () => {
+        const on = !reduce.matches && !narrow.matches;
+        section.classList.toggle('mk-hscroll-on', on);
+        if (!on) { section.style.height = ''; track.style.transform = ''; distance = 0; return; }
+        distance = Math.max(0, track.scrollWidth - stage.clientWidth);
+        section.style.height = `${Math.round(innerHeight + distance)}px`;
+      };
+      size();
+      addEventListener('resize', size);
+      addEventListener('load', () => { size(); onScroll(); });
+      scrollers.push((vh) => {
+        if (!distance) return;
+        const r = section.getBoundingClientRect();
+        const p = clamp01(-r.top / Math.max(1, r.height - vh));
+        track.style.transform = `translate3d(${(-p * distance).toFixed(1)}px, 0, 0)`;
+        section.style.setProperty('--p', p.toFixed(4));
+      });
+    }
+  }
+
+  function setupStack() {
+    for (const parent of $$('[data-stack]')) {
+      const cards = [...parent.children];
+      cards.forEach((card, i) => { card.classList.add('mk-stack-card'); card.style.setProperty('--i', i); });
+      if (reduce.matches) continue;
+      scrollers.push((vh) => {
+        for (let i = 0; i < cards.length - 1; i++) {
+          const top = cards[i].getBoundingClientRect().top, next = cards[i + 1].getBoundingClientRect().top;
+          cards[i].style.setProperty('--cover', clamp01((vh - next) / Math.max(1, vh - top)).toFixed(4));
+        }
+      });
+    }
+  }
+
+  function setupThemes() {
+    const sections = $$('[data-bg]');
+    if (!sections.length) return;
+    root.classList.add('mk-themed');
+    let current = null;
+    const apply = (section) => {
+      if (section === current) return;
+      current = section;
+      root.style.setProperty('--page-bg', section.dataset.bg);
+      if (section.dataset.ink) root.style.setProperty('--page-ink', section.dataset.ink);
+    };
+    apply(sections[0]);
+    scrollers.push((vh) => {
+      const mid = vh / 2;
+      for (const section of sections) {
+        const r = section.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) { apply(section); return; }
+      }
+    });
+  }
+
+  // Smoothed scroll velocity (-1…1) on <html> as --velocity; decays to 0 when scrolling stops.
+  let velocity = 0, lastY = scrollY, lastT = performance.now(), decaying = false;
+  function trackVelocity() {
+    const now = performance.now(), dt = Math.max(16, now - lastT);
+    const instant = Math.max(-1, Math.min(1, (scrollY - lastY) / dt / 3));
+    velocity += (instant - velocity) * 0.35;
+    lastY = scrollY; lastT = now;
+    root.style.setProperty('--velocity', velocity.toFixed(3));
+    if (!decaying) { decaying = true; requestAnimationFrame(decay); }
+  }
+  function decay() {
+    if (performance.now() - lastT > 60) velocity *= 0.86;
+    root.style.setProperty('--velocity', Math.abs(velocity) < 0.002 ? '0' : velocity.toFixed(3));
+    if (Math.abs(velocity) < 0.002) { velocity = 0; decaying = false; return; }
+    requestAnimationFrame(decay);
+  }
+
   function setupScroll() {
+    setupHscroll();
+    setupStack();
+    setupThemes();
+    $$('[data-read]').forEach(wrapWords);
+    if (reduce.matches) $$('[data-read]').forEach((el) => el.style.setProperty('--read', '1'));
+    else {
+      for (const el of $$('[data-read]')) {
+        scrollers.push((vh) => {
+          const r = el.getBoundingClientRect();
+          el.style.setProperty('--read', clamp01((vh * 0.85 - r.top) / (vh * 0.35 + r.height)).toFixed(4));
+        });
+      }
+      for (const el of $$('[data-exit]')) {
+        scrollers.push(() => {
+          const r = el.getBoundingClientRect();
+          el.style.setProperty('--exit', clamp01(-r.top / Math.max(1, r.height)).toFixed(4));
+        });
+      }
+      scrollers.push(trackVelocity);
+    }
     for (const el of $$('[data-progress]')) {
       scrollers.push((vh) => {
         const r = el.getBoundingClientRect();
         const total = r.height - vh;
         const p = total > 0 ? -r.top / total : (vh - r.top) / (vh + r.height);
-        el.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(4));
+        el.style.setProperty('--p', clamp01(p).toFixed(4));
       });
     }
     if (!reduce.matches) for (const el of $$('[data-parallax]')) {
@@ -188,5 +353,5 @@
 
   const start = () => { setupMarquee(); setupReveals(); setupScroll(); setupPointer(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-  window.motionKit = { reveal, split, count, refresh: start };
+  window.motionKit = { reveal, split, count, scramble, refresh: start };
 })();

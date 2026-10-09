@@ -1,13 +1,15 @@
 ---
 name: premium-motion
-description: Build or upgrade a web page/site so it looks and moves like a premium, award-level product site — art direction, typography, a choreographed hero, scroll storytelling, tactile micro-interactions — then look at the real rendered result with `motion-debugger critique` and fix what it shows. Use for any landing page, marketing site, portfolio, product page or UI where visual polish and animation quality matter.
+description: Build or upgrade a web page/site so it looks and moves like a premium, award-level product site — art direction, a single motion personality, a choreographed hero, scrubbed scroll scenes (pinned, horizontal, stacking, expanding, reading), chapter transitions, tactile micro-interactions — then look at the real rendered result with `motion-debugger critique` and fix what it shows. Use for any landing page, marketing site, portfolio, product page or UI where visual polish and animation quality matter.
 ---
 
 # Premium motion: art-direct, build, look, refine
 
+**Read [TASTE.md](TASTE.md) first.** It sets the ambition floor, the motion personality and the motion score you plan against. This file covers how to build and check it.
+
 Agents' default pages are recognisable: centred hero, purple-to-blue gradient, three icon cards, `transition: all .3s ease`, the same fade-up on every block, and content that never got looked at in a browser. Premium work differs in four ways. Follow all four.
 
-1. **A point of view** — one concept and one signature moment, decided before code.
+1. **A point of view** — one concept, one motion personality and one signature moment, decided before code and written down as a motion score (TASTE.md §3).
 2. **A system** — type scale, colour roles, spacing and motion tokens used consistently.
 3. **Choreography** — motion has an order and a reason: it reveals hierarchy, explains the product, and answers input.
 4. **Looking** — you render the page, look at the frames, and fix what you see. At least two critique passes.
@@ -57,7 +59,31 @@ Rules that separate premium from generic:
 
 ## 4. Building blocks
 
-`assets/motion-kit.js` + `assets/motion-kit.css` give you data-attribute primitives: `data-reveal`, `data-stagger`, `data-split`, `data-count`, `data-progress` (sticky storytelling), `data-parallax`, `data-magnetic`, `data-spotlight`, `data-tilt`, `data-marquee`, `data-nav`. Copy them into the project (or reimplement in the project's framework — React/Vue/Svelte, Motion/GSAP if already installed) and build the bespoke signature moment on top. See `references/patterns.md` for complete code for the hero sequence, pinned scroll story, bento spotlight grid, path drawing, horizontal scroll gallery, tabbed product demo with sliding indicator, and text-highlight-on-scroll.
+`assets/motion-kit.js` + `assets/motion-kit.css` give you data-attribute primitives:
+
+| Layer | Attributes |
+| --- | --- |
+| Entrances | `data-reveal`, `data-stagger`, `data-split`, `data-scramble`, `data-count`, `svg[data-draw]` |
+| Scroll scenes | `data-progress` (sets `--p` for sticky storytelling), `data-hscroll` + `data-hscroll-track`, `data-stack`, `data-expand`, `data-exit`, `data-read`, `data-draw="scrub"`, `data-parallax` |
+| Chapters | `data-bg` / `data-ink` on sections cross-fade the page colours; keep those sections' own backgrounds transparent and colour text with `currentColor` or `color-mix(in oklab, var(--page-ink) 70%, transparent)` |
+| Pointer and nav | `data-magnetic`, `data-spotlight`, `data-tilt`, `data-marquee` (wrap in `.mk-marquee-wrap` to lean with `--velocity`), `data-nav` |
+
+Scroll scenes in practice:
+
+```html
+<header class="hero" data-exit> … </header>                       <!-- drifts up and fades as it leaves -->
+<section data-hscroll><div class="pin"><h2>Selected work</h2>
+  <div data-hscroll-track><figure>…</figure> × 6</div></div></section> <!-- vertical scroll → sideways track -->
+<section data-stack><article class="card">…</article> × 4</section>  <!-- cards pin and pile up -->
+<section data-progress style="height:260vh"><div class="sticky">
+  <div class="film" data-expand><canvas>…</canvas></div></div></section> <!-- inset card opens to full-bleed -->
+<p class="manifesto" data-read>We design for the decades a building stands…</p>
+<section data-bg="#F3EFE6" data-ink="#151513"> … </section>         <!-- page turns to paper here -->
+```
+
+Put the heading inside the `data-hscroll` stage so it stays pinned with the track. Stack cards need a solid background. Do not put `data-reveal` on `data-hscroll` slides or `data-stack` cards; the scene is their motion. All of these fall back to readable static layouts under reduced motion, and the horizontal track becomes a native swipe row on phones.
+
+Copy the kit into the project (or reimplement in the project's framework — React/Vue/Svelte, Motion/GSAP if already installed) and build the bespoke signature moment on top. See `references/patterns.md` for complete code for the hero sequence, pinned scroll story, bento spotlight grid, path drawing, horizontal scroll gallery, tabbed product demo with sliding indicator, and text-highlight-on-scroll.
 
 If the project already uses a motion library (Framer Motion/Motion, GSAP, Lenis), use it with the same tokens and rules instead of the kit.
 
@@ -85,7 +111,9 @@ The score is a lint for measurable defects. It cannot see taste — a page can p
 ## 6. Final checklist
 
 - [ ] The hero has a choreographed entrance with masked/split headline and settles in ≲1.6s
+- [ ] One motion personality is used throughout, and the motion score is written down
 - [ ] There is one signature, scroll-linked or interactive moment that is genuinely built, not implied
+- [ ] At least two different scrubbed scroll scenes, a chapter transition, a kinetic type moment and a living visual (TASTE.md §2)
 - [ ] Every section has a reveal suited to its content; groups are staggered; nothing stays invisible
 - [ ] Every button/link/card has hover + press + focus-visible states with token timings
 - [ ] Only transform/opacity/clip-path are animated; no `transition: all`; no linear easing on movement

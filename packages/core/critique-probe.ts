@@ -102,6 +102,28 @@ const visibilityHelpers=String.raw`  // A clip-path that collapses to zero area 
   });
 `;
 
+// Contrast against what is actually painted under the text. Shared by the scroll sampler (which
+// records the best ratio while each element is in view) and the final static pass.
+const contrastHelpers=String.raw`
+  const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
+  const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
+  // Resolve what is actually painted under the text: the paint stack at the text's centre, so a
+  // sliding pill or card behind (but not around) the label counts. Images/gradients → unknown.
+  const background = (el) => {
+    const r = el.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const stack = x >= 0 && y >= 0 && x < innerWidth && y < innerHeight ? document.elementsFromPoint(x, y) : [];
+    const below = stack.length ? stack.filter(n => n !== el && !el.contains(n)) : [];
+    const chain = below.length ? below : (() => { const list = []; for (let n = el.parentElement; n && n.nodeType === 1; n = n.parentElement) list.push(n); return list; })();
+    for (const n of [el, ...chain]) { const s = getComputedStyle(n); if (s.backgroundImage && s.backgroundImage !== 'none') return null; const c = parse(s.backgroundColor); if (c && c.a > 0.85 && Number(s.opacity) > 0.85) return c; }
+    return { r: 255, g: 255, b: 255, a: 1 };
+  };
+  const ratioOf = (el) => {
+    const s = getComputedStyle(el); const fg = parse(s.color); if (!fg || fg.a < 0.5 || effectiveOpacity(el) < 0.5) return null;
+    const bg = background(el); if (!bg) return null;
+    const a = lum(fg), b = lum(bg); return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  };
+`;
+
 // Page-level structural measurements. Returns plain data; called with page.evaluate(string).
 export const critiqueStaticScript=String.raw`(() => {
   // Mobile Chrome widens the layout viewport to fit overflowing content; measure against the device width.
@@ -114,7 +136,8 @@ export const critiqueStaticScript=String.raw`(() => {
     }
     return parts.join(' > ');
   };
-${visibilityHelpers}  // Inactive carousel slides, tab panels and success messages are hidden alternatives layered
+${visibilityHelpers}
+${contrastHelpers}  // Inactive carousel slides, tab panels and success messages are hidden alternatives layered
   // over a visible sibling. The hiding ancestor overlapping a visible sibling marks that pattern.
   const ownHidden = (n) => { const s = getComputedStyle(n); return Number(s.opacity) < 0.08 || s.visibility === 'hidden' || collapsed(n, s.clipPath); };
   const stackedAlternative = (el) => {
@@ -141,25 +164,16 @@ ${visibilityHelpers}  // Inactive carousel slides, tab panels and success messag
     if (o < 0.08 && stackedAlternative(el)) continue;
     if (o < 0.08) hidden.push({ selector: path(el), text: (el.textContent || el.getAttribute('alt') || el.localName).trim().slice(0, 60), opacity: Number(o.toFixed(3)) });
   }
-  const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
-  const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
-  // Resolve what is actually painted under the text: the paint stack at the text's centre, so a
-  // sliding pill or card behind (but not around) the label counts. Images/gradients → unknown.
-  const background = (el) => {
-    const r = el.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2;
-    const stack = x >= 0 && y >= 0 && x < innerWidth && y < innerHeight ? document.elementsFromPoint(x, y) : [];
-    const below = stack.length ? stack.filter(n => n !== el && !el.contains(n)) : [];
-    const chain = below.length ? below : (() => { const list = []; for (let n = el.parentElement; n && n.nodeType === 1; n = n.parentElement) list.push(n); return list; })();
-    for (const n of [el, ...chain]) { const s = getComputedStyle(n); if (s.backgroundImage && s.backgroundImage !== 'none') return null; const c = parse(s.backgroundColor); if (c && c.a > 0.85 && Number(s.opacity) > 0.85) return c; }
-    return { r: 255, g: 255, b: 255, a: 1 };
-  };
   const contrast = [];
   let checked = 0;
+  // Scroll-themed pages change colours per chapter, so an element is judged by the best contrast it
+  // had while it was on screen (when sampled), not only by the colours at the final scroll position.
+  const inView = window.__mcContrast;
   for (const el of textEls) {
     if (el.localName === 'img' || el.localName === 'svg' || intentionallyHidden(el)) continue;
-    const s = getComputedStyle(el); const fg = parse(s.color); if (!fg || fg.a < 0.5 || effectiveOpacity(el) < 0.5) continue;
-    const bg = background(el); if (!bg) continue; checked++;
-    const a = lum(fg), b = lum(bg); const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    const now = ratioOf(el); const sampled = inView && inView.get(el);
+    if (now === null && sampled === undefined) continue; checked++;
+    const ratio = Math.max(now ?? 0, sampled ?? 0); const s = getComputedStyle(el);
     const size = parseFloat(s.fontSize), bold = Number(s.fontWeight) >= 600;
     const need = size >= 24 || (size >= 18.6 && bold) ? 3 : 4.5;
     if (ratio < need) contrast.push({ selector: path(el), text: el.textContent.trim().slice(0, 40), ratio: Number(ratio.toFixed(2)), need });
@@ -202,12 +216,17 @@ export const critiqueSectionMotionScript=String.raw`(() => [...document.querySel
 export const critiqueVisibilitySampleScript=String.raw`(() => {
   const vw = innerWidth, vh = innerHeight;
 ${visibilityHelpers}
+${contrastHelpers}
   const seen = window.__mcVis = window.__mcVis || new Map();
+  const contrast = window.__mcContrast = window.__mcContrast || new Map();
   for (const el of textEls) {
     const r = el.getBoundingClientRect();
     if (r.bottom <= 0 || r.top >= vh || r.right <= 0 || r.left >= vw) continue;
     const o = effectiveOpacity(el);
     if (!seen.has(el) || seen.get(el) < o) seen.set(el, o);
+    if (r.top < 0 || r.bottom > vh || el.localName === 'img' || el.localName === 'svg') continue;
+    const ratio = ratioOf(el);
+    if (ratio !== null && !(contrast.get(el) >= ratio)) contrast.set(el, ratio);
   }
   return seen.size;
 })()`;
