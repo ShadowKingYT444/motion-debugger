@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier Norr — Timber architecture, Trondheim</title>
+<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes. Philosophy, selected projects, process, awards and contact.">
+<meta name="theme-color" content="#ece5d8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314120f'/%3E%3Cpath d='M6 25V13L16 6l10 7v12M16 6v19' fill='none' stroke='%23d49a62' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <svg class="pre-frame" viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="1">
+    <path pathLength="1" d="M10 88H110"/>
+    <path pathLength="1" d="M22 88V50M98 88V50M22 50L60 14 98 50M60 14V88M22 70L60 50 98 70"/>
+  </svg>
+  <div class="pre-word"><span>Atelier Norr</span></div>
+  <div class="pre-count"><span id="preCount">0</span><i>/100</i></div>
+</div>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+<header class="site-header" id="header">
+  <a href="#top" class="brand" data-cursor aria-label="Atelier Norr, home">
+    <svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 26V14L16 5l11 9v12M16 5v21M5 20l11-7 11 7"/></svg>
+    <span>Atelier Norr</span>
+  </a>
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a href="#philosophy" data-cursor><i>01</i>Philosophy</a>
+    <a href="#projects" data-cursor><i>02</i>Projects</a>
+    <a href="#process" data-cursor><i>03</i>Process</a>
+    <a href="#awards" data-cursor><i>04</i>Awards</a>
+    <a href="#contact" class="nav-cta" data-cursor>Contact</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero" id="hero" data-theme="light">
+  <div class="hero-sky"></div>
+  <svg class="hero-art" viewBox="0 0 1600 900" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="hMist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece5d8" stop-opacity="0"/><stop offset="1" stop-color="#ece5d8" stop-opacity=".85"/></linearGradient>
+      <radialGradient id="hSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f4c487"/><stop offset=".6" stop-color="#e9a86c" stop-opacity=".9"/><stop offset="1" stop-color="#e9a86c" stop-opacity="0"/></radialGradient>
+      <g id="spr"><path d="M0 0 L22 -50 L10 -50 L28 -92 L14 -92 L32 -140 L-32 -140 L-14 -92 L-28 -92 L-10 -50 L-22 -50Z"/></g>
+      <pattern id="hSlat" width="9" height="10" patternUnits="userSpaceOnUse"><rect width="9" height="10" fill="#2a2018"/><rect width="1.4" height="10" fill="#4a3724"/></pattern>
+    </defs>
+    <g class="sun-wrap"><circle class="sun-halo" cx="1010" cy="400" r="260" fill="url(#hSun)" opacity=".55"/><circle class="sun" cx="1010" cy="400" r="96" fill="#efb77a"/></g>
+    <g class="m-far" fill="#cdbfa8"><path d="M0 560 L150 470 L260 520 L430 390 L610 520 L720 470 L900 560 L1090 430 L1260 540 L1420 450 L1600 540 V900H0Z"/></g>
+    <g class="m-mid" fill="#a9a08c"><path d="M0 640 L200 540 L340 600 L520 500 L700 610 L860 560 L1040 640 L1200 560 L1380 630 L1600 560 V900H0Z"/></g>
+    <rect x="0" y="560" width="1600" height="140" fill="url(#hMist)"/>
+    <g class="m-near" fill="#5d6a5c"><path d="M0 720 L120 650 L230 700 L380 620 L520 700 L640 660 L800 730 L960 690 L1600 730 V900H0Z"/></g>
+    <g class="trees" fill="#2f3d34">
+      <use href="#spr" x="880" y="800"/><use href="#spr" x="940" y="810" transform="translate(0 0)"/><use href="#spr" x="1480" y="800"/><use href="#spr" x="1540" y="815"/><use href="#spr" x="1590" y="800"/>
+      <use href="#spr" x="60" y="830"/><use href="#spr" x="130" y="815"/><use href="#spr" x="200" y="835"/>
+    </g>
+    <path class="ground" d="M0 800 C300 780 700 810 1100 795 S1500 800 1600 790 V900H0Z" fill="#1d2620"/>
+    <!-- timber hall drawn in -->
+    <g class="hall" fill="none" stroke="#14120f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+      <path class="hall-fill" d="M1040 800 V690 L1240 560 L1440 690 V800Z" fill="url(#hSlat)" stroke="none"/>
+      <path class="hall-glow" d="M1150 800 V710 L1240 650 L1330 710 V800Z" fill="#f4c487" stroke="none"/>
+      <path class="draw" pathLength="1" d="M1020 800 H1460"/>
+      <path class="draw" pathLength="1" d="M1040 800 V690 L1240 560 L1440 690 V800"/>
+      <path class="draw" pathLength="1" d="M1010 700 L1240 548 L1470 700" stroke-width="3"/>
+      <path class="draw" pathLength="1" d="M1240 548 V800"/>
+      <path class="draw" pathLength="1" d="M1150 800 V710 L1240 650 L1330 710 V800"/>
+      <path class="draw" pathLength="1" d="M1100 800 V672 M1380 800 V672 M1150 800 L1240 660 L1330 800"/>
+    </g>
+  </svg>
+
+  <div class="hero-inner">
+    <p class="eyebrow" data-hero-fade><span class="dot"></span>Nordic architecture studio — timber civic buildings &amp; homes</p>
+    <h1 class="hero-title" aria-label="Buildings that grow slowly, and stand a very long time.">
+      <span class="ln"><span>Buildings that</span></span>
+      <span class="ln"><span>grow <em>slowly</em>,</span></span>
+      <span class="ln"><span>and stand long.</span></span>
+    </h1>
+    <div class="hero-foot" data-hero-fade>
+      <p class="hero-lede">We draw libraries, halls, schools and houses in spruce, larch and pine — shaped by northern light and made to be loved for a century.</p>
+      <a href="#projects" class="scroll-cue" data-cursor><span class="cue-line"></span>Selected work</a>
+      <div class="coords"><span>63.4305° N</span><span>10.3951° E</span><span id="clock">Trondheim</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Spruce</span><i>✦</i><span>Larch</span><i>✦</i><span>Glulam</span><i>✦</i><span>Cross-laminated</span><i>✦</i><span>Pine tar</span><i>✦</i><span>Slow growth</span><i>✦</i><span>Dovetail</span><i>✦</i><span>Northern light</span><i>✦</i>
+    <span>Spruce</span><i>✦</i><span>Larch</span><i>✦</i><span>Glulam</span><i>✦</i><span>Cross-laminated</span><i>✦</i><span>Pine tar</span><i>✦</i><span>Slow growth</span><i>✦</i><span>Dovetail</span><i>✦</i><span>Northern light</span><i>✦</i>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy" data-theme="light">
+  <div class="wrap">
+    <p class="kicker" data-reveal><span>01</span> Studio philosophy</p>
+    <p class="big-statement" id="statement">We believe a building should be the slowest thing in a town — outlasting its fashions, its budgets and its architects. Timber lets us build that way: warm to the hand, light on the earth, and honest about its age.</p>
+
+    <div class="principles">
+      <article class="principle" data-reveal>
+        <span class="p-num">i.</span>
+        <h3>Grown, not extracted</h3>
+        <p>Every beam we specify comes from managed Nordic forests within 400&nbsp;km of the site. Trees that took eighty years to stand become buildings meant to stand two hundred.</p>
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><circle cx="30" cy="30" r="4"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="30" r="17"/><circle cx="30" cy="30" r="24"/><circle cx="30" cy="30" r="29" stroke-dasharray="2 3"/></svg>
+      </article>
+      <article class="principle" data-reveal>
+        <span class="p-num">ii.</span>
+        <h3>Light is a material</h3>
+        <p>At 63° north the sun is low and generous in summer, and scarce in winter. We shape sections, aperture and surface to catch every degree of it — and to glow from within when it is gone.</p>
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><circle cx="30" cy="30" r="9"/><path d="M30 4v10M30 46v10M4 30h10M46 30h10M11.6 11.6l7 7M41.4 41.4l7 7M48.4 11.6l-7 7M18.6 41.4l-7 7"/></svg>
+      </article>
+      <article class="principle" data-reveal>
+        <span class="p-num">iii.</span>
+        <h3>Joinery over fixings</h3>
+        <p>We prefer the dovetail to the bracket. Honest joints are visible, repairable and teachable — so the next generation of carpenters can maintain what we drew.</p>
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 20h18l-4 6 4 6H6zM54 20H36l4 6-4 6h18z"/><path d="M6 40h48M6 46h48"/></svg>
+      </article>
+    </div>
+
+    <dl class="stats">
+      <div data-reveal><dt><b data-count="64">0</b></dt><dd>Buildings raised across Norway, Sweden &amp; Finland</dd></div>
+      <div data-reveal><dt><b data-count="9400" data-sep="1">0</b><small>m³</small></dt><dd>Of certified timber, storing carbon for generations</dd></div>
+      <div data-reveal><dt><b data-count="17">0</b></dt><dd>Years drawing in the north, from a former boatyard</dd></div>
+      <div data-reveal><dt><b data-count="23">0</b></dt><dd>Architects, engineers and carpenters in the studio</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects" data-theme="dark">
+  <div class="projects-pin">
+    <div class="track" id="track">
+
+      <div class="panel panel-intro">
+        <p class="kicker light"><span>02</span> Selected projects</p>
+        <h2 class="h2 light" data-split><span class="ln"><span>Four places,</span></span><span class="ln"><span>built <em>to be</em></span></span><span class="ln"><span>lived in.</span></span></h2>
+        <p class="panel-note">Scroll to travel north &rarr;</p>
+      </div>
+
+      <article class="card" data-cursor-label="View">
+        <div class="card-art">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a vaulted glulam library hall at dusk">
+            <defs>
+              <linearGradient id="p1sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8cfa6"/><stop offset="1" stop-color="#9a7a5a"/></linearGradient>
+              <radialGradient id="p1glow" cx=".5" cy=".75" r=".7"><stop offset="0" stop-color="#ffe2b0"/><stop offset=".5" stop-color="#e6a45f"/><stop offset="1" stop-color="#5a3a22"/></radialGradient>
+              <path id="rib" d="M150 540 V340 Q150 160 400 160 Q650 160 650 340 V540" fill="none"/>
+            </defs>
+            <rect width="800" height="600" fill="url(#p1sky)"/>
+            <path d="M0 400 L120 320 L220 380 L360 280 L520 390 L640 330 L800 410 V600H0Z" fill="#7d6a58" opacity=".6"/>
+            <rect y="540" width="800" height="60" fill="#2b2118"/>
+            <path d="M150 540 V340 Q150 160 400 160 Q650 160 650 340 V540Z" fill="url(#p1glow)"/>
+            <g class="ribs" stroke="#6b4423" stroke-linecap="round">
+              <use href="#rib" stroke-width="16" transform="translate(400 540) scale(1) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="14" opacity=".95" transform="translate(400 540) scale(.88) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="13" opacity=".9" transform="translate(400 540) scale(.77) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="12" opacity=".85" transform="translate(400 540) scale(.67) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="11" opacity=".78" transform="translate(400 540) scale(.58) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="10" opacity=".7" transform="translate(400 540) scale(.5) translate(-400 -540)"/>
+              <use href="#rib" stroke-width="9" opacity=".6" transform="translate(400 540) scale(.43) translate(-400 -540)"/>
+            </g>
+            <path d="M0 600 L330 540 H470 L800 600Z" fill="#3a2a1c"/>
+            <path d="M400 540 V600 M360 540 L260 600 M440 540 L540 600" stroke="#d99b5a" stroke-width="1.5" opacity=".35"/>
+          </svg>
+          <span class="card-tag">Civic · Library</span>
+        </div>
+        <div class="card-meta">
+          <span class="idx">01</span>
+          <div><h3>Fjällby Library</h3><p>Östersund, Sweden — 2024</p></div>
+          <span class="arrow" aria-hidden="true">&nearr;</span>
+        </div>
+        <p class="card-desc">A 1,800&nbsp;m² reading hall under seven glulam arches, each laminated from a single valley of spruce.</p>
+      </article>
+
+      <article class="card" data-cursor-label="View">
+        <div class="card-art">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a timber house in a spruce forest at dusk">
+            <defs>
+              <linearGradient id="p2sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27343e"/><stop offset=".6" stop-color="#6d6c71"/><stop offset="1" stop-color="#d89a64"/></linearGradient>
+              <pattern id="p2slat" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#2c2018"/><rect width="1.6" height="10" fill="#47341f"/></pattern>
+              <radialGradient id="p2win" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd48e"/><stop offset="1" stop-color="#ffd48e" stop-opacity="0"/></radialGradient>
+              <g id="p2t"><path d="M0 0 L30 -70 L16 -70 L40 -130 L22 -130 L48 -200 L0 -200 L-48 -200 L-22 -130 L-40 -130 L-16 -70 L-30 -70Z"/></g>
+            </defs>
+            <rect width="800" height="600" fill="url(#p2sky)"/>
+            <g fill="#fff" opacity=".7"><circle cx="90" cy="70" r="1.4"/><circle cx="220" cy="130" r="1"/><circle cx="360" cy="50" r="1.4"/><circle cx="520" cy="110" r="1"/><circle cx="690" cy="60" r="1.6"/><circle cx="740" cy="160" r="1"/></g>
+            <path d="M0 430 L160 360 L300 410 L460 330 L620 400 L800 350 V600H0Z" fill="#43505a"/>
+            <g fill="#1b2620"><use href="#p2t" x="40" y="520"/><use href="#p2t" x="120" y="540" transform="translate(0 0)"/><use href="#p2t" x="680" y="525"/><use href="#p2t" x="760" y="545"/><use href="#p2t" x="610" y="550"/></g>
+            <rect y="500" width="800" height="100" fill="#e9e1d3"/>
+            <path d="M0 540 C200 515 500 560 800 525 V600H0Z" fill="#d6cdbd"/>
+            <circle cx="400" cy="440" r="150" fill="url(#p2win)" opacity=".35"/>
+            <g>
+              <path d="M200 505 V400 L400 300 L600 400 V505Z" fill="url(#p2slat)"/>
+              <path d="M180 410 L400 288 L620 410" fill="none" stroke="#14100c" stroke-width="10" stroke-linejoin="round"/>
+              <path d="M180 410 L400 288 L620 410 L600 420 L400 312 L200 420Z" fill="#14100c"/>
+              <rect x="310" y="400" width="180" height="105" fill="#ffd48e"/>
+              <path d="M400 400 V505 M310 452 H490" stroke="#2c2018" stroke-width="5"/>
+              <rect x="226" y="440" width="46" height="65" fill="#1c1510"/>
+              <rect x="520" y="440" width="46" height="65" fill="#ffc77a" opacity=".85"/>
+              <rect x="530" y="270" width="26" height="70" fill="#2c2018"/>
+              <path class="smoke" d="M543 262 C530 240 560 230 543 205 C530 185 556 175 546 155" fill="none" stroke="#e9e1d3" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+            </g>
+            <g fill="#1b2620"><use href="#p2t" x="140" y="570" transform="translate(0 0) scale(1)"/><use href="#p2t" x="690" y="590"/></g>
+          </svg>
+          <span class="card-tag">Home · Private</span>
+        </div>
+        <div class="card-meta">
+          <span class="idx">02</span>
+          <div><h3>Hus Skogsbrynet</h3><p>Lillehammer, Norway — 2023</p></div>
+          <span class="arrow" aria-hidden="true">&nearr;</span>
+        </div>
+        <p class="card-desc">A pine-tarred family house at the forest edge, with one tall south window that follows the winter sun.</p>
+      </article>
+
+      <article class="card" data-cursor-label="View">
+        <div class="card-art">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a long timber community hall beside a fjord">
+            <defs>
+              <linearGradient id="p3sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd9d6"/><stop offset="1" stop-color="#f1dcc0"/></linearGradient>
+              <linearGradient id="p3sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8c4c2"/><stop offset="1" stop-color="#6c8484"/></linearGradient>
+              <pattern id="p3slat" width="14" height="10" patternUnits="userSpaceOnUse"><rect width="14" height="10" fill="#b98550"/><rect width="2" height="10" fill="#8a5d35"/></pattern>
+              <linearGradient id="p3glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3c4"/><stop offset="1" stop-color="#9fb2b0"/></linearGradient>
+            </defs>
+            <rect width="800" height="600" fill="url(#p3sky)"/>
+            <circle class="p3sun" cx="560" cy="330" r="46" fill="#f6c690"/>
+            <path d="M0 360 L130 330 L260 350 L420 318 L600 352 L800 330 V380H0Z" fill="#9fb0ae"/>
+            <rect y="380" width="800" height="220" fill="url(#p3sea)"/>
+            <g class="p3waves" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none" stroke-linecap="round"><path d="M60 560 h90 M300 575 h120 M560 555 h100 M180 590 h80 M620 590 h110"/><path d="M80 520 h60 M420 530 h80 M670 520 h60"/></g>
+            <!-- hall -->
+            <rect x="70" y="360" width="660" height="22" fill="#6d4a2b" />
+            <g>
+              <rect x="110" y="270" width="580" height="96" fill="url(#p3slat)"/>
+              <rect x="170" y="290" width="360" height="76" fill="url(#p3glass)"/>
+              <path d="M230 290 V366 M290 290 V366 M350 290 V366 M410 290 V366 M470 290 V366" stroke="#5a3b22" stroke-width="3"/>
+              <rect x="90" y="248" width="620" height="26" fill="#4a3220"/>
+              <rect x="90" y="236" width="620" height="12" fill="#2a1d13"/>
+              <path d="M130 366 V400 M270 366 V400 M410 366 V400 M550 366 V400 M670 366 V400" stroke="#4a3220" stroke-width="8"/>
+            </g>
+            <!-- reflection -->
+            <g opacity=".22" transform="translate(0 790) scale(1 -1)"><rect x="110" y="270" width="580" height="96" fill="#b98550"/><rect x="90" y="236" width="620" height="38" fill="#2a1d13"/></g>
+            <path d="M0 380 H800" stroke="#fff" stroke-opacity=".4"/>
+          </svg>
+          <span class="card-tag">Civic · Community</span>
+        </div>
+        <div class="card-meta">
+          <span class="idx">03</span>
+          <div><h3>Solvik Community Hall</h3><p>Lofoten, Norway — 2022</p></div>
+          <span class="arrow" aria-hidden="true">&nearr;</span>
+        </div>
+        <p class="card-desc">A long hall on stilts above the tide line, clad in larch that is silvering exactly as we hoped.</p>
+      </article>
+
+      <article class="card" data-cursor-label="View">
+        <div class="card-art">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a ferry terminal with sawtooth timber roofs over water">
+            <defs>
+              <linearGradient id="p4sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34464a"/><stop offset=".7" stop-color="#c79d78"/><stop offset="1" stop-color="#ecc79a"/></linearGradient>
+              <linearGradient id="p4sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d7f80"/><stop offset="1" stop-color="#27363a"/></linearGradient>
+            </defs>
+            <rect width="800" height="600" fill="url(#p4sky)"/>
+            <path d="M0 360 L100 320 L200 350 L340 300 L470 350 L600 310 L800 350 V380H0Z" fill="#4c5b5d" opacity=".8"/>
+            <rect y="380" width="800" height="220" fill="url(#p4sea)"/>
+            <g class="p4waves" stroke="#ecc79a" stroke-opacity=".35" stroke-width="2" fill="none" stroke-linecap="round"><path d="M40 470 h80 M260 490 h110 M520 465 h90 M650 520 h100 M120 540 h120 M400 560 h90"/></g>
+            <!-- ferry -->
+            <g class="ferry"><path d="M590 392 H760 L745 420 H610Z" fill="#14100c"/><rect x="620" y="366" width="90" height="26" fill="#e7dcc6"/><rect x="636" y="348" width="40" height="18" fill="#e7dcc6"/><path d="M630 378 h70" stroke="#14100c" stroke-width="4" stroke-dasharray="8 6"/></g>
+            <!-- terminal sawtooth -->
+            <rect x="0" y="378" width="560" height="16" fill="#3a281a"/>
+            <g>
+              <path d="M40 378 V338 L180 268 V378Z" fill="#9c6a3b"/>
+              <path d="M40 338 L180 268 V288 L40 358Z" fill="#2a1d13"/>
+              <path d="M180 378 V268 L190 268 V378Z" fill="#f6dfb6"/>
+              <path d="M190 378 V338 L330 268 V378Z" fill="#b07a45"/>
+              <path d="M190 338 L330 268 V288 L190 358Z" fill="#2a1d13"/>
+              <path d="M330 378 V268 L340 268 V378Z" fill="#f6dfb6"/>
+              <path d="M340 378 V338 L480 268 V378Z" fill="#9c6a3b"/>
+              <path d="M340 338 L480 268 V288 L340 358Z" fill="#2a1d13"/>
+              <path d="M480 378 V268 L490 268 V378Z" fill="#f6dfb6"/>
+              <rect x="190" y="320" width="130" height="58" fill="#f6dfb6" opacity=".25"/>
+            </g>
+            <path d="M60 394 V450 M200 394 V450 M340 394 V450 M480 394 V450" stroke="#2a1d13" stroke-width="7"/>
+            <g opacity=".18" transform="translate(0 772) scale(1 -1)"><rect x="40" y="268" width="440" height="110" fill="#b07a45"/></g>
+          </svg>
+          <span class="card-tag">Civic · Transport</span>
+        </div>
+        <div class="card-meta">
+          <span class="idx">04</span>
+          <div><h3>Ravnøy Ferry Terminal</h3><p>Helgeland, Norway — 2021</p></div>
+          <span class="arrow" aria-hidden="true">&nearr;</span>
+        </div>
+        <p class="card-desc">Sawtooth roofs turn north light into an even glow for travellers waiting on the quay.</p>
+      </article>
+
+      <div class="panel panel-outro">
+        <p class="kicker light">64 buildings and counting</p>
+        <a href="#contact" class="outro-link" data-cursor><span>Commission<br>a building</span><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="40" cy="40" r="38"/><path d="M26 54L54 26M32 26h22v22"/></svg></a>
+      </div>
+    </div>
+    <div class="projects-progress" aria-hidden="true"><span id="projBar"></span></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process" data-theme="light">
+  <div class="process-grid wrap">
+    <div class="process-sticky">
+      <p class="kicker" data-reveal><span>03</span> How we work</p>
+      <h2 class="h2" data-split><span class="ln"><span>From one</span></span><span class="ln"><span>walk in the</span></span><span class="ln"><span><em>forest</em> to a</span></span><span class="ln"><span>raised frame.</span></span></h2>
+      <div class="frame-wrap">
+        <svg class="frame" id="frame" viewBox="0 0 400 420" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-label="A timber frame being assembled as you scroll">
+          <path class="fp" pathLength="1" d="M30 380H370"/>
+          <path class="fp" pathLength="1" d="M60 380V200"/>
+          <path class="fp" pathLength="1" d="M340 380V200"/>
+          <path class="fp" pathLength="1" d="M140 380V200"/>
+          <path class="fp" pathLength="1" d="M260 380V200"/>
+          <path class="fp" pathLength="1" d="M40 200H360"/>
+          <path class="fp" pathLength="1" d="M60 300L140 200M340 300L260 200"/>
+          <path class="fp" pathLength="1" d="M40 200L200 70L360 200"/>
+          <path class="fp" pathLength="1" d="M200 70V200M120 135H280"/>
+          <path class="fp" pathLength="1" d="M150 380V300H250V380" stroke="#b6753f"/>
+          <path class="fp roof" pathLength="1" d="M26 208L200 58L374 208" stroke="#b6753f" stroke-width="3.4"/>
+          <circle class="fp-dot" cx="200" cy="70" r="5" fill="#b6753f" stroke="none"/>
+        </svg>
+        <div class="frame-label"><span id="stepNum">01</span><span id="stepName">Listen</span></div>
+      </div>
+    </div>
+
+    <ol class="steps" id="steps">
+      <li class="step" data-name="Listen">
+        <span class="s-num">01</span>
+        <h3>Listen &amp; walk the site</h3>
+        <p>We begin with weeks, not drawings: tea with the people who will use the building, a day on the ground in every season we can manage, and a map of where the wind, water and winter sun actually go.</p>
+        <span class="s-time">Weeks 1–6</span>
+      </li>
+      <li class="step" data-name="Select">
+        <span class="s-num">02</span>
+        <h3>Select the timber</h3>
+        <p>Before a plan exists, we choose the forest. Species, grade and grain direction decide span, section and character — and our sawyers tag the trees that will become the primary frame.</p>
+        <span class="s-time">Weeks 6–12</span>
+      </li>
+      <li class="step" data-name="Draw">
+        <span class="s-num">03</span>
+        <h3>Draw by hand, then by machine</h3>
+        <p>Sketch models in spruce offcuts, then full parametric models for the CNC joinery. Every connection is drawn once for the carpenter and once for the person who will repair it in 2090.</p>
+        <span class="s-time">Months 3–9</span>
+      </li>
+      <li class="step" data-name="Raise">
+        <span class="s-num">04</span>
+        <h3>Raise the frame</h3>
+        <p>Prefabricated in our workshop, the frame goes up in days. The first beam is always raised with the client and a toast of birch sap — the building is topped out before it is closed in.</p>
+        <span class="s-time">Months 10–16</span>
+      </li>
+      <li class="step" data-name="Return">
+        <span class="s-num">05</span>
+        <h3>Return, every year</h3>
+        <p>We come back after the first winter, then every fifth year. We oil the cladding, listen to the building, and update its care manual. A Norr building is never finished — only handed on.</p>
+        <span class="s-time">Ever after</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- MATERIAL / GRAIN -->
+<section class="grain" id="grain" data-theme="dark">
+  <canvas id="grainCanvas" aria-hidden="true"></canvas>
+  <div class="grain-inner wrap">
+    <blockquote data-split>
+      <span class="ln"><span>“A tree is a slow clock.</span></span>
+      <span class="ln"><span>We simply build</span></span>
+      <span class="ln"><span>a house around its time.”</span></span>
+    </blockquote>
+    <p class="cite" data-reveal>Ingrid Halvorsen Norr, founding partner</p>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards" id="awards" data-theme="light">
+  <div class="wrap">
+    <div class="awards-head">
+      <p class="kicker" data-reveal><span>04</span> Recognition</p>
+      <h2 class="h2" data-split><span class="ln"><span>Quietly,</span></span><span class="ln"><span>and <em>often</em>.</span></span></h2>
+    </div>
+    <ul class="award-list" id="awardList">
+      <li class="award" data-cursor-label="">
+        <span class="a-year">2025</span>
+        <span class="a-name">Northern Light Prize for Civic Architecture</span>
+        <span class="a-proj">Fjällby Library</span>
+        <span class="a-rank">Grand Prize</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      <li class="award">
+        <span class="a-year">2024</span>
+        <span class="a-name">Glulam Honour Medal</span>
+        <span class="a-proj">Fjällby Library</span>
+        <span class="a-rank">Gold</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      <li class="award">
+        <span class="a-year">2024</span>
+        <span class="a-name">Nordic Timber Architecture Award</span>
+        <span class="a-proj">Hus Skogsbrynet</span>
+        <span class="a-rank">Residential Winner</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      <li class="award">
+        <span class="a-year">2023</span>
+        <span class="a-name">The Golden Plumb</span>
+        <span class="a-proj">Solvik Community Hall</span>
+        <span class="a-rank">Public Building</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      <li class="award">
+        <span class="a-year">2022</span>
+        <span class="a-name">Arctic Built Environment Biennale</span>
+        <span class="a-proj">Ravnøy Ferry Terminal</span>
+        <span class="a-rank">Special Mention</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      <li class="award">
+        <span class="a-year">2021</span>
+        <span class="a-name">Young Studio of the North</span>
+        <span class="a-proj">Studio practice</span>
+        <span class="a-rank">Laureate</span>
+        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" data-theme="dark">
+  <div class="wrap contact-inner">
+    <p class="kicker light" data-reveal><span>05</span> Contact</p>
+    <h2 class="contact-title" data-split>
+      <span class="ln"><span>Let’s plant</span></span>
+      <span class="ln"><span>something that</span></span>
+      <span class="ln"><span><em>lasts.</em></span></span>
+    </h2>
+    <div class="contact-row">
+      <a href="mailto:hei@ateliernorr.no" class="mail magnetic" data-cursor><span class="mail-t">hei@ateliernorr.no</span><span class="mail-ico">&nearr;</span></a>
+      <div class="contact-cols">
+        <div data-reveal><h4>Studio</h4><p>Brygga 14, Ila<br>7018 Trondheim, Norway</p></div>
+        <div data-reveal><h4>New commissions</h4><p>+47 73 00 14 20<br>Replies within two working days</p></div>
+        <div data-reveal><h4>Studio hours</h4><p>Mon–Fri, 08:00–16:00<br><span id="clock2">Trondheim time</span></p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer wrap">
+    <span>© 2026 Atelier Norr AS</span>
+    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false"><span class="mt-dot"></span><span id="mtLabel">Pause motion</span></button>
+    <a href="#top" data-cursor>Back to top &uarr;</a>
+  </footer>
+  <div class="giant" aria-hidden="true">NORR</div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

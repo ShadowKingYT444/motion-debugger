@@ -1,7 +1,7 @@
 // Real-browser regression for `critique`: a fixture with labeled seeded defects must surface them,
 // and a kit-built control must pass. Measurements come from actual Chromium runs, not fixtures.
 import assert from 'node:assert/strict';
-import {cp,mkdtemp,rm} from 'node:fs/promises';
+import {cp,mkdtemp,readdir,rm} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {critique} from '../packages/core/critique.ts';
@@ -26,6 +26,10 @@ try{
   assert.ok(good.motion.entranceStartGroups>=4,'control entrance is staggered');
   assert.equal(good.motion.reducedMotion?.hiddenAfterScroll,0,'reduced motion keeps content visible');
   assert.ok(good.score>=90,`control should score ≥90, got ${good.score}`);
+  // A preloader that locks scrolling past the entrance window must not truncate the scroll journey.
+  const preloader=await critique(path.join(root,'tests/fixtures/critique/preloader'),{outDir:path.join(work,'preloader-report'),viewports:['desktop'],reducedMotion:false,hover:false});
+  const scrollShots=(await readdir(path.join(work,'preloader-report','frames'))).filter(file=>file.startsWith('desktop-scroll-'));
+  assert.ok(scrollShots.length>=3,`scroll journey should continue after the preloader unlocks; got ${scrollShots.length} frames`);
   console.log(JSON.stringify({flawed:{score:flawed.score,findings:[...ids]},crafted:{score:good.score,findings:good.findings.map(finding=>finding.id)}},null,2));
 }finally{await rm(work,{recursive:true,force:true})}
 

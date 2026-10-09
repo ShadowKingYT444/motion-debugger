@@ -14,16 +14,9 @@ await build({entryPoints:['packages/core/scene-adapter.ts'],outfile:'plugin/moti
 await cp('plugin/motion-debugger/skills/motion/recipes/scene-actor-adapter.mjs','examples/assembly/motion/scene-actor-adapter.mjs');
 await cp('dist','build/assets/dist',{recursive:true});await cp('src/fixture','build/assets/src/fixture',{recursive:true});await cp('src/examples','build/assets/src/examples',{recursive:true});
 await cp('examples/assembly','build/assets/assembly',{recursive:true});
-// Ship the frozen A/B apps and four original films, not development capture trees.
-const rail='studies/rail-dispatch',railAssets='build/assets/rail';
-await mkdir(railAssets,{recursive:true});
-for(const file of ['viewer.html','viewer.js'])await cp(`${rail}/${file}`,`${railAssets}/${file}`);
-for(const arm of ['ordinary','motion'])await cp(`${rail}/source/${arm}`,`${railAssets}/source/${arm}`,{recursive:true,filter:source=>!source.split('/').includes('evidence')});
-for(const arm of ['ordinary','motion'])for(const size of ['desktop','mobile']){
-  const folder=`${arm}-${size}`;await mkdir(`${railAssets}/evidence/${folder}`,{recursive:true});
-  for(const file of ['journey.webm','report.json'])await cp(`${rail}/evidence/${folder}/${file}`,`${railAssets}/evidence/${folder}/${file}`);
-}
-await cp(`${rail}/evidence/verification.json`,`${railAssets}/evidence/verification.json`);
+// Ship the A/B showcase: the agent-built sites, the side-by-side films and the viewer (README GIFs stay in git).
+await rm('build/assets/showcase',{recursive:true,force:true});
+await cp('demos','build/assets/showcase',{recursive:true,filter:source=>!/(\.gif|record\.mjs|README\.md)$/.test(source)&&!source.split('/').some(part=>part.startsWith('.'))});
 await mkdir('plugin/motion-debugger/scripts',{recursive:true});
 const pluginBuild=await build({metafile:true,entryPoints:['packages/mcp/index.ts'],outfile:'plugin/motion-debugger/scripts/mcp.mjs',platform:'node',target:'node22',format:'esm',bundle:true,external:['playwright'],sourcemap:false,banner:{js:'#!/usr/bin/env node'}});
 await chmod('plugin/motion-debugger/scripts/mcp.mjs',0o755);

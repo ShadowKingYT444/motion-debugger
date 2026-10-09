@@ -42,12 +42,9 @@ export async function startDemo({port,dataDir}:{port:number;dataDir:string}) {
   app.get('/api/fixture-data',async(req,res)=>{const delay=Number(req.query.delay);if(!Number.isInteger(delay)||delay<150||delay>800)return res.status(400).json({error:'delay must be 150–800 ms'});await new Promise(resolve=>setTimeout(resolve,delay));res.json({id:'card-42',revision:1,title:'Motion lab workspace',status:'ready'})});
   app.use('/artifacts/runs',express.static(path.join(dataDir,'artifacts/runs'),{index:false,dotfiles:'deny'}));
   app.use('/assembly',express.static(path.join(assets,'assembly'),{dotfiles:'deny',setHeaders:res=>res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'")}));
-  const rail=path.join(assets,'rail'),ab=express.Router();
-  ab.use('/ordinary',express.static(path.join(rail,'source/ordinary'),{dotfiles:'deny'}));
-  ab.use('/motion',express.static(path.join(rail,'source/motion'),{dotfiles:'deny'}));
-  ab.use('/evidence',express.static(path.join(rail,'evidence'),{dotfiles:'deny'}));
-  ab.get('/viewer.js',(_req,res)=>res.sendFile('viewer.js',{root:rail}));
-  ab.get('/',(_req,res)=>res.sendFile('viewer.html',{root:rail}));
+  // The premium-motion A/B: agent-built control/treatment sites and side-by-side films, served read-only.
+  const showcase=path.join(assets,'showcase'),ab=express.Router();
+  ab.use(express.static(showcase,{dotfiles:'deny',index:'index.html'}));
   ab.use((_req,res)=>res.status(404).send('A/B asset not found'));
   app.get('/ab',(req,res,next)=>req.path==='/ab'?res.redirect(308,'/ab/'):next());
   app.use('/ab/',ab);
@@ -56,6 +53,6 @@ export async function startDemo({port,dataDir}:{port:number;dataDir:string}) {
   app.use((error:Error & {status?:number},_req:express.Request,res:express.Response,_next:express.NextFunction)=>res.status(error.status&&error.status>=400&&error.status<600?error.status:500).json({error:error.message}));
   const server=app.listen(port,'127.0.0.1');
   await new Promise<void>((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject)});
-  console.log(`Motion Debugger ${metadata.version}: http://127.0.0.1:${port}\nSIGNAL A/B: http://127.0.0.1:${port}/ab/\nDemo evidence: ${dataDir}\nPress Ctrl+C to stop`);
+  console.log(`Motion Debugger ${metadata.version}: http://127.0.0.1:${port}\nPremium-motion A/B: http://127.0.0.1:${port}/ab/\nDemo evidence: ${dataDir}\nPress Ctrl+C to stop`);
   const shutdown=()=>server.close(()=>process.exit(0));process.once('SIGINT',shutdown);process.once('SIGTERM',shutdown);
 }

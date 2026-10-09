@@ -4,7 +4,7 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 
 ## Seven focused skills
 
-- `premium-motion`: **start here for pages and sites.** Art direction, type/space/surface system, motion tokens, choreography and robustness rules, a dependency-free motion kit, pattern code, and the required `motion-debugger critique` look-and-refine loop ([details](PREMIUM-MOTION.md))
+- `premium-motion`: **start here for pages and sites.** A taste guide (one motion personality, a written motion score and an ambition floor of scrubbed scroll scenes and chapter transitions), art direction, type/space/surface system, motion tokens, choreography and robustness rules, a dependency-free motion kit, pattern code, and the required `motion-debugger critique` look-and-refine loop ([details](PREMIUM-MOTION.md))
 - `motion-debugger`: namespaced entry for protected transition authoring and native review; coexists with another `/motion` skill
 - `motion`: normal design prompt entry point; routes to original runnable recipes, design guidance and browser verification
 - `motion-design`: choose a brief-led visual direction, coherent typography/surfaces and complete interaction states

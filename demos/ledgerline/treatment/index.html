@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledgerline: real-time payments and ledgers API</title>
+<meta name="description" content="Ledgerline is the developer-first API for real-time payments and double-entry ledgers. Move money, record every cent and reconcile in the same call.">
+<meta name="theme-color" content="#0A0C0B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230A0C0B'/%3E%3Cpath d='M5 8h14M5 12h14' stroke='%23ECEFE9' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M5 16h8' stroke='%23C8F73A' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>
+  document.documentElement.classList.add('mk-js');
+  // If the motion kit never boots, never leave content hidden.
+  setTimeout(function () { if (!window.motionKit) document.documentElement.classList.remove('mk-js'); }, 3500);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="motion-kit.css">
+<link rel="stylesheet" href="styles.css">
+<script src="motion-kit.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="pg-progress" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" data-nav aria-label="Primary">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Ledgerline home">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M4 17h9" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      <span>Ledgerline</span>
+    </a>
+    <div class="nav-links">
+      <a class="mk-link" href="#product">Product</a>
+      <a class="mk-link" href="#api">API</a>
+      <a class="mk-link" href="#reliability">Reliability</a>
+      <a class="mk-link" href="#customers">Customers</a>
+      <a class="mk-link" href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a class="mk-link nav-signin" href="#start">Sign in</a>
+      <a class="btn btn-primary mk-button" data-magnetic="0.2" href="#start">Get API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<!-- ============ HERO ============ -->
+<header class="hero" id="top" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <canvas class="hero-field" aria-hidden="true"></canvas>
+  <div class="hero-inner wrap" data-exit>
+    <div class="hero-copy">
+      <p class="status-pill" data-reveal="fade" data-delay="40"><i></i> All systems operational <span>p99 41&nbsp;ms</span></p>
+      <h1 data-split="lines" data-split-done="1" aria-label="Money moves. Your ledger keeps up.">
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:0">Money moves.</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:1">Your ledger</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:2"><em>keeps up.</em></span></span>
+      </h1>
+      <p class="lede" data-reveal="up" data-delay="300">Ledgerline is the developer-first API for real-time payments and double-entry ledgers. Move money, record every cent and reconcile in the same call.</p>
+      <div class="cta-row" data-reveal="up" data-delay="380">
+        <a class="btn btn-primary btn-lg mk-button" data-magnetic="0.25" href="#start">Get your API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn-ghost mk-link" href="#api">Read the API <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+      <p class="fine" data-reveal="fade" data-delay="480">Free sandbox &middot; No card required &middot; First transfer in 4 minutes</p>
+    </div>
+
+    <div class="console-wrap" data-reveal="clip" data-delay="160">
+      <div class="console" data-spotlight aria-label="Live ledger demo with illustrative data">
+        <div class="c-bar">
+          <span class="c-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="c-title">live ledger</span>
+          <span class="c-env">sandbox &middot; sample data</span>
+        </div>
+        <div class="c-req">
+          <div class="c-line"><span class="verb">POST</span> <span class="path">/v1/transfers</span><span class="c-status" data-c-status>201 Created &middot; 38&nbsp;ms</span></div>
+          <pre class="c-body" data-c-body><span class="p">{</span> <span class="k">"from"</span><span class="p">:</span> <span class="s">"acct_halcyon_ops"</span><span class="p">,</span>
+  <span class="k">"to"</span><span class="p">:</span>   <span class="s">"acct_kestrel_pay"</span><span class="p">,</span>
+  <span class="k">"amount"</span><span class="p">:</span> <span class="n">125000</span><span class="p">,</span> <span class="k">"rail"</span><span class="p">:</span> <span class="s">"rtp"</span> <span class="p">}</span></pre>
+        </div>
+        <ol class="c-journal" data-c-journal aria-label="Journal entries">
+          <li class="jr" style="--k:0"><span class="t">14:02:07.412</span><span class="acct">acct_halcyon_ops</span><span class="dc dr">DR</span><span class="amt">&minus;1,250.00</span></li>
+          <li class="jr" style="--k:1"><span class="t">14:02:07.412</span><span class="acct">acct_kestrel_pay</span><span class="dc cr">CR</span><span class="amt">+1,250.00</span></li>
+          <li class="jr" style="--k:2"><span class="t">14:02:04.090</span><span class="acct">acct_marlow_float</span><span class="dc dr">DR</span><span class="amt">&minus;86.40</span></li>
+          <li class="jr" style="--k:3"><span class="t">14:02:04.090</span><span class="acct">acct_tessera_fees</span><span class="dc cr">CR</span><span class="amt">+86.40</span></li>
+        </ol>
+        <div class="c-foot">
+          <span class="c-sum"><small>posted today</small><b data-c-total>$0.00</b></span>
+          <span class="c-bal"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>debits = credits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#proof" aria-label="Scroll to proof"><span></span></a>
+</header>
+
+<!-- ============ PROOF ============ -->
+<section class="proof" id="proof" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <p class="eyebrow wrap" data-reveal="fade">Trusted by payments teams who read their own post-mortems</p>
+  <div class="mk-marquee-wrap proof-marquee" aria-hidden="true">
+    <div data-marquee style="--marquee-gap:3.5rem; --marquee-duration:60s">
+      <span>Halcyon Treasury</span><i></i><span class="out">Kestrel Freight</span><i></i><span>Marlow Card Co.</span><i></i><span class="out">Tessera</span><i></i><span>Fathom Bank</span><i></i><span class="out">Brightline</span><i></i><span>Orchard Pay</span><i></i><span class="out">Vantor</span><i></i>
+    </div>
+  </div>
+  <ul class="stats wrap" data-stagger="70" data-inview>
+    <li><b data-count="38" data-count-prefix="$" data-count-suffix="B">$38B</b><span>annualised volume moved</span></li>
+    <li><b data-count="41" data-count-suffix=" ms">41 ms</b><span>p99 ledger write latency</span></li>
+    <li><b data-count="99.999" data-count-decimals="3" data-count-suffix="%">99.999%</b><span>API uptime, trailing 12 months</span></li>
+    <li><b data-count="2.1" data-count-decimals="1" data-count-suffix="B">2.1B</b><span>ledger entries posted per day</span></li>
+  </ul>
+  <p class="note wrap">Customer names and figures on this page are illustrative sample content.</p>
+</section>
+
+<!-- ============ STORY (pinned, scrubbed) ============ -->
+<section class="story" id="product" data-progress data-bg="#0A0C0B" data-ink="#ECEFE9" aria-label="How a payment lands">
+  <div class="story-stage">
+    <div class="story-in wrap">
+      <div class="story-copy">
+        <p class="eyebrow" data-reveal="fade">The product</p>
+        <h2 class="h2" data-title>One call. Four guarantees. <em>Every line balanced.</em></h2>
+        <ol class="steps">
+          <li class="step is-on" data-step="0"><span class="n">01</span><div><h3>Request</h3><p>Send one idempotent call. Retries are safe by construction.</p></div></li>
+          <li class="step" data-step="1"><span class="n">02</span><div><h3>Authorize</h3><p>Balances, limits and screening are checked and a hold is placed in 12&nbsp;ms.</p></div></li>
+          <li class="step" data-step="2"><span class="n">03</span><div><h3>Post</h3><p>Double-entry lines are written atomically. Debits must equal credits or nothing posts.</p></div></li>
+          <li class="step" data-step="3"><span class="n">04</span><div><h3>Settle</h3><p>The rail confirms, balances move and a signed webhook tells your system.</p></div></li>
+        </ol>
+        <div class="rail" aria-hidden="true"><i></i></div>
+      </div>
+
+      <div class="viz" aria-label="Animated diagram of a transfer moving through authorize, post and settle">
+        <svg class="pipe" viewBox="0 0 640 150" role="img" aria-label="Pipeline: your app, authorize, ledger, settle">
+          <path class="seg" style="--s:.04;--l:.25" pathLength="1" d="M78 62H210"/>
+          <path class="seg" style="--s:.29;--l:.25" pathLength="1" d="M254 62H386"/>
+          <path class="seg" style="--s:.54;--l:.25" pathLength="1" d="M430 62H562"/>
+          <path class="seg-bg" d="M78 62H210M254 62H386M430 62H562"/>
+          <g class="node" style="--a:.02" transform="translate(56 62)"><circle r="22"/><path class="glyph" d="M-7 -5l-5 5l5 5M7 -5l5 5l-5 5"/></g>
+          <g class="node" style="--a:.29" transform="translate(232 62)"><circle r="22"/><path class="glyph" d="M0 -9l8 3v6c0 5 -4 8 -8 10c-4 -2 -8 -5 -8 -10v-6z"/></g>
+          <g class="node" style="--a:.54" transform="translate(408 62)"><circle r="22"/><path class="glyph" d="M-9 -6h18M-9 0h18M-9 6h10"/></g>
+          <g class="node" style="--a:.79" transform="translate(584 62)"><circle r="22"/><path class="glyph" d="M-8 0l5 5l11 -11"/></g>
+          <g class="lat"><text x="144" y="46" style="--a:.15">12 ms</text><text x="320" y="46" style="--a:.4">9 ms</text><text x="496" y="46" style="--a:.65">17 ms</text></g>
+          <g class="lbl"><text x="56" y="116">your app</text><text x="232" y="116">authorize</text><text x="408" y="116">ledger</text><text x="584" y="116">settle</text></g>
+          <g class="packet"><circle class="halo" r="12"/><circle r="5"/></g>
+        </svg>
+
+        <div class="panels">
+          <div class="panel is-on" data-panel="0">
+            <div class="p-head"><span>request</span><b>POST /v1/transfers</b></div>
+<pre><span class="c">Idempotency-Key: 9f2c-41ab</span>
+<span class="p">{</span>
+  <span class="k">"from"</span><span class="p">:</span>     <span class="s">"acct_customer_204"</span><span class="p">,</span>
+  <span class="k">"to"</span><span class="p">:</span>       <span class="s">"acct_merchant_88"</span><span class="p">,</span>
+  <span class="k">"amount"</span><span class="p">:</span>   <span class="n">12500</span><span class="p">,</span>
+  <span class="k">"currency"</span><span class="p">:</span> <span class="s">"USD"</span><span class="p">,</span>
+  <span class="k">"rail"</span><span class="p">:</span>     <span class="s">"rtp"</span>
+<span class="p">}</span></pre>
+          </div>
+          <div class="panel" data-panel="1">
+            <div class="p-head"><span>authorize</span><b>202 hold placed</b></div>
+            <ul class="checks">
+              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Balance available <code>$487.50</code></li>
+              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Velocity limit <code>4 / 20 per hour</code></li>
+              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Sanctions screen <code>clear</code></li>
+              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Hold <code>hld_7Qm2 &middot; $125.00</code></li>
+            </ul>
+          </div>
+          <div class="panel" data-panel="2">
+            <div class="p-head"><span>journal</span><b>txn_01J9ZK &middot; atomic</b></div>
+            <table class="jt">
+              <tr><td class="dc dr">DR</td><td>acct_customer_204</td><td class="amt">125.00</td></tr>
+              <tr><td class="dc cr">CR</td><td>acct_merchant_88</td><td class="amt">121.88</td></tr>
+              <tr><td class="dc cr">CR</td><td>acct_ledgerline_fees</td><td class="amt">3.12</td></tr>
+              <tr class="sum"><td></td><td>&Sigma; debits = &Sigma; credits</td><td class="amt">125.00</td></tr>
+            </table>
+          </div>
+          <div class="panel" data-panel="3">
+            <div class="p-head"><span>settled</span><b>transfer.settled &middot; signed</b></div>
+<pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"trf_01J9ZK"</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"settled"</span><span class="p">,</span>
+  <span class="k">"rail_ms"</span><span class="p">:</span> <span class="n">1180</span><span class="p">,</span> <span class="k">"api_ms"</span><span class="p">:</span> <span class="n">38</span><span class="p">,</span>
+  <span class="k">"balances"</span><span class="p">:</span> <span class="p">{</span> <span class="k">"customer"</span><span class="p">:</span> <span class="n">36250</span><span class="p">,</span> <span class="k">"merchant"</span><span class="p">:</span> <span class="n">1288</span> <span class="p">}</span> <span class="p">}</span></pre>
+            <p class="stamp"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg> Ledger balanced</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLATFORM (bento) ============ -->
+<section class="sec platform" id="platform" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal="fade">Platform</p>
+      <h2 class="h2" data-title>Everything money needs, <em>none of the glue.</em></h2>
+      <p class="sub" data-reveal="up">A ledger, the rails and the plumbing between them, built as one system so your team stops writing reconciliation jobs.</p>
+    </div>
+
+    <div class="bento" data-stagger="70" data-inview>
+      <article class="tile t-ledger" data-spotlight>
+        <div class="tile-copy">
+          <h3>Double-entry ledgers, immutable by design</h3>
+          <p>Model wallets, escrow and fee accounts as a tree. Entries are append-only, every write is balanced and any past state can be reproduced.</p>
+        </div>
+        <div class="tile-vis acct-tree" aria-label="Sample account tree">
+          <div class="row"><span class="dot"></span><b>Treasury</b><code>$1,204,880.12</code></div>
+          <div class="row ind"><span class="dot"></span><b>Customer wallets</b><code>$894,310.40</code></div>
+          <div class="row ind2"><span class="dot"></span><b>acct_customer_204</b><code>$362.50</code></div>
+          <div class="row ind2"><span class="dot"></span><b>acct_customer_205</b><code>$1,980.00</code></div>
+          <div class="row ind"><span class="dot"></span><b>Escrow</b><code>$250,000.00</code></div>
+          <div class="row ind"><span class="dot dim"></span><b>Fees</b><code>$60,569.72</code></div>
+          <span class="lock"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>append-only</span>
+        </div>
+      </article>
+
+      <article class="tile t-rails" data-spotlight>
+        <h3>Real-time rails, one interface</h3>
+        <p>RTP, FedNow, SEPA Instant and cards behind the same call.</p>
+        <ul class="bars">
+          <li style="--w:.18"><span>Cards</span><i></i><code>0.9 s</code></li>
+          <li style="--w:.28"><span>RTP</span><i></i><code>1.2 s</code></li>
+          <li style="--w:.42"><span>FedNow</span><i></i><code>2.0 s</code></li>
+          <li style="--w:.66"><span>SEPA Inst.</span><i></i><code>3.4 s</code></li>
+        </ul>
+      </article>
+
+      <article class="tile t-idem" data-spotlight>
+        <h3>Idempotent by default</h3>
+        <p>Retry any request. You will never double-charge.</p>
+        <div class="idem" data-idem>
+          <div class="ir"><code>Idempotency-Key: 9f2c-41ab</code></div>
+          <div class="ir res"><span class="badge ok">201</span> Created <small>38 ms</small></div>
+          <div class="ir res retry"><span class="badge">200</span> Replayed, same response <small>4 ms</small></div>
+        </div>
+        <button class="chip-btn mk-button" type="button" data-idem-btn>Retry the request</button>
+      </article>
+
+      <article class="tile t-hooks" data-spotlight>
+        <h3>Webhooks that don't drop</h3>
+        <p>Signed, ordered and retried with backoff for 72 hours.</p>
+        <svg class="hooks" viewBox="0 0 280 74" role="img" aria-label="Delivery attempts: two failures then success">
+          <path class="hl" pathLength="1" d="M20 36H260"/>
+          <g class="ev"><circle class="bad" cx="30" cy="36" r="7"/><text x="30" y="62">1s</text></g>
+          <g class="ev"><circle class="bad" cx="90" cy="36" r="7"/><text x="90" y="62">+5s</text></g>
+          <g class="ev"><circle class="good" cx="190" cy="36" r="7"/><text x="190" y="62">+30s</text></g>
+          <path class="tick" d="M185.5 36.5l3 3l6 -6.5"/>
+          <path class="x" d="M26.5 32.5l7 7M33.5 32.5l-7 7M86.5 32.5l7 7M93.5 32.5l-7 7"/>
+        </svg>
+      </article>
+
+      <article class="tile t-time" data-spotlight>
+        <h3>Time-travel any balance</h3>
+        <p>Drag to read the ledger as of any moment.</p>
+        <div class="tt" data-time>
+          <svg viewBox="0 0 280 90" aria-hidden="true"><path class="area" d=""/><path class="line" d=""/><line class="cur" x1="0" x2="0" y1="6" y2="84"/><circle class="knob" r="4.5" cx="0" cy="0"/></svg>
+          <div class="tt-read"><code data-tt-t>14:00</code><b data-tt-v>$0.00</b></div>
+          <input type="range" min="0" max="100" value="72" aria-label="Ledger time" data-tt-range>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ API (tabs + code) ============ -->
+<section class="sec api" id="api" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <div class="wrap api-grid">
+    <div class="api-copy">
+      <p class="eyebrow" data-reveal="fade">The API</p>
+      <h2 class="h2" data-title>An API you would <em>design yourself.</em></h2>
+      <p class="sub" data-reveal="up">Small, predictable resources. Typed SDKs generated from one OpenAPI spec. Every response tells you exactly what happened to the money.</p>
+      <ul class="ticks" data-stagger="60">
+        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Idempotency keys on every write</li>
+        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Cursor pagination and expandable objects</li>
+        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Test mode with simulated rails and clocks</li>
+        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>SDKs for Node, Python, Go, Java and Ruby</li>
+      </ul>
+      <div class="install" data-reveal="up">
+        <code><span class="d">$</span> npm i @ledgerline/node</code>
+        <button type="button" class="copy mk-button" data-copy="npm i @ledgerline/node" aria-label="Copy install command"><svg viewBox="0 0 16 16"><rect x="5" y="5" width="8" height="8" rx="2"/><path d="M3 10V4a1 1 0 011-1h6"/></svg><span>Copy</span></button>
+      </div>
+    </div>
+
+    <div class="window" data-reveal="up" data-delay="120">
+      <div class="w-top">
+        <div class="tabs" role="tablist" aria-label="API examples">
+          <span class="tab-ink" aria-hidden="true"></span>
+          <button role="tab" id="tab-0" aria-controls="pane-0" aria-selected="true">Create account</button>
+          <button role="tab" id="tab-1" aria-controls="pane-1" aria-selected="false" tabindex="-1">Move money</button>
+          <button role="tab" id="tab-2" aria-controls="pane-2" aria-selected="false" tabindex="-1">Listen</button>
+        </div>
+        <button type="button" class="copy mk-button" data-copy-pane aria-label="Copy code"><svg viewBox="0 0 16 16"><rect x="5" y="5" width="8" height="8" rx="2"/><path d="M3 10V4a1 1 0 011-1h6"/></svg><span>Copy</span></button>
+      </div>
+
+      <div class="panes">
+        <div class="pane is-on" id="pane-0" role="tabpanel" aria-labelledby="tab-0">
+<pre class="code"><span class="ln" style="--n:0"><span class="k">import</span> Ledgerline <span class="k">from</span> <span class="s">'@ledgerline/node'</span>;</span>
+<span class="ln" style="--n:1"><span class="k">const</span> ll = <span class="k">new</span> <span class="f">Ledgerline</span>(process.env.<span class="v">LEDGERLINE_KEY</span>);</span>
+<span class="ln" style="--n:2"> </span>
+<span class="ln" style="--n:3"><span class="k">const</span> wallet = <span class="k">await</span> ll.accounts.<span class="f">create</span>({</span>
+<span class="ln" style="--n:4">  name: <span class="s">'Customer wallet'</span>,</span>
+<span class="ln" style="--n:5">  currency: <span class="s">'USD'</span>,</span>
+<span class="ln" style="--n:6">  normalBalance: <span class="s">'credit'</span>,</span>
+<span class="ln" style="--n:7">  metadata: { customer: <span class="s">'cus_204'</span> },</span>
+<span class="ln" style="--n:8">});</span></pre>
+          <div class="resp"><span class="r-tag">201</span><pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"acct_01J9ZK2"</span><span class="p">,</span> <span class="k">"balance"</span><span class="p">:</span> <span class="n">0</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"open"</span> <span class="p">}</span></pre><small>22 ms</small></div>
+        </div>
+        <div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1" hidden>
+<pre class="code"><span class="ln" style="--n:0"><span class="k">const</span> transfer = <span class="k">await</span> ll.transfers.<span class="f">create</span>({</span>
+<span class="ln" style="--n:1">  from: <span class="s">'acct_customer_204'</span>,</span>
+<span class="ln" style="--n:2">  to: <span class="s">'acct_merchant_88'</span>,</span>
+<span class="ln" style="--n:3">  amount: <span class="n">12_500</span>, <span class="c">// minor units</span></span>
+<span class="ln" style="--n:4">  currency: <span class="s">'USD'</span>,</span>
+<span class="ln" style="--n:5">  rail: <span class="s">'rtp'</span>,</span>
+<span class="ln" style="--n:6">}, { idempotencyKey: orderId });</span></pre>
+          <div class="resp"><span class="r-tag">201</span><pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"trf_01J9ZK"</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"settled"</span><span class="p">,</span> <span class="k">"latency_ms"</span><span class="p">:</span> <span class="n">38</span> <span class="p">}</span></pre><small>38 ms</small></div>
+        </div>
+        <div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+<pre class="code"><span class="ln" style="--n:0">app.<span class="f">post</span>(<span class="s">'/webhooks'</span>, ll.webhooks.<span class="f">verify</span>(), <span class="k">async</span> (req, res) =&gt; {</span>
+<span class="ln" style="--n:1">  <span class="k">const</span> event = req.event; <span class="c">// signature already checked</span></span>
+<span class="ln" style="--n:2">  <span class="k">if</span> (event.type === <span class="s">'transfer.settled'</span>) {</span>
+<span class="ln" style="--n:3">    <span class="k">await</span> <span class="f">markPaid</span>(event.data.reference);</span>
+<span class="ln" style="--n:4">  }</span>
+<span class="ln" style="--n:5">  res.<span class="f">sendStatus</span>(<span class="n">204</span>);</span>
+<span class="ln" style="--n:6">});</span></pre>
+          <div class="resp"><span class="r-tag">204</span><pre><span class="c">// acknowledged, delivered once, in order</span></pre><small>3 ms</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RELIABILITY & SECURITY (horizontal) ============ -->
+<section class="rel" id="reliability" data-hscroll data-bg="#0B1210" data-ink="#E9F0EC" aria-label="Reliability and security">
+  <div class="rel-stage">
+    <header class="rel-head wrap">
+      <div>
+        <p class="eyebrow">Reliability &amp; security</p>
+        <h2 class="h2" data-title>Built for the day <em>everything breaks.</em></h2>
+      </div>
+      <div class="rel-meter" aria-hidden="true"><span>scroll</span><i></i></div>
+    </header>
+    <div data-hscroll-track>
+      <article class="rcard">
+        <p class="r-k">Uptime</p>
+        <b class="r-big">99.999<small>%</small></b>
+        <p class="r-p">Trailing 12 months, measured at the API edge. Status history is public.</p>
+        <div class="uptime" aria-label="90 day uptime bars">
+          <!-- 90 bars filled by app.js -->
+        </div>
+        <p class="r-cap"><span>90 days ago</span><span>today</span></p>
+      </article>
+      <article class="rcard">
+        <p class="r-k">Latency</p>
+        <b class="r-big">41<small> ms</small></b>
+        <p class="r-p">p99 ledger write, including durable replication to a second region.</p>
+        <svg class="hist" viewBox="0 0 320 120" role="img" aria-label="Latency distribution">
+          <g class="hist-bars"></g>
+          <line x1="212" x2="212" y1="6" y2="112" class="p99"/>
+          <text x="216" y="16">p99</text>
+        </svg>
+        <p class="r-cap"><span>0 ms</span><span>80 ms</span></p>
+      </article>
+      <article class="rcard">
+        <p class="r-k">Regions</p>
+        <b class="r-big">3<small> active</small></b>
+        <p class="r-p">Active-active across independent regions. Lose one, keep posting. RPO zero, RTO under a minute.</p>
+        <svg class="regions" viewBox="0 0 320 150" role="img" aria-label="Three regions linked in a triangle">
+          <path class="lnk" d="M60 105L160 35L260 105Z"/>
+          <g class="rg"><circle cx="160" cy="35" r="11"/><text x="160" y="16">us-east</text></g>
+          <g class="rg"><circle cx="60" cy="105" r="11"/><text x="60" y="136">eu-west</text></g>
+          <g class="rg"><circle cx="260" cy="105" r="11"/><text x="260" y="136">ap-south</text></g>
+        </svg>
+      </article>
+      <article class="rcard">
+        <p class="r-k">Encryption</p>
+        <b class="r-big">256<small>-bit</small></b>
+        <p class="r-p">TLS 1.3 in flight, AES-256 at rest, per-tenant keys in HSMs with scheduled rotation.</p>
+        <ul class="keys">
+          <li><code>tenant_key_v7</code><span>active</span></li>
+          <li><code>tenant_key_v6</code><span class="old">rotated &middot; 14d</span></li>
+          <li><code>tenant_key_v5</code><span class="old">retired</span></li>
+        </ul>
+      </article>
+      <article class="rcard">
+        <p class="r-k">Audit</p>
+        <b class="r-big">0<small> edits</small></b>
+        <p class="r-p">Entries are hash-chained and append-only. Corrections are new entries, never overwrites.</p>
+        <div class="chain" aria-hidden="true">
+          <div class="blk"><code>7f3a</code></div><i></i><div class="blk"><code>c21d</code></div><i></i><div class="blk"><code>09be</code></div><i></i><div class="blk cur"><code>e4a7</code></div>
+        </div>
+      </article>
+      <article class="rcard last">
+        <p class="r-k">Compliance</p>
+        <b class="r-big">SOC 2<small> Type II</small></b>
+        <p class="r-p">PCI DSS Level 1, ISO 27001, annual penetration tests and a published responsible disclosure program. Reports available under NDA.</p>
+        <ul class="badges"><li>SOC 2</li><li>PCI L1</li><li>ISO 27001</li><li>GDPR</li></ul>
+        <a class="mk-link r-link" href="#start">Request the security pack</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO (reading highlight, page turns to paper) ============ -->
+<section class="manifesto" data-bg="#EEEBE2" data-ink="#10130F" aria-label="Principle">
+  <div class="wrap">
+    <p class="eyebrow">The principle</p>
+    <p class="mf" data-read>Every cent has an address. Every movement has a pair. Every pair <em>balances, forever.</em></p>
+  </div>
+</section>
+
+<!-- ============ CUSTOMERS (stacking cards) ============ -->
+<section class="sec cases" id="customers" data-bg="#EEEBE2" data-ink="#10130F">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal="fade">Customers</p>
+      <h2 class="h2" data-title>Teams who cannot afford <em>a wrong balance.</em></h2>
+    </div>
+    <div class="case-stack" data-stack>
+      <article class="case c-ink">
+        <div class="case-q">
+          <p class="case-no">01 / 03 &nbsp; Halcyon Treasury &middot; neobank</p>
+          <blockquote>&ldquo;We retired three internal ledgers and a reconciliation team's worth of spreadsheets. Month-end close went from nine days to forty minutes.&rdquo;</blockquote>
+          <p class="who"><b>Mara Ellison</b> VP Engineering</p>
+        </div>
+        <dl class="case-m">
+          <div><dt>Month-end close</dt><dd><span data-count="40">40</span><small> min</small></dd></div>
+          <div><dt>Unreconciled entries</dt><dd><span data-count="0">0</span></dd></div>
+          <div><dt>Migration</dt><dd><span data-count="6">6</span><small> weeks</small></dd></div>
+        </dl>
+      </article>
+      <article class="case c-lime">
+        <div class="case-q">
+          <p class="case-no">02 / 03 &nbsp; Kestrel Freight &middot; marketplace payouts</p>
+          <blockquote>&ldquo;Payouts to 140,000 carriers land in seconds, not on Fridays. The idempotency model alone deleted a whole class of incidents.&rdquo;</blockquote>
+          <p class="who"><b>Dev Okafor</b> Staff Engineer</p>
+        </div>
+        <dl class="case-m">
+          <div><dt>Carriers paid instantly</dt><dd><span data-count="140">140</span><small>k</small></dd></div>
+          <div><dt>Median payout</dt><dd><span data-count="2.1" data-count-decimals="1">2.1</span><small> s</small></dd></div>
+          <div><dt>Payment incidents</dt><dd><small>&minus;</small><span data-count="86">86</span><small>%</small></dd></div>
+        </dl>
+      </article>
+      <article class="case c-paper">
+        <div class="case-q">
+          <p class="case-no">03 / 03 &nbsp; Marlow Card Co. &middot; card issuing</p>
+          <blockquote>&ldquo;Authorization decisions read balances from Ledgerline in under twenty milliseconds, at four thousand requests a second on Black Friday.&rdquo;</blockquote>
+          <p class="who"><b>Ines Valdez</b> CTO</p>
+        </div>
+        <dl class="case-m">
+          <div><dt>Peak requests per second</dt><dd><span data-count="4000">4,000</span></dd></div>
+          <div><dt>Balance read p99</dt><dd><small>&lt;</small><span data-count="20">20</span><small> ms</small></dd></div>
+          <div><dt>Black Friday downtime</dt><dd><span data-count="0">0</span><small> s</small></dd></div>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="sec pricing" id="pricing" data-bg="#EEEBE2" data-ink="#10130F">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div>
+        <p class="eyebrow" data-reveal="fade">Pricing</p>
+        <h2 class="h2" data-title>Priced on volume, <em>not on surprises.</em></h2>
+      </div>
+      <div class="bill" role="group" aria-label="Billing period" data-reveal="fade">
+        <span class="bill-ink" aria-hidden="true"></span>
+        <button type="button" aria-pressed="true" data-bill="monthly">Monthly</button>
+        <button type="button" aria-pressed="false" data-bill="annual">Annual <small>&minus;20%</small></button>
+      </div>
+    </div>
+
+    <div class="est" data-reveal="up">
+      <label for="vol"><span>Monthly payment volume</span><b data-vol-out>$2.0M</b></label>
+      <input id="vol" type="range" min="0" max="100" value="38" data-vol>
+      <p class="est-note">Drag to see which plan fits and what it costs. Illustrative pricing.</p>
+    </div>
+
+    <div class="plans" data-stagger="80">
+      <article class="plan" data-plan="build">
+        <p class="plan-name">Build</p>
+        <p class="price"><b>$0</b><small>/ month</small></p>
+        <p class="plan-d">For prototypes and sandboxes. Production up to $100k a month in volume.</p>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Unlimited test mode</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>10 ledgers, 1 rail</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Community support</li>
+        </ul>
+        <p class="plan-est"><span>Your estimate</span><b data-est="build">$0</b></p>
+        <a class="btn btn-outline mk-button" href="#start">Start building</a>
+      </article>
+      <article class="plan feat" data-plan="scale">
+        <p class="plan-flag">Most teams</p>
+        <p class="plan-name">Scale</p>
+        <p class="price"><b data-base>$499</b><small>/ month + 0.10%</small></p>
+        <p class="plan-d">For products in production. Every rail, unlimited ledgers and a named engineer.</p>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>All rails and currencies</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>99.99% uptime SLA</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Shared Slack channel</li>
+        </ul>
+        <p class="plan-est"><span>Your estimate</span><b data-est="scale">$0</b></p>
+        <a class="btn btn-primary mk-button" data-magnetic="0.2" href="#start">Get your API key</a>
+      </article>
+      <article class="plan" data-plan="enterprise">
+        <p class="plan-name">Enterprise</p>
+        <p class="price"><b>Custom</b><small>from 0.04%</small></p>
+        <p class="plan-d">For regulated volume. Dedicated cells, private networking and your own audit cadence. Platform commit from $8k a month.</p>
+        <ul>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>99.999% uptime SLA</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>BYOK and data residency</li>
+          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>24/7 incident line</li>
+        </ul>
+        <p class="plan-est"><span>Your estimate</span><b data-est="enterprise">$0</b></p>
+        <a class="btn btn-outline mk-button" href="#start">Talk to engineering</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGN UP ============ -->
+<section class="cta" id="start" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <div class="wrap cta-grid">
+    <div>
+      <p class="eyebrow" data-reveal="fade">Start now</p>
+      <h2 class="cta-h" aria-label="Ship a real ledger this afternoon."><span class="cta-l" data-scramble data-scramble-duration="1000">Ship a real ledger</span><span class="cta-l em-s" data-scramble data-scramble-duration="1200" data-delay="160">this afternoon.</span></h2>
+      <p class="sub" data-reveal="up">Create a sandbox in under a minute. No card, no sales call. Just an API key and a ledger that balances.</p>
+      <form class="signup" novalidate data-reveal="up" data-delay="100">
+        <label class="sr" for="email">Work email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+        <button class="btn btn-primary btn-lg mk-button" data-magnetic="0.2" type="submit">Get API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5h10M9 4.5l4 4-4 4"/></svg></button>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+      <p class="fine" data-reveal="fade">Demo form: nothing is sent or stored.</p>
+    </div>
+    <div class="term" data-reveal="up" data-delay="160" aria-label="Terminal example">
+      <div class="c-bar"><span class="c-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="c-title">~/payments</span></div>
+      <pre data-term><span class="tl"><span class="d">$</span> <span data-type="npm i @ledgerline/node">npm i @ledgerline/node</span></span>
+<span class="tl"><span class="d">$</span> <span data-type="export LEDGERLINE_KEY=sk_test_••••••••">export LEDGERLINE_KEY=sk_test_••••••••</span></span>
+<span class="tl"><span class="d">$</span> <span data-type="node pay.js">node pay.js</span></span>
+<span class="tl out ok"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>trf_01J9ZK settled in 38 ms</span>
+<span class="tl out">ledger balanced &middot; 3 entries &middot; 0 drift</span></pre>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot" data-bg="#0A0C0B" data-ink="#ECEFE9">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M4 17h9" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" fill="none"/></svg><span>Ledgerline</span></a>
+        <p class="status-pill"><i></i> All systems operational</p>
+      </div>
+      <nav aria-label="Product"><h4>Product</h4><a class="mk-link" href="#product">How it works</a><a class="mk-link" href="#platform">Platform</a><a class="mk-link" href="#pricing">Pricing</a></nav>
+      <nav aria-label="Developers"><h4>Developers</h4><a class="mk-link" href="#api">API reference</a><a class="mk-link" href="#api">SDKs</a><a class="mk-link" href="#reliability">Status</a></nav>
+      <nav aria-label="Company"><h4>Company</h4><a class="mk-link" href="#customers">Customers</a><a class="mk-link" href="#reliability">Security</a><a class="mk-link" href="#start">Contact</a></nav>
+    </div>
+    <p class="wordmark" aria-hidden="true" data-reveal="clip">ledgerline</p>
+    <p class="legal">&copy; 2026 Ledgerline. A fictional product for design demonstration. All figures are illustrative.</p>
+  </div>
+</footer>
+
+<script src="prep.js"></script>
+</body>
+</html>

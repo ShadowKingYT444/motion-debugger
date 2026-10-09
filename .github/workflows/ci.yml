@@ -31,8 +31,8 @@ jobs:
         run: npm run test:e2e
       - name: Agent integration and temporal contract verification
         run: npm run test:v2:e2e
-      - name: Lifecycle integrity and actual source-repair browser regression
-        run: npm run test:coverage:browser && npm run test:repair:browser && npm run test:failure:browser
+      - name: Lifecycle integrity browser regression
+        run: npm run test:coverage:browser && npm run test:failure:browser
       - name: Page critique detects seeded defects and passes the kit-built control
         run: npm run test:critique:browser
       - name: Actor, review, authoring and transition upgrade regressions
@@ -46,16 +46,12 @@ jobs:
           npm run test:drag:browser
           npm run test:duration:browser
           npm run test:outcomes:browser
-      - name: SIGNAL desktop, mobile and reduced-motion visitor journeys
-        run: npm run test:rail:browser && npm run test:rail:viewer
       - name: ASSEMBLY native journeys and idle render regression
         run: npm run test:assembly:browser
       - name: Fresh packed consumer install and real browser smoke
         run: npm run test:install
-      - name: Saved study launcher and actual browser smoke
-        run: npm run test:workflow && npm run test:demo && npm run test:demo:browser && npm run test:ants:browser
-      - name: Record actual saved outputs for README
-        run: node scripts/study/record-demo.mjs
+      - name: Record the premium-motion A/B comparison films from the committed sites
+        run: node demos/record.mjs --out artifacts/showcase --no-gif
       - name: Upload browser evidence
         if: always()
         # Evidence upload is supplementary: a full Actions storage quota must not turn a passing
@@ -65,17 +61,11 @@ jobs:
         with:
           name: motion-evidence-${{ github.sha }}
           path: |
+            artifacts/showcase/
             artifacts/runs/
             artifacts/qa/
             artifacts/v2/
             artifacts/install/
-            artifacts/study-demo/
-            artifacts/study-videos/
-            artifacts/loop-viewer-downloads/
-            artifacts/repair-case/
-            artifacts/rail-viewer/
-            artifacts/rail-runs/
             artifacts/assembly/
-            artifacts/v2/coverage/
           if-no-files-found: warn
           retention-days: 7

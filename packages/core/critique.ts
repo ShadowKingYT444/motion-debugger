@@ -102,6 +102,16 @@ async function smoothScroll(page:Page,to:number,sample=false) {
   for(let index=0;index<steps;index++){await page.mouse.wheel(0,distance/steps);await sleep(16);if(sample&&index%3===2)await page.evaluate(critiqueVisibilitySampleScript).catch(()=>0)}
 }
 
+// Preloaders often lock the page (overflow hidden or a 100vh body) past the 3 s entrance window.
+// Wait, bounded, until the document can actually scroll before planning the scroll journey.
+const scrollStateScript=`(() => { const h = document.documentElement, b = document.body; const locked = [h, b].some(n => n && /hidden|clip/.test(getComputedStyle(n).overflowY)); return { height: document.scrollingElement.scrollHeight, locked }; })()`;
+async function scrollableHeight(page:Page,viewportHeight:number,maxWaitMs=6000) {
+  const started=Date.now();
+  let state=await page.evaluate(scrollStateScript) as {height:number;locked:boolean};
+  while((state.locked||state.height<=viewportHeight*1.05)&&Date.now()-started<maxWaitMs){await sleep(250);state=await page.evaluate(scrollStateScript) as {height:number;locked:boolean}}
+  return state.height;
+}
+
 /** Record a page like a visitor would: entrance, a full scroll, hovers and keyboard focus. */
 export async function critique(rawTarget:string,options:CritiqueOptions={}):Promise<CritiqueReport> {
   let served:{url:string;close:()=>Promise<void>}|undefined;let target=rawTarget;
@@ -132,7 +142,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         await sleep(600);await sampleVisibility(page);
         const sections=await page.evaluate(critiqueSectionsScript) as Array<{index:number;tag:string;id:string;cls:string;top:number;height:number}>;
         await setPhase(page,'scroll');
-        const docHeight=await page.evaluate('document.scrollingElement.scrollHeight') as number;
+        const docHeight=await scrollableHeight(page,DESKTOP.height);
         const stops:number[]=[];for(let y=Math.round(DESKTOP.height*.75);y<docHeight-DESKTOP.height*.5;y+=Math.round(DESKTOP.height*.75))stops.push(y);
         const sampled=stops.length>11?Array.from({length:11},(_,i)=>stops[Math.round(i*(stops.length-1)/10)]):stops;
         const scrollFrames:Array<{label:string;png:Buffer}>=[{label:'top (after entrance)',png:entrance[entrance.length-1].png}];
@@ -200,7 +210,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
       try{
         await page.goto(target,{waitUntil:'load',timeout:20000});await sleep(1800);await sampleVisibility(page);
         const frames:Array<{label:string;png:Buffer}>=[{label:'first viewport',png:await shot(page,path.join(outDir,'frames','mobile-0.jpg'))}];
-        const height=await page.evaluate('document.scrollingElement.scrollHeight') as number;
+        const height=await scrollableHeight(page,MOBILE.height);
         const stops=[.2,.4,.6,.8].map(fraction=>Math.round(fraction*(height-MOBILE.height)));
         for(const y of stops){await page.evaluate(`scrollTo(0,${y})`);await sleep(250);await smoothScroll(page,y+200,true);await sleep(700);await sampleVisibility(page);frames.push({label:`scrollY ≈${y+200}px`,png:await shot(page,path.join(outDir,'frames',`mobile-${y+200}.jpg`))})}
         await sampleVisibility(page);

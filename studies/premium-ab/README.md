@@ -1,6 +1,6 @@
 # Premium-motion A/B: does the plugin make agents build better motion sites?
 
-**Result:** with the plugin installed, Sonnet 5.5 builder agents produced sites that blinded judges rated more premium in 12 of 16 matched pairs. Control was rated higher in 2 pairs. The overall-premium score rose by 1.0 on a 10-point scale (exact sign-flip p = 0.005).
+**Result (batches 1–2, 16 pairs):** with the plugin installed, Sonnet 5.5 builder agents produced sites that blinded judges rated more premium in 12 of 16 matched pairs. Control was rated higher in 2 pairs. The overall-premium score rose by 1.0 on a 10-point scale (exact sign-flip p = 0.005).
 
 The gain shows up mainly in:
 
@@ -17,7 +17,7 @@ Visual design (+0.34) and hover polish (+0.34) did not reach significance. The p
 | Briefs | 4 premium marketing sites (`tasks.json`): Halo, a speaker launch; Ledgerline, a dev-first payments API; Atelier Norr, an architecture portfolio; Drift, an AI sleep app |
 | Arms | **control**: an empty project. **treatment**: the same prompt plus what an installation provides, namely the `premium-motion` skill folder, a one-paragraph `CLAUDE.md` pointer (the text `motion-debugger agents-md` prints) and the `motion-debugger` CLI |
 | Prompt | Identical in both arms ([`tasks.json`](tasks.json)). It asks for a top-tier site with high-quality motion, as a static `index.html` with CSS/JS. CDN fonts and libraries are allowed; external images are not |
-| Replication | 2 seeds × 4 briefs × 2 arms per batch, 2 batches, so **32 sites and 16 matched pairs** |
+| Replication | 2 seeds × 4 briefs × 2 arms per batch, 2 batches, so **32 sites and 16 matched pairs**. Batch 3 added one seed of each brief with plugin v3; it is reported separately below |
 | Plugin versions | Batch 1 used snapshot v1 (commit `fee3e29`). Batch 2 used snapshot v2 (commit `fea0080`), after fixing a kit bug and critic false positives that batch-1 agents surfaced. Snapshot hashes are in `results/batch*/plugin-snapshot-hashes.txt` |
 | Judges | **Opus 5.5** subagents, a different model from the builders, one per packet. They saw only neutral contact sheets rendered by the same recorder for both arms: entrance timeline, scroll journey, hover crops and mobile. No source code, critic findings or arm labels |
 | Blinding | Each pair was judged **twice with A/B swapped**, under unrelated packet ids in shuffled order. The key was sealed outside the judges' readable paths. Prompt: [`JUDGE_PROMPT.md`](JUDGE_PROMPT.md) |
@@ -76,6 +76,29 @@ From their own reports, critique passes made treatment agents fix:
 - missing hover states and tap targets
 
 Three batch-1 agents independently hit the same kit bug: `data-reveal="clip"` never fired, because a fully clipped element reports intersectionRatio 0. That bug was fixed for batch 2 and is covered by a regression fixture.
+
+## Batch 3: taste guide and scroll scenes (4 pairs, filmed)
+
+After batches 1–2, the plugin mostly removed defects rather than changing the agents' taste. Version 3 (commit `917ce99`) added [`TASTE.md`](../../plugin/motion-debugger/skills/premium-motion/TASTE.md): one motion personality per site, a written motion score, and an ambition floor of scrubbed scroll scenes, chapter transitions, kinetic type and a living visual. It also added kit attributes that make those scenes cheap to build: horizontal tracks, stacking cards, expanding media, hero exits, reading highlights, path drawing, scramble type, chapter colour themes and scroll velocity.
+
+Batch 3 ran one seed of each brief with the same prompt, builder model, judging protocol and statistics. Each site was also filmed with an identical scripted visit. The films and the sites themselves are in [`demos/`](../../demos/README.md).
+
+| Dimension (judge score 1–10) | Control mean | Treatment mean | Δ |
+| --- | --- | --- | --- |
+| Overall premium | 6.88 | 7.75 | **+0.88** |
+| Motion quality | 6.38 | 7.88 | **+1.50** |
+| Interaction polish | 5.75 | 7.25 | +1.50 |
+| Mobile robustness | 6.75 | 8.00 | +1.25 |
+| Visual design | 7.75 | 7.88 | +0.13 |
+
+- **Head-to-head:** treatment 6, control 2 across 8 judgments. Treatment won Norr, Halo and Ledgerline in both swapped judgments. The Drift control won both of its judgments at low confidence; judges preferred its richer moon-and-aurora hero.
+- **Position bias:** A was picked 4 times and B 4 times.
+- **Lint:** the critic's mean score was 51 for controls and 98 for treatment. Controls had 2 blocker or major findings per site and a mean cumulative layout shift of 1.04; treatment had none and 0.01.
+- **Significance:** four pairs cannot reach significance. The exact sign-flip test's smallest possible p is 0.125. Read batch 3 as a filmed illustration consistent with the 16-pair result, not as an independent confirmation.
+- **Controls were strong again.** Two of four used GSAP, ScrollTrigger and Lenis, and a third used Lenis. They built pinned scenes, horizontal galleries and canvas heroes. Each treatment site committed to one motion personality and built at least five distinct scroll scenes, by the agents' own reports. Every treatment site shows its hero within 0.5 s, while two controls held a 2–3 s counter preloader.
+- **Instrument fix during judging.** The first recording of the Norr control captured no scroll frames, because its preloader locked scrolling past the critic's 3 s entrance window. The critic now waits, up to 6 s, for scrolling to unlock (regression fixture `tests/fixtures/critique/preloader`). That site was re-recorded and both Norr packets were re-judged by fresh judges. The original verdicts are kept in `results/batch3/superseded/`, and the outcome did not change.
+
+Data: `results/batch3/` (verdicts, sealed key, metrics and contact sheets).
 
 ## Objective lint (secondary, not independent)
 

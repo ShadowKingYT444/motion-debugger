@@ -2,7 +2,11 @@
 
 Motion Debugger's main path for building pages is two pieces that work with any coding agent:
 
-1. **`premium-motion` skill**: concrete craft guidance. It covers art direction, a type, space and surface system, motion tokens, choreography rules and robustness rules. It ships with a dependency-free motion kit (`assets/motion-kit.js` and `assets/motion-kit.css`) and complete pattern code (`references/patterns.md`). The file is plain Markdown in the open Agent Skills format.
+1. **`premium-motion` skill**: concrete craft guidance in the open Agent Skills format.
+   - **`TASTE.md`** sets the ambition and keeps it coherent. The agent picks one motion personality (Silk, Kinetic, Cinematic or Soft), writes a motion score per chapter before coding, and meets an ambition floor: a layered hero that exits on scroll, at least two different scrubbed scroll scenes, chapter transitions, a kinetic type moment, a living visual, and tactile micro-interactions.
+   - **`SKILL.md`** covers art direction, the type, space and surface system, motion tokens, choreography and robustness rules, and the critique loop.
+   - **The motion kit** (`assets/motion-kit.js` and `assets/motion-kit.css`, no dependencies) turns those scenes into data attributes: reveals, split and scrambled type, counters, `data-progress` storytelling, horizontal tracks (`data-hscroll`), stacking cards (`data-stack`), expanding media (`data-expand`), hero exits (`data-exit`), reading highlights (`data-read`), path drawing (`data-draw`), chapter colour themes (`data-bg`/`data-ink`), a scroll `--velocity`, parallax, magnetic, spotlight, tilt and marquee. Each has a reduced-motion fallback, and the horizontal track becomes a swipe row on phones.
+   - **`references/patterns.md`** has complete code for bespoke moments.
 2. **`motion-debugger critique`**: gives the agent eyes. It opens a local page in Chromium at desktop (1440×900) and mobile (390×844), then:
    - records the entrance timeline
    - smooth-scrolls the whole page

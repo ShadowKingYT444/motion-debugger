@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier Norr — Timber architecture</title>
+<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes. Philosophy, selected projects, process, awards and contact.">
+<meta name="theme-color" content="#EFEAE0">
+<script>document.documentElement.classList.add('mk-js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="motion-kit.css">
+<link rel="stylesheet" href="styles.css">
+<!-- main.js first: it builds generated SVG (rings, boards) before the kit measures and wires everything -->
+<script src="main.js" defer></script>
+<script src="motion-kit.js" defer></script>
+</head>
+<body id="top">
+
+<!-- shared SVG resources (landscape, pine, grain) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="land" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice">
+      <rect x="-50" y="-50" width="600" height="600" style="fill:var(--sky)"/>
+      <circle cx="372" cy="128" r="36" fill="#FFF5E1" opacity=".85"/>
+      <path d="M-50 330 C 40 282 150 306 240 272 S 420 292 560 246 V560 H-50Z" style="fill:var(--far)"/>
+      <path d="M-50 384 C 90 338 210 372 320 340 S 470 352 560 336 V560 H-50Z" style="fill:var(--near)"/>
+      <rect x="-50" y="424" width="600" height="140" style="fill:var(--ground)"/>
+    </symbol>
+    <symbol id="pine" viewBox="0 0 20 40"><polygon points="10,0 19,20 14,20 20,33 11,33 11,40 9,40 9,33 0,33 6,20 1,20"/></symbol>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
+  </defs>
+</svg>
+
+<header class="nav" data-nav>
+  <a class="brand" href="#top" aria-label="Atelier Norr, back to top">
+    <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="16" cy="16.4" rx="14" ry="13.2"/><ellipse cx="16" cy="16.4" rx="9.6" ry="9"/><ellipse cx="16" cy="16.4" rx="5.2" ry="4.8"/></g><circle cx="16" cy="16.4" r="1.4" fill="currentColor"/></svg>
+    <span>Atelier Norr</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a class="mk-link" href="#philosophy">Philosophy</a>
+    <a class="mk-link" href="#anatomy">Anatomy</a>
+    <a class="mk-link" href="#projects">Projects</a>
+    <a class="mk-link" href="#process">Process</a>
+    <a class="mk-link" href="#awards">Awards</a>
+  </nav>
+  <a class="pill" href="#contact"><span>Contact</span><i class="arr" aria-hidden="true">→</i></a>
+  <span class="nav-progress" aria-hidden="true"></span>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" data-bg="#EFEAE0" data-ink="#1B1814" aria-labelledby="hero-title">
+  <div class="hero-inner wrap" data-exit>
+    <div class="hero-copy">
+      <p class="eyebrow" data-reveal="up" data-delay="60"><span class="dot"></span>Timber architecture · Trondheim &amp; Oslo</p>
+      <h1 id="hero-title" class="hero-title">
+        <span class="ln" style="--i:0"><span>Quiet buildings</span></span>
+        <span class="ln" style="--i:1"><span>from living</span></span>
+        <span class="ln" style="--i:2"><span><em>timber.</em></span></span>
+      </h1>
+    </div>
+
+    <figure class="hero-window" data-reveal="clip" data-delay="260">
+      <div class="gable" data-parallax="0.06">
+        <canvas id="rings" aria-hidden="true"></canvas>
+        <div class="gable-grain" aria-hidden="true"></div>
+      </div>
+      <svg class="gable-line" viewBox="0 0 100 132" preserveAspectRatio="none" aria-hidden="true" data-draw data-delay="900"><polyline points="0,132 0,21 50,0 100,21 100,132" vector-effect="non-scaling-stroke"/></svg>
+      <figcaption>Fig. 01 — Larch, end grain, 1 : 1</figcaption>
+    </figure>
+
+    <div class="hero-foot">
+      <p class="lede" data-reveal="up" data-delay="620">Atelier Norr designs timber civic buildings and homes across the North — structures made to stand for a century, and to look better for every winter they survive.</p>
+      <div class="cta-row" data-stagger="90" data-delay="760">
+        <span class="mag" data-magnetic="0.22"><a class="btn" href="#projects"><span class="btn-label">Selected projects</span><i class="arr" aria-hidden="true">↓</i></a></span>
+        <a class="mk-link text-link" href="#philosophy">Our philosophy</a>
+      </div>
+      <dl class="meta" data-stagger="80" data-delay="900">
+        <div><dt>Founded</dt><dd>2009</dd></div>
+        <div><dt>Built works</dt><dd>31</dd></div>
+        <div><dt>Structure</dt><dd>100% timber</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<section class="marquee-sec" data-bg="#EFEAE0" aria-label="Studio themes">
+  <div class="mk-marquee-wrap">
+    <div data-marquee style="--marquee-duration:55s; --marquee-gap:3.2rem">
+      <span class="mq">Timber</span><i class="mq-ring" aria-hidden="true"></i>
+      <span class="mq out">Light</span><i class="mq-ring" aria-hidden="true"></i>
+      <span class="mq">Stillness</span><i class="mq-ring" aria-hidden="true"></i>
+      <span class="mq out">Shelter</span><i class="mq-ring" aria-hidden="true"></i>
+      <span class="mq">Craft</span><i class="mq-ring" aria-hidden="true"></i>
+      <span class="mq out">The North</span><i class="mq-ring" aria-hidden="true"></i>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 PHILOSOPHY ============ -->
+<section id="philosophy" class="sec philosophy" data-bg="#121812" data-ink="#EDE7DA" data-progress>
+  <svg class="rings-art" id="ringsArt" viewBox="0 0 600 600" data-draw="scrub" aria-hidden="true"></svg>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal="up"><span class="dot"></span>01 — Studio philosophy</p>
+    <p class="manifesto" data-read>We believe a building should be the slowest thing in its landscape. We draw in timber because it remembers: every ring a winter survived, every joint a conversation between carpenter and architect. We design for the hundred years after the ribbon is cut.</p>
+
+    <div class="principles" data-stagger="120">
+      <article class="principle">
+        <span class="p-num">i.</span>
+        <h3>Grown, not extracted</h3>
+        <p>Our frames are glulam from managed Nordic forest, felled within 200 km of the site. Every building stores more carbon than it took to make.</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">ii.</span>
+        <h3>Honest joints</h3>
+        <p>Structure is the architecture. We leave the frame visible, cut the connections by hand-checked CNC, and never hide a bolt behind plasterboard.</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">iii.</span>
+        <h3>Built for the long dark</h3>
+        <p>Low winter sun, deep snow, short days. We shape every room around the light that is there, not the light we wish we had.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 ANATOMY (signature: pinned assembly) ============ -->
+<section id="anatomy" class="anatomy" data-bg="#E4DBC8" data-ink="#1B1814" data-progress aria-labelledby="anatomy-title">
+  <div class="stage">
+    <div class="stage-copy wrap-pad">
+      <p class="eyebrow"><span class="dot"></span>02 — Anatomy of a hall</p>
+      <h2 id="anatomy-title" class="h2">The frame <em>is</em> the building.</h2>
+      <div class="steps" id="steps">
+        <article class="step is-active" data-step="0">
+          <span class="step-no">01 / 04</span>
+          <h3>Plinth</h3>
+          <p>Granite footings lift the timber 300 mm off the ground. Dry feet are the whole secret to a five-hundred-year frame.</p>
+        </article>
+        <article class="step" data-step="1">
+          <span class="step-no">02 / 04</span>
+          <h3>Frame</h3>
+          <p>Glulam columns, a tie beam and paired rafters, raised in four days. Each joint is cut to a tolerance of a millimetre in our partner mill.</p>
+        </article>
+        <article class="step" data-step="2">
+          <span class="step-no">03 / 04</span>
+          <h3>Skin</h3>
+          <p>Open-spaced larch boards left to silver. The frame still reads through the rainscreen; the weather does the finishing.</p>
+        </article>
+        <article class="step" data-step="3">
+          <span class="step-no">04 / 04</span>
+          <h3>Light</h3>
+          <p>One wall of glass turns to the low southern sun. The hall holds its heat, and the timber glows from the inside.</p>
+        </article>
+      </div>
+      <ol class="rail" aria-hidden="true"><li>Plinth</li><li>Frame</li><li>Skin</li><li>Light</li></ol>
+    </div>
+
+    <div class="stage-art">
+      <svg class="hall" viewBox="0 0 800 560" role="img" aria-label="Section drawing of a timber hall assembling in four stages: plinth, glulam frame, larch skin and glazing.">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-width=".6" opacity=".16"/></pattern>
+          <radialGradient id="warm" cx="50%" cy="62%" r="55%"><stop offset="0" stop-color="#FFC77F" stop-opacity=".95"/><stop offset=".6" stop-color="#F0A25A" stop-opacity=".35"/><stop offset="1" stop-color="#F0A25A" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="800" height="560" fill="url(#grid)"/>
+
+        <!-- ground -->
+        <g class="part draw" style="--a:0;--b:.1"><line x1="40" y1="470" x2="760" y2="470" pathLength="1" class="ln-ground"/></g>
+        <g class="part fade" style="--a:.03;--b:.12"><path class="hatch" d="M64 470l-12 12M104 470l-12 12M144 470l-12 12M184 470l-12 12M224 470l-12 12M264 470l-12 12M304 470l-12 12M344 470l-12 12M384 470l-12 12M424 470l-12 12M464 470l-12 12M504 470l-12 12M544 470l-12 12M584 470l-12 12M624 470l-12 12M664 470l-12 12M704 470l-12 12M744 470l-12 12"/></g>
+
+        <!-- plinths -->
+        <g class="part rise stone" style="--a:.06;--b:.2">
+          <rect x="128" y="452" width="26" height="18"/><rect x="258" y="452" width="26" height="18"/><rect x="388" y="452" width="26" height="18"/><rect x="518" y="452" width="26" height="18"/><rect x="648" y="452" width="26" height="18"/>
+        </g>
+        <g class="part fade note" style="--a:.12;--b:.22"><text x="24" y="508">PLINTH</text><text x="24" y="522">GRANITE</text><path d="M76 502l50-40" class="leader"/></g>
+
+        <!-- columns -->
+        <g class="timber">
+          <rect class="part rise" style="--a:.2;--b:.32" x="133" y="290" width="16" height="162"/>
+          <rect class="part rise" style="--a:.24;--b:.36" x="263" y="220" width="16" height="232"/>
+          <rect class="part rise" style="--a:.28;--b:.4" x="393" y="150" width="16" height="302"/>
+          <rect class="part rise" style="--a:.32;--b:.44" x="523" y="220" width="16" height="232"/>
+          <rect class="part rise" style="--a:.36;--b:.48" x="653" y="290" width="16" height="162"/>
+        </g>
+        <g class="part fade note" style="--a:.38;--b:.46"><text x="688" y="372">GLULAM</text><text x="688" y="388">140 × 560</text><path d="M668 380h16" class="leader"/></g>
+
+        <!-- tie beam -->
+        <g class="part draw beam" style="--a:.48;--b:.57"><line x1="133" y1="290" x2="669" y2="290" pathLength="1" stroke-width="14"/></g>
+        <!-- rafters -->
+        <g class="part draw beam" style="--a:.54;--b:.66"><line x1="133" y1="290" x2="401" y2="146" pathLength="1" stroke-width="12"/></g>
+        <g class="part draw beam" style="--a:.56;--b:.68"><line x1="669" y1="290" x2="401" y2="146" pathLength="1" stroke-width="12"/></g>
+        <!-- braces -->
+        <g class="part draw brace" style="--a:.64;--b:.72"><line x1="401" y1="214" x2="335" y2="290" pathLength="1"/><line x1="401" y1="214" x2="467" y2="290" pathLength="1"/><line x1="271" y1="290" x2="331" y2="236" pathLength="1"/><line x1="531" y1="290" x2="471" y2="236" pathLength="1"/></g>
+        <!-- roof boards -->
+        <g class="part draw roofline" style="--a:.68;--b:.78"><line x1="124" y1="282" x2="401" y2="132" pathLength="1"/><line x1="678" y1="282" x2="401" y2="132" pathLength="1"/></g>
+        <g class="part fade note" style="--a:.7;--b:.78"><text x="470" y="108">RIDGE +7.4 m</text><path d="M401 132l60-20" class="leader"/></g>
+
+        <!-- cladding (generated) -->
+        <g class="boards" id="boards"></g>
+        <g class="part fade note" style="--a:.8;--b:.9"><text x="24" y="340">LARCH,</text><text x="24" y="354">OPEN-SPACED</text><path d="M100 360l44 24" class="leader" fill="none"/></g>
+
+        <!-- glazing -->
+        <g class="part glass" style="--a:.84;--b:.94">
+          <rect x="296" y="318" width="208" height="124"/>
+          <path d="M348 318v124M400 318v124M452 318v124M296 380h208" class="mullion"/>
+          <path d="M312 432l56-100M380 432l76-114" class="sheen"/>
+        </g>
+        <!-- warm interior light -->
+        <ellipse class="part glow" style="--a:.9;--b:1" cx="400" cy="400" rx="260" ry="170" fill="url(#warm)"/>
+        <g class="part fade note" style="--a:.92;--b:1"><text x="540" y="512" class="note-strong">SOUTH GLAZING</text><path d="M560 502L500 436" class="leader"/></g>
+
+        <!-- dimensions -->
+        <g class="part draw dim" style="--a:.1;--b:.3"><line x1="141" y1="526" x2="661" y2="526" pathLength="1"/><path d="M141 518v16M661 518v16" /></g>
+        <g class="part fade note" style="--a:.26;--b:.36"><text x="366" y="548">SPAN 18.0 m</text></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 PROJECTS (horizontal track) ============ -->
+<section id="projects" class="projects" data-bg="#1A1612" data-ink="#EDE7DA" data-hscroll aria-labelledby="projects-title">
+  <div class="pin">
+    <header class="proj-head wrap-pad">
+      <div>
+        <p class="eyebrow"><span class="dot"></span>03 — Selected projects</p>
+        <h2 id="projects-title" class="h2">Six buildings, <em>slowly</em> made.</h2>
+      </div>
+      <p class="proj-hint" aria-hidden="true"><span class="hint-bar"><i></i></span>Keep scrolling</p>
+    </header>
+
+    <div data-hscroll-track>
+
+      <figure class="proj" style="--k:0;--ar:4/5">
+        <div class="proj-art" style="--sky:#C9D3D6;--far:#A7B6B6;--near:#6F8478;--ground:#3E4A40;--pine:#33463B">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <use href="#pine" x="92" y="370" width="22" height="44" style="fill:var(--pine)"/><use href="#pine" x="400" y="352" width="28" height="56" style="fill:var(--pine)"/>
+            <polygon points="118,296 250,214 382,296" fill="#8A5630"/><polygon points="132,296 250,224 368,296" fill="#B87B47"/>
+            <rect x="136" y="296" width="228" height="130" fill="#C88C57"/>
+            <path d="M148 296V426M162 296V426M176 296V426M190 296V426M204 296V426M296 296V426M310 296V426M324 296V426M338 296V426M352 296V426" stroke="#8A5630" stroke-width="2" opacity=".55"/>
+            <polygon points="214,296 250,252 286,296" fill="#1E2A2E"/><rect x="214" y="320" width="72" height="104" fill="#1E2A2E"/><path d="M238 320v104M262 320v104M214 360h72" stroke="#C88C57" stroke-width="2"/>
+            <rect x="214" y="320" width="72" height="104" fill="#FFD58F" opacity=".22"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">01</span><div><h3>Tromsø Public Library</h3><p>Civic · Tromsø · 2023</p></div><span class="spec">4,200 m² · glulam</span></figcaption>
+      </figure>
+
+      <figure class="proj" style="--k:1;--ar:3/5">
+        <div class="proj-art" style="--sky:#EACBA6;--far:#C99C7C;--near:#7C5A4B;--ground:#3A2B27;--pine:#2E2220">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <use href="#pine" x="118" y="356" width="26" height="52" style="fill:var(--pine)"/><use href="#pine" x="146" y="378" width="20" height="40" style="fill:var(--pine)"/><use href="#pine" x="352" y="360" width="26" height="52" style="fill:var(--pine)"/>
+            <polygon points="172,430 250,198 328,430" fill="#8A5630"/><polygon points="186,430 250,224 314,430" fill="#C88C57"/>
+            <path d="M200 430L250 270M214 430L250 292M228 430L250 316M300 430L250 270M286 430L250 292M272 430L250 316" stroke="#8A5630" stroke-width="2" opacity=".5"/>
+            <polygon points="238,430 250,250 262,430" fill="#FFE8BE"/>
+            <rect x="160" y="426" width="180" height="8" fill="#2A1F1B"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">02</span><div><h3>Fjellstua Chapel</h3><p>Sacred · Lofoten · 2022</p></div><span class="spec">180 m² · larch</span></figcaption>
+      </figure>
+
+      <figure class="proj" style="--k:2;--ar:1/1">
+        <div class="proj-art" style="--sky:#D9DFCA;--far:#A8B79A;--near:#5F7452;--ground:#34402F;--pine:#26331F">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <use href="#pine" x="96" y="346" width="30" height="60" style="fill:var(--pine)"/><use href="#pine" x="376" y="338" width="34" height="68" style="fill:var(--pine)"/><use href="#pine" x="402" y="362" width="24" height="48" style="fill:var(--pine)"/>
+            <polygon points="112,342 384,296 384,314 112,360" fill="#8A5630"/>
+            <rect x="128" y="352" width="240" height="72" fill="#C88C57"/>
+            <path d="M140 352V424M154 352V424M168 352V424M182 352V424M338 352V424M352 352V424M324 352V424" stroke="#8A5630" stroke-width="2" opacity=".55"/>
+            <rect x="198" y="364" width="120" height="48" fill="#1E2A2E"/><rect x="198" y="364" width="120" height="48" fill="#FFD58F" opacity=".28"/><path d="M238 364v48M278 364v48" stroke="#C88C57" stroke-width="2"/>
+            <rect x="104" y="424" width="296" height="8" fill="#6E4527"/><path d="M120 432v18M200 432v18M280 432v18M380 432v18" stroke="#6E4527" stroke-width="4"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">03</span><div><h3>House at Nordvik</h3><p>Home · Nordvik · 2021</p></div><span class="spec">240 m² · pine, larch</span></figcaption>
+      </figure>
+
+      <figure class="proj" style="--k:3;--ar:5/4">
+        <div class="proj-art" style="--sky:#B3C3CE;--far:#8197A6;--near:#4B6273;--ground:#26343E;--pine:#1E2B34">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <rect x="96" y="304" width="312" height="14" fill="#8A5630"/><rect x="108" y="296" width="288" height="8" fill="#B87B47"/>
+            <rect x="112" y="318" width="280" height="102" fill="#1E2A2E"/><rect x="112" y="318" width="280" height="102" fill="#FFD58F" opacity=".18"/>
+            <path d="M124 318V420M148 318V420M172 318V420M196 318V420M220 318V420M244 318V420M268 318V420M292 318V420M316 318V420M340 318V420M364 318V420M388 318V420" stroke="#C88C57" stroke-width="7"/>
+            <rect x="84" y="420" width="336" height="9" fill="#6E4527"/>
+            <path d="M110 446h120M270 452h140M150 462h90M300 470h80" stroke="#fff" stroke-width="1.5" opacity=".18"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">04</span><div><h3>Havnehall Ferry Terminal</h3><p>Transport · Bodø · 2020</p></div><span class="spec">2,900 m² · glulam ribs</span></figcaption>
+      </figure>
+
+      <figure class="proj" style="--k:4;--ar:4/5">
+        <div class="proj-art" style="--sky:#F0E4CA;--far:#D3BD93;--near:#A08556;--ground:#54452B;--pine:#3F3320">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <use href="#pine" x="92" y="364" width="24" height="48" style="fill:var(--pine)"/>
+            <polygon points="116,320 166,268 166,320" fill="#8A5630"/><polygon points="166,320 216,268 216,320" fill="#8A5630"/><polygon points="216,320 266,268 266,320" fill="#8A5630"/><polygon points="266,320 316,268 316,320" fill="#8A5630"/><polygon points="316,320 366,268 366,320" fill="#8A5630"/>
+            <path d="M166 268v52M216 268v52M266 268v52M316 268v52M366 268v52" stroke="#FFE8BE" stroke-width="5"/>
+            <rect x="116" y="320" width="250" height="104" fill="#C88C57"/>
+            <path d="M130 320V424M146 320V424M162 320V424M178 320V424M194 320V424M210 320V424M226 320V424M242 320V424M258 320V424M274 320V424M290 320V424M306 320V424M322 320V424M338 320V424M354 320V424" stroke="#8A5630" stroke-width="2" opacity=".45"/>
+            <rect x="136" y="344" width="46" height="48" fill="#1E2A2E"/><rect x="204" y="344" width="46" height="48" fill="#1E2A2E"/><rect x="272" y="344" width="46" height="48" fill="#1E2A2E"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">05</span><div><h3>Birk School</h3><p>Education · Umeå · 2019</p></div><span class="spec">3,600 m² · CLT</span></figcaption>
+      </figure>
+
+      <figure class="proj" style="--k:5;--ar:1/1">
+        <div class="proj-art" style="--sky:#BDB5CA;--far:#8A839F;--near:#4F4A63;--ground:#2A2736;--pine:#1F1C2A">
+          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
+            <use href="#pine" x="90" y="366" width="22" height="44" style="fill:var(--pine)"/><use href="#pine" x="398" y="360" width="26" height="52" style="fill:var(--pine)"/>
+            <polygon points="170,336 250,282 330,336" fill="#8A5630"/>
+            <rect x="338" y="288" width="12" height="30" fill="#6E4527"/>
+            <rect x="184" y="336" width="132" height="62" fill="#C88C57"/>
+            <rect x="214" y="350" width="72" height="34" fill="#FFD58F" opacity=".82"/><path d="M250 350v34" stroke="#8A5630" stroke-width="2"/>
+            <path d="M196 398v26M304 398v26M250 398v26" stroke="#6E4527" stroke-width="5"/>
+            <rect x="84" y="424" width="170" height="7" fill="#6E4527"/>
+            <path d="M120 446h140M290 450h110M180 466h90" stroke="#fff" stroke-width="1.5" opacity=".18"/>
+            <circle cx="346" cy="268" r="9" fill="#fff" opacity=".18"/><circle cx="356" cy="248" r="13" fill="#fff" opacity=".12"/>
+            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
+          </svg>
+        </div>
+        <figcaption><span class="num">06</span><div><h3>Sauna Pavilion</h3><p>Hospitality · Hardanger · 2018</p></div><span class="spec">64 m² · alder</span></figcaption>
+      </figure>
+
+    </div>
+    <div class="track-line" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<!-- ============ 04 PROCESS (stacking cards) ============ -->
+<section id="process" class="sec process" data-bg="#EFEAE0" data-ink="#1B1814" aria-labelledby="process-title">
+  <div class="wrap">
+    <header class="process-head">
+      <p class="eyebrow" data-reveal="up"><span class="dot"></span>04 — Process</p>
+      <h2 id="process-title" class="h2" data-split="words">From the first walk to the <em>tenth winter.</em></h2>
+    </header>
+
+    <div class="cards" data-stack style="--stack-top:13vh;--stack-step:18px;--stack-gap:14vh">
+      <article class="pcard c1">
+        <div class="pc-no">01</div>
+        <div class="pc-body"><h3>Listen</h3><p>We spend a week with the people who will use the building, and a day in the weather that will use it harder. Briefs are written together, in pencil.</p><span class="pc-tag">Weeks 1–3</span></div>
+        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 70a30 30 0 0 1 30-30"/><path d="M28 70a42 42 0 0 1 42-42"/><path d="M16 70a54 54 0 0 1 54-54"/><circle cx="70" cy="70" r="5"/><path d="M110 98c20 0 32-12 32-30s-10-22-24-22"/><path d="M160 108c30 0 36-34 24-56"/></g></svg>
+      </article>
+      <article class="pcard c2">
+        <div class="pc-no">02</div>
+        <div class="pc-body"><h3>Read the site</h3><p>Sun paths, snow load, wind, soil and the line of the old fence. We survey in winter, when the ground is hardest to flatter.</p><span class="pc-tag">Weeks 3–8</span></div>
+        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 112h180"/><path d="M20 96C60 18 140 18 180 96" stroke-dasharray="3 4"/><circle cx="100" cy="30" r="8"/><path d="M20 120c30-8 50-4 80-10s60-6 80 0"/><path d="M20 128c30-8 50-4 80-10s60-6 80 0"/><path d="M84 112V92l16-12 16 12v20"/></g></svg>
+      </article>
+      <article class="pcard c3">
+        <div class="pc-no">03</div>
+        <div class="pc-body"><h3>Draw &amp; model</h3><p>Every scheme is built at 1:50 in birch ply before it is drawn on a screen. Light studies, load paths and joinery are tested by hand and by software.</p><span class="pc-tag">Months 2–6</span></div>
+        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M30 110L100 130 170 110V56L100 36 30 56Z"/><path d="M100 130V76M30 56l70 20 70-20"/><path d="M30 110L100 90 170 110" opacity=".6"/><path d="M62 40L100 14l38 26" /><path d="M100 14v22"/></g></svg>
+      </article>
+      <article class="pcard c4">
+        <div class="pc-no">04</div>
+        <div class="pc-body"><h3>Mill</h3><p>Glulam beams are cut to the millimetre in a mill an hour from the site, then dry-fitted in the yard. Nothing arrives that has not already been assembled once.</p><span class="pc-tag">Months 6–12</span></div>
+        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 50h160v40H20Z"/><path d="M20 50 52 50 60 62 72 62 80 50 120 50"/><path d="M52 90l8-12h12l8 12" /><path d="M28 70h40M110 70h62M110 60h62M110 80h62" opacity=".55"/><path d="M20 108h160M20 116h160" opacity=".4"/></g></svg>
+      </article>
+      <article class="pcard c5">
+        <div class="pc-no">05</div>
+        <div class="pc-body"><h3>Raise &amp; return</h3><p>The frame goes up in days, not months. We come back at one, five and ten years to listen again, oil the timber and learn what to draw differently.</p><span class="pc-tag">Year 1, 5 and 10</span></div>
+        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 120h180"/><path d="M40 120V70M100 120V40M160 120V70"/><path d="M40 70L100 36 160 70"/><path d="M40 90h120"/><path d="M70 120V96M130 120V96"/><circle cx="168" cy="26" r="9"/></g></svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 AWARDS ============ -->
+<section id="awards" class="sec awards" data-bg="#1D2A22" data-ink="#EDE7DA" aria-labelledby="awards-title">
+  <div class="wrap">
+    <header class="awards-head">
+      <div>
+        <p class="eyebrow" data-reveal="up"><span class="dot"></span>05 — Recognition</p>
+        <h2 id="awards-title" class="h2" data-split="words">Noticed, <em>quietly.</em></h2>
+      </div>
+      <dl class="stats" data-stagger="110">
+        <div><dt>Prizes won</dt><dd><span data-count="18">18</span></dd></div>
+        <div><dt>Timber stored, tonnes CO₂</dt><dd><span data-count="2840">2,840</span></dd></div>
+        <div><dt>Years of practice</dt><dd><span data-count="17">17</span></dd></div>
+      </dl>
+    </header>
+
+    <ul class="award-list" data-stagger="80">
+      <li class="award"><span class="a-year">2024</span><span class="a-name">The Arvid Prize for Civic Architecture</span><span class="a-proj">Tromsø Public Library</span><span class="a-rank">Grand Prize</span></li>
+      <li class="award"><span class="a-year">2024</span><span class="a-name">Fjord Timber Award</span><span class="a-proj">Tromsø Public Library</span><span class="a-rank">Winner</span></li>
+      <li class="award"><span class="a-year">2023</span><span class="a-name">Northern Light Medal</span><span class="a-proj">Fjellstua Chapel</span><span class="a-rank">Medal</span></li>
+      <li class="award"><span class="a-year">2022</span><span class="a-name">Hallmark Prize for Low-Carbon Building</span><span class="a-proj">House at Nordvik</span><span class="a-rank">Honour</span></li>
+      <li class="award"><span class="a-year">2021</span><span class="a-name">The Golden Larch</span><span class="a-proj">Havnehall Ferry Terminal</span><span class="a-rank">Gold</span></li>
+      <li class="award"><span class="a-year">2020</span><span class="a-name">Learning Spaces Prize</span><span class="a-proj">Birk School</span><span class="a-rank">Shortlist</span></li>
+    </ul>
+    <p class="fine">Studio, projects, awards and figures on this page are fictional and shown for illustration.</p>
+  </div>
+</section>
+
+<!-- ============ 06 CONTACT ============ -->
+<section id="contact" class="sec contact" data-bg="#110F0C" data-ink="#EDE7DA" aria-labelledby="contact-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal="up"><span class="dot"></span>06 — Contact</p>
+    <h2 id="contact-title" class="mega"><span class="mega-line" data-split="words">Let’s build</span><span class="mega-line" data-split="words" data-delay="160"><em>something slow.</em></span></h2>
+
+    <div class="contact-grid">
+      <div class="contact-cta" data-reveal="up">
+        <p>We take on four new commissions a year. Tell us about the site, the people and the weather.</p>
+        <span class="mag" data-magnetic="0.28"><a class="btn btn-lg" href="mailto:studio@atelier-norr.example"><span class="btn-label">Start a conversation</span><i class="arr" aria-hidden="true">→</i></a></span>
+        <a class="mk-link mail" href="mailto:studio@atelier-norr.example">studio@atelier-norr.example</a>
+      </div>
+      <div class="offices" data-stagger="110">
+        <address><h3>Trondheim</h3><p>Kjøpmannsgata 14<br>7013 Trondheim<br>+47 73 00 00 00</p></address>
+        <address><h3>Oslo</h3><p>Akerselva Studio, Hall B<br>0555 Oslo<br>+47 22 00 00 00</p></address>
+        <address><h3>Careers &amp; press</h3><p><a class="mk-link" href="mailto:people@atelier-norr.example">people@atelier-norr.example</a><br><a class="mk-link" href="mailto:press@atelier-norr.example">press@atelier-norr.example</a></p></address>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer" data-bg="#110F0C" data-ink="#EDE7DA">
+  <div class="wrap">
+    <p class="wordmark" data-split="chars" aria-label="Norr">Norr</p>
+    <div class="foot-row">
+      <span>© 2026 Atelier Norr AS. A fictional studio.</span>
+      <span>Drawn and built in the North.</span>
+      <a class="mk-link" href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* motion-kit.css — premium-motion skill (Motion Debugger). Pair with motion-kit.js.
+ * Tokens first: use them everywhere so the page has one motion voice. */
+:root {
+  --ease-out: cubic-bezier(.16, 1, .3, 1);      /* expo-out: arrivals, reveals */
+  --ease-out-soft: cubic-bezier(.22, 1, .36, 1); /* quint-out: UI state changes */
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);  /* on-screen moves, morphs */
+  --ease-in: cubic-bezier(.55, 0, 1, .45);      /* exits only */
+  --ease-spring: linear(0, .009, .035 2.1%, .141 4.4%, .723 12.9%, .938 16.7%, 1.017 19.6%, 1.067 22.7%, 1.077 24.7%, 1.07 27.2%, 1.015 34.6%, .997 40.3%, 1.001 50.1%, 1); /* overshoot for playful UI */
+  --dur-micro: 160ms;  /* hover, press, toggles */
+  --dur-ui: 280ms;     /* menus, tabs, small layout */
+  --dur-reveal: 800ms; /* content entering */
+  --dur-hero: 1100ms;  /* the one big moment */
+  --reveal-distance: 28px;
+}
+
+/* ---------- reveals (hidden state only applies once JS has run) ----------
+ * Reveals use the individual translate/scale properties, so an element's own `transform`
+ * (hover lift, magnetic, tilt) keeps working. The kit removes data-reveal once finished. */
+.mk-js [data-reveal] {
+  opacity: 0;
+  transition: opacity var(--dur-reveal) var(--ease-out), translate var(--dur-reveal) var(--ease-out), scale var(--dur-reveal) var(--ease-out), clip-path var(--dur-hero) var(--ease-out), filter var(--dur-reveal) var(--ease-out);
+  transition-delay: var(--mk-delay, 0ms);
+}
+.mk-js [data-reveal="up"], .mk-js [data-reveal=""] { translate: 0 var(--reveal-distance); }
+.mk-js [data-reveal="scale"] { scale: .94; }
+.mk-js [data-reveal="left"] { translate: calc(var(--reveal-distance) * -1.5) 0; }
+.mk-js [data-reveal="right"] { translate: calc(var(--reveal-distance) * 1.5) 0; }
+.mk-js [data-reveal="clip"] { opacity: 1; clip-path: inset(0 0 100% 0); scale: 1.06; transition-duration: var(--dur-hero); }
+.mk-js [data-reveal="blur"] { filter: blur(12px); translate: 0 12px; }
+.mk-js [data-reveal].is-in { opacity: 1; translate: none; scale: none; clip-path: inset(0 0 0 0); filter: none; }
+
+/* ---------- split text: each piece rises out of a mask ---------- */
+.mk-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.mk-word { display: inline-block; white-space: nowrap; }
+.mk-js [data-split] .mk-piece {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0) rotate(2deg);
+  transition: transform var(--dur-hero) var(--ease-out);
+  transition-delay: calc(var(--mk-delay, 0ms) + var(--i) * var(--split-gap, 60ms));
+}
+.mk-js [data-split].is-in .mk-piece { transform: none; }
+.mk-js [data-split][data-split="chars"] { --split-gap: 18ms; }
+.mk-js [data-split][data-split="lines"] { --split-gap: 110ms; }
+
+/* ---------- interaction primitives ---------- */
+.mk-button {
+  transition: transform var(--dur-micro) var(--ease-out-soft), background-color var(--dur-micro) linear, box-shadow var(--dur-ui) var(--ease-out-soft), color var(--dur-micro) linear;
+}
+.mk-button:hover { transform: translateY(-2px); }
+.mk-button:active { transform: translateY(0) scale(.97); transition-duration: 80ms; }
+.mk-link { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--dur-ui) var(--ease-out-soft); text-decoration: none; }
+.mk-link:hover, .mk-link:focus-visible { background-size: 100% 1px; }
+[data-magnetic] { transition: transform var(--dur-ui) var(--ease-out-soft); will-change: transform; }
+[data-tilt] { transition: transform var(--dur-ui) var(--ease-out-soft); transform-style: preserve-3d; }
+[data-spotlight] { position: relative; isolation: isolate; }
+[data-spotlight]::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--spotlight, rgb(255 255 255 / .09)), transparent 60%);
+  transition: opacity var(--dur-ui) linear;
+}
+[data-spotlight]:hover::before { opacity: 1; }
+[data-nav] { transition: transform var(--dur-ui) var(--ease-out-soft), background-color var(--dur-ui) linear, backdrop-filter var(--dur-ui) linear, box-shadow var(--dur-ui) linear; }
+[data-nav].is-hidden { transform: translateY(-110%); }
+:focus-visible { outline: 2px solid var(--focus, currentColor); outline-offset: 3px; }
+
+/* ---------- marquee ---------- */
+[data-marquee] { display: flex; width: max-content; gap: var(--marquee-gap, 4rem); animation: mk-marquee var(--marquee-duration, 40s) linear infinite; }
+.mk-marquee-wrap { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.mk-marquee-wrap:hover [data-marquee] { animation-play-state: paused; }
+@keyframes mk-marquee { to { transform: translate3d(calc(-50% - var(--marquee-gap, 4rem) / 2), 0, 0); } }
+
+/* ---------- scroll scenes ---------- */
+/* Horizontal track: the kit sizes the section and moves the track; the stage pins. */
+[data-hscroll-track] { display: flex; gap: var(--hscroll-gap, 24px); width: max-content; padding-inline: var(--hscroll-pad, 6vw); will-change: transform; }
+.mk-hscroll-on .mk-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+[data-hscroll]:not(.mk-hscroll-on) .mk-pin { overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+[data-hscroll]:not(.mk-hscroll-on) [data-hscroll-track] > * { scroll-snap-align: start; }
+
+/* Stacking cards: each pins a little lower than the last; covered cards recede and darken. */
+.mk-stack-card { position: sticky; top: calc(var(--stack-top, 12vh) + var(--i, 0) * var(--stack-step, 16px)); transform-origin: 50% 0; scale: calc(1 - var(--cover, 0) * .07); }
+.mk-stack-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: var(--stack-shade, #000); opacity: calc(var(--cover, 0) * .45); }
+[data-stack] { display: grid; gap: var(--stack-gap, 18vh); }
+
+/* Expanding media: an inset card that opens to full-bleed as its data-progress parent scrolls. */
+[data-expand] { --e: min(1, calc(var(--p, 0) * var(--expand-speed, 1.7))); clip-path: inset(calc((1 - var(--e)) * var(--expand-y, 16%)) calc((1 - var(--e)) * var(--expand-x, 24%)) round calc((1 - var(--e)) * var(--expand-radius, 28px))); }
+[data-expand] > * { scale: calc(1.18 - var(--e) * .18); }
+
+/* Hero exit: drifts up, shrinks a touch and fades as it leaves (after JS, never on reduced motion). */
+.mk-js [data-exit] { opacity: calc(1 - var(--exit, 0) * .9); translate: 0 calc(var(--exit, 0) * 18vh); scale: calc(1 - var(--exit, 0) * .06); transform-origin: 50% 0; }
+
+/* Reading highlight: words go from dim to full as the block is read. */
+[data-read] .mk-w { opacity: clamp(var(--read-dim, .2), calc((var(--read, 1) * 1.2 - var(--t, 0)) * 7), 1); transition: opacity 140ms linear; }
+
+/* Path drawing: one-shot on reveal, or scrubbed by the nearest --p. */
+.mk-js svg[data-draw] .mk-draw-path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--draw-duration, 1.6s) var(--ease-in-out); transition-delay: calc(var(--mk-delay, 0ms) + var(--di, 0) * var(--draw-gap, 120ms)); }
+.mk-js svg[data-draw].is-in .mk-draw-path { stroke-dashoffset: 0; }
+.mk-js svg[data-draw="scrub"] .mk-draw-path { stroke-dashoffset: calc(1 - min(1, var(--p, 0) * 1.25)); transition: none; }
+
+/* Scramble: hidden until its reveal starts so the real text never flashes first. */
+.mk-js [data-scramble]:not(.mk-live) { opacity: 0; }
+[data-scramble] { font-variant-numeric: tabular-nums; }
+
+/* Section themes: opt in by giving sections data-bg/data-ink; keep section backgrounds transparent. */
+.mk-themed body { background-color: var(--page-bg); color: var(--page-ink, inherit); transition: background-color 900ms var(--ease-in-out), color 900ms var(--ease-in-out); }
+
+/* Velocity: lean with the scroll. Put on a wrapper (it owns transform). */
+.mk-velocity-skew, .mk-marquee-wrap { transform: skewX(calc(var(--velocity, 0) * var(--skew, -10deg))); }
+
+/* ---------- reduced motion: keep content and state changes, drop travel ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mk-js [data-reveal], .mk-js [data-split] .mk-piece { transform: none !important; translate: none !important; scale: none !important; clip-path: none !important; filter: none !important; transition: opacity 300ms linear !important; }
+  [data-marquee] { animation: none; flex-wrap: wrap; width: auto; }
+  [data-parallax], [data-magnetic], [data-tilt], .mk-velocity-skew, .mk-marquee-wrap { transform: none !important; }
+  .mk-js [data-exit], [data-expand], [data-expand] > *, .mk-stack-card { translate: none !important; scale: none !important; opacity: 1 !important; clip-path: none !important; }
+  .mk-stack-card { position: relative; top: auto; } .mk-stack-card::after { display: none; }
+  .mk-js svg[data-draw] .mk-draw-path { stroke-dashoffset: 0 !important; transition: none !important; }
+  [data-read] .mk-w { opacity: 1 !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

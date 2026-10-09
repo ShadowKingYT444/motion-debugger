@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium-motion A/B</title>
+<style>
+  :root { --bg: #0b0b0c; --surface: #141416; --line: rgb(255 255 255 / .09); --ink: #f2f0ea; --muted: #a9a69e; --accent: #e8ff59; --ease: cubic-bezier(.22,1,.36,1); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1320px; margin: 0 auto; padding: clamp(40px, 7vw, 96px) 16px 96px; }
+  header { max-width: 760px; margin-bottom: clamp(40px, 6vw, 72px); }
+  .eyebrow { margin: 0 0 14px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  h1 { margin: 0 0 18px; font-size: clamp(2.2rem, 5vw, 3.75rem); line-height: 1.02; letter-spacing: -.035em; }
+  header p { margin: 0; color: var(--muted); max-width: 64ch; }
+  .pair { padding: 28px 0 56px; border-top: 1px solid var(--line); }
+  .pair h2 { margin: 0 0 6px; font-size: clamp(1.4rem, 2.6vw, 2rem); letter-spacing: -.02em; }
+  .pair .brief { margin: 0 0 20px; color: var(--muted); max-width: 80ch; }
+  video { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); background: #000; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; background: var(--surface); transition: transform 180ms var(--ease), border-color 180ms linear, background-color 180ms linear; }
+  .links a:hover { transform: translateY(-2px); border-color: rgb(255 255 255 / .28); }
+  .links a:active { transform: scale(.97); transition-duration: 80ms; }
+  .links a.with { background: var(--accent); color: #111; border-color: var(--accent); }
+  .links a.with:hover { background: #f3ffa8; }
+  .links .arrow { transition: transform 180ms var(--ease); } .links a:hover .arrow { transform: translate(2px, -2px); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 24px; }
+  footer a { color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .links a, .links .arrow { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Motion Debugger · premium-motion A/B</p>
+    <h1>Same prompt, same model. One had the plugin.</h1>
+    <p>Each film is one Sonnet 5.5 agent without the plugin (left) and one with the premium-motion skill, taste guide, motion kit and critic (right), building from the identical brief. Both sites get the same scripted visit in Chromium: the entrance, a pointer sweep, then a wheel scroll at a constant speed to the end. Open either site live to try it yourself.</p>
+  </header>
+  <div id="pairs"></div>
+  <footer>Recording method, prompts and the blinded judging are in <code>studies/premium-ab</code>. Films are real compositor frames resampled to 30 fps.</footer>
+</main>
+<script>
+  fetch('pairs.json').then((response) => response.json()).then(({ pairs }) => {
+    const root = document.getElementById('pairs');
+    for (const pair of pairs) {
+      const section = document.createElement('section');
+      section.className = 'pair';
+      section.innerHTML = `<h2></h2><p class="brief"></p>
+        <video controls muted playsinline preload="metadata" poster="${pair.id}/poster.jpg"><source src="${pair.id}/comparison.mp4" type="video/mp4"></video>
+        <div class="links"><a href="${pair.control}/" target="_blank" rel="noopener">Open without the plugin <span class="arrow">↗</span></a><a class="with" href="${pair.treatment}/" target="_blank" rel="noopener">Open with premium-motion <span class="arrow">↗</span></a></div>`;
+      section.querySelector('h2').textContent = pair.title;
+      section.querySelector('.brief').textContent = pair.brief;
+      root.append(section);
+    }
+  });
+</script>
+</body>
+</html>

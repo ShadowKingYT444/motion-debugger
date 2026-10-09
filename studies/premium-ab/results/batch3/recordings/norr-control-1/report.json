@@ -1,0 +1,7945 @@
+{
+  "url": "demos/norr/control",
+  "createdAt": "2026-10-09T05:43:05.288Z",
+  "score": 57,
+  "grade": "D",
+  "findings": [
+    {
+      "id": "entrance-not-staggered",
+      "severity": "major",
+      "area": "motion",
+      "title": "Entrance animations all start at once",
+      "evidence": "3 load animations share one start time; nothing leads the eye.",
+      "fix": "Give the entrance an order of importance: offset successive elements by 50–100ms (CSS `animation-delay: calc(var(--i) * 70ms)` or a JS stagger) so the headline lands first and supporting elements follow."
+    },
+    {
+      "id": "layout-shift",
+      "severity": "major",
+      "area": "layout",
+      "title": "Layout shifts while loading",
+      "evidence": "Cumulative layout shift 3.033.",
+      "fix": "Reserve space for images/media (width/height or aspect-ratio), load fonts with metric-matched fallbacks, and animate entrances with transform rather than inserting space."
+    },
+    {
+      "id": "low-contrast",
+      "severity": "major",
+      "area": "accessibility",
+      "title": "Text contrast is too low",
+      "evidence": "21/137 checked text elements fail WCAG AA, e.g. \"01 Studio philosophy\" 4.45:1, \"ii.\" 2.99:1, \"iii.\" 2.99:1.",
+      "fix": "Muted text still needs ≥4.5:1 (≥3:1 for 24px+). Raise lightness contrast of secondary text instead of lowering opacity."
+    },
+    {
+      "id": "layout-properties-animated",
+      "severity": "minor",
+      "area": "motion",
+      "title": "Layout properties are animated",
+      "evidence": "77 animations/transitions on top, height, left, width; 184 inline-style layout writes.",
+      "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr→1fr or measure once and animate a scale/clip."
+    },
+    {
+      "id": "slow-hover",
+      "severity": "minor",
+      "area": "interaction",
+      "title": "Hover feedback is sluggish",
+      "evidence": "2 hover transitions last over 600 ms (e.g. div#track > div.panel.panel-outro > a.outro-link > svg: 800 ms).",
+      "fix": "Hover/press feedback should start immediately and settle in 150–300ms; longer feels laggy under the pointer."
+    }
+  ],
+  "motion": {
+    "animations": 1431,
+    "byPhase": {
+      "load": 7,
+      "scroll": 765,
+      "hover": 659
+    },
+    "easings": {
+      "custom-curve": 1077,
+      "default-ease": 349
+    },
+    "durations": {
+      "p10": 350,
+      "median": 1400,
+      "p90": 1400
+    },
+    "properties": {
+      "transform": 991,
+      "opacity": 107,
+      "boxShadow": 1,
+      "top": 21,
+      "color": 221,
+      "backgroundColor": 24,
+      "background-color": 24,
+      "height": 20,
+      "left": 20,
+      "width": 20,
+      "borderBottomColor": 2,
+      "border-bottom-color": 2,
+      "borderLeftColor": 2,
+      "border-left-color": 2,
+      "borderRightColor": 2,
+      "border-right-color": 2,
+      "borderTopColor": 2,
+      "border-top-color": 2
+    },
+    "entranceSpanMs": 1400,
+    "entranceStartGroups": 1,
+    "jsMotionMutations": 11547,
+    "sectionCoverage": {
+      "sections": 7,
+      "withMotion": 7,
+      "missing": []
+    },
+    "hover": {
+      "tested": 8,
+      "responsive": 6,
+      "animated": 5,
+      "silent": [
+        "Atelier Norr",
+        "Selected work"
+      ]
+    },
+    "focus": {
+      "tested": 8,
+      "visible": 8
+    },
+    "reducedMotion": {
+      "rule": true,
+      "runningLongAnimations": 0,
+      "hiddenAfterScroll": 0
+    },
+    "frameStats": {
+      "scrollFrames": 1088,
+      "over32ms": 0,
+      "over50ms": 0,
+      "p95Ms": 16.8
+    },
+    "layoutShift": 3.033,
+    "longAnimationFrames": 2
+  },
+  "pages": {
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "docHeight": 13292,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 180,
+      "contrast": [
+        {
+          "selector": "section#philosophy > div.wrap > p.kicker",
+          "text": "01 Studio philosophy",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > div.principles > article.principle > span.p-num",
+          "text": "ii.",
+          "ratio": 2.99,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > div.principles > article.principle > span.p-num",
+          "text": "iii.",
+          "ratio": 2.99,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Buildings raised across Norway, Sweden &",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Of certified timber, storing carbon for ",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Years drawing in the north, from a forme",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Architects, engineers and carpenters in ",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "section#process > div.process-grid.wrap > div.process-sticky > p.kicker",
+          "text": "03 How we work",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "section#awards > div.wrap > div.awards-head > p.kicker",
+          "text": "04 Recognition",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "ul#awardList > li.award > span.a-year",
+          "text": "2025",
+          "ratio": 2.99,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 21,
+      "contrastChecked": 137,
+      "families": {
+        "Fraunces": 1043,
+        "Manrope": 3069
+      },
+      "bodySize": 12.48,
+      "h1Size": 132.48,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [],
+      "smallText": 0,
+      "media": {
+        "canvas": 1,
+        "video": 0,
+        "svg": 11,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 5,
+      "title": "Atelier Norr — Timber architecture, Trondheim"
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "docHeight": 11685,
+      "hidden": [],
+      "hiddenCount": 0,
+      "textElementCount": 178,
+      "contrast": [
+        {
+          "selector": "div.hero-inner > h1.hero-title > span.ln > span",
+          "text": "Buildings that",
+          "ratio": 1,
+          "need": 3
+        },
+        {
+          "selector": "div.hero-inner > h1.hero-title > span.ln > span",
+          "text": "grow slowly,",
+          "ratio": 1,
+          "need": 3
+        },
+        {
+          "selector": "div.hero-inner > h1.hero-title > span.ln > span",
+          "text": "and stand long.",
+          "ratio": 1,
+          "need": 3
+        },
+        {
+          "selector": "section#philosophy > div.wrap > p.kicker",
+          "text": "01 Studio philosophy",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > div.principles > article.principle > span.p-num",
+          "text": "ii.",
+          "ratio": 2.99,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > div.principles > article.principle > span.p-num",
+          "text": "iii.",
+          "ratio": 2.99,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Buildings raised across Norway, Sweden &",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Of certified timber, storing carbon for ",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Years drawing in the north, from a forme",
+          "ratio": 4.45,
+          "need": 4.5
+        },
+        {
+          "selector": "div.wrap > dl.stats > div > dd",
+          "text": "Architects, engineers and carpenters in ",
+          "ratio": 4.45,
+          "need": 4.5
+        }
+      ],
+      "contrastFailures": 24,
+      "contrastChecked": 140,
+      "families": {
+        "Fraunces": 1089,
+        "Manrope": 2986
+      },
+      "bodySize": 12.48,
+      "h1Size": 52.65,
+      "longLines": [],
+      "overflowX": 0,
+      "wide": [],
+      "clipped": [],
+      "smallTargets": [
+        {
+          "selector": "button#motionToggle",
+          "w": 139,
+          "h": 36
+        },
+        {
+          "selector": "section#contact > footer.footer.wrap > a",
+          "w": 80,
+          "h": 21
+        }
+      ],
+      "smallText": 1,
+      "media": {
+        "canvas": 1,
+        "video": 0,
+        "svg": 11,
+        "img": 0
+      },
+      "reducedMotionRule": true,
+      "interactiveCount": 4,
+      "title": "Atelier Norr — Timber architecture, Trondheim"
+    }
+  },
+  "images": {
+    "hover": "hover.png",
+    "desktopEntrance": "desktop-entrance.png",
+    "desktopScroll": "desktop-scroll.png",
+    "desktopFull": "desktop-full.jpg",
+    "mobile": "mobile.png"
+  },
+  "notes": [
+    "Desktop journey took 31.1s",
+    "External origins requested: https://fonts.googleapis.com, https://cdnjs.cloudflare.com, https://cdn.jsdelivr.net, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+  ],
+  "animations": [
+    {
+      "id": 1,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "breathe",
+      "target": "section#hero > svg.hero-art > g.sun-wrap > circle.sun-halo",
+      "duration": 9000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 86,
+      "docTop": 140,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 2,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "pulse",
+      "target": "section#hero > div.hero-inner > p.eyebrow > span.dot",
+      "duration": 2400,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "boxShadow"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 86,
+      "docTop": 294,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 3,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "cue",
+      "target": "div.hero-inner > div.hero-foot > a.scroll-cue > span.cue-line::after",
+      "duration": 2200,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "top"
+      ],
+      "keyframeEasings": [
+        "cubic-bezier(0.22, 0.8, 0.2, 1)"
+      ],
+      "seenAt": 86,
+      "docTop": 801,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 4,
+      "phase": "load",
+      "kind": "CSSAnimation",
+      "name": "marq",
+      "target": "main#top > div.marquee > div.marquee-track",
+      "duration": 38000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 86,
+      "docTop": 921,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 5,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 250,
+      "docTop": 2635,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 6,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 250,
+      "docTop": 2635,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 7,
+      "phase": "load",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "ol#steps > li.step.is-active",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 250,
+      "docTop": 5984,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 8,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5310,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 9,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5333,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 10,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5340,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 11,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5366,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 12,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5370,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 13,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5399,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 14,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5400,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 15,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5430,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 16,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5449,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 17,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5460,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 18,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5483,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 19,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5490,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 20,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5516,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 21,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5520,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 22,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5549,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 23,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5550,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 24,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5580,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 25,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5599,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 26,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5610,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 27,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5632,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 28,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5640,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 29,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5666,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 30,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5670,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 31,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5699,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 32,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5700,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 33,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5730,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 34,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5749,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 35,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5760,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 36,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5782,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 37,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5790,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 38,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5816,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 39,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5820,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 40,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5849,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 41,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5850,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 42,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5880,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 43,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5899,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 44,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5910,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 45,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5933,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 46,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5940,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 47,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5966,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 48,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5970,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 49,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 5999,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 50,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6000,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 51,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6030,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 52,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6049,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 53,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6060,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 54,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6082,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 55,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6090,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 56,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6116,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 57,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6120,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 58,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6149,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 59,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6150,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 60,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6180,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 61,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6199,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 62,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6210,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 63,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6232,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 64,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6240,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 65,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6266,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 66,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6270,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 67,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6299,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 68,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6300,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 69,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6330,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 70,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6349,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 71,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6360,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 72,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6382,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 73,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6390,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 74,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6416,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 75,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6420,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 76,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6449,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 77,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6450,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 78,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6480,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 79,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6499,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 80,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6510,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 81,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6532,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 82,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6540,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 83,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6566,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 84,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6570,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 85,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6599,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 86,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6600,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 87,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6630,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 88,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6649,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 89,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6660,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 90,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6682,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 91,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6690,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 92,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6716,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 93,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6720,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 94,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6749,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 95,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6750,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 96,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6780,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 97,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6799,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 98,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6810,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 99,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6833,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 100,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6840,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 101,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6866,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 102,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6870,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 103,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "opacity",
+      "target": "section#hero > svg.hero-art > g.hall > path.hall-glow",
+      "duration": 1000,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "opacity"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 6899,
+      "docTop": 650,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 104,
+      "phase": "scroll",
+      "kind": "CSSAnimation",
+      "name": "breathe",
+      "target": "section#hero > svg.hero-art > g.sun-wrap > circle.sun-halo",
+      "duration": 9000,
+      "delay": 0,
+      "iterations": "infinite",
+      "easing": "linear",
+      "properties": [
+        "transform",
+        "opacity"
+      ],
+      "keyframeEasings": [
+        "ease-in-out"
+      ],
+      "seenAt": 6906,
+      "docTop": 140,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 105,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "header#header",
+      "duration": 600,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 7199,
+      "docTop": 329,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 106,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9630,
+      "docTop": 2651,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 107,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9630,
+      "docTop": 2659,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 108,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "header#header",
+      "duration": 400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9649,
+      "docTop": 2427,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 109,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9649,
+      "docTop": 2673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 110,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9649,
+      "docTop": 2688,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 111,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9660,
+      "docTop": 2704,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 112,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9660,
+      "docTop": 2725,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 113,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9666,
+      "docTop": 2482,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 114,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9683,
+      "docTop": 2516,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 115,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9683,
+      "docTop": 2732,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 116,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9683,
+      "docTop": 2759,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 117,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9690,
+      "docTop": 2757,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 118,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9690,
+      "docTop": 2788,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 119,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9699,
+      "docTop": 2545,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 120,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9716,
+      "docTop": 2582,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 121,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9716,
+      "docTop": 2790,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 122,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9716,
+      "docTop": 2825,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 123,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9720,
+      "docTop": 2821,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 124,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9720,
+      "docTop": 2860,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 125,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9732,
+      "docTop": 2617,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 126,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9750,
+      "docTop": 2647,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 127,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9750,
+      "docTop": 2847,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 128,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9750,
+      "docTop": 2882,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 129,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9751,
+      "docTop": 2883,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 130,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9751,
+      "docTop": 2914,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 131,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9766,
+      "docTop": 2686,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 132,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9780,
+      "docTop": 2915,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 133,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9780,
+      "docTop": 2943,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 134,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9783,
+      "docTop": 2721,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 135,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9799,
+      "docTop": 2752,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 136,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9799,
+      "docTop": 2944,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 137,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9799,
+      "docTop": 2969,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 138,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9810,
+      "docTop": 2981,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 139,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9810,
+      "docTop": 3003,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 140,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9816,
+      "docTop": 2791,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 141,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9833,
+      "docTop": 2827,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 142,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9833,
+      "docTop": 3015,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 143,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9833,
+      "docTop": 3035,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 144,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9840,
+      "docTop": 3044,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 145,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9840,
+      "docTop": 3062,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 146,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9849,
+      "docTop": 2858,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 147,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9866,
+      "docTop": 2898,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 148,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9866,
+      "docTop": 3083,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 149,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9866,
+      "docTop": 3098,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 150,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9870,
+      "docTop": 3117,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 151,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9870,
+      "docTop": 3131,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 152,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9882,
+      "docTop": 2934,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 153,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9899,
+      "docTop": 2966,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 154,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9899,
+      "docTop": 3148,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 155,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9899,
+      "docTop": 3161,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 156,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9901,
+      "docTop": 3177,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 157,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9901,
+      "docTop": 3188,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 158,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9916,
+      "docTop": 2996,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 159,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9930,
+      "docTop": 3204,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 160,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9930,
+      "docTop": 3214,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 161,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9933,
+      "docTop": 3024,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 162,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9949,
+      "docTop": 3048,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 163,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9949,
+      "docTop": 3227,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 164,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9949,
+      "docTop": 3236,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 165,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9960,
+      "docTop": 3250,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 166,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9960,
+      "docTop": 3257,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 167,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9966,
+      "docTop": 3071,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 168,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9983,
+      "docTop": 3091,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 169,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9983,
+      "docTop": 3269,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 170,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9983,
+      "docTop": 3276,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 171,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9990,
+      "docTop": 3288,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 172,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9990,
+      "docTop": 3295,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 173,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 9999,
+      "docTop": 3111,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 174,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10016,
+      "docTop": 3128,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 175,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10016,
+      "docTop": 3305,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 176,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10016,
+      "docTop": 3310,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 177,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10020,
+      "docTop": 3320,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 178,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10020,
+      "docTop": 3325,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 179,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10033,
+      "docTop": 3144,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 180,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "color",
+      "target": "nav#nav > a.nav-cta",
+      "duration": 350,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "ease",
+      "properties": [
+        "color"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10049,
+      "docTop": 3158,
+      "inView": false,
+      "onHovered": false
+    },
+    {
+      "id": 181,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10049,
+      "docTop": 3334,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 182,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10049,
+      "docTop": 3338,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 183,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10049,
+      "docTop": 3401,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 184,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10051,
+      "docTop": 3348,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 185,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10051,
+      "docTop": 3351,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 186,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10051,
+      "docTop": 3415,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 187,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10080,
+      "docTop": 3359,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 188,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10080,
+      "docTop": 3363,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 189,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10080,
+      "docTop": 3427,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 190,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10099,
+      "docTop": 3370,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 191,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10099,
+      "docTop": 3373,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 192,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10099,
+      "docTop": 3438,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 193,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10110,
+      "docTop": 3380,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 194,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10110,
+      "docTop": 3382,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 195,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10110,
+      "docTop": 3448,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 196,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10132,
+      "docTop": 3388,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 197,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10132,
+      "docTop": 3391,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 198,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10133,
+      "docTop": 3457,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 199,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10140,
+      "docTop": 3397,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 200,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10141,
+      "docTop": 3399,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 201,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10141,
+      "docTop": 3458,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 202,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10166,
+      "docTop": 3404,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 203,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10166,
+      "docTop": 3406,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 204,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10166,
+      "docTop": 3458,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 205,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10170,
+      "docTop": 3412,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 206,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10170,
+      "docTop": 3414,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 207,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10170,
+      "docTop": 3460,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 208,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10199,
+      "docTop": 3418,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 209,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10199,
+      "docTop": 3419,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 210,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10199,
+      "docTop": 3460,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 211,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10201,
+      "docTop": 3424,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 212,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10201,
+      "docTop": 3425,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 213,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10201,
+      "docTop": 3462,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 214,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10230,
+      "docTop": 3428,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 215,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10230,
+      "docTop": 3430,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 216,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10230,
+      "docTop": 3463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 217,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10249,
+      "docTop": 3434,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 218,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10249,
+      "docTop": 3435,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 219,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10249,
+      "docTop": 3465,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 220,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10260,
+      "docTop": 3438,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 221,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10260,
+      "docTop": 3439,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 222,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10260,
+      "docTop": 3465,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 223,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10282,
+      "docTop": 3442,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 224,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10282,
+      "docTop": 3443,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 225,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10282,
+      "docTop": 3466,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 226,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10290,
+      "docTop": 3446,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 227,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10290,
+      "docTop": 3447,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 228,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10290,
+      "docTop": 3467,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 229,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10316,
+      "docTop": 3449,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 230,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10316,
+      "docTop": 3450,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 231,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10316,
+      "docTop": 3468,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 232,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10320,
+      "docTop": 3453,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 233,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10320,
+      "docTop": 3454,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 234,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10320,
+      "docTop": 3470,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 235,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10349,
+      "docTop": 3455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 236,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10349,
+      "docTop": 3455,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 237,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10349,
+      "docTop": 3470,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 238,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10351,
+      "docTop": 3458,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 239,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10351,
+      "docTop": 3458,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 240,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10351,
+      "docTop": 3471,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 241,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10380,
+      "docTop": 3460,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 242,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10380,
+      "docTop": 3460,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 243,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10380,
+      "docTop": 3472,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 244,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10399,
+      "docTop": 3463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 245,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10399,
+      "docTop": 3463,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 246,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10399,
+      "docTop": 3473,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 247,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10410,
+      "docTop": 3465,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 248,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10410,
+      "docTop": 3465,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 249,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10410,
+      "docTop": 3474,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 250,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10432,
+      "docTop": 3466,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 251,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10432,
+      "docTop": 3466,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 252,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10432,
+      "docTop": 3474,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 253,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10440,
+      "docTop": 3468,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 254,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10440,
+      "docTop": 3468,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 255,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10440,
+      "docTop": 3475,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 256,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10466,
+      "docTop": 3470,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 257,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10466,
+      "docTop": 3470,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 258,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10466,
+      "docTop": 3476,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 259,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10470,
+      "docTop": 3471,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 260,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10470,
+      "docTop": 3471,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 261,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10470,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 262,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10499,
+      "docTop": 3472,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 263,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10499,
+      "docTop": 3472,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 264,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10499,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 265,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10501,
+      "docTop": 3474,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 266,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10501,
+      "docTop": 3474,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 267,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10501,
+      "docTop": 3478,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 268,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10530,
+      "docTop": 3475,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 269,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10530,
+      "docTop": 3475,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 270,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10530,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 271,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10549,
+      "docTop": 3476,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 272,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10549,
+      "docTop": 3476,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 273,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10549,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 274,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10560,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 275,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10560,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 276,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10560,
+      "docTop": 3480,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 277,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10582,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 278,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10582,
+      "docTop": 3477,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 279,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10582,
+      "docTop": 3480,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 280,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10590,
+      "docTop": 3478,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 281,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10590,
+      "docTop": 3478,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 282,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10590,
+      "docTop": 3480,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 283,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10616,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 284,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10616,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 285,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10616,
+      "docTop": 3481,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 286,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10620,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 287,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10620,
+      "docTop": 3479,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 288,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10620,
+      "docTop": 3481,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 289,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10649,
+      "docTop": 3489,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 290,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10649,
+      "docTop": 3489,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 291,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10649,
+      "docTop": 3490,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 292,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10651,
+      "docTop": 3499,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 293,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10651,
+      "docTop": 3499,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 294,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10651,
+      "docTop": 3500,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 295,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10680,
+      "docTop": 3507,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 296,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10680,
+      "docTop": 3507,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 297,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10680,
+      "docTop": 3508,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 298,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10699,
+      "docTop": 3525,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 299,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10699,
+      "docTop": 3525,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 300,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10699,
+      "docTop": 3526,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 301,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10710,
+      "docTop": 3542,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 302,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10710,
+      "docTop": 3542,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 303,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10710,
+      "docTop": 3543,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 304,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10733,
+      "docTop": 3556,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 305,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10733,
+      "docTop": 3556,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 306,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10733,
+      "docTop": 3557,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 307,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10740,
+      "docTop": 3579,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 308,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10740,
+      "docTop": 3579,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 309,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10741,
+      "docTop": 3579,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 310,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10766,
+      "docTop": 3600,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 311,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10766,
+      "docTop": 3600,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 312,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10766,
+      "docTop": 3600,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 313,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10770,
+      "docTop": 3619,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 314,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10770,
+      "docTop": 3619,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 315,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10770,
+      "docTop": 3619,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 316,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10799,
+      "docTop": 3647,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 317,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10799,
+      "docTop": 3647,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 318,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10799,
+      "docTop": 3647,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 319,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 3673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 320,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 3673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 321,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10801,
+      "docTop": 3673,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 322,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10830,
+      "docTop": 3695,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 323,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10830,
+      "docTop": 3695,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 324,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10830,
+      "docTop": 3695,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 325,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10849,
+      "docTop": 3726,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 326,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10849,
+      "docTop": 3726,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 327,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10849,
+      "docTop": 3726,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 328,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10860,
+      "docTop": 3755,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 329,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10860,
+      "docTop": 3755,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 330,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10860,
+      "docTop": 3755,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 331,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10883,
+      "docTop": 3779,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 332,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10883,
+      "docTop": 3779,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 333,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10883,
+      "docTop": 3779,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 334,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10890,
+      "docTop": 3813,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 335,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10890,
+      "docTop": 3813,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 336,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10890,
+      "docTop": 3813,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 337,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10916,
+      "docTop": 3842,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 338,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10916,
+      "docTop": 3842,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 339,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10916,
+      "docTop": 3842,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 340,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10920,
+      "docTop": 3870,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 341,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10920,
+      "docTop": 3870,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 342,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10920,
+      "docTop": 3870,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 343,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10949,
+      "docTop": 3896,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 344,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10949,
+      "docTop": 3896,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 345,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10949,
+      "docTop": 3896,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 346,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10950,
+      "docTop": 3919,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 347,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10950,
+      "docTop": 3919,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 348,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10951,
+      "docTop": 3919,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 349,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10980,
+      "docTop": 3940,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 350,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10980,
+      "docTop": 3940,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 351,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10980,
+      "docTop": 3940,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 352,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10980,
+      "docTop": 4010,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 353,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10999,
+      "docTop": 3959,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 354,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10999,
+      "docTop": 3959,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 355,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10999,
+      "docTop": 3959,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 356,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 10999,
+      "docTop": 4029,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 357,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11010,
+      "docTop": 3977,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 358,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11010,
+      "docTop": 3977,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 359,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11010,
+      "docTop": 3977,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 360,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11010,
+      "docTop": 4047,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 361,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11032,
+      "docTop": 3993,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 362,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11032,
+      "docTop": 3993,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 363,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11032,
+      "docTop": 3993,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 364,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11032,
+      "docTop": 4063,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 365,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11040,
+      "docTop": 4008,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 366,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11040,
+      "docTop": 4008,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 367,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11040,
+      "docTop": 4008,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 368,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11040,
+      "docTop": 4078,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 369,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11066,
+      "docTop": 4021,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 370,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11066,
+      "docTop": 4021,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 371,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11066,
+      "docTop": 4021,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 372,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11066,
+      "docTop": 4091,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 373,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11070,
+      "docTop": 4033,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 374,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11070,
+      "docTop": 4033,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 375,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11070,
+      "docTop": 4033,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 376,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11070,
+      "docTop": 4095,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 377,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11099,
+      "docTop": 4045,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 378,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11099,
+      "docTop": 4045,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 379,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11099,
+      "docTop": 4045,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 380,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11099,
+      "docTop": 4100,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 381,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11100,
+      "docTop": 4055,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 382,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11100,
+      "docTop": 4055,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 383,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11100,
+      "docTop": 4055,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 384,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11100,
+      "docTop": 4104,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 385,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11130,
+      "docTop": 4064,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 386,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11130,
+      "docTop": 4064,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 387,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11130,
+      "docTop": 4064,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 388,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11130,
+      "docTop": 4107,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 389,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11149,
+      "docTop": 4073,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 390,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11149,
+      "docTop": 4073,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 391,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11149,
+      "docTop": 4112,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 392,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11160,
+      "docTop": 4081,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 393,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11160,
+      "docTop": 4081,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 394,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11160,
+      "docTop": 4115,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 395,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11182,
+      "docTop": 4088,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 396,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11183,
+      "docTop": 4088,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 397,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11183,
+      "docTop": 4119,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 398,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11190,
+      "docTop": 4095,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 399,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11190,
+      "docTop": 4095,
+      "inView": true,
+      "onHovered": false
+    },
+    {
+      "id": 400,
+      "phase": "scroll",
+      "kind": "CSSTransition",
+      "name": "transform",
+      "target": "div#track > article.card > div.card-art > svg",
+      "duration": 1400,
+      "delay": 0,
+      "iterations": 1,
+      "easing": "cubic-bezier(0.22, 0.8, 0.2, 1)",
+      "properties": [
+        "transform"
+      ],
+      "keyframeEasings": [],
+      "seenAt": 11190,
+      "docTop": 4122,
+      "inView": true,
+      "onHovered": false
+    }
+  ]
+}

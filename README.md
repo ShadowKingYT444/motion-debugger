@@ -18,10 +18,10 @@
 
 Motion Debugger helps coding agents ship **premium, art-directed websites with high-quality motion**, and makes them look at the real result. It has two parts that work in any agent:
 
-- **`premium-motion` skill.** Concrete craft guidance: art direction, a type/space/surface system, motion tokens, choreography and robustness rules. It ships with a dependency-free motion kit and pattern code (hero sequences, pinned scroll stories, bento spotlights, path drawing, horizontal galleries).
+- **`premium-motion` skill.** A taste guide plus concrete craft guidance. The agent picks one motion personality, writes a motion score for every chapter, and meets an ambition floor: a layered hero that exits on scroll, scrubbed scroll scenes, chapter colour transitions, kinetic type, a living visual and tactile micro-interactions. A dependency-free motion kit turns those into data attributes: pinned stories, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, scramble type, velocity skew, magnetic and spotlight effects.
 - **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile and records the entrance, a full scroll, hovers, keyboard focus and reduced motion. It returns findings with specific fixes, plus contact sheets the agent reads to *see* its own page.
 
-**Measured effect:** in a blinded 16-pair A/B, agents with the plugin built sites that judges rated more premium in 12 of 16 pairs, with significantly better motion and mobile robustness. See [Results](#results).
+**Measured effect:** in a blinded 16-pair A/B, agents with the plugin built sites that judges rated more premium in 12 of 16 pairs, with significantly better motion and mobile robustness. [Watch the side-by-side films](#results).
 
 ```sh
 motion-debugger critique ./site                   # a folder with index.html, or an .html file
@@ -65,18 +65,39 @@ For a portable installation, run `npm pack`, then install the resulting tarball 
 
 ## Results
 
-In a blinded A/B, Sonnet 5.5 agents built 32 sites: 4 briefs, 4 seeds, with and without the plugin. Opus 5.5 judges compared each matched pair twice with positions swapped and saw only neutral recordings.
+Same prompt, same builder model (Sonnet 5.5), one fresh agent per site. Left: an empty project. Right: the `premium-motion` skill, taste guide, kit and critic. Each film is the same scripted visit recorded in Chromium: the entrance, a pointer sweep, then a wheel scroll at constant speed. Playback is 1.6× for the preview.
 
-| Judged on (1–10) | With plugin vs without | Pairs won (plugin / control) | p |
+**Atelier Norr: architecture studio**
+
+![Atelier Norr, without vs with premium-motion](demos/norr/comparison.gif)
+
+**Ledgerline: payments API**
+
+![Ledgerline, without vs with premium-motion](demos/ledgerline/comparison.gif)
+
+**Halo: wireless speaker launch**
+
+![Halo, without vs with premium-motion](demos/halo/comparison.gif)
+
+**Drift: AI sleep coach** (the one pair where judges preferred the control)
+
+![Drift, without vs with premium-motion](demos/drift/comparison.gif)
+
+Full-length MP4 films and every site are in [`demos/`](demos/README.md); run `motion-debugger demo` to open them live.
+
+### Blinded judging
+
+Opus 5.5 judges compared each matched pair twice with positions swapped. They saw only neutral recordings and no code, arm labels or critic output.
+
+| Judged on (1–10) | 16 pairs, plugin v1–v2: Δ | p | 4 filmed pairs, v3 with taste guide: Δ |
 | --- | --- | --- | --- |
-| Overall premium feel | **+1.0** | 12 / 2 | 0.005 |
-| Motion quality | **+1.34** | 14 / 1 | 0.0004 |
-| Mobile robustness | **+1.0** | 9 / 3 | 0.02 |
-| Visual design | +0.34 | 8 / 2 | 0.07 |
+| Overall premium feel | **+1.0** (12 pairs won / 2 lost) | 0.005 | +0.88 (3 / 1) |
+| Motion quality | **+1.34** (14 / 1) | 0.0004 | +1.50 |
+| Mobile robustness | **+1.0** (9 / 3) | 0.02 | +1.25 |
+| Interaction polish | +0.34 | 0.36 | +1.50 |
+| Visual design | +0.34 | 0.07 | +0.13 |
 
-Every control site had at least one blocker or major defect that the critic flags: content that never appears, reduced-motion visitors losing content, mobile overflow, layout shift, low contrast or controls with no hover feedback. No plugin site did.
-
-![Same brief and builder model: control (top) vs premium-motion + critique (bottom)](studies/premium-ab/results/norr-1-scroll-comparison.jpg)
+Every control site in the 16-pair study had at least one blocker or major defect that the critic flags: content that never appears, reduced-motion visitors losing content, mobile overflow, layout shift, low contrast or controls with no hover feedback. No plugin site did. Four pairs are too few for significance on their own; the filmed batch illustrates the effect rather than proving it independently.
 
 [Method, statistics, threats to validity and every verdict](studies/premium-ab/README.md)
 
@@ -109,7 +130,7 @@ Example prompt for any agent:
 ## How it works
 
 1. **Art-direct.** The skill makes the agent commit to an audience, a concept, one signature moment, a palette and type before writing code.
-2. **Build with a system.** Motion tokens, a choreographed hero, scroll-linked storytelling, and hover/press/focus states on every control. The kit handles reveals, split text, counters, progress, parallax, magnetic, spotlight and marquee effects with reduced-motion and no-JS fallbacks.
+2. **Build with a system.** One motion personality, a written motion score, motion tokens, a choreographed hero, at least two different scrubbed scroll scenes, chapter transitions, and hover/press/focus states on every control. The kit handles reveals, split and scrambled text, counters, pinned progress, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, chapter themes, scroll velocity, parallax, magnetic, spotlight and marquee effects, all with reduced-motion and no-JS fallbacks.
 3. **Look.** `critique` records what actually moved and how it was eased and staggered. It checks whether motion reaches every section, whether controls answer hover and focus, and whether anything stays invisible, overflows on mobile, lacks contrast or janks. The contact sheets show the real page.
 4. **Refine.** The agent fixes blockers first, then the biggest visible craft gap, and critiques again (at least two passes).
 
@@ -135,6 +156,6 @@ Recordings and reports stay local in `.motion-evidence/`. Capture trusted, crede
 motion-debugger demo
 ```
 
-Open the printed URL to explore the bundled examples, or **http://127.0.0.1:4173/ab/** for the railway workflow A/B. Both apps and the original desktop/mobile films ship in the tarball. Switch between live apps and recorded journeys; play, pause and seek both films with one control. The checkout also offers `npm run demo:rail` on port 4123.
+Open **http://127.0.0.1:4173/ab/** to play the four comparison films and open every agent-built site live. The root URL has the original transition-debugging examples. The sites and films are also in [`demos/`](demos/README.md); `npm run demo:record` re-records the films from the committed sites.
 
 [Premium motion](docs/PREMIUM-MOTION.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)

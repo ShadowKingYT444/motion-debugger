@@ -18,6 +18,7 @@ Motion Debugger supplies temporal browser evidence to coding agents. Keep the re
 - `packages/cli`: package installation, configuration, diagnostics, demo and evidence commands
 - `plugin/motion-debugger/skills/premium-motion`: the craft skill and motion kit agents use for pages and sites
 - `studies/premium-ab`: the blinded agent A/B harness, evidence and results; keep judges blind and report pair-level statistics
+- `demos`: agent-built control/treatment sites with side-by-side films recorded by `demos/record.mjs`; never hand-edit the sites, re-record films after any change
 - `src/examples`: original animated fixtures; honor reduced motion and provide pause/replay
 - `tests`: regression, transport, installation and browser verification
 
