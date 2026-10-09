@@ -4,7 +4,7 @@ import path from 'node:path';
 import {chromium,type Browser,type BrowserContext,type Page} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
 import {validateLocalUrl} from './safety';
-import {critiqueInitScript,critiqueSectionMotionScript,critiqueSectionsScript,critiqueStaticScript} from './critique-probe';
+import {critiqueInitScript,critiqueSectionMotionScript,critiqueSectionsScript,critiqueStaticScript,critiqueVisibilitySampleScript} from './critique-probe';
 
 // motion critique: a provider-neutral visual + motion lint for a local page. It records what
 // actually moved (Web Animations, CSS transitions, inline-style JS motion), how it was timed and
@@ -90,12 +90,16 @@ async function newPage(browser:Browser,viewport:{width:number;height:number},opt
   page.on('requestfailed',request=>{const reason=request.failure()?.errorText??'';if(!reason.includes('BLOCKED_BY_CLIENT')&&!reason.includes('blockedbyclient'))failed.push(`request failed: ${request.url().slice(0,160)} ${reason}`)});
   return {context,page,external,failed};
 }
+const sampleVisibility=(page:Page):Promise<unknown>=>page.evaluate(critiqueVisibilitySampleScript).catch(()=>0);
+// Same-origin external scripts count too: most pages check matchMedia from a separate file.
+const reducedMotionInScripts=(page:Page)=>page.evaluate(`Promise.all([...document.scripts].filter(s => s.src && new URL(s.src).origin === location.origin).map(s => fetch(s.src).then(r => r.text()).catch(() => ''))).then(texts => texts.some(t => /prefers-reduced-motion/.test(t)))`).catch(()=>false) as Promise<boolean>;
 const setPhase=(page:Page,phase:string)=>page.evaluate(`window.__mc&&(window.__mc.phase=${JSON.stringify(phase)})`);
 const shot=async(page:Page,file?:string)=>page.screenshot({type:'jpeg',quality:72,...(file?{path:file}:{})});
 
-async function smoothScroll(page:Page,to:number) {
+async function smoothScroll(page:Page,to:number,sample=false) {
   const from=await page.evaluate('scrollY') as number;const distance=to-from;const steps=Math.max(1,Math.ceil(Math.abs(distance)/120));
-  for(let index=0;index<steps;index++){await page.mouse.wheel(0,distance/steps);await sleep(16)}
+  // Optional sampling every ~360px catches scroll-linked states that sit between settled stops.
+  for(let index=0;index<steps;index++){await page.mouse.wheel(0,distance/steps);await sleep(16);if(sample&&index%3===2)await page.evaluate(critiqueVisibilitySampleScript).catch(()=>0)}
 }
 
 /** Record a page like a visitor would: entrance, a full scroll, hovers and keyboard focus. */
@@ -110,7 +114,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
   const add=(finding:CritiqueFinding)=>findings.push(finding);
   let animations:RecordedAnimation[]=[];let mutations:Record<string,{count:number;layout:number;motion:number;elements:Record<string,number>}>={};
   let coverage={sections:0,withMotion:0,missing:[] as string[]};let hover={tested:0,responsive:0,animated:0,silent:[] as string[]};let focus={tested:0,visible:0};
-  let frameStats:CritiqueReport['motion']['frameStats']=null;let layoutShift=0,longFrames=0;let reduced:CritiqueReport['motion']['reducedMotion']=null;
+  let frameStats:CritiqueReport['motion']['frameStats']=null;let reducedHidden:Array<{selector:string;text:string}>=[];let layoutShift=0,longFrames=0;let reduced:CritiqueReport['motion']['reducedMotion']=null;
   const runtimeErrors=new Set<string>();const externalOrigins=new Set<string>();
   try{
     // ---------- desktop: entrance, scroll, hover, focus ----------
@@ -125,7 +129,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
           const elapsed=Date.now()-started;const png=await shot(page,path.join(outDir,'frames',`desktop-entrance-${String(elapsed).padStart(4,'0')}ms.jpg`));entrance.push({label:`t≈${elapsed} ms`,png});
         }
         await page.waitForLoadState('load',{timeout:10000}).catch(()=>notes.push('Desktop load event did not fire within 10 s'));
-        await sleep(600);
+        await sleep(600);await sampleVisibility(page);
         const sections=await page.evaluate(critiqueSectionsScript) as Array<{index:number;tag:string;id:string;cls:string;top:number;height:number}>;
         await setPhase(page,'scroll');
         const docHeight=await page.evaluate('document.scrollingElement.scrollHeight') as number;
@@ -135,14 +139,16 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         let previous=0;
         for(const y of sampled){
           // Scroll through intermediate stops too, so scroll-linked effects see continuous input.
-          await smoothScroll(page,y);await sleep(700);
+          await smoothScroll(page,y,true);await sleep(700);
           const actual=await page.evaluate('Math.round(scrollY)') as number;if(actual===previous&&y>previous+50){notes.push(`Scrolling stalled at ${actual}px (page may hijack or lock scroll)`);break}previous=actual;
+          await sampleVisibility(page);
           scrollFrames.push({label:`scrollY ${actual}px`,png:await shot(page,path.join(outDir,'frames',`desktop-scroll-${String(actual).padStart(5,'0')}.jpg`))});
         }
-        await smoothScroll(page,docHeight);await sleep(700);
+        await smoothScroll(page,docHeight,true);await sleep(700);await sampleVisibility(page);
         const sectionMotion=await page.evaluate(critiqueSectionMotionScript) as Array<{index:number;animated:number;classChanged:number}>;
         coverage={sections:sections.length,withMotion:sectionMotion.filter(item=>item.animated+item.classChanged>0).length,missing:sections.filter(section=>{const found=sectionMotion.find(item=>item.index===section.index);return !found||found.animated+found.classChanged===0}).map(section=>`${section.tag}${section.id?'#'+section.id:''}${section.cls?'.'+section.cls:''} (y=${section.top})`)};
         const staticDesktop=await page.evaluate(critiqueStaticScript) as any;pages.desktop=staticDesktop;
+        if(!staticDesktop.reducedMotionRule&&await reducedMotionInScripts(page))staticDesktop.reducedMotionRule=true;
         await setPhase(page,'hover');
         await page.evaluate('scrollTo(0,0)');await sleep(500);
         if(options.hover!==false){
@@ -192,12 +198,13 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
     if((options.viewports??['desktop','mobile']).includes('mobile')){
       const {context,page,failed}=await newPage(browser,MOBILE,options,{isMobile:true});
       try{
-        await page.goto(target,{waitUntil:'load',timeout:20000});await sleep(1800);
+        await page.goto(target,{waitUntil:'load',timeout:20000});await sleep(1800);await sampleVisibility(page);
         const frames:Array<{label:string;png:Buffer}>=[{label:'first viewport',png:await shot(page,path.join(outDir,'frames','mobile-0.jpg'))}];
         const height=await page.evaluate('document.scrollingElement.scrollHeight') as number;
         const stops=[.2,.4,.6,.8].map(fraction=>Math.round(fraction*(height-MOBILE.height)));
-        for(const y of stops){await page.evaluate(`scrollTo(0,${y})`);await sleep(250);await smoothScroll(page,y+200);await sleep(700);frames.push({label:`scrollY ≈${y+200}px`,png:await shot(page,path.join(outDir,'frames',`mobile-${y+200}.jpg`))})}
-        await page.evaluate('scrollTo(0, document.scrollingElement.scrollHeight)');await sleep(700);
+        for(const y of stops){await page.evaluate(`scrollTo(0,${y})`);await sleep(250);await smoothScroll(page,y+200,true);await sleep(700);await sampleVisibility(page);frames.push({label:`scrollY ≈${y+200}px`,png:await shot(page,path.join(outDir,'frames',`mobile-${y+200}.jpg`))})}
+        await sampleVisibility(page);
+        await page.evaluate('scrollTo(0, document.scrollingElement.scrollHeight)');await sleep(700);await sampleVisibility(page);
         pages.mobile=await page.evaluate(critiqueStaticScript);
         await page.evaluate('scrollTo(0,0)');await sleep(300);
         await contactSheet(browser,frames,5,240,path.join(outDir,'mobile.png'),'Mobile (390×844) — first viewport and scroll positions');images.mobile='mobile.png';
@@ -210,11 +217,11 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
       try{
         await page.goto(target,{waitUntil:'load',timeout:20000});await sleep(1500);
         const height=await page.evaluate('document.scrollingElement.scrollHeight') as number;
-        for(let y=0;y<height;y+=DESKTOP.height*.8){await page.evaluate(`scrollTo(0,${Math.round(y)})`);await sleep(220)}
+        for(let y=0;y<height;y+=DESKTOP.height*.8){await page.evaluate(`scrollTo(0,${Math.round(y)})`);await sleep(450);await sampleVisibility(page)}
         await sleep(600);
         const running=await page.evaluate(`document.getAnimations().filter(a => { const t = a.effect && a.effect.getComputedTiming(); if (!t) return false; const kf = a.effect.getKeyframes ? a.effect.getKeyframes() : []; const moves = kf.some(f => 'transform' in f || 'translate' in f || 'rotate' in f || 'scale' in f || 'left' in f || 'top' in f); return a.playState === 'running' && moves && (t.iterations === Infinity || Number(t.duration) > 250); }).length`) as number;
         const statics=await page.evaluate(critiqueStaticScript) as any;
-        reduced={rule:!!(pages.desktop as any)?.reducedMotionRule||statics.reducedMotionRule,runningLongAnimations:running,hiddenAfterScroll:statics.hiddenCount};
+        reducedHidden=statics.hidden??[];reduced={rule:!!(pages.desktop as any)?.reducedMotionRule||statics.reducedMotionRule||await reducedMotionInScripts(page),runningLongAnimations:running,hiddenAfterScroll:statics.hiddenCount};
       }finally{await context.close()}
     }
   }finally{await browser.close();await served?.close()}
@@ -264,7 +271,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
   if(reduced){
     if(!reduced.rule)add({id:'no-reduced-motion',severity:'major',area:'accessibility',title:'No prefers-reduced-motion handling',evidence:'No `prefers-reduced-motion` media query or script check was found.',fix:'Add `@media (prefers-reduced-motion: reduce)` that removes travel/parallax/scrub motion and loops, keeping short opacity fades so content still appears. In JS, check matchMedia before starting scroll-linked or looping motion.'});
     else if(reduced.runningLongAnimations>2)add({id:'reduced-motion-ignored',severity:'minor',area:'accessibility',title:'Movement continues with reduced motion requested',evidence:`${reduced.runningLongAnimations} moving animations still run with prefers-reduced-motion: reduce.`,fix:'Under reduced motion, stop loops and large transforms; use opacity-only transitions.'});
-    if(reduced.hiddenAfterScroll>0&&!(desktop?.hiddenCount>0))add({id:'reduced-motion-hides-content',severity:'blocker',area:'accessibility',title:'Reduced-motion visitors lose content',evidence:`${reduced.hiddenAfterScroll} elements stay invisible when prefers-reduced-motion is set.`,fix:'The reduced-motion branch skips the code that reveals content. Make elements visible by default under reduced motion instead of skipping the reveal.'});
+    if(reduced.hiddenAfterScroll>0&&!(desktop?.hiddenCount>0))add({id:'reduced-motion-hides-content',severity:'blocker',area:'accessibility',title:'Reduced-motion visitors lose content',evidence:`${reduced.hiddenAfterScroll} elements stay invisible when prefers-reduced-motion is set: ${reducedHidden.slice(0,4).map(item=>`${item.selector} "${item.text}"`).join('; ')}.`,fix:'The reduced-motion branch skips the code that reveals content. Make elements visible by default under reduced motion instead of skipping the reveal.'});
   }
   if(frameStats&&frameStats.scrollFrames>60&&frameStats.over50ms/frameStats.scrollFrames>.08)add({id:'scroll-jank',severity:'major',area:'runtime',title:'Scrolling drops frames',evidence:`${frameStats.over50ms}/${frameStats.scrollFrames} frames took >50 ms during scroll (p95 ${frameStats.p95Ms} ms, headless Chromium).`,fix:'Avoid scroll handlers that read layout and write styles each event; use transforms on composited layers, IntersectionObserver or CSS scroll-driven animations, and limit blur/backdrop-filter on large or many elements.'});
   if(layoutShift>.1)add({id:'layout-shift',severity:'major',area:'layout',title:'Layout shifts while loading',evidence:`Cumulative layout shift ${layoutShift.toFixed(3)}.`,fix:'Reserve space for images/media (width/height or aspect-ratio), load fonts with metric-matched fallbacks, and animate entrances with transform rather than inserting space.'});

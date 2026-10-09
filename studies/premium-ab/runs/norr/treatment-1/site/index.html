@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier Norr — Timber architecture</title>
+<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes.">
+<meta name="theme-color" content="#EEEAE1">
+<script>document.documentElement.classList.add('js','mk-js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="motion-kit.css">
+<link rel="stylesheet" href="styles.css">
+<script src="motion-kit.js" defer></script>
+<script src="site.js" defer></script>
+</head>
+<body>
+
+<!-- shared SVG patterns for the project elevations -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="slats" width="7" height="10" patternUnits="userSpaceOnUse"><rect width="7" height="10" fill="#B98A5B"/><rect width="1.2" height="10" fill="#7C522F" opacity=".5"/></pattern>
+    <pattern id="slatsDark" width="7" height="10" patternUnits="userSpaceOnUse"><rect width="7" height="10" fill="#5E4129"/><rect width="1.2" height="10" fill="#2E1F13" opacity=".6"/></pattern>
+    <pattern id="slatsPale" width="9" height="10" patternUnits="userSpaceOnUse"><rect width="9" height="10" fill="#D9BC95"/><rect width="1" height="10" fill="#9B7248" opacity=".45"/></pattern>
+    <pattern id="shingle" width="12" height="7" patternUnits="userSpaceOnUse"><rect width="12" height="7" fill="#4C3523"/><rect y="6" width="12" height="1" fill="#1F140B" opacity=".6"/></pattern>
+  </defs>
+</svg>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<header class="nav" data-nav>
+  <a class="brand" href="#top" aria-label="Atelier Norr, home">
+    <svg viewBox="-20 -20 40 40" width="26" height="26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle r="4"/><ellipse rx="9" ry="8" transform="rotate(20)"/><ellipse rx="14.5" ry="13" transform="rotate(-10)"/><ellipse rx="18.5" ry="17.5" transform="rotate(30)"/></g></svg>
+    <span>Atelier Norr</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a class="mk-link" href="#studio">Studio</a>
+    <a class="mk-link" href="#work">Work</a>
+    <a class="mk-link" href="#process">Process</a>
+    <a class="mk-link" href="#awards">Awards</a>
+  </nav>
+  <a class="pill mk-button" href="#contact">Enquire</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <a href="#studio">Studio</a><a href="#work">Work</a><a href="#process">Process</a><a href="#awards">Awards</a><a href="#contact">Contact</a>
+</div>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-rings" aria-hidden="true">
+    <svg id="rings" viewBox="-400 -400 800 800" preserveAspectRatio="xMidYMid meet"></svg>
+    <p class="ring-cap"><span>Fig. 01</span> Larch, section 04. 112 growth rings; the studio's logo and its brief.</p>
+  </div>
+  <div class="wrap hero-grid">
+    <p class="eyebrow hero-fade" style="--d:60ms">Timber architecture · Trondheim &amp; Oslo</p>
+    <h1 id="hero-title">
+      <span class="hl"><span style="--i:0">Buildings that</span></span>
+      <span class="hl"><span style="--i:1">grow <em>slowly,</em></span></span>
+      <span class="hl"><span style="--i:2">and last.</span></span>
+    </h1>
+    <div class="hero-foot">
+      <p class="lede hero-fade" style="--d:520ms">Atelier Norr designs civic buildings and homes from Nordic spruce and larch: structures that store carbon, soften with age and are built to be repaired, not replaced.</p>
+      <div class="cta-row hero-fade" style="--d:680ms">
+        <a class="btn btn-ink mk-button" href="#work" data-magnetic="0.2"><span>See selected work</span><i class="arrow" aria-hidden="true">→</i></a>
+        <a class="mk-link" href="#contact">Start a project</a>
+      </div>
+    </div>
+    <ul class="hero-meta hero-fade" style="--d:820ms" aria-label="Studio facts">
+      <li><b>Est. 2004</b>Trondheim</li>
+      <li><b>64</b>buildings raised</li>
+      <li><b>100%</b>timber structures</li>
+    </ul>
+  </div>
+  <a class="scroll-cue hero-fade" style="--d:1000ms" href="#studio" aria-label="Scroll to studio"><span></span></a>
+</section>
+
+<!-- ================= MARQUEE + STATS ================= -->
+<section class="band" aria-label="Materials and facts">
+  <div class="mk-marquee-wrap">
+    <div class="marquee-track" data-marquee style="--marquee-duration:60s;--marquee-gap:3rem">
+      <span>Glulam</span><i></i><span>Cross-laminated timber</span><i></i><span>Larch cladding</span><i></i><span>Passive house</span><i></i><span>Civic</span><i></i><span>Dovetail &amp; peg joinery</span><i></i><span>Wood-fibre insulation</span><i></i>
+    </div>
+  </div>
+  <div class="wrap stats" data-stagger="90">
+    <div class="stat"><b data-count="21">21</b><span>years in practice</span></div>
+    <div class="stat"><b data-count="64">64</b><span>timber buildings raised</span></div>
+    <div class="stat"><b data-count="9400">9,400</b><span>m³ of Nordic timber specified</span></div>
+    <div class="stat"><b><span data-count="1840">1,840</span><small>t</small></b><span>CO₂ stored in our frames (estimate)</span></div>
+  </div>
+</section>
+
+<!-- ================= STUDIO ================= -->
+<section class="studio" id="studio">
+  <div class="wrap">
+    <div class="sec-head" data-reveal="up"><span class="idx">01</span><span>Studio philosophy</span></div>
+    <p class="manifesto" data-progress>We believe a building should be a slow, good conversation between a forest, a place and the people who will live in it for a hundred years. So we draw in section, we choose timber that was grown within five hundred kilometres, and we design every joint so that it can be opened, repaired and understood.</p>
+
+    <div class="principles" data-stagger="110">
+      <article class="principle">
+        <svg viewBox="-30 -30 60 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><circle r="5"/><ellipse rx="12" ry="11" transform="rotate(20)"/><ellipse rx="19" ry="18" transform="rotate(-10)"/><ellipse rx="26" ry="25" transform="rotate(40)"/></g></svg>
+        <h3>Material honesty</h3>
+        <p>Structure is the finish. Glulam columns, CLT walls and larch cladding are left to show how the building stands, and how it will weather.</p>
+      </article>
+      <article class="principle">
+        <svg viewBox="-30 -30 60 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M-26 20H26"/><path d="M-18 20V-6L0 -22L18 -6V20"/><path d="M-8 20V4H8V20"/></g></svg>
+        <h3>Civic generosity</h3>
+        <p>Libraries, schools and halls should give more room than the brief asks for: a deep porch, a warm corner, a stair worth lingering on.</p>
+      </article>
+      <article class="principle">
+        <svg viewBox="-30 -30 60 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M-26 22C-10 22 -6 -2 0 -2S10 22 26 22"/><circle cx="0" cy="-14" r="7"/><path d="M-26 6H26" stroke-dasharray="2 3"/></g></svg>
+        <h3>Slow growth</h3>
+        <p>We take on eight projects a year. Each one is walked in every season and drawn at 1:5 before it is milled, then followed for a decade.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SELECTED WORK ================= -->
+<section class="work" id="work" data-progress>
+  <div class="work-stage">
+    <div class="work-head wrap">
+      <div>
+        <div class="sec-head"><span class="idx">02</span><span>Selected projects</span></div>
+        <h2 class="work-title">Five buildings,<br>one slow idea.</h2>
+      </div>
+      <div class="work-count" aria-hidden="true"><b id="work-idx">01</b><span>/ 05</span><div class="work-bar"><i></i></div></div>
+    </div>
+    <div class="work-track" id="work-track">
+      <article class="proj" style="--tone:#DAD2C2">
+        <div class="proj-media">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Elevation of Kvile Library, a long timber hall under a deep gable roof">
+            <circle class="sun" cx="360" cy="160" r="34" fill="var(--accent)"/>
+            <path d="M0 410L70 340 120 380 190 296 260 388 330 326 400 396 480 346V470H0Z" fill="currentColor" opacity=".08"/>
+            <path d="M0 470H480V600H0Z" fill="currentColor" opacity=".07"/>
+            <path d="M24 470 36 428 48 470ZM410 470 424 414 438 470ZM440 470 452 432 464 470Z" fill="currentColor" opacity=".55"/>
+            <rect x="78" y="366" width="324" height="104" fill="url(#slats)"/>
+            <path d="M52 370 240 234 428 370Z" fill="url(#shingle)"/>
+            <path d="M52 370 240 234 428 370" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            <rect x="116" y="394" width="248" height="56" fill="#D3E1E6" opacity=".9"/>
+            <path d="M147 394V450M178 394V450M209 394V450M240 394V450M271 394V450M302 394V450M333 394V450M116 422H364" stroke="#5E4129" stroke-width="2"/>
+            <rect x="226" y="414" width="28" height="56" fill="#33231A"/>
+            <path d="M232 300 240 290 248 300V318H232Z" fill="#D3E1E6"/>
+            <path d="M0 470H480" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="proj-meta"><span class="idx">01</span><div><h3>Kvile Library</h3><p>Trondheim · 2024 · Civic library, 3,200 m²</p></div></div>
+        <a class="mk-link proj-link" href="#contact">Discuss a similar brief →</a>
+      </article>
+
+      <article class="proj" style="--tone:#CCD3C6">
+        <div class="proj-media">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Elevation of Fjordhus Lofoten, a house raised on timber stilts with a single sloping roof">
+            <circle class="sun" cx="120" cy="150" r="30" fill="var(--accent)"/>
+            <path d="M0 360 90 280 150 330 250 230 330 316 400 270 480 340V470H0Z" fill="currentColor" opacity=".1"/>
+            <path d="M0 470H480V600H0Z" fill="currentColor" opacity=".1"/>
+            <path d="M0 490H480M0 510H480M0 530H480M0 552H480" stroke="currentColor" stroke-width=".8" opacity=".35" stroke-dasharray="14 10"/>
+            <path d="M100 470V410M170 470V410M250 470V410M330 470V410M390 470V410" stroke="#5E4129" stroke-width="7"/>
+            <rect x="94" y="332" width="304" height="78" fill="url(#slatsDark)"/>
+            <path d="M82 336 410 292 V332 L82 340Z" fill="url(#shingle)"/>
+            <rect x="124" y="352" width="150" height="46" fill="#D9E6EA" opacity=".92"/>
+            <path d="M174 352V398M224 352V398" stroke="#2E1F13" stroke-width="2"/>
+            <rect x="302" y="356" width="24" height="42" fill="#B98A5B"/>
+            <rect x="350" y="352" width="30" height="46" fill="#F0C98F"/>
+            <path d="M366 292V262H378V290" fill="#3B2A1B"/>
+            <path d="M0 470H480" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="proj-meta"><span class="idx">02</span><div><h3>Fjordhus Lofoten</h3><p>Lofoten · 2023 · Family house, 180 m²</p></div></div>
+        <a class="mk-link proj-link" href="#contact">Discuss a similar brief →</a>
+      </article>
+
+      <article class="proj" style="--tone:#E2D2BC">
+        <div class="proj-media">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Elevation of Skogsskolen, a forest school with four sawtooth roofs facing north light">
+            <circle class="sun" cx="390" cy="130" r="30" fill="var(--accent)"/>
+            <path d="M20 470 52 360 84 470ZM70 470 108 330 146 470ZM350 470 390 346 430 470ZM410 470 440 380 470 470Z" fill="currentColor" opacity=".35"/>
+            <path d="M0 470H480V600H0Z" fill="currentColor" opacity=".07"/>
+            <rect x="60" y="400" width="360" height="70" fill="url(#slatsPale)"/>
+            <path d="M60 400V336L140 400ZM140 400V336L220 400ZM220 400V336L300 400ZM300 400V336L380 400Z" fill="url(#shingle)"/>
+            <path d="M380 400V336L420 370V400Z" fill="url(#shingle)"/>
+            <path d="M60 400V336M140 400V336M220 400V336M300 400V336M380 400V336" stroke="#E8F0F2" stroke-width="5"/>
+            <rect x="76" y="418" width="44" height="52" fill="#D3E1E6"/><rect x="156" y="418" width="44" height="52" fill="#D3E1E6"/><rect x="236" y="418" width="44" height="52" fill="#D3E1E6"/><rect x="316" y="418" width="44" height="52" fill="#D3E1E6"/>
+            <path d="M60 400H420" stroke="#2E1F13" stroke-width="2"/>
+            <path d="M0 470H480" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="proj-meta"><span class="idx">03</span><div><h3>Skogsskolen</h3><p>Bergen · 2022 · Forest school, 1,150 m²</p></div></div>
+        <a class="mk-link proj-link" href="#contact">Discuss a similar brief →</a>
+      </article>
+
+      <article class="proj" style="--tone:#CBD0D4">
+        <div class="proj-media">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Elevation of Rådhus Hall, a town hall with nested glulam arches and a central tower">
+            <circle class="sun" cx="100" cy="200" r="30" fill="var(--accent)"/>
+            <path d="M0 410 80 350 160 400 240 330 320 396 400 346 480 392V470H0Z" fill="currentColor" opacity=".08"/>
+            <path d="M0 470H480V600H0Z" fill="currentColor" opacity=".07"/>
+            <rect x="60" y="400" width="360" height="70" fill="url(#slats)"/>
+            <rect x="200" y="196" width="80" height="204" fill="url(#slatsDark)"/>
+            <path d="M190 198 240 126 290 198Z" fill="url(#shingle)"/>
+            <path d="M240 126V100" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="222" y="226" width="36" height="52" fill="#F0C98F"/>
+            <path d="M100 470V430Q100 386 150 386Q200 386 200 430V470" fill="none" stroke="#E9DCC6" stroke-width="9"/>
+            <path d="M280 470V430Q280 386 330 386Q380 386 380 430V470" fill="none" stroke="#E9DCC6" stroke-width="9"/>
+            <path d="M100 470V430Q100 386 150 386Q200 386 200 430V470M280 470V430Q280 386 330 386Q380 386 380 430V470" fill="none" stroke="#2E1F13" stroke-width="1.2"/>
+            <rect x="214" y="420" width="52" height="50" fill="#33231A"/>
+            <path d="M0 470H480" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="proj-meta"><span class="idx">04</span><div><h3>Rådhus Hall</h3><p>Tromsø · 2021 · Town hall &amp; market, 4,600 m²</p></div></div>
+        <a class="mk-link proj-link" href="#contact">Discuss a similar brief →</a>
+      </article>
+
+      <article class="proj" style="--tone:#DCC9B6">
+        <div class="proj-media">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Elevation of Badstu Pavilion, a small A-frame sauna with a glazed door and rising steam">
+            <circle class="sun" cx="380" cy="190" r="30" fill="var(--accent)"/>
+            <path d="M0 400 90 340 170 384 260 320 340 380 430 330 480 360V470H0Z" fill="currentColor" opacity=".09"/>
+            <path d="M0 470H480V600H0Z" fill="currentColor" opacity=".1"/>
+            <path d="M0 500H480M0 524H480M0 548H480" stroke="currentColor" stroke-width=".8" opacity=".3" stroke-dasharray="16 12"/>
+            <path d="M138 470 240 262 342 470Z" fill="url(#slats)"/>
+            <path d="M138 470 240 262 342 470Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M206 470 V410 L240 350 L274 410 V470Z" fill="#D3E1E6" opacity=".92"/>
+            <path d="M240 350V470M206 410H274" stroke="#5E4129" stroke-width="2"/>
+            <path d="M290 330V250H302V338" fill="#33231A"/>
+            <g class="steam" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"><path d="M296 240C288 224 306 214 298 198"/><path d="M308 244C300 226 318 216 310 196" opacity=".6"/></g>
+            <path d="M0 470H480" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="proj-meta"><span class="idx">05</span><div><h3>Badstu Pavilion</h3><p>Oslofjord · 2020 · Public sauna, 42 m²</p></div></div>
+        <a class="mk-link proj-link" href="#contact">Discuss a similar brief →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS (signature) ================= -->
+<section class="process" id="process" data-progress>
+  <div class="process-stage">
+    <div class="process-copy">
+      <div class="sec-head"><span class="idx">03</span><span>How a building is made</span></div>
+      <h2>From a walked site<br>to a raised frame.</h2>
+      <ol class="steps">
+        <li class="step is-active" data-step="0"><b>01</b><div><h3>Listen</h3><div class="step-p"><p>We walk the site through a season: sun, wind, snowline, the paths people already cut across it.</p></div></div></li>
+        <li class="step" data-step="1"><b>02</b><div><h3>Draw</h3><div class="step-p"><p>Section before plan. Every joint is drawn at 1:5 before a single beam is ordered.</p></div></div></li>
+        <li class="step" data-step="2"><b>03</b><div><h3>Mill</h3><div class="step-p"><p>Spruce and larch from Nordic forests are glued, CNC-milled and numbered at our partner mill.</p></div></div></li>
+        <li class="step" data-step="3"><b>04</b><div><h3>Raise</h3><div class="step-p"><p>A frame goes up in days, not months. The house is weathertight before the first coffee is made.</p></div></div></li>
+      </ol>
+      <div class="step-rail" aria-hidden="true"><i></i></div>
+    </div>
+
+    <div class="process-draw">
+      <svg viewBox="0 0 800 560" role="img" aria-label="Section drawing of a timber house that draws itself in four stages: site, drawing, milled frame, raised building">
+        <!-- 01 LISTEN: sun path, contours, north -->
+        <g class="g-listen">
+          <path class="draw dashed" style="--a:0;--b:.2" pathLength="1" d="M60 420 Q400 -90 740 420"/>
+          <circle class="sun-dot" r="13" cx="0" cy="0"/>
+          <path class="draw" style="--a:0;--b:.14" pathLength="1" d="M20 470H780"/>
+          <path class="draw thin" style="--a:.02;--b:.18" pathLength="1" d="M20 500Q200 486 400 498T780 490"/>
+          <path class="draw thin" style="--a:.04;--b:.2" pathLength="1" d="M20 530Q220 514 420 526T780 518"/>
+          <g class="fade" style="--a:.08;--b:.2"><path d="M720 80V40M720 40L713 54M720 40L727 54" /><text x="720" y="102" text-anchor="middle">N</text></g>
+          <g class="fade label" style="--a:.1;--b:.22"><text x="60" y="446">Low winter sun 7°</text><text x="740" y="446" text-anchor="end">Summer 41°</text></g>
+        </g>
+        <!-- 02 DRAW: thin structural lines -->
+        <g class="g-draw">
+          <path class="draw thin" style="--a:.2;--b:.34" pathLength="1" d="M220 470V250M360 470V250M500 470V250M640 470V250"/>
+          <path class="draw thin" style="--a:.26;--b:.4" pathLength="1" d="M180 250H680M220 400H640"/>
+          <path class="draw thin" style="--a:.32;--b:.48" pathLength="1" d="M180 250 430 110 680 250M290 180H570"/>
+          <path class="draw thin" style="--a:.38;--b:.5" pathLength="1" d="M220 400 360 330M500 330 640 400M360 250 430 110 500 250"/>
+          <g class="fade dim" style="--a:.36;--b:.5"><path d="M220 520H640M220 512V528M640 512V528"/><text x="430" y="548" text-anchor="middle">6.4 m clear span</text></g>
+        </g>
+        <!-- 03 MILL: heavy timber members -->
+        <g class="g-mill">
+          <path class="draw beam" style="--a:.48;--b:.62" pathLength="1" d="M220 470V250M360 470V250M500 470V250M640 470V250"/>
+          <path class="draw beam" style="--a:.55;--b:.68" pathLength="1" d="M180 250H680M220 400H640"/>
+          <path class="draw beam rafter" style="--a:.6;--b:.76" pathLength="1" d="M180 250 430 110 680 250"/>
+          <path class="draw beam rafter" style="--a:.66;--b:.76" pathLength="1" d="M290 180H570"/>
+          <g class="fade pegs" style="--a:.7;--b:.78"><circle cx="220" cy="250" r="4"/><circle cx="360" cy="250" r="4"/><circle cx="500" cy="250" r="4"/><circle cx="640" cy="250" r="4"/><circle cx="220" cy="400" r="4"/><circle cx="640" cy="400" r="4"/><circle cx="430" cy="110" r="4"/><circle cx="290" cy="180" r="4"/><circle cx="570" cy="180" r="4"/></g>
+          <g class="fade label tag" style="--a:.68;--b:.78"><text x="448" y="96">Larch ridge, GL28c</text></g>
+        </g>
+        <!-- 04 RAISE: skin, glass, light -->
+        <g class="g-raise">
+          <rect class="fade skin" style="--a:.74;--b:.86" x="222" y="402" width="136" height="66" fill="url(#slats)"/>
+          <rect class="fade skin" style="--a:.76;--b:.88" x="502" y="402" width="136" height="66" fill="url(#slats)"/>
+          <rect class="fade glass" style="--a:.8;--b:.92" x="362" y="252" width="136" height="216"/>
+          <rect class="fade skin" style="--a:.76;--b:.88" x="222" y="252" width="136" height="146" fill="url(#slatsDark)"/>
+          <rect class="fade skin" style="--a:.78;--b:.9" x="502" y="252" width="136" height="146" fill="url(#slatsDark)"/>
+          <path class="fade roof" style="--a:.82;--b:.94" d="M170 254 430 102 690 254Z"/>
+          <rect class="fade light" style="--a:.9;--b:1" x="396" y="320" width="68" height="148"/>
+          <path class="draw smoke" style="--a:.9;--b:1" pathLength="1" d="M560 106C552 84 574 72 564 48"/>
+          <path class="draw thin" style="--a:.9;--b:1" pathLength="1" d="M20 470H780"/>
+        </g>
+      </svg>
+      <p class="draw-note" aria-hidden="true">Fig. 02 — Drawn by scroll. Section through a two-bay timber house, illustrative.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AWARDS ================= -->
+<section class="awards" id="awards">
+  <div class="wrap">
+    <div class="awards-head">
+      <div>
+        <div class="sec-head" data-reveal="up"><span class="idx">04</span><span>Recognition</span></div>
+        <h2 data-reveal="up" data-delay="80">Quietly <em>decorated.</em></h2>
+      </div>
+      <p class="awards-count" data-reveal="up" data-delay="160"><b data-count="17">17</b> awards and citations since 2012</p>
+    </div>
+    <ul class="award-list" data-stagger="70">
+      <li class="award"><span class="y">2025</span><span class="t">Timber Civic Prize, Grand Jury</span><span class="p">Kvile Library</span><i class="go" aria-hidden="true">↗</i></li>
+      <li class="award"><span class="y">2024</span><span class="t">Nordic Wood Architecture Award, Public</span><span class="p">Rådhus Hall</span><i class="go" aria-hidden="true">↗</i></li>
+      <li class="award"><span class="y">2023</span><span class="t">Passive Living Medal, Residential</span><span class="p">Fjordhus Lofoten</span><i class="go" aria-hidden="true">↗</i></li>
+      <li class="award"><span class="y">2022</span><span class="t">Schools of the North Citation</span><span class="p">Skogsskolen</span><i class="go" aria-hidden="true">↗</i></li>
+      <li class="award"><span class="y">2021</span><span class="t">Low-Carbon Building Commendation</span><span class="p">Badstu Pavilion</span><i class="go" aria-hidden="true">↗</i></li>
+    </ul>
+    <p class="fine" data-reveal="fade">Award names and figures on this concept site are illustrative placeholders.</p>
+
+    <figure class="quote" data-reveal="up">
+      <blockquote>“Timber remembers the forest it came from. Our job is to let a building be remembered just as kindly.”</blockquote>
+      <figcaption><span class="avatar" aria-hidden="true">IS</span><span><b>Ingrid Solheim Aas</b>Founding partner</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="sec-head" data-reveal="up"><span class="idx">05</span><span>Contact</span></div>
+    <h2 class="contact-title" data-split="words">Let’s plan something that outlives us.</h2>
+    <div class="contact-grid">
+      <p class="contact-lede" data-reveal="up">We are now taking briefs for 2027. Tell us about the site, the people who will use it and when you would like to stand inside it.</p>
+      <div class="contact-actions" data-reveal="up" data-delay="120">
+        <a class="btn btn-paper mk-button" href="mailto:studio@atelier-norr.example" data-magnetic="0.25"><span>studio@atelier-norr.example</span><i class="arrow" aria-hidden="true">→</i></a>
+        <a class="mk-link" href="tel:+4773000000">+47 73 00 00 00</a>
+      </div>
+    </div>
+    <div class="offices" data-stagger="100">
+      <address><b>Trondheim</b>Fosenkaia 4<br>7010 Trondheim</address>
+      <address><b>Oslo</b>Akerselva Studios<br>0555 Oslo</address>
+      <address><b>Studio hours</b>Mon – Thu, 08:00 – 16:00<br>Visits by appointment</address>
+    </div>
+  </div>
+  <footer class="foot">
+    <div class="wrap foot-row">
+      <span>© 2026 Atelier Norr AS</span>
+      <nav aria-label="Footer"><a class="mk-link" href="#studio">Studio</a><a class="mk-link" href="#work">Work</a><a class="mk-link" href="#process">Process</a><a class="mk-link" href="#top">Back to top ↑</a></nav>
+    </div>
+    <div class="giant" aria-hidden="true">Norr</div>
+  </footer>
+</section>
+
+</main>
+</body>
+</html>

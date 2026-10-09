@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledgerline — Real-time payments and ledgers API</title>
+<meta name="description" content="Ledgerline is a developer-first API for real-time payments and double-entry ledgers. Every transaction journaled, balanced and settled in milliseconds.">
+<meta name="theme-color" content="#F3F0E8">
+<script>document.documentElement.classList.add('mk-js');setTimeout(function(){document.documentElement.classList.add('is-ready')},3200)</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312120F'/%3E%3Cpath d='M7 12h18M7 20h11' stroke='%23F3F0E8' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='20' r='2.6' fill='%23FF5A2B'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="motion-kit.css">
+<link rel="stylesheet" href="styles.css">
+<script src="motion-kit.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Ledgerline home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M7 12h18M7 20h11"/><circle cx="23" cy="20" r="2.6"/></svg>
+      <span>Ledgerline</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="mk-link" href="#product">Product</a>
+      <a class="mk-link" href="#api">API</a>
+      <a class="mk-link" href="#reliability">Reliability</a>
+      <a class="mk-link" href="#customers">Customers</a>
+      <a class="mk-link" href="#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn-dark btn-sm mk-button" href="#signup">Get API keys <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-rules" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <p class="eyebrow hero-eyebrow"><span class="live-dot" aria-hidden="true"></span>Real-time payments &amp; ledgers API</p>
+    <h1 class="hero-title" aria-label="Payments in motion. Books always balanced.">
+      <span class="hl" aria-hidden="true"><span class="hl-in" style="--i:0">Payments in motion.</span></span>
+      <span class="hl" aria-hidden="true"><span class="hl-in" style="--i:1"><em>Books always balanced.</em></span></span>
+    </h1>
+    <div class="hero-copy">
+      <p class="lede hero-rise" style="--i:2">Ledgerline is the double-entry ledger and payment-movement API that fintech engineering teams build on. One request journals, authorizes and settles money, in milliseconds, with an audit trail you never have to reconcile.</p>
+      <div class="cta-row hero-rise" style="--i:3">
+        <a class="btn btn-accent mk-button" href="#signup" data-magnetic="0.2">Get sandbox keys <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost mk-button" href="#api">Read the API</a>
+      </div>
+      <ul class="hero-facts hero-rise" style="--i:4" aria-label="Highlights">
+        <li><b>38&thinsp;ms</b><span>median settle</span></li>
+        <li><b>0</b><span>unbalanced entries, ever</span></li>
+        <li><b>90&thinsp;s</b><span>to first transfer</span></li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-label="Live ledger preview with illustrative data">
+      <div class="ledger-card">
+        <div class="ledger-glow" aria-hidden="true"></div>
+        <div class="ledger-head">
+          <div class="ledger-title"><span class="live-dot" aria-hidden="true"></span><span class="mono">ledger / main</span></div>
+          <span class="chip chip-ok" id="balChip"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Balanced</span>
+        </div>
+        <div class="ledger-cols mono" aria-hidden="true"><span>time</span><span>entry</span><span>amount</span></div>
+        <div class="ledger-viewport">
+          <ol class="ledger-list" id="ledgerList"></ol>
+        </div>
+        <div class="ledger-foot mono">
+          <div><span>debits</span><b id="sumDr">0.00</b></div>
+          <div class="eq" aria-hidden="true">=</div>
+          <div><span>credits</span><b id="sumCr">0.00</b></div>
+        </div>
+      </div>
+      <p class="fine hero-fine">Illustrative data streaming from a sandbox ledger.</p>
+    </div>
+  </div>
+  <svg class="hero-line" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+    <path class="hero-line-base" d="M0 40 H1440" />
+    <path class="hero-line-draw" d="M0 40 H1440" pathLength="1" />
+  </svg>
+</section>
+
+<!-- ============ PROOF ============ -->
+<section class="proof" aria-labelledby="proofTitle">
+  <div class="container">
+    <p class="eyebrow" id="proofTitle" data-reveal="fade">Trusted by payments teams at</p>
+  </div>
+  <div class="mk-marquee-wrap proof-marquee">
+    <div data-marquee style="--marquee-gap:4.5rem;--marquee-duration:46s">
+      <span class="wm wm-1">Tidewater</span>
+      <span class="wm wm-2">orbital/pay</span>
+      <span class="wm wm-3">Kestrel</span>
+      <span class="wm wm-4">Northfold</span>
+      <span class="wm wm-5">PALISADE</span>
+      <span class="wm wm-6">fernwood</span>
+      <span class="wm wm-7">Quillon Bank</span>
+    </div>
+  </div>
+  <div class="container">
+    <dl class="metrics" data-stagger="90">
+      <div><dt>Settled last year</dt><dd><span data-count="41.7" data-count-decimals="1" data-count-prefix="$" data-count-suffix="B">$41.7B</span></dd></div>
+      <div><dt>Ledger entries / day</dt><dd><span data-count="212" data-count-suffix="M">212M</span></dd></div>
+      <div><dt>p99 write latency</dt><dd><span data-count="42" data-count-suffix=" ms">42 ms</span></dd></div>
+      <div><dt>Uptime, trailing 12 months</dt><dd><span data-count="99.998" data-count-decimals="3" data-count-suffix="%">99.998%</span></dd></div>
+    </dl>
+    <p class="fine">Company names and figures on this page are illustrative sample content.</p>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto-sec" id="product">
+  <div class="container">
+    <p class="eyebrow" data-reveal="fade">Why a ledger, not a payments wrapper</p>
+    <p class="manifesto" id="manifesto">Most teams start by storing balances in a column. Then comes the refund, the retry, the chargeback and the audit. We believe money software should be a journal first: every movement recorded twice, never edited, always explainable. Ledgerline is that journal, with the payment rails attached.</p>
+  </div>
+</section>
+
+<!-- ============ PINNED STORY (signature) ============ -->
+<section class="story" id="story" aria-labelledby="storyTitle">
+  <div class="story-stage">
+    <div class="container story-grid">
+      <div class="story-copy">
+        <p class="eyebrow">One request, four states</p>
+        <h2 class="h2" id="storyTitle">Follow a single transfer<br>down the line.</h2>
+        <div class="steps" id="steps">
+          <article class="step is-active" data-step="0">
+            <span class="step-n mono">01</span>
+            <div><h3>Request</h3><div class="step-more"><p>Your service posts a transfer with an idempotency key. Retry it ten times and it lands once.</p></div></div>
+          </article>
+          <article class="step" data-step="1">
+            <span class="step-n mono">02</span>
+            <div><h3>Authorize</h3><div class="step-more"><p>Balance holds, velocity limits and your own risk rules run in-line, before a cent moves.</p></div></div>
+          </article>
+          <article class="step" data-step="2">
+            <span class="step-n mono">03</span>
+            <div><h3>Journal</h3><div class="step-more"><p>A debit and a credit are written atomically. Immutable, hash-chained, and always summing to zero.</p></div></div>
+          </article>
+          <article class="step" data-step="3">
+            <span class="step-n mono">04</span>
+            <div><h3>Settle</h3><div class="step-more"><p>The rails confirm, webhooks fire, balances update. Reconciliation is already done.</p></div></div>
+          </article>
+        </div>
+        <div class="story-rail" aria-hidden="true"><i id="railFill"></i></div>
+      </div>
+
+      <div class="scene" aria-label="Animated diagram of a transfer moving through request, authorize, journal and settle">
+        <div class="scene-head">
+          <span class="mono scene-id">txn_01J8Z4K2</span>
+          <span class="chip chip-state" id="stateChip"><span id="stateText">received</span></span>
+          <span class="mono scene-ms"><b id="elapsed">0</b> ms</span>
+        </div>
+        <svg class="pipe" viewBox="0 0 640 150" role="img" aria-label="Pipeline: request, authorize, journal, settle">
+          <path class="pipe-base" id="pipeBase" d="M44 62 H596" />
+          <path class="pipe-fill" id="pipeFill" d="M44 62 H596" pathLength="1" />
+          <g class="node" data-node="0"><circle cx="44" cy="62" r="11"/><text x="44" y="108">Request</text></g>
+          <g class="node" data-node="1"><circle cx="228" cy="62" r="11"/><text x="228" y="108">Authorize</text></g>
+          <g class="node" data-node="2"><circle cx="412" cy="62" r="11"/><text x="412" y="108">Journal</text></g>
+          <g class="node" data-node="3"><circle cx="596" cy="62" r="11"/><text x="596" y="108">Settle</text></g>
+          <g id="packet" class="packet"><circle r="16" class="packet-halo"/><circle r="6" class="packet-core"/></g>
+        </svg>
+        <div class="scene-tabs mono" aria-hidden="true"><span>account</span><span>side</span><span>amount (USD)</span></div>
+        <ul class="entries" id="entries">
+          <li class="entry" data-from="1"><span class="mono">acct_cus_81f</span><span class="side side-hold">HOLD</span><span class="mono amt">1,240.00</span></li>
+          <li class="entry" data-from="2"><span class="mono">acct_cus_81f</span><span class="side">DEBIT</span><span class="mono amt">1,240.00</span></li>
+          <li class="entry" data-from="2"><span class="mono">acct_mrc_2d4</span><span class="side">CREDIT</span><span class="mono amt">1,240.00</span></li>
+          <li class="entry entry-total" data-from="3"><span class="mono">Σ entries</span><span class="side side-ok">BALANCED</span><span class="mono amt">0.00</span></li>
+        </ul>
+        <p class="scene-req mono" id="sceneReq">POST /v1/transfers &nbsp;·&nbsp; Idempotency-Key: 7c1e9b-a9</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ API ============ -->
+<section class="api dark" id="api" aria-labelledby="apiTitle">
+  <div class="container api-grid">
+    <div class="api-copy">
+      <p class="eyebrow" data-reveal="fade">The API</p>
+      <h2 class="h2" id="apiTitle" data-split="words">Boring where it matters. Sharp where it counts.</h2>
+      <p class="lede" data-reveal="up">REST, JSON and typed SDKs. Every write is idempotent, every object is versioned, every event is signed. Send a request and watch the entire movement come back in a single response.</p>
+      <ul class="checks" data-stagger="80">
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Idempotent by design, with 24h key replay</li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Signed webhooks with ordered delivery</li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Sandbox that mirrors production, byte for byte</li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>SDKs for Node, Python, Go, Java and Ruby</li>
+      </ul>
+    </div>
+
+    <div class="console" data-reveal="up" data-delay="120">
+      <div class="console-bar">
+        <div class="tabs" role="tablist" aria-label="Language">
+          <span class="tab-ink" aria-hidden="true"></span>
+          <button class="tab" role="tab" id="tab-curl" aria-selected="true" aria-controls="panel-curl">cURL</button>
+          <button class="tab" role="tab" id="tab-node" aria-selected="false" aria-controls="panel-node" tabindex="-1">Node</button>
+          <button class="tab" role="tab" id="tab-py" aria-selected="false" aria-controls="panel-py" tabindex="-1">Python</button>
+        </div>
+        <button class="btn btn-accent btn-sm mk-button send" id="sendBtn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3l9 5-9 5z"/></svg>Send request</button>
+      </div>
+      <div class="code-stack">
+        <pre class="code is-active" id="panel-curl" role="tabpanel" aria-labelledby="tab-curl"><code><span class="k">curl</span> https://api.ledgerline.dev/v1/transfers \
+  <span class="f">-H</span> <span class="s">"Authorization: Bearer $LL_SECRET"</span> \
+  <span class="f">-H</span> <span class="s">"Idempotency-Key: 7c1e9b-a9"</span> \
+  <span class="f">-d</span> amount=<span class="n">124000</span> \
+  <span class="f">-d</span> currency=<span class="s">USD</span> \
+  <span class="f">-d</span> from=<span class="s">acct_cus_81f</span> \
+  <span class="f">-d</span> to=<span class="s">acct_mrc_2d4</span></code></pre>
+        <pre class="code" id="panel-node" role="tabpanel" aria-labelledby="tab-node" hidden><code><span class="k">import</span> Ledgerline <span class="k">from</span> <span class="s">"@ledgerline/node"</span>;
+<span class="k">const</span> ll = <span class="k">new</span> Ledgerline(process.env.LL_SECRET);
+
+<span class="k">const</span> transfer = <span class="k">await</span> ll.transfers.create({
+  amount: <span class="n">124000</span>,
+  currency: <span class="s">"USD"</span>,
+  from: <span class="s">"acct_cus_81f"</span>,
+  to: <span class="s">"acct_mrc_2d4"</span>,
+}, { idempotencyKey: <span class="s">"7c1e9b-a9"</span> });</code></pre>
+        <pre class="code" id="panel-py" role="tabpanel" aria-labelledby="tab-py" hidden><code><span class="k">import</span> os, ledgerline
+
+ll = ledgerline.Client(os.environ[<span class="s">"LL_SECRET"</span>])
+
+transfer = ll.transfers.create(
+    amount=<span class="n">124000</span>,
+    currency=<span class="s">"USD"</span>,
+    from_account=<span class="s">"acct_cus_81f"</span>,
+    to_account=<span class="s">"acct_mrc_2d4"</span>,
+    idempotency_key=<span class="s">"7c1e9b-a9"</span>,
+)</code></pre>
+      </div>
+      <div class="response" aria-live="polite">
+        <div class="response-bar mono"><span class="status" id="respStatus"><i class="status-dot"></i><span id="respStatusText">201 Created</span></span><span id="respMs">38 ms</span></div>
+        <pre class="code resp" id="resp"><code><span class="rl"><span class="p">{</span></span><span class="rl">  <span class="key">"id"</span>: <span class="s">"txn_01J8Z4K2"</span>,</span><span class="rl">  <span class="key">"status"</span>: <span class="s">"settled"</span>,</span><span class="rl">  <span class="key">"amount"</span>: <span class="n">124000</span>,</span><span class="rl">  <span class="key">"currency"</span>: <span class="s">"USD"</span>,</span><span class="rl">  <span class="key">"entries"</span>: [</span><span class="rl">    { <span class="key">"account"</span>: <span class="s">"acct_cus_81f"</span>, <span class="key">"dr"</span>: <span class="n">124000</span> },</span><span class="rl">    { <span class="key">"account"</span>: <span class="s">"acct_mrc_2d4"</span>, <span class="key">"cr"</span>: <span class="n">124000</span> }</span><span class="rl">  ],</span><span class="rl">  <span class="key">"balanced"</span>: <span class="k">true</span></span><span class="rl"><span class="p">}</span></span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RELIABILITY & SECURITY ============ -->
+<section class="reliability" id="reliability" aria-labelledby="relTitle">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal="fade">Reliability &amp; security</p>
+      <h2 class="h2" id="relTitle" data-split="words">Built so the pager stays quiet.</h2>
+      <p class="lede" data-reveal="up">Money infrastructure earns trust slowly and loses it in a minute. Ledgerline is designed around the failure modes, not the happy path.</p>
+    </div>
+
+    <div class="bento" data-stagger="80">
+      <article class="tile tile-uptime" data-spotlight>
+        <header><h3>99.998% uptime</h3><p>Trailing 90 days of write availability. One brief degradation, zero data loss.</p></header>
+        <div class="bars" id="bars" role="img" aria-label="90-day uptime strip. 89 days fully operational, one day degraded."></div>
+        <div class="bars-legend mono"><span>90 days ago</span><span>today</span></div>
+      </article>
+
+      <article class="tile tile-regions" data-spotlight>
+        <header><h3>Active-active regions</h3><p>Writes are quorum-replicated across three regions. Take one away and traffic reroutes.</p></header>
+        <svg class="regions" id="regions" viewBox="0 0 320 170" role="img" aria-label="Three regions connected in a triangle with a client on top">
+          <g class="links">
+            <path class="link link-a" d="M160 28 L56 132" />
+            <path class="link link-b" d="M160 28 L264 132" />
+            <path class="link link-c" d="M56 132 L264 132" />
+          </g>
+          <g class="rnode" data-r="a"><circle cx="160" cy="28" r="15"/><text x="160" y="32">IAD</text></g>
+          <g class="rnode" data-r="b"><circle cx="56" cy="132" r="15"/><text x="56" y="136">FRA</text></g>
+          <g class="rnode" data-r="c"><circle cx="264" cy="132" r="15"/><text x="264" y="136">SIN</text></g>
+        </svg>
+        <div class="tile-foot">
+          <button class="btn btn-ghost btn-sm mk-button" id="failBtn" type="button" aria-pressed="false">Fail IAD</button>
+          <p class="mono fail-note" id="failNote" aria-live="polite">All regions healthy</p>
+        </div>
+      </article>
+
+      <article class="tile tile-chain" data-spotlight>
+        <header><h3>Immutable, hash-chained journal</h3><p>Entries are append-only. Each one commits to the one before it, so history cannot quietly change.</p></header>
+        <div class="chain" aria-hidden="true">
+          <div class="block"><span class="mono">#4,812,907</span><code>a91f…03c2</code></div>
+          <div class="join"></div>
+          <div class="block"><span class="mono">#4,812,908</span><code>5be0…d71a</code></div>
+          <div class="join"></div>
+          <div class="block block-new"><span class="mono">#4,812,909</span><code>c47d…9e08</code></div>
+        </div>
+      </article>
+
+      <article class="tile tile-sec" data-spotlight>
+        <header><h3>Security by default</h3></header>
+        <ul class="sec-list">
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg><div><b>Encrypted end to end</b><span>TLS 1.3 in transit, AES-256 at rest, per-tenant keys in an HSM.</span></div></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5l6 2.3v4.6c0 3.7-2.5 6.6-6 8.1-3.5-1.5-6-4.4-6-8.1V4.8z"/></svg><div><b>Scoped, rotating keys</b><span>Least-privilege API keys with IP allow-lists and instant revoke.</span></div></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3.5h10v13H5zM8 7.5h4M8 10.5h4M8 13.5h2"/></svg><div><b>Audit trail on everything</b><span>Every read and write by every key, exportable to your SIEM.</span></div></li>
+        </ul>
+      </article>
+
+      <article class="tile tile-latency" data-spotlight>
+        <header><h3>p99 write latency</h3><p>Under 50 ms, all week. Illustrative sample.</p></header>
+        <svg class="spark" viewBox="0 0 320 90" preserveAspectRatio="none" role="img" aria-label="Line chart of p99 latency staying between 36 and 46 milliseconds">
+          <line x1="0" y1="22" x2="320" y2="22" class="spark-guide"/>
+          <path class="spark-area" d="M0 62 C20 58,34 66,52 56 S86 48,104 58 S140 66,160 54 S196 44,214 52 S250 62,268 50 S304 54,320 46 V90 H0 Z"/>
+          <path class="spark-line" d="M0 62 C20 58,34 66,52 56 S86 48,104 58 S140 66,160 54 S196 44,214 52 S250 62,268 50 S304 54,320 46" pathLength="1"/>
+        </svg>
+        <div class="spark-meta mono"><span>SLO 50 ms</span><b>42 ms</b></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CUSTOMERS ============ -->
+<section class="customers" id="customers" aria-labelledby="custTitle">
+  <div class="container">
+    <div class="section-head section-head-split">
+      <h2 class="h2" id="custTitle" data-split="words">Teams that stopped reconciling on Mondays.</h2>
+      <p class="fine">Illustrative customer stories, not real testimonials.</p>
+    </div>
+
+    <div class="cust-grid">
+      <figure class="quote quote-feature" data-reveal="scale">
+        <svg class="qmark" viewBox="0 0 48 36" aria-hidden="true"><path d="M0 36V20C0 8 6 1 18 0v6c-6 1.5-9 5-9 10h9v20zm28 0V20C28 8 34 1 46 0v6c-6 1.5-9 5-9 10h9v20z"/></svg>
+        <blockquote><p>We deleted eleven thousand lines of balance-tracking code in one sprint. Our month-end close went from four days to a single query.</p></blockquote>
+        <figcaption><span class="avatar" aria-hidden="true">MO</span><span><b>Maya Okafor</b>VP Engineering, Tidewater Pay</span></figcaption>
+        <div class="quote-stat"><b data-count="96" data-count-suffix="%">96%</b><span>less time spent on reconciliation</span></div>
+      </figure>
+
+      <div class="cust-side" data-stagger="110">
+        <figure class="quote quote-small">
+          <blockquote><p>Idempotency keys saved us during a provider outage. We replayed 2.3M requests and nothing double-posted.</p></blockquote>
+          <figcaption><span class="avatar" aria-hidden="true">DR</span><span><b>Daniel Reyes</b>Staff Engineer, Orbital</span></figcaption>
+        </figure>
+        <figure class="quote quote-small">
+          <blockquote><p>Auditors asked for provenance on a single cent. We handed them a hash-chained trail in an afternoon.</p></blockquote>
+          <figcaption><span class="avatar" aria-hidden="true">AK</span><span><b>Ana Kovač</b>Head of Platform, Northfold</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="pricing" id="pricing" aria-labelledby="priceTitle">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal="fade">Pricing</p>
+      <h2 class="h2" id="priceTitle" data-split="words">Pay for entries, not for promises.</h2>
+      <p class="lede" data-reveal="up">Start free in the sandbox. Move to production when you are ready, with a flat platform fee and volume pricing that gets cheaper as you grow.</p>
+    </div>
+
+    <div class="billing" role="group" aria-label="Billing period" data-reveal="fade">
+      <span class="tab-ink" aria-hidden="true"></span>
+      <button type="button" class="bill is-on" data-bill="monthly" aria-pressed="true">Monthly</button>
+      <button type="button" class="bill" data-bill="annual" aria-pressed="false">Annual <em>save 17%</em></button>
+    </div>
+
+    <div class="plans" data-stagger="100">
+      <article class="plan" data-spotlight>
+        <h3>Sandbox</h3>
+        <p class="plan-desc">Everything you need to build and test.</p>
+        <p class="price"><span class="price-amt">$0</span><span class="per">forever</span></p>
+        <ul class="plan-list">
+          <li>10,000 ledger entries / month</li>
+          <li>Full API and all SDKs</li>
+          <li>Simulated rails and webhooks</li>
+          <li>Community support</li>
+        </ul>
+        <a class="btn btn-ghost mk-button" href="#signup">Start building</a>
+      </article>
+
+      <article class="plan plan-featured" data-spotlight>
+        <span class="plan-flag mono">Most teams</span>
+        <h3>Scale</h3>
+        <p class="plan-desc">Production traffic with real settlement.</p>
+        <p class="price"><span class="price-amt" id="scalePrice" data-monthly="480" data-annual="400">$480</span><span class="per">/ month</span></p>
+        <ul class="plan-list">
+          <li>2M entries included, then $0.0004 each</li>
+          <li>Live rails: ACH, RTP, SEPA Instant, cards</li>
+          <li>99.99% uptime SLA</li>
+          <li>Shared Slack channel, 1-hour response</li>
+        </ul>
+        <a class="btn btn-accent mk-button" href="#signup">Get production access <span class="arrow" aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="plan" data-spotlight>
+        <h3>Enterprise</h3>
+        <p class="plan-desc">Dedicated capacity and bespoke compliance.</p>
+        <p class="price"><span class="price-amt amt-text">Let’s talk</span></p>
+        <ul class="plan-list">
+          <li>Dedicated cells and regional pinning</li>
+          <li>Private networking and BYO keys</li>
+          <li>Custom SLA, DPA and security review</li>
+          <li>Named solutions engineer</li>
+        </ul>
+        <a class="btn btn-ghost mk-button" href="#signup">Talk to sales</a>
+      </article>
+    </div>
+    <p class="fine">Illustrative pricing for a fictional product.</p>
+  </div>
+</section>
+
+<!-- ============ SIGN-UP ============ -->
+<section class="signup dark" id="signup" aria-labelledby="signTitle">
+  <div class="signup-lines" aria-hidden="true"></div>
+  <div class="container signup-grid">
+    <div>
+      <h2 class="h1" id="signTitle" data-split="words">Make the first entry today.</h2>
+      <p class="lede" data-reveal="up">Create a sandbox in about ninety seconds. No card, no sales call, and your first balanced transfer is one request away.</p>
+    </div>
+    <form class="signup-form" id="signupForm" novalidate data-reveal="up" data-delay="120">
+      <label for="email" class="eyebrow">Work email</label>
+      <div class="field">
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="formMsg">
+        <button class="btn btn-accent mk-button" type="submit">Get API keys <span class="arrow" aria-hidden="true">→</span></button>
+      </div>
+      <p class="form-msg" id="formMsg" role="status" aria-live="polite">Demo form: nothing is sent or stored.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="Ledgerline home">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M7 12h18M7 20h11"/><circle cx="23" cy="20" r="2.6"/></svg>
+          <span>Ledgerline</span>
+        </a>
+        <p class="fine">Real-time payments and ledgers for engineering teams. A fictional product created for design demonstration.</p>
+      </div>
+      <nav aria-label="Product"><h4>Product</h4><a class="mk-link" href="#product">Ledger</a><a class="mk-link" href="#api">API</a><a class="mk-link" href="#reliability">Reliability</a><a class="mk-link" href="#pricing">Pricing</a></nav>
+      <nav aria-label="Developers"><h4>Developers</h4><a class="mk-link" href="#api">Documentation</a><a class="mk-link" href="#api">SDKs</a><a class="mk-link" href="#reliability">Status</a><a class="mk-link" href="#signup">Sandbox</a></nav>
+      <nav aria-label="Company"><h4>Company</h4><a class="mk-link" href="#customers">Customers</a><a class="mk-link" href="#reliability">Security</a><a class="mk-link" href="#signup">Contact</a></nav>
+    </div>
+    <p class="wordmark" aria-hidden="true" data-reveal="up">Ledgerline</p>
+    <div class="footer-bar"><span>© 2026 Ledgerline, Inc.</span><span class="mono">All systems operational</span></div>
+  </div>
+</footer>
+<div class="grain" aria-hidden="true"></div>
+</body>
+</html>

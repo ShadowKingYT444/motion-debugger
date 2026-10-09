@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drift — the AI sleep coach that listens back</title>
+<meta name="description" content="Drift adapts soundscapes, light and routines to your night, minute by minute. How it works, the science, features, plans and download.">
+<meta name="theme-color" content="#070A12">
+<script>document.documentElement.classList.add('mk-js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="motion-kit.css">
+<link rel="stylesheet" href="styles.css">
+<script src="motion-kit.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" data-nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top" aria-label="Drift home">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M21.5 4.5a12 12 0 1 0 6 21.2A10 10 0 0 1 21.5 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 22c3 0 3-2.4 6-2.4S12 22 15 22" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Drift</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="mk-link" href="#how">How it works</a>
+      <a class="mk-link" href="#science">Science</a>
+      <a class="mk-link" href="#features">Features</a>
+      <a class="mk-link" href="#sounds">Soundscapes</a>
+      <a class="mk-link" href="#plans">Plans</a>
+    </nav>
+    <a class="btn btn-small mk-button" href="#download">Get the app</a>
+  </div>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-reveal="fade"><span class="dot"></span>AI sleep coach for iOS and Android</p>
+      <h1 data-split="words" data-split-done="1" aria-label="Sleep, tuned to your night.">
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:0">Sleep,</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:1">tuned</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:2">to</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:3">your</span></span>
+        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:4"><em>night.</em></span></span>
+      </h1>
+      <p class="lede" data-reveal="up" data-delay="420">Drift listens to how you wind down, then reshapes rain, hum and wind minute by minute, so the night meets you where you are instead of playing the same loop.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary mk-button" data-reveal="up" data-delay="560" data-magnetic="0.2" href="#download"><span>Start free for 7 nights</span><svg class="arrow" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="mk-link link-quiet" data-reveal="up" data-delay="650" href="#how">See how a night works</a>
+      </div>
+      <p class="fine" data-reveal="fade" data-delay="900">Free to start. No card. Wellness product, not a medical device.</p>
+    </div>
+
+    <div class="hero-visual" data-reveal="scale" data-delay="200">
+      <div class="phone" data-tilt="4">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="ps-status"><span>11:42</span><span class="ps-batt"></span></div>
+          <p class="ps-kicker">Tonight</p>
+          <p class="ps-title">Easing you down</p>
+          <div class="orb" aria-hidden="true">
+            <span class="orb-ring r1"></span><span class="orb-ring r2"></span><span class="orb-ring r3"></span>
+            <span class="orb-core"><b>18</b><i>min to sleep</i></span>
+          </div>
+          <ul class="mix" data-mix>
+            <li><span>Rain on tin</span><em>62%</em><i><b></b></i></li>
+            <li><span>Warm hum</span><em>28%</em><i><b></b></i></li>
+            <li><span>Pine wind</span><em>40%</em><i><b></b></i></li>
+          </ul>
+          <div class="ps-foot"><span>Sunrise alarm 6:30 – 7:00</span></div>
+        </div>
+      </div>
+      <div class="chip chip-a" data-parallax="0.06"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M2 10h3l2-5 3 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Heart rate settling<br><b>58 bpm</b></span></div>
+      <div class="chip chip-b" data-parallax="-0.05"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 12l4-4 3 3 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Easing volume<br><b>-12% in 4 min</b></span></div>
+      <p class="caption">Interface shown with sample data.</p>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#how" aria-label="Scroll to how it works"><span></span></a>
+</section>
+
+<!-- SOUNDS MARQUEE -->
+<section class="strip" aria-label="Some of Drift's soundscapes">
+  <div class="mk-marquee-wrap">
+    <ul data-marquee style="--marquee-gap:3.5rem;--marquee-duration:60s">
+      <li>Rain on tin</li><li>Low tide</li><li>Pine wind</li><li>Night train</li><li>Warm hum</li><li>Embers</li><li>Brown noise</li><li>Pink noise</li><li>Dawn birds</li><li>Fan in another room</li>
+    </ul>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto-sec">
+  <div class="wrap narrow">
+    <p class="eyebrow" data-reveal="fade">The idea</p>
+    <p class="manifesto" data-progress data-words>Most sleep sounds are a loop that never notices you. Your night is not a loop. It has a slow descent, a long middle and a gentle edge, and Drift follows all three.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS (signature, pinned) -->
+<section class="story" id="how" data-progress data-story>
+  <div class="story-stage">
+    <div class="wrap story-grid">
+      <div class="story-copy">
+        <p class="eyebrow">How it works</p>
+        <h2 class="h2">One night, <em>four</em> hands-offs.</h2>
+        <ol class="steps">
+          <li class="step is-active" data-step="0"><span class="step-n">10:30 PM</span><h3>Wind down</h3><div class="step-body"><p>Drift hears the day end: screen off, steps quiet, breathing slows. Rain opens soft and wide, then narrows.</p></div></li>
+          <li class="step" data-step="1"><span class="step-n">11:10 PM</span><h3>Settle</h3><div class="step-body"><p>When sleep onset is detected, the mix steps down by about a third so nothing holds you in light sleep.</p></div></li>
+          <li class="step" data-step="2"><span class="step-n">3:00 AM</span><h3>Hold</h3><div class="step-body"><p>In deep sleep a low hum carries you. If you stir, Drift answers with the gentlest layer, never an alarm.</p></div></li>
+          <li class="step" data-step="3"><span class="step-n">6:45 AM</span><h3>Wake</h3><div class="step-body"><p>Inside your window, at your lightest point, birds fade in and the screen warms. No jolt.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="night" aria-label="A sample night as Drift sees it">
+        <div class="sky sky-dusk"></div><div class="sky sky-dawn"></div>
+        <div class="night-top">
+          <div><span class="label">Sample night</span><div class="clock"><span data-clock>10:30</span><small data-ampm>PM</small></div></div>
+          <div class="stage-pill"><i></i><span data-stage>Awake</span></div>
+        </div>
+        <div class="night-chart">
+          <ul class="lanes" aria-hidden="true"><li>Awake</li><li>REM</li><li>Light</li><li>Deep</li></ul>
+          <svg viewBox="0 0 640 220" preserveAspectRatio="none" role="img" aria-label="Hypnogram of a sample night drawing from awake to deep sleep and back">
+            <g class="grid-lines"><line x1="0" x2="640" y1="20" y2="20"/><line x1="0" x2="640" y1="80" y2="80"/><line x1="0" x2="640" y1="140" y2="140"/><line x1="0" x2="640" y1="200" y2="200"/></g>
+            <path class="hyp-ghost" data-hyp-ghost d="" />
+            <path class="hyp-line" data-hyp d="" pathLength="1"/>
+          </svg>
+          <span class="hyp-dot" data-dot></span>
+        </div>
+        <ul class="night-mix">
+          <li><span>Rain on tin</span><i><b data-mix-bar="0"></b></i><em data-mix-val="0">0%</em></li>
+          <li><span>Warm hum</span><i><b data-mix-bar="1"></b></i><em data-mix-val="1">0%</em></li>
+          <li><span>Pine wind</span><i><b data-mix-bar="2"></b></i><em data-mix-val="2">0%</em></li>
+          <li><span>Dawn birds</span><i><b data-mix-bar="3"></b></i><em data-mix-val="3">0%</em></li>
+        </ul>
+        <p class="night-note" data-note>Illustrative night, not a real user.</p>
+      </div>
+    </div>
+    <div class="story-progress" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<!-- SCIENCE -->
+<section class="science" id="science">
+  <div class="wrap science-grid">
+    <div class="science-head">
+      <p class="eyebrow" data-reveal="fade">The science</p>
+      <h2 class="h2" data-rich>Built on how <em>sleep</em> is actually shaped.</h2>
+      <p class="body" data-reveal="up">A night is not eight flat hours. It runs in cycles of roughly ninety minutes, each moving through lighter, deeper and dreaming sleep. Drift reads where you are in that arc and chooses sound to match.</p>
+      <div class="facts" data-stagger="90">
+        <div><b data-count="90">0</b><span>minutes in a typical sleep cycle</span></div>
+        <div><b data-count="5">0</b><span>cycles in an average night (4 to 6)</span></div>
+        <div><b data-count="0">0</b><span>seconds of your audio sent to a server</span></div>
+      </div>
+    </div>
+
+    <div class="spectrum-card" data-reveal="scale" data-spotlight>
+      <div class="tabs" role="tablist" aria-label="Noise colour">
+        <span class="tab-ink" aria-hidden="true"></span>
+        <button role="tab" aria-selected="true" data-noise="white" id="tab-white" aria-controls="panel-noise">White</button>
+        <button role="tab" aria-selected="false" data-noise="pink" id="tab-pink" aria-controls="panel-noise">Pink</button>
+        <button role="tab" aria-selected="false" data-noise="brown" id="tab-brown" aria-controls="panel-noise">Brown</button>
+      </div>
+      <svg class="spectrum" viewBox="0 0 600 280" role="img" aria-label="Power spectrum of white, pink and brown noise">
+        <g class="grid-lines"><line x1="40" x2="580" y1="40" y2="40"/><line x1="40" x2="580" y1="110" y2="110"/><line x1="40" x2="580" y1="180" y2="180"/><line x1="40" x2="580" y1="250" y2="250"/></g>
+        <path class="sp sp-white" d="M40 80 L580 80" pathLength="1"/>
+        <path class="sp sp-pink" d="M40 62 C 200 98, 400 150, 580 188" pathLength="1"/>
+        <path class="sp sp-brown" d="M40 48 C 180 110, 380 200, 580 262" pathLength="1"/>
+        <text x="40" y="272" class="axis">20 Hz</text><text x="540" y="272" class="axis">20 kHz</text>
+        <text x="8" y="44" class="axis" transform="rotate(-90 8 44)">power</text>
+      </svg>
+      <div class="panel" id="panel-noise" role="tabpanel" aria-live="polite">
+        <h3 data-noise-title>White noise</h3>
+        <p data-noise-text>Equal energy at every frequency. Bright and hissy, it masks sudden sounds well but can feel sharp for long listens.</p>
+        <p class="use">Drift uses it for: <b data-noise-use>short masking when a street is loud</b></p>
+      </div>
+    </div>
+  </div>
+  <p class="wrap refs" data-reveal="fade">Informed by published work including Zhou et al., 2012 (J. Theor. Biol.) on pink noise and sleep stability, and Papalambros et al., 2017 (Front. Hum. Neurosci.) on acoustic stimulation and slow-wave activity in older adults. Results vary by person. Drift is a wellness product and does not diagnose or treat sleep disorders.</p>
+</section>
+
+<!-- FEATURES BENTO -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal="fade">App features</p>
+      <h2 class="h2" data-rich>Everything a good night asks for. <em>Nothing it doesn't.</em></h2>
+    </div>
+    <div class="bento" data-stagger="80">
+      <article class="tile tile-mix" data-spotlight>
+        <div class="tile-copy"><h3>Adaptive mix</h3><p>Four layers, rebalanced every few seconds from your movement, breathing and room noise.</p></div>
+        <div class="live-mix" data-live-mix aria-hidden="true">
+          <div><span>Rain</span><i><b></b></i></div><div><span>Hum</span><i><b></b></i></div><div><span>Wind</span><i><b></b></i></div><div><span>Birds</span><i><b></b></i></div>
+        </div>
+      </article>
+      <article class="tile tile-wake" data-spotlight>
+        <div class="tile-copy"><h3>Smart wake</h3><p>Pick a 30-minute window. Drift picks your lightest minute inside it.</p></div>
+        <svg class="wake-art" viewBox="0 0 240 130" aria-hidden="true"><path class="wake-hill" d="M0 130V96q60-30 120-6t120-24v64z"/><g class="wake-sun"><circle cx="120" cy="86" r="22"/><g class="rays" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M120 50v-10M148 62l7-7M92 62l-7-7M160 86h10M70 86H80"/></g></g><path class="wake-arc" d="M30 96 A90 90 0 0 1 210 96" pathLength="1"/></svg>
+      </article>
+      <article class="tile tile-breath" data-spotlight>
+        <div class="tile-copy"><h3>Breathing guide</h3><p>4-7-8 pacing you can feel, with haptics and no screen.</p></div>
+        <div class="breath" aria-hidden="true"><span></span><span></span><b>in</b></div>
+      </article>
+      <article class="tile tile-routine" data-spotlight>
+        <div class="tile-copy"><h3>Routine builder</h3><p>Stack small rituals. Drift times them backwards from your wake window.</p></div>
+        <ul class="routine" data-routine>
+          <li><button class="toggle" aria-pressed="true"><span>Dim lights</span><time>9:45</time><i></i></button></li>
+          <li><button class="toggle" aria-pressed="true"><span>Stretch, 5 min</span><time>10:05</time><i></i></button></li>
+          <li><button class="toggle" aria-pressed="false"><span>Journal a worry</span><time>10:15</time><i></i></button></li>
+          <li><button class="toggle" aria-pressed="true"><span>Start Drift</span><time>10:30</time><i></i></button></li>
+        </ul>
+      </article>
+      <article class="tile tile-journal" data-spotlight>
+        <div class="tile-copy"><h3>Morning journal</h3><p>A plain-language read of the week, not a score to chase.</p></div>
+        <svg class="bars" viewBox="0 0 220 90" aria-hidden="true"><g data-bars><rect x="6" y="40" width="22" height="50" rx="5"/><rect x="38" y="28" width="22" height="62" rx="5"/><rect x="70" y="46" width="22" height="44" rx="5"/><rect x="102" y="20" width="22" height="70" rx="5"/><rect x="134" y="32" width="22" height="58" rx="5"/><rect x="166" y="14" width="22" height="76" rx="5" class="hi"/><rect x="198" y="36" width="16" height="54" rx="5" class="ghost"/></g></svg>
+        <p class="sample">Sample week</p>
+      </article>
+      <article class="tile tile-private" data-spotlight>
+        <div class="tile-copy"><h3>Private by design</h3><p>Sound analysis runs on your phone. Nothing is recorded or uploaded.</p></div>
+        <ul class="tags"><li>On-device</li><li>No recordings</li><li>Delete anytime</li></ul>
+        <svg class="lock" viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="28" width="36" height="26" rx="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M22 28v-7a10 10 0 0 1 20 0v7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="32" cy="41" r="3" fill="var(--accent)"/></svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SOUNDSCAPES (horizontal scroll) -->
+<section class="sounds" id="sounds" data-progress data-hscroll>
+  <div class="sounds-stage">
+    <div class="wrap sounds-head">
+      <div>
+        <p class="eyebrow" data-reveal="fade">Soundscapes</p>
+        <h2 class="h2" data-rich>Six rooms to <em>fall asleep</em> in.</h2>
+      </div>
+      <p class="body">Press play to hear a small, generated preview. The full app layers and morphs them across your night.</p>
+    </div>
+    <div class="sounds-track" data-track>
+      <article class="scape" data-sound="tide"><div class="art art-tide" aria-hidden="true"><svg viewBox="0 0 300 380" preserveAspectRatio="xMidYMid slice"><g class="w w1"><path d="M-100 210q50-26 100 0t100 0t100 0t100 0t100 0v200h-500z"/></g><g class="w w2"><path d="M-100 250q50-26 100 0t100 0t100 0t100 0t100 0v200h-500z"/></g><g class="w w3"><path d="M-100 295q50-26 100 0t100 0t100 0t100 0t100 0v200h-500z"/></g><circle cx="220" cy="80" r="26" class="moon"/></svg></div><div class="scape-meta"><div><h3>Low tide</h3><p>Brown noise, slow swell</p></div><button class="play" aria-pressed="false" aria-label="Play Low tide preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+      <article class="scape" data-sound="rain"><div class="art art-rain" aria-hidden="true"><span class="drops"></span><span class="drops d2"></span><span class="roof"></span></div><div class="scape-meta"><div><h3>Rain on tin</h3><p>Pink noise, bright patter</p></div><button class="play" aria-pressed="false" aria-label="Play Rain on tin preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+      <article class="scape" data-sound="wind"><div class="art art-wind" aria-hidden="true"><svg viewBox="0 0 300 380" preserveAspectRatio="xMidYMid slice"><g class="trees"><path d="M40 380V250l-26 0 36-70-22 0 34-64 34 64-22 0 36 70-26 0v130zM170 380V280l-20 0 28-52-16 0 26-48 26 48-16 0 28 52-20 0v100zM250 380V300l-14 0 20-38-10 0 18-34 18 34-10 0 20 38-14 0v80z"/></g><g class="gust"><path d="M-20 120q60-24 120 0t120-10 100 6"/><path d="M-20 170q70-20 130 0t130-8"/></g></svg></div><div class="scape-meta"><div><h3>Pine wind</h3><p>Filtered noise, drifting pitch</p></div><button class="play" aria-pressed="false" aria-label="Play Pine wind preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+      <article class="scape" data-sound="train"><div class="art art-train" aria-hidden="true"><span class="carriage"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="rail"></span></div><div class="scape-meta"><div><h3>Night train</h3><p>Low rumble, steady rhythm</p></div><button class="play" aria-pressed="false" aria-label="Play Night train preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+      <article class="scape" data-sound="drone"><div class="art art-drone" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="scape-meta"><div><h3>Warm hum</h3><p>Soft tones, slow beating</p></div><button class="play" aria-pressed="false" aria-label="Play Warm hum preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+      <article class="scape" data-sound="embers"><div class="art art-embers" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><i class="log"></i></div><div class="scape-meta"><div><h3>Embers</h3><p>Soft crackle, warm floor</p></div><button class="play" aria-pressed="false" aria-label="Play Embers preview"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path class="i-play" d="M6 4l10 6-10 6z"/><path class="i-pause" d="M6 4h3v12H6zM11 4h3v12h-3z"/></svg></button></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="stories" id="stories">
+  <div class="wrap stories-grid">
+    <div>
+      <p class="eyebrow" data-reveal="fade">Early listeners</p>
+      <h2 class="h2" data-rich>Nights people <em>stopped dreading.</em></h2>
+      <p class="sample-note" data-reveal="fade">Sample quotes written for this design. Replace with real, permissioned reviews before launch.</p>
+      <div class="people" role="tablist" aria-label="Choose a story" data-stagger="80">
+        <button role="tab" aria-selected="true"><i></i><span><b>Maya R.</b>Night-shift nurse</span></button>
+        <button role="tab" aria-selected="false"><i></i><span><b>Tomás A.</b>Light sleeper, city flat</span></button>
+        <button role="tab" aria-selected="false"><i></i><span><b>Priya N.</b>Parent of a newborn</span></button>
+      </div>
+    </div>
+    <div class="quotes" data-reveal="up">
+      <blockquote class="quote is-active"><p>I sleep at 9 AM with the sun in the street. Drift builds a dark room out of sound, and when my alarm window opens I'm already surfacing.</p></blockquote>
+      <blockquote class="quote"><p>The tide never repeats. After a week I noticed I wasn't tracking the loop anymore, which is the whole point.</p></blockquote>
+      <blockquote class="quote"><p>Short nights are all I get. I stopped asking for more hours and started caring that the ones I have are quiet and soft at the edges.</p></blockquote>
+          </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="plans" id="plans">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow" data-reveal="fade">Plans</p>
+      <h2 class="h2" data-rich>Start free. <em>Stay for the nights.</em></h2>
+      <div class="billing" role="group" aria-label="Billing period" data-reveal="fade">
+        <span class="bill-ink" aria-hidden="true"></span>
+        <button aria-pressed="false" data-bill="month">Monthly</button>
+        <button aria-pressed="true" data-bill="year">Yearly <small>save 50%</small></button>
+      </div>
+    </div>
+    <div class="plan-grid" data-stagger="100">
+      <article class="plan" data-spotlight>
+        <h3>Free</h3><p class="plan-sub">For trying a few nights.</p>
+        <p class="price"><span class="cur">$</span><span class="amt">0</span><span class="per">forever</span></p>
+        <ul class="ticks"><li>Three soundscapes</li><li>Wind-down breathing guide</li><li>Basic sunrise alarm</li></ul>
+        <a class="btn btn-ghost mk-button" href="#download">Download</a>
+      </article>
+      <article class="plan plan-featured" data-spotlight>
+        <span class="badge">Most chosen</span>
+        <h3>Drift Plus</h3><p class="plan-sub">The full adaptive coach.</p>
+        <p class="price"><span class="cur">$</span><span class="amt" data-price data-month="9.99" data-year="4.99">4.99</span><span class="per" data-per>per month, billed yearly</span></p>
+        <ul class="ticks"><li>Every soundscape, layered live</li><li>Adaptive mix and smart wake</li><li>Routine builder and journal</li><li>7-night free trial</li></ul>
+        <a class="btn btn-primary mk-button" data-magnetic="0.15" href="#download">Try 7 nights free</a>
+      </article>
+      <article class="plan" data-spotlight>
+        <h3>Family</h3><p class="plan-sub">Up to five sleepers.</p>
+        <p class="price"><span class="cur">$</span><span class="amt" data-price data-month="14.99" data-year="7.49">7.49</span><span class="per" data-per>per month, billed yearly</span></p>
+        <ul class="ticks"><li>Everything in Plus</li><li>Five private profiles</li><li>Shared quiet-hours routine</li></ul>
+        <a class="btn btn-ghost mk-button" href="#download">Choose Family</a>
+      </article>
+    </div>
+    <p class="fine center">Prices shown are illustrative launch pricing in USD. Cancel any time in your app store settings.</p>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="download" id="download" data-progress>
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="moon" aria-hidden="true"><i></i></div>
+  <div class="wrap download-inner">
+    <h2 class="h3x" data-rich>Tonight, let it <em>drift.</em></h2>
+    <p class="body" data-reveal="up">Free for seven nights. Set it down, close your eyes, and let the night come to you.</p>
+    <div class="stores" data-stagger="100">
+      <a class="store mk-button" href="#download" aria-label="Download on the App Store">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M16.5 3.2c.1 1.3-.4 2.5-1.2 3.4-.8.9-2 1.5-3.1 1.4-.1-1.2.5-2.5 1.2-3.3.8-.9 2.1-1.5 3.1-1.5zM20 17.2c-.5 1.1-.8 1.600-1.400 2.600-.9 1.400-2.100 3.100-3.600 3.100-1.400 0-1.700-.9-3.600-.9s-2.300.9-3.600.9c-1.500 0-2.600-1.600-3.500-3C2.200 16.300 1.900 11.500 3.500 9c1.100-1.800 2.900-2.800 4.600-2.800 1.700 0 2.800.9 4.200.9 1.400 0 2.200-.9 4.200-.9 1.500 0 3.100.8 4.200 2.200-3.700 2-3.100 7.300-.7 8.800z" fill="currentColor"/></svg>
+        <span><small>Download on the</small>App Store</span>
+      </a>
+      <a class="store mk-button" href="#download" aria-label="Get it on Google Play">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M4 3.500v17l9-8.500zM14.500 10.600 6 2.700l10.600 6.100zM14.500 13.400 6 21.300l10.600-6.100zM17.800 9.500l3 1.700c.8.500.8 1.600 0 2.100l-3 1.700-2.900-2.750z" fill="currentColor"/></svg>
+        <span><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+    <p class="fine">Store links are placeholders in this preview.</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-grid" data-stagger="80">
+    <div class="foot-brand"><a class="logo" href="#top"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M21.5 4.5a12 12 0 1 0 6 21.2A10 10 0 0 1 21.5 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Drift</span></a><p>An AI sleep coach that adapts soundscapes and routines to your night.</p></div>
+    <nav aria-label="Product"><h4>Product</h4><a class="mk-link" href="#how">How it works</a><a class="mk-link" href="#features">Features</a><a class="mk-link" href="#sounds">Soundscapes</a><a class="mk-link" href="#plans">Plans</a></nav>
+    <nav aria-label="Company"><h4>Company</h4><a class="mk-link" href="#science">The science</a><a class="mk-link" href="#stories">Stories</a><a class="mk-link" href="#download">Press kit</a></nav>
+    <nav aria-label="Legal"><h4>Legal</h4><a class="mk-link" href="#top">Privacy</a><a class="mk-link" href="#top">Terms</a><a class="mk-link" href="#top">Health disclaimer</a></nav>
+  </div>
+  <div class="wrap foot-base"><span>&copy; 2026 Drift. Concept site with illustrative content.</span><span>Not a medical device. Talk to a clinician about persistent sleep problems.</span></div>
+</footer>
+
+<script>
+/* Split rich headings (with <em>) into masked word pieces before the deferred scripts run. */
+(function () {
+  var i;
+  function build(node, state) {
+    var out = '';
+    node.childNodes.forEach(function (n) {
+      if (n.nodeType === 3) {
+        n.textContent.split(/\s+/).filter(Boolean).forEach(function (w) {
+          out += '<span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:' + (i++) + '">' + w + '</span></span> ';
+        });
+      } else if (n.nodeType === 1) {
+        var inner = build(n, state);
+        out += '<' + n.tagName.toLowerCase() + '>' + inner + '</' + n.tagName.toLowerCase() + '> ';
+      }
+    });
+    return out.replace(/ <\/em>/g, '</em>');
+  }
+  document.querySelectorAll('[data-rich]').forEach(function (h) {
+    i = 0;
+    var label = h.textContent.replace(/\s+/g, ' ').trim();
+    h.setAttribute('aria-label', label);
+    h.innerHTML = build(h, {});
+    h.setAttribute('data-split', 'words');
+    h.setAttribute('data-split-done', '1');
+  });
+})();
+</script>
+</body>
+</html>

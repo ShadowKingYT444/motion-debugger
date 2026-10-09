@@ -82,19 +82,7 @@ export const critiqueInitScript=String.raw`(() => {
   addEventListener('unhandledrejection', (event) => mc.errors.push('Unhandled rejection: ' + String(event.reason).slice(0, 280)));
 })();`;
 
-// Page-level structural measurements. Returns plain data; called with page.evaluate(string).
-export const critiqueStaticScript=String.raw`(() => {
-  // Mobile Chrome widens the layout viewport to fit overflowing content; measure against the device width.
-  const vw = screen.width && screen.width < innerWidth ? screen.width : innerWidth, vh = innerHeight;
-  const path = (el) => {
-    const parts = [];
-    for (let node = el, depth = 0; node && node.nodeType === 1 && depth < 4; node = node.parentElement, depth++) {
-      let part = node.localName; if (node.id) { parts.unshift(part + '#' + node.id); break; }
-      const cls = [...node.classList].filter(c => c.length < 32).slice(0, 2); if (cls.length) part += '.' + cls.join('.'); parts.unshift(part);
-    }
-    return parts.join(' > ');
-  };
-  // A clip-path that collapses to zero area hides content as completely as opacity 0.
+const visibilityHelpers=String.raw`  // A clip-path that collapses to zero area hides content as completely as opacity 0.
   const collapsed = (el, clip) => {
     if (!clip || clip === 'none') return false;
     if (/^(circle|ellipse)\(\s*0(px|%)?[\s)]/.test(clip)) return true;
@@ -112,11 +100,45 @@ export const critiqueStaticScript=String.raw`(() => {
     const r = el.getBoundingClientRect(); if (r.width < 2 || r.height < 2) return false;
     return el.localName === 'img' || el.localName === 'svg' || hasOwnText(el);
   });
+`;
+
+// Page-level structural measurements. Returns plain data; called with page.evaluate(string).
+export const critiqueStaticScript=String.raw`(() => {
+  // Mobile Chrome widens the layout viewport to fit overflowing content; measure against the device width.
+  const vw = screen.width && screen.width < innerWidth ? screen.width : innerWidth, vh = innerHeight;
+  const path = (el) => {
+    const parts = [];
+    for (let node = el, depth = 0; node && node.nodeType === 1 && depth < 4; node = node.parentElement, depth++) {
+      let part = node.localName; if (node.id) { parts.unshift(part + '#' + node.id); break; }
+      const cls = [...node.classList].filter(c => c.length < 32).slice(0, 2); if (cls.length) part += '.' + cls.join('.'); parts.unshift(part);
+    }
+    return parts.join(' > ');
+  };
+${visibilityHelpers}  // Inactive carousel slides, tab panels and success messages are hidden alternatives layered
+  // over a visible sibling. The hiding ancestor overlapping a visible sibling marks that pattern.
+  const ownHidden = (n) => { const s = getComputedStyle(n); return Number(s.opacity) < 0.08 || s.visibility === 'hidden' || collapsed(n, s.clipPath); };
+  const stackedAlternative = (el) => {
+    let hider = null; for (let n = el; n && n.nodeType === 1 && n !== document.body; n = n.parentElement) if (ownHidden(n)) hider = n;
+    if (!hider || !hider.parentElement) return false;
+    const a = hider.getBoundingClientRect(); const area = Math.max(1, a.width * a.height);
+    return [...hider.parentElement.children].some(sib => {
+      if (sib === hider || effectiveOpacity(sib) < 0.5) return false;
+      const b = sib.getBoundingClientRect();
+      const w = Math.min(a.right, b.right) - Math.max(a.left, b.left), h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      return w > 0 && h > 0 && w * h >= area * 0.5;
+    });
+  };
   const hidden = [];
+  // Content that was visible while in view and later faded (scroll-away heroes, crossfading
+  // story steps) is not stuck; neither is content that was never inside the viewport.
+  const seen = window.__mcVis;
   for (const el of textEls) {
     if (intentionallyHidden(el)) continue;
     const s = getComputedStyle(el); if (s.display === 'none') continue;
-    const o = effectiveOpacity(el);
+    // Stuck = still hidden now AND never seen visible while in the viewport (when sampled).
+    let o = effectiveOpacity(el);
+    if (seen && o < 0.08 && (!seen.has(el) || seen.get(el) >= 0.08)) continue;
+    if (o < 0.08 && stackedAlternative(el)) continue;
     if (o < 0.08) hidden.push({ selector: path(el), text: (el.textContent || el.getAttribute('alt') || el.localName).trim().slice(0, 60), opacity: Number(o.toFixed(3)) });
   }
   const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
@@ -165,3 +187,18 @@ export const critiqueSectionMotionScript=String.raw`(() => [...document.querySel
   for (const el of [section, ...section.querySelectorAll('*')]) { if (el.__mcAnimated) animated++; if (el.__mcClassChanged && el.__mcClassChanged !== 'load-static') classChanged++; }
   return { index: Number(section.getAttribute('data-mc-section')), animated, classChanged };
 }))()`;
+
+// Record, for every text/image element inside the viewport right now, the highest effective
+// visibility observed so far. Called after each settled scroll stop.
+export const critiqueVisibilitySampleScript=String.raw`(() => {
+  const vw = innerWidth, vh = innerHeight;
+${visibilityHelpers}
+  const seen = window.__mcVis = window.__mcVis || new Map();
+  for (const el of textEls) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom <= 0 || r.top >= vh || r.right <= 0 || r.left >= vw) continue;
+    const o = effectiveOpacity(el);
+    if (!seen.has(el) || seen.get(el) < o) seen.set(el, o);
+  }
+  return seen.size;
+})()`;
