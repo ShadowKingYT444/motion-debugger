@@ -18,7 +18,7 @@ npm install -g ./motion-debugger-0.5.0.tgz
 motion-debugger init --local
 ```
 
-Run the wizard from the application project. Choose a supported client, keep the offered six-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
+Run the wizard from the application project. Choose a supported client, keep the offered seven-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. Keep `--local` for the unpublished preview so the configuration points to the durable installation instead of an unavailable registry package.
 
 Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.5.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
 

@@ -1,6 +1,6 @@
 # Test useful motion feedback, not a lucky redesign
 
-Status: protocol plus one attempted bounded 3-task × 3-arm × 1-repetition pilot. All nine generation sessions were `agent-failed`; no completed product cohort exists. A final-package regrade of the preserved bytes is retained at `artifacts/motion-value-regrade/2026-10-07T08-00-00Z-final/RESULTS.json`, but it is not a replacement for successful agent trials. See [`FINAL_REPORT.md`](../../FINAL_REPORT.md) and read the [source audit and calibration](../audits/MOTION-VALUE-AUDIT.md) first.
+Status: protocol plus one attempted bounded 3-task × 3-arm × 1-repetition pilot. All nine generation sessions were `agent-failed`; no completed product cohort exists. A final-package regrade of the preserved bytes is retained at `artifacts/motion-value-regrade/2026-10-07T08-00-00Z-final/RESULTS.json`, but it is not a replacement for successful agent trials. See [`FINAL_REPORT.md`](../history/FINAL_REPORT.md) and read the [source audit and calibration](../audits/MOTION-VALUE-AUDIT.md) first.
 
 ## 1. The question
 
@@ -134,7 +134,7 @@ The regrade-only runner subsequently validated the frozen source digests and hel
 
 The final regrade package is SHA-256 `f8333df107382aa4123dddcfd1cc6dcace49da55ac646768998ab82c094c6ac2`; evaluator SHA-256 is `0b89d1ca53cdfdb999967ea4093fd8d70ef291c4b251efddfb0a7ac724f14aed`; regrade runner SHA-256 is `95e4e5293afac89a99ebe3abaed01f0815b3f3677bbe5b5bc40a8b2f8710df8e`. Browser grades describe only the bytes that existed after failed generation. They provide no successful before/after repair pair, causal Motion evidence, aesthetic preference, or product-effectiveness cohort.
 
-Separately, the matched detector calibration compares commit `4157fd25a696c8de1eef0f0fad83b0cd4b1fa622` with the final runtime on identical fixtures and actions. The old runtime was blind to the newly declared wrapped-orientation and independent-anchor guarantees; the final runtime rejects the planted 3.1733-radian flip and 45.980 CSS px anchor drift while the reference still passes. This establishes detector sensitivity, not agent or product superiority. Exact artifacts and identities are in [`FINAL_REPORT.md`](../../FINAL_REPORT.md).
+Separately, the matched detector calibration compares commit `4157fd25a696c8de1eef0f0fad83b0cd4b1fa622` with the final runtime on identical fixtures and actions. The old runtime was blind to the newly declared wrapped-orientation and independent-anchor guarantees; the final runtime rejects the planted 3.1733-radian flip and 45.980 CSS px anchor drift while the reference still passes. This establishes detector sensitivity, not agent or product superiority. Exact artifacts and identities are in [`FINAL_REPORT.md`](../history/FINAL_REPORT.md).
 
 ## Primary technical references
 

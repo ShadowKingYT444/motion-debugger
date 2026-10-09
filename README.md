@@ -21,7 +21,7 @@ Motion Debugger helps coding agents ship **premium, art-directed websites with h
 - **`premium-motion` skill.** Concrete craft guidance: art direction, a type/space/surface system, motion tokens, choreography and robustness rules. It ships with a dependency-free motion kit and pattern code (hero sequences, pinned scroll stories, bento spotlights, path drawing, horizontal galleries).
 - **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile and records the entrance, a full scroll, hovers, keyboard focus and reduced motion. It returns findings with specific fixes, plus contact sheets the agent reads to *see* its own page.
 
-**Measured effect.** In a blinded A/B with 16 matched pairs, Sonnet 5.5 agents with the plugin built sites that Opus 5.5 judges rated more premium in 12 pairs; control was rated higher in 2. That was +1.0/10 overall (p = 0.005) and +1.34/10 for motion quality (p = 0.0004). Method, every verdict and all 32 sites are in [the study](studies/premium-ab/README.md).
+**Measured effect:** in a blinded 16-pair A/B, agents with the plugin built sites that judges rated more premium in 12 of 16 pairs, with significantly better motion and mobile robustness. See [Results](#results).
 
 ```sh
 motion-debugger critique ./site                   # a folder with index.html, or an .html file
@@ -33,27 +33,52 @@ The recorded-evidence tools for detailed transition debugging (`motion_review`, 
 
 ## Quickstart
 
-Requires **Node.js 22+** and Chromium. This is an unpublished local preview; install from GitHub rather than npm.
+Requires **Node.js 22+** and Chromium. This is an unpublished local preview, so install from GitHub rather than npm.
 
 ```sh
 git clone https://github.com/ShadowKingYT444/motion-debugger.git
 cd motion-debugger
-npm ci
-npm run build
-node build/cli/index.js setup --browser
-node build/cli/index.js doctor
+npm ci && npm run build
+npm install -g .                       # puts `motion-debugger` on your PATH
+motion-debugger setup --browser        # explicit, version-matched Chromium download
+motion-debugger doctor
+```
+
+To skip the global install, run `node build/cli/index.js <command>` instead of `motion-debugger`. An existing Chrome or Chromium also works: set `CHROMIUM_PATH`, or let the CLI find `/usr/bin/google-chrome` or `/usr/bin/chromium`.
+
+Critique any local page straight away:
+
+```sh
+motion-debugger critique ./path/to/site    # prints findings and writes contact sheets to .motion-critique/
 ```
 
 Connect it to your application project:
 
 ```sh
-node build/cli/index.js init --client codex --local --skills \
+motion-debugger init --client codex --local --skills \
   --project /absolute/path/to/your-app
 ```
 
 The command previews the MCP configuration and skill files. Review it, then rerun with `--apply` to confirm in an interactive terminal. For scripts, add `--apply --confirm <confirmationToken>` from that exact preview. Keep this checkout in place: `--local` registers its absolute runtime path. Unrelated settings and skill files are preserved.
 
 For a portable installation, run `npm pack`, then install the resulting tarball in a stable tools directory. [Installation details](docs/CLIENTS.md).
+
+## Results
+
+In a blinded A/B, Sonnet 5.5 agents built 32 sites: 4 briefs, 4 seeds, with and without the plugin. Opus 5.5 judges compared each matched pair twice with positions swapped and saw only neutral recordings.
+
+| Judged on (1–10) | With plugin vs without | Pairs won (plugin / control) | p |
+| --- | --- | --- | --- |
+| Overall premium feel | **+1.0** | 12 / 2 | 0.005 |
+| Motion quality | **+1.34** | 14 / 1 | 0.0004 |
+| Mobile robustness | **+1.0** | 9 / 3 | 0.02 |
+| Visual design | +0.34 | 8 / 2 | 0.07 |
+
+Every control site had at least one blocker or major defect that the critic flags: content that never appears, reduced-motion visitors losing content, mobile overflow, layout shift, low contrast or controls with no hover feedback. No plugin site did.
+
+![Same brief and builder model: control (top) vs premium-motion + critique (bottom)](studies/premium-ab/results/norr-1-scroll-comparison.jpg)
+
+[Method, statistics, threats to validity and every verdict](studies/premium-ab/README.md)
 
 ## Coding agents
 
@@ -104,12 +129,12 @@ For a specific interaction, the evidence tools record bounded journeys and compa
 
 Recordings and reports stay local in `.motion-evidence/`. Capture trusted, credential-free local pages. Measurements check your stated contracts; visual taste remains a human judgment.
 
-## Try it locally
+## Demos
 
 ```sh
-node build/cli/index.js demo
+motion-debugger demo
 ```
 
 Open the printed URL to explore the bundled examples, or **http://127.0.0.1:4173/ab/** for the railway workflow A/B. Both apps and the original desktop/mobile films ship in the tarball. Switch between live apps and recorded journeys; play, pause and seek both films with one control. The checkout also offers `npm run demo:rail` on port 4123.
 
-[Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+[Premium motion](docs/PREMIUM-MOTION.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)

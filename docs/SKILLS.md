@@ -2,8 +2,9 @@
 
 Motion Debugger combines portable agent skills with local motion evidence tools. The host agent writes and repairs code; the MCP server records and inspects the running result.
 
-## Six focused skills
+## Seven focused skills
 
+- `premium-motion`: **start here for pages and sites.** Art direction, type/space/surface system, motion tokens, choreography and robustness rules, a dependency-free motion kit, pattern code, and the required `motion-debugger critique` look-and-refine loop ([details](PREMIUM-MOTION.md))
 - `motion-debugger`: namespaced entry for protected transition authoring and native review; coexists with another `/motion` skill
 - `motion`: normal design prompt entry point; routes to original runnable recipes, design guidance and browser verification
 - `motion-design`: choose a brief-led visual direction, coherent typography/surfaces and complete interaction states
@@ -11,7 +12,7 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 - `motion-evidence`: capture, inspect recorded images and compare temporal contracts for an existing interaction
 - `motion-build-inspect-repair`: own a prompt-to-page build, diagnose actual observed defects, repair source in scope and verify the same interaction again
 
-For a new animated page, tag `motion` and give your ordinary website or app brief. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
+For a new animated page or site, use `premium-motion` (or tag `motion`, which routes there) with your ordinary brief. It routes to design and 3D guidance only when relevant. For an existing temporal bug, start with `motion-evidence`.
 
 For an existing design, prefer `$motion-debugger` and the [constrained transition authoring reference](../plugin/motion-debugger/skills/motion/references/transition-authoring.md). It retains actor bindings, explicit coordinates and clocks, phase dependencies, input policy, useful completion and protected design bytes. Native evidence and pose previews remain separately labeled.
 
@@ -25,7 +26,7 @@ Build a local tarball from a reviewed checkout with `npm ci` followed by `npm pa
 motion-debugger init --local
 ```
 
-In an interactive terminal, choose Codex, Claude Code, Cursor or VS Code, keep the offered six-skill installation, review the exact project MCP destination and skill files, then type `yes` to apply. The browser download is a separate explicit choice. This is one guided setup for the evidence server **and** the design/build instructions. Keep the installed package in place because `--local` records its absolute runtime path.
+In an interactive terminal, choose Codex, Claude Code, Cursor or VS Code, keep the offered seven-skill installation, review the exact project MCP destination and skill files, then type `yes` to apply. The browser download is a separate explicit choice. This is one guided setup for the evidence server **and** the design/build instructions. Keep the installed package in place because `--local` records its absolute runtime path.
 
 For a known client or a different workspace, use an exact project-scoped preview:
 
@@ -54,7 +55,7 @@ Existing identical folders are retained. A differing `motion` folder is preserve
 
 These commands change project files only after explicit approval. They do not bypass workspace trust, register a model endpoint or grant the agent extra permissions. Restart/reload your agent if its host needs that to discover new skills. Ask the agent to identify the selected skill and list `motion_review` together with `motion_capture`, `motion_frames`, `motion_inspect` and `motion_compare` before claiming the complete workflow is available. A successful install is not evidence that a host has loaded the skills or approved its MCP server.
 
-The Codex plugin manifest also exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all six skills. Other compatible clients can load `SKILL.md` explicitly when automatic discovery differs. The native plugin namespaced entry reads its shared resources from the plugin's own `motion` folder. For manual project copying, keep both owned folders together; if a foreign `motion` folder already exists, use the CLI to create a self-contained namespaced copy. Codex/Cursor can also use `.agents/skills/`, and VS Code supports `.agents/skills/` or `.claude/skills/`; keep the complete folders and review collisions.
+The Codex plugin manifest also exposes `./skills/`; installing the built `plugin/motion-debugger` folder through your approved plugin workflow includes all seven skills. Other compatible clients can load `SKILL.md` explicitly when automatic discovery differs. The native plugin namespaced entry reads its shared resources from the plugin's own `motion` folder. For manual project copying, keep both owned folders together; if a foreign `motion` folder already exists, use the CLI to create a self-contained namespaced copy. Codex/Cursor can also use `.agents/skills/`, and VS Code supports `.agents/skills/` or `.claude/skills/`; keep the complete folders and review collisions.
 
 A direct starting prompt:
 
