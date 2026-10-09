@@ -58,6 +58,9 @@ jobs:
         run: node scripts/study/record-demo.mjs
       - name: Upload browser evidence
         if: always()
+        # Evidence upload is supplementary: a full Actions storage quota must not turn a passing
+        # verification red. Test outcomes above remain authoritative.
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: motion-evidence-${{ github.sha }}

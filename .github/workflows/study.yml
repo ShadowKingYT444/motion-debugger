@@ -25,6 +25,7 @@ jobs:
           node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('studies/aer/requests.json'));for(const f of p.requests){const r=require('child_process').spawnSync(process.execPath,['scripts/study/run.mjs',f],{stdio:'inherit'});if(r.status)process.exit(r.status)}"
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: paired-study-${{ github.sha }}
           path: artifacts/study/
