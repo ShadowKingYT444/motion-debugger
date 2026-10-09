@@ -11,12 +11,25 @@
 <p align="center"><b>Build motion. Watch it. Make it better.</b></p>
 
 <p align="center">
-  <a href="#quickstart">Quickstart</a> · <a href="#coding-agents">Coding agents</a> · <a href="#how-it-works">How it works</a> · <a href="docs/AGENT-WORKFLOW.md">Documentation</a>
+  <a href="#quickstart">Quickstart</a> · <a href="studies/premium-ab/README.md">A/B results</a> · <a href="#coding-agents">Coding agents</a> · <a href="#how-it-works">How it works</a> · <a href="docs/AGENT-WORKFLOW.md">Documentation</a>
 </p>
 
 ![Motion Debugger: expressive motion, real browser evidence](docs/assets/banner.svg)
 
-Motion Debugger gives coding agents a way to build and refine animated interfaces with **actual browser recordings**. It combines motion design skills, runnable animation recipes, actor-aware review and local MCP tools. Use it for interactive product pages, SVG choreography, canvas scenes and 3D interfaces.
+Motion Debugger helps coding agents ship **premium, art-directed websites with high-quality motion**, and makes them look at the real result. It has two parts that work in any agent:
+
+- **`premium-motion` skill.** Concrete craft guidance: art direction, a type/space/surface system, motion tokens, choreography and robustness rules. It ships with a dependency-free motion kit and pattern code (hero sequences, pinned scroll stories, bento spotlights, path drawing, horizontal galleries).
+- **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile and records the entrance, a full scroll, hovers, keyboard focus and reduced motion. It returns findings with specific fixes, plus contact sheets the agent reads to *see* its own page.
+
+**Measured effect.** In a blinded A/B with 16 matched pairs, Sonnet 5.5 agents with the plugin built sites that Opus 5.5 judges rated more premium in 12 pairs; control was rated higher in 2. That was +1.0/10 overall (p = 0.005) and +1.34/10 for motion quality (p = 0.0004). Method, every verdict and all 32 sites are in [the study](studies/premium-ab/README.md).
+
+```sh
+motion-debugger critique ./site                   # a folder with index.html, or an .html file
+motion-debugger critique http://127.0.0.1:5173    # a running local dev server
+motion-debugger agents-md >> AGENTS.md            # standing instructions for any agent host
+```
+
+The recorded-evidence tools for detailed transition debugging (`motion_review`, `motion_probe`, `motion_capture`, and others) remain available. See [How it works](#how-it-works).
 
 ## Quickstart
 
@@ -56,21 +69,30 @@ Replace `codex` in the setup command with your client:
 
 Reload your agent after installation and check that Motion's MCP tools are connected. OpenCode v2 uses a different configuration format; see [client setup](docs/CLIENTS.md#opencode). Native plugin package options are in the [plugin guide](docs/PLUGIN-PACKAGES.md).
 
-In Codex, start with:
+**Any other agent** (Gemini CLI, Aider, Copilot agent, Windsurf, a CI job) needs nothing provider-specific:
 
-> $motion-debugger Build a railway dispatch console with moving trains, curved routes, timetable scrubbing and interruptible station transitions. Watch the result and refine the motion.
+1. Copy `plugin/motion-debugger/skills/premium-motion` anywhere in the project.
+2. Add the block printed by `motion-debugger agents-md --skills-dir <that folder>` to the host's standing-instructions file (`AGENTS.md`, `GEMINI.md`, `.cursorrules`, …).
+3. Let it run `motion-debugger critique`. The critic is a plain CLI with Markdown or `--json` output and image files.
 
-For other agents, ask it to **load the `motion-debugger` skill** and provide your brief. To improve an existing app, include its local preview URL and the interaction that needs work.
+MCP hosts also get `motion_critique`, which returns the findings and contact sheets as image content. Details are in [Premium motion: skill + critic](docs/PREMIUM-MOTION.md).
+
+Example prompt for any agent:
+
+> Build a launch page for our speaker with premium design and motion. Follow the premium-motion skill, and critique the page before you finish.
 
 ## How it works
 
-1. **Create** — the agent uses motion design guidance and runnable recipes to build your interface.
-2. **Watch** — Motion records a repeatable visitor journey in a fresh Chromium context.
-3. **Inspect** — the agent receives native video frames, events, actor observations and explicit contract results.
-4. **Refine** — it edits your source, then repeats the same journey to check the change.
+1. **Art-direct.** The skill makes the agent commit to an audience, a concept, one signature moment, a palette and type before writing code.
+2. **Build with a system.** Motion tokens, a choreographed hero, scroll-linked storytelling, and hover/press/focus states on every control. The kit handles reveals, split text, counters, progress, parallax, magnetic, spotlight and marquee effects with reduced-motion and no-JS fallbacks.
+3. **Look.** `critique` records what actually moved and how it was eased and staggered. It checks whether motion reaches every section, whether controls answer hover and focus, and whether anything stays invisible, overflows on mobile, lacks contrast or janks. The contact sheets show the real page.
+4. **Refine.** The agent fixes blockers first, then the biggest visible craft gap, and critiques again (at least two passes).
+
+For a specific interaction, the evidence tools record bounded journeys and compare repairs:
 
 | Tool | Purpose |
 | --- | --- |
+| `motion_critique` | Critique a whole page: findings, fixes and contact sheets |
 | `motion_recipe` | Get runnable animation patterns and integration guidance |
 | `motion_review` | Review transitions with actor observations and native images |
 | `motion_probe` | Try interruption offsets and retain failure evidence |

@@ -5,6 +5,8 @@ description: Create and verify polished website motion from a normal website or 
 
 # Build motion into the requested product
 
+**Building or upgrading a whole page, landing page or site?** Follow the `premium-motion` skill first. It covers art direction, motion tokens, choreography, the motion kit and the required `motion-debugger critique` loop, where you look at the contact sheets and fix what you see. The recipes and evidence tools below are for specific interactions inside that page.
+
 The user's ordinary design prompt remains the brief. Tagging this skill supplies concrete motion construction and verification; do not require the user to write a second animation specification. Read the project first, preserve its stack and primary journeys, and select a clear visual direction with `motion-design`. Use `motion-3d-ui` for spatial composition. A plugin tag alone does not prove the MCP server is connected.
 
 For an existing design, use the constrained [transition authoring workflow](references/transition-authoring.md): freeze protected bytes, bind the user's actors, and compare at most three motion candidates with native event/frame evidence. The namespaced `$motion-debugger` entry is available when another animation kit supplies `/motion`.

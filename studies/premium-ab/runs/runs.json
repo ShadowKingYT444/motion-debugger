@@ -1,22 +1,246 @@
 {
-  "generator": "Claude Code subagents, model alias 'sonnet' (Sonnet 5.5), general-purpose agent type, launched 2026-10-08",
+  "generator": "Claude Code subagents, model alias 'sonnet' (Sonnet 5.5), general-purpose agent type, launched 2026-10-08; batch 2 (seeds 3-4) used the frozen-v2 plugin snapshot (commit fea0080: clip-reveal kit fix + corrected critic)",
   "note": "Usage from the harness completion notices. 'selfBrowserCheck' and 'critiquePasses' are taken from each agent's own final report and are not independently verified. Control agents had no plugin; three of them screenshotted their own page with headless Chrome on their own initiative.",
   "runs": [
-    {"run": "norr/control-1", "tokens": 79338, "toolUses": 7, "seconds": 230, "selfBrowserCheck": false},
-    {"run": "norr/control-2", "tokens": 90303, "toolUses": 7, "seconds": 300, "selfBrowserCheck": false},
-    {"run": "drift/control-1", "tokens": 91510, "toolUses": 6, "seconds": 288, "selfBrowserCheck": false},
-    {"run": "drift/control-2", "tokens": 119742, "toolUses": 8, "seconds": 484, "selfBrowserCheck": false},
-    {"run": "ledgerline/control-1", "tokens": 106266, "toolUses": 7, "seconds": 386, "selfBrowserCheck": false},
-    {"run": "ledgerline/control-2", "tokens": 180852, "toolUses": 45, "seconds": 817, "selfBrowserCheck": true},
-    {"run": "halo/control-1", "tokens": 173852, "toolUses": 35, "seconds": 796, "selfBrowserCheck": true},
-    {"run": "halo/control-2", "tokens": 207191, "toolUses": 54, "seconds": 970, "selfBrowserCheck": true},
-    {"run": "norr/treatment-1", "tokens": 122673, "toolUses": 21, "seconds": 561, "critiquePasses": 3, "finalSelfReportedGrade": "A 95"},
-    {"run": "norr/treatment-2", "tokens": 134280, "toolUses": 20, "seconds": 654, "critiquePasses": 3, "finalSelfReportedGrade": "A 100"},
-    {"run": "drift/treatment-1", "tokens": 167138, "toolUses": 27, "seconds": 806, "critiquePasses": "multiple", "finalSelfReportedGrade": "B 88"},
-    {"run": "drift/treatment-2", "tokens": 170766, "toolUses": 43, "seconds": 917, "critiquePasses": "multiple", "finalSelfReportedGrade": "A 90"},
-    {"run": "ledgerline/treatment-1", "tokens": 177394, "toolUses": 42, "seconds": 1055, "critiquePasses": "multiple", "finalSelfReportedGrade": "A 95"},
-    {"run": "ledgerline/treatment-2", "tokens": 159827, "toolUses": 35, "seconds": 707, "critiquePasses": 4, "finalSelfReportedGrade": "D 61 before final fixes (not re-run)"},
-    {"run": "halo/treatment-1", "tokens": 179437, "toolUses": 42, "seconds": 888, "critiquePasses": "2+", "finalSelfReportedGrade": "A 95"},
-    {"run": "halo/treatment-2", "tokens": 182565, "toolUses": 40, "seconds": 921, "critiquePasses": 3, "finalSelfReportedGrade": "A 98"}
+    {
+      "run": "norr/control-1",
+      "tokens": 79338,
+      "toolUses": 7,
+      "seconds": 230,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "norr/control-2",
+      "tokens": 90303,
+      "toolUses": 7,
+      "seconds": 300,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "drift/control-1",
+      "tokens": 91510,
+      "toolUses": 6,
+      "seconds": 288,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "drift/control-2",
+      "tokens": 119742,
+      "toolUses": 8,
+      "seconds": 484,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "ledgerline/control-1",
+      "tokens": 106266,
+      "toolUses": 7,
+      "seconds": 386,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "ledgerline/control-2",
+      "tokens": 180852,
+      "toolUses": 45,
+      "seconds": 817,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "halo/control-1",
+      "tokens": 173852,
+      "toolUses": 35,
+      "seconds": 796,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "halo/control-2",
+      "tokens": 207191,
+      "toolUses": 54,
+      "seconds": 970,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "norr/treatment-1",
+      "tokens": 122673,
+      "toolUses": 21,
+      "seconds": 561,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "norr/treatment-2",
+      "tokens": 134280,
+      "toolUses": 20,
+      "seconds": 654,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 100"
+    },
+    {
+      "run": "drift/treatment-1",
+      "tokens": 167138,
+      "toolUses": 27,
+      "seconds": 806,
+      "critiquePasses": "multiple",
+      "finalSelfReportedGrade": "B 88"
+    },
+    {
+      "run": "drift/treatment-2",
+      "tokens": 170766,
+      "toolUses": 43,
+      "seconds": 917,
+      "critiquePasses": "multiple",
+      "finalSelfReportedGrade": "A 90"
+    },
+    {
+      "run": "ledgerline/treatment-1",
+      "tokens": 177394,
+      "toolUses": 42,
+      "seconds": 1055,
+      "critiquePasses": "multiple",
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "ledgerline/treatment-2",
+      "tokens": 159827,
+      "toolUses": 35,
+      "seconds": 707,
+      "critiquePasses": 4,
+      "finalSelfReportedGrade": "D 61 before final fixes (not re-run)"
+    },
+    {
+      "run": "halo/treatment-1",
+      "tokens": 179437,
+      "toolUses": 42,
+      "seconds": 888,
+      "critiquePasses": "2+",
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "halo/treatment-2",
+      "tokens": 182565,
+      "toolUses": 40,
+      "seconds": 921,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 98"
+    },
+    {
+      "run": "drift/control-4",
+      "tokens": 97434,
+      "toolUses": 7,
+      "seconds": 329,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "norr/control-4",
+      "tokens": 102527,
+      "toolUses": 7,
+      "seconds": 401,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "ledgerline/control-3",
+      "tokens": 149137,
+      "toolUses": 37,
+      "seconds": 548,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "ledgerline/control-4",
+      "tokens": 139708,
+      "toolUses": 37,
+      "seconds": 605,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "drift/control-3",
+      "tokens": 145080,
+      "toolUses": 37,
+      "seconds": 611,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "halo/control-3",
+      "tokens": 141369,
+      "toolUses": 9,
+      "seconds": 647,
+      "selfBrowserCheck": false
+    },
+    {
+      "run": "halo/control-4",
+      "tokens": 156406,
+      "toolUses": 37,
+      "seconds": 655,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "norr/control-3",
+      "tokens": 137131,
+      "toolUses": 41,
+      "seconds": 862,
+      "selfBrowserCheck": true
+    },
+    {
+      "run": "ledgerline/treatment-4",
+      "tokens": 143359,
+      "toolUses": 17,
+      "seconds": 617,
+      "critiquePasses": 2,
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "norr/treatment-4",
+      "tokens": 137575,
+      "toolUses": 22,
+      "seconds": 650,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 100"
+    },
+    {
+      "run": "drift/treatment-3",
+      "tokens": 145056,
+      "toolUses": 21,
+      "seconds": 673,
+      "critiquePasses": 2,
+      "finalSelfReportedGrade": "B 88"
+    },
+    {
+      "run": "halo/treatment-4",
+      "tokens": 159917,
+      "toolUses": 18,
+      "seconds": 758,
+      "critiquePasses": 2,
+      "finalSelfReportedGrade": "A 98"
+    },
+    {
+      "run": "norr/treatment-3",
+      "tokens": 155361,
+      "toolUses": 31,
+      "seconds": 786,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "drift/treatment-4",
+      "tokens": 149218,
+      "toolUses": 21,
+      "seconds": 788,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 98"
+    },
+    {
+      "run": "halo/treatment-3",
+      "tokens": 148666,
+      "toolUses": 29,
+      "seconds": 872,
+      "critiquePasses": 3,
+      "finalSelfReportedGrade": "A 95"
+    },
+    {
+      "run": "ledgerline/treatment-3",
+      "tokens": 185799,
+      "toolUses": 42,
+      "seconds": 884,
+      "critiquePasses": "multiple",
+      "finalSelfReportedGrade": "A 100"
+    }
   ]
 }

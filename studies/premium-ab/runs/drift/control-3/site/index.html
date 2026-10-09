@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en" data-motion="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drift — the AI sleep coach that adapts to your night</title>
+<meta name="description" content="Drift listens to your night and adapts soundscapes and routines in real time, so you fall asleep faster, stay asleep longer and wake gently.">
+<meta name="theme-color" content="#070912">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101437'/%3E%3Cpath d='M20.5 6.5a10 10 0 1 0 5 15.5A8.5 8.5 0 0 1 20.5 6.5Z' fill='%23c8c4ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Drift home">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e5e2ff"/><stop offset="1" stop-color="#9a93ff"/></linearGradient></defs><path d="M20.5 4.5a11.5 11.5 0 1 0 6 18.2A9.5 9.5 0 0 1 20.5 4.5Z" fill="url(#lg)"/><path d="M5 27c3-2.2 5-2.2 8 0s5 2.2 8 0 5-2.2 6-1.4" fill="none" stroke="#ffd7a8" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <span>Drift</span>
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Primary">
+    <a href="#how">How it works</a>
+    <a href="#science">Science</a>
+    <a href="#features">Features</a>
+    <a href="#stories">Stories</a>
+    <a href="#plans">Plans</a>
+  </nav>
+  <div class="nav-right">
+    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" aria-label="Pause animations" title="Pause animations">
+      <svg class="i-pause" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="5" y="4" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="11.6" y="4" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
+      <svg class="i-play" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg>
+    </button>
+    <a class="btn btn-sm" href="#download" data-magnetic>Get Drift</a>
+    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow hw-fade" style="--d:.1s"><span class="dot"></span> AI sleep coach · iOS &amp; Android</p>
+      <h1 class="display" aria-label="Sleep, tuned to your night.">
+        <span class="hl" aria-hidden="true"><span class="w"><span style="--i:0">Sleep,</span></span></span>
+        <span class="hl" aria-hidden="true"><span class="w"><span style="--i:1">tuned</span></span> <span class="w"><span style="--i:2">to</span></span></span>
+        <span class="hl" aria-hidden="true"><span class="w"><span style="--i:3">your</span></span> <span class="w"><span style="--i:4"><em>night.</em></span></span></span>
+      </h1>
+      <p class="lead hw-fade" style="--d:.95s">Drift listens to how you breathe, move and settle, then reshapes soundscapes, light and routines minute by minute. Fall asleep sooner. Stay under longer. Wake at the right moment.</p>
+      <div class="hero-cta hw-fade" style="--d:1.1s">
+        <a class="btn btn-lg" href="#download" data-magnetic><span>Start sleeping better</span><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
+      </div>
+      <div class="sound-try hw-fade" style="--d:1.25s">
+        <span class="sound-label">Try a soundscape <small>(headphones recommended)</small></span>
+        <div class="chips" role="group" aria-label="Soundscape preview">
+          <button type="button" class="chip" data-sound="rain" aria-pressed="false"><i class="eq"><b></b><b></b><b></b></i>Rain on cedar</button>
+          <button type="button" class="chip" data-sound="ocean" aria-pressed="false"><i class="eq"><b></b><b></b><b></b></i>Slow ocean</button>
+          <button type="button" class="chip" data-sound="wind" aria-pressed="false"><i class="eq"><b></b><b></b><b></b></i>Wind in pines</button>
+          <button type="button" class="chip" data-sound="brown" aria-pressed="false"><i class="eq"><b></b><b></b><b></b></i>Brown noise</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" id="heroVisual">
+      <div class="moon" aria-hidden="true"><span></span></div>
+      <div class="phone-wrap" id="phoneWrap">
+        <div class="phone" role="img" aria-label="Drift app showing a live night: stage, soundscape and adaptation note">
+          <div class="phone-notch"></div>
+          <div class="screen">
+            <div class="ps-top"><span id="psTime">11:42 PM</span><span class="ps-night">Night 142</span></div>
+            <div class="ps-stage"><small>Right now</small><b id="psStage">Winding down</b></div>
+            <svg class="ps-hyp" viewBox="0 0 240 70" aria-hidden="true">
+              <defs><linearGradient id="psg" x1="0" x2="1"><stop offset="0" stop-color="#8d86ff"/><stop offset="1" stop-color="#ffcf9e"/></linearGradient></defs>
+              <path class="ps-base" d="M0 14H18V38H40V58H80V38H100V24H116V38H138V58H170V38H190V24H208V38H224V14H240" pathLength="100"/>
+              <path class="ps-line" id="psLine" d="M0 14H18V38H40V58H80V38H100V24H116V38H138V58H170V38H190V24H208V38H224V14H240" pathLength="100"/>
+              <circle id="psDot" r="4.5" cx="0" cy="14"/>
+            </svg>
+            <div class="ps-scene">
+              <div><small>Soundscape</small><b id="psScene">Rain on cedar</b></div>
+              <span id="psVol">70%</span>
+            </div>
+            <div class="bars" id="psBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="ps-note" id="psNote">Heart rate is settling. Softening the rain over the next 12 minutes.</p>
+          </div>
+        </div>
+        <div class="float f1"><i></i><span><b>Breath</b> 13 / min</span></div>
+        <div class="float f2"><i></i><span><b>Room</b> 29 dB</span></div>
+        <div class="float f3"><i></i><span><b>Wake window</b> 6:30–6:50</span></div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#how" aria-label="Scroll to how it works"><span></span></a>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Rain on cedar</span><i>✦</i><span>Slow ocean</span><i>✦</i><span>Wind in pines</span><i>✦</i><span>Brown noise</span><i>✦</i><span>Night train</span><i>✦</i><span>Distant thunder</span><i>✦</i><span>Warm fan</span><i>✦</i><span>Tide pools</span><i>✦</i>
+    <span>Rain on cedar</span><i>✦</i><span>Slow ocean</span><i>✦</i><span>Wind in pines</span><i>✦</i><span>Brown noise</span><i>✦</i><span>Night train</span><i>✦</i><span>Distant thunder</span><i>✦</i><span>Warm fan</span><i>✦</i><span>Tide pools</span><i>✦</i>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow"><span class="dot"></span> How it works</p>
+      <h2 class="h2">A coach that stays up <em>so you don't have to.</em></h2>
+    </header>
+
+    <div class="how-grid">
+      <ol class="steps" id="steps">
+        <li class="step active" data-step="0">
+          <span class="step-n">01</span>
+          <h3>Tell Drift about your nights</h3>
+          <p>A two-minute check-in covers your schedule, your room and what keeps you awake. Drift builds a starting routine around you, not an average sleeper.</p>
+          <div class="step-vis" data-clone="0"></div>
+        </li>
+        <li class="step" data-step="1">
+          <span class="step-n">02</span>
+          <h3>It listens, then adapts</h3>
+          <p>Using your phone's microphone and motion sensing, plus your wearable if you have one, Drift reads breathing, restlessness and room noise, and retunes the soundscape as you drift off.</p>
+          <div class="step-vis" data-clone="1"></div>
+        </li>
+        <li class="step" data-step="2">
+          <span class="step-n">03</span>
+          <h3>Wake at the right moment</h3>
+          <p>Instead of one blunt alarm, Drift looks for your lightest sleep inside the window you choose, and raises sunrise light and gentle chimes from there.</p>
+          <div class="step-vis" data-clone="2"></div>
+        </li>
+      </ol>
+
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="stage-card">
+          <div class="panel active" data-panel="0">
+            <div class="p-title">Your night profile</div>
+            <div class="p-chips">
+              <span class="pc on">Racing mind</span><span class="pc">Light sleeper</span><span class="pc on">Warm room</span><span class="pc">Shift work</span><span class="pc on">Early riser</span><span class="pc">Partner snores</span>
+            </div>
+            <div class="p-times">
+              <div><small>Wind-down</small><b>10:45 PM</b></div>
+              <div class="p-line"></div>
+              <div><small>Lights out</small><b>11:30 PM</b></div>
+              <div class="p-line"></div>
+              <div><small>Wake window</small><b>6:30 AM</b></div>
+            </div>
+            <div class="p-bar"><i></i></div>
+            <div class="p-foot">Routine drafted <b>7 h 15 m</b> of sleep opportunity</div>
+          </div>
+
+          <div class="panel" data-panel="1">
+            <div class="radar">
+              <i class="r r1"></i><i class="r r2"></i><i class="r r3"></i>
+              <span class="core"></span>
+              <span class="tag t1">Breath · 13/min</span>
+              <span class="tag t2">Room · 31 dB</span>
+              <span class="tag t3">Movement · low</span>
+            </div>
+            <div class="p-wave">
+              <svg viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path class="w1" d="M0 30 Q 25 5 50 30 T 100 30 T 150 30 T 200 30 T 250 30 T 300 30 T 350 30 T 400 30"/><path class="w2" d="M0 30 Q 25 15 50 30 T 100 30 T 150 30 T 200 30 T 250 30 T 300 30 T 350 30 T 400 30"/></svg>
+            </div>
+            <div class="p-foot">Noise spike at 2:47 AM. <b>Widening the masking band</b></div>
+          </div>
+
+          <div class="panel" data-panel="2">
+            <div class="sunrise">
+              <div class="sun"></div>
+              <div class="hill hillA"></div><div class="hill hillB"></div>
+            </div>
+            <div class="p-alarm"><small>Lightest sleep found</small><b>6:42 AM</b><span>8 minutes before your latest wake time</span></div>
+          </div>
+        </div>
+        <div class="stage-dots"><i class="on"></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENCE -->
+<section class="section science" id="science">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow"><span class="dot"></span> The science</p>
+      <h2 class="h2">Your night is a <em>rhythm,</em> not a switch.</h2>
+      <p class="lead">Sleep moves through repeating cycles of light, deep and REM sleep. Drift is designed around that structure, and adjusts to your version of it.</p>
+    </header>
+
+    <div class="sci-grid">
+      <div class="hyp-card reveal" id="hypCard">
+        <div class="hyp-head">
+          <div><small>A typical night</small><b id="hypTime">11:00 PM</b></div>
+          <div class="hyp-stage"><small>Stage</small><b id="hypStage">Awake</b></div>
+        </div>
+        <div class="hyp-chart">
+          <svg id="hypSvg" viewBox="0 0 800 300" role="img" aria-label="Illustrative hypnogram of one night showing awake, REM, light and deep sleep stages across eight hours">
+            <defs>
+              <linearGradient id="hypStroke" x1="0" x2="1"><stop offset="0" stop-color="#8d86ff"/><stop offset=".55" stop-color="#b9a7ff"/><stop offset="1" stop-color="#ffcf9e"/></linearGradient>
+              <linearGradient id="hypFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8d86ff" stop-opacity=".28"/><stop offset="1" stop-color="#8d86ff" stop-opacity="0"/></linearGradient>
+            </defs>
+            <g id="hypGrid"></g>
+            <path id="hypArea" fill="url(#hypFill)" d=""/>
+            <path id="hypPath" class="hyp-path" fill="none" stroke="url(#hypStroke)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" pathLength="1" d=""/>
+            <g id="hypMarks"></g>
+            <line id="hypHead" class="hyp-head-line" x1="0" x2="0" y1="0" y2="300"/>
+            <circle id="hypDot" r="7" cx="0" cy="0"/>
+          </svg>
+          <ul class="hyp-labels" aria-hidden="true"><li>Awake</li><li>REM</li><li>Light</li><li>Deep</li></ul>
+        </div>
+        <div class="hyp-axis" aria-hidden="true"><span>11 PM</span><span>1 AM</span><span>3 AM</span><span>5 AM</span><span>7 AM</span></div>
+        <div class="scrub">
+          <label for="scrub">Scrub through the night</label>
+          <input id="scrub" type="range" min="0" max="8" step="0.02" value="0">
+        </div>
+        <p class="hyp-do" id="hypDo"><i></i><span>Drift fades the soundscape in as you settle.</span></p>
+        <p class="fine">Illustrative hypnogram. Real nights vary.</p>
+      </div>
+
+      <div class="sci-points">
+        <article class="point reveal">
+          <div class="num"><span data-count="90">90</span><small>min</small></div>
+          <div><h3>Cycles of roughly ninety minutes</h3><p>Most adults move through light, deep and REM sleep several times a night. Drift aims your wake window at a light stage inside each cycle, so the alarm meets less resistance.</p></div>
+        </article>
+        <article class="point reveal">
+          <div class="num"><span>½</span><small>first half</small></div>
+          <div><h3>Deep sleep arrives early</h3><p>Deep sleep clusters in the first half of the night, while REM lengthens toward morning. That is why Drift gets calmer and steadier early, and holds back disturbances you do not need.</p></div>
+        </article>
+        <article class="point reveal">
+          <div class="num"><span data-count="3">3</span><small>signals</small></div>
+          <div><h3>Sound that responds, not just plays</h3><p>Steady, low-level sound can mask sudden noises that cause micro-arousals. Drift reads breathing, movement and room noise, and shapes sound to match, rather than looping a track all night.</p></div>
+        </article>
+        <p class="fine reveal">Drift is a wellness app, not a medical device. It does not diagnose or treat sleep disorders. If you suspect one, talk to a clinician.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features" id="features">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow"><span class="dot"></span> App features</p>
+      <h2 class="h2">Everything the night needs. <em>Nothing it doesn't.</em></h2>
+    </header>
+
+    <div class="bento">
+      <article class="card spot c-a reveal">
+        <div class="card-copy"><h3>Adaptive soundscapes</h3><p>Four layers, balanced live. Rain thins as you fall asleep and the low hum widens when the street gets loud.</p></div>
+        <div class="mixer" aria-hidden="true">
+          <div class="mx"><span>Rain</span><div class="track"><i class="knob k1"></i></div></div>
+          <div class="mx"><span>Ocean</span><div class="track"><i class="knob k2"></i></div></div>
+          <div class="mx"><span>Hum</span><div class="track"><i class="knob k3"></i></div></div>
+          <div class="mx"><span>Chimes</span><div class="track"><i class="knob k4"></i></div></div>
+        </div>
+      </article>
+
+      <article class="card spot c-b reveal">
+        <div class="card-copy"><h3>Wind-down routines</h3><p>Breathing, light and a gentle story arc that steps your body down, tuned to how long you usually take to settle.</p></div>
+        <div class="timeline" aria-hidden="true">
+          <div class="tl"><b>10:45</b><span>Dim lights · phone to Night mode</span></div>
+          <div class="tl"><b>11:00</b><span>4-7-8 breathing, 6 min</span></div>
+          <div class="tl"><b>11:10</b><span>Body scan with soft rain</span></div>
+          <div class="tl"><b>11:30</b><span>Lights out · sound fades with you</span></div>
+          <i class="tl-line"></i>
+        </div>
+      </article>
+
+      <article class="card spot c-c reveal">
+        <div class="card-copy"><h3>Sunrise wake-up</h3><p>Light and chimes rise together, timed to your lightest sleep.</p></div>
+        <div class="mini-sun" aria-hidden="true"><i></i></div>
+      </article>
+
+      <article class="card spot c-d reveal">
+        <div class="card-copy"><h3>Night sensing</h3><p>Breath, movement and room noise. No wearable required.</p></div>
+        <div class="pulse" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
+      </article>
+
+      <article class="card spot c-e reveal">
+        <div class="card-copy"><h3>Dream journal</h3><p>Say a few words when you wake. Drift transcribes on-device and spots patterns.</p></div>
+        <div class="journal" aria-hidden="true"><span></span><span></span><span></span><b></b></div>
+      </article>
+
+      <article class="card spot c-f reveal">
+        <div class="priv-copy">
+          <h3>Private by design</h3>
+          <p>Audio is analysed on your phone and discarded. Nothing is recorded, and nothing leaves your device unless you choose to sync summaries.</p>
+        </div>
+        <ul class="priv-list">
+          <li><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>On-device analysis</li>
+          <li><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>No raw audio stored</li>
+          <li><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Delete your data anytime</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section class="section stories" id="stories">
+  <div class="wrap">
+    <header class="sec-head sec-head-row reveal">
+      <div>
+        <p class="eyebrow"><span class="dot"></span> Stories</p>
+        <h2 class="h2">Quieter nights, <em>in their words.</em></h2>
+      </div>
+      <div class="arrows">
+        <button type="button" id="prev" aria-label="Previous story"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" id="next" aria-label="Next story"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M8 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </header>
+    <div class="track-wrap reveal">
+      <div class="quotes" id="quotes" tabindex="0" aria-label="Customer stories">
+        <figure class="quote spot"><blockquote>“I used to lie there replaying my day. Drift's rain gets quieter exactly as my mind does. I can't explain it, I just stop noticing when I fall asleep.”</blockquote><figcaption><span class="av" style="--h:255">MR</span><div><b>Maya R.</b><small>Product designer</small></div><em>Falls asleep sooner</em></figcaption></figure>
+        <figure class="quote spot"><blockquote>“Night shifts wrecked my sleep. The wind-down routine adjusts when I get home at 7 AM, which no other app handled.”</blockquote><figcaption><span class="av" style="--h:200">DO</span><div><b>Daniel O.</b><small>ER nurse</small></div><em>Shift-work friendly</em></figcaption></figure>
+        <figure class="quote spot"><blockquote>“My partner snores and I live above a bar. It widens the hum when things get loud, and I sleep through what used to wake me.”</blockquote><figcaption><span class="av" style="--h:20">SK</span><div><b>Sofia K.</b><small>Teacher</small></div><em>Fewer wake-ups</em></figcaption></figure>
+        <figure class="quote spot"><blockquote>“The sunrise wake-up is the thing. I stopped hitting snooze within a week, and mornings stopped feeling like a punishment.”</blockquote><figcaption><span class="av" style="--h:320">TA</span><div><b>Theo A.</b><small>Founder</small></div><em>Easier mornings</em></figcaption></figure>
+        <figure class="quote spot"><blockquote>“I like that it's honest. It doesn't promise miracles, it shows me my nights and nudges one thing at a time.”</blockquote><figcaption><span class="av" style="--h:170">LN</span><div><b>Lena N.</b><small>Researcher</small></div><em>Clear, calm insights</em></figcaption></figure>
+      </div>
+    </div>
+    <div class="q-progress reveal" aria-hidden="true"><i id="qBar"></i></div>
+    <p class="fine reveal">Sample stories written for this site. Individual results vary.</p>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section plans" id="plans">
+  <div class="wrap">
+    <header class="sec-head sec-center reveal">
+      <p class="eyebrow"><span class="dot"></span> Plans</p>
+      <h2 class="h2">Start free. <em>Sleep deeper</em> when you're ready.</h2>
+      <div class="billing" role="group" aria-label="Billing period">
+        <button type="button" class="on" data-bill="month" aria-pressed="true">Monthly</button>
+        <button type="button" data-bill="year" aria-pressed="false">Yearly <small>save 34%</small></button>
+        <i class="bill-pill" aria-hidden="true"></i>
+      </div>
+    </header>
+
+    <div class="plan-grid">
+      <article class="plan spot reveal">
+        <h3>Drift Basic</h3>
+        <p class="plan-desc">Start with the essentials.</p>
+        <div class="price"><span class="cur">$</span><b data-month="0" data-year="0">0</b><small>forever</small></div>
+        <ul>
+          <li>6 core soundscapes</li><li>Sleep timer &amp; basic routines</li><li>Weekly sleep summary</li>
+        </ul>
+        <a class="btn btn-ghost" href="#download">Download free</a>
+      </article>
+      <article class="plan plan-hero spot reveal">
+        <span class="badge">Most popular</span>
+        <h3>Drift Plus</h3>
+        <p class="plan-desc">The full adaptive coach.</p>
+        <div class="price"><span class="cur">$</span><b data-month="9.99" data-year="6.58">9.99</b><small class="per">per month</small></div>
+        <p class="billed" id="billedPlus">Billed monthly</p>
+        <ul>
+          <li>Real-time adaptive soundscapes</li><li>Night sensing &amp; smart wake window</li><li>All 40+ soundscapes and routines</li><li>Dream journal &amp; trend insights</li>
+        </ul>
+        <a class="btn" href="#download" data-magnetic>Try 14 days free</a>
+      </article>
+      <article class="plan spot reveal">
+        <h3>Drift Family</h3>
+        <p class="plan-desc">Up to five people, one home.</p>
+        <div class="price"><span class="cur">$</span><b data-month="14.99" data-year="9.92">14.99</b><small class="per">per month</small></div>
+        <p class="billed" id="billedFam">Billed monthly</p>
+        <ul>
+          <li>Everything in Plus</li><li>Five private profiles</li><li>Shared-room sound blending</li>
+        </ul>
+        <a class="btn btn-ghost" href="#download">Choose Family</a>
+      </article>
+    </div>
+    <p class="fine center reveal">Prices shown in USD. Cancel anytime from your app store settings.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq" id="faq">
+  <div class="wrap faq-wrap">
+    <header class="sec-head reveal"><p class="eyebrow"><span class="dot"></span> Questions</p><h2 class="h2">Good to know.</h2></header>
+    <div class="faq-list reveal">
+      <details><summary>Does Drift record me while I sleep?<i></i></summary><div><p>No. Audio is analysed on your phone to detect breathing and noise levels, then discarded. Only simple numbers, such as decibel levels and breathing rate, are kept.</p></div></details>
+      <details><summary>Do I need a wearable?<i></i></summary><div><p>No. Drift works with just your phone on the nightstand. If you have a compatible wearable, it can add heart-rate data for finer adaptation.</p></div></details>
+      <details><summary>Will it drain my battery?<i></i></summary><div><p>Overnight sensing is lightweight. Keep your phone plugged in or near 50% at bedtime and you'll wake with plenty left.</p></div></details>
+      <details><summary>Is Drift a medical device?<i></i></summary><div><p>No. Drift is a wellness app. It can't diagnose or treat sleep disorders, so please speak with a clinician if you're worried about your sleep.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="download" id="download">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="dl-glow" aria-hidden="true"></div>
+  <div class="wrap dl-inner">
+    <h2 class="display dl-title reveal">Tonight can be <em>different.</em></h2>
+    <p class="lead reveal">Download Drift free and let your first night teach it how you sleep.</p>
+    <div class="store reveal">
+      <a class="store-btn" href="#download" data-magnetic aria-label="Download on the App Store">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.100-1.600-2.800-1.800-3.400-1.800-1.400-.1-2.800.9-3.500.9s-1.800-.8-3-.8c-1.500 0-3 .9-3.800 2.300-1.600 2.800-.4 7 1.200 9.300.8 1.100 1.700 2.400 2.900 2.300 1.200 0 1.600-.7 3-.7s1.800.7 3 .7 2.100-1.100 2.800-2.200c.9-1.300 1.200-2.500 1.300-2.600-.1 0-2.500-1-2.500-3.900ZM14.200 5.800c.6-.8 1.100-1.900.9-3-.9 0-2.100.6-2.700 1.400-.6.700-1.100 1.800-1 2.900 1.100.1 2.200-.5 2.800-1.300Z"/></svg>
+        <span><small>Download on the</small>App Store</span>
+      </a>
+      <a class="store-btn" href="#download" data-magnetic aria-label="Get it on Google Play">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M4 3.2v17.600c0 .4.5.7.8.5l15-8.800c.3-.2.3-.7 0-.9L4.800 2.700c-.3-.2-.8.100-.8.500Z"/></svg>
+        <span><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+    <p class="fine reveal">Free to start · iOS 16+ · Android 10+ · 14-day Plus trial</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href="#top" aria-label="Drift home"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M20.5 4.5a11.5 11.5 0 1 0 6 18.2A9.5 9.5 0 0 1 20.5 4.5Z" fill="#c8c4ff"/></svg><span>Drift</span></a>
+      <p>Sleep, tuned to your night.</p>
+    </div>
+    <nav aria-label="Footer"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#plans">Plans</a></nav>
+    <nav aria-label="Company"><b>Learn</b><a href="#science">The science</a><a href="#stories">Stories</a><a href="#faq">FAQ</a></nav>
+    <nav aria-label="Legal"><b>Legal</b><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Contact</a></nav>
+  </div>
+  <div class="wrap foot-base"><span>© 2026 Drift Sleep Labs. Drift is a wellness app and not a medical device.</span><a href="#top">Back to top ↑</a></div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
