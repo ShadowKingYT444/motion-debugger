@@ -4,7 +4,7 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {chromium} from 'playwright';
-import {startLoopbackServer} from '../../scripts/demo-study.mjs';
+import http from 'node:http';
 
 // Actual native scheduling check of the original sequence; no backend work or
 // flagship quality/agent improvement is asserted by this standalone fixture.
@@ -27,6 +27,8 @@ for(const method of ['play','pause','resume','cancel','replay'])document.querySe
 window.read=()=>({state:sequence.state,changes:window.changes,completions:window.completions,nativeFailures:window.nativeFailures,nativeCounts:window.nativeCounts,recipeCounts:window.recipeCounts,transform:getComputedStyle(token).transform});window.dispose=()=>sequence.dispose();window.ready=true;
 </script></html>`;
 await writeFile(path.join(directory,'fixture.html'),html);await writeFile(path.join(directory,'elapsed-sequence.mjs'),source);
+// Loopback-only server for the sequence page.
+async function startLoopbackServer(handler){const server=http.createServer((req,res)=>Promise.resolve(handler(req,res)).catch(()=>{if(!res.headersSent)res.writeHead(500);res.end()}));await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));return {server,origin:`http://127.0.0.1:${server.address().port}`,close:()=>new Promise(resolve=>{server.close(resolve);server.closeIdleConnections()})}}
 const app=await startLoopbackServer((req,res)=>{res.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'");if(req.url==='/'){res.setHeader('Content-Type','text/html');res.end(html);}else if(req.url==='/elapsed-sequence.mjs'){res.setHeader('Content-Type','text/javascript');res.end(source);}else{res.writeHead(404);res.end('Not found');}});
 const executablePath=process.env.MOTION_CHROME_PATH??process.env.CHROMIUM_PATH??'/usr/bin/google-chrome';
 const browser=await chromium.launch({executablePath,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});

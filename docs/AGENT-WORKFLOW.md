@@ -1,6 +1,6 @@
 # A practical coding-agent workflow
 
-For a new page, tag `$motion-debugger` (or the legacy `$motion`) in the ordinary product brief. The [motion skill](SKILLS.md) routes creation through runnable spring, scroll, colony, handoff, elapsed sequence and drawer recipes. Call `motion_recipe` without an ID for the catalog, then with a returned ID for its exact source. The agent builds real source, watches the result, checks product outcomes, and repairs what it observes. The [Ants study](../studies/ants-launch/README.md) records the current comparison status; the [AER study](../studies/aer/README.md) preserves earlier independent builds.
+For a new page, tag `$motion-debugger` (or the legacy `$motion`) in the ordinary product brief. The [motion skill](SKILLS.md) routes creation through runnable spring, scroll, colony, handoff, elapsed sequence and drawer recipes. Call `motion_recipe` without an ID for the catalog, then with a returned ID for its exact source. The agent builds real source, watches the result, checks product outcomes, and repairs what it observes.
 
 The primary user is a coding agent attached to the stdio server. The browser showcase supplies original test material; it is not the integration surface.
 

@@ -93,7 +93,7 @@ On Linux, missing system libraries may require Playwright's official dependency-
 
 ## Compatibility evidence
 
-Actual fresh Codex sessions loaded the project-local skills and MCP server in the [LOOP](../studies/loop-studio/METHOD.md) and [Ants](../studies/ants-launch/METHOD.md) comparisons. Their recorded tool calls establish use of their frozen baseline packages in those sessions. They do not establish discovery of this upgraded package or native Codex ZIP plugins. Current upgrade checks and remaining host limits are recorded in [implementation status](MOTION-QUALITY-IMPLEMENTATION.md).
+The [premium-motion A/B](../studies/premium-ab/README.md) ran its builders as Claude Code subagents with the skill folder, a `CLAUDE.md` pointer and the CLI, which is the same shape every host gets from `skills install` plus `agents-md`. Codex, Cursor, OpenCode and Gemini CLI sessions were not run in that study.
 
 The stdio endpoint is also exercised with the official MCP SDK. Generated config shapes are based on the client documentation linked below and covered by parser/installer tests. Extracted Codex, Claude Code and Cursor plugin packages pass fresh dependency, SDK and native browser tool checks. Interactive Claude Code, Cursor and VS Code sessions, and native ZIP host discovery, remain unverified. Host-specific trust and sandbox settings still apply.
 

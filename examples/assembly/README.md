@@ -1,6 +1,6 @@
 # ASSEMBLY
 
-Original camera configurator implementing the interaction brief in PR #10. This is a **hand-authored engineering demo**, not an ordinary/assisted agent pair or a superiority benchmark. The full campaign remains disabled in `docs/assembly-demo.protocol.json`.
+Original camera configurator built as an engineering demo of the motion recipes. This is a **hand-authored engineering demo**, not an ordinary/assisted agent pair or a superiority benchmark. The full campaign remains disabled in `docs/assembly-demo.protocol.json`.
 
 Run `npm run demo:assembly` and open the printed loopback URL. The packed binary also serves it at `/assembly/` after `motion-debugger demo`. All geometry is original, and Three.js is vendored locally with its MIT notice. No CDN, user profile, telemetry or external service is used.
 

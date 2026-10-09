@@ -56,9 +56,7 @@ cannot turn an inconclusive temporal comparison into a quality claim.
 Reports expose the actual Chromium version, device pixel ratio, page visibility,
 CDP renderer string, exact serialized probe/analyzer hashes, maximum read cost,
 superseded task count and browser long tasks. This diagnoses software rendering
-and recorder/geometry work without attributing every gap to the probe. The
-bounded `npm run audit:runner` records one serial observation on the actual 3D
-page with plain rAF logging, probe, and probe plus video. These observations
+and recorder/geometry work without attributing every gap to the probe. These observations
 are diagnostic associations, not causal estimates; unrecorded runs cannot
 replace the final recorded evidence.
 
@@ -75,8 +73,8 @@ credential-free proxy URLs and public CA trust paths, with TLS verification
 enabled, while excluding the caller's application tokens and npm config.
 
 Run `npm run check`, `npm run test:coverage:browser`,
-`npm run test:repair:browser`, `npm run test:demo:browser`,
-`npm run test:v2:e2e`, and `npm run test:install`. Browser tests write real
+`npm run test:critique:browser`, `npm run test:v2:e2e`, and
+`npm run test:install`. Browser tests write real
 videos, trace JSON, screenshots and SDK transport responses. The working
 repair viewer exposes source-matched, SHA-256-verified recordings and the raw
 report. Missing or stale videos are visibly unavailable.

@@ -13,7 +13,7 @@ import {chromiumOptions} from '../../server/browser.ts';
 const root=path.resolve('artifacts/v2/colony'),runId=new Date().toISOString().replace(/[:.]/g,'-'),runRoot=path.join(root,runId);
 await mkdir(runRoot,{recursive:true});
 const pinnedThreeVersion='0.186.1',sha=value=>createHash('sha256').update(value).digest('hex');
-const frozenRoot=path.resolve('studies/ants-launch/source/ordinary');
+const frozenRoot=path.resolve('tests/fixtures/three');
 const threeRoot=process.env.MOTION_THREE_DIR?path.resolve(process.env.MOTION_THREE_DIR):frozenRoot;
 const consumerMetadata={},vendorModules=new Map();
 async function ordinaryFile(base,name){const file=path.join(base,name);if(await realpath(file)!==file||!(await lstat(file)).isFile())throw new Error(`Three fixture must contain ordinary files: ${name}`);return readFile(file);}
