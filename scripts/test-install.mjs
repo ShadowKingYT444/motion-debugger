@@ -31,12 +31,22 @@ try {
   const config=path.join(temp,'mcp.json');const plan=JSON.parse(run(process.execPath,[binary,'init','--config',config,'--local']));
   run(process.execPath,[binary,'init','--config',config,'--local','--apply','--confirm',plan.confirmationToken]);assert.ok(JSON.parse(await readFile(config,'utf8')).mcpServers['motion-debugger']);
   proof.checks.push('confirmed-config-write');
+  if(!skipBrowser){
+    // The packed CLI critiques a plain local folder end to end (static server, Chromium, contact sheets).
+    const page=path.join(temp,'critique-site');await mkdir(page);
+    await writeFile(path.join(page,'index.html'),'<!doctype html><meta name=viewport content="width=device-width"><title>Packed critique</title><style>h1{animation:a .8s linear}@keyframes a{from{opacity:0;transform:translateY(20px)}}.g{opacity:0}</style><h1>Packed critique</h1><p class=g>never shown</p><section style="height:900px"></section>');
+    const report=JSON.parse(run(process.execPath,[binary,'critique',page,'--json','--out',path.join(temp,'critique-out')]));
+    assert.ok(report.findings.some(finding=>finding.id==='stuck-invisible'),'packed critique finds the seeded invisible paragraph');
+    for(const key of ['desktopEntrance','desktopScroll','mobile'])assert.ok((await lstat(report.images[key])).size>1000,`packed critique wrote ${key}`);
+    assert.match(run(process.execPath,[binary,'agents-md','--skills-dir','.agents/skills']),/premium-motion\/SKILL\.md/);
+    proof.checks.push('packed-critique-and-agents-md');
+  }
   // The complete setup must work from the real installed tarball, not source files.
-  const skillNames=['motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'];
+  const skillNames=['premium-motion','motion','motion-design','motion-3d-ui','motion-evidence','motion-build-inspect-repair','motion-debugger'];
   const workspace=path.join(temp,'consumer-app');await mkdir(workspace);
   const unrelated=path.join(workspace,'.agents/skills/unrelated');await mkdir(unrelated,{recursive:true});await writeFile(path.join(unrelated,'SKILL.md'),'Keep unrelated user instructions');
   const setupArgs=[binary,'init','--client','codex','--local','--skills','--project',workspace];
-  const complete=JSON.parse(run(process.execPath,setupArgs));assert.equal(complete.skills.skills.length,6);assert.equal(complete.target,path.join(workspace,'.codex/config.toml'));
+  const complete=JSON.parse(run(process.execPath,setupArgs));assert.equal(complete.skills.skills.length,skillNames.length);assert.equal(complete.target,path.join(workspace,'.codex/config.toml'));
   assert.equal(await lstat(complete.target).then(()=>true,()=>false),false);
   run(process.execPath,[...setupArgs,'--apply','--confirm',complete.confirmationToken]);
   const compareFolder=async(source,destination,extra=[])=>{assert.deepEqual((await readdir(destination)).sort(),[...(await readdir(source)),...extra].sort());for(const entry of await readdir(source,{withFileTypes:true})){if(entry.isDirectory())await compareFolder(path.join(source,entry.name),path.join(destination,entry.name));else assert.deepEqual(await readFile(path.join(destination,entry.name)),await readFile(path.join(source,entry.name)))}};
@@ -52,7 +62,7 @@ try {
     for(const name of skillNames)await compareSkill(name,path.join(project,directory,name));
   }
   console.log(run(process.execPath,[path.join(installed,'plugin/motion-debugger/scripts/check-skills.mjs')]));
-  proof.checks.push('packaged-six-complete-skills-catalog','confirmed-project-mcp-plus-skills-install','packaged-four-client-skill-destinations','installed-skills-idempotent-and-unrelated-preserved');
+  proof.checks.push('packaged-complete-skills-catalog','confirmed-project-mcp-plus-skills-install','packaged-four-client-skill-destinations','installed-skills-idempotent-and-unrelated-preserved');
 
   const recipeDirectory=path.join(root,'plugin/motion-debugger/skills/motion/recipes');
   const recipeHashes=Object.fromEntries(await Promise.all((await readdir(recipeDirectory)).filter(name=>name.endsWith('.mjs')).map(async name=>["recipes/"+name,createHash('sha256').update(await readFile(path.join(recipeDirectory,name))).digest('hex')])));
