@@ -1,0 +1,516 @@
+{
+ "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/c617552f-71c7-55aa-92e5-28d8f5c048c2/scratchpad/ab4eval/runs/norr/control-1/site",
+ "createdAt": "2026-10-09T20:53:49.391Z",
+ "score": 13,
+ "grade": "F",
+ "findings": [
+  {
+   "id": "stuck-invisible",
+   "severity": "blocker",
+   "area": "motion",
+   "title": "Content stays invisible after scrolling the whole page",
+   "evidence": "4 text/image elements still have opacity\u22480 after a full scroll: section#top > div.hero__inner.container > p.eyebrow \"Nordic architecture studio\"; section#top > div.hero__inner.container > div.hero__foot > p.hero__lede \"We design timber civic buildings and homes across the north \"; div.hero__foot > div.hero__actions > a.btn.btn--solid > span \"Selected work\"; div.hero__foot > div.hero__actions > a.link-arrow > span \"Our philosophy\".",
+   "fix": "A reveal never fired. Check the IntersectionObserver targets/threshold (use threshold \u22640.15 and a negative bottom rootMargin, not 1.0), that every hidden element gets observed, and gate the hidden initial state behind a class added by JS (`.js [data-reveal]{opacity:0}`) so content is never lost if script fails."
+  },
+  {
+   "id": "mobile-clipped-text",
+   "severity": "major",
+   "area": "layout",
+   "title": "Text is clipped on mobile",
+   "evidence": "Overflowing: section#studio > div.container > h2.sr-only.",
+   "fix": "Use fluid type (clamp()) and allow wrapping; never set overflow:hidden on a heading container sized for desktop."
+  },
+  {
+   "id": "low-contrast",
+   "severity": "major",
+   "area": "accessibility",
+   "title": "Text contrast is too low",
+   "evidence": "8/183 checked text elements fail WCAG AA, e.g. \"69.6492\u00b0 N, 18.9553\u00b0 E\" 1.11:1, \"Troms\u00f8 \u00b7 Oslo\" 1.11:1, \"Scroll\" 1.11:1.",
+   "fix": "Muted text still needs \u22654.5:1 (\u22653:1 for 24px+). Raise lightness contrast of secondary text instead of lowering opacity."
+  },
+  {
+   "id": "copy-under-sticky",
+   "severity": "major",
+   "area": "layout",
+   "title": "Copy scrolls underneath a sticky panel",
+   "evidence": "3 text element(s) hidden behind a position:sticky element while in view. mobile scrollY 7319px: \u201cWe walk the site with the people who wil\u201d is under the sticky div.process__sticky; mobile scrollY 8945px: \u201cPanels are machined and assembled in a c\u201d is under the sticky div.process__sticky; mobile scrollY 8945px: \u201cOff-site build\u201d is under the sticky div.process__sticky.",
+   "fix": "A pinned visual that sits beside the copy on desktop often stacks over it on phones. Below the breakpoint, unpin it (position:static) or give the copy its own full-height steps so it never shares the screen with the sticky panel."
+  },
+  {
+   "id": "layout-properties-animated",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Layout properties are animated",
+   "evidence": "98 animations/transitions on height, marginLeft, margin-left, marginTop, margin-top; 0 inline-style layout writes.",
+   "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr\u21921fr or measure once and animate a scale/clip."
+  },
+  {
+   "id": "slow-hover",
+   "severity": "minor",
+   "area": "interaction",
+   "title": "Hover feedback is sluggish",
+   "evidence": "2 hover transitions last over 600 ms (e.g. body > header.site-header > a.brand > svg.brand__mark: 800 ms).",
+   "fix": "Hover/press feedback should start immediately and settle in 150\u2013300ms; longer feels laggy under the pointer."
+  },
+  {
+   "id": "too-much-ambient-motion",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Many elements loop forever",
+   "evidence": "18 distinct elements run infinite animations.",
+   "fix": "Limit ambient loops to one or two focal elements (a hero visual, a marquee). Constant motion everywhere competes with content and drains battery; pause off-screen loops."
+  },
+  {
+   "id": "small-tap-targets",
+   "severity": "minor",
+   "area": "accessibility",
+   "title": "Tap targets are small on mobile",
+   "evidence": "div.hero__inner.container > div.hero__foot > div.hero__actions > a.link-arrow 132\u00d732, article.card.card--land > div.card__meta > h3.card__title > button.card__open 168\u00d735, article.card.card--port > div.card__meta > h3.card__title > button.card__open 131\u00d735, article.card.card--port > div.card__meta > h3.card__title > button.card__open 104\u00d735",
+   "fix": "Give touch controls at least 44\u00d744px of hit area (padding or a pseudo-element hit box)."
+  },
+  {
+   "id": "desktop-clipped-text",
+   "severity": "minor",
+   "area": "layout",
+   "title": "Text is clipped on desktop",
+   "evidence": "section#studio > div.container > h2.sr-only",
+   "fix": "Allow wrapping or enlarge the container."
+  },
+  {
+   "id": "default-template",
+   "severity": "minor",
+   "area": "visual",
+   "title": "The page looks like the default AI-built template",
+   "evidence": "It shares 7 of 9 traits of the landing page coding agents build by default: display face Instrument Serif, italic accent word in the headline, warm paper ground, small uppercase eyebrow above the headline, pill buttons, grain overlay, marquee.",
+   "fix": "Unless the brief asks for these, change at least four: a display face chosen for this subject, a ground and accent taken from its world, a hero built around one dominant element instead of headline-left/object-right, square or cut button shapes, and sections laid out from their content rather than eyebrow, marquee and bento. A page can earn every trait; it should not get them by default."
+  },
+  {
+   "id": "placeholder-content",
+   "severity": "polish",
+   "area": "visual",
+   "title": "Placeholder text is visible",
+   "evidence": "mobile scrollY 12198px: placeholder text \u201cYour name\u201d",
+   "fix": "Replace placeholder copy, .example addresses and zeroed phone numbers with plausible content (labelled illustrative where needed), or remove the line."
+  }
+ ],
+ "motion": {
+  "animations": 1232,
+  "byPhase": {
+   "load": 190,
+   "scroll": 390,
+   "hover": 652
+  },
+  "easings": {
+   "custom-curve": 708,
+   "default-ease": 94,
+   "linear": 285
+  },
+  "durations": {
+   "p10": 150,
+   "median": 500,
+   "p90": 1400
+  },
+  "properties": {
+   "strokeDashoffset": 57,
+   "transform": 301,
+   "opacity": 505,
+   "boxShadow": 1,
+   "backgroundColor": 43,
+   "background-color": 43,
+   "borderBottomLeftRadius": 1,
+   "border-bottom-left-radius": 1,
+   "borderBottomRightRadius": 1,
+   "border-bottom-right-radius": 1,
+   "stroke-dashoffset": 28,
+   "clipPath": 5,
+   "clip-path": 5,
+   "color": 228,
+   "height": 25,
+   "marginLeft": 25,
+   "margin-left": 25,
+   "marginTop": 25,
+   "margin-top": 25,
+   "width": 25,
+   "borderTopLeftRadius": 10,
+   "border-top-left-radius": 10,
+   "borderTopRightRadius": 10,
+   "border-top-right-radius": 10,
+   "borderBottomColor": 6,
+   "border-bottom-color": 6,
+   "borderLeftColor": 6,
+   "border-left-color": 6,
+   "borderRightColor": 6,
+   "border-right-color": 6,
+   "borderTopColor": 6,
+   "border-top-color": 6,
+   "backgroundSize": 5,
+   "background-size": 5,
+   "top": 2
+  },
+  "entranceSpanMs": 1973,
+  "entranceStartGroups": 6,
+  "jsMotionMutations": 6886,
+  "sectionCoverage": {
+   "sections": 7,
+   "withMotion": 7,
+   "missing": []
+  },
+  "hover": {
+   "tested": 12,
+   "responsive": 11,
+   "animated": 11,
+   "silent": [
+    "Skip to content"
+   ]
+  },
+  "focus": {
+   "tested": 8,
+   "visible": 8
+  },
+  "reducedMotion": {
+   "rule": true,
+   "runningLongAnimations": 0,
+   "hiddenAfterScroll": 0
+  },
+  "frameStats": {
+   "scrollFrames": 991,
+   "over32ms": 2,
+   "over50ms": 0,
+   "p95Ms": 16.8
+  },
+  "layoutShift": 0.025,
+  "longAnimationFrames": 1
+ },
+ "template": {
+  "count": 7,
+  "of": 9,
+  "traits": [
+   "display face Instrument Serif",
+   "italic accent word in the headline",
+   "warm paper ground",
+   "small uppercase eyebrow above the headline",
+   "pill buttons",
+   "grain overlay",
+   "marquee"
+  ]
+ },
+ "progress": null,
+ "craft": {
+  "framesAnalyzed": 29,
+  "deadSpace": 0,
+  "hollow": 0,
+  "misaligned": 0,
+  "collisions": 0,
+  "covered": 3,
+  "shrunk": 0,
+  "placeholders": 1,
+  "orphans": 0,
+  "code": 0,
+  "edge": 0,
+  "controls": 0
+ },
+ "pages": {
+  "desktop": {
+   "viewport": {
+    "width": 1440,
+    "height": 900
+   },
+   "docHeight": 14556,
+   "hidden": [
+    {
+     "selector": "section#top > div.hero__inner.container > p.eyebrow",
+     "text": "Nordic architecture studio",
+     "opacity": 0
+    },
+    {
+     "selector": "section#top > div.hero__inner.container > div.hero__foot > p.hero__lede",
+     "text": "We design timber civic buildings and homes across the north ",
+     "opacity": 0
+    },
+    {
+     "selector": "div.hero__foot > div.hero__actions > a.btn.btn--solid > span",
+     "text": "Selected work",
+     "opacity": 0
+    },
+    {
+     "selector": "div.hero__foot > div.hero__actions > a.link-arrow > span",
+     "text": "Our philosophy",
+     "opacity": 0
+    }
+   ],
+   "hiddenCount": 4,
+   "textElementCount": 261,
+   "contrast": [
+    {
+     "selector": "section#top > div.hero__meta.container > p > span.mono",
+     "text": "69.6492\u00b0 N, 18.9553\u00b0 E",
+     "ratio": 1.11,
+     "need": 4.5
+    },
+    {
+     "selector": "section#top > div.hero__meta.container > p > span.mono.dim",
+     "text": "Troms\u00f8 \u00b7 Oslo",
+     "ratio": 1.11,
+     "need": 4.5
+    },
+    {
+     "selector": "section#top > div.hero__meta.container > p.scroll-cue > span.mono",
+     "text": "Scroll",
+     "ratio": 1.11,
+     "need": 4.5
+    },
+    {
+     "selector": "section#top > div.hero__meta.container > p > span.mono",
+     "text": "Est. 2009",
+     "ratio": 1.11,
+     "need": 4.5
+    },
+    {
+     "selector": "section#top > div.hero__meta.container > p > span.mono.dim",
+     "text": "48 buildings",
+     "ratio": 1.11,
+     "need": 4.5
+    },
+    {
+     "selector": "h2.display.in > em > span.w > span.wi",
+     "text": "movements.",
+     "ratio": 2.67,
+     "need": 3
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > span.mono",
+     "text": "Oslo",
+     "ratio": 3.74,
+     "need": 4.5
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > span.mono",
+     "text": "Troms\u00f8",
+     "ratio": 3.74,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 8,
+   "contrastChecked": 183,
+   "families": {
+    "Hanken Grotesk": 2839,
+    "Instrument Serif": 1089,
+    "DM Mono": 1224
+   },
+   "bodySize": 57.6,
+   "h1Size": 190.08,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [
+    "section#studio > div.container > h2.sr-only"
+   ],
+   "smallTargets": [],
+   "smallText": 0,
+   "media": {
+    "canvas": 0,
+    "video": 0,
+    "svg": 25,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 21,
+   "title": "Atelier Norr \u2014 Timber architecture for the Nordic north"
+  },
+  "mobile": {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "docHeight": 13855,
+   "hidden": [
+    {
+     "selector": "section#top > div.hero__inner.container > p.eyebrow",
+     "text": "Nordic architecture studio",
+     "opacity": 0
+    },
+    {
+     "selector": "div.work__pin > div.work__stage > div.work__bar.container > p.mono.work__count",
+     "text": "01 / 05",
+     "opacity": 0
+    }
+   ],
+   "hiddenCount": 2,
+   "textElementCount": 244,
+   "contrast": [
+    {
+     "selector": "h2.display.in > em > span.w > span.wi",
+     "text": "movements.",
+     "ratio": 2.67,
+     "need": 3
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > span.mono",
+     "text": "Oslo",
+     "ratio": 3.74,
+     "need": 4.5
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > span.mono",
+     "text": "Troms\u00f8",
+     "ratio": 3.74,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 3,
+   "contrastChecked": 176,
+   "families": {
+    "Hanken Grotesk": 2809,
+    "Instrument Serif": 1089,
+    "DM Mono": 1113
+   },
+   "bodySize": 32,
+   "h1Size": 81.9,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [
+    "section#studio > div.container > h2.sr-only"
+   ],
+   "smallTargets": [
+    {
+     "selector": "div.hero__inner.container > div.hero__foot > div.hero__actions > a.link-arrow",
+     "w": 132,
+     "h": 32
+    },
+    {
+     "selector": "article.card.card--land > div.card__meta > h3.card__title > button.card__open",
+     "w": 168,
+     "h": 35
+    },
+    {
+     "selector": "article.card.card--port > div.card__meta > h3.card__title > button.card__open",
+     "w": 131,
+     "h": 35
+    },
+    {
+     "selector": "article.card.card--port > div.card__meta > h3.card__title > button.card__open",
+     "w": 104,
+     "h": 35
+    },
+    {
+     "selector": "article.card.card--land > div.card__meta > h3.card__title > button.card__open",
+     "w": 218,
+     "h": 35
+    },
+    {
+     "selector": "article.card.card--port > div.card__meta > h3.card__title > button.card__open",
+     "w": 118,
+     "h": 35
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > a",
+     "w": 116,
+     "h": 21
+    },
+    {
+     "selector": "div.contact__info > div.offices > address.in > a",
+     "w": 116,
+     "h": 21
+    }
+   ],
+   "smallText": 2,
+   "media": {
+    "canvas": 0,
+    "video": 0,
+    "svg": 25,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 21,
+   "title": "Atelier Norr \u2014 Timber architecture for the Nordic north"
+  }
+ },
+ "images": {
+  "hover": "hover.png",
+  "desktopEntrance": "desktop-entrance.png",
+  "desktopScroll": "desktop-scroll.png",
+  "desktopDetail1": "desktop-detail-1.png",
+  "desktopDetail2": "desktop-detail-2.png",
+  "desktopDetail3": "desktop-detail-3.png",
+  "desktopFull": "desktop-full.jpg",
+  "mobile": "mobile.png",
+  "craft": "craft.png"
+ },
+ "notes": [
+  "Desktop journey took 38.3s",
+  "External origins requested: https://fonts.googleapis.com, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+ ],
+ "craftInstances": {
+  "deadSpace": [],
+  "hollow": [],
+  "misaligned": [],
+  "controls": [],
+  "collisions": [],
+  "covered": [
+   {
+    "frame": 21,
+    "viewport": "mobile",
+    "label": "scrollY 7319px",
+    "rect": {
+     "x": 20,
+     "y": 226,
+     "w": 342,
+     "h": 22
+    },
+    "detail": "\u201cWe walk the site with the people who wil\u201d is under the sticky div.process__sticky",
+    "selector": "div.process__grid > ol.steps > li.step.is-active > p",
+    "by": "section#process > div.container > div.process__grid > div.process__sticky"
+   },
+   {
+    "frame": 23,
+    "viewport": "mobile",
+    "label": "scrollY 8945px",
+    "rect": {
+     "x": 20,
+     "y": 183,
+     "w": 306,
+     "h": 22
+    },
+    "detail": "\u201cPanels are machined and assembled in a c\u201d is under the sticky div.process__sticky",
+    "selector": "div.process__grid > ol.steps > li.step.is-active > p",
+    "by": "section#process > div.container > div.process__grid > div.process__sticky"
+   },
+   {
+    "frame": 23,
+    "viewport": "mobile",
+    "label": "scrollY 8945px",
+    "rect": {
+     "x": 146,
+     "y": 323,
+     "w": 107,
+     "h": 13
+    },
+    "detail": "\u201cOff-site build\u201d is under the sticky div.process__sticky",
+    "selector": "ol.steps > li.step.is-active > ul.step__meta.mono > li",
+    "by": "section#process > div.container > div.process__grid > div.process__sticky"
+   }
+  ],
+  "orphans": [],
+  "code": [],
+  "edge": [],
+  "shrunk": [],
+  "placeholders": [
+   {
+    "frame": 27,
+    "viewport": "mobile",
+    "label": "scrollY 12198px",
+    "rect": {
+     "x": 43,
+     "y": 205,
+     "w": 76,
+     "h": 26
+    },
+    "detail": "placeholder text \u201cYour name\u201d",
+    "selector": "form#enquiry > div.field > label",
+    "text": "Your name"
+   }
+  ],
+  "framesAnalyzed": 29
+ }
+}

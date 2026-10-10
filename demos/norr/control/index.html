@@ -2,468 +2,896 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atelier Norr — Timber architecture, Trondheim</title>
-<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes. Philosophy, selected projects, process, awards and contact.">
-<meta name="theme-color" content="#ece5d8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314120f'/%3E%3Cpath d='M6 25V13L16 6l10 7v12M16 6v19' fill='none' stroke='%23d49a62' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atelier Norr — Timber architecture for the Nordic north</title>
+<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes. Studio philosophy, selected projects, process, awards and contact.">
+<meta name="theme-color" content="#EDE8DC">
+<meta property="og:title" content="Atelier Norr — Built with the grain">
+<meta property="og:description" content="Timber civic buildings and homes from Oslo and Tromsø.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317140F'/%3E%3Cpath d='M12 33 32 15l20 18M19 49V35M26 49V28M32 49V22M38 49V28M45 49V35' stroke='%23D9A15E' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script>
+  // Progressive enhancement gate: content is visible unless JS confirms it can run the motion layer.
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js', 'is-loading');
+    window.__norrFailsafe = setTimeout(function () {
+      d.classList.remove('is-loading');
+      d.classList.add('no-anim');
+    }, 6500);
+  })();
+</script>
 <link rel="stylesheet" href="styles.css">
+<noscript><style>.preloader,.cursor{display:none!important}.menu-toggle{display:none}.primary{display:flex!important}.site-header{position:absolute}.dots,.progress{display:none}</style></noscript>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- Preloader -->
-<div class="preloader" id="preloader" aria-hidden="true">
-  <svg class="pre-frame" viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="1">
-    <path pathLength="1" d="M10 88H110"/>
-    <path pathLength="1" d="M22 88V50M98 88V50M22 50L60 14 98 50M60 14V88M22 70L60 50 98 70"/>
-  </svg>
-  <div class="pre-word"><span>Atelier Norr</span></div>
-  <div class="pre-count"><span id="preCount">0</span><i>/100</i></div>
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path class="pl-d" pathLength="1" d="M6 32 32 9l26 23"/>
+      <path class="pl-d" pathLength="1" d="M12 57V30M22 57V21M32 57V12M42 57V21M52 57V30"/>
+      <path class="pl-d" pathLength="1" d="M4 57H60"/>
+    </svg>
+    <p class="preloader__name"><span>Atelier</span> <span>Norr</span></p>
+    <p class="preloader__sub">Timber architecture &middot; 69.65&deg; N</p>
+  </div>
+  <p class="preloader__count"><span id="loadNum">000</span><i>%</i></p>
+  <div class="preloader__bar"><span></span></div>
 </div>
 
-<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+<div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><span class="cursor__label"></span></span></div>
+<div class="progress" aria-hidden="true"><span></span></div>
 
-<header class="site-header" id="header">
-  <a href="#top" class="brand" data-cursor aria-label="Atelier Norr, home">
-    <svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 26V14L16 5l11 9v12M16 5v21M5 20l11-7 11 7"/></svg>
-    <span>Atelier Norr</span>
+<!-- ============ HEADER ============ -->
+<header class="site-header" data-theme="light">
+  <a class="brand" href="#top" aria-label="Atelier Norr, back to top">
+    <svg class="brand__mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" aria-hidden="true">
+      <path d="M6 32 32 9l26 23M12 57V30M22 57V21M32 57V12M42 57V21M52 57V30M4 57H60"/>
+    </svg>
+    <span class="brand__name">Atelier Norr</span>
   </a>
-  <nav class="nav" id="nav" aria-label="Primary">
-    <a href="#philosophy" data-cursor><i>01</i>Philosophy</a>
-    <a href="#projects" data-cursor><i>02</i>Projects</a>
-    <a href="#process" data-cursor><i>03</i>Process</a>
-    <a href="#awards" data-cursor><i>04</i>Awards</a>
-    <a href="#contact" class="nav-cta" data-cursor>Contact</a>
+  <nav class="primary" aria-label="Primary">
+    <a href="#studio" data-nav="studio"><span data-t="Studio">Studio</span></a>
+    <a href="#work" data-nav="work"><span data-t="Work">Work</span></a>
+    <a href="#process" data-nav="process"><span data-t="Process">Process</span></a>
+    <a href="#recognition" data-nav="recognition"><span data-t="Awards">Awards</span></a>
   </nav>
-  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+  <div class="header-end">
+    <a class="btn btn--pill" href="#contact" data-magnetic><span>Enquire</span><i aria-hidden="true"></i></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Menu</span><b></b><b></b></button>
+  </div>
 </header>
 
-<main id="top">
-
-<!-- HERO -->
-<section class="hero" id="hero" data-theme="light">
-  <div class="hero-sky"></div>
-  <svg class="hero-art" viewBox="0 0 1600 900" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="hMist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece5d8" stop-opacity="0"/><stop offset="1" stop-color="#ece5d8" stop-opacity=".85"/></linearGradient>
-      <radialGradient id="hSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f4c487"/><stop offset=".6" stop-color="#e9a86c" stop-opacity=".9"/><stop offset="1" stop-color="#e9a86c" stop-opacity="0"/></radialGradient>
-      <g id="spr"><path d="M0 0 L22 -50 L10 -50 L28 -92 L14 -92 L32 -140 L-32 -140 L-14 -92 L-28 -92 L-10 -50 L-22 -50Z"/></g>
-      <pattern id="hSlat" width="9" height="10" patternUnits="userSpaceOnUse"><rect width="9" height="10" fill="#2a2018"/><rect width="1.4" height="10" fill="#4a3724"/></pattern>
-    </defs>
-    <g class="sun-wrap"><circle class="sun-halo" cx="1010" cy="400" r="260" fill="url(#hSun)" opacity=".55"/><circle class="sun" cx="1010" cy="400" r="96" fill="#efb77a"/></g>
-    <g class="m-far" fill="#cdbfa8"><path d="M0 560 L150 470 L260 520 L430 390 L610 520 L720 470 L900 560 L1090 430 L1260 540 L1420 450 L1600 540 V900H0Z"/></g>
-    <g class="m-mid" fill="#a9a08c"><path d="M0 640 L200 540 L340 600 L520 500 L700 610 L860 560 L1040 640 L1200 560 L1380 630 L1600 560 V900H0Z"/></g>
-    <rect x="0" y="560" width="1600" height="140" fill="url(#hMist)"/>
-    <g class="m-near" fill="#5d6a5c"><path d="M0 720 L120 650 L230 700 L380 620 L520 700 L640 660 L800 730 L960 690 L1600 730 V900H0Z"/></g>
-    <g class="trees" fill="#2f3d34">
-      <use href="#spr" x="880" y="800"/><use href="#spr" x="940" y="810" transform="translate(0 0)"/><use href="#spr" x="1480" y="800"/><use href="#spr" x="1540" y="815"/><use href="#spr" x="1590" y="800"/>
-      <use href="#spr" x="60" y="830"/><use href="#spr" x="130" y="815"/><use href="#spr" x="200" y="835"/>
-    </g>
-    <path class="ground" d="M0 800 C300 780 700 810 1100 795 S1500 800 1600 790 V900H0Z" fill="#1d2620"/>
-    <!-- timber hall drawn in -->
-    <g class="hall" fill="none" stroke="#14120f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-      <path class="hall-fill" d="M1040 800 V690 L1240 560 L1440 690 V800Z" fill="url(#hSlat)" stroke="none"/>
-      <path class="hall-glow" d="M1150 800 V710 L1240 650 L1330 710 V800Z" fill="#f4c487" stroke="none"/>
-      <path class="draw" pathLength="1" d="M1020 800 H1460"/>
-      <path class="draw" pathLength="1" d="M1040 800 V690 L1240 560 L1440 690 V800"/>
-      <path class="draw" pathLength="1" d="M1010 700 L1240 548 L1470 700" stroke-width="3"/>
-      <path class="draw" pathLength="1" d="M1240 548 V800"/>
-      <path class="draw" pathLength="1" d="M1150 800 V710 L1240 650 L1330 710 V800"/>
-      <path class="draw" pathLength="1" d="M1100 800 V672 M1380 800 V672 M1150 800 L1240 660 L1330 800"/>
-    </g>
-  </svg>
-
-  <div class="hero-inner">
-    <p class="eyebrow" data-hero-fade><span class="dot"></span>Nordic architecture studio — timber civic buildings &amp; homes</p>
-    <h1 class="hero-title" aria-label="Buildings that grow slowly, and stand a very long time.">
-      <span class="ln"><span>Buildings that</span></span>
-      <span class="ln"><span>grow <em>slowly</em>,</span></span>
-      <span class="ln"><span>and stand long.</span></span>
-    </h1>
-    <div class="hero-foot" data-hero-fade>
-      <p class="hero-lede">We draw libraries, halls, schools and houses in spruce, larch and pine — shaped by northern light and made to be loved for a century.</p>
-      <a href="#projects" class="scroll-cue" data-cursor><span class="cue-line"></span>Selected work</a>
-      <div class="coords"><span>63.4305° N</span><span>10.3951° E</span><span id="clock">Trondheim</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>Spruce</span><i>✦</i><span>Larch</span><i>✦</i><span>Glulam</span><i>✦</i><span>Cross-laminated</span><i>✦</i><span>Pine tar</span><i>✦</i><span>Slow growth</span><i>✦</i><span>Dovetail</span><i>✦</i><span>Northern light</span><i>✦</i>
-    <span>Spruce</span><i>✦</i><span>Larch</span><i>✦</i><span>Glulam</span><i>✦</i><span>Cross-laminated</span><i>✦</i><span>Pine tar</span><i>✦</i><span>Slow growth</span><i>✦</i><span>Dovetail</span><i>✦</i><span>Northern light</span><i>✦</i>
+<div class="menu" id="menu" inert>
+  <nav class="menu__nav" aria-label="Mobile">
+    <a href="#studio"><i>01</i><span>Studio</span></a>
+    <a href="#work"><i>02</i><span>Work</span></a>
+    <a href="#process"><i>03</i><span>Process</span></a>
+    <a href="#recognition"><i>04</i><span>Awards</span></a>
+    <a href="#contact"><i>05</i><span>Contact</span></a>
+  </nav>
+  <div class="menu__foot">
+    <p>Oslo &amp; Tromsø</p>
+    <a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a>
   </div>
 </div>
 
-<!-- PHILOSOPHY -->
-<section class="philosophy" id="philosophy" data-theme="light">
-  <div class="wrap">
-    <p class="kicker" data-reveal><span>01</span> Studio philosophy</p>
-    <p class="big-statement" id="statement">We believe a building should be the slowest thing in a town — outlasting its fashions, its budgets and its architects. Timber lets us build that way: warm to the hand, light on the earth, and honest about its age.</p>
+<!-- section index -->
+<nav class="dots" aria-label="Sections">
+  <a href="#top" data-dot="top"><span>Intro</span></a>
+  <a href="#studio" data-dot="studio"><span>Studio</span></a>
+  <a href="#work" data-dot="work"><span>Work</span></a>
+  <a href="#process" data-dot="process"><span>Process</span></a>
+  <a href="#recognition" data-dot="recognition"><span>Awards</span></a>
+  <a href="#contact" data-dot="contact"><span>Contact</span></a>
+</nav>
 
-    <div class="principles">
-      <article class="principle" data-reveal>
-        <span class="p-num">i.</span>
-        <h3>Grown, not extracted</h3>
-        <p>Every beam we specify comes from managed Nordic forests within 400&nbsp;km of the site. Trees that took eighty years to stand become buildings meant to stand two hundred.</p>
-        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><circle cx="30" cy="30" r="4"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="30" r="17"/><circle cx="30" cy="30" r="24"/><circle cx="30" cy="30" r="29" stroke-dasharray="2 3"/></svg>
-      </article>
-      <article class="principle" data-reveal>
-        <span class="p-num">ii.</span>
-        <h3>Light is a material</h3>
-        <p>At 63° north the sun is low and generous in summer, and scarce in winter. We shape sections, aperture and surface to catch every degree of it — and to glow from within when it is gone.</p>
-        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><circle cx="30" cy="30" r="9"/><path d="M30 4v10M30 46v10M4 30h10M46 30h10M11.6 11.6l7 7M41.4 41.4l7 7M48.4 11.6l-7 7M18.6 41.4l-7 7"/></svg>
-      </article>
-      <article class="principle" data-reveal>
-        <span class="p-num">iii.</span>
-        <h3>Joinery over fixings</h3>
-        <p>We prefer the dovetail to the bracket. Honest joints are visible, repairable and teachable — so the next generation of carpenters can maintain what we drew.</p>
-        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 20h18l-4 6 4 6H6zM54 20H36l4 6-4 6h18z"/><path d="M6 40h48M6 46h48"/></svg>
-      </article>
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" data-theme="light" data-section="top">
+  <div class="hero__scene" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+      <defs>
+        <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#F29B6A" stop-opacity=".9"/>
+          <stop offset=".35" stop-color="#F0B58A" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#F0D3A8" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="hero-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#C3CFCB"/>
+          <stop offset=".5" stop-color="#93AAA7"/>
+          <stop offset="1" stop-color="#668280"/>
+        </linearGradient>
+        <linearGradient id="hero-glaze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FBE0A0"/>
+          <stop offset="1" stop-color="#E8964A"/>
+        </linearGradient>
+        <linearGradient id="hero-refl-fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".8"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="hero-refl-mask" maskUnits="userSpaceOnUse" x="-100" y="665" width="1800" height="235">
+          <rect x="-100" y="665" width="1800" height="235" fill="url(#hero-refl-fade)"/>
+        </mask>
+        <clipPath id="hero-gable"><polygon points="380,680 655,572 930,680"/></clipPath>
+        <symbol id="spruce" viewBox="0 0 40 120" preserveAspectRatio="none"><polygon points="20,0 34,40 26,40 38,76 28,76 40,112 22,112 22,120 18,120 18,112 0,112 12,76 2,76 14,40 6,40"/></symbol>
+
+      </defs>
+
+      <g class="rise" style="--rd:.15s"><g data-depth=".25">
+        <circle class="sun-glow" cx="1060" cy="585" r="430" fill="url(#hero-glow)"/>
+      </g></g>
+      <g class="rise rise--sun" style="--rd:.0s"><g data-depth=".25">
+        <circle class="sun" cx="1060" cy="585" r="105" fill="#E8744A"/>
+        <circle cx="1060" cy="585" r="105" fill="none" stroke="#F8C79A" stroke-width="1.5" opacity=".7"/>
+      </g></g>
+
+      <g class="birds" fill="none" stroke="#17140F" stroke-width="1.6" stroke-linecap="round" opacity=".5">
+        <path class="bird" d="M1230 170q9-10 18 0q9-10 18 0" style="--bd:0s"/>
+        <path class="bird" d="M1290 148q7-8 14 0q7-8 14 0" style="--bd:-3s"/>
+        <path class="bird" d="M1200 196q6-7 12 0q6-7 12 0" style="--bd:-6s"/>
+      </g>
+
+      <g class="rise" style="--rd:.25s"><g data-depth=".2">
+        <g id="hero-ridges">
+          <path d="M-100 665V560C40 520 120 470 230 500C330 528 380 560 470 520C560 480 600 430 700 440C800 450 840 540 940 590C1000 620 1120 620 1180 580C1260 530 1330 470 1420 500C1500 528 1600 540 1700 520V665Z" fill="#BCC8C5"/>
+          <path d="M-100 665V610C60 585 160 545 280 585C380 617 440 605 540 575C660 539 720 565 820 610C920 650 1000 640 1100 636C1220 632 1300 600 1400 590C1500 580 1600 610 1700 600V665Z" fill="#9DB0AD"/>
+          <path d="M-100 665V650C100 640 220 636 340 648C460 660 560 652 700 646C860 640 980 654 1120 656C1260 658 1380 640 1500 644C1580 646 1650 650 1700 648V665Z" fill="#7C9693"/>
+        </g>
+      </g></g>
+
+      <rect x="-100" y="665" width="1800" height="235" fill="url(#hero-water)"/>
+      <g mask="url(#hero-refl-mask)" opacity=".35"><use href="#hero-ridges" transform="translate(0 1330) scale(1 -1)"/></g>
+      <g class="rise" style="--rd:.5s"><g><rect class="glint" x="1032" y="696" width="56" height="4" rx="2" fill="#F5B07F" opacity="0.7" style="--gd:3s;animation-delay:0s"/><rect class="glint" x="1021" y="713" width="78" height="4.3" rx="2" fill="#F5B07F" opacity="0.7" style="--gd:3.4s;animation-delay:-0.5s"/><rect class="glint" x="1010" y="730" width="100" height="4.6" rx="2" fill="#F5B07F" opacity="0.6" style="--gd:3.8s;animation-delay:-1s"/><rect class="glint" x="999" y="747" width="122" height="4.9" rx="2" fill="#F5B07F" opacity="0.6" style="--gd:4.2s;animation-delay:-1.5s"/><rect class="glint" x="988" y="764" width="144" height="5.2" rx="2" fill="#F5B07F" opacity="0.5" style="--gd:4.6s;animation-delay:-2s"/><rect class="glint" x="977" y="781" width="166" height="5.5" rx="2" fill="#F5B07F" opacity="0.5" style="--gd:5s;animation-delay:-2.5s"/><rect class="glint" x="966" y="798" width="188" height="5.8" rx="2" fill="#F5B07F" opacity="0.4" style="--gd:5.4s;animation-delay:-3s"/><rect class="glint" x="955" y="815" width="210" height="6.1" rx="2" fill="#F5B07F" opacity="0.4" style="--gd:5.8s;animation-delay:-3.5s"/><rect class="glint" x="944" y="832" width="232" height="6.4" rx="2" fill="#F5B07F" opacity="0.3" style="--gd:6.2s;animation-delay:-4s"/><rect class="glint" x="933" y="849" width="254" height="6.7" rx="2" fill="#F5B07F" opacity="0.3" style="--gd:6.6s;animation-delay:-4.5s"/><rect class="glint" x="922" y="866" width="276" height="7" rx="2" fill="#F5B07F" opacity="0.3" style="--gd:7s;animation-delay:-5s"/></g></g>
+      <g><rect class="shimmer" x="1376.4" y="682" width="50" height="1.2" rx=".6" fill="#F4F0E6" style="--sd:6.3s;--sx:29px;--so:0.4;animation-delay:-2.6s"/><rect class="shimmer" x="1117.9" y="693.2" width="77.5" height="1.3" rx=".6" fill="#F4F0E6" style="--sd:9.1s;--sx:26.5px;--so:0.4;animation-delay:-1.9s"/><rect class="shimmer" x="1044.3" y="699.9" width="98" height="1.3" rx=".6" fill="#F4F0E6" style="--sd:5.3s;--sx:27.8px;--so:0.3;animation-delay:-7.4s"/><rect class="shimmer" x="131.6" y="709.8" width="83.7" height="1.4" rx=".6" fill="#F4F0E6" style="--sd:10.5s;--sx:27.9px;--so:0.4;animation-delay:-4.6s"/><rect class="shimmer" x="1357" y="718.4" width="72.2" height="1.4" rx=".6" fill="#F4F0E6" style="--sd:7s;--sx:31.8px;--so:0.3;animation-delay:-1.2s"/><rect class="shimmer" x="608.4" y="724.2" width="66.7" height="1.4" rx=".6" fill="#F4F0E6" style="--sd:10.6s;--sx:24.5px;--so:0.4;animation-delay:-7s"/><rect class="shimmer" x="366.6" y="731.4" width="103.1" height="1.5" rx=".6" fill="#F4F0E6" style="--sd:8.1s;--sx:21px;--so:0.2;animation-delay:-7.3s"/><rect class="shimmer" x="510.1" y="739.6" width="79.6" height="1.6" rx=".6" fill="#F4F0E6" style="--sd:9s;--sx:34px;--so:0.3;animation-delay:-1.3s"/><rect class="shimmer" x="382.4" y="749.2" width="85.9" height="1.6" rx=".6" fill="#F4F0E6" style="--sd:7.5s;--sx:18.6px;--so:0.4;animation-delay:-4.9s"/><rect class="shimmer" x="1354.1" y="756.7" width="102.8" height="1.6" rx=".6" fill="#F4F0E6" style="--sd:10.2s;--sx:26.5px;--so:0.4;animation-delay:-4.1s"/><rect class="shimmer" x="1014.8" y="766" width="178.2" height="1.7" rx=".6" fill="#F4F0E6" style="--sd:7.4s;--sx:28.4px;--so:0.3;animation-delay:-4.7s"/><rect class="shimmer" x="455.7" y="773.6" width="101" height="1.8" rx=".6" fill="#F4F0E6" style="--sd:9.8s;--sx:32.8px;--so:0.2;animation-delay:-6.6s"/><rect class="shimmer" x="574.6" y="780.7" width="66.9" height="1.8" rx=".6" fill="#F4F0E6" style="--sd:5.5s;--sx:35.9px;--so:0.3;animation-delay:-5.1s"/><rect class="shimmer" x="653.1" y="789.2" width="141.8" height="1.9" rx=".6" fill="#F4F0E6" style="--sd:5.8s;--sx:34px;--so:0.5;animation-delay:-7.1s"/><rect class="shimmer" x="1356.1" y="800.3" width="175.5" height="1.9" rx=".6" fill="#F4F0E6" style="--sd:6.7s;--sx:10.3px;--so:0.3;animation-delay:-0.6s"/><rect class="shimmer" x="902.3" y="805" width="87.9" height="1.9" rx=".6" fill="#F4F0E6" style="--sd:9.4s;--sx:22.7px;--so:0.4;animation-delay:-1.9s"/><rect class="shimmer" x="306.9" y="816.7" width="116.8" height="2" rx=".6" fill="#F4F0E6" style="--sd:10.4s;--sx:13.1px;--so:0.3;animation-delay:0s"/><rect class="shimmer" x="933.6" y="825.1" width="223.6" height="2" rx=".6" fill="#F4F0E6" style="--sd:5.1s;--sx:33.4px;--so:0.2;animation-delay:-7.7s"/><rect class="shimmer" x="999.8" y="831.9" width="103.3" height="2.1" rx=".6" fill="#F4F0E6" style="--sd:6.3s;--sx:15.4px;--so:0.4;animation-delay:-0.4s"/><rect class="shimmer" x="1033.1" y="840.9" width="195.8" height="2.1" rx=".6" fill="#F4F0E6" style="--sd:8s;--sx:10.9px;--so:0.2;animation-delay:-7.4s"/><rect class="shimmer" x="1013.1" y="846.5" width="238.2" height="2.2" rx=".6" fill="#F4F0E6" style="--sd:5.2s;--sx:33px;--so:0.5;animation-delay:-7.9s"/><rect class="shimmer" x="1133.2" y="858" width="144.9" height="2.3" rx=".6" fill="#F4F0E6" style="--sd:6.5s;--sx:28.9px;--so:0.5;animation-delay:-3.2s"/><rect class="shimmer" x="571.6" y="863.3" width="250.3" height="2.3" rx=".6" fill="#F4F0E6" style="--sd:8.4s;--sx:19.1px;--so:0.4;animation-delay:-5.9s"/><rect class="shimmer" x="1071.3" y="871.9" width="153.5" height="2.4" rx=".6" fill="#F4F0E6" style="--sd:6.2s;--sx:18.1px;--so:0.5;animation-delay:-8s"/><rect class="shimmer" x="1300.6" y="881.3" width="270.7" height="2.4" rx=".6" fill="#F4F0E6" style="--sd:6.2s;--sx:26.8px;--so:0.2;animation-delay:-4s"/><rect class="shimmer" x="1143.4" y="889.2" width="284" height="2.5" rx=".6" fill="#F4F0E6" style="--sd:7.9s;--sx:14.9px;--so:0.3;animation-delay:-1.3s"/></g>
+
+      <g class="rise" style="--rd:.45s"><g data-depth=".7">
+        <ellipse cx="1480" cy="803" rx="150" ry="13" fill="#1A211C"/>
+        <g fill="#1A211C">
+          <use href="#spruce" x="1372" y="708" width="30" height="96"/>
+          <use href="#spruce" x="1408" y="690" width="36" height="114"/>
+          <use href="#spruce" x="1452" y="716" width="28" height="88"/>
+          <use href="#spruce" x="1488" y="684" width="38" height="120"/>
+          <use href="#spruce" x="1530" y="722" width="26" height="82"/>
+        </g>
+      </g></g>
+
+      <g mask="url(#hero-refl-mask)" opacity=".22"><use href="#hero-hall" transform="translate(0 1600) scale(1 -1)"/></g>
+      <g class="rise hall-rise" style="--rd:.35s"><g data-depth=".5">
+        <g id="hero-hall">
+          <path d="M-80 800V824M-34 800V828M12 800V832M58 800V836M104 800V840M150 800V832M196 800V836M242 800V840M288 800V832M334 800V836M380 800V840M426 800V832M472 800V836M518 800V840M564 800V832M610 800V836M656 800V840M702 800V832M748 800V836M794 800V840M840 800V832M886 800V836M932 800V840M978 800V832" stroke="#1A211C" stroke-width="4" fill="none"/>
+          <rect x="-100" y="790" width="1100" height="10" fill="#1A211C"/>
+          <polygon points="380,680 655,572 930,680" fill="#222A24"/>
+          <rect x="380" y="680" width="550" height="110" fill="#222A24"/>
+          <path d="M386 682V790M397 682V790M408 682V790M419 682V790M430 682V790M441 682V790M452 682V790M463 682V790M474 682V790M485 682V790M496 682V790M507 682V790M518 682V790M529 682V790M540 682V790M551 682V790M562 682V790M573 682V790M584 682V790M595 682V790M606 682V790M617 682V790M628 682V790M639 682V790M650 682V790M661 682V790M672 682V790M683 682V790M694 682V790M705 682V790M716 682V790M727 682V790M738 682V790M749 682V790M760 682V790M771 682V790M782 682V790M793 682V790M804 682V790M815 682V790M826 682V790M837 682V790M848 682V790M859 682V790M870 682V790M881 682V790M892 682V790M903 682V790M914 682V790M925 682V790" stroke="#3E4A40" stroke-width="1.2" opacity=".75" fill="none"/><g clip-path="url(#hero-gable)"><path d="M386 560V690M397 560V690M408 560V690M419 560V690M430 560V690M441 560V690M452 560V690M463 560V690M474 560V690M485 560V690M496 560V690M507 560V690M518 560V690M529 560V690M540 560V690M551 560V690M562 560V690M573 560V690M584 560V690M595 560V690M606 560V690M617 560V690M628 560V690M639 560V690M650 560V690M661 560V690M672 560V690M683 560V690M694 560V690M705 560V690M716 560V690M727 560V690M738 560V690M749 560V690M760 560V690M771 560V690M782 560V690M793 560V690M804 560V690M815 560V690M826 560V690M837 560V690M848 560V690M859 560V690M870 560V690M881 560V690M892 560V690M903 560V690M914 560V690M925 560V690" stroke="#3E4A40" stroke-width="1.2" opacity=".75" fill="none"/></g>
+          <polygon class="glow" points="585,676 655,614 725,676" fill="url(#hero-glaze)"/>
+          <path class="draw" d="M655 614V676M620 645 690 645" stroke="#1F2822" stroke-width="4" fill="none"/>
+          <rect class="glow" x="470" y="702" width="370" height="80" fill="url(#hero-glaze)" style="animation-delay:-2s"/>
+          <path class="draw" d="M470 702V782M516.3 702V782M562.5 702V782M608.8 702V782M655 702V782M701.3 702V782M747.5 702V782M793.8 702V782M840 702V782" stroke="#1F2822" stroke-width="5" fill="none"/>
+          <path class="draw" d="M470 742H840" stroke="#1F2822" stroke-width="3" fill="none"/>
+          <path class="draw rim" d="M350 691 655 563 960 691" stroke="#EBD7B2" stroke-width="2.6" fill="none"/>
+          <path class="draw rim" d="M380 790H930" stroke="#EBD7B2" stroke-width="1.6" opacity=".55" fill="none"/>
+          <g fill="#1A211C"><circle cx="900" cy="766" r="3.4"/><path d="M896.4 770h7.2l1.6 20h-3l-1-8-1.2 8h-3l-1.2-8-1 8h-3z"/></g>
+        </g>
+      </g></g>
+    </svg>
+  </div>
+
+  <div class="hero__inner container">
+    <p class="eyebrow" data-hero="fade"><span class="eyebrow__line"></span>Nordic architecture studio</p>
+    <h1 class="hero__title" aria-label="Built with the grain.">
+      <span class="line" aria-hidden="true"><span class="line__in" data-hero="line">Built with</span></span>
+      <span class="line" aria-hidden="true"><span class="line__in" data-hero="line">the <em>grain.</em></span></span>
+    </h1>
+    <div class="hero__foot">
+      <p class="hero__lede" data-hero="fade">We design timber civic buildings and homes across the north &mdash; warm, patient places made from the forests that surround them.</p>
+      <div class="hero__actions" data-hero="fade">
+        <a class="btn btn--solid" href="#work" data-magnetic><span>Selected work</span><i aria-hidden="true"></i></a>
+        <a class="link-arrow" href="#studio"><span>Our philosophy</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+      </div>
     </div>
+  </div>
 
-    <dl class="stats">
-      <div data-reveal><dt><b data-count="64">0</b></dt><dd>Buildings raised across Norway, Sweden &amp; Finland</dd></div>
-      <div data-reveal><dt><b data-count="9400" data-sep="1">0</b><small>m³</small></dt><dd>Of certified timber, storing carbon for generations</dd></div>
-      <div data-reveal><dt><b data-count="17">0</b></dt><dd>Years drawing in the north, from a former boatyard</dd></div>
-      <div data-reveal><dt><b data-count="23">0</b></dt><dd>Architects, engineers and carpenters in the studio</dd></div>
-    </dl>
+  <div class="hero__meta container" data-hero="fade">
+    <p><span class="mono">69.6492&deg; N, 18.9553&deg; E</span><span class="mono dim">Tromsø &middot; Oslo</span></p>
+    <p class="scroll-cue"><span class="mono">Scroll</span><span class="scroll-cue__line"></span></p>
+    <p><span class="mono">Est. 2009</span><span class="mono dim">48 buildings</span></p>
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section class="projects" id="projects" data-theme="dark">
-  <div class="projects-pin">
-    <div class="track" id="track">
-
-      <div class="panel panel-intro">
-        <p class="kicker light"><span>02</span> Selected projects</p>
-        <h2 class="h2 light" data-split><span class="ln"><span>Four places,</span></span><span class="ln"><span>built <em>to be</em></span></span><span class="ln"><span>lived in.</span></span></h2>
-        <p class="panel-note">Scroll to travel north &rarr;</p>
-      </div>
-
-      <article class="card" data-cursor-label="View">
-        <div class="card-art">
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a vaulted glulam library hall at dusk">
-            <defs>
-              <linearGradient id="p1sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8cfa6"/><stop offset="1" stop-color="#9a7a5a"/></linearGradient>
-              <radialGradient id="p1glow" cx=".5" cy=".75" r=".7"><stop offset="0" stop-color="#ffe2b0"/><stop offset=".5" stop-color="#e6a45f"/><stop offset="1" stop-color="#5a3a22"/></radialGradient>
-              <path id="rib" d="M150 540 V340 Q150 160 400 160 Q650 160 650 340 V540" fill="none"/>
-            </defs>
-            <rect width="800" height="600" fill="url(#p1sky)"/>
-            <path d="M0 400 L120 320 L220 380 L360 280 L520 390 L640 330 L800 410 V600H0Z" fill="#7d6a58" opacity=".6"/>
-            <rect y="540" width="800" height="60" fill="#2b2118"/>
-            <path d="M150 540 V340 Q150 160 400 160 Q650 160 650 340 V540Z" fill="url(#p1glow)"/>
-            <g class="ribs" stroke="#6b4423" stroke-linecap="round">
-              <use href="#rib" stroke-width="16" transform="translate(400 540) scale(1) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="14" opacity=".95" transform="translate(400 540) scale(.88) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="13" opacity=".9" transform="translate(400 540) scale(.77) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="12" opacity=".85" transform="translate(400 540) scale(.67) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="11" opacity=".78" transform="translate(400 540) scale(.58) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="10" opacity=".7" transform="translate(400 540) scale(.5) translate(-400 -540)"/>
-              <use href="#rib" stroke-width="9" opacity=".6" transform="translate(400 540) scale(.43) translate(-400 -540)"/>
-            </g>
-            <path d="M0 600 L330 540 H470 L800 600Z" fill="#3a2a1c"/>
-            <path d="M400 540 V600 M360 540 L260 600 M440 540 L540 600" stroke="#d99b5a" stroke-width="1.5" opacity=".35"/>
-          </svg>
-          <span class="card-tag">Civic · Library</span>
-        </div>
-        <div class="card-meta">
-          <span class="idx">01</span>
-          <div><h3>Fjällby Library</h3><p>Östersund, Sweden — 2024</p></div>
-          <span class="arrow" aria-hidden="true">&nearr;</span>
-        </div>
-        <p class="card-desc">A 1,800&nbsp;m² reading hall under seven glulam arches, each laminated from a single valley of spruce.</p>
-      </article>
-
-      <article class="card" data-cursor-label="View">
-        <div class="card-art">
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a timber house in a spruce forest at dusk">
-            <defs>
-              <linearGradient id="p2sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27343e"/><stop offset=".6" stop-color="#6d6c71"/><stop offset="1" stop-color="#d89a64"/></linearGradient>
-              <pattern id="p2slat" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#2c2018"/><rect width="1.6" height="10" fill="#47341f"/></pattern>
-              <radialGradient id="p2win" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd48e"/><stop offset="1" stop-color="#ffd48e" stop-opacity="0"/></radialGradient>
-              <g id="p2t"><path d="M0 0 L30 -70 L16 -70 L40 -130 L22 -130 L48 -200 L0 -200 L-48 -200 L-22 -130 L-40 -130 L-16 -70 L-30 -70Z"/></g>
-            </defs>
-            <rect width="800" height="600" fill="url(#p2sky)"/>
-            <g fill="#fff" opacity=".7"><circle cx="90" cy="70" r="1.4"/><circle cx="220" cy="130" r="1"/><circle cx="360" cy="50" r="1.4"/><circle cx="520" cy="110" r="1"/><circle cx="690" cy="60" r="1.6"/><circle cx="740" cy="160" r="1"/></g>
-            <path d="M0 430 L160 360 L300 410 L460 330 L620 400 L800 350 V600H0Z" fill="#43505a"/>
-            <g fill="#1b2620"><use href="#p2t" x="40" y="520"/><use href="#p2t" x="120" y="540" transform="translate(0 0)"/><use href="#p2t" x="680" y="525"/><use href="#p2t" x="760" y="545"/><use href="#p2t" x="610" y="550"/></g>
-            <rect y="500" width="800" height="100" fill="#e9e1d3"/>
-            <path d="M0 540 C200 515 500 560 800 525 V600H0Z" fill="#d6cdbd"/>
-            <circle cx="400" cy="440" r="150" fill="url(#p2win)" opacity=".35"/>
-            <g>
-              <path d="M200 505 V400 L400 300 L600 400 V505Z" fill="url(#p2slat)"/>
-              <path d="M180 410 L400 288 L620 410" fill="none" stroke="#14100c" stroke-width="10" stroke-linejoin="round"/>
-              <path d="M180 410 L400 288 L620 410 L600 420 L400 312 L200 420Z" fill="#14100c"/>
-              <rect x="310" y="400" width="180" height="105" fill="#ffd48e"/>
-              <path d="M400 400 V505 M310 452 H490" stroke="#2c2018" stroke-width="5"/>
-              <rect x="226" y="440" width="46" height="65" fill="#1c1510"/>
-              <rect x="520" y="440" width="46" height="65" fill="#ffc77a" opacity=".85"/>
-              <rect x="530" y="270" width="26" height="70" fill="#2c2018"/>
-              <path class="smoke" d="M543 262 C530 240 560 230 543 205 C530 185 556 175 546 155" fill="none" stroke="#e9e1d3" stroke-width="5" stroke-linecap="round" opacity=".55"/>
-            </g>
-            <g fill="#1b2620"><use href="#p2t" x="140" y="570" transform="translate(0 0) scale(1)"/><use href="#p2t" x="690" y="590"/></g>
-          </svg>
-          <span class="card-tag">Home · Private</span>
-        </div>
-        <div class="card-meta">
-          <span class="idx">02</span>
-          <div><h3>Hus Skogsbrynet</h3><p>Lillehammer, Norway — 2023</p></div>
-          <span class="arrow" aria-hidden="true">&nearr;</span>
-        </div>
-        <p class="card-desc">A pine-tarred family house at the forest edge, with one tall south window that follows the winter sun.</p>
-      </article>
-
-      <article class="card" data-cursor-label="View">
-        <div class="card-art">
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a long timber community hall beside a fjord">
-            <defs>
-              <linearGradient id="p3sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd9d6"/><stop offset="1" stop-color="#f1dcc0"/></linearGradient>
-              <linearGradient id="p3sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8c4c2"/><stop offset="1" stop-color="#6c8484"/></linearGradient>
-              <pattern id="p3slat" width="14" height="10" patternUnits="userSpaceOnUse"><rect width="14" height="10" fill="#b98550"/><rect width="2" height="10" fill="#8a5d35"/></pattern>
-              <linearGradient id="p3glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3c4"/><stop offset="1" stop-color="#9fb2b0"/></linearGradient>
-            </defs>
-            <rect width="800" height="600" fill="url(#p3sky)"/>
-            <circle class="p3sun" cx="560" cy="330" r="46" fill="#f6c690"/>
-            <path d="M0 360 L130 330 L260 350 L420 318 L600 352 L800 330 V380H0Z" fill="#9fb0ae"/>
-            <rect y="380" width="800" height="220" fill="url(#p3sea)"/>
-            <g class="p3waves" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none" stroke-linecap="round"><path d="M60 560 h90 M300 575 h120 M560 555 h100 M180 590 h80 M620 590 h110"/><path d="M80 520 h60 M420 530 h80 M670 520 h60"/></g>
-            <!-- hall -->
-            <rect x="70" y="360" width="660" height="22" fill="#6d4a2b" />
-            <g>
-              <rect x="110" y="270" width="580" height="96" fill="url(#p3slat)"/>
-              <rect x="170" y="290" width="360" height="76" fill="url(#p3glass)"/>
-              <path d="M230 290 V366 M290 290 V366 M350 290 V366 M410 290 V366 M470 290 V366" stroke="#5a3b22" stroke-width="3"/>
-              <rect x="90" y="248" width="620" height="26" fill="#4a3220"/>
-              <rect x="90" y="236" width="620" height="12" fill="#2a1d13"/>
-              <path d="M130 366 V400 M270 366 V400 M410 366 V400 M550 366 V400 M670 366 V400" stroke="#4a3220" stroke-width="8"/>
-            </g>
-            <!-- reflection -->
-            <g opacity=".22" transform="translate(0 790) scale(1 -1)"><rect x="110" y="270" width="580" height="96" fill="#b98550"/><rect x="90" y="236" width="620" height="38" fill="#2a1d13"/></g>
-            <path d="M0 380 H800" stroke="#fff" stroke-opacity=".4"/>
-          </svg>
-          <span class="card-tag">Civic · Community</span>
-        </div>
-        <div class="card-meta">
-          <span class="idx">03</span>
-          <div><h3>Solvik Community Hall</h3><p>Lofoten, Norway — 2022</p></div>
-          <span class="arrow" aria-hidden="true">&nearr;</span>
-        </div>
-        <p class="card-desc">A long hall on stilts above the tide line, clad in larch that is silvering exactly as we hoped.</p>
-      </article>
-
-      <article class="card" data-cursor-label="View">
-        <div class="card-art">
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a ferry terminal with sawtooth timber roofs over water">
-            <defs>
-              <linearGradient id="p4sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34464a"/><stop offset=".7" stop-color="#c79d78"/><stop offset="1" stop-color="#ecc79a"/></linearGradient>
-              <linearGradient id="p4sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d7f80"/><stop offset="1" stop-color="#27363a"/></linearGradient>
-            </defs>
-            <rect width="800" height="600" fill="url(#p4sky)"/>
-            <path d="M0 360 L100 320 L200 350 L340 300 L470 350 L600 310 L800 350 V380H0Z" fill="#4c5b5d" opacity=".8"/>
-            <rect y="380" width="800" height="220" fill="url(#p4sea)"/>
-            <g class="p4waves" stroke="#ecc79a" stroke-opacity=".35" stroke-width="2" fill="none" stroke-linecap="round"><path d="M40 470 h80 M260 490 h110 M520 465 h90 M650 520 h100 M120 540 h120 M400 560 h90"/></g>
-            <!-- ferry -->
-            <g class="ferry"><path d="M590 392 H760 L745 420 H610Z" fill="#14100c"/><rect x="620" y="366" width="90" height="26" fill="#e7dcc6"/><rect x="636" y="348" width="40" height="18" fill="#e7dcc6"/><path d="M630 378 h70" stroke="#14100c" stroke-width="4" stroke-dasharray="8 6"/></g>
-            <!-- terminal sawtooth -->
-            <rect x="0" y="378" width="560" height="16" fill="#3a281a"/>
-            <g>
-              <path d="M40 378 V338 L180 268 V378Z" fill="#9c6a3b"/>
-              <path d="M40 338 L180 268 V288 L40 358Z" fill="#2a1d13"/>
-              <path d="M180 378 V268 L190 268 V378Z" fill="#f6dfb6"/>
-              <path d="M190 378 V338 L330 268 V378Z" fill="#b07a45"/>
-              <path d="M190 338 L330 268 V288 L190 358Z" fill="#2a1d13"/>
-              <path d="M330 378 V268 L340 268 V378Z" fill="#f6dfb6"/>
-              <path d="M340 378 V338 L480 268 V378Z" fill="#9c6a3b"/>
-              <path d="M340 338 L480 268 V288 L340 358Z" fill="#2a1d13"/>
-              <path d="M480 378 V268 L490 268 V378Z" fill="#f6dfb6"/>
-              <rect x="190" y="320" width="130" height="58" fill="#f6dfb6" opacity=".25"/>
-            </g>
-            <path d="M60 394 V450 M200 394 V450 M340 394 V450 M480 394 V450" stroke="#2a1d13" stroke-width="7"/>
-            <g opacity=".18" transform="translate(0 772) scale(1 -1)"><rect x="40" y="268" width="440" height="110" fill="#b07a45"/></g>
-          </svg>
-          <span class="card-tag">Civic · Transport</span>
-        </div>
-        <div class="card-meta">
-          <span class="idx">04</span>
-          <div><h3>Ravnøy Ferry Terminal</h3><p>Helgeland, Norway — 2021</p></div>
-          <span class="arrow" aria-hidden="true">&nearr;</span>
-        </div>
-        <p class="card-desc">Sawtooth roofs turn north light into an even glow for travellers waiting on the quay.</p>
-      </article>
-
-      <div class="panel panel-outro">
-        <p class="kicker light">64 buildings and counting</p>
-        <a href="#contact" class="outro-link" data-cursor><span>Commission<br>a building</span><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="40" cy="40" r="38"/><path d="M26 54L54 26M32 26h22v22"/></svg></a>
-      </div>
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__row">
+      <span>Picea abies</span><i></i><span>Norway spruce</span><i></i><span>Larix decidua</span><i></i><span>European larch</span><i></i><span>Pinus sylvestris</span><i></i><span>Scots pine</span><i></i><span>Betula pendula</span><i></i><span>Silver birch</span><i></i>
     </div>
-    <div class="projects-progress" aria-hidden="true"><span id="projBar"></span></div>
+    <div class="marquee__row">
+      <span>Picea abies</span><i></i><span>Norway spruce</span><i></i><span>Larix decidua</span><i></i><span>European larch</span><i></i><span>Pinus sylvestris</span><i></i><span>Scots pine</span><i></i><span>Betula pendula</span><i></i><span>Silver birch</span><i></i>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- PROCESS -->
-<section class="process" id="process" data-theme="light">
-  <div class="process-grid wrap">
-    <div class="process-sticky">
-      <p class="kicker" data-reveal><span>03</span> How we work</p>
-      <h2 class="h2" data-split><span class="ln"><span>From one</span></span><span class="ln"><span>walk in the</span></span><span class="ln"><span><em>forest</em> to a</span></span><span class="ln"><span>raised frame.</span></span></h2>
-      <div class="frame-wrap">
-        <svg class="frame" id="frame" viewBox="0 0 400 420" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-label="A timber frame being assembled as you scroll">
-          <path class="fp" pathLength="1" d="M30 380H370"/>
-          <path class="fp" pathLength="1" d="M60 380V200"/>
-          <path class="fp" pathLength="1" d="M340 380V200"/>
-          <path class="fp" pathLength="1" d="M140 380V200"/>
-          <path class="fp" pathLength="1" d="M260 380V200"/>
-          <path class="fp" pathLength="1" d="M40 200H360"/>
-          <path class="fp" pathLength="1" d="M60 300L140 200M340 300L260 200"/>
-          <path class="fp" pathLength="1" d="M40 200L200 70L360 200"/>
-          <path class="fp" pathLength="1" d="M200 70V200M120 135H280"/>
-          <path class="fp" pathLength="1" d="M150 380V300H250V380" stroke="#b6753f"/>
-          <path class="fp roof" pathLength="1" d="M26 208L200 58L374 208" stroke="#b6753f" stroke-width="3.4"/>
-          <circle class="fp-dot" cx="200" cy="70" r="5" fill="#b6753f" stroke="none"/>
+<!-- ============ STUDIO ============ -->
+<section class="studio" id="studio" data-theme="light" data-section="studio">
+  <svg class="studio__rings" viewBox="-340 -340 680 680" aria-hidden="true" focusable="false"><path class="pd" pathLength="1" d="M18.8 0L19 1.6L18.7 3.2L18 4.6L17.2 6L16.3 7.3L15.4 8.6L14.5 9.8L13.5 10.9L12.4 11.9L11.2 12.8L9.9 13.6L8.6 14.3L7.2 14.9L5.9 15.6L4.5 16.2L3 16.6L1.5 16.8L0 16.7L-1.5 16.4L-2.9 16.1L-4.4 15.8L-5.9 15.6L-7.4 15.3L-9 15L-10.5 14.5L-11.9 13.7L-13.2 12.7L-14.3 11.6L-15.3 10.3L-16.2 9L-16.8 7.5L-17.2 6L-17.3 4.5L-17.2 2.9L-16.9 1.4L-16.5 0L-16.3 -1.4L-16.2 -2.7L-16.1 -4.2L-16 -5.6L-15.7 -7L-15.2 -8.4L-14.5 -9.7L-13.6 -11L-12.6 -12.1L-11.6 -13.3L-10.4 -14.3L-9.1 -15.2L-7.7 -15.9L-6.2 -16.4L-4.6 -16.7L-3.1 -16.9L-1.6 -17.1L0 -17.3L1.6 -17.5L3.2 -17.4L4.8 -17.1L6.2 -16.4L7.5 -15.5L8.7 -14.4L9.7 -13.4L10.8 -12.4L11.8 -11.3L12.8 -10.3L13.7 -9.2L14.5 -8L15.2 -6.8L16 -5.6L16.8 -4.3L17.6 -3L18.4 -1.5Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.9" data-t="0"/><path class="pd" pathLength="1" d="M37.8 0L37.1 3.1L35.8 6.1L34.4 8.9L33 11.5L31.6 14.2L30.3 16.8L28.7 19.3L26.8 21.6L24.6 23.7L22.2 25.5L19.7 27.1L17.2 28.6L14.6 30.1L11.9 31.3L9 32.3L6 32.7L3 32.8L0 32.8L-3 32.7L-6 32.8L-9.2 32.9L-12.5 32.9L-15.8 32.5L-18.9 31.5L-21.7 29.8L-24.2 27.7L-26.3 25.3L-28.2 22.7L-29.7 20L-31 17.2L-31.9 14.3L-32.4 11.3L-32.5 8.4L-32.5 5.5L-32.6 2.7L-32.9 0L-33.4 -2.8L-33.8 -5.7L-33.9 -8.7L-33.5 -11.7L-32.5 -14.6L-31 -17.2L-29.2 -19.7L-27.4 -22.1L-25.4 -24.4L-23.2 -26.6L-20.8 -28.6L-18.2 -30.2L-15.3 -31.5L-12.3 -32.6L-9.3 -33.4L-6.3 -34.2L-3.2 -34.9L0 -35.2L3.2 -35.1L6.3 -34.2L9.1 -32.8L11.7 -31L14.1 -29.1L16.5 -27.4L18.8 -25.9L21.3 -24.4L23.7 -22.8L26 -21L28.2 -19L30.2 -16.8L32.2 -14.4L34.1 -11.9L35.8 -9.2L37.2 -6.3L37.9 -3.2Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.8" data-t="0.1"/><path class="pd" pathLength="1" d="M54.2 0L52.8 4.4L51.3 8.7L50.1 12.9L48.9 17.1L47.6 21.3L45.7 25.4L43.2 29.1L40.1 32.4L36.7 35.2L33 37.8L29.4 40.3L25.7 42.7L21.8 44.9L17.7 46.7L13.4 48L9 48.9L4.5 49.7L0 50.5L-4.7 51.4L-9.6 52.2L-14.6 52.4L-19.6 51.7L-24.2 49.9L-28.3 47.2L-31.8 43.7L-34.9 40L-37.6 36.2L-40.1 32.4L-42.3 28.5L-44.2 24.5L-45.7 20.5L-46.8 16.4L-47.9 12.3L-49.1 8.3L-50.5 4.2L-51.9 0L-52.9 -4.5L-53.2 -9L-52.4 -13.5L-50.8 -17.8L-48.6 -21.8L-46.1 -25.6L-43.7 -29.4L-41.1 -33.2L-38.4 -36.9L-35.2 -40.3L-31.5 -43.2L-27.4 -45.6L-23.1 -47.5L-18.6 -49.2L-14.1 -50.5L-9.4 -51.5L-4.7 -51.9L0 -51.5L4.6 -50.2L8.9 -48.3L12.8 -46.1L16.7 -44.1L20.6 -42.5L24.7 -41.2L29 -39.8L33.3 -38.2L37.4 -36L41.2 -33.2L44.6 -30L47.7 -26.5L50.5 -22.6L52.9 -18.5L54.6 -14.1L55.4 -9.4L55.2 -4.6Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.8" data-t="0.1"/><path class="pd" pathLength="1" d="M69.4 0L68.7 5.8L68.1 11.6L67.5 17.4L66.3 23.2L64.1 28.7L60.8 33.8L56.8 38.2L52.3 42.2L47.8 45.9L43.4 49.7L38.9 53.5L34.3 57.1L29.3 60.4L23.9 63.2L18.3 65.5L12.4 67.6L6.3 69.5L0 71.2L-6.6 72.4L-13.3 72.4L-19.8 70.9L-25.7 68L-31 63.9L-35.6 59.3L-39.8 54.6L-43.8 50.2L-47.7 45.9L-51.6 41.6L-55.1 37.1L-58.2 32.3L-60.9 27.3L-63.5 22.2L-66 17L-68.5 11.6L-70.7 5.9L-72 0L-72.2 -6.1L-71.2 -12.1L-69.1 -17.8L-66.6 -23.3L-64.1 -28.7L-61.6 -34.2L-59.1 -39.8L-56 -45.2L-52.2 -50.2L-47.5 -54.5L-42.2 -57.9L-36.4 -60.6L-30.5 -62.8L-24.4 -64.6L-18.3 -65.8L-12.2 -66.3L-6 -65.9L0 -64.8L5.7 -63.1L11.3 -61.6L16.8 -60.4L22.6 -59.8L28.8 -59.3L35.1 -58.5L41.3 -56.8L47.1 -54L52.3 -50.3L56.8 -45.8L60.7 -40.9L64.3 -35.7L67.2 -30.2L69.4 -24.3L70.6 -18.2L70.8 -12L70.2 -5.9Z" fill="none" stroke="#B87A3E" stroke-width="1.6" opacity="0.8" data-t="0.1"/><path class="pd" pathLength="1" d="M86.5 0L86.8 7.3L86.5 14.7L85.2 21.9L82.5 28.9L78.5 35.2L73.7 40.9L68.7 46.3L64 51.6L59.5 57.2L55 63L50.1 68.8L44.5 74.1L38.1 78.7L31.2 82.5L23.9 85.7L16.2 88.3L8.2 90.3L0 91.2L-8.2 90.6L-16.2 88.2L-23.5 84.2L-30 79.3L-36 74.3L-41.8 69.6L-47.7 65.5L-53.7 61.5L-59.7 57.4L-65.2 52.6L-70.2 47.3L-74.5 41.4L-78.4 35.2L-82.1 28.7L-85.4 22L-88.2 15L-89.9 7.6L-90.3 0L-89.4 -7.5L-87.6 -14.9L-85.6 -22.1L-83.7 -29.3L-81.7 -36.6L-79.4 -44.1L-76.1 -51.2L-71.5 -57.6L-65.5 -63L-58.6 -67.2L-51.3 -70.5L-43.9 -73.1L-36.6 -75.4L-29.3 -77.3L-21.9 -78.5L-14.5 -79.1L-7.2 -79.1L0 -78.8L7.2 -78.8L14.5 -79.3L22.3 -80L30.4 -80.4L38.7 -79.8L46.6 -77.6L53.7 -73.8L59.9 -68.7L65.4 -62.8L70.2 -56.6L74.6 -50.2L78.6 -43.6L81.8 -36.7L84.1 -29.4L85.3 -22L85.9 -14.6L86.2 -7.3Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.8" data-t="0.1"/><path class="pd" pathLength="1" d="M104.5 0L104.4 8.8L103 17.5L100 25.8L95.8 33.5L91.1 40.9L86.6 48.1L82.6 55.6L78.9 63.6L74.8 71.9L69.8 80L63.5 87.2L56 93.2L47.5 98L38.5 101.7L29.1 104.5L19.5 106.3L9.7 106.7L0 105.6L-9.3 102.8L-18.1 98.7L-26.2 94.1L-34 89.9L-41.9 86.3L-50 83.2L-58.3 80.1L-66.5 76.2L-74 71.1L-80.5 64.9L-86.1 58L-91.1 50.6L-95.7 42.9L-100 35L-103.7 26.7L-106.3 18L-107.6 9L-107.6 0L-106.9 -9L-106 -18L-104.9 -27L-103.5 -36.2L-101.1 -45.4L-97.1 -53.9L-91.2 -61.4L-83.7 -67.5L-75.2 -72.3L-66.6 -76.3L-58.2 -79.9L-50.1 -83.5L-42.1 -86.9L-34.1 -90L-25.8 -92.6L-17.4 -94.6L-8.8 -96.5L0 -98.4L9.1 -100.5L18.7 -102.2L28.7 -102.9L38.5 -101.8L47.8 -98.6L56.1 -93.4L63.4 -87L69.9 -80.1L76.1 -73.1L82 -66.2L87.7 -59L92.7 -51.4L96.6 -43.3L99.3 -34.8L101.2 -26.1L102.6 -17.4L103.8 -8.7Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.8" data-t="0.2"/><path class="pd" pathLength="1" d="M120.4 0L119.4 10L117 19.8L113.8 29.3L110.4 38.6L107.4 48.2L104.9 58.2L102.1 68.8L98.4 79.4L92.9 89.3L85.4 97.9L76.2 104.6L65.8 109.6L55 113.4L44 116.1L32.9 118L21.8 118.7L10.7 118L0 115.9L-10.3 113L-20.2 110L-30 107.5L-40 105.6L-50.3 103.8L-60.8 101.2L-70.8 97.2L-79.8 91.4L-87.6 84.2L-94.3 76.1L-100.5 67.7L-106.5 59.1L-112.4 50.4L-117.8 41.2L-122.1 31.5L-125 21.2L-126.5 10.6L-127.2 0L-127.2 -10.7L-126.7 -21.5L-125.3 -32.3L-122.2 -42.8L-116.9 -52.4L-109.5 -60.8L-100.6 -67.7L-91.2 -73.6L-82.1 -79L-73.7 -84.5L-65.8 -90.4L-57.9 -96.5L-49.6 -102.3L-40.7 -107.5L-31.2 -111.9L-21.2 -115.7L-10.8 -119.1L0 -122.1L11.3 -124.1L22.8 -124.4L34.1 -122.4L44.7 -118.1L54.3 -111.9L63 -104.9L71.2 -97.8L79.3 -90.9L87.5 -84.1L95.3 -76.9L102.3 -68.9L107.8 -59.9L111.9 -50.2L114.8 -40.2L117 -30.1L118.8 -20.1L120 -10.1Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.7" data-t="0.2"/><path class="pd" pathLength="1" d="M135.8 0L135.4 11.4L134.3 22.8L133 34.3L131.9 46.2L130.7 58.6L128.5 71.3L124.3 83.7L117.4 94.7L108 103.8L96.6 110.7L84.4 115.9L72 120L59.9 123.4L47.8 126.4L35.8 128.6L23.8 129.6L11.8 129.6L0 128.9L-11.6 128L-23.4 127.4L-35.4 127L-47.7 125.9L-59.8 123.4L-71.3 118.8L-81.6 112.1L-90.7 104L-99 95.2L-107 86.3L-115.3 77.6L-123.6 68.6L-131.3 58.9L-137.8 48.2L-142.5 36.7L-145.3 24.6L-146.7 12.3L-147.1 0L-146.4 -12.3L-144.3 -24.5L-140.2 -36.1L-133.9 -46.9L-125.7 -56.3L-116.5 -64.7L-107.5 -72.4L-99.3 -80.1L-92.1 -88.5L-85.2 -97.6L-77.8 -106.9L-69.4 -115.6L-59.7 -123.1L-48.9 -129.2L-37.4 -134.2L-25.3 -138.2L-12.9 -141.3L0 -143.1L13 -143L25.8 -140.4L37.8 -135.8L49.1 -129.7L59.7 -123.1L70.1 -116.8L80.6 -110.7L91.1 -104.4L101 -97.2L109.7 -88.5L116.5 -78.4L121.4 -67.4L125 -56.1L128 -44.8L130.8 -33.7L133.3 -22.6L135.1 -11.4Z" fill="none" stroke="#B87A3E" stroke-width="1.6" opacity="0.7" data-t="0.2"/><path class="pd" pathLength="1" d="M156.6 0L158 13.3L158.6 26.9L158.8 40.9L157.9 55.3L155 69.5L149.3 82.9L140.4 94.5L128.9 104L115.8 111.4L102.4 117.3L89.4 122.8L77 128.3L64.8 133.7L52.4 138.5L39.7 142.3L26.6 144.8L13.3 146.2L0 147.2L-13.5 148L-27.2 148.3L-41.1 147.5L-54.8 144.8L-67.7 139.7L-79.6 132.6L-90.5 124.3L-101 115.8L-111.8 107.5L-122.9 99.1L-134 90.2L-144.2 80.1L-152.4 68.4L-158.1 55.3L-161.4 41.6L-162.7 27.6L-162.7 13.7L-161.6 0L-159.1 -13.4L-154.8 -26.2L-148.6 -38.3L-141.2 -49.4L-133.4 -59.8L-126.3 -70.1L-120.3 -81L-114.9 -92.7L-109.2 -105L-102.2 -117.1L-93.1 -127.9L-82.1 -136.8L-69.7 -143.7L-56.4 -149L-42.7 -153.3L-28.7 -156.6L-14.4 -158.6L0 -158.8L14.3 -156.8L28.1 -153L41.3 -148L54 -142.8L66.8 -137.6L79.5 -132.4L92 -126.3L103.5 -118.6L113.3 -108.9L120.9 -97.5L126.7 -85.3L131.4 -72.9L136 -61L140.9 -49.3L146 -37.6L150.7 -25.5L154.3 -13Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.7" data-t="0.3"/><path class="pd" pathLength="1" d="M183 0L184.4 15.5L184.5 31.3L182.7 47.1L178.4 62.4L170.8 76.6L160.2 89L147.4 99.3L133.9 108L120.6 116L108.3 124.2L96.7 132.8L84.9 141.5L72.4 149.4L58.9 155.7L44.6 160.2L29.9 163.2L15 165.3L0 166.8L-15.3 167.7L-30.7 167.3L-45.9 164.8L-60.6 160.2L-74.6 153.8L-88 146.5L-101.3 139.2L-115.1 131.9L-129.1 124.1L-142.6 115.1L-154.4 104L-163.4 90.7L-169.1 75.8L-172 60.2L-173 44.6L-172.9 29.3L-172.2 14.5L-170.6 0L-167.8 -14.1L-163.8 -27.8L-158.8 -40.9L-153.9 -53.9L-149.6 -67.1L-146 -81L-142.2 -95.7L-137 -110.5L-129.4 -124.4L-118.9 -136.3L-106.1 -145.7L-91.9 -153L-77 -158.8L-62 -163.8L-46.9 -168.2L-31.5 -171.7L-15.8 -173.4L0 -173.2L15.6 -171L30.7 -167.5L45.6 -163.6L60.3 -159.3L74.9 -154.4L88.8 -147.9L101.5 -139.4L112.2 -128.6L120.9 -116.3L128.3 -103.5L135.3 -91.1L142.9 -79.3L151.4 -67.9L160.3 -56.1L168.6 -43.4L175.3 -29.7L180 -15.1Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.7" data-t="0.3"/><path class="pd" pathLength="1" d="M206.2 0L205.3 17.3L202.3 34.3L196.8 50.7L188.4 65.9L177.5 79.6L165.2 91.7L152.7 102.8L141.1 113.9L130.5 125.4L120 137.5L108.7 149.2L95.8 159.6L81.3 167.6L65.6 173.3L49.4 177.1L33 180.1L16.6 182.7L0 184.9L-16.9 185.8L-33.9 184.9L-50.7 181.9L-67.1 177.2L-83.2 171.6L-99.4 165.6L-115.8 159.1L-132 151.2L-146.8 141.2L-159.1 128.3L-167.9 113L-173.2 96.2L-176 78.9L-177.6 62.2L-179.1 46.1L-180.8 30.6L-182.2 15.3L-182.8 0L-182.2 -15.3L-180.7 -30.6L-178.9 -46.1L-177.1 -62L-175 -78.5L-171.7 -95.3L-165.9 -111.7L-156.8 -126.5L-144.6 -139L-130 -149L-114.4 -157.1L-98.7 -164.3L-83.1 -171.4L-67.4 -178.2L-51.3 -184.1L-34.5 -188.2L-17.3 -189.8L0 -189.1L17 -186.7L33.6 -183.4L50 -179.3L65.9 -174.2L81.2 -167.3L95 -158.3L107.3 -147.3L118 -135.3L128.2 -123.3L138.9 -112.1L150.7 -101.5L163.6 -90.8L176.5 -79.1L187.9 -65.7L196.6 -50.7L202.3 -34.3L205.3 -17.3Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.6" data-t="0.3"/><path class="pd" pathLength="1" d="M219.6 0L216.6 18.2L211.5 35.9L204.2 52.6L194.9 68.2L184.6 82.8L174.5 96.9L165.2 111.2L156.1 126L146.5 140.9L135 154.8L121.3 166.5L105.4 175.5L88.3 182.1L70.8 187.1L53.4 191.8L36.1 196.7L18.3 201.4L0 205.2L-18.8 206.8L-37.8 206.1L-56.6 203.2L-75.2 198.7L-93.7 193.2L-111.9 186.3L-129.1 177.3L-144.4 165.5L-156.7 150.6L-165.4 133.5L-171.2 115.3L-175.5 97.4L-179.7 80.6L-184.9 64.7L-190.8 49.2L-196.8 33.4L-201.6 17L-204.7 0L-206.1 -17.3L-206.4 -35L-205.7 -53L-203.9 -71.3L-199.9 -89.6L-192.9 -107.1L-182.4 -122.8L-168.9 -136.3L-153.6 -147.6L-137.7 -157.8L-122.1 -167.7L-106.8 -177.8L-91 -187.7L-74.3 -196.3L-56.4 -202.3L-37.6 -205.1L-18.7 -205L0 -202.8L18.2 -199.6L35.9 -195.7L53.2 -190.9L69.9 -184.7L85.6 -176.6L100.3 -167L114.2 -156.9L128.3 -147.1L143.4 -137.9L159.6 -128.8L176.3 -118.7L192 -106.6L204.8 -91.8L213.9 -74.9L219 -56.4L221.1 -37.5L221.1 -18.6Z" fill="none" stroke="#B87A3E" stroke-width="1.6" opacity="0.6" data-t="0.4"/><path class="pd" pathLength="1" d="M228.3 0L225.8 19L221.2 37.5L214.8 55.3L207.2 72.5L199.5 89.4L191.8 106.5L183.7 123.7L174.1 140.5L162 155.8L147.1 168.6L130.2 178.7L112.2 186.9L94.3 194.4L76.6 202.3L58.8 210.9L40.2 219.4L20.6 226.4L0 230.5L-21 231.3L-42 229L-62.6 224.5L-82.6 218.1L-101.8 209.9L-119.7 199.3L-135.3 185.9L-148.2 169.8L-158.1 152.1L-166.3 134.1L-174 117.2L-182.9 101.5L-193.2 86.6L-204.4 71.5L-214.8 55.4L-223.2 37.8L-228.6 19.2L-231.4 0L-232.1 -19.5L-231.5 -39.2L-229.2 -59.1L-224.7 -78.6L-217.1 -97.3L-206.2 -114.5L-192.8 -129.8L-178 -143.6L-163.1 -156.8L-148.4 -170L-133.5 -183.3L-117.6 -195.9L-100 -206.2L-80.6 -213L-60.2 -216L-39.6 -215.9L-19.5 -213.9L0 -211.5L19 -209L37.8 -206.2L56.4 -202.5L74.7 -197.2L92.5 -190.7L110.2 -183.5L128.3 -176.2L147.3 -168.8L166.9 -160.5L185.9 -150L202.5 -136.3L215.2 -119.5L223.4 -100.2L227.6 -79.7L229.2 -59L229.5 -38.9L229.3 -19.3Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.6" data-t="0.4"/><path class="pd" pathLength="1" d="M242.2 0L240.9 20.3L237.1 40.2L231.6 59.7L225.3 78.8L218.4 97.9L210.6 116.9L200.7 135.1L188.1 151.8L172.9 166.2L155.9 178.6L138.3 189.9L120.9 201.3L103.6 213.7L85.8 226.6L66.5 238.6L45.5 247.9L23 253.1L0 253.7L-22.8 250.4L-44.8 244.6L-66 236.9L-86.2 227.6L-104.9 216.4L-121.8 202.9L-136.6 187.6L-149.5 171.3L-161.7 155.5L-174.5 140.8L-188.7 127.1L-204.3 113.4L-219.8 98.5L-233.3 81.6L-243.3 62.7L-249.4 42.3L-252.2 21.2L-252.9 0L-252.3 -21.2L-250.4 -42.5L-246.6 -63.5L-239.9 -84L-230.2 -103.2L-218.2 -121.1L-204.8 -137.9L-191.1 -154.2L-177.2 -170.3L-162.3 -186L-145.6 -200L-126.6 -210.9L-105.6 -217.7L-83.6 -220.7L-61.6 -221.2L-40.5 -220.8L-20.1 -221.1L0 -222.3L20.4 -223.7L41.1 -224.2L62.1 -222.9L83.1 -219.7L104.3 -215L125.7 -209.3L147.4 -202.4L168.7 -193.3L188.4 -181.1L204.8 -165.2L216.8 -146L224.4 -124.6L228.9 -102.6L231.9 -81.2L234.9 -60.5L238.2 -40.4L241 -20.3Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.6" data-t="0.4"/><path class="pd" pathLength="1" d="M261.3 0L258.9 21.8L254.3 43.1L248.7 64.1L242.4 84.8L235.2 105.5L226 125.5L214.3 144.3L200.2 161.5L184.6 177.5L168.4 192.9L152.1 208.9L135.4 225.5L117.2 241.7L96.8 255.7L73.9 265.3L49.4 269.6L24.4 268.6L0 263.8L-23.4 256.9L-45.7 249.2L-67.1 240.8L-87.5 231.2L-106.8 220.2L-124.7 207.7L-141.7 194.6L-158.7 181.8L-176.5 169.7L-195.5 157.7L-214.8 144.6L-232.8 129.2L-247.4 110.9L-257.7 90.2L-263.6 67.9L-266.6 45.2L-268.1 22.6L-269.1 0L-269.5 -22.7L-268 -45.4L-263.6 -67.9L-256 -89.6L-245.5 -110.1L-233.3 -129.5L-220.2 -148.2L-206.1 -166.3L-190.5 -183.2L-172.6 -197.7L-152.1 -208.9L-129.8 -216.2L-106.9 -220.5L-84.6 -223.6L-63.3 -227.3L-42.7 -232.7L-21.8 -239.5L0 -246.2L22.8 -251.1L46.4 -253.1L70.2 -251.9L93.9 -248L117.4 -242.1L140.5 -234L162.5 -223.2L182.3 -208.9L198.6 -190.9L210.8 -170.1L219.7 -147.9L226.6 -125.8L233.3 -104.6L240.7 -84.3L248.7 -64.1L255.8 -43.4L260.3 -21.9Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.5" data-t="0.4"/><path class="pd" pathLength="1" d="M276.8 0L272.9 23L268.5 45.5L264 68L259.1 90.7L252.4 113.2L243.2 135L231.5 155.9L217.9 175.8L203.2 195.4L187.7 215.1L170.7 234.4L151.3 251.9L128.9 265.7L103.8 274.1L77.1 276.6L50.3 274.3L24.5 269.2L0 263.6L-23.5 258.4L-46.5 253.6L-69.2 248.3L-91.4 241.5L-113 233.1L-134.2 223.4L-155.3 213.3L-177 202.9L-199.1 191.4L-220.5 177.9L-239.4 161.2L-254.3 141.2L-264.7 118.7L-271.3 95L-276.1 71.1L-280.4 47.5L-285 24L-289 0L-290.7 -24.5L-288.7 -48.9L-282.4 -72.8L-272.6 -95.4L-260.3 -116.7L-246.7 -137L-231.9 -156.2L-215.5 -173.9L-196.8 -189.3L-176 -201.7L-153.8 -211.3L-131.6 -219.2L-110.2 -227.3L-89.7 -237.1L-69.3 -248.9L-47.9 -261.5L-24.8 -272.7L0 -280.4L25.8 -283.5L51.7 -282.1L77.2 -277.1L102.1 -269.7L126.1 -260L148.7 -247.7L169.2 -232.3L186.6 -213.9L201 -193.2L212.9 -171.8L224.1 -150.9L235.7 -130.8L248.1 -111.2L260.3 -91.1L270.4 -69.7L276.8 -46.9L278.6 -23.4Z" fill="none" stroke="#B87A3E" stroke-width="1.6" opacity="0.5" data-t="0.5"/><path class="pd" pathLength="1" d="M287.8 0L286.6 24.1L286.2 48.5L285.5 73.6L282.8 99L276.9 124.1L267.4 148.5L255.1 171.8L240.7 194.2L224.4 215.8L205.9 235.9L184.3 253.1L159.6 265.8L132.3 272.8L104 274.7L76.1 273.2L49.7 270.8L24.5 269.5L0 269.8L-24.6 270.8L-49.7 270.8L-74.8 268.4L-99.6 263.2L-124.1 255.8L-148.2 246.8L-172.4 236.7L-196.2 224.8L-218.6 210.2L-238.3 192.3L-254.1 171.1L-266.1 147.7L-275.4 123.5L-283.9 99.3L-292.7 75.4L-301.6 51.1L-309.2 26L-313.3 0L-312.2 -26.3L-305.8 -51.8L-295.1 -76L-282 -98.7L-267.9 -120.1L-253.2 -140.5L-237.3 -159.8L-219.8 -177.3L-200.6 -192.9L-180.5 -206.8L-160.4 -220.3L-141 -234.8L-121.7 -251L-101.6 -268.4L-79.4 -285.1L-54.7 -298.4L-27.9 -306.3L0 -308.2L27.8 -305L54.7 -298.4L80.8 -289.9L105.9 -279.9L130 -268L152.3 -253.7L172.4 -236.8L190.2 -218L206.4 -198.5L222.2 -179.3L238.3 -160.5L254.5 -141.3L269.4 -120.8L281 -98.3L288 -74.2L290.3 -49.2L289.6 -24.4Z" fill="none" stroke="#B87A3E" stroke-width="0.9" opacity="0.5" data-t="0.5"/><path class="pd" pathLength="1" d="M0 0L300 -118" stroke="#B87A3E" stroke-width="1" opacity=".5" data-t=".5"/><circle r="3" fill="#B87A3E"/></svg>
+  <div class="container">
+    <h2 class="sr-only">Studio philosophy</h2>
+    <div class="section-label" data-reveal="fade">
+      <span class="mono">01</span><span class="rule"></span><span class="mono">Studio philosophy</span>
+    </div>
+
+    <p class="statement" data-scrub>We believe a public building should feel like a shared hearth. So we raise it from what grows nearby &mdash; spruce, larch and pine, felled within two hundred kilometres &mdash; and let it silver honestly with age.</p>
+
+    <div class="about">
+      <p class="about__text" data-reveal="up">Founded in 2009 by Ingrid Solheim and Anders Vik, Atelier Norr is a studio of twenty-two architects, model-makers and carpenters working between Oslo and Tromsø. We draw in wood because it is the only structural material that is grown by the sun, and the only one the north has in abundance.</p>
+      <p class="about__sign" data-reveal="up" style="--d:.1s"><em>Ingrid Solheim</em><span>&amp;</span><em>Anders Vik</em><small class="mono">Founding partners</small></p>
+    </div>
+
+    <ol class="principles">
+      <li class="principle" data-reveal="up">
+        <svg class="principle__icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <ellipse class="pd" pathLength="1" cx="32" cy="32" rx="26" ry="22"/><ellipse class="pd" pathLength="1" cx="32" cy="32" rx="19" ry="16" data-t=".15"/><ellipse class="pd" pathLength="1" cx="32" cy="32" rx="12" ry="10" data-t=".3"/><ellipse class="pd" pathLength="1" cx="32" cy="32" rx="5" ry="4" data-t=".45"/>
         </svg>
-        <div class="frame-label"><span id="stepNum">01</span><span id="stepName">Listen</span></div>
-      </div>
-    </div>
-
-    <ol class="steps" id="steps">
-      <li class="step" data-name="Listen">
-        <span class="s-num">01</span>
-        <h3>Listen &amp; walk the site</h3>
-        <p>We begin with weeks, not drawings: tea with the people who will use the building, a day on the ground in every season we can manage, and a map of where the wind, water and winter sun actually go.</p>
-        <span class="s-time">Weeks 1–6</span>
+        <span class="mono principle__no">01</span>
+        <h3>Timber first</h3>
+        <p>Every structure begins as a tree. We design for glulam, cross-laminated panels and hand-cut joinery before we consider anything else, and specify steel only where wood cannot reach.</p>
       </li>
-      <li class="step" data-name="Select">
-        <span class="s-num">02</span>
-        <h3>Select the timber</h3>
-        <p>Before a plan exists, we choose the forest. Species, grade and grain direction decide span, section and character — and our sawyers tag the trees that will become the primary frame.</p>
-        <span class="s-time">Weeks 6–12</span>
+      <li class="principle" data-reveal="up" style="--d:.1s">
+        <svg class="principle__icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path class="pd" pathLength="1" d="M12 58V30C12 8 52 8 52 30V58"/><path class="pd" pathLength="1" d="M22 58V32C22 18 42 18 42 32V58" data-t=".2"/><path class="pd" pathLength="1" d="M6 58H58" data-t=".4"/>
+        </svg>
+        <span class="mono principle__no">02</span>
+        <h3>Public by design</h3>
+        <p>A civic building is a promise to a town. We start with the threshold: where people stop, meet, shelter from weather and linger together long after the programme is done.</p>
       </li>
-      <li class="step" data-name="Draw">
-        <span class="s-num">03</span>
-        <h3>Draw by hand, then by machine</h3>
-        <p>Sketch models in spruce offcuts, then full parametric models for the CNC joinery. Every connection is drawn once for the carpenter and once for the person who will repair it in 2090.</p>
-        <span class="s-time">Months 3–9</span>
-      </li>
-      <li class="step" data-name="Raise">
-        <span class="s-num">04</span>
-        <h3>Raise the frame</h3>
-        <p>Prefabricated in our workshop, the frame goes up in days. The first beam is always raised with the client and a toast of birch sap — the building is topped out before it is closed in.</p>
-        <span class="s-time">Months 10–16</span>
-      </li>
-      <li class="step" data-name="Return">
-        <span class="s-num">05</span>
-        <h3>Return, every year</h3>
-        <p>We come back after the first winter, then every fifth year. We oil the cladding, listen to the building, and update its care manual. A Norr building is never finished — only handed on.</p>
-        <span class="s-time">Ever after</span>
+      <li class="principle" data-reveal="up" style="--d:.2s">
+        <svg class="principle__icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path class="pd" pathLength="1" d="M6 48Q32-14 58 48"/><circle class="pd" pathLength="1" cx="32" cy="22" r="7" data-t=".3"/><path class="pd" pathLength="1" d="M4 52H60" data-t=".5"/>
+        </svg>
+        <span class="mono principle__no">03</span>
+        <h3>Long, slow time</h3>
+        <p>Details are drawn for a hundred years: replaceable cladding, honest weathering, repairable joints. The best carbon saving is a building nobody ever wants to demolish.</p>
       </li>
     </ol>
-  </div>
-</section>
 
-<!-- MATERIAL / GRAIN -->
-<section class="grain" id="grain" data-theme="dark">
-  <canvas id="grainCanvas" aria-hidden="true"></canvas>
-  <div class="grain-inner wrap">
-    <blockquote data-split>
-      <span class="ln"><span>“A tree is a slow clock.</span></span>
-      <span class="ln"><span>We simply build</span></span>
-      <span class="ln"><span>a house around its time.”</span></span>
-    </blockquote>
-    <p class="cite" data-reveal>Ingrid Halvorsen Norr, founding partner</p>
-  </div>
-</section>
-
-<!-- AWARDS -->
-<section class="awards" id="awards" data-theme="light">
-  <div class="wrap">
-    <div class="awards-head">
-      <p class="kicker" data-reveal><span>04</span> Recognition</p>
-      <h2 class="h2" data-split><span class="ln"><span>Quietly,</span></span><span class="ln"><span>and <em>often</em>.</span></span></h2>
+    <div class="impact">
+      <div class="carbon" data-reveal="up">
+        <p class="mono carbon__tag">Embodied carbon</p>
+        <h3 class="carbon__title">Lighter on <em>the land.</em></h3>
+        <p class="carbon__copy">Wood stores carbon the forest drew from the air. Compared with a conventional concrete-and-steel civic building of the same size, our buildings start life with roughly two-thirds less embodied carbon.</p>
+        <div class="bars" role="img" aria-label="Embodied carbon: reference building 620, Atelier Norr average 214 kilograms of CO2 equivalent per square metre">
+          <div class="bar">
+            <div class="bar__head"><span>Concrete &amp; steel reference</span><b><span data-count="620">620</span></b></div>
+            <div class="bar__track"><span class="bar__fill bar__fill--ref" style="--w:100%"></span></div>
+          </div>
+          <div class="bar">
+            <div class="bar__head"><span>Atelier Norr average</span><b><span data-count="214">214</span></b></div>
+            <div class="bar__track"><span class="bar__fill bar__fill--norr" style="--w:34.5%"></span></div>
+          </div>
+          <p class="bars__note mono">kg CO&#8322;e per m&sup2; &middot; life-cycle modules A1&ndash;A5 &middot; studio data, 2019&ndash;2025 completions</p>
+        </div>
+      </div>
+      <dl class="stats">
+        <div class="stat" data-reveal="up"><dt>Buildings completed</dt><dd><span data-count="48">48</span></dd></div>
+        <div class="stat" data-reveal="up" style="--d:.08s"><dt>Cubic metres of timber raised</dt><dd><span data-count="31400" data-sep="1">31,400</span></dd></div>
+        <div class="stat" data-reveal="up" style="--d:.16s"><dt>Prizes &amp; citations</dt><dd><span data-count="17">17</span></dd></div>
+        <div class="stat" data-reveal="up" style="--d:.24s"><dt>Average sawmill distance, km</dt><dd><span data-count="140">140</span></dd></div>
+      </dl>
     </div>
-    <ul class="award-list" id="awardList">
-      <li class="award" data-cursor-label="">
-        <span class="a-year">2025</span>
-        <span class="a-name">Northern Light Prize for Civic Architecture</span>
-        <span class="a-proj">Fjällby Library</span>
-        <span class="a-rank">Grand Prize</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="work" id="work" data-theme="dark" data-section="work" aria-label="Selected work">
+  <div class="work__pin">
+    <div class="work__stage">
+      <div class="work__bar container">
+        <p class="mono work__label"><span>02</span><i class="rule"></i>Selected work</p>
+        <p class="mono work__count"><b id="workNo">01</b> / 05</p>
+      </div>
+      <div class="work__track">
+
+        <div class="work__intro">
+          <h2 class="display" data-split>Five buildings, <em>one</em> grain.</h2>
+          <p data-reveal="up">Civic halls, a chapel, a school and a mountain home &mdash; each drawn for its place, built from trees grown within a day&rsquo;s drive of the site. Open any project for the drawing and the numbers.</p>
+          <p class="work__hint mono" data-reveal="fade"><span class="work__hint-line"></span>Keep scrolling</p>
+        </div>
+
+        <!-- 01 -->
+        <article class="card card--land" data-project="0">
+          <div class="card__art" data-reveal="clip">
+            <div class="card__art-in">
+              <svg viewBox="0 0 1350 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="fj-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B7C6C5"/><stop offset=".75" stop-color="#E9E1CF"/></linearGradient>
+                  <linearGradient id="fj-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#AFC0BE"/><stop offset="1" stop-color="#7F9896"/></linearGradient>
+                  <linearGradient id="fj-wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C98D4E"/><stop offset="1" stop-color="#A5672B"/></linearGradient>
+                  <linearGradient id="fj-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6DDA8"/><stop offset="1" stop-color="#E7A662"/></linearGradient>
+                  <linearGradient id="fj-fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                  <mask id="fj-mask" maskUnits="userSpaceOnUse" x="0" y="800" width="1350" height="200"><rect x="0" y="800" width="1350" height="200" fill="url(#fj-fade)"/></mask>
+                  <clipPath id="fj-c0"><path d="M100 800Q210 192 320 800Z"/></clipPath><clipPath id="fj-c1"><path d="M320 800Q450 -88 580 800Z"/></clipPath><clipPath id="fj-c2"><path d="M550 800Q700 -348 850 800Z"/></clipPath><clipPath id="fj-c3"><path d="M830 800Q960 -88 1090 800Z"/></clipPath><clipPath id="fj-c4"><path d="M1080 800Q1190 192 1300 800Z"/></clipPath>
+                </defs>
+                <rect width="1350" height="1000" fill="url(#fj-sky)"/>
+                <circle cx="1010" cy="330" r="74" fill="#E58A5B" opacity=".92"/>
+                <path d="M0 800V700C140 660 260 690 380 668C520 642 620 700 760 676C900 652 1040 700 1180 672C1260 656 1310 668 1350 676V800Z" fill="#B3C2C0" opacity=".85"/>
+                <rect y="800" width="1350" height="200" fill="url(#fj-water)"/>
+                <g mask="url(#fj-mask)" opacity=".4"><use href="#fj-arches" transform="translate(0 1600) scale(1 -1)"/></g>
+                <rect class="shimmer" x="795.1" y="812" width="143.5" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:9.4s;--sx:20.1px;--so:0.5;animation-delay:-2.9s"/><rect class="shimmer" x="901.1" y="823.5" width="64.2" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:7.8s;--sx:20.8px;--so:0.3;animation-delay:-5.8s"/><rect class="shimmer" x="349.1" y="835" width="97.7" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10s;--sx:18.6px;--so:0.2;animation-delay:-6.2s"/><rect class="shimmer" x="987.4" y="846.5" width="206.5" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:11.5s;--sx:23.6px;--so:0.5;animation-delay:-0.2s"/><rect class="shimmer" x="914.4" y="858" width="156.2" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10.3s;--sx:28px;--so:0.2;animation-delay:-1.1s"/><rect class="shimmer" x="96.3" y="869.5" width="77.3" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:6.5s;--sx:10.2px;--so:0.4;animation-delay:-7.6s"/><rect class="shimmer" x="230.4" y="881" width="81.4" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:7.2s;--sx:23.5px;--so:0.3;animation-delay:-3.7s"/><rect class="shimmer" x="1192.7" y="892.5" width="127.6" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10s;--sx:25.5px;--so:0.3;animation-delay:-3.3s"/><rect class="shimmer" x="73.4" y="904" width="96.8" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10.8s;--sx:29.5px;--so:0.3;animation-delay:-7.4s"/><rect class="shimmer" x="610.5" y="915.5" width="79.5" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:7.3s;--sx:22.1px;--so:0.3;animation-delay:-0.6s"/><rect class="shimmer" x="327.3" y="927" width="163.4" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:9.3s;--sx:19.6px;--so:0.5;animation-delay:-0.6s"/><rect class="shimmer" x="496.1" y="938.5" width="110.3" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:6s;--sx:10.1px;--so:0.3;animation-delay:-0.7s"/><rect class="shimmer" x="281.1" y="950" width="207.9" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10.7s;--sx:25.3px;--so:0.4;animation-delay:-6.8s"/><rect class="shimmer" x="1154.9" y="961.5" width="188.2" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:10s;--sx:21.4px;--so:0.3;animation-delay:-3.3s"/><rect class="shimmer" x="596.4" y="973" width="139.2" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:9.4s;--sx:24.4px;--so:0.4;animation-delay:-5.1s"/><rect class="shimmer" x="874.8" y="984.5" width="201.5" height="1.6" fill="#F3EEE2" opacity=".5" style="--sd:11.1s;--sx:29.8px;--so:0.4;animation-delay:-3.9s"/>
+                <g id="fj-arches"><g><path d="M530 800Q700 -400 870 800Z" fill="url(#fj-wood)"/><path d="M550 800Q700 -348 850 800Z" fill="url(#fj-glass)"/><g clip-path="url(#fj-c2)"><path d="M550 200V800M574 200V800M598 200V800M622 200V800M646 200V800M670 200V800M694 200V800M718 200V800M742 200V800M766 200V800M790 200V800M814 200V800M838 200V800" stroke="#7D4A1E" stroke-width="3" opacity=".65" fill="none"/><path d="M530 548H870M530 368H870" stroke="#7D4A1E" stroke-width="3" opacity=".6" fill="none"/></g><path class="draw" d="M530 800Q700 -400 870 800Z" fill="none" stroke="#17140F" stroke-width="2"/><path class="draw" d="M550 800Q700 -348 850 800Z" fill="none" stroke="#17140F" stroke-width="1.5" opacity=".8"/></g><g><path d="M300 800Q450 -140 600 800Z" fill="url(#fj-wood)"/><path d="M320 800Q450 -88 580 800Z" fill="url(#fj-glass)"/><g clip-path="url(#fj-c1)"><path d="M320 330V800M344 330V800M368 330V800M392 330V800M416 330V800M440 330V800M464 330V800M488 330V800M512 330V800M536 330V800M560 330V800" stroke="#7D4A1E" stroke-width="3" opacity=".65" fill="none"/><path d="M300 602.6H600M300 461.6H600" stroke="#7D4A1E" stroke-width="3" opacity=".6" fill="none"/></g><path class="draw" d="M300 800Q450 -140 600 800Z" fill="none" stroke="#17140F" stroke-width="2"/><path class="draw" d="M320 800Q450 -88 580 800Z" fill="none" stroke="#17140F" stroke-width="1.5" opacity=".8"/></g><g><path d="M810 800Q960 -140 1110 800Z" fill="url(#fj-wood)"/><path d="M830 800Q960 -88 1090 800Z" fill="url(#fj-glass)"/><g clip-path="url(#fj-c3)"><path d="M830 330V800M854 330V800M878 330V800M902 330V800M926 330V800M950 330V800M974 330V800M998 330V800M1022 330V800M1046 330V800M1070 330V800" stroke="#7D4A1E" stroke-width="3" opacity=".65" fill="none"/><path d="M810 602.6H1110M810 461.6H1110" stroke="#7D4A1E" stroke-width="3" opacity=".6" fill="none"/></g><path class="draw" d="M810 800Q960 -140 1110 800Z" fill="none" stroke="#17140F" stroke-width="2"/><path class="draw" d="M830 800Q960 -88 1090 800Z" fill="none" stroke="#17140F" stroke-width="1.5" opacity=".8"/></g><g><path d="M80 800Q210 140 340 800Z" fill="url(#fj-wood)"/><path d="M100 800Q210 192 320 800Z" fill="url(#fj-glass)"/><g clip-path="url(#fj-c0)"><path d="M100 470V800M124 470V800M148 470V800M172 470V800M196 470V800M220 470V800M244 470V800M268 470V800M292 470V800M316 470V800" stroke="#7D4A1E" stroke-width="3" opacity=".65" fill="none"/><path d="M80 661.4H340M80 562.4H340" stroke="#7D4A1E" stroke-width="3" opacity=".6" fill="none"/></g><path class="draw" d="M80 800Q210 140 340 800Z" fill="none" stroke="#17140F" stroke-width="2"/><path class="draw" d="M100 800Q210 192 320 800Z" fill="none" stroke="#17140F" stroke-width="1.5" opacity=".8"/></g><g><path d="M1060 800Q1190 140 1320 800Z" fill="url(#fj-wood)"/><path d="M1080 800Q1190 192 1300 800Z" fill="url(#fj-glass)"/><g clip-path="url(#fj-c4)"><path d="M1080 470V800M1104 470V800M1128 470V800M1152 470V800M1176 470V800M1200 470V800M1224 470V800M1248 470V800M1272 470V800M1296 470V800" stroke="#7D4A1E" stroke-width="3" opacity=".65" fill="none"/><path d="M1060 661.4H1320M1060 562.4H1320" stroke="#7D4A1E" stroke-width="3" opacity=".6" fill="none"/></g><path class="draw" d="M1060 800Q1190 140 1320 800Z" fill="none" stroke="#17140F" stroke-width="2"/><path class="draw" d="M1080 800Q1190 192 1300 800Z" fill="none" stroke="#17140F" stroke-width="1.5" opacity=".8"/></g></g>
+                <rect x="60" y="800" width="1230" height="9" fill="#25271F"/>
+                <g fill="#17140F"><circle cx="660" cy="783" r="3.4"/><path d="M656.4 788h7.2l1.6 12h-2.4l-.8 -5 -.8 5h-2.4l-.8 -5 -.8 5h-2.4z"/></g><g fill="#17140F"><circle cx="700" cy="782" r="3.4"/><path d="M696.4 787h7.2l1.6 12h-2.4l-.8 -5 -.8 5h-2.4l-.8 -5 -.8 5h-2.4z"/></g><g fill="#17140F"><circle cx="742" cy="783" r="3.4"/><path d="M738.4 788h7.2l1.6 12h-2.4l-.8 -5 -.8 5h-2.4l-.8 -5 -.8 5h-2.4z"/></g>
+              </svg>
+              <span class="card__sheen"></span>
+            </div>
+            <span class="card__fig mono">Fig. 01 &mdash; Elevation 1:200</span>
+          </div>
+          <div class="card__meta">
+            <span class="card__no mono">01</span>
+            <h3 class="card__title"><button class="card__open" type="button" data-open="0" data-cursor="View">Fjordhall Library</button></h3>
+            <p class="card__sub"><span>Bodø</span><span>2023</span><span>Civic</span></p>
+          </div>
+          <div class="detail" hidden>
+            <p class="detail__lede">A reading room beneath five glulam arches, set where the old fish quay once stood.</p>
+            <dl class="detail__facts">
+              <div><dt>Client</dt><dd>Bodø Municipality</dd></div>
+              <div><dt>Area</dt><dd>4,200 m&sup2;</dd></div>
+              <div><dt>Timber</dt><dd>1,860 m&sup3; spruce glulam &amp; CLT</dd></div>
+              <div><dt>Embodied carbon</dt><dd>188 kg CO&#8322;e/m&sup2;</dd></div>
+            </dl>
+            <p>The arches repeat at five scales, from a low entrance hall to a twenty-four metre reading nave. Each is a single glulam section, laminated in a sawmill ninety minutes down the coast and floated in on a barge. Inside, the arches filter the low arctic sun into a long, quiet gradient across the shelves.</p>
+            <p>The ground floor is a covered public street &mdash; open to the harbour and used for markets in winter. Cladding is untreated pine, designed to silver within six years.</p>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="card card--port" data-project="1">
+          <div class="card__art" data-reveal="clip">
+            <div class="card__art-in">
+              <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="kv-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101A16"/><stop offset="1" stop-color="#2A3A30"/></linearGradient>
+                  <linearGradient id="kv-wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B27A3E"/><stop offset=".5" stop-color="#C88F51"/><stop offset="1" stop-color="#8F5A27"/></linearGradient>
+                  <linearGradient id="kv-slit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset="1" stop-color="#F2B35E"/></linearGradient>
+                  <linearGradient id="kv-snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3E8E4"/><stop offset="1" stop-color="#AEBAB8"/></linearGradient>
+                  <linearGradient id="kv-spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C46C" stop-opacity=".7"/><stop offset="1" stop-color="#F7C46C" stop-opacity="0"/></linearGradient>
+                  <radialGradient id="kv-moon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#EFEBDC" stop-opacity=".35"/><stop offset="1" stop-color="#EFEBDC" stop-opacity="0"/></radialGradient>
+                  <clipPath id="kv-clip"><polygon points="170,840 400,190 630,840"/></clipPath>
+                  <symbol id="kv-spruce" viewBox="0 0 40 120" preserveAspectRatio="none"><polygon points="20,0 34,40 26,40 38,76 28,76 40,112 22,112 22,120 18,120 18,112 0,112 12,76 2,76 14,40 6,40"/></symbol>
+                </defs>
+                <rect width="800" height="1000" fill="url(#kv-bg)"/>
+                <circle class="twinkle" cx="747.5" cy="546.5" r="1.2" fill="#F1ECDD" opacity="0.4" style="animation-delay:-1.7s;animation-duration:4.7s"/><circle cx="558.4" cy="418.6" r="1.9" fill="#F1ECDD" opacity="0.8"/><circle cx="177.4" cy="148.6" r="1.7" fill="#F1ECDD" opacity="0.4"/><circle cx="715.8" cy="452.1" r="1.5" fill="#F1ECDD" opacity="0.8"/><circle class="twinkle" cx="427.3" cy="259.2" r="1.8" fill="#F1ECDD" opacity="0.7" style="animation-delay:-4.4s;animation-duration:3.2s"/><circle cx="541.8" cy="254.4" r="1.2" fill="#F1ECDD" opacity="0.5"/><circle cx="467.7" cy="145" r="1.9" fill="#F1ECDD" opacity="0.8"/><circle cx="276.9" cy="388.7" r="1.8" fill="#F1ECDD" opacity="0.4"/><circle class="twinkle" cx="253.8" cy="517.3" r="0.7" fill="#F1ECDD" opacity="0.4" style="animation-delay:-2s;animation-duration:2.6s"/><circle cx="546.6" cy="504.8" r="0.9" fill="#F1ECDD" opacity="0.5"/><circle cx="740" cy="397.9" r="0.9" fill="#F1ECDD" opacity="0.4"/><circle cx="496.2" cy="28.6" r="1.8" fill="#F1ECDD" opacity="0.7"/><circle class="twinkle" cx="590.9" cy="89.2" r="1.1" fill="#F1ECDD" opacity="0.8" style="animation-delay:-4.8s;animation-duration:3.9s"/><circle cx="467" cy="439.8" r="1.6" fill="#F1ECDD" opacity="0.8"/><circle cx="474.1" cy="74.1" r="0.8" fill="#F1ECDD" opacity="0.7"/><circle cx="190.9" cy="333.8" r="1" fill="#F1ECDD" opacity="0.5"/><circle class="twinkle" cx="491.2" cy="359.9" r="1.8" fill="#F1ECDD" opacity="0.5" style="animation-delay:-4.5s;animation-duration:2.6s"/><circle cx="544.9" cy="239.6" r="1.7" fill="#F1ECDD" opacity="0.7"/><circle cx="631.5" cy="76.5" r="1.9" fill="#F1ECDD" opacity="0.7"/><circle cx="645.4" cy="249.5" r="1.8" fill="#F1ECDD" opacity="0.8"/><circle class="twinkle" cx="572.6" cy="510.2" r="1.8" fill="#F1ECDD" opacity="0.5" style="animation-delay:-3.6s;animation-duration:2.9s"/><circle cx="115.2" cy="532.3" r="1.9" fill="#F1ECDD" opacity="0.4"/><circle cx="78.5" cy="161.5" r="1.9" fill="#F1ECDD" opacity="0.9"/><circle cx="747" cy="169.6" r="1" fill="#F1ECDD" opacity="0.4"/><circle class="twinkle" cx="377.1" cy="322.1" r="0.9" fill="#F1ECDD" opacity="0.5" style="animation-delay:-2.4s;animation-duration:3.1s"/><circle cx="61.8" cy="44" r="0.8" fill="#F1ECDD" opacity="0.7"/><circle cx="375.6" cy="456.4" r="1.6" fill="#F1ECDD" opacity="0.7"/><circle cx="552.3" cy="229.5" r="1.5" fill="#F1ECDD" opacity="0.9"/><circle class="twinkle" cx="605.7" cy="539.5" r="1.6" fill="#F1ECDD" opacity="0.7" style="animation-delay:-4s;animation-duration:2.9s"/><circle cx="69.7" cy="412.4" r="1.5" fill="#F1ECDD" opacity="0.6"/><circle cx="434" cy="229" r="1.3" fill="#F1ECDD" opacity="0.4"/><circle cx="70.4" cy="62.7" r="1.2" fill="#F1ECDD" opacity="0.6"/><circle class="twinkle" cx="172.1" cy="365.6" r="0.9" fill="#F1ECDD" opacity="0.4" style="animation-delay:0s;animation-duration:4.6s"/><circle cx="680.8" cy="44" r="1.7" fill="#F1ECDD" opacity="0.5"/>
+                <circle cx="620" cy="180" r="90" fill="url(#kv-moon)"/>
+                <circle cx="620" cy="180" r="30" fill="#EFEBDC"/>
+                <path d="M0 800V700C80 660 140 700 200 676C260 650 300 700 360 690C440 676 500 640 560 668C640 700 700 650 800 690V800Z" fill="#17241D"/>
+                <path d="M0 850C160 818 300 840 420 826C560 810 680 836 800 822V1000H0Z" fill="url(#kv-snow)"/>
+                <polygon points="352,845 448,845 560,1000 240,1000" fill="url(#kv-spill)"/>
+                <polygon points="170,840 400,190 630,840" fill="url(#kv-wood)"/>
+                <g clip-path="url(#kv-clip)"><path d="M160 180V840M173 180V840M186 180V840M199 180V840M212 180V840M225 180V840M238 180V840M251 180V840M264 180V840M277 180V840M290 180V840M303 180V840M316 180V840M329 180V840M342 180V840M355 180V840M368 180V840M381 180V840M394 180V840M407 180V840M420 180V840M433 180V840M446 180V840M459 180V840M472 180V840M485 180V840M498 180V840M511 180V840M524 180V840M537 180V840M550 180V840M563 180V840M576 180V840M589 180V840M602 180V840M615 180V840M628 180V840" stroke="#4E2D11" stroke-width="2" opacity=".5" fill="none"/></g>
+                <polygon points="400,190 630,840 612,840 400,246" fill="#000" opacity=".18"/>
+                <path class="draw" d="M170 840 400 190 630 840" fill="none" stroke="#17140F" stroke-width="2.5"/>
+                <polygon class="glow" points="395,330 405,330 421,822 379,822" fill="url(#kv-slit)"/>
+                <path class="draw" d="M400 190V118M388 140H412" stroke="#EFEBDC" stroke-width="2.4" fill="none"/>
+                <g fill="#0E1712">
+                  <use href="#kv-spruce" x="62" y="700" width="46" height="146"/>
+                  <use href="#kv-spruce" x="108" y="740" width="34" height="108"/>
+                  <use href="#kv-spruce" x="684" y="712" width="44" height="136"/>
+                  <use href="#kv-spruce" x="724" y="752" width="30" height="96"/>
+                </g>
+                <circle class="flake" cx="327.7" cy="272.5" r="2.7" fill="#F4F2EA" style="--fd:7.1s;--fx:29.6px;animation-delay:-2.5s"/><circle class="flake" cx="505.7" cy="128.3" r="1.5" fill="#F4F2EA" style="--fd:8s;--fx:15.3px;animation-delay:-9s"/><circle class="flake" cx="214.3" cy="257.3" r="2.7" fill="#F4F2EA" style="--fd:8.9s;--fx:-2.4px;animation-delay:-3.6s"/><circle class="flake" cx="217.4" cy="264.5" r="2.8" fill="#F4F2EA" style="--fd:11.1s;--fx:-0.1px;animation-delay:-10.4s"/><circle class="flake" cx="636.6" cy="243.9" r="2.6" fill="#F4F2EA" style="--fd:12.8s;--fx:11.5px;animation-delay:-3.4s"/><circle class="flake" cx="557" cy="97.3" r="2.8" fill="#F4F2EA" style="--fd:8s;--fx:20.7px;animation-delay:-7.9s"/><circle class="flake" cx="633.8" cy="140.1" r="2.7" fill="#F4F2EA" style="--fd:12s;--fx:-27.4px;animation-delay:-2.8s"/><circle class="flake" cx="174.7" cy="7" r="2.3" fill="#F4F2EA" style="--fd:11.9s;--fx:7.6px;animation-delay:-10.2s"/><circle class="flake" cx="670.4" cy="244" r="1.7" fill="#F4F2EA" style="--fd:10.4s;--fx:-2.4px;animation-delay:-4.6s"/><circle class="flake" cx="428.3" cy="225.3" r="2.2" fill="#F4F2EA" style="--fd:9.3s;--fx:0px;animation-delay:-2.9s"/><circle class="flake" cx="550.5" cy="231.5" r="1.9" fill="#F4F2EA" style="--fd:8.5s;--fx:6.8px;animation-delay:-6.6s"/><circle class="flake" cx="724.3" cy="170.5" r="1.9" fill="#F4F2EA" style="--fd:10.6s;--fx:4.4px;animation-delay:-7.6s"/><circle class="flake" cx="452.6" cy="48.4" r="1.7" fill="#F4F2EA" style="--fd:7.7s;--fx:-10px;animation-delay:-7.6s"/><circle class="flake" cx="677.2" cy="193.2" r="2" fill="#F4F2EA" style="--fd:9.1s;--fx:-6.1px;animation-delay:-1.5s"/><circle class="flake" cx="144.6" cy="15.9" r="2.2" fill="#F4F2EA" style="--fd:9.3s;--fx:-24.5px;animation-delay:-7.6s"/><circle class="flake" cx="328.7" cy="137.2" r="1.6" fill="#F4F2EA" style="--fd:12s;--fx:-13.5px;animation-delay:-3.6s"/>
+              </svg>
+              <span class="card__sheen"></span>
+            </div>
+            <span class="card__fig mono">Fig. 02 &mdash; Elevation 1:100</span>
+          </div>
+          <div class="card__meta">
+            <span class="card__no mono">02</span>
+            <h3 class="card__title"><button class="card__open" type="button" data-open="1" data-cursor="View">Kvarv Chapel</button></h3>
+            <p class="card__sub"><span>Røros</span><span>2021</span><span>Chapel</span></p>
+          </div>
+          <div class="detail" hidden>
+            <p class="detail__lede">A single slit of light in a larch A-frame, raised by twelve carpenters in eleven weeks.</p>
+            <dl class="detail__facts">
+              <div><dt>Client</dt><dd>Kvarv Parish Council</dd></div>
+              <div><dt>Area</dt><dd>210 m&sup2;</dd></div>
+              <div><dt>Timber</dt><dd>96 m&sup3; local larch</dd></div>
+              <div><dt>Structure</dt><dd>Pegged A-frame, no steel</dd></div>
+            </dl>
+            <p>The chapel has no windows in the usual sense. One vertical opening, sixteen metres tall, follows the line of the frame and lets a blade of daylight travel across the floor between dawn and dusk. In the dark months the same slit becomes a lantern for the valley.</p>
+            <p>Every joint is hand-cut and pegged in larch. The building was designed to be taken apart, board by board, if the parish ever needs to move it.</p>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="card card--port card--low" data-project="2">
+          <div class="card__art" data-reveal="clip">
+            <div class="card__art-in">
+              <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="vs-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9DFC9"/><stop offset="1" stop-color="#D2C4A6"/></linearGradient>
+                  <linearGradient id="vs-wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C08B52"/><stop offset="1" stop-color="#A97239"/></linearGradient>
+                  <linearGradient id="vs-glaze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAE3AE"/><stop offset="1" stop-color="#E49A50"/></linearGradient>
+                  <linearGradient id="vs-ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A7757"/><stop offset="1" stop-color="#47543F"/></linearGradient>
+                  <clipPath id="vs-wallclip"><polygon points="170,764 170,626 590,563 590,764"/></clipPath>
+                  <symbol id="vs-pine" viewBox="0 0 40 120" preserveAspectRatio="none"><polygon points="20,0 34,40 26,40 38,76 28,76 40,112 22,112 22,120 18,120 18,112 0,112 12,76 2,76 14,40 6,40"/></symbol>
+                </defs>
+                <rect width="800" height="1000" fill="url(#vs-bg)"/>
+                <circle cx="598" cy="240" r="64" fill="#D0663A"/>
+                <path d="M0 560L90 480L170 540L270 440L380 540L470 470L560 540L660 450L800 560V780H0Z" fill="#C9BC9F"/>
+                <path d="M0 640L110 560L200 620L330 520L450 630L560 570L690 640L800 590V780H0Z" fill="#B3A688"/>
+                <path d="M0 735C140 722 280 746 420 758C560 770 700 764 800 748V1000H0Z" fill="url(#vs-ground)"/>
+                <g fill="#2E4637">
+                  <use href="#vs-pine" x="20" y="580" width="62" height="186"/>
+                  <use href="#vs-pine" x="76" y="620" width="48" height="146"/>
+                  <use href="#vs-pine" x="696" y="610" width="56" height="170"/>
+                </g>
+                <rect x="280" y="524" width="22" height="104" fill="#2B2620"/>
+                <path class="smoke" d="M291 520C281 500 303 488 291 466C281 446 303 436 293 414" fill="none" stroke="#6A6258" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+                <polygon points="170,764 170,626 590,563 590,764" fill="url(#vs-wood)"/>
+                <g clip-path="url(#vs-wallclip)">
+                  <path d="M176 520V762M188 520V762M200 520V762M212 520V762M224 520V762M236 520V762M248 520V762M260 520V762M272 520V762M284 520V762M296 520V762M308 520V762M320 520V762M332 520V762M344 520V762M356 520V762M368 520V762M380 520V762M392 520V762M404 520V762M416 520V762M428 520V762M440 520V762M452 520V762M464 520V762M476 520V762M488 520V762M500 520V762M512 520V762M524 520V762M536 520V762M548 520V762M560 520V762M572 520V762M584 520V762" stroke="#6E4524" stroke-width="1.6" opacity=".55" fill="none"/>
+                  <polygon class="glow" points="420,540 570,540 570,764 420,764" fill="url(#vs-glaze)"/>
+                  <path class="draw" d="M420 560V760M457.5 560V760M495 560V760M532.5 560V760M570 560V760" stroke="#2B1B0E" stroke-width="4" fill="none"/>
+                  <path class="draw" d="M420 650H570" stroke="#2B1B0E" stroke-width="3" fill="none"/>
+                </g>
+                <rect x="212" y="660" width="66" height="104" fill="#3B2A18"/>
+                <polygon points="118,636 652,556 652,540 118,620" fill="#26221C"/>
+                <path class="draw" d="M118 620 652 540" stroke="#E8D9BA" stroke-width="2" fill="none"/>
+                <path d="M126 636V764" stroke="#26221C" stroke-width="5"/>
+                <rect x="588" y="752" width="190" height="9" fill="#26221C"/>
+                <path d="M600 761V790M700 761V790M770 761V790" stroke="#26221C" stroke-width="4"/>
+                <path d="M592 722V752M610 722V752M628 722V752M646 722V752M664 722V752M682 722V752M700 722V752M718 722V752M736 722V752M754 722V752" stroke="#2B1B0E" stroke-width="2.5" fill="none"/>
+                <path class="draw" d="M590 722H772" stroke="#26221C" stroke-width="3" fill="none"/>
+              </svg>
+              <span class="card__sheen"></span>
+            </div>
+            <span class="card__fig mono">Fig. 03 &mdash; South side 1:100</span>
+          </div>
+          <div class="card__meta">
+            <span class="card__no mono">03</span>
+            <h3 class="card__title"><button class="card__open" type="button" data-open="2" data-cursor="View">Villa Sæter</button></h3>
+            <p class="card__sub"><span>Hemsedal</span><span>2022</span><span>Home</span></p>
+          </div>
+          <div class="detail" hidden>
+            <p class="detail__lede">A family house that leans into the slope, with a roof that gathers snow for insulation and shelters a south-facing deck.</p>
+            <dl class="detail__facts">
+              <div><dt>Client</dt><dd>Private family</dd></div>
+              <div><dt>Area</dt><dd>285 m&sup2;</dd></div>
+              <div><dt>Timber</dt><dd>140 m&sup3; pine &amp; spruce</dd></div>
+              <div><dt>Energy</dt><dd>Passive-house certified</dd></div>
+            </dl>
+            <p>A single mono-pitch roof runs from a low north edge to a high glazed south corner, so winter sun reaches the kitchen table at noon while the long north side stays tight against the wind.</p>
+            <p>The cladding is vertical pine boards, left unfinished. The family knows to expect a silver coat in about five winters &mdash; and has already chosen to keep it.</p>
+          </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="card card--land" data-project="3">
+          <div class="card__art" data-reveal="clip">
+            <div class="card__art-in">
+              <svg viewBox="0 0 1350 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="tr-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1222"/><stop offset=".7" stop-color="#1A3347"/><stop offset="1" stop-color="#27495A"/></linearGradient>
+                  <linearGradient id="tr-aurora" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5FE3A9" stop-opacity="0"/><stop offset=".45" stop-color="#5FE3A9" stop-opacity=".55"/><stop offset="1" stop-color="#5FE3A9" stop-opacity="0"/></linearGradient>
+                  <linearGradient id="tr-aurora2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A86F0" stop-opacity="0"/><stop offset=".5" stop-color="#9A86F0" stop-opacity=".38"/><stop offset="1" stop-color="#9A86F0" stop-opacity="0"/></linearGradient>
+                  <linearGradient id="tr-amaskg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".2" stop-color="#fff"/><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                  <mask id="tr-amask" maskUnits="userSpaceOnUse" x="0" y="0" width="1350" height="700"><rect width="1350" height="700" fill="url(#tr-amaskg)"/></mask>
+                  <linearGradient id="tr-wood" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8E5A28"/><stop offset="1" stop-color="#C58B4B"/></linearGradient>
+                  <linearGradient id="tr-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9AE"/><stop offset="1" stop-color="#F2A653"/></linearGradient>
+                  <linearGradient id="tr-snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9D6DC"/><stop offset="1" stop-color="#8FA3AE"/></linearGradient>
+                  <linearGradient id="tr-spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C46C" stop-opacity=".55"/><stop offset="1" stop-color="#F7C46C" stop-opacity="0"/></linearGradient>
+                </defs>
+                <rect width="1350" height="1000" fill="url(#tr-sky)"/>
+                <circle class="twinkle" cx="171.6" cy="113.5" r="1.1" fill="#EAF2F6" opacity="0.4" style="animation-delay:-3s;animation-duration:3.9s"/><circle cx="1012.8" cy="410.2" r="1.2" fill="#EAF2F6" opacity="0.8"/><circle cx="920.2" cy="71.5" r="1.3" fill="#EAF2F6" opacity="0.7"/><circle class="twinkle" cx="1195.1" cy="305.8" r="1.8" fill="#EAF2F6" opacity="0.5" style="animation-delay:-5s;animation-duration:2.6s"/><circle cx="147.2" cy="166.9" r="1.6" fill="#EAF2F6" opacity="0.8"/><circle cx="972.2" cy="288.8" r="0.9" fill="#EAF2F6" opacity="0.6"/><circle class="twinkle" cx="1042.8" cy="104.6" r="1.6" fill="#EAF2F6" opacity="0.7" style="animation-delay:-2.9s;animation-duration:4.9s"/><circle cx="417.9" cy="24.5" r="1.5" fill="#EAF2F6" opacity="0.6"/><circle cx="826.8" cy="363" r="1.4" fill="#EAF2F6" opacity="0.3"/><circle class="twinkle" cx="949.3" cy="510.3" r="1.6" fill="#EAF2F6" opacity="0.7" style="animation-delay:-2.8s;animation-duration:3s"/><circle cx="848" cy="299.4" r="1.1" fill="#EAF2F6" opacity="0.3"/><circle cx="1157.6" cy="342.9" r="1.8" fill="#EAF2F6" opacity="0.5"/><circle class="twinkle" cx="1000" cy="488.5" r="1.3" fill="#EAF2F6" opacity="0.7" style="animation-delay:-1s;animation-duration:3.1s"/><circle cx="604" cy="230.5" r="0.7" fill="#EAF2F6" opacity="0.6"/><circle cx="1048.5" cy="438.6" r="0.7" fill="#EAF2F6" opacity="0.5"/><circle class="twinkle" cx="827.4" cy="225.4" r="1" fill="#EAF2F6" opacity="0.5" style="animation-delay:-0.4s;animation-duration:3.4s"/><circle cx="584.7" cy="333.9" r="1.2" fill="#EAF2F6" opacity="0.6"/><circle cx="584.5" cy="327.7" r="1.7" fill="#EAF2F6" opacity="0.9"/><circle class="twinkle" cx="625" cy="434.5" r="1.8" fill="#EAF2F6" opacity="0.7" style="animation-delay:-2s;animation-duration:4.1s"/><circle cx="80.1" cy="156.1" r="0.6" fill="#EAF2F6" opacity="0.8"/><circle cx="158.5" cy="132.2" r="1.4" fill="#EAF2F6" opacity="0.4"/><circle class="twinkle" cx="372" cy="82" r="1.5" fill="#EAF2F6" opacity="0.5" style="animation-delay:-3.1s;animation-duration:4.4s"/><circle cx="29.1" cy="430.8" r="1.7" fill="#EAF2F6" opacity="0.8"/><circle cx="1278.4" cy="47" r="0.8" fill="#EAF2F6" opacity="0.3"/><circle class="twinkle" cx="1317.6" cy="253.1" r="0.9" fill="#EAF2F6" opacity="0.6" style="animation-delay:-4.2s;animation-duration:4.3s"/><circle cx="1061.7" cy="14.9" r="0.7" fill="#EAF2F6" opacity="0.7"/><circle cx="1006.6" cy="54.8" r="0.9" fill="#EAF2F6" opacity="0.5"/><circle class="twinkle" cx="1034.3" cy="354.6" r="1.4" fill="#EAF2F6" opacity="0.4" style="animation-delay:-4.7s;animation-duration:5s"/><circle cx="832.4" cy="378.1" r="0.8" fill="#EAF2F6" opacity="0.8"/><circle cx="222.3" cy="185.4" r="1.4" fill="#EAF2F6" opacity="0.6"/><circle class="twinkle" cx="627.2" cy="512.3" r="1.1" fill="#EAF2F6" opacity="0.6" style="animation-delay:-3.3s;animation-duration:2.8s"/><circle cx="237.7" cy="104" r="1.6" fill="#EAF2F6" opacity="0.5"/><circle cx="1334.5" cy="286" r="0.8" fill="#EAF2F6" opacity="0.6"/><circle class="twinkle" cx="685.5" cy="16.7" r="1.3" fill="#EAF2F6" opacity="0.8" style="animation-delay:-2.2s;animation-duration:3s"/><circle cx="98.9" cy="334" r="1.1" fill="#EAF2F6" opacity="0.4"/><circle cx="1117.6" cy="20.5" r="1.7" fill="#EAF2F6" opacity="0.7"/><circle class="twinkle" cx="1193.6" cy="351.4" r="1.4" fill="#EAF2F6" opacity="0.8" style="animation-delay:-1.4s;animation-duration:4.2s"/><circle cx="629.6" cy="10.5" r="0.7" fill="#EAF2F6" opacity="0.4"/><circle cx="87.8" cy="273.1" r="0.7" fill="#EAF2F6" opacity="0.4"/><circle class="twinkle" cx="490.6" cy="343.8" r="0.9" fill="#EAF2F6" opacity="0.4" style="animation-delay:-3.6s;animation-duration:4.4s"/><circle cx="915.4" cy="450" r="0.8" fill="#EAF2F6" opacity="0.5"/><circle cx="737.2" cy="216.1" r="1.3" fill="#EAF2F6" opacity="0.5"/><circle class="twinkle" cx="742.7" cy="458.3" r="1.6" fill="#EAF2F6" opacity="0.5" style="animation-delay:-1.8s;animation-duration:4.9s"/><circle cx="993.4" cy="487.6" r="0.9" fill="#EAF2F6" opacity="0.9"/><circle cx="1238.4" cy="373.8" r="1.3" fill="#EAF2F6" opacity="0.7"/><circle class="twinkle" cx="1199.6" cy="103" r="1.2" fill="#EAF2F6" opacity="0.6" style="animation-delay:-3.9s;animation-duration:4.4s"/>
+                <g mask="url(#tr-amask)"><g class="aurora"><path d="M-40 330C160 190 340 250 520 170C720 80 880 220 1080 140C1200 92 1300 150 1400 110V300C1280 340 1180 280 1060 330C880 400 740 300 560 360C380 420 200 380 -40 460Z" fill="url(#tr-aurora)"/></g>
+                <g class="aurora aurora--b"><path d="M-60 470C120 380 340 400 520 330C720 250 900 340 1080 270C1200 224 1300 250 1420 220V420C1300 440 1200 470 1080 460C900 450 720 500 520 500C340 500 140 540 -60 580Z" fill="url(#tr-aurora2)"/></g></g>
+                <path d="M0 720L90 640L170 690L260 590L350 680L470 560L580 670L690 600L800 690L930 570L1050 680L1160 620L1260 690L1350 640V800H0Z" fill="#0A1120"/>
+                <path d="M0 760L120 700L240 740L380 690L520 744L680 700L840 746L1000 704L1160 748L1350 712V1000H0Z" fill="url(#tr-snow)"/>
+                <polygon points="250,772 1010,772 1170,1000 90,1000" fill="url(#tr-spill)"/>
+                <rect x="260" y="618" width="240" height="152" fill="#24180E"/><polygon points="250,628 486,486 486,618 500,618 500,632 250,632" fill="url(#tr-wood)"/><path d="M250 630V642M279.5 612V624M309 594V606M338.5 576V588M368 558V570M397.5 540V552M427 522V534M456.5 504V516M486 486V498" stroke="#3A210E" stroke-width="2" opacity=".7" fill="none"/><rect class="glow" x="486" y="486" width="14" height="132" fill="url(#tr-glow)" style="animation-delay:0s"/><rect class="glow" x="282" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:0s"/><rect class="glow" x="352" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-0.9s"/><rect class="glow" x="422" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-1.8s"/><path class="draw" d="M250 628L486 486V618" fill="none" stroke="#F3E6C8" stroke-width="2.2"/><rect x="500" y="618" width="240" height="152" fill="#24180E"/><polygon points="490,628 726,486 726,618 740,618 740,632 490,632" fill="url(#tr-wood)"/><path d="M490 630V642M519.5 612V624M549 594V606M578.5 576V588M608 558V570M637.5 540V552M667 522V534M696.5 504V516M726 486V498" stroke="#3A210E" stroke-width="2" opacity=".7" fill="none"/><rect class="glow" x="726" y="486" width="14" height="132" fill="url(#tr-glow)" style="animation-delay:-1.3s"/><rect class="glow" x="522" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-0.9s"/><rect class="glow" x="592" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-1.8s"/><rect class="glow" x="662" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-2.7s"/><path class="draw" d="M490 628L726 486V618" fill="none" stroke="#F3E6C8" stroke-width="2.2"/><rect x="740" y="618" width="240" height="152" fill="#24180E"/><polygon points="730,628 966,486 966,618 980,618 980,632 730,632" fill="url(#tr-wood)"/><path d="M730 630V642M759.5 612V624M789 594V606M818.5 576V588M848 558V570M877.5 540V552M907 522V534M936.5 504V516M966 486V498" stroke="#3A210E" stroke-width="2" opacity=".7" fill="none"/><rect class="glow" x="966" y="486" width="14" height="132" fill="url(#tr-glow)" style="animation-delay:-2.6s"/><rect class="glow" x="762" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-1.8s"/><rect class="glow" x="832" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-2.7s"/><rect class="glow" x="902" y="650" width="52" height="100" fill="url(#tr-glow)" style="animation-delay:-3.6s"/><path class="draw" d="M730 628L966 486V618" fill="none" stroke="#F3E6C8" stroke-width="2.2"/>
+                <rect x="236" y="632" width="100" height="10" fill="#24180E"/>
+                <rect x="260" y="770" width="720" height="8" fill="#17100A"/>
+                <g fill="#0C1219"><circle cx="1090" cy="758" r="3.6"/><path d="M1086 762h8l1.6 16h-3.4l-1-6-1.2 6h-3.4z"/><circle cx="1110" cy="760" r="3"/><path d="M1106.6 763.6h6.8l1.4 14h-3l-.9-5-1 5h-3z"/></g>
+                <circle class="flake" cx="922.5" cy="244.8" r="1.2" fill="#EAF2F6" style="--fd:11.1s;--fx:20.8px;animation-delay:-7.8s"/><circle class="flake" cx="73.5" cy="220.6" r="2.5" fill="#EAF2F6" style="--fd:9.1s;--fx:36.2px;animation-delay:-9.3s"/><circle class="flake" cx="736.6" cy="344.3" r="2.5" fill="#EAF2F6" style="--fd:15.4s;--fx:-35.6px;animation-delay:-10.6s"/><circle class="flake" cx="498.6" cy="279.6" r="1.3" fill="#EAF2F6" style="--fd:11.9s;--fx:-33.6px;animation-delay:-4.2s"/><circle class="flake" cx="506.7" cy="126.1" r="1.7" fill="#EAF2F6" style="--fd:9.1s;--fx:-8.2px;animation-delay:-5.8s"/><circle class="flake" cx="1063.7" cy="328.2" r="1.3" fill="#EAF2F6" style="--fd:12.1s;--fx:5.7px;animation-delay:-8.9s"/><circle class="flake" cx="204.7" cy="46.8" r="1.8" fill="#EAF2F6" style="--fd:9.3s;--fx:-17.9px;animation-delay:-9.3s"/><circle class="flake" cx="269.9" cy="387.6" r="2.4" fill="#EAF2F6" style="--fd:12.9s;--fx:-27.3px;animation-delay:-5.9s"/><circle class="flake" cx="934.2" cy="113.4" r="1.8" fill="#EAF2F6" style="--fd:11.2s;--fx:-8.8px;animation-delay:-2.7s"/><circle class="flake" cx="39.2" cy="87.9" r="2.1" fill="#EAF2F6" style="--fd:13.6s;--fx:-37.5px;animation-delay:-13.2s"/><circle class="flake" cx="141.5" cy="43.2" r="2.2" fill="#EAF2F6" style="--fd:13.8s;--fx:14.4px;animation-delay:-8.1s"/><circle class="flake" cx="1242.9" cy="23.6" r="1.5" fill="#EAF2F6" style="--fd:10.2s;--fx:-10.7px;animation-delay:-4.6s"/><circle class="flake" cx="290.4" cy="13" r="1.4" fill="#EAF2F6" style="--fd:12.6s;--fx:37.7px;animation-delay:-2.1s"/><circle class="flake" cx="695.2" cy="251.6" r="1.4" fill="#EAF2F6" style="--fd:15.4s;--fx:14px;animation-delay:-10.1s"/>
+              </svg>
+              <span class="card__sheen"></span>
+            </div>
+            <span class="card__fig mono">Fig. 04 &mdash; North side 1:250</span>
+          </div>
+          <div class="card__meta">
+            <span class="card__no mono">04</span>
+            <h3 class="card__title"><button class="card__open" type="button" data-open="3" data-cursor="View">Tromsø Culture House</button></h3>
+            <p class="card__sub"><span>Tromsø</span><span>2024</span><span>Civic</span></p>
+          </div>
+          <div class="detail" hidden>
+            <p class="detail__lede">A sawtooth roof that opens to the north light &mdash; and to the aurora from a rooftop foyer.</p>
+            <dl class="detail__facts">
+              <div><dt>Client</dt><dd>City of Tromsø</dd></div>
+              <div><dt>Area</dt><dd>7,800 m&sup2;</dd></div>
+              <div><dt>Timber</dt><dd>3,950 m&sup3; CLT &amp; glulam</dd></div>
+              <div><dt>Embodied carbon</dt><dd>201 kg CO&#8322;e/m&sup2;</dd></div>
+            </dl>
+            <p>Three timber saw-teeth cover a concert room, a gallery and a workshop hall. Each tooth is a long CLT slope facing the sun, with a vertical north-facing clerestory that floods the room with cool, even daylight and none of the glare.</p>
+            <p>Between November and January the clerestories glow from inside like a row of lanterns. The building was finished in 22 months, with the entire roof assembled indoors in a prefabrication hall and craned into place in nine days.</p>
+          </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="card card--port card--low" data-project="4">
+          <div class="card__art" data-reveal="clip">
+            <div class="card__art-in">
+              <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="sk-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A3526"/><stop offset="1" stop-color="#7A2519"/></linearGradient>
+                  <linearGradient id="sk-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE2A4"/><stop offset="1" stop-color="#E9A257"/></linearGradient>
+                </defs>
+                <rect width="800" height="1000" fill="url(#sk-bg)"/>
+                <circle cx="618" cy="196" r="74" fill="#EBD5B3" opacity=".88"/>
+                <polygon points="68,420 415,352 762,420 762,432 68,432" fill="#4E160E" opacity=".9"/>
+                <path class="draw" d="M68 420 415 352 762 420" fill="none" stroke="#F1E6CF" stroke-width="3"/>
+                <rect class="glow" x="105" y="425" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-5.6s"/><path d="M145 425V555M105 470.5H185" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="195" y="425" width="80" height="130" fill="#DDC9A2"/><path d="M202 425V555M211 425V555M220 425V555M229 425V555M238 425V555M247 425V555M256 425V555M265 425V555M274 425V555" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="285" y="425" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-4.1s"/><path d="M325 425V555M285 470.5H365" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="375" y="425" width="80" height="130" fill="#DDC9A2"/><path d="M382 425V555M391 425V555M400 425V555M409 425V555M418 425V555M427 425V555M436 425V555M445 425V555M454 425V555" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect x="465" y="425" width="80" height="130" fill="#DDC9A2"/><path d="M472 425V555M481 425V555M490 425V555M499 425V555M508 425V555M517 425V555M526 425V555M535 425V555M544 425V555" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="555" y="425" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-0.9s"/><path d="M595 425V555M555 470.5H635" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="645" y="425" width="80" height="130" fill="#DDC9A2"/><path d="M652 425V555M661 425V555M670 425V555M679 425V555M688 425V555M697 425V555M706 425V555M715 425V555M724 425V555" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect x="105" y="565" width="80" height="130" fill="#DDC9A2"/><path d="M112 565V695M121 565V695M130 565V695M139 565V695M148 565V695M157 565V695M166 565V695M175 565V695M184 565V695" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="195" y="565" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-2.3s"/><path d="M235 565V695M195 610.5H275" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect class="glow" x="285" y="565" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-2.7s"/><path d="M325 565V695M285 610.5H365" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="375" y="565" width="80" height="130" fill="#DDC9A2"/><path d="M382 565V695M391 565V695M400 565V695M409 565V695M418 565V695M427 565V695M436 565V695M445 565V695M454 565V695" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="465" y="565" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-1.7s"/><path d="M505 565V695M465 610.5H545" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="555" y="565" width="80" height="130" fill="#DDC9A2"/><path d="M562 565V695M571 565V695M580 565V695M589 565V695M598 565V695M607 565V695M616 565V695M625 565V695M634 565V695" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="645" y="565" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-0.9s"/><path d="M685 565V695M645 610.5H725" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect class="glow" x="105" y="705" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-2.4s"/><path d="M145 705V835M105 750.5H185" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="195" y="705" width="80" height="130" fill="#DDC9A2"/><path d="M202 705V835M211 705V835M220 705V835M229 705V835M238 705V835M247 705V835M256 705V835M265 705V835M274 705V835" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect x="285" y="705" width="80" height="130" fill="#DDC9A2"/><path d="M292 705V835M301 705V835M310 705V835M319 705V835M328 705V835M337 705V835M346 705V835M355 705V835M364 705V835" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="375" y="705" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-4.7s"/><path d="M415 705V835M375 750.5H455" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect x="465" y="705" width="80" height="130" fill="#DDC9A2"/><path d="M472 705V835M481 705V835M490 705V835M499 705V835M508 705V835M517 705V835M526 705V835M535 705V835M544 705V835" stroke="#A8895A" stroke-width="1.2" opacity=".6" fill="none"/><rect class="glow" x="555" y="705" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-3.9s"/><path d="M595 705V835M555 750.5H635" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><rect class="glow" x="645" y="705" width="80" height="130" fill="url(#sk-glass)" style="animation-delay:-4.1s"/><path d="M685 705V835M645 750.5H725" stroke="#5A1B12" stroke-width="2.5" opacity=".7" fill="none"/><path class="draw" d="M100 412V840M190 412V840M280 412V840M370 412V840M460 412V840M550 412V840M640 412V840M730 412V840M76 420H754M76 560H754M76 700H754M76 840H754M100 840L190 700M190 840L100 700" stroke="#F1E6CF" stroke-width="6" fill="none"/>
+                <rect x="40" y="840" width="720" height="10" fill="#4E160E"/>
+                <rect y="850" width="800" height="150" fill="#5E1C12"/>
+                <g><path d="M540 935V905" stroke="#E7D8BA" stroke-width="3" fill="none"/><circle cx="540" cy="896" r="22" fill="#E7D8BA" opacity="0.9"/></g><g><path d="M600 949V911" stroke="#E7D8BA" stroke-width="3" fill="none"/><circle cx="600" cy="902" r="27" fill="#E7D8BA" opacity="0.7"/></g><g><path d="M660 935V917" stroke="#E7D8BA" stroke-width="3" fill="none"/><circle cx="660" cy="908" r="32" fill="#E7D8BA" opacity="0.9"/></g><g><path d="M720 949V905" stroke="#E7D8BA" stroke-width="3" fill="none"/><circle cx="720" cy="896" r="22" fill="#E7D8BA" opacity="0.7"/></g><g><path d="M765 935V911" stroke="#E7D8BA" stroke-width="3" fill="none"/><circle cx="765" cy="902" r="27" fill="#E7D8BA" opacity="0.9"/></g>
+              </svg>
+              <span class="card__sheen"></span>
+            </div>
+            <span class="card__fig mono">Fig. 05 &mdash; Courtyard 1:200</span>
+          </div>
+          <div class="card__meta">
+            <span class="card__no mono">05</span>
+            <h3 class="card__title"><button class="card__open" type="button" data-open="4" data-cursor="View">Skog School</button></h3>
+            <p class="card__sub"><span>Lillehammer</span><span>2020</span><span>School</span></p>
+          </div>
+          <div class="detail" hidden>
+            <p class="detail__lede">A school built like a forest: columns in rows, classrooms between, and a courtyard of birches.</p>
+            <dl class="detail__facts">
+              <div><dt>Client</dt><dd>Lillehammer Municipality</dd></div>
+              <div><dt>Area</dt><dd>5,600 m&sup2;</dd></div>
+              <div><dt>Timber</dt><dd>2,300 m&sup3; spruce frame</dd></div>
+              <div><dt>Pupils</dt><dd>420, ages 6 to 15</dd></div>
+            </dl>
+            <p>Classrooms are open frames of glulam on a 4.5 metre grid. Walls can be moved, glazed or solid, and the school has already been reorganised twice by its teachers without an architect in the room.</p>
+            <p>The Falu-red cladding is traditional linseed paint made from the same mineral pigment as the farm buildings nearby. Repainting every fourteen years is part of the caretakers&rsquo; handbook.</p>
+          </div>
+        </article>
+
+        <div class="work__outro">
+          <p class="mono" data-reveal="fade">Next commission</p>
+          <h3 class="display display--sm" data-split>Could be <em>yours.</em></h3>
+          <a class="btn btn--light" href="#contact" data-magnetic><span>Start a conversation</span><i aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <div class="work__progress" aria-hidden="true"><span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="process" id="process" data-theme="light" data-section="process">
+  <div class="container">
+    <header class="process__head">
+      <div class="section-label" data-reveal="fade"><span class="mono">03</span><span class="rule"></span><span class="mono">Process</span></div>
+      <h2 class="display" data-split>From forest to threshold, in five <em>movements.</em></h2>
+    </header>
+
+    <div class="process__grid">
+      <div class="process__sticky">
+        <figure class="drawing">
+          <svg class="drawing__svg" viewBox="0 0 640 520" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="pr-gableclip"><polygon points="120,300 320,196 520,300"/></clipPath>
+              <clipPath id="pr-fpclip"><polygon points="250,330 420,306 446,392 274,416"/></clipPath>
+              <linearGradient id="pr-glaze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAE0A2"/><stop offset="1" stop-color="#E7973F"/></linearGradient>
+              <linearGradient id="pr-spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0B35E" stop-opacity=".55"/><stop offset="1" stop-color="#F0B35E" stop-opacity="0"/></linearGradient>
+              <symbol id="pr-spruce" viewBox="0 0 40 120" preserveAspectRatio="none"><polygon points="20,0 34,40 26,40 38,76 28,76 40,112 22,112 22,120 18,120 18,112 0,112 12,76 2,76 14,40 6,40"/></symbol>
+            </defs>
+            <path d="M0 0V520M20 0V520M40 0V520M60 0V520M80 0V520M100 0V520M120 0V520M140 0V520M160 0V520M180 0V520M200 0V520M220 0V520M240 0V520M260 0V520M280 0V520M300 0V520M320 0V520M340 0V520M360 0V520M380 0V520M400 0V520M420 0V520M440 0V520M460 0V520M480 0V520M500 0V520M520 0V520M540 0V520M560 0V520M580 0V520M600 0V520M620 0V520M640 0V520M0 0H640M0 20H640M0 40H640M0 60H640M0 80H640M0 100H640M0 120H640M0 140H640M0 160H640M0 180H640M0 200H640M0 220H640M0 240H640M0 260H640M0 280H640M0 300H640M0 320H640M0 340H640M0 360H640M0 380H640M0 400H640M0 420H640M0 440H640M0 460H640M0 480H640M0 500H640M0 520H640" stroke="#17140F" stroke-width=".6" opacity=".07" fill="none"/>
+            <rect x="10" y="10" width="620" height="500" fill="none" stroke="#17140F" stroke-width="1" opacity=".22"/>
+
+            <!-- L1 : listen — contours, sun path -->
+            <g class="layer" data-layer="1">
+              <g fill="none" stroke="#6B7164" stroke-width="1.3">
+                <path class="pd" pathLength="1" d="M90 410 C80 330 140 270 230 250 C320 230 400 240 470 280 C540 320 560 400 500 440 C430 480 330 470 240 470 C160 470 100 460 90 410Z"/>
+                <path class="pd" pathLength="1" data-t=".08" d="M134 400 C119 333 169 283 240 266 C318 249 394 258 445 291 C504 325 518 392 474 426 C418 459 324 451 249 451 C182 451 143 442 134 400Z"/>
+                <path class="pd" pathLength="1" data-t=".16" d="M162 391 C161 336 202 296 267 282 C326 268 373 275 427 302 C475 330 491 384 445 411 C395 438 335 432 274 432 C219 432 169 425 162 391Z"/>
+                <path class="pd" pathLength="1" data-t=".24" d="M212 381 C199 340 230 308 271 298 C320 288 373 293 400 314 C436 334 444 376 420 397 C386 418 323 412 277 412 C235 412 217 407 212 381Z"/>
+                <path class="pd" pathLength="1" data-t=".32" d="M240 372 C241 343 262 321 298 314 C329 307 351 310 382 325 C407 339 416 368 390 382 C364 397 334 393 301 393 C273 393 243 390 240 372Z"/>
+                <path class="pd" pathLength="1" data-t=".4" d="M285 362 C280 346 291 334 307 330 C326 326 347 328 357 336 C371 344 373 360 365 368 C352 376 327 374 309 374 C293 374 287 372 285 362Z"/>
+              </g>
+              <path class="pd" pathLength="1" data-t=".3" d="M70 400Q330 -60 590 400" fill="none" stroke="#17140F" stroke-width="1" opacity=".55"/>
+              <g class="pf" data-t=".5"><circle cx="70" cy="400" r="2.8" fill="#17140F" opacity=".45"/><circle cx="113.3" cy="329.7" r="1.6" fill="#17140F" opacity=".45"/><circle cx="156.7" cy="272.2" r="1.6" fill="#17140F" opacity=".45"/><circle cx="200" cy="227.5" r="2.8" fill="#17140F" opacity=".45"/><circle cx="243.3" cy="195.6" r="1.6" fill="#17140F" opacity=".45"/><circle cx="286.7" cy="176.4" r="1.6" fill="#17140F" opacity=".45"/><circle cx="330" cy="170" r="2.8" fill="#17140F" opacity=".45"/><circle cx="373.3" cy="176.4" r="1.6" fill="#17140F" opacity=".45"/><circle cx="416.7" cy="195.6" r="1.6" fill="#17140F" opacity=".45"/><circle cx="460" cy="227.5" r="2.8" fill="#17140F" opacity=".45"/><circle cx="503.3" cy="272.2" r="1.6" fill="#17140F" opacity=".45"/><circle cx="546.7" cy="329.7" r="1.6" fill="#17140F" opacity=".45"/><circle cx="590" cy="400" r="2.8" fill="#17140F" opacity=".45"/></g>
+              <g class="pf" data-t=".6">
+                <circle cx="66" cy="76" r="22" fill="none" stroke="#17140F" stroke-width="1"/>
+                <path d="M66 58 72 82 66 78 60 82Z" fill="#17140F"/>
+                <text class="svg-mono" x="62" y="52">N</text>
+              </g>
+              <text class="svg-mono pf" data-t=".7" x="40" y="440">Winter sun 3&deg;</text>
+              <text class="svg-mono pf" data-t=".75" x="470" y="470">Snow load 3.5 kN/m&sup2;</text>
+            </g>
+
+            <!-- L2 : read the site — footprint -->
+            <g class="layer" data-layer="2">
+              <polygon class="pd" pathLength="1" points="250,330 420,306 446,392 274,416" fill="none" stroke="#17140F" stroke-width="2.2"/>
+              <g class="pf" data-t=".4"><g clip-path="url(#pr-fpclip)"><path d="M50 430L250 290M62 430L262 290M74 430L274 290M86 430L286 290M98 430L298 290M110 430L310 290M122 430L322 290M134 430L334 290M146 430L346 290M158 430L358 290M170 430L370 290M182 430L382 290M194 430L394 290M206 430L406 290M218 430L418 290M230 430L430 290M242 430L442 290M254 430L454 290M266 430L466 290M278 430L478 290M290 430L490 290M302 430L502 290M314 430L514 290M326 430L526 290M338 430L538 290M350 430L550 290M362 430L562 290M374 430L574 290M386 430L586 290M398 430L598 290M410 430L610 290M422 430L622 290M434 430L634 290M446 430L646 290M458 430L658 290M470 430L670 290M482 430L682 290M494 430L694 290M506 430L706 290M518 430L718 290M530 430L730 290M542 430L742 290" stroke="#17140F" stroke-width="1" opacity=".35" fill="none"/></g></g>
+              <g class="pd-g" fill="none" stroke="#17140F" stroke-width="1">
+                <path class="pd" pathLength="1" data-t=".3" d="M268 446 454 421M268 438V454M454 413V429"/>
+              </g>
+              <text class="svg-mono pf" data-t=".6" x="334" y="470" transform="rotate(-7 334 470)">42.0 m</text>
+              <g class="pf" data-t=".5" fill="none" stroke="#3E5A47" stroke-width="1.2">
+                <circle cx="190" cy="330" r="10"/><path d="M185 330h10M190 325v10"/>
+                <circle cx="212" cy="372" r="8"/><path d="M208 372h8M212 368v8"/>
+                <circle cx="486" cy="318" r="11"/><path d="M480 318h12M486 312v12"/>
+                <circle cx="508" cy="368" r="8"/><path d="M504 368h8M508 364v8"/>
+                <circle cx="150" cy="400" r="9"/><path d="M145 400h10M150 395v10"/>
+                <circle cx="530" cy="420" r="9"/><path d="M525 420h10M530 415v10"/>
+              </g>
+              <g class="pf" data-t=".7"><path class="pd" pathLength="1" d="M318 496V428" stroke="#D1603A" stroke-width="2" fill="none"/><path d="M312 436l6-10 6 10z" fill="#D1603A"/><text class="svg-mono" x="330" y="500" fill="#D1603A">Entry</text></g>
+            </g>
+
+            <!-- L3 : draft — timber frame -->
+            <g class="layer" data-layer="3">
+              <path class="pd" pathLength="1" d="M60 450H580" stroke="#17140F" stroke-width="1.6" fill="none"/>
+              <g stroke="#B87A3E" stroke-width="5" fill="none" stroke-linecap="square">
+                <path class="pd" pathLength="1" data-t="0" d="M120 450V300"/>
+                <path class="pd" pathLength="1" data-t=".08" d="M200 450V300"/>
+                <path class="pd" pathLength="1" data-t=".16" d="M280 450V300"/>
+                <path class="pd" pathLength="1" data-t=".24" d="M360 450V300"/>
+                <path class="pd" pathLength="1" data-t=".32" d="M440 450V300"/>
+                <path class="pd" pathLength="1" data-t=".4" d="M520 450V300"/>
+                <path class="pd" pathLength="1" data-t=".3" d="M120 300H520"/>
+                <path class="pd" pathLength="1" data-t=".5" d="M100 300 320 190 540 300"/>
+                <path class="pd" pathLength="1" data-t=".7" d="M200 250H440M320 190V250"/>
+              </g>
+              <path class="pd" pathLength="1" data-t=".75" d="M200 340 240 300 280 340M360 340 400 300 440 340" stroke="#B87A3E" stroke-width="3" fill="none"/>
+              <g class="pf" data-t=".6" fill="#17140F"><rect x="112" y="450" width="16" height="6"/><rect x="192" y="450" width="16" height="6"/><rect x="272" y="450" width="16" height="6"/><rect x="352" y="450" width="16" height="6"/><rect x="432" y="450" width="16" height="6"/><rect x="512" y="450" width="16" height="6"/></g>
+              <text class="svg-mono pf" data-t=".8" x="548" y="296">GL28h</text>
+            </g>
+
+            <!-- L4 : prefabricate — panels -->
+            <g class="layer" data-layer="4">
+              <g fill="#B87A3E" fill-opacity=".28" stroke="#B87A3E" stroke-width="1.2">
+                <rect class="pf" data-slide="-60" data-t="0" x="123" y="304" width="74" height="142"/>
+                <rect class="pf" data-slide="-60" data-t=".15" x="203" y="304" width="74" height="142"/>
+                <rect class="pf" data-slide="-60" data-t=".3" x="363" y="304" width="74" height="142"/>
+                <rect class="pf" data-slide="-60" data-t=".45" x="443" y="304" width="74" height="142"/>
+                <polygon class="pf" data-slide="-50" data-t=".6" points="102,300 320,192 320,206 102,314"/>
+                <polygon class="pf" data-slide="-50" data-t=".75" points="538,300 320,192 320,206 538,314"/>
+              </g>
+              <g class="svg-mono pf" data-t=".9" fill="#17140F">
+                <text x="140" y="380">P-01</text><text x="220" y="380">P-02</text><text x="380" y="380">P-03</text><text x="460" y="380">P-04</text>
+              </g>
+            </g>
+
+            <!-- L5 : raise & tend — finished -->
+            <g class="layer" data-layer="5">
+              <g class="pf" data-t="0">
+                <polygon points="96,304 320,184 544,304 544,318 320,198 96,318" fill="#2A332C"/>
+                <polygon points="120,300 320,196 520,300 520,450 120,450" fill="#C4905A" opacity=".55"/>
+              </g>
+              <g class="pf" data-t=".2"><path d="M124 304V450M133 304V450M142 304V450M151 304V450M160 304V450M169 304V450M178 304V450M187 304V450M196 304V450M205 304V450M214 304V450M223 304V450M232 304V450M241 304V450M250 304V450M259 304V450M268 304V450M277 304V450M286 304V450M295 304V450M304 304V450M313 304V450M322 304V450M331 304V450M340 304V450M349 304V450M358 304V450M367 304V450M376 304V450M385 304V450M394 304V450M403 304V450M412 304V450M421 304V450M430 304V450M439 304V450M448 304V450M457 304V450M466 304V450M475 304V450M484 304V450M493 304V450M502 304V450M511 304V450" stroke="#17140F" stroke-width="1" opacity=".28" fill="none"/><g clip-path="url(#pr-gableclip)"><path d="M130 196V300M139 196V300M148 196V300M157 196V300M166 196V300M175 196V300M184 196V300M193 196V300M202 196V300M211 196V300M220 196V300M229 196V300M238 196V300M247 196V300M256 196V300M265 196V300M274 196V300M283 196V300M292 196V300M301 196V300M310 196V300M319 196V300M328 196V300M337 196V300M346 196V300M355 196V300M364 196V300M373 196V300M382 196V300M391 196V300M400 196V300M409 196V300M418 196V300M427 196V300M436 196V300M445 196V300M454 196V300M463 196V300M472 196V300M481 196V300M490 196V300M499 196V300M508 196V300" stroke="#17140F" stroke-width="1" opacity=".28" fill="none"/></g></g>
+              <g class="pf" data-t=".35">
+                <rect x="282" y="306" width="76" height="144" fill="url(#pr-glaze)"/>
+                <polygon points="296,298 320,246 344,298" fill="url(#pr-glaze)"/>
+                <path d="M320 246V450M282 340H358M296 298H344" stroke="#17140F" stroke-width="3" fill="none"/>
+              </g>
+              <g class="pf" data-t=".5">
+                <polygon points="250,450 390,450 470,500 170,500" fill="url(#pr-spill)"/>
+                <path d="M60 450H580" stroke="#17140F" stroke-width="2.4"/>
+              </g>
+              <g class="pf" data-t=".65" fill="#17140F"><circle cx="410" cy="434" r="2.8"/><path d="M407 438h6l1.4 12h-2.6l-.8-5-.8 5h-2.6z"/></g>
+              <g class="pf" data-t=".75" fill="#2F4637">
+                <use href="#pr-spruce" x="48" y="376" width="34" height="76"/>
+                <use href="#pr-spruce" x="560" y="360" width="38" height="92"/>
+                <use href="#pr-spruce" x="590" y="392" width="26" height="60"/>
+              </g>
+              <text class="svg-mono pf" data-t=".9" x="456" y="150">Oiled every 3 yrs</text>
+            </g>
+
+            <!-- the sun travels the whole arc while you scroll -->
+            <g id="pr-sun"><circle r="22" fill="#D1603A" opacity=".18"/><circle r="11" fill="#D1603A"/></g>
+          </svg>
+          <figcaption class="drawing__cap mono"><span>Stage <b id="stageNo">01</b> / 05</span><span id="stageName">Listen</span></figcaption>
+        </figure>
+      </div>
+
+      <ol class="steps">
+        <li class="step is-active" data-step="1">
+          <span class="step__no mono">01</span>
+          <h3>Listen</h3>
+          <p>We walk the site with the people who will use it &mdash; in winter, if we can. Local carpenters, foresters and neighbours join the first workshops, because they know where the wind turns and where the snow stays.</p>
+          <ul class="step__meta mono"><li>Weeks 1&ndash;6</li><li>Site walks</li><li>Community workshops</li></ul>
+        </li>
+        <li class="step" data-step="2">
+          <span class="step__no mono">02</span>
+          <h3>Read the site</h3>
+          <p>Sun paths, snow load, soil, sight lines. We draw the land before we draw the building, then place the footprint where it will earn its warmth &mdash; and keep every tree we can.</p>
+          <ul class="step__meta mono"><li>Weeks 6&ndash;12</li><li>Solar &amp; wind study</li><li>Footprint</li></ul>
+        </li>
+        <li class="step" data-step="3">
+          <span class="step__no mono">03</span>
+          <h3>Draft in timber</h3>
+          <p>Structure and architecture are drawn as one. Glulam frames, cross-laminated panels and joinery are modelled to the millimetre with our engineers and the sawmill that will cut them.</p>
+          <ul class="step__meta mono"><li>Weeks 12&ndash;30</li><li>Frame &amp; joinery</li><li>Mock-ups</li></ul>
+        </li>
+        <li class="step" data-step="4">
+          <span class="step__no mono">04</span>
+          <h3>Prefabricate</h3>
+          <p>Panels are machined and assembled in a covered hall, numbered, wrapped and trucked north. Weather delays shrink; accuracy and craft rise.</p>
+          <ul class="step__meta mono"><li>Months 8&ndash;14</li><li>Off-site build</li><li>Quality walk-throughs</li></ul>
+        </li>
+        <li class="step" data-step="5">
+          <span class="step__no mono">05</span>
+          <h3>Raise &amp; tend</h3>
+          <p>A frame goes up in days, not months. We stay after handover: oiling, mending and learning how the building ages &mdash; then we write that back into our details.</p>
+          <ul class="step__meta mono"><li>Months 14&ndash;24</li><li>Annual care visit</li><li>Post-occupancy study</li></ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AWARDS ============ -->
+<section class="awards" id="recognition" data-theme="dark" data-section="recognition">
+  <div class="container">
+    <header class="awards__head">
+      <div>
+        <div class="section-label" data-reveal="fade"><span class="mono">04</span><span class="rule"></span><span class="mono">Recognition</span></div>
+        <h2 class="display" data-split>Quietly <em>noticed.</em></h2>
+      </div>
+      <p class="awards__total" data-reveal="up"><span class="awards__big" data-count="17">17</span><span class="mono">prizes &amp; citations<br>since 2012</span></p>
+    </header>
+
+    <ul class="awards__list">
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2025</span>
+        <span class="award__name">Nordic Timber Prize <small>Grand Award</small></span>
+        <span class="award__proj">Tromsø Culture House</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
-      <li class="award">
-        <span class="a-year">2024</span>
-        <span class="a-name">Glulam Honour Medal</span>
-        <span class="a-proj">Fjällby Library</span>
-        <span class="a-rank">Gold</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2024</span>
+        <span class="award__name">Civic Architecture Award <small>Public Building of the Year</small></span>
+        <span class="award__proj">Fjordhall Library</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
-      <li class="award">
-        <span class="a-year">2024</span>
-        <span class="a-name">Nordic Timber Architecture Award</span>
-        <span class="a-proj">Hus Skogsbrynet</span>
-        <span class="a-rank">Residential Winner</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2023</span>
+        <span class="award__name">Wood Architecture Award <small>Honour for craft</small></span>
+        <span class="award__proj">Kvarv Chapel</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
-      <li class="award">
-        <span class="a-year">2023</span>
-        <span class="a-name">The Golden Plumb</span>
-        <span class="a-proj">Solvik Community Hall</span>
-        <span class="a-rank">Public Building</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2022</span>
+        <span class="award__name">Arctic Built Environment Prize <small>Residential category</small></span>
+        <span class="award__proj">Villa Sæter</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
-      <li class="award">
-        <span class="a-year">2022</span>
-        <span class="a-name">Arctic Built Environment Biennale</span>
-        <span class="a-proj">Ravnøy Ferry Terminal</span>
-        <span class="a-rank">Special Mention</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2021</span>
+        <span class="award__name">Glulam of the Year <small>Structural innovation</small></span>
+        <span class="award__proj">Skog School</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
-      <li class="award">
-        <span class="a-year">2021</span>
-        <span class="a-name">Young Studio of the North</span>
-        <span class="a-proj">Studio practice</span>
-        <span class="a-rank">Laureate</span>
-        <span class="a-arrow" aria-hidden="true">&nearr;</span>
+      <li class="award" data-reveal="row">
+        <span class="award__year mono">2018</span>
+        <span class="award__name">Emerging Studio Award <small>Nordic Architects&rsquo; Association</small></span>
+        <span class="award__proj">Studio</span>
+        <svg class="award__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </li>
     </ul>
+    <p class="awards__note mono" data-reveal="fade">Prizes shown are a selection. Full list on request.</p>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="contact" id="contact" data-theme="dark">
-  <div class="wrap contact-inner">
-    <p class="kicker light" data-reveal><span>05</span> Contact</p>
-    <h2 class="contact-title" data-split>
-      <span class="ln"><span>Let’s plant</span></span>
-      <span class="ln"><span>something that</span></span>
-      <span class="ln"><span><em>lasts.</em></span></span>
-    </h2>
-    <div class="contact-row">
-      <a href="mailto:hei@ateliernorr.no" class="mail magnetic" data-cursor><span class="mail-t">hei@ateliernorr.no</span><span class="mail-ico">&nearr;</span></a>
-      <div class="contact-cols">
-        <div data-reveal><h4>Studio</h4><p>Brygga 14, Ila<br>7018 Trondheim, Norway</p></div>
-        <div data-reveal><h4>New commissions</h4><p>+47 73 00 14 20<br>Replies within two working days</p></div>
-        <div data-reveal><h4>Studio hours</h4><p>Mon–Fri, 08:00–16:00<br><span id="clock2">Trondheim time</span></p></div>
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact" data-theme="dark" data-section="contact">
+  <div class="container">
+    <div class="section-label" data-reveal="fade"><span class="mono">05</span><span class="rule"></span><span class="mono">Contact</span></div>
+    <h2 class="display display--xl" data-split>Let&rsquo;s raise something <em>together.</em></h2>
+
+    <div class="contact__grid">
+      <div class="contact__info">
+        <p class="contact__lede" data-reveal="up">We are taking on a small number of commissions for 2027 &mdash; civic buildings, cultural spaces and houses with a long view. Tell us about the place and the people.</p>
+        <a class="mail" href="mailto:hello@ateliernorr.no" data-reveal="up" data-cursor="Write"><span>hello@ateliernorr.no</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <div class="offices">
+          <address data-reveal="up">
+            <span class="mono">Oslo</span>
+            Nedre Foss 9<br>0555 Oslo, Norway<br><a href="tel:+4722000014">+47 22 00 00 14</a>
+          </address>
+          <address data-reveal="up" style="--d:.1s">
+            <span class="mono">Tromsø</span>
+            Strandgata 82<br>9008 Tromsø, Norway<br><a href="tel:+4777000082">+47 77 00 00 82</a>
+          </address>
+        </div>
       </div>
+
+      <form class="form" id="enquiry" novalidate data-reveal="up">
+        <fieldset class="chips">
+          <legend class="mono">I am planning&hellip;</legend>
+          <label class="chip"><input type="radio" name="kind" value="A civic building" checked><span>A civic building</span></label>
+          <label class="chip"><input type="radio" name="kind" value="A home"><span>A home</span></label>
+          <label class="chip"><input type="radio" name="kind" value="A competition entry"><span>A competition</span></label>
+          <label class="chip"><input type="radio" name="kind" value="Something else"><span>Something else</span></label>
+        </fieldset>
+        <div class="field">
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder=" " required aria-describedby="e-name">
+          <label for="f-name">Your name</label>
+          <span class="field__err" id="e-name" aria-live="polite"></span>
+        </div>
+        <div class="field">
+          <input id="f-email" name="email" type="email" autocomplete="email" placeholder=" " required aria-describedby="e-email">
+          <label for="f-email">Email address</label>
+          <span class="field__err" id="e-email" aria-live="polite"></span>
+        </div>
+        <div class="field">
+          <input id="f-site" name="site" type="text" placeholder=" ">
+          <label for="f-site">Where is the site? <em>(optional)</em></label>
+        </div>
+        <div class="field">
+          <textarea id="f-msg" name="message" rows="3" placeholder=" " required aria-describedby="e-msg"></textarea>
+          <label for="f-msg">Tell us about the project</label>
+          <span class="field__err" id="e-msg" aria-live="polite"></span>
+        </div>
+        <div class="form__row">
+          <button class="btn btn--light" type="submit" data-magnetic><span>Send enquiry</span><i aria-hidden="true"></i></button>
+          <p class="form__fine mono">We reply within three working days.</p>
+        </div>
+        <div class="form__done" role="status" aria-live="polite" hidden>
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle class="pd" pathLength="1" cx="32" cy="32" r="28"/><path class="pd" pathLength="1" d="M19 33l9 9 17-20" data-t=".4"/></svg>
+          <h3>Thank you<span id="doneName"></span>.</h3>
+          <p>Your mail app should now open with the enquiry ready to send. If it did not, write to <a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a> and we will take it from there.</p>
+          <button class="link-arrow" type="button" id="formReset"><span>Write another</span></button>
+        </div>
+      </form>
     </div>
   </div>
-  <footer class="footer wrap">
-    <span>© 2026 Atelier Norr AS</span>
-    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false"><span class="mt-dot"></span><span id="mtLabel">Pause motion</span></button>
-    <a href="#top" data-cursor>Back to top &uarr;</a>
-  </footer>
-  <div class="giant" aria-hidden="true">NORR</div>
 </section>
 
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="main.js"></script>
+<!-- ============ FOOTER ============ -->
+<footer class="footer" data-theme="dark" data-section="footer">
+  <div class="container footer__top">
+    <p class="footer__tag">Built with<br>the <em>grain.</em></p>
+    <div class="footer__cols">
+      <div><h4 class="mono">Index</h4><a href="#studio">Studio</a><a href="#work">Work</a><a href="#process">Process</a><a href="#recognition">Awards</a><a href="#contact">Contact</a></div>
+      <div><h4 class="mono">Studio</h4><a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a><a href="tel:+4722000014">+47 22 00 00 14</a><span>Mon&ndash;Fri, 08&ndash;16 CET</span></div>
+      <div><h4 class="mono">Offices</h4><span>Nedre Foss 9, Oslo</span><span>Strandgata 82, Tromsø</span></div>
+    </div>
+  </div>
+  <div class="footer__word" aria-hidden="true"><span>N</span><span>O</span><span>R</span><span>R</span></div>
+  <div class="container footer__bottom">
+    <p class="mono">&copy; 2026 Atelier Norr AS</p>
+    <button class="motion-toggle mono" type="button" aria-pressed="false"><span class="motion-toggle__dot"></span><span class="motion-toggle__txt">Motion on</span></button>
+    <a class="mono totop" href="#top" data-magnetic>Back to top &uarr;</a>
+  </div>
+</footer>
+
+<!-- ============ PROJECT DIALOG ============ -->
+<dialog class="modal" id="projectModal" aria-labelledby="modalTitle">
+  <div class="modal__inner">
+    <button class="modal__close mono" type="button" aria-label="Close project"><span>Close</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+    <div class="modal__art" id="modalArt"></div>
+    <div class="modal__body">
+      <p class="modal__idx mono"><b id="modalNo">01</b> / 05</p>
+      <h3 id="modalTitle" class="modal__title"></h3>
+      <p class="modal__sub mono" id="modalSub"></p>
+      <div class="modal__content" id="modalContent"></div>
+      <div class="modal__nav">
+        <button class="link-arrow" type="button" id="modalPrev"><svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(90deg)"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Previous</span></button>
+        <button class="link-arrow" type="button" id="modalNext"><span>Next project</span><svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(-90deg)"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script src="main.js" defer></script>
 </body>
 </html>

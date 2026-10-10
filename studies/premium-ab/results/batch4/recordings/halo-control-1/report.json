@@ -1,0 +1,405 @@
+{
+ "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/c617552f-71c7-55aa-92e5-28d8f5c048c2/scratchpad/ab4eval/runs/halo/control-1/site",
+ "createdAt": "2026-10-09T20:48:54.091Z",
+ "score": 49,
+ "grade": "D",
+ "findings": [
+  {
+   "id": "controls-without-hover",
+   "severity": "major",
+   "area": "interaction",
+   "title": "Interactive elements give no hover feedback",
+   "evidence": "4/12 distinct controls did not change on hover: Skip to content, Without tuning, Adaptive tuning, Speaker position. Drag it, or us.",
+   "fix": "Every link/button needs a state change: buttons lift 1\u20132px or shift background with a 160\u2013240ms ease-out transition and a pressed scale(.97); text links animate an underline (scaleX 0\u21921 from the left); cards raise shadow and scale media 1.03."
+  },
+  {
+   "id": "low-contrast",
+   "severity": "major",
+   "area": "accessibility",
+   "title": "Text contrast is too low",
+   "evidence": "4/145 checked text elements fail WCAG AA, e.g. \"Acoustics\" 3.82:1, \"Amplification\" 3.82:1, \"Connectivity\" 3.82:1.",
+   "fix": "Muted text still needs \u22654.5:1 (\u22653:1 for 24px+). Raise lightness contrast of secondary text instead of lowering opacity."
+  },
+  {
+   "id": "entrance-too-slow",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Entrance sequence is long",
+   "evidence": "Load animations span 2992 ms.",
+   "fix": "Keep the hero sequence \u22721.6 s from first paint to settled; shorten delays rather than durations. Visitors should be able to read the headline within ~600 ms."
+  },
+  {
+   "id": "layout-properties-animated",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Layout properties are animated",
+   "evidence": "154 animations/transitions on height, marginTop, margin-top, max-height, marginLeft; 47 inline-style layout writes.",
+   "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr\u21921fr or measure once and animate a scale/clip."
+  },
+  {
+   "id": "too-much-ambient-motion",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Many elements loop forever",
+   "evidence": "17 distinct elements run infinite animations.",
+   "fix": "Limit ambient loops to one or two focal elements (a hero visual, a marquee). Constant motion everywhere competes with content and drains battery; pause off-screen loops."
+  },
+  {
+   "id": "small-tap-targets",
+   "severity": "minor",
+   "area": "accessibility",
+   "title": "Tap targets are small on mobile",
+   "evidence": "footer#footer > div.wrap.foot__top > div.foot__col > a 350\u00d726, footer#footer > div.wrap.foot__top > div.foot__col > a 350\u00d726, footer#footer > div.wrap.foot__top > div.foot__col > a 350\u00d726, footer#footer > div.wrap.foot__top > div.foot__col > a 350\u00d726",
+   "fix": "Give touch controls at least 44\u00d744px of hit area (padding or a pseudo-element hit box)."
+  },
+  {
+   "id": "small-mobile-text",
+   "severity": "minor",
+   "area": "visual",
+   "title": "Body text is small on mobile",
+   "evidence": "5 paragraphs under 14px at 390px.",
+   "fix": "Keep body copy \u226516px on phones."
+  },
+  {
+   "id": "orphan-headings",
+   "severity": "polish",
+   "area": "visual",
+   "title": "Headings end on a single word",
+   "evidence": "desktop scrollY 4725px: last line is only \u201ccrown.\u201d",
+   "fix": "Add `text-wrap: balance` to headings (and `text-wrap: pretty` to paragraphs), or adjust max-width so the last line carries at least two words."
+  },
+  {
+   "id": "default-template",
+   "severity": "polish",
+   "area": "visual",
+   "title": "The page looks like the default AI-built template",
+   "evidence": "It shares 5 of 9 traits of the landing page coding agents build by default: italic accent word in the headline, near-black ground, pill buttons, grain overlay, marquee.",
+   "fix": "Unless the brief asks for these, change at least four: a display face chosen for this subject, a ground and accent taken from its world, a hero built around one dominant element instead of headline-left/object-right, square or cut button shapes, and sections laid out from their content rather than eyebrow, marquee and bento. A page can earn every trait; it should not get them by default."
+  }
+ ],
+ "motion": {
+  "animations": 925,
+  "byPhase": {
+   "load": 50,
+   "scroll": 429,
+   "hover": 446
+  },
+  "easings": {
+   "custom-curve": 507,
+   "default-ease": 270,
+   "linear": 106
+  },
+  "durations": {
+   "p10": 300,
+   "median": 600,
+   "p90": 1250
+  },
+  "properties": {
+   "transform": 216,
+   "boxShadow": 6,
+   "filter": 5,
+   "strokeDashoffset": 2,
+   "backgroundOrigin": 4,
+   "backgroundPositionX": 4,
+   "backgroundPositionY": 4,
+   "backgroundRepeat": 4,
+   "backgroundSize": 4,
+   "borderLeftColor": 16,
+   "borderRightColor": 16,
+   "borderTopColor": 16,
+   "borderBottomColor": 16,
+   "backgroundAttachment": 4,
+   "backgroundClip": 4,
+   "backgroundColor": 49,
+   "backgroundImage": 4,
+   "opacity": 381,
+   "height": 38,
+   "visibility": 1,
+   "backdropFilter": 4,
+   "backdrop-filter": 4,
+   "background-color": 45,
+   "color": 59,
+   "marginTop": 45,
+   "margin-top": 45,
+   "maxHeight": 19,
+   "max-height": 19,
+   "marginLeft": 26,
+   "margin-left": 26,
+   "width": 26,
+   "borderTopLeftRadius": 6,
+   "border-top-left-radius": 6,
+   "borderTopRightRadius": 6,
+   "border-top-right-radius": 6,
+   "border-bottom-color": 12,
+   "border-left-color": 12,
+   "border-right-color": 12,
+   "border-top-color": 12,
+   "box-shadow": 4,
+   "top": 2
+  },
+  "entranceSpanMs": 2992,
+  "entranceStartGroups": 7,
+  "jsMotionMutations": 3578,
+  "sectionCoverage": {
+   "sections": 10,
+   "withMotion": 10,
+   "missing": []
+  },
+  "hover": {
+   "tested": 12,
+   "responsive": 8,
+   "animated": 7,
+   "silent": [
+    "Skip to content",
+    "Without tuning",
+    "Adaptive tuning",
+    "Speaker position. Drag it, or us"
+   ]
+  },
+  "focus": {
+   "tested": 8,
+   "visible": 8
+  },
+  "reducedMotion": {
+   "rule": true,
+   "runningLongAnimations": 0,
+   "hiddenAfterScroll": 0
+  },
+  "frameStats": {
+   "scrollFrames": 872,
+   "over32ms": 371,
+   "over50ms": 64,
+   "p95Ms": 50.1
+  },
+  "layoutShift": 0.047,
+  "longAnimationFrames": 1
+ },
+ "template": {
+  "count": 5,
+  "of": 9,
+  "traits": [
+   "italic accent word in the headline",
+   "near-black ground",
+   "pill buttons",
+   "grain overlay",
+   "marquee"
+  ]
+ },
+ "progress": null,
+ "craft": {
+  "framesAnalyzed": 29,
+  "deadSpace": 0,
+  "hollow": 0,
+  "misaligned": 0,
+  "collisions": 0,
+  "covered": 0,
+  "shrunk": 0,
+  "placeholders": 0,
+  "orphans": 1,
+  "code": 0,
+  "edge": 0,
+  "controls": 0
+ },
+ "pages": {
+  "desktop": {
+   "viewport": {
+    "width": 1440,
+    "height": 900
+   },
+   "docHeight": 23244,
+   "hidden": [],
+   "hiddenCount": 0,
+   "textElementCount": 254,
+   "contrast": [
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Acoustics",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Amplification",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Connectivity",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Physical",
+     "ratio": 3.82,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 4,
+   "contrastChecked": 145,
+   "families": {
+    "Inter Tight": 5677,
+    "DM Mono": 1021,
+    "Instrument Serif": 167
+   },
+   "bodySize": 11,
+   "h1Size": 93.6,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [],
+   "smallText": 0,
+   "media": {
+    "canvas": 8,
+    "video": 0,
+    "svg": 9,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 25,
+   "title": "Halo 02 \u2014 Sound without edges"
+  },
+  "mobile": {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "docHeight": 21752,
+   "hidden": [],
+   "hiddenCount": 0,
+   "textElementCount": 232,
+   "contrast": [
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Acoustics",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Amplification",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Connectivity",
+     "ratio": 3.82,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap.specs__grid > div.specs__table > section.sg.in > h3",
+     "text": "Physical",
+     "ratio": 3.82,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 4,
+   "contrastChecked": 136,
+   "families": {
+    "Inter Tight": 5602,
+    "DM Mono": 855,
+    "Instrument Serif": 167
+   },
+   "bodySize": 11,
+   "h1Size": 50.7,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    },
+    {
+     "selector": "footer#footer > div.wrap.foot__top > div.foot__col > a",
+     "w": 350,
+     "h": 26
+    }
+   ],
+   "smallText": 5,
+   "media": {
+    "canvas": 8,
+    "video": 0,
+    "svg": 9,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 25,
+   "title": "Halo 02 \u2014 Sound without edges"
+  }
+ },
+ "images": {
+  "hover": "hover.png",
+  "desktopEntrance": "desktop-entrance.png",
+  "desktopScroll": "desktop-scroll.png",
+  "desktopDetail1": "desktop-detail-1.png",
+  "desktopDetail2": "desktop-detail-2.png",
+  "desktopDetail3": "desktop-detail-3.png",
+  "desktopFull": "desktop-full.jpg",
+  "mobile": "mobile.png",
+  "craft": "craft.png"
+ },
+ "notes": [
+  "Desktop journey took 53.7s",
+  "External origins requested: https://fonts.googleapis.com, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+ ],
+ "craftInstances": {
+  "deadSpace": [],
+  "hollow": [],
+  "misaligned": [],
+  "controls": [],
+  "collisions": [],
+  "covered": [],
+  "orphans": [
+   {
+    "frame": 3,
+    "viewport": "desktop",
+    "label": "scrollY 4725px",
+    "rect": {
+     "x": 60,
+     "y": 354,
+     "w": 430,
+     "h": 107
+    },
+    "detail": "last line is only \u201ccrown.\u201d",
+    "selector": "ol#storySteps > li.step.is-active > h3.step__t",
+    "word": "crown."
+   }
+  ],
+  "code": [],
+  "edge": [],
+  "shrunk": [],
+  "placeholders": [],
+  "framesAnalyzed": 29
+ }
+}

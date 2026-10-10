@@ -48,7 +48,9 @@ if(mode==='record'){
       animations:m.animations,entranceStartGroups:m.entranceStartGroups,sectionCoverage:m.sectionCoverage.sections?Number((m.sectionCoverage.withMotion/m.sectionCoverage.sections).toFixed(2)):null,
       hoverResponsive:m.hover.tested?Number((m.hover.responsive/m.hover.tested).toFixed(2)):null,focusVisible:m.focus.tested?Number((m.focus.visible/m.focus.tested).toFixed(2)):null,
       reducedMotionHandled:m.reducedMotion?.rule??null,customEasingShare:(()=>{const total=Object.values(m.easings).reduce((a,b)=>a+b,0);return total?Number((((m.easings['custom-curve']??0)+(m.easings['spring-or-steps']??0))/total).toFixed(2)):null})(),
-      cls:m.layoutShift,source:await sourceStats(run.site)});
+      cls:m.layoutShift,templateTraits:report.template?.count??null,templateTraitList:report.template?.traits??null,
+      craftDefects:report.craft?['deadSpace','hollow','misaligned','collisions','covered','code','edge'].reduce((sum,key)=>sum+(report.craft[key]??0),0):null,craft:report.craft??null,
+      primaryFamily:report.pages?.desktop?.families?Object.entries(report.pages.desktop.families).sort((a,b)=>b[1]-a[1])[0]?.[0]??null:null,source:await sourceStats(run.site)});
     console.log(`recorded ${run.id}: ${report.grade} ${report.score}`);
   }
   await mkdir(out,{recursive:true});await writeFile(path.join(out,'metrics.json'),JSON.stringify(metrics,null,2));
@@ -67,7 +69,8 @@ if(mode==='packets'){
     const id=`p${String(index+1).padStart(2,'0')}`,dir=path.join(out,'packets',id);await mkdir(dir,{recursive:true});
     for(const [label,arm] of [['A',packet.a],['B',packet.a==='control'?'treatment':'control']]){
       const run=packet[arm];const source=path.join(out,'recordings',run.id);
-      for(const image of ['desktop-entrance.png','desktop-scroll.png','hover.png','mobile.png'])if(await exists(path.join(source,image)))await cp(path.join(source,image),path.join(dir,`${label}-${image}`));
+      // Detail sheets (four frames each at half size) exist from batch 4 on; earlier recordings have none.
+      for(const image of ['desktop-entrance.png','desktop-scroll.png','desktop-detail-1.png','desktop-detail-2.png','desktop-detail-3.png','hover.png','mobile.png'])if(await exists(path.join(source,image)))await cp(path.join(source,image),path.join(dir,`${label}-${image}`));
     }
     const brief=JSON.parse(await readFile(new URL('./tasks.json',import.meta.url),'utf8')).tasks.find(task=>task.id===packet.task).brief;
     await writeFile(path.join(dir,'BRIEF.txt'),brief+'\n');
@@ -81,7 +84,7 @@ if(mode==='summarize'){
   const key=JSON.parse(await readFile(path.resolve(args.key??path.join(out,'packet-key.json')),'utf8'));
   const judgments=path.resolve(args.judgments??path.join(out,'judgments'));
   const metrics=JSON.parse(await readFile(path.join(out,'metrics.json'),'utf8'));
-  const dims=['visual_design','motion_quality','interaction_polish','mobile_robustness','overall_premium'];
+  const dims=['visual_design','motion_quality','interaction_polish','mobile_robustness','overall_premium','distinctiveness'];
   const rows=[];
   for(const entry of key){
     const file=path.join(judgments,`${entry.packet}.json`);if(!await exists(file))continue;
@@ -97,7 +100,7 @@ if(mode==='summarize'){
   const pairs={};for(const row of rows){const id=`${row.task}-${row.seed}`;(pairs[id]??=[]).push(row.winner)}
   const pairOutcomes=Object.fromEntries(Object.entries(pairs).map(([id,list])=>[id,list.every(winner=>winner===list[0])?list[0]:'split']));
   const byArm=(arm,field)=>mean(metrics.filter(item=>item.arm===arm&&Number.isFinite(item[field])).map(item=>item[field]));
-  const objective=Object.fromEntries(['score','blockers','majors','animations','sectionCoverage','hoverResponsive','focusVisible','customEasingShare','cls'].map(field=>[field,{control:byArm('control',field),treatment:byArm('treatment',field)}]));
+  const objective=Object.fromEntries(['score','blockers','majors','animations','sectionCoverage','hoverResponsive','focusVisible','customEasingShare','cls','templateTraits','craftDefects'].map(field=>[field,{control:byArm('control',field),treatment:byArm('treatment',field)}]));
   objective.reducedMotionHandled={control:metrics.filter(item=>item.arm==='control'&&item.reducedMotionHandled).length+'/'+metrics.filter(item=>item.arm==='control').length,treatment:metrics.filter(item=>item.arm==='treatment'&&item.reducedMotionHandled).length+'/'+metrics.filter(item=>item.arm==='treatment').length};
   const summary={judgments:rows.length,wins,pairOutcomes,position,dimension,objective,rows};
   await writeFile(path.join(out,'results.json'),JSON.stringify(summary,null,2));

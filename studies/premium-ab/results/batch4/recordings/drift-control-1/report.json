@@ -1,0 +1,478 @@
+{
+ "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/c617552f-71c7-55aa-92e5-28d8f5c048c2/scratchpad/ab4eval/runs/drift/control-1/site",
+ "createdAt": "2026-10-09T20:46:05.989Z",
+ "score": 24,
+ "grade": "F",
+ "findings": [
+  {
+   "id": "reduced-motion-hides-content",
+   "severity": "blocker",
+   "area": "accessibility",
+   "title": "Reduced-motion visitors lose content",
+   "evidence": "1 elements stay invisible when prefers-reduced-motion is set: ul.u-list > li.now > span.tick > svg.i \"svg\".",
+   "fix": "The reduced-motion branch skips the code that reveals content. Make elements visible by default under reduced motion instead of skipping the reveal."
+  },
+  {
+   "id": "controls-without-hover",
+   "severity": "major",
+   "area": "interaction",
+   "title": "Interactive elements give no hover feedback",
+   "evidence": "5/12 distinct controls did not change on hover: Skip to content, Drift, 01 Wind down Tell Drift when you, Auto-drift, Monthly.",
+   "fix": "Every link/button needs a state change: buttons lift 1\u20132px or shift background with a 160\u2013240ms ease-out transition and a pressed scale(.97); text links animate an underline (scaleX 0\u21921 from the left); cards raise shadow and scale media 1.03."
+  },
+  {
+   "id": "shrunken-text",
+   "severity": "major",
+   "area": "visual",
+   "title": "Text is drawn at a fraction of its size",
+   "evidence": "8 element(s) whose glyphs are less than half their font size: mobile scrollY 5568px: \u201cAwake\u201d drawn at 36% of its line height; mobile scrollY 5568px: \u201cREM\u201d drawn at 36% of its line height; mobile scrollY 5568px: \u201cLight\u201d drawn at 36% of its line height.",
+   "fix": "A scale transform never finished, usually a count-up or reveal that scales from 0. Reveal with opacity and a short translate instead, or make sure the final state is scale(1) even when the trigger never fires."
+  },
+  {
+   "id": "layout-properties-animated",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Layout properties are animated",
+   "evidence": "123 animations/transitions on height, width, paddingBottom, padding-bottom, paddingTop; 194 inline-style layout writes.",
+   "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr\u21921fr or measure once and animate a scale/clip."
+  },
+  {
+   "id": "slow-hover",
+   "severity": "minor",
+   "area": "interaction",
+   "title": "Hover feedback is sluggish",
+   "evidence": "3 hover transitions last over 600 ms (e.g. header#nav > div.nav-right > a.btn.btn-sm::before: 900 ms).",
+   "fix": "Hover/press feedback should start immediately and settle in 150\u2013300ms; longer feels laggy under the pointer."
+  },
+  {
+   "id": "too-much-ambient-motion",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Many elements loop forever",
+   "evidence": "31 distinct elements run infinite animations.",
+   "fix": "Limit ambient loops to one or two focal elements (a hero visual, a marquee). Constant motion everywhere competes with content and drains battery; pause off-screen loops."
+  },
+  {
+   "id": "small-tap-targets",
+   "severity": "minor",
+   "area": "accessibility",
+   "title": "Tap targets are small on mobile",
+   "evidence": "button#autoBtn 122\u00d726, footer.footer > div.container.foot-grid > div.foot-brand > a.brand 79\u00d728, footer.footer > div.container.foot-grid > nav.foot-col > a 90\u00d724, footer.footer > div.container.foot-grid > nav.foot-col > a 94\u00d724",
+   "fix": "Give touch controls at least 44\u00d744px of hit area (padding or a pseudo-element hit box)."
+  },
+  {
+   "id": "small-mobile-text",
+   "severity": "minor",
+   "area": "visual",
+   "title": "Body text is small on mobile",
+   "evidence": "5 paragraphs under 14px at 390px.",
+   "fix": "Keep body copy \u226516px on phones."
+  },
+  {
+   "id": "default-template",
+   "severity": "minor",
+   "area": "visual",
+   "title": "The page looks like the default AI-built template",
+   "evidence": "It shares 8 of 9 traits of the landing page coding agents build by default: display face Instrument Serif, text face Geist, italic accent word in the headline, near-black ground, small uppercase eyebrow above the headline, pill buttons, grain overlay, marquee.",
+   "fix": "Unless the brief asks for these, change at least four: a display face chosen for this subject, a ground and accent taken from its world, a hero built around one dominant element instead of headline-left/object-right, square or cut button shapes, and sections laid out from their content rather than eyebrow, marquee and bento. A page can earn every trait; it should not get them by default."
+  },
+  {
+   "id": "some-low-contrast",
+   "severity": "polish",
+   "area": "accessibility",
+   "title": "A few text elements have low contrast",
+   "evidence": "\"Scroll\" 1.18:1",
+   "fix": "Raise contrast of these elements to at least 4.5:1."
+  }
+ ],
+ "motion": {
+  "animations": 649,
+  "byPhase": {
+   "load": 99,
+   "scroll": 288,
+   "hover": 262
+  },
+  "easings": {
+   "custom-curve": 348,
+   "default-ease": 223
+  },
+  "durations": {
+   "p10": 300,
+   "median": 500,
+   "p90": 1200
+  },
+  "properties": {
+   "transform": 160,
+   "opacity": 141,
+   "translate": 6,
+   "strokeDashoffset": 13,
+   "height": 35,
+   "transformOrigin": 1,
+   "rotate": 4,
+   "scale": 4,
+   "width": 57,
+   "backdropFilter": 4,
+   "backdrop-filter": 4,
+   "backgroundColor": 50,
+   "background-color": 50,
+   "borderBottomColor": 28,
+   "border-bottom-color": 28,
+   "paddingBottom": 5,
+   "padding-bottom": 4,
+   "paddingTop": 5,
+   "padding-top": 4,
+   "color": 26,
+   "filter": 20,
+   "marginTop": 11,
+   "margin-top": 10,
+   "maxHeight": 11,
+   "max-height": 10,
+   "--halo-c": 5,
+   "stroke-dashoffset": 11,
+   "borderLeftColor": 24,
+   "border-left-color": 24,
+   "borderRightColor": 24,
+   "border-right-color": 24,
+   "borderTopColor": 24,
+   "border-top-color": 24,
+   "marginBottom": 1,
+   "marginLeft": 1,
+   "marginRight": 1,
+   "borderLeftWidth": 1,
+   "borderRightWidth": 1,
+   "borderTopWidth": 1,
+   "borderBottomWidth": 1,
+   "boxShadow": 6,
+   "box-shadow": 6,
+   "top": 2
+  },
+  "entranceSpanMs": 2580,
+  "entranceStartGroups": 14,
+  "jsMotionMutations": 3481,
+  "sectionCoverage": {
+   "sections": 10,
+   "withMotion": 10,
+   "missing": []
+  },
+  "hover": {
+   "tested": 12,
+   "responsive": 7,
+   "animated": 6,
+   "silent": [
+    "Skip to content",
+    "Drift",
+    "01 Wind down Tell Drift when you",
+    "Auto-drift",
+    "Monthly"
+   ]
+  },
+  "focus": {
+   "tested": 8,
+   "visible": 8
+  },
+  "reducedMotion": {
+   "rule": true,
+   "runningLongAnimations": 0,
+   "hiddenAfterScroll": 1
+  },
+  "frameStats": {
+   "scrollFrames": 768,
+   "over32ms": 383,
+   "over50ms": 13,
+   "p95Ms": 49.9
+  },
+  "layoutShift": 0.036,
+  "longAnimationFrames": 12
+ },
+ "template": {
+  "count": 8,
+  "of": 9,
+  "traits": [
+   "display face Instrument Serif",
+   "text face Geist",
+   "italic accent word in the headline",
+   "near-black ground",
+   "small uppercase eyebrow above the headline",
+   "pill buttons",
+   "grain overlay",
+   "marquee"
+  ]
+ },
+ "progress": null,
+ "craft": {
+  "framesAnalyzed": 29,
+  "deadSpace": 0,
+  "hollow": 0,
+  "misaligned": 0,
+  "collisions": 0,
+  "covered": 0,
+  "shrunk": 8,
+  "placeholders": 0,
+  "orphans": 0,
+  "code": 0,
+  "edge": 0,
+  "controls": 0
+ },
+ "pages": {
+  "desktop": {
+   "viewport": {
+    "width": 1440,
+    "height": 900
+   },
+   "docHeight": 12624,
+   "hidden": [],
+   "hiddenCount": 0,
+   "textElementCount": 322,
+   "contrast": [
+    {
+     "selector": "section#top > a.scroll-cue > span",
+     "text": "Scroll",
+     "ratio": 1.18,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 1,
+   "contrastChecked": 76,
+   "families": {
+    "Geist": 3916,
+    "Geist Mono": 500,
+    "Instrument Serif": 1719
+   },
+   "bodySize": 13.12,
+   "h1Size": 126.72,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [],
+   "smallText": 0,
+   "media": {
+    "canvas": 3,
+    "video": 0,
+    "svg": 63,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 27,
+   "title": "Drift \u2014 The AI sleep coach that listens to your night"
+  },
+  "mobile": {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "docHeight": 15859,
+   "hidden": [],
+   "hiddenCount": 0,
+   "textElementCount": 305,
+   "contrast": [],
+   "contrastFailures": 0,
+   "contrastChecked": 74,
+   "families": {
+    "Geist": 3833,
+    "Geist Mono": 434,
+    "Instrument Serif": 1720
+   },
+   "bodySize": 13.12,
+   "h1Size": 58.5,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [
+    {
+     "selector": "button#autoBtn",
+     "w": 122,
+     "h": 26
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > div.foot-brand > a.brand",
+     "w": 79,
+     "h": 28
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 90,
+     "h": 24
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 94,
+     "h": 24
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 55,
+     "h": 24
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 61,
+     "h": 24
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 49,
+     "h": 24
+    },
+    {
+     "selector": "footer.footer > div.container.foot-grid > nav.foot-col > a",
+     "w": 39,
+     "h": 24
+    }
+   ],
+   "smallText": 5,
+   "media": {
+    "canvas": 3,
+    "video": 0,
+    "svg": 63,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 26,
+   "title": "Drift \u2014 The AI sleep coach that listens to your night"
+  }
+ },
+ "images": {
+  "hover": "hover.png",
+  "desktopEntrance": "desktop-entrance.png",
+  "desktopScroll": "desktop-scroll.png",
+  "desktopDetail1": "desktop-detail-1.png",
+  "desktopDetail2": "desktop-detail-2.png",
+  "desktopDetail3": "desktop-detail-3.png",
+  "desktopFull": "desktop-full.jpg",
+  "mobile": "mobile.png",
+  "craft": "craft.png"
+ },
+ "notes": [
+  "Desktop journey took 38.8s",
+  "External origins requested: https://fonts.googleapis.com, https://cdnjs.cloudflare.com, https://cdn.jsdelivr.net, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+ ],
+ "craftInstances": {
+  "deadSpace": [],
+  "hollow": [],
+  "misaligned": [],
+  "controls": [],
+  "collisions": [],
+  "covered": [],
+  "orphans": [],
+  "code": [],
+  "edge": [],
+  "shrunk": [
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 33,
+     "y": 401,
+     "w": 26,
+     "h": 12
+    },
+    "detail": "\u201cAwake\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-label",
+    "text": "Awake"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 33,
+     "y": 441,
+     "w": 24,
+     "h": 12
+    },
+    "detail": "\u201cREM\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-label",
+    "text": "REM"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 33,
+     "y": 482,
+     "w": 26,
+     "h": 12
+    },
+    "detail": "\u201cLight\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-label",
+    "text": "Light"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 33,
+     "y": 522,
+     "w": 24,
+     "h": 12
+    },
+    "detail": "\u201cDeep\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-label",
+    "text": "Deep"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 84,
+     "y": 537,
+     "w": 26,
+     "h": 12
+    },
+    "detail": "\u201c10 PM\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-tick",
+    "text": "10 PM"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 138,
+     "y": 537,
+     "w": 26,
+     "h": 12
+    },
+    "detail": "\u201c12 AM\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-tick",
+    "text": "12 AM"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 206,
+     "y": 537,
+     "w": 24,
+     "h": 12
+    },
+    "detail": "\u201c2 AM\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-tick",
+    "text": "2 AM"
+   },
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 5568px",
+    "rect": {
+     "x": 272,
+     "y": 537,
+     "w": 24,
+     "h": 12
+    },
+    "detail": "\u201c4 AM\u201d drawn at 36% of its line height",
+    "selector": "g#hyGrid > text.hy-tick",
+    "text": "4 AM"
+   }
+  ],
+  "placeholders": [],
+  "framesAnalyzed": 29
+ }
+}

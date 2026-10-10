@@ -9,16 +9,17 @@
 import {readFile} from 'node:fs/promises';
 
 const files=process.argv.slice(2);if(!files.length)throw new Error('Pass one or more results.json files');
-const dims=['visual_design','motion_quality','interaction_polish','mobile_robustness','overall_premium'];
+// distinctiveness was added in batch 4 (JUDGE_PROMPT_V2.md); earlier judgments simply lack it.
+const dims=['visual_design','motion_quality','interaction_polish','mobile_robustness','overall_premium','distinctiveness'];
 const pairs=new Map();
 for(const [batch,file] of files.entries())for(const row of JSON.parse(await readFile(file,'utf8')).rows){
   const id=`${row.task}-${row.seed}`;const pair=pairs.get(id)??{id,task:row.task,seed:row.seed,batch:batch+1,judgments:[]};
-  pair.judgments.push({winner:row.winner,confidence:row.confidence,diff:Object.fromEntries(dims.map(dim=>[dim,row.scores.treatment[dim]-row.scores.control[dim]]))});
+  pair.judgments.push({winner:row.winner,confidence:row.confidence,diff:Object.fromEntries(dims.map(dim=>[dim,row.scores.treatment?.[dim]-row.scores.control?.[dim]]).filter(([,value])=>Number.isFinite(value)))});
   pairs.set(id,pair);
 }
 const list=[...pairs.values()].map(pair=>({...pair,
   preference:pair.judgments.reduce((sum,judgment)=>sum+(judgment.winner==='treatment'?1:judgment.winner==='control'?-1:0),0)/pair.judgments.length,
-  diff:Object.fromEntries(dims.map(dim=>[dim,pair.judgments.reduce((sum,judgment)=>sum+judgment.diff[dim],0)/pair.judgments.length]))}));
+  diff:Object.fromEntries(dims.map(dim=>{const values=pair.judgments.map(judgment=>judgment.diff[dim]).filter(Number.isFinite);return [dim,values.length?values.reduce((a,b)=>a+b,0)/values.length:undefined]}).filter(([,value])=>value!==undefined))}));
 
 function signFlip(values) {
   const n=values.length,observed=values.reduce((a,b)=>a+b,0);let extreme=0;
@@ -33,7 +34,7 @@ const out={
   judgmentWins:{treatment:judgments.filter(j=>j.winner==='treatment').length,control:judgments.filter(j=>j.winner==='control').length,tie:judgments.filter(j=>j.winner==='tie').length},
   pairOutcomes:{treatment:list.filter(p=>p.preference>0).length,control:list.filter(p=>p.preference<0).length,even:list.filter(p=>p.preference===0).length},
   preference:{meanPerPair:round(mean(list.map(p=>p.preference))),pTwoSided:round(signFlip(list.map(p=>p.preference)),4)},
-  dimensions:Object.fromEntries(dims.map(dim=>{const values=list.map(p=>p.diff[dim]);return [dim,{meanTreatmentMinusControl:round(mean(values),2),pairsFavoringTreatment:values.filter(v=>v>0).length,pairsFavoringControl:values.filter(v=>v<0).length,pTwoSided:round(signFlip(values),4)}]})),
+  dimensions:Object.fromEntries(dims.map(dim=>{const values=list.map(p=>p.diff[dim]).filter(Number.isFinite);return [dim,values.length?{pairs:values.length,meanTreatmentMinusControl:round(mean(values),2),pairsFavoringTreatment:values.filter(v=>v>0).length,pairsFavoringControl:values.filter(v=>v<0).length,pTwoSided:round(signFlip(values),4)}:null]}).filter(([,value])=>value)),
   byTask:Object.fromEntries([...new Set(list.map(p=>p.task))].map(task=>{const subset=list.filter(p=>p.task===task);return [task,{pairs:subset.length,meanPreference:round(mean(subset.map(p=>p.preference)),2),meanOverallDiff:round(mean(subset.map(p=>p.diff.overall_premium)),2)}]})),
   byBatch:Object.fromEntries([...new Set(list.map(p=>p.batch))].map(batch=>{const subset=list.filter(p=>p.batch===batch);return [`batch${batch}`,{pairs:subset.length,meanPreference:round(mean(subset.map(p=>p.preference)),2),meanOverallDiff:round(mean(subset.map(p=>p.diff.overall_premium)),2)}]})),
   pairDetail:list.map(p=>({id:p.id,batch:p.batch,preference:p.preference,overallDiff:p.diff.overall_premium,motionDiff:p.diff.motion_quality,winners:p.judgments.map(j=>j.winner)}))

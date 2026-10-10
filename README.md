@@ -8,20 +8,20 @@
   <img src="https://img.shields.io/badge/status-local_preview-f59e0b" alt="Local preview">
 </p>
 
-<p align="center"><b>Build motion. Watch it. Make it better.</b></p>
+<p align="center"><b>Pages your agent has actually looked at.</b></p>
 
 <p align="center">
-  <a href="#quickstart">Quickstart</a> · <a href="studies/premium-ab/README.md">A/B results</a> · <a href="#coding-agents">Coding agents</a> · <a href="#how-it-works">How it works</a> · <a href="docs/AGENT-WORKFLOW.md">Documentation</a>
+  <a href="#quickstart">Quickstart</a> · <a href="#results">Results</a> · <a href="#what-the-critic-sees">The critic</a> · <a href="#coding-agents">Coding agents</a> · <a href="docs/PREMIUM-MOTION.md">Documentation</a>
 </p>
 
-![Motion Debugger: expressive motion, real browser evidence](docs/assets/banner.svg)
+![Motion Debugger: the same brief built without and with the plugin](docs/assets/banner.png)
 
-Motion Debugger helps coding agents ship **premium, art-directed websites with high-quality motion**, and makes them look at the real result. It has two parts that work in any agent:
+Coding agents asked for a "premium" site all build the same one: a condensed serif with an italic accent word, a near-black ground, an eyebrow over a left-hand headline, pill buttons, a marquee and a bento grid. They also never see what they shipped, so it goes out with empty bands, half-filled cards and copy hidden under sticky panels.
 
-- **`premium-motion` skill.** A taste guide plus concrete craft guidance. The agent picks one motion personality, writes a motion score for every chapter, and meets an ambition floor: a layered hero that exits on scroll, scrubbed scroll scenes, chapter colour transitions, kinetic type, a living visual and tactile micro-interactions. A dependency-free motion kit turns those into data attributes: pinned stories, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, scramble type, velocity skew, magnetic and spotlight effects.
-- **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile and records the entrance, a full scroll, hovers, keyboard focus and reduced motion. It returns findings with specific fixes, plus contact sheets the agent reads to *see* its own page.
+Motion Debugger fixes both, in any agent:
 
-**Measured effect:** in a blinded 16-pair A/B, agents with the plugin built sites that judges rated more premium in 12 of 16 pairs, with significantly better motion and mobile robustness. [Watch the side-by-side films](#results).
+- **`premium-motion` skill.** Names that default page and makes the agent leave it, takes art direction from the brief's own world, and sets a finish system and one finished signature scroll scene. A dependency-free motion kit supplies the scroll scenes, reveals and hover states as data attributes.
+- **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile, records the entrance, a full scroll, hovers, keyboard focus and reduced motion, and returns findings with fixes. Finish defects come outlined on crops of the real frames, with a count of how many default-template traits the page shares.
 
 ```sh
 motion-debugger critique ./site                   # a folder with index.html, or an .html file
@@ -29,7 +29,7 @@ motion-debugger critique http://127.0.0.1:5173    # a running local dev server
 motion-debugger agents-md >> AGENTS.md            # standing instructions for any agent host
 ```
 
-The recorded-evidence tools for detailed transition debugging (`motion_review`, `motion_probe`, `motion_capture`, and others) remain available. See [How it works](#how-it-works).
+The recorded-evidence tools for debugging one transition (`motion_review`, `motion_probe`, `motion_capture` and others) remain available. See [How it works](#how-it-works).
 
 ## Quickstart
 
@@ -65,41 +65,55 @@ For a portable installation, run `npm pack`, then install the resulting tarball 
 
 ## Results
 
-Same prompt, same builder model (Sonnet 5.5), one fresh agent per site. Left: an empty project. Right: the `premium-motion` skill, taste guide, kit and critic. Each film is the same scripted visit recorded in Chromium: the entrance, a pointer sweep, then a wheel scroll at constant speed. Playback is 1.6× for the preview.
+Same prompt, same builder model (Sonnet 5.5), one fresh agent per site. One agent worked in an empty project; the other had the skill, the kit and the critic. Nothing was edited by hand.
 
-**Atelier Norr: architecture studio**
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/results-dark.png">
+  <img src="docs/assets/results-light.png" alt="Judge scores and measured metrics, without vs with the plugin">
+</picture>
 
-![Atelier Norr, without vs with premium-motion](demos/norr/comparison.gif)
+In the latest batch (plugin v4, four matched pairs), blinded Opus 5.5 judges chose the plugin's site in all 8 judgments. Distinctiveness rose from 6.4 to 8.8 and overall premium from 6.9 to 8.0. The control sites shared 6.5 of 9 default-template traits on average; the plugin's sites shared none. Visual design moved least (7.8 to 8.1).
+
+Four pairs cannot reach statistical significance: the smallest p an exact test can give is 0.125. The earlier 16-pair study (plugin v1–v2) did reach it for overall premium (+1.0, p = 0.005) and motion quality (+1.34, p = 0.0004), but found no gain in visual design, which is what v4 was rebuilt to address. [Method, every verdict and threats to validity](studies/premium-ab/README.md).
 
 **Ledgerline: payments API**
 
-![Ledgerline, without vs with premium-motion](demos/ledgerline/comparison.gif)
+![Ledgerline, without vs with premium-motion](demos/ledgerline/compare.jpg)
+
+**Drift: AI sleep coach**
+
+![Drift, without vs with premium-motion](demos/drift/compare.jpg)
 
 **Halo: wireless speaker launch**
 
-![Halo, without vs with premium-motion](demos/halo/comparison.gif)
+![Halo, without vs with premium-motion](demos/halo/compare.jpg)
 
-**Drift: AI sleep coach** (the one pair where judges preferred the control)
+**Atelier Norr: architecture studio**
 
-![Drift, without vs with premium-motion](demos/drift/comparison.gif)
+![Atelier Norr, without vs with premium-motion](demos/norr/compare.jpg)
 
-Full-length MP4 films and every site are in [`demos/`](demos/README.md); run `motion-debugger demo` to open them live.
+Watch them move: each pair has a side-by-side film of the same scripted visit ([Ledgerline](demos/ledgerline/comparison.mp4), [Drift](demos/drift/comparison.mp4), [Halo](demos/halo/comparison.mp4), [Norr](demos/norr/comparison.mp4)), and `motion-debugger demo` opens every site live.
 
-### Blinded judging
+![Ledgerline film, without vs with premium-motion](demos/ledgerline/comparison.gif)
 
-Opus 5.5 judges compared each matched pair twice with positions swapped. They saw only neutral recordings and no code, arm labels or critic output.
+## What the critic sees
 
-| Judged on (1–10) | 16 pairs, plugin v1–v2: Δ | p | 4 filmed pairs, v3 with taste guide: Δ |
-| --- | --- | --- | --- |
-| Overall premium feel | **+1.0** (12 pairs won / 2 lost) | 0.005 | +0.88 (3 / 1) |
-| Motion quality | **+1.34** (14 / 1) | 0.0004 | +1.50 |
-| Mobile robustness | **+1.0** (9 / 3) | 0.02 | +1.25 |
-| Interaction polish | +0.34 | 0.36 | +1.50 |
-| Visual design | +0.34 | 0.07 | +0.13 |
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/critic-dark.png">
+  <img src="docs/assets/critic-light.png" alt="Finish defects the critic outlined on a control site">
+</picture>
 
-Every control site in the 16-pair study had at least one blocker or major defect that the critic flags: content that never appears, reduced-motion visitors losing content, mobile overflow, layout shift, low contrast or controls with no hover feedback. No plugin site did. Four pairs are too few for significance on their own; the filmed batch illustrates the effect rather than proving it independently.
+Beyond motion and accessibility lint, the critic measures finish in the frames it captured:
 
-[Method, statistics, threats to validity and every verdict](studies/premium-ab/README.md)
+| Finding | What it catches |
+| --- | --- |
+| `text-collision`, `copy-under-sticky` | Copy painted over other copy, or scrolling under a sticky panel |
+| `hollow-containers`, `dead-space` | Cards with an empty band inside; screens where over half the height is blank |
+| `near-miss-alignment`, `edge-crowding` | Items a few pixels off their column; copy against the screen edge |
+| `shrunken-text`, `double-spaced-code`, `clipped-code` | A scale that never finished; code with a blank line between lines or cut off |
+| `default-template` | How many of nine default AI-landing-page traits the first screen shares |
+
+Each run also reports what changed since the previous critique of the same page: findings fixed, new findings and how many remain. [All checks and limits](docs/PREMIUM-MOTION.md).
 
 ## Coding agents
 
@@ -129,10 +143,11 @@ Example prompt for any agent:
 
 ## How it works
 
-1. **Art-direct.** The skill makes the agent commit to an audience, a concept, one signature moment, a palette and type before writing code.
-2. **Build with a system.** One motion personality, a written motion score, motion tokens, a choreographed hero, at least two different scrubbed scroll scenes, chapter transitions, and hover/press/focus states on every control. The kit handles reveals, split and scrambled text, counters, pinned progress, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, chapter themes, scroll velocity, parallax, magnetic, spotlight and marquee effects, all with reduced-motion and no-JS fallbacks.
-3. **Look.** `critique` records what actually moved and how it was eased and staggered. It checks whether motion reaches every section, whether controls answer hover and focus, and whether anything stays invisible, overflows on mobile, lacks contrast or janks. The contact sheets show the real page.
-4. **Refine.** The agent fixes blockers first, then the biggest visible craft gap, and critiques again (at least two passes).
+1. **Direct.** The skill names the default page, has the agent change at least four of its defaults, and takes type, colour and layout decisions from three artefacts of the subject's world.
+2. **Compose and finish.** One dominant element per frame, sections laid out from their content, shared edges, boxes sized to content, hover that shows in a still, and a real phone layout.
+3. **Move.** One motion personality, a written motion score, a choreographed hero, and one signature scroll scene finished at every scroll position, with at most two supporting scenes. The kit handles the mechanics with reduced-motion and no-JS fallbacks.
+4. **Look.** `critique` records what actually moved and measures finish in the captured frames. `craft.png` outlines each defect; detail sheets show type and spacing at a readable size.
+5. **Refine.** The agent fixes every outlined defect, answers five design-director questions about each frame, and critiques again. The score is a lint, not the stop condition.
 
 For a specific interaction, the evidence tools record bounded journeys and compare repairs:
 

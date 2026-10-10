@@ -13,7 +13,7 @@ Motion Debugger supplies temporal browser evidence to coding agents. Keep the re
 
 ## Architecture
 
-- `packages/core`: recording, evidence contracts, safety, comparisons and the page critic (`critique.ts`, `critique-probe.ts`)
+- `packages/core`: recording, evidence contracts, safety, comparisons and the page critic (`critique.ts`, `critique-probe.ts`, and `critique-craft.ts` for finish defects and template likeness)
 - `packages/mcp`: stdio transport; stdout is JSON-RPC only
 - `packages/cli`: package installation, configuration, diagnostics, demo and evidence commands
 - `plugin/motion-debugger/skills/premium-motion`: the craft skill and motion kit agents use for pages and sites

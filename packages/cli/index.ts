@@ -41,7 +41,7 @@ Environment: MOTION_ARTIFACT_DIR, MOTION_ALLOWED_ORIGINS, MOTION_SOURCE_ROOTS, C
 const [command,...args]=process.argv.slice(2);
 export function agentsMarkdown(skillsDir?:string) {
   const skill=skillsDir?`\`${skillsDir.replace(/\/$/,'')}/premium-motion/SKILL.md\``:'the premium-motion skill (installed with `motion-debugger skills install`, or bundled in the motion-debugger package under plugin/motion-debugger/skills/premium-motion)';
-  return `## Motion Debugger\n\nFor any web page, UI or animation work in this project, read and follow ${skill} before writing code, and review the rendered result with \`motion-debugger critique <folder-or-local-url>\` (or the \`motion_critique\` MCP tool). Open the contact-sheet images it writes, fix what they show, and critique again before you finish.\n`;
+  return `## Motion Debugger\n\nFor any web page, UI or animation work in this project, read and follow ${skill} before writing code, and review the rendered result with \`motion-debugger critique <folder-or-local-url>\` (or the \`motion_critique\` MCP tool). Open the images it writes (craft.png first), fix what they show, and critique again before you finish.\n`;
 }
 function configOptions(input:string[]):InitOptions {
   const options:InitOptions={client:'generic'};

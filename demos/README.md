@@ -1,6 +1,8 @@
 # Premium-motion demos
 
-Four briefs. Each was given to two fresh **Sonnet 5.5** agents with the identical prompt. One worked in an empty project. The other had the `premium-motion` skill (taste guide, motion kit and critique loop) and a one-paragraph pointer to it. Nothing here was edited by hand after the agents finished, apart from removing the agent's own skill copy and `CLAUDE.md` from the treatment folders.
+Four briefs. Each was given to two fresh **Sonnet 5.5** agents with the identical prompt. One worked in an empty project. The other had the `premium-motion` skill (v4), the motion kit and the critique loop, with a one-paragraph pointer to them. These are the seed-1 pairs of study batch 4, chosen before judging. Nothing here was edited by hand after the agents finished, apart from removing the skill copy and `CLAUDE.md` from the treatment folders.
+
+Each brief also has `compare.jpg`: the hero after the entrance and three points down the page for both sites, taken from the study's recordings.
 
 | Brief | Film | Without the plugin | With premium-motion |
 | --- | --- | --- | --- |

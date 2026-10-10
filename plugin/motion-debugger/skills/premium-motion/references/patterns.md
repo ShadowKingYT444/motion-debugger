@@ -1,6 +1,6 @@
 # Premium motion patterns
 
-Complete, framework-free building blocks. They assume `assets/motion-kit.css` tokens (`--ease-out`, `--dur-*`) and, where noted, `assets/motion-kit.js`. Adapt names, colours and content to the brief — these are mechanisms, not a look.
+Complete, framework-free building blocks. They assume `assets/motion-kit.css` tokens (`--ease-out`, `--dur-*`) and, where noted, `assets/motion-kit.js`. They are mechanisms, not a look: the copy is placeholder text in braces, and the class names, colours, type and layout come from your direction note.
 
 ## 1. Hero entrance sequence
 
@@ -10,31 +10,30 @@ Complete, framework-free building blocks. They assume `assets/motion-kit.css` to
   <script>document.documentElement.classList.add('mk-js')</script>
   <link rel="stylesheet" href="motion-kit.css"><script src="motion-kit.js" defer></script>
 </head>
-<header class="hero">
-  <p class="eyebrow" data-reveal="fade">Introducing Halo 2</p>
-  <h1 data-split="words" data-delay="80">Sound that disappears into the room</h1>
-  <p class="lede" data-reveal="up" data-delay="520">Forty-eight drivers. One quiet object.</p>
-  <div class="cta-row" data-stagger="80" data-delay="640">
-    <a class="btn mk-button" data-magnetic="0.25" href="#buy">Pre-order</a>
-    <a class="mk-link" href="#story">Watch the film →</a>
+<header class="hero" data-exit>
+  <h1 data-split="words">{a headline from a brief fact, with an <em>accent</em> if the type calls for one}</h1>
+  <p class="lede" data-reveal="up" data-delay="420">{one sentence of support}</p>
+  <div class="cta-row" data-stagger="80" data-delay="540">
+    <a class="btn mk-button mk-wipe" data-magnetic="0.25" href="#start">{primary action}</a>
+    <a class="mk-link" href="#more">{secondary action}</a>
   </div>
-  <figure class="hero-visual" data-reveal="clip" data-delay="300"><!-- your real visual --></figure>
+  <figure class="hero-visual" data-reveal="clip" data-delay="200"><!-- your real visual, at dominant scale --></figure>
 </header>
 ```
 
-Order of importance: headline lands first, supporting copy ~400–600ms later, the visual overlaps. Keep the total under ~1.6s.
+Order of importance: the headline lands first, supporting copy and actions follow 400–600ms later, the visual overlaps on its own track. Nothing appears before the headline, and the nav is visible from the first frame. Keep the total under ~1.6s. `data-split` keeps inline markup such as `<em>`. The layout is yours: this markup works for a full-width type setting, a centred stage or an asymmetric grid just as well as for a two-column split.
 
 ## 2. Pinned scroll story (sticky + progress)
 
-A tall section pins its stage while `--p` goes 0→1; CSS maps progress to transforms. Steps swap at thresholds.
+A tall section pins its stage while `--p` goes 0→1; CSS maps progress to transforms. Steps swap at thresholds. Keep the pin to at most 180vh on desktop, and make the stage change visibly every ~300px of scroll.
 
 ```html
-<section class="story" data-progress style="height: 340vh">
+<section class="story" data-progress style="height: 180vh">
   <div class="story-stage">
     <div class="story-copy">
-      <p class="step" data-step="0">Machined from one block.</p>
-      <p class="step" data-step="1">Tuned by ear, measured by laser.</p>
-      <p class="step" data-step="2">Silent until it isn't.</p>
+      <p class="step" data-step="0">{step one}</p>
+      <p class="step" data-step="1">{step two}</p>
+      <p class="step" data-step="2">{step three}</p>
     </div>
     <div class="device">
       <div class="layer layer-a"></div><div class="layer layer-b"></div><div class="layer layer-c"></div>
@@ -49,9 +48,12 @@ A tall section pins its stage while `--p` goes 0→1; CSS maps progress to trans
 .layer-a { transform: translateZ(calc(var(--spread) * 1)); }
 .layer-b { transform: translateZ(0); }
 .layer-c { transform: translateZ(calc(var(--spread) * -1)); }
-.step { opacity: .18; transition: opacity var(--dur-ui) linear, transform var(--dur-ui) var(--ease-out-soft); }
-.step.is-active { opacity: 1; transform: translateX(8px); }
-@media (max-width: 760px) { .story-stage { grid-template-columns: 1fr; align-content: center; gap: 32px; } }
+/* Inactive steps stay readable in a still (≥0.45); the active one is marked in place, never moved off the edge. */
+.step { position: relative; opacity: .5; transition: opacity var(--dur-ui) linear, color var(--dur-ui) linear; }
+.step::before { content: ""; position: absolute; left: -16px; top: .2em; bottom: .2em; width: 2px; background: currentColor; transform: scaleY(0); transform-origin: 50% 0; transition: transform var(--dur-ui) var(--ease-out-soft); }
+.step.is-active { opacity: 1; }
+.step.is-active::before { transform: scaleY(1); }
+@media (max-width: 760px) { .story { height: auto !important; } .story-stage { position: static; height: auto; grid-template-columns: 1fr; gap: 32px; padding: 64px 0; } .step { opacity: 1; } .step::before { display: none; } }
 @media (prefers-reduced-motion: reduce) { .story { height: auto !important; } .story-stage { position: static; height: auto; padding: 96px 0; } .step { opacity: 1; } }
 ```
 
@@ -87,7 +89,7 @@ Without the kit: compute `p = clamp(-rect.top / (rect.height - innerHeight), 0, 
 @media (max-width: 760px) { .bento { grid-template-columns: 1fr; } .tile-wide, .tile-tall { grid-column: auto; grid-row: auto; } }
 ```
 
-Put a small live demo inside each tile (a mini chart that draws, a toggle that flips, a code line that types) rather than an icon + paragraph.
+Put a small, specific visual inside each tile (a mini chart, a toggle, a code line, a diagram) rather than an icon and a paragraph. If it animates, its resting state is complete: a chart is drawn, a terminal has its lines, a list is full. Size tiles to their content so no tile holds an empty band.
 
 ## 4. SVG path that draws with scroll
 
@@ -144,7 +146,7 @@ move(tabs.querySelector('[aria-selected=true]'));
 ## 7. Words light up as you read
 
 ```html
-<p class="manifesto" data-progress>We build tools for people who care how things feel…</p>
+<p class="manifesto" data-progress>{one statement worth reading slowly}</p>
 ```
 
 ```js
@@ -154,7 +156,7 @@ el.innerHTML = el.textContent.trim().split(/\s+/).map((w, i, all) => `<span styl
 
 ```css
 .manifesto { font-size: clamp(1.75rem, 3.6vw, 3rem); line-height: 1.2; letter-spacing: -.02em; }
-.manifesto span { opacity: clamp(.16, (var(--p, 0) * 1.6 - var(--t)) * 6, 1); transition: opacity 120ms linear; }
+.manifesto span { opacity: clamp(.35, (var(--p, 0) * 1.6 - var(--t)) * 6, 1); transition: opacity 120ms linear; }
 ```
 
 ## 8. Scramble-to-text headline (signature moment)
@@ -179,14 +181,14 @@ Use a monospace or tabular face so the width does not jump.
 
 Build the actual interface in HTML/CSS — a dashboard card with a sparkline, a terminal with a typing command, a notification stack — and give it a slow, believable loop: a value ticking every 2–3s with a 400ms ease-out number roll, a chart line drawing on reveal, a toast sliding in with a spring. Pause loops when off-screen (IntersectionObserver) and under reduced motion. This reads as product truth, unlike a static screenshot or a grey placeholder.
 
-## 10. Card and button feedback
+## 10. Card and button feedback (two properties change, so it shows in a still)
 
 ```css
 .card { transition: transform var(--dur-ui) var(--ease-out-soft), box-shadow var(--dur-ui) var(--ease-out-soft); }
-.card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgb(0 0 0 / .45); }
+.card:hover { transform: translateY(-6px); background-color: var(--surface-raised); box-shadow: 0 30px 60px -30px rgb(0 0 0 / .45); }
 .card img { transition: transform 900ms var(--ease-out); } .card:hover img { transform: scale(1.04); }
-.btn { transition: transform var(--dur-micro) var(--ease-out-soft), background-color var(--dur-micro) linear, box-shadow var(--dur-ui) var(--ease-out-soft); }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--accent); }
+.btn { transition: transform var(--dur-micro) var(--ease-out-soft), background-color var(--dur-micro) linear, color var(--dur-micro) linear, box-shadow var(--dur-ui) var(--ease-out-soft); }
+.btn:hover { transform: translateY(-2px); background-color: var(--ink); color: var(--ground); } /* fill and ink change: visible in a still */
 .btn:active { transform: scale(.97); transition-duration: 80ms; }
 .btn .arrow { display: inline-block; transition: transform var(--dur-ui) var(--ease-out-soft); } .btn:hover .arrow { transform: translateX(4px); }
 ```
