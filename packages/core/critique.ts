@@ -1,10 +1,11 @@
 import {createServer,type Server} from 'node:http';
-import {mkdir,readFile,stat,writeFile} from 'node:fs/promises';
+import {mkdir,readFile,readdir,stat,writeFile} from 'node:fs/promises';
 import path from 'node:path';
-import {chromium,type Browser,type BrowserContext,type Page} from 'playwright';
+import {chromium,type Browser,type BrowserContext,type CDPSession,type Page} from 'playwright';
 import {chromiumOptions} from '../../server/browser';
 import {validateLocalUrl} from './safety';
 import {critiqueInitScript,critiqueSectionMotionScript,critiqueSectionsScript,critiqueStaticScript,critiqueVisibilitySampleScript} from './critique-probe';
+import {analyzeCraft,annotateCraft,critiqueCraftSampleScript,critiqueTemplateScript,type TemplateTraits,type CraftFrame,type CraftInstance,type CraftResult,type CraftSample} from './critique-craft';
 
 // motion critique: a provider-neutral visual + motion lint for a local page. It records what
 // actually moved (Web Animations, CSS transitions, inline-style JS motion), how it was timed and
@@ -15,10 +16,13 @@ import {critiqueInitScript,critiqueSectionMotionScript,critiqueSectionsScript,cr
 export type Severity='blocker'|'major'|'minor'|'polish';
 export interface CritiqueFinding {id:string;severity:Severity;area:'motion'|'interaction'|'layout'|'visual'|'accessibility'|'runtime';title:string;evidence:string;fix:string}
 export interface RecordedAnimation {id:number;phase:string;kind:string;name:string;target:string;duration:number;delay:number;iterations:number|'infinite';easing:string;properties:string[];keyframeEasings:string[];seenAt:number;docTop:number|null;inView:boolean|null;onHovered?:boolean}
-export interface CritiqueOptions {outDir?:string;viewports?:Array<'desktop'|'mobile'>;reducedMotion?:boolean;hover?:boolean;offline?:boolean;allowedOrigins?:string[];signal?:AbortSignal}
+export interface CritiqueOptions {outDir?:string;compareWithPrevious?:boolean;viewports?:Array<'desktop'|'mobile'>;reducedMotion?:boolean;hover?:boolean;offline?:boolean;allowedOrigins?:string[];signal?:AbortSignal}
 export interface CritiqueReport {
   url:string;createdAt:string;score:number;grade:string;findings:CritiqueFinding[];
   motion:{animations:number;byPhase:Record<string,number>;easings:Record<string,number>;durations:{p10:number;median:number;p90:number}|null;properties:Record<string,number>;entranceSpanMs:number|null;entranceStartGroups:number;jsMotionMutations:number;sectionCoverage:{sections:number;withMotion:number;missing:string[]};hover:{tested:number;responsive:number;animated:number;silent:string[]};focus:{tested:number;visible:number};reducedMotion:{rule:boolean;runningLongAnimations:number;hiddenAfterScroll:number}|null;frameStats:{scrollFrames:number;over32ms:number;over50ms:number;p95Ms:number}|null;layoutShift:number;longAnimationFrames:number};
+  template:TemplateTraits|null;
+  progress:{previous:string;scoreBefore:number;fixed:string[];introduced:string[];remaining:string[]}|null;
+  craft:{framesAnalyzed:number;deadSpace:number;hollow:number;misaligned:number;collisions:number;covered:number;shrunk:number;placeholders:number;orphans:number;code:number;edge:number;controls:number}|null;
   pages:Record<string,unknown>;images:Record<string,string>;notes:string[];
 }
 
@@ -64,7 +68,7 @@ async function contactSheet(browser:Browser,frames:Array<{label:string;png:Buffe
   if(!frames.length)return;
   const page=await browser.newPage({viewport:{width:columns*(cellWidth+16)+16,height:400},deviceScaleFactor:1});
   try{
-    const cells=frames.map(frame=>`<figure><img src="data:image/jpeg;base64,${frame.png.toString('base64')}"><figcaption>${frame.label.replace(/[<&]/g,'')}</figcaption></figure>`).join('');
+    const cells=frames.map(frame=>`<figure><img src="data:image/${frame.png[0]===0x89?'png':'jpeg'};base64,${frame.png.toString('base64')}"><figcaption>${frame.label.replace(/[<&]/g,'')}</figcaption></figure>`).join('');
     await page.setContent(`<!doctype html><style>body{margin:0;padding:16px;background:#111;color:#ddd;font:13px/1.3 system-ui,sans-serif}h1{font-size:15px;margin:0 0 12px;font-weight:600}main{display:grid;grid-template-columns:repeat(${columns},${cellWidth}px);gap:16px}figure{margin:0}img{width:100%;display:block;border:1px solid #333;border-radius:4px}figcaption{padding-top:5px;color:#aaa}</style><h1>${title.replace(/[<&]/g,'')}</h1><main>${cells}</main>`);
     await page.waitForFunction(()=>[...document.images].every(image=>image.complete));
     await page.screenshot({path:file,fullPage:true,type:'png'});
@@ -94,7 +98,25 @@ const sampleVisibility=(page:Page):Promise<unknown>=>page.evaluate(critiqueVisib
 // Same-origin external scripts count too: most pages check matchMedia from a separate file.
 const reducedMotionInScripts=(page:Page)=>page.evaluate(`Promise.all([...document.scripts].filter(s => s.src && new URL(s.src).origin === location.origin).map(s => fetch(s.src).then(r => r.text()).catch(() => ''))).then(texts => texts.some(t => /prefers-reduced-motion/.test(t)))`).catch(()=>false) as Promise<boolean>;
 const setPhase=(page:Page,phase:string)=>page.evaluate(`window.__mc&&(window.__mc.phase=${JSON.stringify(phase)})`);
-const shot=async(page:Page,file?:string)=>page.screenshot({type:'jpeg',quality:72,...(file?{path:file}:{})});
+// Frames come straight from the compositor (CDP), which does not wait for fonts or a quiet page and
+// so stays reliable on busy pages and loaded machines; Playwright's screenshot is the fallback.
+const sessions=new WeakMap<Page,CDPSession>();
+async function shot(page:Page,file?:string):Promise<Buffer> {
+  let image:Buffer|null=null;
+  try{
+    let session=sessions.get(page);if(!session){session=await page.context().newCDPSession(page);sessions.set(page,session)}
+    const result=await Promise.race([session.send('Page.captureScreenshot',{format:'jpeg',quality:72}),sleep(45000).then(()=>null)]);
+    if(result)image=Buffer.from(result.data,'base64');
+  }catch{/* fall back below */}
+  image??=await page.screenshot({type:'jpeg',quality:72,timeout:60000});
+  if(file)await writeFile(file,image);
+  return image;
+}
+// Sample craft geometry and capture the frame it describes at the same scroll position.
+async function craftStop(page:Page,frames:CraftFrame[],viewport:'desktop'|'mobile',label:string,image?:Buffer):Promise<Buffer|undefined> {
+  const sample=await page.evaluate(critiqueCraftSampleScript).catch(()=>null) as CraftSample|null;
+  const png=image??await shot(page);if(sample)frames.push({viewport,label,image:png,sample});return png;
+}
 
 async function smoothScroll(page:Page,to:number,sample=false) {
   const from=await page.evaluate('scrollY') as number;const distance=to-from;const steps=Math.max(1,Math.ceil(Math.abs(distance)/120));
@@ -126,6 +148,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
   let coverage={sections:0,withMotion:0,missing:[] as string[]};let hover={tested:0,responsive:0,animated:0,silent:[] as string[]};let focus={tested:0,visible:0};
   let frameStats:CritiqueReport['motion']['frameStats']=null;let reducedHidden:Array<{selector:string;text:string}>=[];let layoutShift=0,longFrames=0;let reduced:CritiqueReport['motion']['reducedMotion']=null;
   const runtimeErrors=new Set<string>();const externalOrigins=new Set<string>();
+  const craftFrames:CraftFrame[]=[];let craft:CraftResult|null=null;let template:TemplateTraits|null=null;
   try{
     // ---------- desktop: entrance, scroll, hover, focus ----------
     if((options.viewports??['desktop','mobile']).includes('desktop')){
@@ -140,6 +163,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         }
         await page.waitForLoadState('load',{timeout:10000}).catch(()=>notes.push('Desktop load event did not fire within 10 s'));
         await sleep(600);await sampleVisibility(page);
+        await craftStop(page,craftFrames,'desktop','top (settled)');
         const sections=await page.evaluate(critiqueSectionsScript) as Array<{index:number;tag:string;id:string;cls:string;top:number;height:number}>;
         await setPhase(page,'scroll');
         const docHeight=await scrollableHeight(page,DESKTOP.height);
@@ -152,7 +176,9 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
           await smoothScroll(page,y,true);await sleep(700);
           const actual=await page.evaluate('Math.round(scrollY)') as number;if(actual===previous&&y>previous+50){notes.push(`Scrolling stalled at ${actual}px (page may hijack or lock scroll)`);break}previous=actual;
           await sampleVisibility(page);
-          scrollFrames.push({label:`scrollY ${actual}px`,png:await shot(page,path.join(outDir,'frames',`desktop-scroll-${String(actual).padStart(5,'0')}.jpg`))});
+          const sample=await page.evaluate(critiqueCraftSampleScript).catch(()=>null) as CraftSample|null;
+          const png=await shot(page,path.join(outDir,'frames',`desktop-scroll-${String(actual).padStart(5,'0')}.jpg`));
+          scrollFrames.push({label:`scrollY ${actual}px`,png});if(sample)craftFrames.push({viewport:'desktop',label:`scrollY ${actual}px`,image:png,sample});
         }
         await smoothScroll(page,docHeight,true);await sleep(700);await sampleVisibility(page);
         const sectionMotion=await page.evaluate(critiqueSectionMotionScript) as Array<{index:number;animated:number;classChanged:number}>;
@@ -161,6 +187,7 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         if(!staticDesktop.reducedMotionRule&&await reducedMotionInScripts(page))staticDesktop.reducedMotionRule=true;
         await setPhase(page,'hover');
         await page.evaluate('scrollTo(0,0)');await sleep(500);
+        template=await page.evaluate(critiqueTemplateScript).catch(()=>null) as TemplateTraits|null;
         if(options.hover!==false){
           const candidates=await page.$$('a[href],button,[role=button],input[type=submit],summary');
           const seen=new Set<string>();const crops:Array<{label:string;png:Buffer}>=[];
@@ -199,6 +226,8 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         if(deltas.length>30)frameStats={scrollFrames:deltas.length,over32ms:deltas.filter(delta=>delta>32).length,over50ms:deltas.filter(delta=>delta>50).length,p95Ms:Math.round(quantile(deltas,.95)*10)/10};
         await contactSheet(browser,entrance,4,340,path.join(outDir,'desktop-entrance.png'),`Desktop entrance timeline (1440×900) — ${target}`);images.desktopEntrance='desktop-entrance.png';
         await contactSheet(browser,scrollFrames,4,340,path.join(outDir,'desktop-scroll.png'),'Desktop scroll journey (each frame ~700 ms after a smooth wheel scroll)');images.desktopScroll='desktop-scroll.png';
+        // Large enough to judge type, spacing and finish: four frames per sheet at half size.
+        for(let start=0,sheet=1;start<scrollFrames.length&&sheet<=3;start+=4,sheet++){const file=`desktop-detail-${sheet}.png`;await contactSheet(browser,scrollFrames.slice(start,start+4),2,720,path.join(outDir,file),`Desktop detail ${sheet} (frames ${start+1}–${Math.min(scrollFrames.length,start+4)} of ${scrollFrames.length})`);images[`desktopDetail${sheet}`]=file}
         await page.screenshot({path:path.join(outDir,'desktop-full.jpg'),fullPage:true,type:'jpeg',quality:60}).catch(()=>{});images.desktopFull='desktop-full.jpg';
         for(const item of failed)runtimeErrors.add(item);for(const origin of external)externalOrigins.add(origin);
         notes.push(`Desktop journey took ${Math.round((Date.now()-started)/100)/10}s`);
@@ -209,11 +238,16 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
       const {context,page,failed}=await newPage(browser,MOBILE,options,{isMobile:true});
       try{
         await page.goto(target,{waitUntil:'load',timeout:20000});await sleep(1800);await sampleVisibility(page);
-        const frames:Array<{label:string;png:Buffer}>=[{label:'first viewport',png:await shot(page,path.join(outDir,'frames','mobile-0.jpg'))}];
+        const first=await shot(page,path.join(outDir,'frames','mobile-0.jpg'));await craftStop(page,craftFrames,'mobile','first viewport',first);
+        const frames:Array<{label:string;png:Buffer}>=[{label:'first viewport',png:first}];
         const height=await scrollableHeight(page,MOBILE.height);
         const stops=[.2,.4,.6,.8].map(fraction=>Math.round(fraction*(height-MOBILE.height)));
         for(const y of stops){await page.evaluate(`scrollTo(0,${y})`);await sleep(250);await smoothScroll(page,y+200,true);await sleep(700);await sampleVisibility(page);frames.push({label:`scrollY ≈${y+200}px`,png:await shot(page,path.join(outDir,'frames',`mobile-${y+200}.jpg`))})}
         await sampleVisibility(page);
+        // Craft sweep: settled phone screens down the whole page (the contact sheet only shows five).
+        await page.evaluate('scrollTo(0,0)');await sleep(300);
+        const sweep=Math.min(16,Math.max(1,Math.ceil((height-MOBILE.height)/MOBILE.height)));
+        for(let index=1;index<=sweep;index++){const y=Math.round(index*(height-MOBILE.height)/sweep);await smoothScroll(page,y,true);await sleep(450);await sampleVisibility(page);await craftStop(page,craftFrames,'mobile',`scrollY ${Math.round(await page.evaluate('scrollY') as number)}px`)}
         await page.evaluate('scrollTo(0, document.scrollingElement.scrollHeight)');await sleep(700);await sampleVisibility(page);
         pages.mobile=await page.evaluate(critiqueStaticScript);
         await page.evaluate('scrollTo(0,0)');await sleep(300);
@@ -233,6 +267,13 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
         const statics=await page.evaluate(critiqueStaticScript) as any;
         reducedHidden=statics.hidden??[];reduced={rule:!!(pages.desktop as any)?.reducedMotionRule||statics.reducedMotionRule||await reducedMotionInScripts(page),runningLongAnimations:running,hiddenAfterScroll:statics.hiddenCount};
       }finally{await context.close()}
+    }
+    // ---------- craft: measure the captured frames, then crop and outline what failed ----------
+    if(craftFrames.length){
+      craft=await analyzeCraft(browser,craftFrames);
+      const picks:CraftInstance[]=[...craft.collisions.slice(0,3),...craft.covered.slice(0,2),...craft.shrunk.slice(0,1),...craft.hollow.slice(0,3),...craft.deadSpace.slice(0,2),...craft.misaligned.slice(0,2),...craft.code.slice(0,1),...craft.edge.slice(0,2),...craft.controls.slice(0,1),...craft.orphans.slice(0,2)].slice(0,10);
+      const crops=await annotateCraft(browser,craftFrames,picks);
+      if(crops.length){await contactSheet(browser,crops,2,700,path.join(outDir,'craft.png'),'Finish defects (measured in the real frames; red = the element, orange = the empty band)');images.craft='craft.png'}
     }
   }finally{await browser.close();await served?.close()}
 
@@ -305,6 +346,25 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
     if(desktop.longLines.length>=2)add({id:'long-lines',severity:'polish',area:'visual',title:'Paragraph line length is too long',evidence:desktop.longLines.slice(0,3).join(', '),fix:'Cap reading measure at ~60–75 characters (max-width: 62ch).'});
     if(desktop.clipped.length)add({id:'desktop-clipped-text',severity:'minor',area:'layout',title:'Text is clipped on desktop',evidence:desktop.clipped.join(', '),fix:'Allow wrapping or enlarge the container.'});
   }
+  // finish / craft (measured in the captured frames; every instance has an annotated crop in craft.png)
+  if(craft){
+    const where=(items:CraftInstance[],limit=3)=>items.slice(0,limit).map(item=>`${item.viewport} ${item.label}: ${item.detail}`).join('; ');
+    if(craft.collisions.length)add({id:'text-collision',severity:'major',area:'layout',title:'Text overlaps other text',evidence:`${craft.collisions.length} overlapping text pair(s). ${where(craft.collisions)}.`,fix:'Something is positioned on top of copy: an absolutely placed label, a negative margin, a sticky element or a line-height too tight for a wrapped heading. Give the elements their own grid cells or flow positions, and check the phone layout where columns collapse.'});
+    if(craft.covered.length)add({id:'copy-under-sticky',severity:'major',area:'layout',title:'Copy scrolls underneath a sticky panel',evidence:`${craft.covered.length} text element(s) hidden behind a position:sticky element while in view. ${where(craft.covered)}.`,fix:'A pinned visual that sits beside the copy on desktop often stacks over it on phones. Below the breakpoint, unpin it (position:static) or give the copy its own full-height steps so it never shares the screen with the sticky panel.'});
+    if(craft.hollow.length)add({id:'hollow-containers',severity:craft.hollow.length>=3?'major':'minor',area:'layout',title:'Cards and panels are half empty',evidence:`${craft.hollow.length} box(es) with a large empty block inside. ${where(craft.hollow)}.`,fix:'A bordered or filled box promises content edge to edge. Size it to its content (drop fixed heights and min-heights, align-items:start), move the visual into the empty area, span it across columns, or fill a device mockup screen with a complete UI state. In a row of cards, pin each card\'s action to the bottom with flex so the heights read as deliberate.'});
+    const blankScreens=craft.deadSpace.length;const worstBlank=Math.max(0,...craft.deadSpace.map(item=>item.fraction));
+    if(blankScreens)add({id:'dead-space',severity:blankScreens>=3||worstBlank>=.7?'major':'minor',area:'layout',title:'Screens with large empty areas',evidence:`${blankScreens} captured screen(s) where over half the height has nothing drawn. ${where(craft.deadSpace)}.`,fix:'Generous space frames content; an empty half-screen reads as a loading failure. Reduce section padding (clamp(64px, 10vh, 140px) is plenty), shorten tall scroll scenes (each 100vh of pin needs something changing on screen), and check for reveals that start too late or content pushed down by min-height:100vh.'});
+    if(craft.misaligned.length)add({id:'near-miss-alignment',severity:'minor',area:'layout',title:'Items almost line up',evidence:`${craft.misaligned.length} stack(s) with an item a few pixels off its siblings. ${where(craft.misaligned)}.`,fix:'Near-misses look like mistakes. Put siblings on one edge: remove one-off margins and padding, and do not shift an active or hovered item sideways with translateX; mark it with colour, weight or an indicator instead.'});
+    const spaced=craft.code.filter(item=>!item.detail.includes('cut off')),cut=craft.code.filter(item=>item.detail.includes('cut off'));
+    if(spaced.length)add({id:'double-spaced-code',severity:'minor',area:'visual',title:'Code samples are double-spaced',evidence:where(spaced),fix:'Each line is followed by a blank line, usually because lines are wrapped in block elements inside a <pre> that also keeps the newline characters. Use either newlines in the <pre> or one block per line (display:block, no newlines), and set line-height 1.6–1.7.'});
+    if(cut.length)add({id:'clipped-code',severity:'minor',area:'layout',title:'Code is cut off at the panel edge',evidence:where(cut),fix:'Let long lines scroll (overflow-x:auto with a visible fade) or wrap them, and size the sample so its longest line fits; on phones, shorten the sample.'});
+    if(craft.shrunk.length)add({id:'shrunken-text',severity:'major',area:'visual',title:'Text is drawn at a fraction of its size',evidence:`${craft.shrunk.length} element(s) whose glyphs are less than half their font size: ${where(craft.shrunk)}.`,fix:'A scale transform never finished, usually a count-up or reveal that scales from 0. Reveal with opacity and a short translate instead, or make sure the final state is scale(1) even when the trigger never fires.'});
+    if(craft.placeholders.length)add({id:'placeholder-content',severity:'polish',area:'visual',title:'Placeholder text is visible',evidence:where(craft.placeholders),fix:'Replace placeholder copy, .example addresses and zeroed phone numbers with plausible content (labelled illustrative where needed), or remove the line.'});
+    if(craft.edge.length>=2)add({id:'edge-crowding',severity:'minor',area:'layout',title:'Copy touches the screen edge',evidence:`${craft.edge.length} text element(s) closer than 14–16px to the edge. ${where(craft.edge)}.`,fix:'Give every section the same side gutter (clamp(20px, 5vw, 64px)) and check elements that escape it: full-width rows, negative margins, absolutely positioned labels.'});
+    if(craft.controls.length)add({id:'mismatched-buttons',severity:'polish',area:'visual',title:'Buttons in one row differ in height',evidence:where(craft.controls),fix:'Buttons side by side should share a height: use one padding and line-height token for primary and secondary buttons, and keep border widths equal (a transparent border on the filled one).'});
+    if(craft.orphans.length)add({id:'orphan-headings',severity:'polish',area:'visual',title:'Headings end on a single word',evidence:where(craft.orphans),fix:'Add `text-wrap: balance` to headings (and `text-wrap: pretty` to paragraphs), or adjust max-width so the last line carries at least two words.'});
+  }
+  if(template&&template.count>=5)add({id:'default-template',severity:template.count>=7?'minor':'polish',area:'visual',title:'The page looks like the default AI-built template',evidence:`It shares ${template.count} of ${template.of} traits of the landing page coding agents build by default: ${template.traits.join(', ')}.`,fix:'Unless the brief asks for these, change at least four: a display face chosen for this subject, a ground and accent taken from its world, a hero built around one dominant element instead of headline-left/object-right, square or cut button shapes, and sections laid out from their content rather than eyebrow, marquee and bento. A page can earn every trait; it should not get them by default.'});
   const errors=[...runtimeErrors].filter(error=>!/favicon/.test(error));
   if(errors.length)add({id:'runtime-errors',severity:errors.some(error=>error.startsWith('pageerror'))?'major':'minor',area:'runtime',title:'The page logs errors',evidence:errors.slice(0,4).join(' | '),fix:'Fix script errors first — a thrown error often stops the animation code that follows it.'});
   if(externalOrigins.size)notes.push(`External origins requested: ${[...externalOrigins].join(', ')}${options.offline?' (blocked by --offline)':' (passive font/style/script/image GETs allowed; anything else blocked)'}`);
@@ -315,15 +375,40 @@ export async function critique(rawTarget:string,options:CritiqueOptions={}):Prom
   const order:Severity[]=['blocker','major','minor','polish'];findings.sort((a,b)=>order.indexOf(a.severity)-order.indexOf(b.severity));
   const report:CritiqueReport={url:served?rawTarget:target,createdAt:new Date().toISOString(),score,grade,findings,
     motion:{animations:animations.length,byPhase,easings,durations:durations.length?{p10:Math.round(quantile(durations,.1)),median:Math.round(quantile(durations,.5)),p90:Math.round(quantile(durations,.9))}:null,properties,entranceSpanMs:entranceSpan===null?null:Math.round(entranceSpan),entranceStartGroups:starts.length,jsMotionMutations:jsMotion,sectionCoverage:coverage,hover,focus,reducedMotion:reduced,frameStats,layoutShift:Math.round(layoutShift*1000)/1000,longAnimationFrames:longFrames},
+    template,progress:null,
+    craft:craft?{framesAnalyzed:craft.framesAnalyzed,deadSpace:craft.deadSpace.length,hollow:craft.hollow.length,misaligned:craft.misaligned.length,collisions:craft.collisions.length,covered:craft.covered.length,shrunk:craft.shrunk.length,placeholders:craft.placeholders.length,orphans:craft.orphans.length,code:craft.code.length,edge:craft.edge.length,controls:craft.controls.length}:null,
     pages,images,notes};
-  await writeFile(path.join(outDir,'report.json'),JSON.stringify({...report,animations:animations.slice(0,400)},null,2));
+  if(options.compareWithPrevious!==false)report.progress=await previousProgress(outDir,report);
+  await writeFile(path.join(outDir,'report.json'),JSON.stringify({...report,animations:animations.slice(0,400),craftInstances:craft},null,2));
   await writeFile(path.join(outDir,'report.md'),critiqueMarkdown(report,outDir));
   return {...report,images:Object.fromEntries(Object.entries(images).map(([key,file])=>[key,path.join(outDir,file)]))};
 }
 
+// Agents iterate: compare with the newest earlier report for the same target in the same parent folder.
+async function previousProgress(outDir:string,report:CritiqueReport):Promise<CritiqueReport['progress']> {
+  const parent=path.dirname(outDir);let best:{dir:string;data:any}|null=null;
+  for(const name of await readdir(parent).catch(()=>[] as string[])){
+    const dir=path.join(parent,name);if(dir===outDir)continue;
+    const data=await readFile(path.join(dir,'report.json'),'utf8').then(JSON.parse).catch(()=>null);
+    if(!data||data.url!==report.url||!(data.createdAt<report.createdAt))continue;
+    if(!best||data.createdAt>best.data.createdAt)best={dir,data};
+  }
+  if(!best)return null;
+  const before=new Map<string,string>((best.data.findings??[]).map((finding:CritiqueFinding)=>[finding.id,finding.title]));const now=new Set(report.findings.map(finding=>finding.id));
+  return {previous:best.dir,scoreBefore:best.data.score,fixed:[...before].filter(([id])=>!now.has(id)).map(([,title])=>title),introduced:report.findings.filter(finding=>!before.has(finding.id)).map(finding=>finding.title),remaining:report.findings.filter(finding=>before.has(finding.id)).map(finding=>finding.id)};
+}
+
+const imageGuide:Record<string,string>={craft:'finish defects outlined on the real frames — fix these first',desktopEntrance:'the first viewport from ~80 ms to 3 s',desktopScroll:'the whole scroll journey at a glance (rhythm, variety, blank screens)',hover:'each control at rest and on hover',mobile:'the phone layout',desktopFull:'one full-page screenshot (scroll scenes appear in their final state)'};
+const imageOrder=['craft','desktopEntrance','desktopScroll','desktopDetail1','desktopDetail2','desktopDetail3','mobile','hover','desktopFull'];
+function imageList(images:Record<string,string>,outDir:string):string[] {
+  const keys=Object.keys(images).sort((a,b)=>(imageOrder.indexOf(a)+1||99)-(imageOrder.indexOf(b)+1||99));
+  return keys.map(key=>`- ${key}: ${path.isAbsolute(images[key])?images[key]:path.join(outDir,images[key])}${imageGuide[key]?` — ${imageGuide[key]}`:key.startsWith('desktopDetail')?' — scroll frames at a size where type, spacing and alignment are readable':''}`);
+}
+
 export function critiqueMarkdown(report:CritiqueReport,outDir:string):string {
   const m=report.motion;const lines=[`# Motion critique — ${report.grade} (${report.score}/100)`,'',`Target: ${report.url}`,'',
-    '## Look at the page first','',...Object.entries(report.images).map(([key,file])=>`- ${key}: ${path.isAbsolute(file)?file:path.join(outDir,file)}`),'','Open these images. The score is a lint for common defects, not a taste judgment: a page can pass every check and still look generic. Judge the frames like a design director would — hierarchy, rhythm, restraint, and whether the motion explains something.','',
+    ...(report.progress?['## Since the last critique','',`Score ${report.progress.scoreBefore} → ${report.score}. Fixed: ${report.progress.fixed.join('; ')||'nothing'}. New: ${report.progress.introduced.join('; ')||'nothing'}. Still open: ${report.progress.remaining.length}.`,'']:[]),
+    '## Look at the page first','',...imageList(report.images,outDir),'','Open these images. The score is a lint for common defects, not a taste judgment: a page can pass every check and still look generic. Judge the frames like a design director would — hierarchy, rhythm, restraint, finish, and whether the motion explains something.','',
     '## Findings',''];
   if(!report.findings.length)lines.push('No lint findings. Now raise the craft: review the contact sheets against the premium-motion checklist.','');
   for(const finding of report.findings)lines.push(`### [${finding.severity}] ${finding.title}`,`- Evidence: ${finding.evidence}`,`- Fix: ${finding.fix}`,'');
@@ -332,6 +417,8 @@ export function critiqueMarkdown(report:CritiqueReport,outDir:string):string {
     `- Entrance: ${m.entranceSpanMs===null?'none':`${m.entranceSpanMs} ms span, ${m.entranceStartGroups} distinct start times`}`,`- Sections with motion on scroll: ${m.sectionCoverage.withMotion}/${m.sectionCoverage.sections}`,
     `- Hover: ${m.hover.responsive}/${m.hover.tested} controls respond, ${m.hover.animated} animate · Focus visible: ${m.focus.visible}/${m.focus.tested}`,
     `- Reduced motion: ${m.reducedMotion?`${m.reducedMotion.rule?'handled':'not handled'}; ${m.reducedMotion.runningLongAnimations} moving animations still running`:'not tested'}`,
+    ...(report.template?[`- Template likeness: ${report.template.count}/${report.template.of} default-agent traits${report.template.traits.length?` (${report.template.traits.join(', ')})`:''}`]:[]),
+    ...(report.craft?[`- Finish checks: ${report.craft.framesAnalyzed} settled screens measured; ${report.craft.deadSpace} mostly-empty screens, ${report.craft.hollow} hollow boxes, ${report.craft.collisions} text overlaps, ${report.craft.misaligned} near-miss alignments, ${report.craft.edge} edge-crowded texts`]:[]),
     `- Scroll frames: ${m.frameStats?`${m.frameStats.over50ms}/${m.frameStats.scrollFrames} over 50 ms, p95 ${m.frameStats.p95Ms} ms (headless; indicative)`:'n/a'} · CLS ${m.layoutShift}`,'');
   if(report.notes.length)lines.push('## Notes','',...report.notes.map(note=>`- ${note}`),'');
   return lines.join('\n');

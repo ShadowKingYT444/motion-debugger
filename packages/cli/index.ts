@@ -7,7 +7,7 @@ import {exampleRecipes,type ExampleScenario} from '../../src/examples/recipes';
 import {optionsFromEnvironment} from '../mcp/server';
 import {clients,configText,init,installSkillsOnly,metadata,type Client,type InitOptions} from './config';
 import {doctor,installBrowser} from './browser';
-import {shouldUseInitWizard,prepareInitWizard} from './wizard';
+import {shouldUseInitWizard,prepareInitWizard,detectClient} from './wizard';
 
 const help=`Motion Debugger ${metadata.version} — temporal evidence for coding agents
 
@@ -41,7 +41,7 @@ Environment: MOTION_ARTIFACT_DIR, MOTION_ALLOWED_ORIGINS, MOTION_SOURCE_ROOTS, C
 const [command,...args]=process.argv.slice(2);
 export function agentsMarkdown(skillsDir?:string) {
   const skill=skillsDir?`\`${skillsDir.replace(/\/$/,'')}/premium-motion/SKILL.md\``:'the premium-motion skill (installed with `motion-debugger skills install`, or bundled in the motion-debugger package under plugin/motion-debugger/skills/premium-motion)';
-  return `## Motion Debugger\n\nFor any web page, UI or animation work in this project, read and follow ${skill} before writing code, and review the rendered result with \`motion-debugger critique <folder-or-local-url>\` (or the \`motion_critique\` MCP tool). Open the contact-sheet images it writes, fix what they show, and critique again before you finish.\n`;
+  return `## Motion Debugger\n\nFor any web page, UI or animation work in this project, read and follow ${skill} before writing code, and review the rendered result with \`motion-debugger critique <folder-or-local-url>\` (or the \`motion_critique\` MCP tool). Open the images it writes (craft.png first), fix what they show, and critique again before you finish.\n`;
 }
 function configOptions(input:string[]):InitOptions {
   const options:InitOptions={client:'generic'};
@@ -65,7 +65,7 @@ try {
     if(shouldUseInitWizard(args,!!process.stdin.isTTY&&!!process.stdout.isTTY)) {
       const input=createInterface({input:process.stdin,output:process.stdout});
       let downloadBrowser=false;
-      try {const plan=await prepareInitWizard(options,question=>input.question(question));options=plan.options;downloadBrowser=plan.downloadBrowser}finally{input.close()}
+      try {const plan=await prepareInitWizard(options,question=>input.question(question),await detectClient(options.project??process.cwd()));options=plan.options;downloadBrowser=plan.downloadBrowser}finally{input.close()}
       if(downloadBrowser)await installBrowser();
       else console.error('Browser download skipped. Run motion-debugger doctor before capturing; motion-debugger setup --browser installs Chromium explicitly');
     }

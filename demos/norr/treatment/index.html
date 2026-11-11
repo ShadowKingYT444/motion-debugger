@@ -3,429 +3,651 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atelier Norr — Timber architecture</title>
-<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes. Philosophy, selected projects, process, awards and contact.">
-<meta name="theme-color" content="#EFEAE0">
-<script>document.documentElement.classList.add('mk-js')</script>
+<title>Atelier Norr — Timber architects, Umeå</title>
+<meta name="description" content="Atelier Norr designs timber civic buildings and homes in the north. Studio philosophy, selected projects, process, awards and contact.">
+<meta name="theme-color" content="#8c2a1d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%238c2a1d'/%3E%3Cpath d='M8 25V7M24 25V7M8 7L24 25' stroke='%23f1eadc' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('mk-js')</script>
 <link rel="stylesheet" href="motion-kit.css">
 <link rel="stylesheet" href="styles.css">
-<!-- main.js first: it builds generated SVG (rings, boards) before the kit measures and wires everything -->
-<script src="main.js" defer></script>
-<script src="motion-kit.js" defer></script>
+<script>
+/* Start the motion kit once Archivo is ready (or after 1.6 s), so type never swaps mid-animation. */
+(function () {
+  var d = document, r = d.documentElement, done = false;
+  function go() {
+    if (done) return; done = true; clearTimeout(t);
+    var s = d.createElement('script'); s.src = 'motion-kit.js';
+    s.onerror = function () { r.classList.remove('mk-js'); };
+    d.head.appendChild(s);
+    r.classList.add('mk-ready');
+    window.dispatchEvent(new Event('norr:ready'));
+  }
+  var t = setTimeout(go, 1600);
+  if (d.fonts && d.fonts.load) Promise.all([d.fonts.load('500 40px Archivo'), d.fonts.load('400 16px Archivo'), d.fonts.load('600 12px Archivo')]).then(go, go); else go();
+})();
+</script>
+<script src="app.js" defer></script>
 </head>
-<body id="top">
+<body>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- shared SVG resources (landscape, pine, grain) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="land" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice">
-      <rect x="-50" y="-50" width="600" height="600" style="fill:var(--sky)"/>
-      <circle cx="372" cy="128" r="36" fill="#FFF5E1" opacity=".85"/>
-      <path d="M-50 330 C 40 282 150 306 240 272 S 420 292 560 246 V560 H-50Z" style="fill:var(--far)"/>
-      <path d="M-50 384 C 90 338 210 372 320 340 S 470 352 560 336 V560 H-50Z" style="fill:var(--near)"/>
-      <rect x="-50" y="424" width="600" height="140" style="fill:var(--ground)"/>
-    </symbol>
-    <symbol id="pine" viewBox="0 0 20 40"><polygon points="10,0 19,20 14,20 20,33 11,33 11,40 9,40 9,33 0,33 6,20 1,20"/></symbol>
-    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
-    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
-  </defs>
-</svg>
-
-<header class="nav" data-nav>
-  <a class="brand" href="#top" aria-label="Atelier Norr, back to top">
-    <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="16" cy="16.4" rx="14" ry="13.2"/><ellipse cx="16" cy="16.4" rx="9.6" ry="9"/><ellipse cx="16" cy="16.4" rx="5.2" ry="4.8"/></g><circle cx="16" cy="16.4" r="1.4" fill="currentColor"/></svg>
-    <span>Atelier Norr</span>
-  </a>
-  <nav class="nav-links" aria-label="Primary">
-    <a class="mk-link" href="#philosophy">Philosophy</a>
-    <a class="mk-link" href="#anatomy">Anatomy</a>
-    <a class="mk-link" href="#projects">Projects</a>
-    <a class="mk-link" href="#process">Process</a>
-    <a class="mk-link" href="#awards">Awards</a>
-  </nav>
-  <a class="pill" href="#contact"><span>Contact</span><i class="arr" aria-hidden="true">→</i></a>
-  <span class="nav-progress" aria-hidden="true"></span>
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Atelier Norr, back to top">
+      <svg class="brand-mark" viewBox="0 0 28 28" width="28" height="28" aria-hidden="true"><path d="M5 25V3M23 25V3M5 3L23 25" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/><circle cx="5" cy="3" r="2" style="fill:var(--page-bg)" stroke="currentColor" stroke-width="1.6"/><circle cx="23" cy="25" r="2" style="fill:var(--page-bg)" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span class="brand-name">Atelier Norr</span>
+    </a>
+    <nav class="nav-links" id="menu" aria-label="Primary">
+      <a class="mk-link" href="#studio">Studio</a>
+      <a class="mk-link" href="#projects">Projects</a>
+      <a class="mk-link" href="#process">Process</a>
+      <a class="mk-link" href="#awards">Awards</a>
+      <a class="btn btn-ghost mk-button mk-wipe nav-cta" href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="nav-toggle-label">Menu</span><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+  </div>
 </header>
 
-<main>
-<!-- ============ HERO ============ -->
-<section class="hero" data-bg="#EFEAE0" data-ink="#1B1814" aria-labelledby="hero-title">
-  <div class="hero-inner wrap" data-exit>
-    <div class="hero-copy">
-      <p class="eyebrow" data-reveal="up" data-delay="60"><span class="dot"></span>Timber architecture · Trondheim &amp; Oslo</p>
-      <h1 id="hero-title" class="hero-title">
-        <span class="ln" style="--i:0"><span>Quiet buildings</span></span>
-        <span class="ln" style="--i:1"><span>from living</span></span>
-        <span class="ln" style="--i:2"><span><em>timber.</em></span></span>
-      </h1>
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top" data-theme="falu" aria-labelledby="hero-title">
+  <div class="hero-inner" data-exit>
+    <div class="wrap hero-head">
+      <h1 id="hero-title" data-split="words">Timber halls and homes,<br> raised in the north.</h1>
     </div>
-
-    <figure class="hero-window" data-reveal="clip" data-delay="260">
-      <div class="gable" data-parallax="0.06">
-        <canvas id="rings" aria-hidden="true"></canvas>
-        <div class="gable-grain" aria-hidden="true"></div>
-      </div>
-      <svg class="gable-line" viewBox="0 0 100 132" preserveAspectRatio="none" aria-hidden="true" data-draw data-delay="900"><polyline points="0,132 0,21 50,0 100,21 100,132" vector-effect="non-scaling-stroke"/></svg>
-      <figcaption>Fig. 01 — Larch, end grain, 1 : 1</figcaption>
-    </figure>
-
-    <div class="hero-foot">
-      <p class="lede" data-reveal="up" data-delay="620">Atelier Norr designs timber civic buildings and homes across the North — structures made to stand for a century, and to look better for every winter they survive.</p>
-      <div class="cta-row" data-stagger="90" data-delay="760">
-        <span class="mag" data-magnetic="0.22"><a class="btn" href="#projects"><span class="btn-label">Selected projects</span><i class="arr" aria-hidden="true">↓</i></a></span>
-        <a class="mk-link text-link" href="#philosophy">Our philosophy</a>
-      </div>
-      <dl class="meta" data-stagger="80" data-delay="900">
-        <div><dt>Founded</dt><dd>2009</dd></div>
-        <div><dt>Built works</dt><dd>31</dd></div>
-        <div><dt>Structure</dt><dd>100% timber</dd></div>
-      </dl>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MARQUEE ============ -->
-<section class="marquee-sec" data-bg="#EFEAE0" aria-label="Studio themes">
-  <div class="mk-marquee-wrap">
-    <div data-marquee style="--marquee-duration:55s; --marquee-gap:3.2rem">
-      <span class="mq">Timber</span><i class="mq-ring" aria-hidden="true"></i>
-      <span class="mq out">Light</span><i class="mq-ring" aria-hidden="true"></i>
-      <span class="mq">Stillness</span><i class="mq-ring" aria-hidden="true"></i>
-      <span class="mq out">Shelter</span><i class="mq-ring" aria-hidden="true"></i>
-      <span class="mq">Craft</span><i class="mq-ring" aria-hidden="true"></i>
-      <span class="mq out">The North</span><i class="mq-ring" aria-hidden="true"></i>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 01 PHILOSOPHY ============ -->
-<section id="philosophy" class="sec philosophy" data-bg="#121812" data-ink="#EDE7DA" data-progress>
-  <svg class="rings-art" id="ringsArt" viewBox="0 0 600 600" data-draw="scrub" aria-hidden="true"></svg>
-  <div class="wrap">
-    <p class="eyebrow" data-reveal="up"><span class="dot"></span>01 — Studio philosophy</p>
-    <p class="manifesto" data-read>We believe a building should be the slowest thing in its landscape. We draw in timber because it remembers: every ring a winter survived, every joint a conversation between carpenter and architect. We design for the hundred years after the ribbon is cut.</p>
-
-    <div class="principles" data-stagger="120">
-      <article class="principle">
-        <span class="p-num">i.</span>
-        <h3>Grown, not extracted</h3>
-        <p>Our frames are glulam from managed Nordic forest, felled within 200 km of the site. Every building stores more carbon than it took to make.</p>
-      </article>
-      <article class="principle">
-        <span class="p-num">ii.</span>
-        <h3>Honest joints</h3>
-        <p>Structure is the architecture. We leave the frame visible, cut the connections by hand-checked CNC, and never hide a bolt behind plasterboard.</p>
-      </article>
-      <article class="principle">
-        <span class="p-num">iii.</span>
-        <h3>Built for the long dark</h3>
-        <p>Low winter sun, deep snow, short days. We shape every room around the light that is there, not the light we wish we had.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 02 ANATOMY (signature: pinned assembly) ============ -->
-<section id="anatomy" class="anatomy" data-bg="#E4DBC8" data-ink="#1B1814" data-progress aria-labelledby="anatomy-title">
-  <div class="stage">
-    <div class="stage-copy wrap-pad">
-      <p class="eyebrow"><span class="dot"></span>02 — Anatomy of a hall</p>
-      <h2 id="anatomy-title" class="h2">The frame <em>is</em> the building.</h2>
-      <div class="steps" id="steps">
-        <article class="step is-active" data-step="0">
-          <span class="step-no">01 / 04</span>
-          <h3>Plinth</h3>
-          <p>Granite footings lift the timber 300 mm off the ground. Dry feet are the whole secret to a five-hundred-year frame.</p>
-        </article>
-        <article class="step" data-step="1">
-          <span class="step-no">02 / 04</span>
-          <h3>Frame</h3>
-          <p>Glulam columns, a tie beam and paired rafters, raised in four days. Each joint is cut to a tolerance of a millimetre in our partner mill.</p>
-        </article>
-        <article class="step" data-step="2">
-          <span class="step-no">03 / 04</span>
-          <h3>Skin</h3>
-          <p>Open-spaced larch boards left to silver. The frame still reads through the rainscreen; the weather does the finishing.</p>
-        </article>
-        <article class="step" data-step="3">
-          <span class="step-no">04 / 04</span>
-          <h3>Light</h3>
-          <p>One wall of glass turns to the low southern sun. The hall holds its heat, and the timber glows from the inside.</p>
-        </article>
-      </div>
-      <ol class="rail" aria-hidden="true"><li>Plinth</li><li>Frame</li><li>Skin</li><li>Light</li></ol>
-    </div>
-
-    <div class="stage-art">
-      <svg class="hall" viewBox="0 0 800 560" role="img" aria-label="Section drawing of a timber hall assembling in four stages: plinth, glulam frame, larch skin and glazing.">
+    <div class="hero-drawing">
+      <svg class="draw hero-svg" viewBox="-304 20 1920 360" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Front elevation of a timber town hall with two wings and a bell tower, drawn at 1:200">
+        <title>Tallvik Town Hall, front elevation, 1:200</title>
         <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-width=".6" opacity=".16"/></pattern>
-          <radialGradient id="warm" cx="50%" cy="62%" r="55%"><stop offset="0" stop-color="#FFC77F" stop-opacity=".95"/><stop offset=".6" stop-color="#F0A25A" stop-opacity=".35"/><stop offset="1" stop-color="#F0A25A" stop-opacity="0"/></radialGradient>
-        </defs>
-        <rect width="800" height="560" fill="url(#grid)"/>
-
-        <!-- ground -->
-        <g class="part draw" style="--a:0;--b:.1"><line x1="40" y1="470" x2="760" y2="470" pathLength="1" class="ln-ground"/></g>
-        <g class="part fade" style="--a:.03;--b:.12"><path class="hatch" d="M64 470l-12 12M104 470l-12 12M144 470l-12 12M184 470l-12 12M224 470l-12 12M264 470l-12 12M304 470l-12 12M344 470l-12 12M384 470l-12 12M424 470l-12 12M464 470l-12 12M504 470l-12 12M544 470l-12 12M584 470l-12 12M624 470l-12 12M664 470l-12 12M704 470l-12 12M744 470l-12 12"/></g>
-
-        <!-- plinths -->
-        <g class="part rise stone" style="--a:.06;--b:.2">
-          <rect x="128" y="452" width="26" height="18"/><rect x="258" y="452" width="26" height="18"/><rect x="388" y="452" width="26" height="18"/><rect x="518" y="452" width="26" height="18"/><rect x="648" y="452" width="26" height="18"/>
-        </g>
-        <g class="part fade note" style="--a:.12;--b:.22"><text x="24" y="508">PLINTH</text><text x="24" y="522">GRANITE</text><path d="M76 502l50-40" class="leader"/></g>
-
-        <!-- columns -->
-        <g class="timber">
-          <rect class="part rise" style="--a:.2;--b:.32" x="133" y="290" width="16" height="162"/>
-          <rect class="part rise" style="--a:.24;--b:.36" x="263" y="220" width="16" height="232"/>
-          <rect class="part rise" style="--a:.28;--b:.4" x="393" y="150" width="16" height="302"/>
-          <rect class="part rise" style="--a:.32;--b:.44" x="523" y="220" width="16" height="232"/>
-          <rect class="part rise" style="--a:.36;--b:.48" x="653" y="290" width="16" height="162"/>
-        </g>
-        <g class="part fade note" style="--a:.38;--b:.46"><text x="688" y="372">GLULAM</text><text x="688" y="388">140 × 560</text><path d="M668 380h16" class="leader"/></g>
-
-        <!-- tie beam -->
-        <g class="part draw beam" style="--a:.48;--b:.57"><line x1="133" y1="290" x2="669" y2="290" pathLength="1" stroke-width="14"/></g>
-        <!-- rafters -->
-        <g class="part draw beam" style="--a:.54;--b:.66"><line x1="133" y1="290" x2="401" y2="146" pathLength="1" stroke-width="12"/></g>
-        <g class="part draw beam" style="--a:.56;--b:.68"><line x1="669" y1="290" x2="401" y2="146" pathLength="1" stroke-width="12"/></g>
-        <!-- braces -->
-        <g class="part draw brace" style="--a:.64;--b:.72"><line x1="401" y1="214" x2="335" y2="290" pathLength="1"/><line x1="401" y1="214" x2="467" y2="290" pathLength="1"/><line x1="271" y1="290" x2="331" y2="236" pathLength="1"/><line x1="531" y1="290" x2="471" y2="236" pathLength="1"/></g>
-        <!-- roof boards -->
-        <g class="part draw roofline" style="--a:.68;--b:.78"><line x1="124" y1="282" x2="401" y2="132" pathLength="1"/><line x1="678" y1="282" x2="401" y2="132" pathLength="1"/></g>
-        <g class="part fade note" style="--a:.7;--b:.78"><text x="470" y="108">RIDGE +7.4 m</text><path d="M401 132l60-20" class="leader"/></g>
-
-        <!-- cladding (generated) -->
-        <g class="boards" id="boards"></g>
-        <g class="part fade note" style="--a:.8;--b:.9"><text x="24" y="340">LARCH,</text><text x="24" y="354">OPEN-SPACED</text><path d="M100 360l44 24" class="leader" fill="none"/></g>
-
-        <!-- glazing -->
-        <g class="part glass" style="--a:.84;--b:.94">
-          <rect x="296" y="318" width="208" height="124"/>
-          <path d="M348 318v124M400 318v124M452 318v124M296 380h208" class="mullion"/>
-          <path d="M312 432l56-100M380 432l76-114" class="sheen"/>
-        </g>
-        <!-- warm interior light -->
-        <ellipse class="part glow" style="--a:.9;--b:1" cx="400" cy="400" rx="260" ry="170" fill="url(#warm)"/>
-        <g class="part fade note" style="--a:.92;--b:1"><text x="540" y="512" class="note-strong">SOUTH GLAZING</text><path d="M560 502L500 436" class="leader"/></g>
-
-        <!-- dimensions -->
-        <g class="part draw dim" style="--a:.1;--b:.3"><line x1="141" y1="526" x2="661" y2="526" pathLength="1"/><path d="M141 518v16M661 518v16" /></g>
-        <g class="part fade note" style="--a:.26;--b:.36"><text x="366" y="548">SPAN 18.0 m</text></g>
+    <pattern id="h-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".38"/></pattern>
+    <pattern id="h-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+    <pattern id="h-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  </defs>
+<g class="sun">
+    <path class="arc" d="M60 336Q656 -236 1252 336"/><path class="arc" d="M250 336Q656 170 1062 336"/>
+    <g class="sun-dot"><circle r="26" class="halo"/><circle r="8" class="disc"/>
+      <animateMotion dur="70s" begin="-9s" repeatCount="indefinite" path="M60 336Q656 -236 1252 336"/></g>
+  </g>
+<path class="dr t far" pathLength="1" style="--gd:60ms" d="M-330 236L-281.7 252.6L-210.9 253.5L-174 249.1L-118.3 199.3L-80.2 257L12.2 228.9L73.3 230L143.6 244.2L224.4 221.9L286.8 248.8L342.6 225.9L382.1 242.4L466.2 218.2L510.9 256.9L552.2 224.2L613.6 202.7L654.4 234.5L734.8 201.2L805.1 253.4L855.1 232.6L910.2 215.4L975 240.1L1027.6 205.8L1114 234.8L1170.8 257.8L1233.9 207L1283.1 253.1L1352.4 226.6L1396.9 222.9L1441.6 196.1L1517.1 243.1L1559.7 229.7L1638.3 250.7L1694.5 221.2"/>
+<path class="dr t" pathLength="1" style="--gd:362ms" d="M-300 218L-294.5 225.3L-287.7 238.8L-293.2 246L-284.9 259.5L-291.9 266.8L-282.1 280.3L-290.7 287.6L-279.2 301.1L-289.4 308.3L-276.4 321.8L-296.2 321.8L-296.2 336L-303.8 336L-303.8 321.8L-323.6 321.8L-310.6 308.3L-320.8 301.1L-309.3 287.6L-317.9 280.3L-308.1 266.8L-315.1 259.5L-306.8 246L-312.3 238.8L-305.5 225.3Z"/>
+<path class="dr t" pathLength="1" style="--gd:340ms" d="M-262 240L-257.5 245.9L-252 256.9L-256.5 262.8L-249.7 273.8L-255.4 279.7L-247.4 290.7L-254.4 296.6L-245.1 307.6L-253.4 313.5L-242.8 324.5L-258.9 324.5L-258.9 336L-265.1 336L-265.1 324.5L-281.2 324.5L-270.6 313.5L-278.9 307.6L-269.6 296.6L-276.6 290.7L-268.6 279.7L-274.3 273.8L-267.5 262.8L-272 256.9L-266.5 245.9Z"/>
+<path class="dr t" pathLength="1" style="--gd:318ms" d="M-214 196L-207.4 204.6L-199.4 220.6L-205.9 229.3L-196.1 245.3L-204.4 253.9L-192.7 269.9L-202.9 278.5L-189.4 294.6L-201.4 303.2L-186 319.2L-209.5 319.2L-209.5 336L-218.5 336L-218.5 319.2L-242 319.2L-226.6 303.2L-238.6 294.6L-225.1 278.5L-235.3 269.9L-223.6 253.9L-231.9 245.3L-222.1 229.3L-228.6 220.6L-220.6 204.6Z"/>
+<path class="dr t" pathLength="1" style="--gd:296ms" d="M-170 232L-165.1 238.4L-159.2 250.3L-164 256.7L-156.7 268.6L-162.9 275L-154.2 286.9L-161.8 293.3L-151.7 305.2L-160.6 311.6L-149.2 323.5L-166.7 323.5L-166.7 336L-173.3 336L-173.3 323.5L-190.8 323.5L-179.4 311.6L-188.3 305.2L-178.2 293.3L-185.8 286.9L-177.1 275L-183.3 268.6L-176 256.7L-180.8 250.3L-174.9 238.4Z"/>
+<path class="dr t" pathLength="1" style="--gd:274ms" d="M-128 208L-122 215.9L-114.7 230.5L-120.6 238.4L-111.6 253.1L-119.2 260.9L-108.5 275.6L-117.9 283.5L-105.5 298.1L-116.5 306L-102.4 320.6L-123.9 320.6L-123.9 336L-132.1 336L-132.1 320.6L-153.6 320.6L-139.5 306L-150.5 298.1L-138.1 283.5L-147.5 275.6L-136.8 260.9L-144.4 253.1L-135.4 238.4L-141.3 230.5L-134 215.9Z"/>
+<path class="dr t" pathLength="1" style="--gd:252ms" d="M-84 244L-79.7 249.7L-74.4 260.2L-78.7 265.9L-72.2 276.4L-77.7 282.1L-70 292.6L-76.7 298.2L-67.8 308.8L-75.7 314.4L-65.6 325L-81.1 325L-81.1 336L-86.9 336L-86.9 325L-102.4 325L-92.3 314.4L-100.2 308.8L-91.3 298.2L-98 292.6L-90.3 282.1L-95.8 276.4L-89.3 265.9L-93.6 260.2L-88.3 249.7Z"/>
+<path class="dr t" pathLength="1" style="--gd:230ms" d="M-40 218L-34.5 225.3L-27.7 238.8L-33.2 246L-24.9 259.5L-31.9 266.8L-22.1 280.3L-30.7 287.6L-19.2 301.1L-29.4 308.3L-16.4 321.8L-36.2 321.8L-36.2 336L-43.8 336L-43.8 321.8L-63.6 321.8L-50.6 308.3L-60.8 301.1L-49.3 287.6L-57.9 280.3L-48.1 266.8L-55.1 259.5L-46.8 246L-52.3 238.8L-45.5 225.3Z"/>
+<path class="dr t" pathLength="1" style="--gd:208ms" d="M14 252L17.9 257.2L22.7 266.8L18.8 272L24.8 281.6L19.7 286.7L26.8 296.4L20.7 301.5L28.8 311.1L21.6 316.3L30.8 325.9L16.7 325.9L16.7 336L11.3 336L11.3 325.9L-2.8 325.9L6.4 316.3L-0.8 311.1L7.3 301.5L1.2 296.4L8.3 286.7L3.2 281.6L9.2 272L5.3 266.8L10.1 257.2Z"/>
+<path class="dr t" pathLength="1" style="--gd:186ms" d="M70 244L74.3 249.7L79.6 260.2L75.3 265.9L81.8 276.4L76.3 282.1L84 292.6L77.3 298.2L86.2 308.8L78.3 314.4L88.4 325L72.9 325L72.9 336L67.1 336L67.1 325L51.6 325L61.7 314.4L53.8 308.8L62.7 298.2L56 292.6L63.7 282.1L58.2 276.4L64.7 265.9L60.4 260.2L65.7 249.7Z"/>
+<path class="dr t" pathLength="1" style="--gd:164ms" d="M118 204L124.2 212.1L131.7 227.2L125.6 235.4L134.9 250.5L127 258.6L138.1 273.7L128.5 281.8L141.2 296.9L129.9 305.1L144.4 320.2L122.2 320.2L122.2 336L113.8 336L113.8 320.2L91.6 320.2L106.1 305.1L94.8 296.9L107.5 281.8L97.9 273.7L109 258.6L101.1 250.5L110.4 235.4L104.3 227.2L111.8 212.1Z"/>
+<path class="dr t" pathLength="1" style="--gd:142ms" d="M168 228L173.1 234.7L179.2 247L174.2 253.7L181.8 266L175.4 272.7L184.4 285L176.6 291.7L187 304L177.7 310.7L189.6 323L171.5 323L171.5 336L164.5 336L164.5 323L146.4 323L158.3 310.7L149 304L159.4 291.7L151.6 285L160.6 272.7L154.2 266L161.8 253.7L156.8 247L162.9 234.7Z"/>
+<path class="dr t" pathLength="1" style="--gd:120ms" d="M212 256L215.7 260.9L220.3 270.1L216.6 275L222.2 284.2L217.5 289.1L224.2 298.2L218.3 303.2L226.1 312.3L219.2 317.2L228 326.4L214.6 326.4L214.6 336L209.4 336L209.4 326.4L196 326.4L204.8 317.2L197.9 312.3L205.7 303.2L199.8 298.2L206.5 289.1L201.8 284.2L207.4 275L203.7 270.1L208.3 260.9Z"/>
+<path class="dr t" pathLength="1" style="--gd:142ms" d="M1148 240L1152.5 245.9L1158 256.9L1153.5 262.8L1160.3 273.8L1154.6 279.7L1162.6 290.7L1155.6 296.6L1164.9 307.6L1156.6 313.5L1167.2 324.5L1151.1 324.5L1151.1 336L1144.9 336L1144.9 324.5L1128.8 324.5L1139.4 313.5L1131.1 307.6L1140.4 296.6L1133.4 290.7L1141.4 279.7L1135.7 273.8L1142.5 262.8L1138 256.9L1143.5 245.9Z"/>
+<path class="dr t" pathLength="1" style="--gd:164ms" d="M1196 198L1202.5 206.5L1210.4 222.3L1203.9 230.8L1213.7 246.6L1205.4 255.1L1217 270.9L1206.9 279.4L1220.3 295.2L1208.4 303.7L1223.6 319.4L1200.4 319.4L1200.4 336L1191.6 336L1191.6 319.4L1168.4 319.4L1183.6 303.7L1171.7 295.2L1185.1 279.4L1175 270.9L1186.6 255.1L1178.3 246.6L1188.1 230.8L1181.6 222.3L1189.5 206.5Z"/>
+<path class="dr t" pathLength="1" style="--gd:186ms" d="M1244 232L1248.9 238.4L1254.8 250.3L1250 256.7L1257.3 268.6L1251.1 275L1259.8 286.9L1252.2 293.3L1262.3 305.2L1253.4 311.6L1264.8 323.5L1247.3 323.5L1247.3 336L1240.7 336L1240.7 323.5L1223.2 323.5L1234.6 311.6L1225.7 305.2L1235.8 293.3L1228.2 286.9L1236.9 275L1230.7 268.6L1238 256.7L1233.2 250.3L1239.1 238.4Z"/>
+<path class="dr t" pathLength="1" style="--gd:208ms" d="M1290 252L1293.9 257.2L1298.7 266.8L1294.8 272L1300.8 281.6L1295.7 286.7L1302.8 296.4L1296.7 301.5L1304.8 311.1L1297.6 316.3L1306.8 325.9L1292.7 325.9L1292.7 336L1287.3 336L1287.3 325.9L1273.2 325.9L1282.4 316.3L1275.2 311.1L1283.3 301.5L1277.2 296.4L1284.3 286.7L1279.2 281.6L1285.2 272L1281.3 266.8L1286.1 257.2Z"/>
+<path class="dr t" pathLength="1" style="--gd:230ms" d="M1334 210L1339.9 217.8L1347.1 232.2L1341.3 239.9L1350.1 254.4L1342.6 262.1L1353.2 276.5L1344 284.3L1356.2 298.7L1345.3 306.5L1359.2 320.9L1338 320.9L1338 336L1330 336L1330 320.9L1308.8 320.9L1322.7 306.5L1311.8 298.7L1324 284.3L1314.8 276.5L1325.4 262.1L1317.9 254.4L1326.7 239.9L1320.9 232.2L1328.1 217.8Z"/>
+<path class="dr t" pathLength="1" style="--gd:252ms" d="M1380 238L1384.6 244L1390.2 255.2L1385.6 261.3L1392.5 272.5L1386.7 278.5L1394.9 289.7L1387.8 295.8L1397.2 307L1388.8 313L1399.6 324.2L1383.1 324.2L1383.1 336L1376.9 336L1376.9 324.2L1360.4 324.2L1371.2 313L1362.8 307L1372.2 295.8L1365.1 289.7L1373.3 278.5L1367.5 272.5L1374.4 261.3L1369.8 255.2L1375.4 244Z"/>
+<path class="dr t" pathLength="1" style="--gd:274ms" d="M1426 194L1432.6 202.7L1440.8 219L1434.2 227.7L1444.2 244L1435.7 252.7L1447.6 269L1437.2 277.7L1451 294L1438.8 302.7L1454.4 319L1430.5 319L1430.5 336L1421.5 336L1421.5 319L1397.6 319L1413.2 302.7L1401 294L1414.8 277.7L1404.4 269L1416.3 252.7L1407.8 244L1417.8 227.7L1411.2 219L1419.4 202.7Z"/>
+<path class="dr t" pathLength="1" style="--gd:296ms" d="M1472 228L1477.1 234.7L1483.2 247L1478.2 253.7L1485.8 266L1479.4 272.7L1488.4 285L1480.6 291.7L1491 304L1481.7 310.7L1493.6 323L1475.5 323L1475.5 336L1468.5 336L1468.5 323L1450.4 323L1462.3 310.7L1453 304L1463.4 291.7L1455.6 285L1464.6 272.7L1458.2 266L1465.8 253.7L1460.8 247L1466.9 234.7Z"/>
+<path class="dr t" pathLength="1" style="--gd:318ms" d="M1520 212L1525.8 219.6L1532.9 233.8L1527.1 241.5L1535.9 255.6L1528.5 263.3L1538.8 277.5L1529.8 285.1L1541.8 299.3L1531.2 306.9L1544.8 321.1L1524 321.1L1524 336L1516 336L1516 321.1L1495.2 321.1L1508.8 306.9L1498.2 299.3L1510.2 285.1L1501.2 277.5L1511.5 263.3L1504.1 255.6L1512.9 241.5L1507.1 233.8L1514.2 219.6Z"/>
+<path class="dr t" pathLength="1" style="--gd:340ms" d="M1566 246L1570.2 251.5L1575.4 261.8L1571.2 267.4L1577.5 277.7L1572.2 283.2L1579.7 293.5L1573.1 299.1L1581.8 309.4L1574.1 314.9L1584 325.2L1568.9 325.2L1568.9 336L1563.1 336L1563.1 325.2L1548 325.2L1557.9 314.9L1550.2 309.4L1558.9 299.1L1552.3 293.5L1559.8 283.2L1554.5 277.7L1560.8 267.4L1556.6 261.8L1561.8 251.5Z"/>
+<path class="dr t" pathLength="1" style="--gd:362ms" d="M1604 220L1609.4 227.1L1616.1 240.4L1610.7 247.6L1618.8 260.8L1611.9 268L1621.6 281.2L1613.2 288.4L1624.4 301.7L1614.4 308.8L1627.2 322.1L1607.7 322.1L1607.7 336L1600.3 336L1600.3 322.1L1580.8 322.1L1593.6 308.8L1583.6 301.7L1594.8 288.4L1586.4 281.2L1596.1 268L1589.2 260.8L1597.3 247.6L1591.9 240.4L1598.6 227.1Z"/>
+<polygon class="dr w" pathLength="1" style="--gd:160ms" points="250,252 486,232 486,336 250,336"/>
+<rect class="fx" x="250" y="252" width="236" height="84" fill="url(#h-boards)"/>
+<path class="dr w" pathLength="1" style="--gd:200ms" d="M232 262L486 230L486 242L232 274Z"/>
+<rect class="dr g" pathLength="1" style="--gd:380ms" x="272" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:410ms" x="302" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:440ms" x="332" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:470ms" x="362" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:500ms" x="392" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:530ms" x="422" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:560ms" x="452" y="276" width="18" height="44" fill="url(#h-glass)"/>
+<rect class="dr w" pathLength="1" style="--gd:240ms" x="244" y="322" width="248" height="14"/>
+<rect class="fx" x="244" y="322" width="248" height="14" fill="url(#h-stone)"/>
+<polygon class="dr w" pathLength="1" style="--gd:200ms" points="826,228 1062,248 1062,336 826,336"/>
+<polygon class="fx" points="826,228 1062,248 1062,336 826,336" fill="url(#h-boards)"/>
+<path class="dr w" pathLength="1" style="--gd:240ms" d="M826 206L1070 238L1070 250L826 218Z"/>
+<path class="dr w" pathLength="1" style="--gd:420ms" d="M890 214L890 168L938 138L986 168L986 222Z"/>
+<path class="dr o" pathLength="1" style="--gd:520ms" d="M880 172L938 130L996 172Z"/>
+<path class="dr t" pathLength="1" style="--gd:600ms" d="M902 172V214M914 172V214M926 172V214M938 172V214M950 172V214M962 172V214M974 172V214"/>
+<rect class="dr g" pathLength="1" style="--gd:420ms" x="854" y="272" width="24" height="50" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:460ms" x="906" y="272" width="24" height="50" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:500ms" x="958" y="272" width="24" height="50" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:540ms" x="1010" y="272" width="24" height="50" fill="url(#h-glass)"/>
+<rect class="dr w" pathLength="1" style="--gd:260ms" x="820" y="322" width="248" height="14"/>
+<rect class="fx" x="820" y="322" width="248" height="14" fill="url(#h-stone)"/>
+<rect class="dr w" pathLength="1" style="--gd:180ms" x="1070" y="98" width="42" height="238"/>
+<rect class="fx" x="1070" y="98" width="42" height="238" fill="url(#h-boards)"/>
+<path class="dr w" pathLength="1" style="--gd:300ms" d="M1060 98L1091 36L1122 98Z"/>
+<path class="dr o" pathLength="1" style="--gd:380ms" d="M1091 36L1091 14"/>
+<rect class="dr g" pathLength="1" style="--gd:460ms" x="1078" y="110" width="26" height="40" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:500ms" x="1082" y="196" width="18" height="34" fill="url(#h-glass)"/>
+<rect class="dr g" pathLength="1" style="--gd:520ms" x="1082" y="262" width="18" height="34" fill="url(#h-glass)"/>
+<path class="dr w" pathLength="1" style="--gd:100ms" d="M486 336L486 200L656 62L826 200L826 336Z"/>
+<path class="fx" d="M486 336V200L656 62L826 200V336Z" fill="url(#h-boards)"/>
+<path class="dr o" pathLength="1" style="--gd:140ms" d="M466 204L656 49L846 204"/>
+<path class="dr t" pathLength="1" style="--gd:170ms" d="M470 214L656 58L842 214"/>
+<path class="dr o" pathLength="1" style="--gd:200ms" d="M466 204L470 214"/>
+<path class="dr o" pathLength="1" style="--gd:200ms" d="M846 204L842 214"/>
+<path class="dr w" pathLength="1" style="--gd:380ms" d="M546 190L656 98L766 190Z"/>
+<path class="fx" d="M546 190L656 98L766 190Z" fill="url(#h-glass)"/>
+<path class="dr t" pathLength="1" style="--gd:470ms" d="M566 190V180.8M586 190V162.4M606 190V144M626 190V125.6M646 190V107.2M666 190V107.2M686 190V125.6M706 190V144M726 190V162.4M746 190V180.8"/>
+<path class="dr t" pathLength="1" style="--gd:520ms" d="M560 160L752 160"/>
+<rect class="dr w" pathLength="1" style="--gd:420ms" x="494" y="198" width="324" height="16"/>
+<path class="dr o" pathLength="1" style="--gd:520ms" d="M510 214V322M517 214V322M546.5 214V322M553.5 214V322M583 214V322M590 214V322M619.5 214V322M626.5 214V322M656 214V322M663 214V322M692.5 214V322M699.5 214V322M729 214V322M736 214V322M765.5 214V322M772.5 214V322M802 214V322M809 214V322"/>
+<rect class="dr g" pathLength="1" style="--gd:640ms" x="624" y="252" width="64" height="70" fill="url(#h-glass)"/>
+<path class="dr t" pathLength="1" style="--gd:700ms" d="M656 252L656 322"/>
+<rect class="dr w" pathLength="1" style="--gd:300ms" x="494" y="322" width="324" height="14"/>
+<rect class="fx" x="494" y="322" width="324" height="14" fill="url(#h-stone)"/>
+<path class="dr t" pathLength="1" style="--gd:760ms" d="M586 336V332H726V336M602 332V327H710V332"/>
+<path class="dr o" pathLength="1" style="--gd:0ms" d="M-330 336L1642 336"/>
+<path class="dr b" pathLength="1" style="--gd:80ms" d="M-309 336l-7.699999999999999 11M-295 336l-7.699999999999999 11M-281 336l-7.699999999999999 11M-267 336l-7.699999999999999 11M-253 336l-7.699999999999999 11M-239 336l-7.699999999999999 11M-225 336l-7.699999999999999 11M-211 336l-7.699999999999999 11M-197 336l-7.699999999999999 11M-183 336l-7.699999999999999 11M-169 336l-7.699999999999999 11M-155 336l-7.699999999999999 11M-141 336l-7.699999999999999 11M-127 336l-7.699999999999999 11M-113 336l-7.699999999999999 11M-99 336l-7.699999999999999 11M-85 336l-7.699999999999999 11M-71 336l-7.699999999999999 11M-57 336l-7.699999999999999 11M-43 336l-7.699999999999999 11M-29 336l-7.699999999999999 11M-15 336l-7.699999999999999 11M-1 336l-7.699999999999999 11M13 336l-7.699999999999999 11M27 336l-7.699999999999999 11M41 336l-7.699999999999999 11M55 336l-7.699999999999999 11M69 336l-7.699999999999999 11M83 336l-7.699999999999999 11M97 336l-7.699999999999999 11M111 336l-7.699999999999999 11M125 336l-7.699999999999999 11M139 336l-7.699999999999999 11M153 336l-7.699999999999999 11M167 336l-7.699999999999999 11M181 336l-7.699999999999999 11M195 336l-7.699999999999999 11M209 336l-7.699999999999999 11M223 336l-7.699999999999999 11M237 336l-7.699999999999999 11M251 336l-7.699999999999999 11M265 336l-7.699999999999999 11M279 336l-7.699999999999999 11M293 336l-7.699999999999999 11M307 336l-7.699999999999999 11M321 336l-7.699999999999999 11M335 336l-7.699999999999999 11M349 336l-7.699999999999999 11M363 336l-7.699999999999999 11M377 336l-7.699999999999999 11M391 336l-7.699999999999999 11M405 336l-7.699999999999999 11M419 336l-7.699999999999999 11M433 336l-7.699999999999999 11M447 336l-7.699999999999999 11M461 336l-7.699999999999999 11M475 336l-7.699999999999999 11M489 336l-7.699999999999999 11M503 336l-7.699999999999999 11M517 336l-7.699999999999999 11M531 336l-7.699999999999999 11M545 336l-7.699999999999999 11M559 336l-7.699999999999999 11M573 336l-7.699999999999999 11M587 336l-7.699999999999999 11M601 336l-7.699999999999999 11M615 336l-7.699999999999999 11M629 336l-7.699999999999999 11M643 336l-7.699999999999999 11M657 336l-7.699999999999999 11M671 336l-7.699999999999999 11M685 336l-7.699999999999999 11M699 336l-7.699999999999999 11M713 336l-7.699999999999999 11M727 336l-7.699999999999999 11M741 336l-7.699999999999999 11M755 336l-7.699999999999999 11M769 336l-7.699999999999999 11M783 336l-7.699999999999999 11M797 336l-7.699999999999999 11M811 336l-7.699999999999999 11M825 336l-7.699999999999999 11M839 336l-7.699999999999999 11M853 336l-7.699999999999999 11M867 336l-7.699999999999999 11M881 336l-7.699999999999999 11M895 336l-7.699999999999999 11M909 336l-7.699999999999999 11M923 336l-7.699999999999999 11M937 336l-7.699999999999999 11M951 336l-7.699999999999999 11M965 336l-7.699999999999999 11M979 336l-7.699999999999999 11M993 336l-7.699999999999999 11M1007 336l-7.699999999999999 11M1021 336l-7.699999999999999 11M1035 336l-7.699999999999999 11M1049 336l-7.699999999999999 11M1063 336l-7.699999999999999 11M1077 336l-7.699999999999999 11M1091 336l-7.699999999999999 11M1105 336l-7.699999999999999 11M1119 336l-7.699999999999999 11M1133 336l-7.699999999999999 11M1147 336l-7.699999999999999 11M1161 336l-7.699999999999999 11M1175 336l-7.699999999999999 11M1189 336l-7.699999999999999 11M1203 336l-7.699999999999999 11M1217 336l-7.699999999999999 11M1231 336l-7.699999999999999 11M1245 336l-7.699999999999999 11M1259 336l-7.699999999999999 11M1273 336l-7.699999999999999 11M1287 336l-7.699999999999999 11M1301 336l-7.699999999999999 11M1315 336l-7.699999999999999 11M1329 336l-7.699999999999999 11M1343 336l-7.699999999999999 11M1357 336l-7.699999999999999 11M1371 336l-7.699999999999999 11M1385 336l-7.699999999999999 11M1399 336l-7.699999999999999 11M1413 336l-7.699999999999999 11M1427 336l-7.699999999999999 11M1441 336l-7.699999999999999 11M1455 336l-7.699999999999999 11M1469 336l-7.699999999999999 11M1483 336l-7.699999999999999 11M1497 336l-7.699999999999999 11M1511 336l-7.699999999999999 11M1525 336l-7.699999999999999 11M1539 336l-7.699999999999999 11M1553 336l-7.699999999999999 11M1567 336l-7.699999999999999 11M1581 336l-7.699999999999999 11M1595 336l-7.699999999999999 11M1609 336l-7.699999999999999 11M1623 336l-7.699999999999999 11M1637 336l-7.699999999999999 11"/>
+<g class="dim">
+    <path class="dl" d="M250 366H1112M250 361V371M486 361V371M826 361V371M1112 361V371"/>
+    <text class="lab c" x="656" y="358">11 400</text>
+    <text class="lab c" x="368" y="358">7 900</text>
+    <text class="lab c" x="969" y="358">9 600</text>
+    <path class="dl" d="M24 336H62M24 49H62M40 336V49"/>
+    <path class="dl" d="M34 329l6 7l6 -7"/>
+    <text class="lab" x="30" y="322">+0.00</text>
+    <text class="lab" x="30" y="42">+11.70</text>
+  </g>
       </svg>
     </div>
-  </div>
-</section>
-
-<!-- ============ 03 PROJECTS (horizontal track) ============ -->
-<section id="projects" class="projects" data-bg="#1A1612" data-ink="#EDE7DA" data-hscroll aria-labelledby="projects-title">
-  <div class="pin">
-    <header class="proj-head wrap-pad">
-      <div>
-        <p class="eyebrow"><span class="dot"></span>03 — Selected projects</p>
-        <h2 id="projects-title" class="h2">Six buildings, <em>slowly</em> made.</h2>
+    <div class="wrap hero-foot">
+      <p class="hero-lede">Atelier Norr designs town halls, libraries, schools and houses in Nordic spruce and pine, from a studio in Umeå. Every joint is drawn before it is cut.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid mk-button mk-wipe" href="#projects">Selected work <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="mk-link text-link" href="#contact">Start a project</a>
       </div>
-      <p class="proj-hint" aria-hidden="true"><span class="hint-bar"><i></i></span>Keep scrolling</p>
-    </header>
-
-    <div data-hscroll-track>
-
-      <figure class="proj" style="--k:0;--ar:4/5">
-        <div class="proj-art" style="--sky:#C9D3D6;--far:#A7B6B6;--near:#6F8478;--ground:#3E4A40;--pine:#33463B">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <use href="#pine" x="92" y="370" width="22" height="44" style="fill:var(--pine)"/><use href="#pine" x="400" y="352" width="28" height="56" style="fill:var(--pine)"/>
-            <polygon points="118,296 250,214 382,296" fill="#8A5630"/><polygon points="132,296 250,224 368,296" fill="#B87B47"/>
-            <rect x="136" y="296" width="228" height="130" fill="#C88C57"/>
-            <path d="M148 296V426M162 296V426M176 296V426M190 296V426M204 296V426M296 296V426M310 296V426M324 296V426M338 296V426M352 296V426" stroke="#8A5630" stroke-width="2" opacity=".55"/>
-            <polygon points="214,296 250,252 286,296" fill="#1E2A2E"/><rect x="214" y="320" width="72" height="104" fill="#1E2A2E"/><path d="M238 320v104M262 320v104M214 360h72" stroke="#C88C57" stroke-width="2"/>
-            <rect x="214" y="320" width="72" height="104" fill="#FFD58F" opacity=".22"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">01</span><div><h3>Tromsø Public Library</h3><p>Civic · Tromsø · 2023</p></div><span class="spec">4,200 m² · glulam</span></figcaption>
-      </figure>
-
-      <figure class="proj" style="--k:1;--ar:3/5">
-        <div class="proj-art" style="--sky:#EACBA6;--far:#C99C7C;--near:#7C5A4B;--ground:#3A2B27;--pine:#2E2220">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <use href="#pine" x="118" y="356" width="26" height="52" style="fill:var(--pine)"/><use href="#pine" x="146" y="378" width="20" height="40" style="fill:var(--pine)"/><use href="#pine" x="352" y="360" width="26" height="52" style="fill:var(--pine)"/>
-            <polygon points="172,430 250,198 328,430" fill="#8A5630"/><polygon points="186,430 250,224 314,430" fill="#C88C57"/>
-            <path d="M200 430L250 270M214 430L250 292M228 430L250 316M300 430L250 270M286 430L250 292M272 430L250 316" stroke="#8A5630" stroke-width="2" opacity=".5"/>
-            <polygon points="238,430 250,250 262,430" fill="#FFE8BE"/>
-            <rect x="160" y="426" width="180" height="8" fill="#2A1F1B"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">02</span><div><h3>Fjellstua Chapel</h3><p>Sacred · Lofoten · 2022</p></div><span class="spec">180 m² · larch</span></figcaption>
-      </figure>
-
-      <figure class="proj" style="--k:2;--ar:1/1">
-        <div class="proj-art" style="--sky:#D9DFCA;--far:#A8B79A;--near:#5F7452;--ground:#34402F;--pine:#26331F">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <use href="#pine" x="96" y="346" width="30" height="60" style="fill:var(--pine)"/><use href="#pine" x="376" y="338" width="34" height="68" style="fill:var(--pine)"/><use href="#pine" x="402" y="362" width="24" height="48" style="fill:var(--pine)"/>
-            <polygon points="112,342 384,296 384,314 112,360" fill="#8A5630"/>
-            <rect x="128" y="352" width="240" height="72" fill="#C88C57"/>
-            <path d="M140 352V424M154 352V424M168 352V424M182 352V424M338 352V424M352 352V424M324 352V424" stroke="#8A5630" stroke-width="2" opacity=".55"/>
-            <rect x="198" y="364" width="120" height="48" fill="#1E2A2E"/><rect x="198" y="364" width="120" height="48" fill="#FFD58F" opacity=".28"/><path d="M238 364v48M278 364v48" stroke="#C88C57" stroke-width="2"/>
-            <rect x="104" y="424" width="296" height="8" fill="#6E4527"/><path d="M120 432v18M200 432v18M280 432v18M380 432v18" stroke="#6E4527" stroke-width="4"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">03</span><div><h3>House at Nordvik</h3><p>Home · Nordvik · 2021</p></div><span class="spec">240 m² · pine, larch</span></figcaption>
-      </figure>
-
-      <figure class="proj" style="--k:3;--ar:5/4">
-        <div class="proj-art" style="--sky:#B3C3CE;--far:#8197A6;--near:#4B6273;--ground:#26343E;--pine:#1E2B34">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <rect x="96" y="304" width="312" height="14" fill="#8A5630"/><rect x="108" y="296" width="288" height="8" fill="#B87B47"/>
-            <rect x="112" y="318" width="280" height="102" fill="#1E2A2E"/><rect x="112" y="318" width="280" height="102" fill="#FFD58F" opacity=".18"/>
-            <path d="M124 318V420M148 318V420M172 318V420M196 318V420M220 318V420M244 318V420M268 318V420M292 318V420M316 318V420M340 318V420M364 318V420M388 318V420" stroke="#C88C57" stroke-width="7"/>
-            <rect x="84" y="420" width="336" height="9" fill="#6E4527"/>
-            <path d="M110 446h120M270 452h140M150 462h90M300 470h80" stroke="#fff" stroke-width="1.5" opacity=".18"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">04</span><div><h3>Havnehall Ferry Terminal</h3><p>Transport · Bodø · 2020</p></div><span class="spec">2,900 m² · glulam ribs</span></figcaption>
-      </figure>
-
-      <figure class="proj" style="--k:4;--ar:4/5">
-        <div class="proj-art" style="--sky:#F0E4CA;--far:#D3BD93;--near:#A08556;--ground:#54452B;--pine:#3F3320">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <use href="#pine" x="92" y="364" width="24" height="48" style="fill:var(--pine)"/>
-            <polygon points="116,320 166,268 166,320" fill="#8A5630"/><polygon points="166,320 216,268 216,320" fill="#8A5630"/><polygon points="216,320 266,268 266,320" fill="#8A5630"/><polygon points="266,320 316,268 316,320" fill="#8A5630"/><polygon points="316,320 366,268 366,320" fill="#8A5630"/>
-            <path d="M166 268v52M216 268v52M266 268v52M316 268v52M366 268v52" stroke="#FFE8BE" stroke-width="5"/>
-            <rect x="116" y="320" width="250" height="104" fill="#C88C57"/>
-            <path d="M130 320V424M146 320V424M162 320V424M178 320V424M194 320V424M210 320V424M226 320V424M242 320V424M258 320V424M274 320V424M290 320V424M306 320V424M322 320V424M338 320V424M354 320V424" stroke="#8A5630" stroke-width="2" opacity=".45"/>
-            <rect x="136" y="344" width="46" height="48" fill="#1E2A2E"/><rect x="204" y="344" width="46" height="48" fill="#1E2A2E"/><rect x="272" y="344" width="46" height="48" fill="#1E2A2E"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">05</span><div><h3>Birk School</h3><p>Education · Umeå · 2019</p></div><span class="spec">3,600 m² · CLT</span></figcaption>
-      </figure>
-
-      <figure class="proj" style="--k:5;--ar:1/1">
-        <div class="proj-art" style="--sky:#BDB5CA;--far:#8A839F;--near:#4F4A63;--ground:#2A2736;--pine:#1F1C2A">
-          <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#land" width="500" height="500"/>
-            <use href="#pine" x="90" y="366" width="22" height="44" style="fill:var(--pine)"/><use href="#pine" x="398" y="360" width="26" height="52" style="fill:var(--pine)"/>
-            <polygon points="170,336 250,282 330,336" fill="#8A5630"/>
-            <rect x="338" y="288" width="12" height="30" fill="#6E4527"/>
-            <rect x="184" y="336" width="132" height="62" fill="#C88C57"/>
-            <rect x="214" y="350" width="72" height="34" fill="#FFD58F" opacity=".82"/><path d="M250 350v34" stroke="#8A5630" stroke-width="2"/>
-            <path d="M196 398v26M304 398v26M250 398v26" stroke="#6E4527" stroke-width="5"/>
-            <rect x="84" y="424" width="170" height="7" fill="#6E4527"/>
-            <path d="M120 446h140M290 450h110M180 466h90" stroke="#fff" stroke-width="1.5" opacity=".18"/>
-            <circle cx="346" cy="268" r="9" fill="#fff" opacity=".18"/><circle cx="356" cy="248" r="13" fill="#fff" opacity=".12"/>
-            <rect x="0" y="0" width="500" height="500" fill="url(#shade)"/>
-          </svg>
-        </div>
-        <figcaption><span class="num">06</span><div><h3>Sauna Pavilion</h3><p>Hospitality · Hardanger · 2018</p></div><span class="spec">64 m² · alder</span></figcaption>
-      </figure>
-
-    </div>
-    <div class="track-line" aria-hidden="true"><i></i></div>
-  </div>
-</section>
-
-<!-- ============ 04 PROCESS (stacking cards) ============ -->
-<section id="process" class="sec process" data-bg="#EFEAE0" data-ink="#1B1814" aria-labelledby="process-title">
-  <div class="wrap">
-    <header class="process-head">
-      <p class="eyebrow" data-reveal="up"><span class="dot"></span>04 — Process</p>
-      <h2 id="process-title" class="h2" data-split="words">From the first walk to the <em>tenth winter.</em></h2>
-    </header>
-
-    <div class="cards" data-stack style="--stack-top:13vh;--stack-step:18px;--stack-gap:14vh">
-      <article class="pcard c1">
-        <div class="pc-no">01</div>
-        <div class="pc-body"><h3>Listen</h3><p>We spend a week with the people who will use the building, and a day in the weather that will use it harder. Briefs are written together, in pencil.</p><span class="pc-tag">Weeks 1–3</span></div>
-        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 70a30 30 0 0 1 30-30"/><path d="M28 70a42 42 0 0 1 42-42"/><path d="M16 70a54 54 0 0 1 54-54"/><circle cx="70" cy="70" r="5"/><path d="M110 98c20 0 32-12 32-30s-10-22-24-22"/><path d="M160 108c30 0 36-34 24-56"/></g></svg>
-      </article>
-      <article class="pcard c2">
-        <div class="pc-no">02</div>
-        <div class="pc-body"><h3>Read the site</h3><p>Sun paths, snow load, wind, soil and the line of the old fence. We survey in winter, when the ground is hardest to flatter.</p><span class="pc-tag">Weeks 3–8</span></div>
-        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 112h180"/><path d="M20 96C60 18 140 18 180 96" stroke-dasharray="3 4"/><circle cx="100" cy="30" r="8"/><path d="M20 120c30-8 50-4 80-10s60-6 80 0"/><path d="M20 128c30-8 50-4 80-10s60-6 80 0"/><path d="M84 112V92l16-12 16 12v20"/></g></svg>
-      </article>
-      <article class="pcard c3">
-        <div class="pc-no">03</div>
-        <div class="pc-body"><h3>Draw &amp; model</h3><p>Every scheme is built at 1:50 in birch ply before it is drawn on a screen. Light studies, load paths and joinery are tested by hand and by software.</p><span class="pc-tag">Months 2–6</span></div>
-        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M30 110L100 130 170 110V56L100 36 30 56Z"/><path d="M100 130V76M30 56l70 20 70-20"/><path d="M30 110L100 90 170 110" opacity=".6"/><path d="M62 40L100 14l38 26" /><path d="M100 14v22"/></g></svg>
-      </article>
-      <article class="pcard c4">
-        <div class="pc-no">04</div>
-        <div class="pc-body"><h3>Mill</h3><p>Glulam beams are cut to the millimetre in a mill an hour from the site, then dry-fitted in the yard. Nothing arrives that has not already been assembled once.</p><span class="pc-tag">Months 6–12</span></div>
-        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 50h160v40H20Z"/><path d="M20 50 52 50 60 62 72 62 80 50 120 50"/><path d="M52 90l8-12h12l8 12" /><path d="M28 70h40M110 70h62M110 60h62M110 80h62" opacity=".55"/><path d="M20 108h160M20 116h160" opacity=".4"/></g></svg>
-      </article>
-      <article class="pcard c5">
-        <div class="pc-no">05</div>
-        <div class="pc-body"><h3>Raise &amp; return</h3><p>The frame goes up in days, not months. We come back at one, five and ten years to listen again, oil the timber and learn what to draw differently.</p><span class="pc-tag">Year 1, 5 and 10</span></div>
-        <svg class="pc-fig" viewBox="0 0 200 140" data-draw aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 120h180"/><path d="M40 120V70M100 120V40M160 120V70"/><path d="M40 70L100 36 160 70"/><path d="M40 90h120"/><path d="M70 120V96M130 120V96"/><circle cx="168" cy="26" r="9"/></g></svg>
-      </article>
+      <p class="hero-caption lbl"><span>Plate 01</span> Tallvik Town Hall, front elevation, 1:200<br>Umeå 63°50′N · noon sun 49.6° in June, 2.8° in December</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 05 AWARDS ============ -->
-<section id="awards" class="sec awards" data-bg="#1D2A22" data-ink="#EDE7DA" aria-labelledby="awards-title">
-  <div class="wrap">
-    <header class="awards-head">
-      <div>
-        <p class="eyebrow" data-reveal="up"><span class="dot"></span>05 — Recognition</p>
-        <h2 id="awards-title" class="h2" data-split="words">Noticed, <em>quietly.</em></h2>
+<!-- ================= I. STUDIO ================= -->
+<section class="sec studio" id="studio" data-theme="lime" aria-labelledby="studio-title">
+  <div class="wrap grid12 studio-top">
+    <h2 id="studio-title" class="lbl sec-label"><span class="mark" aria-hidden="true">I</span> Studio philosophy</h2>
+    <p class="statement" data-read>A town hall should outlast the people who first voted in it. So we build with the one structural material that grows back, and we draw every joint so that a carpenter two hundred years from now can read it, repair it and trust it.</p>
+  </div>
+
+  <div class="wrap principles" data-stagger="120">
+    <article class="principle">
+      <figure class="joint" aria-hidden="true">
+        <svg class="draw" viewBox="0 0 360 260"><circle class="dr t" pathLength="1" cx="180" cy="132" r="112" style="--gd:0ms"/>
+<circle class="dr t" pathLength="1" cx="180" cy="132" r="56" style="--gd:140ms"/>
+<path class="dr b" pathLength="1" style="--gd:200ms" d="M60 132H300M180 12V252"/>
+<path class="dr o" pathLength="1" style="--gd:260ms" d="M54 192C100 152 140 206 180 162S250 112 306 70"/>
+<path class="dr t" pathLength="1" style="--gd:360ms" d="M178.1 176.9L181.6 167.9L185.1 176.9ZM198.6 196.5L202.1 187.5L205.6 196.5ZM133.4 173.3L136.9 164.3L140.4 173.3ZM99.3 190.8L102.8 181.8L106.3 190.8ZM210.1 215.1L213.6 206.1L217.1 215.1ZM160.2 165.4L163.7 156.4L167.2 165.4ZM244 200.4L247.5 191.4L251 200.4ZM194.7 86.1L198.2 77.1L201.7 86.1ZM249.9 101.1L253.4 92.1L256.9 101.1ZM146.1 95.2L149.6 86.2L153.1 95.2ZM237.3 149.5L240.8 140.5L244.3 149.5ZM87.3 148.9L90.8 139.9L94.3 148.9ZM100.6 145.8L104.1 136.8L107.6 145.8ZM96.5 101.7L100 92.7L103.5 101.7ZM145.1 143.4L148.6 134.4L152.1 143.4ZM154 89.8L157.5 80.8L161 89.8ZM148.5 117.2L152 108.2L155.5 117.2ZM120.4 99.7L123.9 90.7L127.4 99.7ZM222.9 72.3L226.4 63.3L229.9 72.3ZM105.5 83.5L109 74.5L112.5 83.5ZM134.4 191.8L137.9 182.8L141.4 191.8ZM180.2 99.6L183.7 90.6L187.2 99.6ZM79.8 107.4L83.3 98.4L86.8 107.4ZM197.9 175.9L201.4 166.9L204.9 175.9ZM270.1 113.8L273.6 104.8L277.1 113.8ZM156.3 92L159.8 83L163.3 92ZM153.3 84.7L156.8 75.7L160.3 84.7ZM158 140.9L161.5 131.9L165 140.9ZM176.3 63L179.8 54L183.3 63ZM233.3 198L236.8 189L240.3 198ZM169.1 165.2L172.6 156.2L176.1 165.2ZM98.1 115L101.6 106L105.1 115ZM128.8 145.2L132.3 136.2L135.8 145.2ZM258.8 111.2L262.3 102.2L265.8 111.2ZM165.8 87.1L169.3 78.1L172.8 87.1ZM267.7 155.5L271.2 146.5L274.7 155.5ZM166.9 89L170.4 80L173.9 89ZM229.9 155.7L233.4 146.7L236.9 155.7ZM206.3 109.6L209.8 100.6L213.3 109.6ZM254.2 161.8L257.7 152.8L261.2 161.8ZM190 194.3L193.5 185.3L197 194.3ZM191.8 157L195.3 148L198.8 157ZM255 90.8L258.5 81.8L262 90.8ZM107.1 194.7L110.6 185.7L114.1 194.7ZM224.4 101.6L227.9 92.6L231.4 101.6ZM82.7 171.3L86.2 162.3L89.7 171.3Z"/>
+<rect class="dr o" pathLength="1" style="--gd:520ms" x="174" y="126" width="12" height="12"/>
+<path class="dr o" pathLength="1" style="--gd:560ms" d="M166 132H174M186 132H194M180 118V126M180 138V146"/>
+<text class="lab" x="192" y="120">Site</text>
+<text class="lab" x="184" y="74">100 km</text>
+<text class="lab" x="184" y="18">200 km</text>
+<text class="lab r" x="300" y="244">Spruce</text></svg>
+      </figure>
+      <div class="principle-body">
+        <h3><span class="mark" aria-hidden="true">I</span> Wood from within 200 km</h3>
+        <p>Spruce and pine felled in the valleys around the site, so every beam can be traced to a forest and a stamp.</p>
+        <p class="spec lbl">Median haul 118 km</p>
       </div>
-      <dl class="stats" data-stagger="110">
-        <div><dt>Prizes won</dt><dd><span data-count="18">18</span></dd></div>
-        <div><dt>Timber stored, tonnes CO₂</dt><dd><span data-count="2840">2,840</span></dd></div>
-        <div><dt>Years of practice</dt><dd><span data-count="17">17</span></dd></div>
+    </article>
+    <article class="principle">
+      <figure class="joint" aria-hidden="true">
+        <svg class="draw" viewBox="0 0 360 260"><path class="dr w" pathLength="1" style="--gd:0ms" d="M24 100L168 100L168 114L214 114L214 146L168 146L168 160L24 160Z"/>
+<path class="dr b" pathLength="1" style="--gd:120ms" d="M30 112H162M30 124H162M30 136H162M30 148H162"/>
+<path class="dr b" pathLength="1" style="--gd:120ms" d="M174 124H208M174 136H208"/>
+<rect class="dr w" pathLength="1" style="--gd:160ms" x="236" y="24" width="64" height="212"/>
+<path class="dr b" pathLength="1" style="--gd:220ms" d="M246 24V236M254 24V236M284 24V236M292 24V236"/>
+<rect class="dr hid" pathLength="1" x="236" y="114" width="40" height="32" style="--gd:300ms"/>
+<circle class="dr hid" pathLength="1" cx="256" cy="130" r="4.5" style="--gd:360ms"/>
+<circle class="dr hid" pathLength="1" cx="190" cy="130" r="4.5" style="--gd:360ms"/>
+<path class="dr w" pathLength="1" style="--gd:420ms" d="M318 122L346 122L346 138L318 138Z"/>
+<path class="dr b" pathLength="1" style="--gd:460ms" d="M318 130H346"/>
+<path class="dr o" pathLength="1" style="--gd:480ms" d="M214 130H226M222 124l6 6l-6 6"/>
+<path class="dr b" pathLength="1" style="--gd:520ms" d="M24 130H300" stroke-dasharray="10 4 2 4"/>
+<g class="dim"><path class="dl" d="M168 190V204M214 190V204M168 198H214"/><text class="lab c" x="191" y="218">48</text><path class="dl" d="M24 70V84M168 70V84M24 77H168"/><text class="lab c" x="96" y="66">640</text><path class="dl" d="M312 24H326M312 236H326M319 24V236"/></g>
+<text class="lab r" x="300" y="256">Oak peg 24</text></svg>
+      </figure>
+      <div class="principle-body">
+        <h3><span class="mark" aria-hidden="true">II</span> Joints before fixings</h3>
+        <p>Wood meets wood in scarfs, tenons and dovetails. Steel appears only where the structural calculation asks for it.</p>
+        <p class="spec lbl">Steel in 4% of joints</p>
+      </div>
+    </article>
+    <article class="principle">
+      <figure class="joint" aria-hidden="true">
+        <svg class="draw" viewBox="0 0 360 260"><defs><pattern id="j-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0.5H8" stroke="currentColor" stroke-width="1" opacity=".28"/></pattern></defs><path class="dr wall" pathLength="1" style="--gd:0ms" d="M30 30H330V232H30Z"/>
+<path class="dr o" pathLength="1" style="--gd:160ms" d="M30 150H150M190 150H330M210 30V150M210 190V232"/>
+<rect class="fx" x="34" y="34" width="172" height="112" fill="url(#j-hatch)"/>
+<path class="dr o" pathLength="1" style="--gd:200ms" d="M150 150V232"/>
+<path class="dr t" pathLength="1" style="--gd:260ms" d="M150 150A32 32 0 0 1 190 150M150 150L150 150"/>
+<path class="dr o" pathLength="1" style="--gd:0ms" d="M30 100H34M30 78H34"/>
+<path class="dr t" pathLength="1" style="--gd:280ms" d="M120 30A28 28 0 0 0 148 58"/>
+<rect class="dr w" pathLength="1" style="--gd:300ms" x="116" y="28" width="34" height="4"/>
+<rect class="dr o" pathLength="1" style="--gd:320ms" x="238" y="54" width="62" height="78"/>
+<path class="dr t" pathLength="1" style="--gd:360ms" d="M238 66H300M238 78H300M238 90H300M238 102H300M238 114H300"/>
+<rect class="dr o" pathLength="1" style="--gd:380ms" x="58" y="76" width="108" height="22"/>
+<path class="dr t" pathLength="1" style="--gd:420ms" d="M66 70h10v6h-10zM66 98h10v6h-10zM84 70h10v6h-10zM84 98h10v6h-10zM102 70h10v6h-10zM102 98h10v6h-10zM120 70h10v6h-10zM120 98h10v6h-10zM138 70h10v6h-10zM138 98h10v6h-10zM156 70h10v6h-10zM156 98h10v6h-10z"/>
+<rect class="dr o" pathLength="1" style="--gd:440ms" x="172" y="40" width="26" height="26"/>
+<circle class="dr t" pathLength="1" style="--gd:460ms" cx="185" cy="53" r="6"/>
+<g class="dim"><path class="dl" d="M30 252H330M30 246V258M330 246V258"/><text class="lab c" x="180" y="248">30 000</text></g>
+<text class="lab" x="46" y="126">Open 07:00-22:00</text>
+<text class="lab" x="46" y="174">Library</text>
+<text class="lab" x="224" y="218">Hall</text></svg>
+      </figure>
+      <div class="principle-body">
+        <h3><span class="mark" aria-hidden="true">III</span> One room for the whole town</h3>
+        <p>Every civic building we draw keeps one warm, lit room open to everyone, without a ticket or a reason to be there.</p>
+        <p class="spec lbl">Open 07:00–22:00 daily</p>
+      </div>
+    </article>
+  </div>
+  <p class="wrap note lbl">Figures are illustrative.</p>
+</section>
+
+<!-- ================= II. PROJECTS ================= -->
+<section class="sec projects" id="projects" data-theme="lime" aria-labelledby="projects-title">
+  <div class="wrap grid12 sec-head">
+    <p class="lbl sec-label"><span class="mark" aria-hidden="true">II</span> Selected work</p>
+    <h2 id="projects-title" class="sec-title" data-split="words">Five buildings, drawn and raised between 2019 and 2024.</h2>
+  </div>
+
+  <div class="wrap plates">
+    <article class="plate plate-sheet" id="tallvik">
+      <div class="sheet" data-reveal="clip">
+        <div class="sheet-cap">
+          <span class="plate-no mark">01</span>
+          <h3>Tallvik Town Hall</h3>
+          <p>A town hall whose council chamber, library and market hall share one glulam roof, so the building heats and lights itself around the people in it.</p>
+          <dl class="facts">
+            <div><dt>Type</dt><dd>Civic</dd></div>
+            <div><dt>Place</dt><dd>Västerbotten</dd></div>
+            <div><dt>Year</dt><dd>2024</dd></div>
+            <div><dt>Area</dt><dd>3,840 m²</dd></div>
+            <div><dt>Timber</dt><dd>1,120 m³ spruce</dd></div>
+          </dl>
+        </div>
+        <figure class="sheet-art draw" role="img" aria-label="Cross-section of Tallvik Town Hall showing glulam portal frames, mezzanine and roof lantern">
+          <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMax meet"><defs>
+  <pattern id="p1-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  <pattern id="p1-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+  <pattern id="p1-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+</defs><text class="lab" x="40" y="40">Section A-A</text><text class="lab r" x="760" y="40">1:200</text>
+<rect class="dr w" pathLength="1" style="--gd:0ms" x="140" y="372" width="520" height="20"/>
+<path class="dr o" pathLength="1" d="M60 392L740 392"/>
+<path class="dr b" pathLength="1" d="M70 392l-7 10M84 392l-7 10M98 392l-7 10M112 392l-7 10M126 392l-7 10M140 392l-7 10M154 392l-7 10M168 392l-7 10M182 392l-7 10M196 392l-7 10M210 392l-7 10M224 392l-7 10M238 392l-7 10M252 392l-7 10M266 392l-7 10M280 392l-7 10M294 392l-7 10M308 392l-7 10M322 392l-7 10M336 392l-7 10M350 392l-7 10M364 392l-7 10M378 392l-7 10M392 392l-7 10M406 392l-7 10M420 392l-7 10M434 392l-7 10M448 392l-7 10M462 392l-7 10M476 392l-7 10M490 392l-7 10M504 392l-7 10M518 392l-7 10M532 392l-7 10M546 392l-7 10M560 392l-7 10M574 392l-7 10M588 392l-7 10M602 392l-7 10M616 392l-7 10M630 392l-7 10M644 392l-7 10M658 392l-7 10M672 392l-7 10M686 392l-7 10M700 392l-7 10M714 392l-7 10M728 392l-7 10"/>
+<g class="k cutk">
+    <path d="M150 372V236H172V372Z"/><path d="M628 372V236H650V372Z"/>
+    <path d="M150 236L394 94L406 94L650 236L628 236L400 118L172 236Z"/>
+    <path d="M172 252H628V268H172Z"/>
+  </g>
+<path class="dr o" pathLength="1" d="M132 244L400 74L668 244"/>
+<path class="dr t" pathLength="1" d="M140 250L400 84L660 250"/>
+<path class="dr t" pathLength="1" d="M400 118V252M400 252L286 177M400 252L514 177"/>
+<path class="dr w" pathLength="1" d="M366 98L366 66L400 44L434 66L434 98Z"/>
+<path class="dr t" pathLength="1" d="M376 70V96M388 70V96M400 70V96M412 70V96M424 70V96"/>
+<path class="dr b" pathLength="1" d="M380 130L324 330M400 130L394 340M420 130L476 330" stroke-dasharray="4 6"/>
+<rect class="dr g" pathLength="1" x="176" y="280" width="14" height="52" fill="url(#p1-glass)"/>
+<rect class="dr g" pathLength="1" x="610" y="280" width="14" height="52" fill="url(#p1-glass)"/>
+<g class="k"><path d="M172 306H356V318H172Z"/></g>
+<path class="dr t" pathLength="1" d="M172 306V282M356 306V282M172 282H356M214 306V282M256 306V282M298 306V282"/>
+<path class="dr t" pathLength="1" d="M356 318L452 372M356 318h10.7v6M366.7 324h10.7v6M377.4 330h10.7v6M388.1 336h10.7v6M398.8 342h10.7v6M409.5 348h10.7v6M420.2 354h10.7v6M430.9 360h10.7v6M441.6 366h10.7v6"/>
+<path class="dr t" pathLength="1" d="M356 282L452 336"/>
+<g class="k"><circle cx="222" cy="266.4" r="4.4"/><path d="M214.5 306L216 278.7Q222 270.8 228 278.7L229.5 306Z"/></g>
+<g class="k"><circle cx="262" cy="266.4" r="4.4"/><path d="M254.5 306L256 278.7Q262 270.8 268 278.7L269.5 306Z"/></g>
+<g class="k"><circle cx="514" cy="327" r="5"/><path d="M505.5 372L507.2 341Q514 332 520.8 341L522.5 372Z"/></g>
+<g class="k"><circle cx="552" cy="330.6" r="4.6"/><path d="M544.2 372L545.7 343.5Q552 335.2 558.3 343.5L559.8 372Z"/></g>
+<g class="k"><circle cx="586" cy="327" r="5"/><path d="M577.5 372L579.2 341Q586 332 592.8 341L594.5 372Z"/></g>
+<g class="k"><circle cx="488" cy="328.8" r="4.8"/><path d="M479.8 372L481.5 342.2Q488 333.6 494.5 342.2L496.2 372Z"/></g>
+<g class="dim"><path class="dl" d="M96 372H128M96 94H128M112 372V94"/><text class="lab r" x="92" y="366">+0.00</text><text class="lab r" x="92" y="90">+11.70</text></g>
+<g class="dim"><path class="dl" d="M150 424H650M150 418V430M650 418V430"/><text class="lab c" x="400" y="416">11 400</text></g></svg>
+        </figure>
+      </div>
+    </article>
+
+    <article class="plate plate-b">
+      <figure class="plate-art draw" data-reveal="clip" role="img" aria-label="North elevation of Ljus Library and Baths with a saw-tooth north-light roof">
+        <svg viewBox="0 96 800 356" preserveAspectRatio="xMidYMax meet"><defs>
+  <pattern id="p2-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  <pattern id="p2-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+  <pattern id="p2-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+</defs><text class="lab" x="40" y="126">North elevation</text><text class="lab r" x="760" y="126">1:200</text>
+<path class="dr o" pathLength="1" d="M40 392L760 392"/>
+<path class="dr b" pathLength="1" d="M50 392l-7 10M64 392l-7 10M78 392l-7 10M92 392l-7 10M106 392l-7 10M120 392l-7 10M134 392l-7 10M148 392l-7 10M162 392l-7 10M176 392l-7 10M190 392l-7 10M204 392l-7 10M218 392l-7 10M232 392l-7 10M246 392l-7 10M260 392l-7 10M274 392l-7 10M288 392l-7 10M302 392l-7 10M316 392l-7 10M330 392l-7 10M344 392l-7 10M358 392l-7 10M372 392l-7 10M386 392l-7 10M400 392l-7 10M414 392l-7 10M428 392l-7 10M442 392l-7 10M456 392l-7 10M470 392l-7 10M484 392l-7 10M498 392l-7 10M512 392l-7 10M526 392l-7 10M540 392l-7 10M554 392l-7 10M568 392l-7 10M582 392l-7 10M596 392l-7 10M610 392l-7 10M624 392l-7 10M638 392l-7 10M652 392l-7 10M666 392l-7 10M680 392l-7 10M694 392l-7 10M708 392l-7 10M722 392l-7 10M736 392l-7 10M750 392l-7 10"/>
+<rect class="dr w" pathLength="1" x="90" y="262" width="624" height="130"/>
+<rect class="fx" x="90" y="262" width="624" height="130" fill="url(#p2-boards)"/>
+<path class="dr w" pathLength="1" d="M90 262L90 184L194 248L194 262Z"/>
+<rect class="dr g" pathLength="1" x="95" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M99.5 192V258"/>
+<path class="dr t" pathLength="1" d="M90 178L194 242"/>
+<path class="dr w" pathLength="1" d="M194 262L194 184L298 248L298 262Z"/>
+<rect class="dr g" pathLength="1" x="199" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M203.5 192V258"/>
+<path class="dr t" pathLength="1" d="M194 178L298 242"/>
+<path class="dr w" pathLength="1" d="M298 262L298 184L402 248L402 262Z"/>
+<rect class="dr g" pathLength="1" x="303" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M307.5 192V258"/>
+<path class="dr t" pathLength="1" d="M298 178L402 242"/>
+<path class="dr w" pathLength="1" d="M402 262L402 184L506 248L506 262Z"/>
+<rect class="dr g" pathLength="1" x="407" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M411.5 192V258"/>
+<path class="dr t" pathLength="1" d="M402 178L506 242"/>
+<path class="dr w" pathLength="1" d="M506 262L506 184L610 248L610 262Z"/>
+<rect class="dr g" pathLength="1" x="511" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M515.5 192V258"/>
+<path class="dr t" pathLength="1" d="M506 178L610 242"/>
+<path class="dr w" pathLength="1" d="M610 262L610 184L714 248L714 262Z"/>
+<rect class="dr g" pathLength="1" x="615" y="192" width="9" height="66" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M619.5 192V258"/>
+<path class="dr t" pathLength="1" d="M610 178L714 242"/>
+<path class="dr o" pathLength="1" d="M90 262L714 262"/>
+<rect class="dr g" pathLength="1" x="114" y="288" width="28" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="160" y="288" width="28" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="206" y="288" width="28" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="252" y="288" width="28" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="298" y="288" width="28" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="450" y="288" width="34" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="504" y="288" width="34" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="558" y="288" width="34" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="612" y="288" width="34" height="80" fill="url(#p2-glass)"/>
+<rect class="dr g" pathLength="1" x="394" y="300" width="40" height="92" fill="url(#p2-glass)"/>
+<path class="dr t" pathLength="1" d="M414 300L414 392"/>
+<rect class="dr w" pathLength="1" x="84" y="378" width="636" height="14"/>
+<rect class="fx" x="84" y="378" width="636" height="14" fill="url(#p2-stone)"/>
+<rect class="dr w" pathLength="1" x="530" y="142" width="26" height="56"/>
+<rect class="dr w" pathLength="1" x="526" y="136" width="34" height="8"/>
+<path class="dr t" pathLength="1" d="M52 392V242M49 378h6M49 357h6M49 336h6M49 315h6M49 294h6M49 273h6"/><path class="dr b" pathLength="1" d="M52 312.4l20.4839029237628 -17.34699194598943M52 300.4l17.642044324427843 -12.661933929659426M52 329.2l11.894829258322716 -17.50402529258281M52 287.1l18.300751339644194 -18.956436925567687M52 318.2l-13.357253767549992 -11.660246823914349"/>
+<path class="dr t" pathLength="1" d="M748 392V222M745 378h6M745 353.7h6M745 329.3h6M745 305h6M745 280.7h6M745 256.3h6"/><path class="dr b" pathLength="1" d="M748 301.7l12.916901459917426 -18.235384727828205M748 257l-15.986933099105954 -10.649605012498796M748 319.2l10.784244818612933 -9.939517366699874M748 277.4l11.78059164620936 -18.14272230770439M748 279.7l-20.523274874314666 -8.942984293214977"/>
+<path class="dr t" pathLength="1" d="M722 392V272M719 378h6M719 362h6M719 346h6M719 330h6M719 314h6M719 298h6"/><path class="dr b" pathLength="1" d="M722 328.2l-21.78289853222668 -8.012170291505754M722 318.8l-12.676710648462176 -18.624947178177536M722 338.3l-20.563075939193368 -18.810501514934003M722 317.2l-10.74027225933969 -16.515293071977794M722 338.3l-10.855317087844014 -15.508459231816232"/>
+<g class="k"><circle cx="412" cy="347" r="5"/><path d="M403.5 392L405.2 361Q412 352 418.8 361L420.5 392Z"/></g>
+<g class="k"><circle cx="348" cy="350.6" r="4.6"/><path d="M340.2 392L341.7 363.5Q348 355.2 354.3 363.5L355.8 392Z"/></g>
+<g class="dim"><path class="dl" d="M90 418H390M90 413V423M390 413V423M430 418H714M430 413V423M714 413V423"/><text class="lab c" x="240" y="436">Reading room</text><text class="lab c" x="572" y="436">Baths</text></g></svg>
+      </figure>
+      <div class="plate-cap" data-reveal="up" data-delay="160">
+        <span class="plate-no mark">02</span>
+        <div><h3>Ljus Library &amp; Baths</h3><p class="meta lbl">Civic · Norrbotten · 2022</p></div>
+        <p class="plate-spec">4,100 m² · 860 m³ spruce · north-light saw-tooth roof</p>
+      </div>
+    </article>
+
+    <article class="plate plate-c">
+      <figure class="plate-art draw" data-reveal="clip" role="img" aria-label="South elevation of Björkhem House with a corner window and birch trees">
+        <svg viewBox="0 96 800 356" preserveAspectRatio="xMidYMax meet"><defs>
+  <pattern id="p3-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  <pattern id="p3-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+  <pattern id="p3-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+</defs><text class="lab" x="40" y="126">South elevation</text><text class="lab r" x="760" y="126">1:100</text>
+<path class="dr o" pathLength="1" d="M40 392L760 392"/>
+<path class="dr b" pathLength="1" d="M50 392l-7 10M64 392l-7 10M78 392l-7 10M92 392l-7 10M106 392l-7 10M120 392l-7 10M134 392l-7 10M148 392l-7 10M162 392l-7 10M176 392l-7 10M190 392l-7 10M204 392l-7 10M218 392l-7 10M232 392l-7 10M246 392l-7 10M260 392l-7 10M274 392l-7 10M288 392l-7 10M302 392l-7 10M316 392l-7 10M330 392l-7 10M344 392l-7 10M358 392l-7 10M372 392l-7 10M386 392l-7 10M400 392l-7 10M414 392l-7 10M428 392l-7 10M442 392l-7 10M456 392l-7 10M470 392l-7 10M484 392l-7 10M498 392l-7 10M512 392l-7 10M526 392l-7 10M540 392l-7 10M554 392l-7 10M568 392l-7 10M582 392l-7 10M596 392l-7 10M610 392l-7 10M624 392l-7 10M638 392l-7 10M652 392l-7 10M666 392l-7 10M680 392l-7 10M694 392l-7 10M708 392l-7 10M722 392l-7 10M736 392l-7 10M750 392l-7 10"/>
+<path class="dr w" pathLength="1" d="M226 392L226 294L400 186L574 294L574 392Z"/>
+<path class="fx" d="M226 392V294L400 186L574 294V392Z" fill="url(#p3-boards)"/>
+<path class="dr o" pathLength="1" d="M204 302L400 172L596 302"/>
+<path class="dr t" pathLength="1" d="M208 312L400 182L592 312"/>
+<rect class="dr w" pathLength="1" x="470" y="164" width="24" height="66"/>
+<rect class="dr w" pathLength="1" x="466" y="158" width="32" height="8"/>
+<rect class="dr g" pathLength="1" x="244" y="322" width="150" height="54" fill="url(#p3-glass)"/>
+<path class="dr t" pathLength="1" d="M294 322V376M344 322V376M244 349H394"/>
+<path class="dr g" pathLength="1" d="M364 276L400 232L436 276Z" fill="url(#p3-glass)"/>
+<rect class="dr g" pathLength="1" x="440" y="318" width="42" height="60" fill="url(#p3-glass)"/>
+<path class="dr t" pathLength="1" d="M461 318L461 378"/>
+<rect class="dr g" pathLength="1" x="492" y="330" width="22" height="46" fill="url(#p3-glass)"/>
+<rect class="dr w" pathLength="1" x="220" y="378" width="360" height="14"/>
+<rect class="fx" x="220" y="378" width="360" height="14" fill="url(#p3-stone)"/>
+<path class="dr t" pathLength="1" d="M156 374H220M156 374V392M172 374V392M156 364H220M156 364V374"/>
+<path class="dr t" pathLength="1" d="M120 392V202M117 378h6M117 350.3h6M117 322.7h6M117 295h6M117 267.3h6M117 239.7h6"/><path class="dr b" pathLength="1" d="M120 290.9l-14.21589706838131 -8.900563073344529M120 241.3l11.021599423140287 -16.612618261016905M120 305.2l-19.452491499483585 -11.245993589051068M120 278.5l-16.220112565904856 -15.701578454114497M120 275l-18.02133819460869 -12.79119670111686"/>
+<path class="dr t" pathLength="1" d="M150 392V242M147 378h6M147 357h6M147 336h6M147 315h6M147 294h6M147 273h6"/><path class="dr b" pathLength="1" d="M150 312.1l-10.432396336458623 -9.344759464263916M150 300.5l16.194043810479343 -15.60645380243659M150 281.5l-12.897199279628694 -19.4637396261096M150 304.3l-18.96003271918744 -9.294721145182848M150 287l-21.604348747991025 -11.432565435767174"/>
+<path class="dr t" pathLength="1" d="M176 392V182M173 378h6M173 347h6M173 316h6M173 285h6M173 254h6M173 223h6"/><path class="dr b" pathLength="1" d="M176 280.2l-18.648895604535937 -9.788955855183303M176 302.4l-21.3664881978184 -14.600289343856275M176 294l-18.341907059773803 -15.681485663168132M176 271.8l-21.69995287247002 -14.8878638362512M176 227.3l13.187359301373363 -10.073934170417488"/>
+<path class="dr t" pathLength="1" d="M630 392V212M627 378h6M627 352h6M627 326h6M627 300h6M627 274h6M627 248h6"/><path class="dr b" pathLength="1" d="M630 296.1l14.865394872613251 -10.23315224610269M630 249.3l-14.538932585157454 -13.59412488527596M630 257.7l-11.786614839918911 -11.899231700226665M630 291.3l-12.439873025752604 -8.48100652731955M630 235.7l16.7703698547557 -8.715302905067801"/>
+<path class="dr t" pathLength="1" d="M662 392V172M659 378h6M659 345.3h6M659 312.7h6M659 280h6M659 247.3h6M659 214.7h6"/><path class="dr b" pathLength="1" d="M662 274.7l11.081894140690565 -10.677348637022078M662 257.9l19.71137697249651 -12.587960426695645M662 287.2l-17.23132262006402 -8.116977737285197M662 271.7l-15.179793179035187 -14.074149218387902M662 303.4l20.353380408138037 -19.356671639718115"/>
+<path class="dr t" pathLength="1" d="M704 392V232M701 378h6M701 355.3h6M701 332.7h6M701 310h6M701 287.3h6M701 264.7h6"/><path class="dr b" pathLength="1" d="M704 306.7l19.29839340876788 -11.121545027941465M704 323.8l12.883821359835565 -11.58179596811533M704 271l10.676030400209129 -16.33472377434373M704 306.6l-17.91971333231777 -19.667291909456253M704 314.1l11.936390961520374 -17.99804037436843"/>
+<g class="k"><circle cx="488" cy="345.2" r="5.2"/><path d="M479.2 392L480.9 359.8Q488 350.4 495.1 359.8L496.8 392Z"/></g></svg>
+      </figure>
+      <div class="plate-cap" data-reveal="up" data-delay="160">
+        <span class="plate-no mark">03</span>
+        <div><h3>Björkhem House</h3><p class="meta lbl">Home · Jämtland · 2023</p></div>
+        <p class="plate-spec">186 m² · 74 m³ pine · corner window facing the lake</p>
+      </div>
+    </article>
+
+    <article class="plate plate-d">
+      <figure class="plate-art draw" data-reveal="clip" role="img" aria-label="Section through Fjällhall Sports Hall showing a glulam arch">
+        <svg viewBox="0 96 800 356" preserveAspectRatio="xMidYMax meet"><defs>
+  <pattern id="p4-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  <pattern id="p4-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+  <pattern id="p4-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+</defs><text class="lab" x="40" y="126">Section B-B</text><text class="lab r" x="760" y="126">1:200</text>
+<rect class="dr w" pathLength="1" x="100" y="372" width="600" height="20"/>
+<path class="dr o" pathLength="1" d="M50 392L750 392"/>
+<path class="dr b" pathLength="1" d="M60 392l-7 10M74 392l-7 10M88 392l-7 10M102 392l-7 10M116 392l-7 10M130 392l-7 10M144 392l-7 10M158 392l-7 10M172 392l-7 10M186 392l-7 10M200 392l-7 10M214 392l-7 10M228 392l-7 10M242 392l-7 10M256 392l-7 10M270 392l-7 10M284 392l-7 10M298 392l-7 10M312 392l-7 10M326 392l-7 10M340 392l-7 10M354 392l-7 10M368 392l-7 10M382 392l-7 10M396 392l-7 10M410 392l-7 10M424 392l-7 10M438 392l-7 10M452 392l-7 10M466 392l-7 10M480 392l-7 10M494 392l-7 10M508 392l-7 10M522 392l-7 10M536 392l-7 10M550 392l-7 10M564 392l-7 10M578 392l-7 10M592 392l-7 10M606 392l-7 10M620 392l-7 10M634 392l-7 10M648 392l-7 10M662 392l-7 10M676 392l-7 10M690 392l-7 10M704 392l-7 10M718 392l-7 10M732 392l-7 10M746 392l-7 10"/>
+<path class="k" d="M104 372Q400 -156 696 372L668 372Q400 -88 132 372Z"/>
+<path class="dr o" pathLength="1" d="M92 372Q400 -184 708 372"/>
+<path class="dr t" pathLength="1" d="M146.3 302l0 -12M188.6 242.7l0 -12M230.9 194.2l0 -12M273.1 156.5l0 -12M315.4 129.6l0 -12M357.7 113.4l0 -12M400 108l0 -12M442.3 113.4l0 -12M484.6 129.6l0 -12M526.9 156.5l0 -12M569.1 194.2l0 -12M611.4 242.7l0 -12M653.7 302l0 -12"/>
+<path class="dr o" pathLength="1" d="M340 94H460"/><path class="dr b" pathLength="1" d="M350 112L322 330M400 108L400 340M450 112L478 330" stroke-dasharray="4 6"/>
+<path class="dr t" pathLength="1" d="M104 382H696"/>
+<path class="dr t" pathLength="1" d="M260 372V369M400 369V372M540 372V369"/>
+<path class="dr b" pathLength="1" d="M180 370H620" stroke-dasharray="6 6"/>
+<path class="dr w" pathLength="1" d="M132 372L132 332L178 332L178 316L222 316L222 300L266 300L266 372Z"/>
+<path class="dr t" pathLength="1" d="M146 332V316M178 316V300M222 300V284M178 332H132M222 316H178M266 300H222"/>
+<path class="dr t" pathLength="1" d="M606 372V290M606 290H640M640 290V300M640 290L640 304"/>
+<g class="k"><circle cx="190" cy="285.4" r="3.4"/><path d="M184.2 316L185.4 294.9Q190 288.8 194.6 294.9L195.8 316Z"/></g>
+<g class="k"><circle cx="228" cy="269.4" r="3.4"/><path d="M222.2 300L223.4 278.9Q228 272.8 232.6 278.9L233.8 300Z"/></g>
+<g class="k"><circle cx="300" cy="327" r="5"/><path d="M291.5 372L293.2 341Q300 332 306.8 341L308.5 372Z"/></g>
+<g class="k"><circle cx="356" cy="327" r="5"/><path d="M347.5 372L349.2 341Q356 332 362.8 341L364.5 372Z"/></g>
+<g class="k"><circle cx="430" cy="327" r="5"/><path d="M421.5 372L423.2 341Q430 332 436.8 341L438.5 372Z"/></g>
+<g class="k"><circle cx="480" cy="325.2" r="5.2"/><path d="M471.2 372L472.9 339.8Q480 330.4 487.1 339.8L488.8 372Z"/></g>
+<g class="dim"><path class="dl" d="M104 424H696M104 418V430M696 418V430"/><text class="lab c" x="400" y="416">24 000</text></g></svg>
+      </figure>
+      <div class="plate-cap" data-reveal="up" data-delay="160">
+        <span class="plate-no mark">04</span>
+        <div><h3>Fjällhall Sports Hall</h3><p class="meta lbl">Civic · Trøndelag · 2021</p></div>
+        <p class="plate-spec">2,950 m² · 940 m³ glulam · 24 m arches</p>
+      </div>
+    </article>
+
+    <article class="plate plate-e">
+      <figure class="plate-art draw" data-reveal="clip" role="img" aria-label="East elevation of Strandskjul Cabin raised on stilts above a rocky shore">
+        <svg viewBox="0 96 800 356" preserveAspectRatio="xMidYMax meet"><defs>
+  <pattern id="p5-boards" width="9" height="20" patternUnits="userSpaceOnUse"><path d="M0.5 0V20" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+  <pattern id="p5-stone" width="40" height="8" patternUnits="userSpaceOnUse"><path d="M0 0.5H40M12 0V4M32 4V8" stroke="currentColor" stroke-width="1" opacity=".4"/></pattern>
+  <pattern id="p5-glass" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0.5H9" stroke="currentColor" stroke-width="1" opacity=".3"/></pattern>
+</defs><text class="lab" x="40" y="126">East elevation</text><text class="lab r" x="760" y="126">1:50</text>
+<path class="dr w" pathLength="1" d="M40 392L40 330L96 318L150 332L214 312L300 334L380 350L430 392Z"/>
+<path class="dr b" pathLength="1" d="M70 345l50 18M130 340l40 30M200 330l60 40M270 350l60 30"/>
+<path class="dr o" pathLength="1" d="M430 392L760 392"/>
+<path class="dr b" pathLength="1" d="M450 406h24M496 414h30M542 406h36M588 414h24M634 406h30"/>
+<rect class="dr t" pathLength="1" x="230" y="292" width="9" height="46"/>
+<rect class="dr t" pathLength="1" x="300" y="292" width="9" height="60"/>
+<rect class="dr t" pathLength="1" x="370" y="292" width="9" height="86"/>
+<rect class="dr t" pathLength="1" x="440" y="292" width="9" height="100"/>
+<path class="dr w" pathLength="1" d="M196 292L196 206L520 242L520 292Z"/>
+<path class="fx" d="M196 292V206L520 242V292Z" fill="url(#p5-boards)"/>
+<path class="dr o" pathLength="1" d="M184 200L534 238"/>
+<path class="dr t" pathLength="1" d="M188 210L534 248"/>
+<rect class="dr g" pathLength="1" x="396" y="252" width="112" height="34" fill="url(#p5-glass)"/>
+<path class="dr t" pathLength="1" d="M424 252V286M452 252V286M480 252V286"/>
+<rect class="dr g" pathLength="1" x="222" y="254" width="42" height="32" fill="url(#p5-glass)"/>
+<rect class="dr g" pathLength="1" x="286" y="254" width="42" height="32" fill="url(#p5-glass)"/>
+<rect class="dr w" pathLength="1" x="250" y="170" width="12" height="40"/>
+<rect class="dr w" pathLength="1" x="520" y="288" width="124" height="10"/>
+<path class="dr t" pathLength="1" d="M520 250H644M644 250V288M560 250V288M600 250V288"/>
+<path class="dr t" pathLength="1" d="M640 298V406M624 298V406M624 322H640M624 346H640M624 370H640"/>
+<path class="dr t" pathLength="1" d="M110 176L116.8 183.7L125 198L118.1 205.7L128 220L119.5 227.7L131 242L120.8 249.7L134 264L122.2 271.7L137 286L123.5 293.7L140 308L114.8 308L114.8 326L105.2 326L105.2 308L80 308L96.5 293.7L83 286L97.9 271.7L86 264L99.2 249.7L89 242L100.6 227.7L92 220L101.9 205.7L95 198L103.3 183.7Z"/>
+<path class="dr t" pathLength="1" d="M168 226L173.1 232.8L179.4 245.4L174.3 252.1L182.1 264.7L175.5 271.5L184.7 284.1L176.7 290.9L187.4 303.4L177.9 310.2L190 322.8L171.5 322.8L171.5 336L164.5 336L164.5 322.8L146 322.8L158.1 310.2L148.6 303.4L159.3 290.9L151.3 284.1L160.5 271.5L153.9 264.7L161.7 252.1L156.6 245.4L162.9 232.8Z"/>
+<g class="k"><circle cx="580" cy="248.4" r="4.4"/><path d="M572.5 288L574 260.7Q580 252.8 586 260.7L587.5 288Z"/></g>
+<path class="dr o" pathLength="1" d="M676 400Q712 418 748 400Z"/></svg>
+      </figure>
+      <div class="plate-cap" data-reveal="up" data-delay="160">
+        <span class="plate-no mark">05</span>
+        <div><h3>Strandskjul Cabin</h3><p class="meta lbl">Home · Lofoten · 2020</p></div>
+        <p class="plate-spec">64 m² · 31 m³ pine · four stilts, no blasting</p>
+      </div>
+    </article>
+  </div>
+  <p class="wrap note lbl">Projects, areas and volumes on this site are illustrative drawings of a fictional studio.</p>
+</section>
+
+<!-- ================= III. PROCESS (signature scene) ================= -->
+<section class="process" id="process" data-progress data-theme="fjord" data-stages="-0.094,0.132,0.377,0.678" aria-labelledby="process-title">
+  <div class="process-stage">
+    <div class="process-head">
+      <p class="lbl sec-label"><span class="mark" aria-hidden="true">III</span> Process</p>
+      <h2 id="process-title" class="sec-title">From a plot to a roof in four moves.</h2>
+    </div>
+    <ol class="steps">
+      <li class="step is-active" data-step="0"><span class="mark" aria-hidden="true">I</span><div><h3>Read the site</h3><p>We walk the plot in winter and in summer, log the sun, wind and snow, and mark the trees we keep. Sills sit on stone pads, never in a slab.</p></div></li>
+      <li class="step" data-step="1"><span class="mark" aria-hidden="true">II</span><div><h3>Raise the frame</h3><p>Posts and tie beams are milled from dried spruce, cut to joinery by machine and checked by hand, then stood in a day.</p></div></li>
+      <li class="step" data-step="2"><span class="mark" aria-hidden="true">III</span><div><h3>Close the roof</h3><p>Glulam rafters carry a 16 m clear span to a ridge beam. No steel tie crosses the room.</p></div></li>
+      <li class="step" data-step="3"><span class="mark" aria-hidden="true">IIII</span><div><h3>Clad and keep</h3><p>Pine-tar and falu-red boards go on last. A maintenance plan is handed over with the keys.</p></div></li>
+    </ol>
+    <figure class="asm" role="group" aria-label="Isometric assembly of a timber hall">
+      <svg class="asm-svg" viewBox="-448 -253.7 1020.7 758.5" role="img" aria-labelledby="asm-t asm-d" preserveAspectRatio="xMidYMid meet">
+  <title id="asm-t">Isometric assembly of a timber hall</title>
+  <desc id="asm-d">A 24 by 16 metre timber hall assembling in four stages: pads and sills, posts and tie beams, glulam roof, then falu-red cladding and glazing.</desc>
+  <g class="ground"><path class="plane" d="M0 -100.8L548.7 216L124.7 460.8L-424 144Z"/><path class="grid" d="M24.9 -86.4L-399.1 158.4M56.1 -68.4L-367.9 176.4M87.3 -50.4L-336.7 194.4M118.5 -32.4L-305.5 212.4M149.6 -14.4L-274.4 230.4M180.8 3.6L-243.2 248.4M212 21.6L-212 266.4M243.2 39.6L-180.8 284.4M274.4 57.6L-149.6 302.4M305.5 75.6L-118.5 320.4M336.7 93.6L-87.3 338.4M367.9 111.6L-56.1 356.4M399.1 129.6L-24.9 374.4M430.2 147.6L6.2 392.4M461.4 165.6L37.4 410.4M492.6 183.6L68.6 428.4M523.8 201.6L99.8 446.4M-24.9 -86.4L523.8 230.4M-56.1 -68.4L492.6 248.4M-87.3 -50.4L461.4 266.4M-118.5 -32.4L430.2 284.4M-149.6 -14.4L399.1 302.4M-180.8 3.6L367.9 320.4M-212 21.6L336.7 338.4M-243.2 39.6L305.5 356.4M-274.4 57.6L274.4 374.4M-305.5 75.6L243.2 392.4M-336.7 93.6L212 410.4M-367.9 111.6L180.8 428.4M-399.1 129.6L149.6 446.4"/><path class="bnd" d="M0 -72L498.8 216L124.7 432L-374.1 144Z"/></g>
+  <g class="north"><path d="M-358.5 163.8L-321.1 142.2" /><text x="-362.5" y="155.8" class="lab">N</text></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M0 -34.2L37.4 -12.6L0 9L-37.4 -12.6Z" fill="#798891"/><path d="M37.4 0L0 21.6L0 9L37.4 -12.6Z" fill="#5a6871"/><path d="M0 21.6L-37.4 0L-37.4 -12.6L0 9Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M93.5 19.8L130.9 41.4L93.5 63L56.1 41.4Z" fill="#798891"/><path d="M130.9 54L93.5 75.6L93.5 63L130.9 41.4Z" fill="#5a6871"/><path d="M93.5 75.6L56.1 54L56.1 41.4L93.5 63Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M187.1 73.8L224.5 95.4L187.1 117L149.6 95.4Z" fill="#798891"/><path d="M224.5 108L187.1 129.6L187.1 117L224.5 95.4Z" fill="#5a6871"/><path d="M187.1 129.6L149.6 108L149.6 95.4L187.1 117Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M-249.4 109.8L-212 131.4L-249.4 153L-286.8 131.4Z" fill="#798891"/><path d="M-212 144L-249.4 165.6L-249.4 153L-212 131.4Z" fill="#5a6871"/><path d="M-249.4 165.6L-286.8 144L-286.8 131.4L-249.4 153Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M280.6 127.8L318 149.4L280.6 171L243.2 149.4Z" fill="#798891"/><path d="M318 162L280.6 183.6L280.6 171L318 149.4Z" fill="#5a6871"/><path d="M280.6 183.6L243.2 162L243.2 149.4L280.6 171Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M-155.9 163.8L-118.5 185.4L-155.9 207L-193.3 185.4Z" fill="#798891"/><path d="M-118.5 198L-155.9 219.6L-155.9 207L-118.5 185.4Z" fill="#5a6871"/><path d="M-155.9 219.6L-193.3 198L-193.3 185.4L-155.9 207Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M374.1 181.8L411.5 203.4L374.1 225L336.7 203.4Z" fill="#798891"/><path d="M411.5 216L374.1 237.6L374.1 225L411.5 203.4Z" fill="#5a6871"/><path d="M374.1 237.6L336.7 216L336.7 203.4L374.1 225Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M-62.4 217.8L-24.9 239.4L-62.4 261L-99.8 239.4Z" fill="#798891"/><path d="M-24.9 252L-62.4 273.6L-62.4 261L-24.9 239.4Z" fill="#5a6871"/><path d="M-62.4 273.6L-99.8 252L-99.8 239.4L-62.4 261Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M31.2 271.8L68.6 293.4L31.2 315L-6.2 293.4Z" fill="#798891"/><path d="M68.6 306L31.2 327.6L31.2 315L68.6 293.4Z" fill="#5a6871"/><path d="M31.2 327.6L-6.2 306L-6.2 293.4L31.2 315Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:40px"><g class="solid"><path d="M124.7 325.8L162.1 347.4L124.7 369L87.3 347.4Z" fill="#798891"/><path d="M162.1 360L124.7 381.6L124.7 369L162.1 347.4Z" fill="#5a6871"/><path d="M124.7 381.6L87.3 360L87.3 347.4L124.7 369Z" fill="#718089"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:-200px"><g class="ghost"><path d="M0 -36L392.8 190.8L374.1 201.6L-18.7 -25.2ZM392.8 203.4L374.1 214.2L374.1 201.6L392.8 190.8ZM374.1 214.2L-18.7 -12.6L-18.7 -25.2L374.1 201.6Z"/></g><g class="solid"><path d="M0 -36L392.8 190.8L374.1 201.6L-18.7 -25.2Z" fill="#d3b07f"/><path d="M392.8 203.4L374.1 214.2L374.1 201.6L392.8 190.8Z" fill="#a58459"/><path d="M374.1 214.2L-18.7 -12.6L-18.7 -25.2L374.1 201.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st1" style="--s:-0.0942;--d:0.0942;--fx:0px;--fy:-200px"><g class="ghost"><path d="M-249.4 108L143.4 334.8L124.7 345.6L-268.1 118.8ZM143.4 347.4L124.7 358.2L124.7 345.6L143.4 334.8ZM124.7 358.2L-268.1 131.4L-268.1 118.8L124.7 345.6Z"/></g><g class="solid"><path d="M-249.4 108L143.4 334.8L124.7 345.6L-268.1 118.8Z" fill="#d3b07f"/><path d="M143.4 347.4L124.7 358.2L124.7 345.6L143.4 334.8Z" fill="#a58459"/><path d="M124.7 358.2L-268.1 131.4L-268.1 118.8L124.7 345.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st1" style="--s:0.0188;--d:0.113;--fx:0px;--fy:36px"><g class="ghost"><path d="M-18.7 -25.2L374.1 201.6L143.4 334.8L-249.4 108ZM374.1 214.2L143.4 347.4L143.4 334.8L374.1 201.6ZM143.4 347.4L-249.4 120.6L-249.4 108L143.4 334.8Z"/></g><g class="solid"><path d="M-18.7 -25.2L374.1 201.6L143.4 334.8L-249.4 108Z" fill="#dbbd8e"/><path d="M374.1 214.2L143.4 347.4L143.4 334.8L374.1 201.6Z" fill="#b7986c"/><path d="M143.4 347.4L-249.4 120.6L-249.4 108L143.4 334.8Z" fill="#d2b485"/></g></g>
+  <g class="mem st2" style="--s:0.1318;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M0 -185.4L15.6 -176.4L0 -167.4L-15.6 -176.4ZM15.6 -25.2L0 -16.2L0 -167.4L15.6 -176.4ZM0 -16.2L-15.6 -25.2L-15.6 -176.4L0 -167.4Z"/></g><g class="solid"><path d="M0 -185.4L15.6 -176.4L0 -167.4L-15.6 -176.4Z" fill="#d3b07f"/><path d="M15.6 -25.2L0 -16.2L0 -167.4L15.6 -176.4Z" fill="#a58459"/><path d="M0 -16.2L-15.6 -25.2L-15.6 -176.4L0 -167.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.1742;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M93.5 -131.4L109.1 -122.4L93.5 -113.4L77.9 -122.4ZM109.1 28.8L93.5 37.8L93.5 -113.4L109.1 -122.4ZM93.5 37.8L77.9 28.8L77.9 -122.4L93.5 -113.4Z"/></g><g class="solid"><path d="M93.5 -131.4L109.1 -122.4L93.5 -113.4L77.9 -122.4Z" fill="#d3b07f"/><path d="M109.1 28.8L93.5 37.8L93.5 -113.4L109.1 -122.4Z" fill="#a58459"/><path d="M93.5 37.8L77.9 28.8L77.9 -122.4L93.5 -113.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.1695;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M-14 -173.7L-1.6 -166.5L-235.4 -31.5L-247.9 -38.7ZM-1.6 -148.5L-235.4 -13.5L-235.4 -31.5L-1.6 -166.5ZM-235.4 -13.5L-247.9 -20.7L-247.9 -38.7L-235.4 -31.5Z"/></g><g class="solid"><path d="M-14 -173.7L-1.6 -166.5L-235.4 -31.5L-247.9 -38.7Z" fill="#d3b07f"/><path d="M-1.6 -148.5L-235.4 -13.5L-235.4 -31.5L-1.6 -166.5Z" fill="#a58459"/><path d="M-235.4 -13.5L-247.9 -20.7L-247.9 -38.7L-235.4 -31.5Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2166;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M187.1 -77.4L202.6 -68.4L187.1 -59.4L171.5 -68.4ZM202.6 82.8L187.1 91.8L187.1 -59.4L202.6 -68.4ZM187.1 91.8L171.5 82.8L171.5 -68.4L187.1 -59.4Z"/></g><g class="solid"><path d="M187.1 -77.4L202.6 -68.4L187.1 -59.4L171.5 -68.4Z" fill="#d3b07f"/><path d="M202.6 82.8L187.1 91.8L187.1 -59.4L202.6 -68.4Z" fill="#a58459"/><path d="M187.1 91.8L171.5 82.8L171.5 -68.4L187.1 -59.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.146;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M-249.4 -41.4L-233.8 -32.4L-249.4 -23.4L-265 -32.4ZM-233.8 118.8L-249.4 127.8L-249.4 -23.4L-233.8 -32.4ZM-249.4 127.8L-265 118.8L-265 -32.4L-249.4 -23.4Z"/></g><g class="solid"><path d="M-249.4 -41.4L-233.8 -32.4L-249.4 -23.4L-265 -32.4Z" fill="#d3b07f"/><path d="M-233.8 118.8L-249.4 127.8L-249.4 -23.4L-233.8 -32.4Z" fill="#a58459"/><path d="M-249.4 127.8L-265 118.8L-265 -32.4L-249.4 -23.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2119;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M79.5 -119.7L92 -112.5L-141.9 22.5L-154.3 15.3ZM92 -94.5L-141.9 40.5L-141.9 22.5L92 -112.5ZM-141.9 40.5L-154.3 33.3L-154.3 15.3L-141.9 22.5Z"/></g><g class="solid"><path d="M79.5 -119.7L92 -112.5L-141.9 22.5L-154.3 15.3Z" fill="#d3b07f"/><path d="M92 -94.5L-141.9 40.5L-141.9 22.5L92 -112.5Z" fill="#a58459"/><path d="M-141.9 40.5L-154.3 33.3L-154.3 15.3L-141.9 22.5Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.259;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M280.6 -23.4L296.2 -14.4L280.6 -5.4L265 -14.4ZM296.2 136.8L280.6 145.8L280.6 -5.4L296.2 -14.4ZM280.6 145.8L265 136.8L265 -14.4L280.6 -5.4Z"/></g><g class="solid"><path d="M280.6 -23.4L296.2 -14.4L280.6 -5.4L265 -14.4Z" fill="#d3b07f"/><path d="M296.2 136.8L280.6 145.8L280.6 -5.4L296.2 -14.4Z" fill="#a58459"/><path d="M280.6 145.8L265 136.8L265 -14.4L280.6 -5.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.1883;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M-155.9 12.6L-140.3 21.6L-155.9 30.6L-171.5 21.6ZM-140.3 172.8L-155.9 181.8L-155.9 30.6L-140.3 21.6ZM-155.9 181.8L-171.5 172.8L-171.5 21.6L-155.9 30.6Z"/></g><g class="solid"><path d="M-155.9 12.6L-140.3 21.6L-155.9 30.6L-171.5 21.6Z" fill="#d3b07f"/><path d="M-140.3 172.8L-155.9 181.8L-155.9 30.6L-140.3 21.6Z" fill="#a58459"/><path d="M-155.9 181.8L-171.5 172.8L-171.5 21.6L-155.9 30.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2543;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M173 -65.7L185.5 -58.5L-48.3 76.5L-60.8 69.3ZM185.5 -40.5L-48.3 94.5L-48.3 76.5L185.5 -58.5ZM-48.3 94.5L-60.8 87.3L-60.8 69.3L-48.3 76.5Z"/></g><g class="solid"><path d="M173 -65.7L185.5 -58.5L-48.3 76.5L-60.8 69.3Z" fill="#d3b07f"/><path d="M185.5 -40.5L-48.3 94.5L-48.3 76.5L185.5 -58.5Z" fill="#a58459"/><path d="M-48.3 94.5L-60.8 87.3L-60.8 69.3L-48.3 76.5Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.3014;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M374.1 30.6L389.7 39.6L374.1 48.6L358.5 39.6ZM389.7 190.8L374.1 199.8L374.1 48.6L389.7 39.6ZM374.1 199.8L358.5 190.8L358.5 39.6L374.1 48.6Z"/></g><g class="solid"><path d="M374.1 30.6L389.7 39.6L374.1 48.6L358.5 39.6Z" fill="#d3b07f"/><path d="M389.7 190.8L374.1 199.8L374.1 48.6L389.7 39.6Z" fill="#a58459"/><path d="M374.1 199.8L358.5 190.8L358.5 39.6L374.1 48.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2307;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M-62.4 66.6L-46.8 75.6L-62.4 84.6L-77.9 75.6ZM-46.8 226.8L-62.4 235.8L-62.4 84.6L-46.8 75.6ZM-62.4 235.8L-77.9 226.8L-77.9 75.6L-62.4 84.6Z"/></g><g class="solid"><path d="M-62.4 66.6L-46.8 75.6L-62.4 84.6L-77.9 75.6Z" fill="#d3b07f"/><path d="M-46.8 226.8L-62.4 235.8L-62.4 84.6L-46.8 75.6Z" fill="#a58459"/><path d="M-62.4 235.8L-77.9 226.8L-77.9 75.6L-62.4 84.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2967;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M266.6 -11.7L279 -4.5L45.2 130.5L32.7 123.3ZM279 13.5L45.2 148.5L45.2 130.5L279 -4.5ZM45.2 148.5L32.7 141.3L32.7 123.3L45.2 130.5Z"/></g><g class="solid"><path d="M266.6 -11.7L279 -4.5L45.2 130.5L32.7 123.3Z" fill="#d3b07f"/><path d="M279 13.5L45.2 148.5L45.2 130.5L279 -4.5Z" fill="#a58459"/><path d="M45.2 148.5L32.7 141.3L32.7 123.3L45.2 130.5Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.2731;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M31.2 120.6L46.8 129.6L31.2 138.6L15.6 129.6ZM46.8 280.8L31.2 289.8L31.2 138.6L46.8 129.6ZM31.2 289.8L15.6 280.8L15.6 129.6L31.2 138.6Z"/></g><g class="solid"><path d="M31.2 120.6L46.8 129.6L31.2 138.6L15.6 129.6Z" fill="#d3b07f"/><path d="M46.8 280.8L31.2 289.8L31.2 138.6L46.8 129.6Z" fill="#a58459"/><path d="M31.2 289.8L15.6 280.8L15.6 129.6L31.2 138.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.339;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M360.1 42.3L372.6 49.5L138.7 184.5L126.3 177.3ZM372.6 67.5L138.7 202.5L138.7 184.5L372.6 49.5ZM138.7 202.5L126.3 195.3L126.3 177.3L138.7 184.5Z"/></g><g class="solid"><path d="M360.1 42.3L372.6 49.5L138.7 184.5L126.3 177.3Z" fill="#d3b07f"/><path d="M372.6 67.5L138.7 202.5L138.7 184.5L372.6 49.5Z" fill="#a58459"/><path d="M138.7 202.5L126.3 195.3L126.3 177.3L138.7 184.5Z" fill="#c7a475"/></g></g>
+  <g class="mem st2" style="--s:0.3155;--d:0.0942;--fx:0px;--fy:-210px"><g class="ghost"><path d="M124.7 174.6L140.3 183.6L124.7 192.6L109.1 183.6ZM140.3 334.8L124.7 343.8L124.7 192.6L140.3 183.6ZM124.7 343.8L109.1 334.8L109.1 183.6L124.7 192.6Z"/></g><g class="solid"><path d="M124.7 174.6L140.3 183.6L124.7 192.6L109.1 183.6Z" fill="#d3b07f"/><path d="M140.3 334.8L124.7 343.8L124.7 192.6L140.3 183.6Z" fill="#a58459"/><path d="M124.7 343.8L109.1 334.8L109.1 183.6L124.7 192.6Z" fill="#c7a475"/></g></g>
+  <g class="mem st3" style="--s:0.3767;--d:0.0942;--fx:-40px;--fy:-220px"><g class="ghost"><path d="M10.3 -179.2L-114.4 -195.4L-122.5 -175.4L2.2 -159.2ZM-2.2 -186.4L-126.9 -202.6L-114.4 -195.4L10.3 -179.2ZM-126.9 -202.6L-135 -182.6L-122.5 -175.4L-114.4 -195.4Z"/></g><g class="solid"><path d="M10.3 -179.2L-114.4 -195.4L-122.5 -175.4L2.2 -159.2Z" fill="#a58459"/><path d="M-2.2 -186.4L-126.9 -202.6L-114.4 -195.4L10.3 -179.2Z" fill="#a8865c"/><path d="M-126.9 -202.6L-135 -182.6L-122.5 -175.4L-114.4 -195.4Z" fill="#e4c08d"/></g></g>
+  <g class="mem st3" style="--s:0.565;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M-69.5 -202.5L329.5 27.9L318.9 34L-80.1 -196.4ZM329.5 40.1L318.9 46.3L318.9 34L329.5 27.9ZM318.9 46.3L-80.1 -184.1L-80.1 -196.4L318.9 34Z"/></g><g class="solid"><path d="M-69.5 -202.5L329.5 27.9L318.9 34L-80.1 -196.4Z" fill="#d3b07f"/><path d="M329.5 40.1L318.9 46.3L318.9 34L329.5 27.9Z" fill="#a58459"/><path d="M318.9 46.3L-80.1 -184.1L-80.1 -196.4L318.9 34Z" fill="#c7a475"/></g></g>
+  <g class="mem st3" style="--s:0.3908;--d:0.0942;--fx:40px;--fy:-220px"><g class="ghost"><path d="M-239.1 -19.9L-114.4 -180.1L-122.5 -190.7L-247.3 -30.5ZM-135 -197.9L-259.7 -37.7L-247.3 -30.5L-122.5 -190.7ZM-259.7 -37.7L-251.6 -27.1L-239.1 -19.9L-247.3 -30.5Z"/></g><g class="solid"><path d="M-239.1 -19.9L-114.4 -180.1L-122.5 -190.7L-247.3 -30.5Z" fill="#a58459"/><path d="M-135 -197.9L-259.7 -37.7L-247.3 -30.5L-122.5 -190.7Z" fill="#e8c490"/><path d="M-259.7 -37.7L-251.6 -27.1L-239.1 -19.9L-247.3 -30.5Z" fill="#97774e"/></g></g>
+  <g class="mem st3" style="--s:0.4144;--d:0.0942;--fx:-40px;--fy:-220px"><g class="ghost"><path d="M103.8 -125.2L-20.9 -141.4L-29 -121.4L95.7 -105.2ZM91.4 -132.4L-33.3 -148.6L-20.9 -141.4L103.8 -125.2ZM-33.3 -148.6L-41.5 -128.6L-29 -121.4L-20.9 -141.4Z"/></g><g class="solid"><path d="M103.8 -125.2L-20.9 -141.4L-29 -121.4L95.7 -105.2Z" fill="#a58459"/><path d="M91.4 -132.4L-33.3 -148.6L-20.9 -141.4L103.8 -125.2Z" fill="#a8865c"/><path d="M-33.3 -148.6L-41.5 -128.6L-29 -121.4L-20.9 -141.4Z" fill="#e4c08d"/></g></g>
+  <g class="mem st3" style="--s:0.4285;--d:0.0942;--fx:40px;--fy:-220px"><g class="ghost"><path d="M-145.6 34.1L-20.9 -126.1L-29 -136.7L-153.7 23.5ZM-41.5 -143.9L-166.2 16.3L-153.7 23.5L-29 -136.7ZM-166.2 16.3L-158 26.9L-145.6 34.1L-153.7 23.5Z"/></g><g class="solid"><path d="M-145.6 34.1L-20.9 -126.1L-29 -136.7L-153.7 23.5Z" fill="#a58459"/><path d="M-41.5 -143.9L-166.2 16.3L-153.7 23.5L-29 -136.7Z" fill="#e8c490"/><path d="M-166.2 16.3L-158 26.9L-145.6 34.1L-153.7 23.5Z" fill="#97774e"/></g></g>
+  <g class="mem st3" style="--s:0.452;--d:0.0942;--fx:-40px;--fy:-220px"><g class="ghost"><path d="M197.4 -71.2L72.7 -87.4L64.5 -67.4L189.2 -51.2ZM184.9 -78.4L60.2 -94.6L72.7 -87.4L197.4 -71.2ZM60.2 -94.6L52 -74.6L64.5 -67.4L72.7 -87.4Z"/></g><g class="solid"><path d="M197.4 -71.2L72.7 -87.4L64.5 -67.4L189.2 -51.2Z" fill="#a58459"/><path d="M184.9 -78.4L60.2 -94.6L72.7 -87.4L197.4 -71.2Z" fill="#a8865c"/><path d="M60.2 -94.6L52 -74.6L64.5 -67.4L72.7 -87.4Z" fill="#e4c08d"/></g></g>
+  <g class="mem st3" style="--s:0.5274;--d:0.0942;--fx:0px;--fy:-240px"><g class="ghost"><path d="M-130.9 -205.2L268.1 25.2L255.7 32.4L-143.4 -198ZM268.1 43.2L255.7 50.4L255.7 32.4L268.1 25.2ZM255.7 50.4L-143.4 -180L-143.4 -198L255.7 32.4Z"/></g><g class="solid"><path d="M-130.9 -205.2L268.1 25.2L255.7 32.4L-143.4 -198Z" fill="#d3b07f"/><path d="M268.1 43.2L255.7 50.4L255.7 32.4L268.1 25.2Z" fill="#a58459"/><path d="M255.7 50.4L-143.4 -180L-143.4 -198L255.7 32.4Z" fill="#c7a475"/></g></g>
+  <g class="mem st3" style="--s:0.4662;--d:0.0942;--fx:40px;--fy:-220px"><g class="ghost"><path d="M-52 88.1L72.7 -72.1L64.5 -82.7L-60.2 77.5ZM52 -89.9L-72.7 70.3L-60.2 77.5L64.5 -82.7ZM-72.7 70.3L-64.5 80.9L-52 88.1L-60.2 77.5Z"/></g><g class="solid"><path d="M-52 88.1L72.7 -72.1L64.5 -82.7L-60.2 77.5Z" fill="#a58459"/><path d="M52 -89.9L-72.7 70.3L-60.2 77.5L64.5 -82.7Z" fill="#e8c490"/><path d="M-72.7 70.3L-64.5 80.9L-52 88.1L-60.2 77.5Z" fill="#97774e"/></g></g>
+  <g class="mem st3" style="--s:0.4897;--d:0.0942;--fx:-40px;--fy:-220px"><g class="ghost"><path d="M290.9 -17.2L166.2 -33.4L158 -13.4L282.8 2.8ZM278.4 -24.4L153.7 -40.6L166.2 -33.4L290.9 -17.2ZM153.7 -40.6L145.6 -20.6L158 -13.4L166.2 -33.4Z"/></g><g class="solid"><path d="M290.9 -17.2L166.2 -33.4L158 -13.4L282.8 2.8Z" fill="#a58459"/><path d="M278.4 -24.4L153.7 -40.6L166.2 -33.4L290.9 -17.2Z" fill="#a8865c"/><path d="M153.7 -40.6L145.6 -20.6L158 -13.4L166.2 -33.4Z" fill="#e4c08d"/></g></g>
+  <g class="mem st3" style="--s:0.5038;--d:0.0942;--fx:40px;--fy:-220px"><g class="ghost"><path d="M41.5 142.1L166.2 -18.1L158 -28.7L33.3 131.5ZM145.6 -35.9L20.9 124.3L33.3 131.5L158 -28.7ZM20.9 124.3L29 134.9L41.5 142.1L33.3 131.5Z"/></g><g class="solid"><path d="M41.5 142.1L166.2 -18.1L158 -28.7L33.3 131.5Z" fill="#a58459"/><path d="M145.6 -35.9L20.9 124.3L33.3 131.5L158 -28.7Z" fill="#e8c490"/><path d="M20.9 124.3L29 134.9L41.5 142.1L33.3 131.5Z" fill="#97774e"/></g></g>
+  <g class="mem st3" style="--s:0.5274;--d:0.0942;--fx:-40px;--fy:-220px"><g class="ghost"><path d="M384.4 36.8L259.7 20.6L251.6 40.6L376.3 56.8ZM372 29.6L247.3 13.4L259.7 20.6L384.4 36.8ZM247.3 13.4L239.1 33.4L251.6 40.6L259.7 20.6Z"/></g><g class="solid"><path d="M384.4 36.8L259.7 20.6L251.6 40.6L376.3 56.8Z" fill="#a58459"/><path d="M372 29.6L247.3 13.4L259.7 20.6L384.4 36.8Z" fill="#a8865c"/><path d="M247.3 13.4L239.1 33.4L251.6 40.6L259.7 20.6Z" fill="#e4c08d"/></g></g>
+  <g class="mem st3" style="--s:0.5933;--d:0.0942;--fx:0px;--fy:-230px"><g class="ghost"><path d="M-194.2 -130.5L204.8 99.9L194.2 106L-204.8 -124.4ZM204.8 112.1L194.2 118.3L194.2 106L204.8 99.9ZM194.2 118.3L-204.8 -112.1L-204.8 -124.4L194.2 106Z"/></g><g class="solid"><path d="M-194.2 -130.5L204.8 99.9L194.2 106L-204.8 -124.4Z" fill="#d3b07f"/><path d="M204.8 112.1L194.2 118.3L194.2 106L204.8 99.9Z" fill="#a58459"/><path d="M194.2 118.3L-204.8 -112.1L-204.8 -124.4L194.2 106Z" fill="#c7a475"/></g></g>
+  <g class="mem st3" style="--s:0.5415;--d:0.0942;--fx:40px;--fy:-220px"><g class="ghost"><path d="M135 196.1L259.7 35.9L251.6 25.3L126.9 185.5ZM239.1 18.1L114.4 178.3L126.9 185.5L251.6 25.3ZM114.4 178.3L122.5 188.9L135 196.1L126.9 185.5Z"/></g><g class="solid"><path d="M135 196.1L259.7 35.9L251.6 25.3L126.9 185.5Z" fill="#a58459"/><path d="M239.1 18.1L114.4 178.3L126.9 185.5L251.6 25.3Z" fill="#e8c490"/><path d="M114.4 178.3L122.5 188.9L135 196.1L126.9 185.5Z" fill="#97774e"/></g></g>
+  <g class="mem st4" style="--s:0.6781;--d:0.0942;--fx:-70px;--fy:40px"><g class="solid"><path d="M-265.9 -30.1L-172.4 23.9L-176.8 26.5L-270.3 -27.5Z" fill="#a93f2d"/><path d="M-172.4 173.3L-176.8 175.9L-176.8 26.5L-172.4 23.9Z" fill="#802c1e"/><path d="M-176.8 175.9L-270.3 121.9L-270.3 -27.5L-176.8 26.5Z" fill="#9e3a29"/><path class="seam" d="M-261 127.3L-261 -22.1M-251.6 132.7L-251.6 -16.7M-242.2 138.1L-242.2 -11.3M-232.9 143.5L-232.9 -5.9M-223.5 148.9L-223.5 -0.5M-214.2 154.3L-214.2 4.9M-204.8 159.7L-204.8 10.3M-195.5 165.1L-195.5 15.7M-186.1 170.5L-186.1 21.1M-176.8 175.9L-176.8 26.5"/></g></g>
+  <g class="mem st4" style="--s:0.7204;--d:0.0942;--fx:-70px;--fy:40px"><g class="solid"><path d="M-172.4 23.9L-78.9 77.9L-83.2 80.5L-176.8 26.5Z" fill="#a93f2d"/><path d="M-78.9 227.3L-83.2 229.9L-83.2 80.5L-78.9 77.9Z" fill="#802c1e"/><path d="M-83.2 229.9L-176.8 175.9L-176.8 26.5L-83.2 80.5Z" fill="#9e3a29"/><path class="seam" d="M-167.4 181.3L-167.4 31.9M-158.1 186.7L-158.1 37.3M-148.7 192.1L-148.7 42.7M-139.4 197.5L-139.4 48.1M-130 202.9L-130 53.5M-120.7 208.3L-120.7 58.9M-111.3 213.7L-111.3 64.3M-101.9 219.1L-101.9 69.7M-92.6 224.5L-92.6 75.1M-83.2 229.9L-83.2 80.5"/></g></g>
+  <g class="mem st4" style="--s:0.8099;--d:0.0942;--fx:70px;--fy:40px"><g class="solid"><path d="M395 193.9L262.5 270.4L262.5 33.5L395 44.5Z" fill="#802c1e"/><path d="M258.1 267.8L258.1 31L262.5 33.5L262.5 270.4Z" fill="#9e3a29"/><path d="M258.1 31L390.6 41.9L395 44.5L262.5 33.5Z" fill="#852e20"/><path class="seam" d="M387.4 198.5L387.4 43.9M378 203.9L378 43.1M368.7 209.3L368.7 42.4M359.3 214.7L359.3 41.6M350 220.1L350 40.8M340.6 225.5L340.6 40M331.3 230.9L331.3 39.3M321.9 236.3L321.9 38.5M312.5 241.7L312.5 37.7M303.2 247L303.2 36.9M293.8 252.5L293.8 36.2M284.5 257.8L284.5 35.4M275.1 263.3L275.1 34.6M265.8 268.7L265.8 33.8"/></g></g>
+  <g class="mem st4" style="--s:0.7628;--d:0.0942;--fx:-70px;--fy:40px"><g class="solid"><path d="M-78.9 77.9L14.7 131.9L10.3 134.5L-83.2 80.5Z" fill="#a93f2d"/><path d="M14.7 281.3L10.3 283.9L10.3 134.5L14.7 131.9Z" fill="#802c1e"/><path d="M10.3 283.9L-83.2 229.9L-83.2 80.5L10.3 134.5Z" fill="#9e3a29"/><path class="seam" d="M-73.9 235.3L-73.9 85.9M-64.5 240.7L-64.5 91.3M-55.2 246.1L-55.2 96.7M-45.8 251.5L-45.8 102.1M-36.5 256.9L-36.5 107.5M-27.1 262.3L-27.1 112.9M-17.8 267.7L-17.8 118.3M-8.4 273.1L-8.4 123.7M0.9 278.5L0.9 129.1"/></g></g>
+  <g class="mem st4" style="--s:0.8052;--d:0.0942;--fx:-70px;--fy:40px"><g class="solid"><path d="M14.7 131.9L108.2 185.9L103.8 188.5L10.3 134.5Z" fill="#a93f2d"/><path d="M108.2 335.3L103.8 337.9L103.8 188.5L108.2 185.9Z" fill="#802c1e"/><path d="M103.8 337.9L10.3 283.9L10.3 134.5L103.8 188.5Z" fill="#9e3a29"/><path class="seam" d="M19.6 289.3L19.6 139.9M29 294.7L29 145.3M38.3 300.1L38.3 150.7M47.7 305.5L47.7 156.1M57.1 310.9L57.1 161.5M66.4 316.3L66.4 166.9M75.8 321.7L75.8 172.3M85.1 327.1L85.1 177.7M94.5 332.5L94.5 183.1"/></g></g>
+  <g class="mem st4" style="--s:0.8476;--d:0.0942;--fx:70px;--fy:40px"><g class="solid"><path d="M262.5 270.4L130 346.9L130 197.5L262.5 33.5Z" fill="#802c1e"/><path d="M125.6 344.3L125.6 194.9L130 197.5L130 346.9Z" fill="#9e3a29"/><path d="M125.6 194.9L258.1 31L262.5 33.5L130 197.5Z" fill="#bb4833"/><path class="seam" d="M256.4 274.1L256.4 41.3M247.1 279.5L247.1 52.9M237.7 284.8L237.7 64.4M228.4 290.3L228.4 76M219 295.7L219 87.6M209.7 301.1L209.7 99.2M200.3 306.5L200.3 110.7M191 311.8L191 122.3M181.6 317.3L181.6 133.9M172.3 322.6L172.3 145.5M162.9 328L162.9 157M153.5 333.5L153.5 168.6M144.2 338.8L144.2 180.2M134.8 344.3L134.8 191.8"/></g></g>
+  <g class="mem st4" style="--s:0.7346;--d:0.113;--fx:0px;--fy:-240px"><g class="solid"><path d="M419.6 36.4L268.3 16.7L271.9 7.9L423.2 27.5Z" fill="#435962"/><path d="M-143.2 -220.9L-139.7 -229.7L271.9 7.9L268.3 16.7Z" fill="#6b8994"/><path d="M-139.7 -229.7L11.6 -210.1L423.2 27.5L271.9 7.9Z" fill="#455b64"/></g></g>
+  <g class="mem st4" style="--s:0.7722;--d:0.113;--fx:0px;--fy:-240px"><g class="solid"><path d="M116.7 211.3L268 16.9L264.4 12.2L113.1 206.6Z" fill="#435962"/><path d="M-147.2 -225.4L-298.5 -31L113.1 206.6L264.4 12.2Z" fill="#6e8c97"/><path d="M-298.5 -31L-294.9 -26.3L116.7 211.3L113.1 206.6Z" fill="#3a4e57"/></g></g>
+  <g class="mem st4 glass" style="--s:0.8476;--d:0.0659;--fx:-40px;--fy:20px"><g class="solid"><path d="M-234.5 38.2L-190.8 63.4L-193.3 64.8L-236.9 39.6Z" fill="#a1c0c7"/><path d="M-190.8 135.4L-193.3 136.8L-193.3 64.8L-190.8 63.4Z" fill="#7a9ba4"/><path d="M-193.3 136.8L-236.9 111.6L-236.9 39.6L-193.3 64.8Z" fill="#96b7be"/></g></g>
+  <g class="mem st4 glass" style="--s:0.8664;--d:0.0659;--fx:-40px;--fy:20px"><g class="solid"><path d="M-140.9 92.2L-97.3 117.4L-99.8 118.8L-143.4 93.6Z" fill="#a1c0c7"/><path d="M-97.3 189.4L-99.8 190.8L-99.8 118.8L-97.3 117.4Z" fill="#7a9ba4"/><path d="M-99.8 190.8L-143.4 165.6L-143.4 93.6L-99.8 118.8Z" fill="#96b7be"/></g></g>
+  <g class="mem st4 glass" style="--s:0.8758;--d:0.0659;--fx:40px;--fy:20px"><g class="solid"><path d="M359.2 182.2L315.5 207.4L315.5 128.2L359.2 103Z" fill="#7a9ba4"/><path d="M313 205.9L313 126.7L315.5 128.2L315.5 207.4Z" fill="#96b7be"/><path d="M313 126.7L356.7 101.5L359.2 103L315.5 128.2Z" fill="#a1c0c7"/></g></g>
+  <g class="mem st4 glass" style="--s:0.8852;--d:0.0659;--fx:-40px;--fy:20px"><g class="solid"><path d="M-47.4 146.2L-3.7 171.4L-6.2 172.8L-49.9 147.6Z" fill="#a1c0c7"/><path d="M-3.7 243.4L-6.2 244.8L-6.2 172.8L-3.7 171.4Z" fill="#7a9ba4"/><path d="M-6.2 244.8L-49.9 219.6L-49.9 147.6L-6.2 172.8Z" fill="#96b7be"/></g></g>
+  <g class="mem st4" style="--s:0.8947;--d:0.0565;--fx:40px;--fy:20px"><g class="solid"><path d="M290.6 257.8L240.7 286.6L240.7 171.4L290.6 142.6Z" fill="#b4ac9c"/><path d="M238.2 285.1L238.2 169.9L240.7 171.4L240.7 286.6Z" fill="#cdc5b5"/><path d="M238.2 169.9L288.1 141.1L290.6 142.6L240.7 171.4Z" fill="#d5cebe"/></g></g>
+  <g class="mem st4 glass" style="--s:0.8852;--d:0.0659;--fx:40px;--fy:20px"><g class="solid"><path d="M215.7 265L172.1 290.2L172.1 211L215.7 185.8Z" fill="#7a9ba4"/><path d="M169.6 288.7L169.6 209.5L172.1 211L172.1 290.2Z" fill="#96b7be"/><path d="M169.6 209.5L213.3 184.3L215.7 185.8L172.1 211Z" fill="#a1c0c7"/></g></g>
+  <g class="mem st4 glass" style="--s:0.9041;--d:0.0659;--fx:-40px;--fy:20px"><g class="solid"><path d="M46.1 200.2L89.8 225.4L87.3 226.8L43.6 201.6Z" fill="#a1c0c7"/><path d="M89.8 297.4L87.3 298.8L87.3 226.8L89.8 225.4Z" fill="#7a9ba4"/><path d="M87.3 298.8L43.6 273.6L43.6 201.6L87.3 226.8Z" fill="#96b7be"/></g></g>
+  <g class="mem st4 glass" style="--s:0.9041;--d:0.0565;--fx:40px;--fy:20px"><g class="solid"><path d="M312.4 85L218.9 139L265.6 58Z" fill="#7a9ba4"/><path d="M216.4 137.5L263.1 56.5L265.6 58L218.9 139Z" fill="#b3d2d9"/></g></g>
+  <g class="dim-iso">
+    <path d="M-299.3 172.8L74.8 388.8M-303.3 166.8l8 12M70.8 382.8l8 12"/>
+    <text class="lab c" transform="translate(-135.8 303.8) rotate(30)" text-anchor="middle">24.0 m</text>
+    <path d="M424 244.8L174.6 388.8M420 250.8l8 -12M170.6 394.8l8 -12"/>
+    <text class="lab c" transform="translate(351.1 339.4) rotate(-30)" text-anchor="middle">16 m clear span</text>
+  </g>
+</svg>
+      <figcaption class="asm-cap lbl"><span>Sheet 04 · Assembly sequence · NTS</span><span class="asm-bar" aria-hidden="true"><i></i></span><span class="asm-step" aria-live="off">Stage <b>I</b> of IIII</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= IIII. AWARDS ================= -->
+<section class="sec awards" id="awards" data-theme="lime" aria-labelledby="awards-title">
+  <div class="wrap grid12">
+    <header class="awards-intro">
+      <p class="lbl sec-label"><span class="mark" aria-hidden="true">IIII</span> Awards</p>
+      <h2 id="awards-title" class="sec-title" data-split="words">Fourteen prizes in fifteen years.</h2>
+      <p class="awards-lede">Seven are listed here. Most were shared with the carpenters, engineers and clients named on the drawings.</p>
+      <dl class="ledger">
+        <div><dt>Prizes since 2011</dt><dd data-count="14">14</dd></div>
+        <div><dt>Buildings raised</dt><dd data-count="31">31</dd></div>
+        <div><dt>Of them civic</dt><dd data-count="9">9</dd></div>
       </dl>
     </header>
-
-    <ul class="award-list" data-stagger="80">
-      <li class="award"><span class="a-year">2024</span><span class="a-name">The Arvid Prize for Civic Architecture</span><span class="a-proj">Tromsø Public Library</span><span class="a-rank">Grand Prize</span></li>
-      <li class="award"><span class="a-year">2024</span><span class="a-name">Fjord Timber Award</span><span class="a-proj">Tromsø Public Library</span><span class="a-rank">Winner</span></li>
-      <li class="award"><span class="a-year">2023</span><span class="a-name">Northern Light Medal</span><span class="a-proj">Fjellstua Chapel</span><span class="a-rank">Medal</span></li>
-      <li class="award"><span class="a-year">2022</span><span class="a-name">Hallmark Prize for Low-Carbon Building</span><span class="a-proj">House at Nordvik</span><span class="a-rank">Honour</span></li>
-      <li class="award"><span class="a-year">2021</span><span class="a-name">The Golden Larch</span><span class="a-proj">Havnehall Ferry Terminal</span><span class="a-rank">Gold</span></li>
-      <li class="award"><span class="a-year">2020</span><span class="a-name">Learning Spaces Prize</span><span class="a-proj">Birk School</span><span class="a-rank">Shortlist</span></li>
-    </ul>
-    <p class="fine">Studio, projects, awards and figures on this page are fictional and shown for illustration.</p>
+    <ol class="register" data-stagger="90">
+      <li class="row"><span class="yr">2024</span><div class="what"><h3>Nordic Timber Prize, Grand Prize</h3><p>Tallvik Town Hall</p></div><span class="by lbl">Nordic Wood Council</span></li>
+      <li class="row"><span class="yr">2024</span><div class="what"><h3>Civic Building of the Year</h3><p>Tallvik Town Hall</p></div><span class="by lbl">Architecture Forum North</span></li>
+      <li class="row"><span class="yr">2023</span><div class="what"><h3>Small House of the Year</h3><p>Björkhem House</p></div><span class="by lbl">House &amp; Home Jury</span></li>
+      <li class="row"><span class="yr">2022</span><div class="what"><h3>Light in Public Space</h3><p>Ljus Library &amp; Baths</p></div><span class="by lbl">Lumen Society</span></li>
+      <li class="row"><span class="yr">2021</span><div class="what"><h3>Structural Timber Citation</h3><p>Fjällhall Sports Hall</p></div><span class="by lbl">Timber Engineers’ Guild</span></li>
+      <li class="row"><span class="yr">2020</span><div class="what"><h3>Cabin Prize, First</h3><p>Strandskjul Cabin</p></div><span class="by lbl">Coastal Building Awards</span></li>
+      <li class="row"><span class="yr">2019</span><div class="what"><h3>Young Practice of the Year</h3><p>Atelier Norr</p></div><span class="by lbl">Northern Architects’ Union</span></li>
+    </ol>
   </div>
 </section>
 
-<!-- ============ 06 CONTACT ============ -->
-<section id="contact" class="sec contact" data-bg="#110F0C" data-ink="#EDE7DA" aria-labelledby="contact-title">
-  <div class="wrap">
-    <p class="eyebrow" data-reveal="up"><span class="dot"></span>06 — Contact</p>
-    <h2 id="contact-title" class="mega"><span class="mega-line" data-split="words">Let’s build</span><span class="mega-line" data-split="words" data-delay="160"><em>something slow.</em></span></h2>
-
-    <div class="contact-grid">
-      <div class="contact-cta" data-reveal="up">
-        <p>We take on four new commissions a year. Tell us about the site, the people and the weather.</p>
-        <span class="mag" data-magnetic="0.28"><a class="btn btn-lg" href="mailto:studio@atelier-norr.example"><span class="btn-label">Start a conversation</span><i class="arr" aria-hidden="true">→</i></a></span>
-        <a class="mk-link mail" href="mailto:studio@atelier-norr.example">studio@atelier-norr.example</a>
-      </div>
-      <div class="offices" data-stagger="110">
-        <address><h3>Trondheim</h3><p>Kjøpmannsgata 14<br>7013 Trondheim<br>+47 73 00 00 00</p></address>
-        <address><h3>Oslo</h3><p>Akerselva Studio, Hall B<br>0555 Oslo<br>+47 22 00 00 00</p></address>
-        <address><h3>Careers &amp; press</h3><p><a class="mk-link" href="mailto:people@atelier-norr.example">people@atelier-norr.example</a><br><a class="mk-link" href="mailto:press@atelier-norr.example">press@atelier-norr.example</a></p></address>
-      </div>
+<!-- ================= V. CONTACT ================= -->
+<section class="sec contact" id="contact" data-theme="falu" aria-labelledby="contact-title">
+  <div class="wrap grid12 contact-grid">
+    <div class="contact-main">
+      <p class="lbl sec-label"><span class="mark" aria-hidden="true">V</span> Contact</p>
+      <h2 id="contact-title" class="contact-title" data-split="words">Tell us about the site.</h2>
+      <p class="contact-lede">Send the plot, the town and the winter you are building for. We answer within two working days and visit the site before we draw a line.</p>
+      <a class="mail mk-link" href="mailto:studio@atelier-norr.example">studio@atelier-norr.example</a>
+      <dl class="addr">
+        <div><dt class="lbl">Studio</dt><dd>Kajen 4, Umeå, Sweden<br>Visits by appointment, Tue–Thu</dd></div>
+        <div><dt class="lbl">Telephone</dt><dd>+46 90 555 01 24</dd></div>
+        <div><dt class="lbl">Partners</dt><dd>Ingrid Sandell, civic buildings<br>Mats Holm, homes and joinery</dd></div>
+      </dl>
     </div>
+
+    <form class="form" id="enquiry" action="mailto:studio@atelier-norr.example" method="post" enctype="text/plain" novalidate>
+      <fieldset class="chips">
+        <legend class="lbl">What are we building?</legend>
+        <label class="chip"><input type="radio" name="kind" value="Civic building" checked><span>Civic building</span></label>
+        <label class="chip"><input type="radio" name="kind" value="Home"><span>Home</span></label>
+        <label class="chip"><input type="radio" name="kind" value="Competition"><span>Competition</span></label>
+        <label class="chip"><input type="radio" name="kind" value="Something else"><span>Something else</span></label>
+      </fieldset>
+      <label class="field"><span class="lbl">Name</span><input type="text" name="name" autocomplete="name" required></label>
+      <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" required></label>
+      <label class="field"><span class="lbl">The site and the brief</span><textarea name="message" rows="4" required></textarea></label>
+      <div class="form-row">
+        <button class="btn btn-solid mk-button mk-wipe" type="submit">Send enquiry <span class="arr" aria-hidden="true">&rarr;</span></button>
+        <p class="form-note" role="status" aria-live="polite"></p>
+      </div>
+    </form>
   </div>
+
+  <footer class="wrap titleblock" aria-label="Drawing title block">
+    <div class="tb tb-wide"><span class="lbl">Atelier Norr</span><strong>Timber architects</strong></div>
+    <div class="tb"><span class="lbl">Sheet</span><strong>06 of 06 · Contact</strong></div>
+    <div class="tb"><span class="lbl">Scale</span><strong>1:1, in person</strong></div>
+    <div class="tb"><span class="lbl">Drawn · checked</span><strong>Studio · Studio</strong></div>
+    <div class="tb"><span class="lbl">Revision</span><strong>C · October 2026</strong></div>
+  </footer>
+  <p class="wrap note lbl">Atelier Norr is a fictional studio. Projects, figures and awards on this site are illustrative.</p>
 </section>
+
 </main>
-
-<footer class="footer" data-bg="#110F0C" data-ink="#EDE7DA">
-  <div class="wrap">
-    <p class="wordmark" data-split="chars" aria-label="Norr">Norr</p>
-    <div class="foot-row">
-      <span>© 2026 Atelier Norr AS. A fictional studio.</span>
-      <span>Drawn and built in the North.</span>
-      <a class="mk-link" href="#top">Back to top ↑</a>
-    </div>
-  </div>
-</footer>
-
 </body>
 </html>

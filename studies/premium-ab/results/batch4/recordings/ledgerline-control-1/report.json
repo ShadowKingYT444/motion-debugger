@@ -1,0 +1,529 @@
+{
+ "url": "/tmp/claude-1000/-home-terryd-Projects-Prenium-Motion/c617552f-71c7-55aa-92e5-28d8f5c048c2/scratchpad/ab4eval/runs/ledgerline/control-1/site",
+ "createdAt": "2026-10-09T20:51:23.701Z",
+ "score": 30,
+ "grade": "F",
+ "findings": [
+  {
+   "id": "stuck-invisible",
+   "severity": "blocker",
+   "area": "motion",
+   "title": "Content stays invisible after scrolling the whole page",
+   "evidence": "4 text/image elements still have opacity\u22480 after a full scroll: details.qa.is-in > div.qa-body > div > p \"RTP, FedNow, ACH, wires, SEPA (credit transfer and Instant),\"; details.qa.is-in > div.qa-body > div > p \"Yes. Import historical entries in bulk with their original t\"; details.qa.is-in > div.qa-body > div > p \"Writes keep committing on the remaining two regions. In-flig\"; details.qa.is-in > div.qa-body > div > p \"The sandbox runs the same code path as production with simul\".",
+   "fix": "A reveal never fired. Check the IntersectionObserver targets/threshold (use threshold \u22640.15 and a negative bottom rootMargin, not 1.0), that every hidden element gets observed, and gate the hidden initial state behind a class added by JS (`.js [data-reveal]{opacity:0}`) so content is never lost if script fails."
+  },
+  {
+   "id": "low-contrast",
+   "severity": "major",
+   "area": "accessibility",
+   "title": "Text contrast is too low",
+   "evidence": "24/244 checked text elements fail WCAG AA, e.g. \"Trusted by the engineering teams behind\" 3.35:1, \"Python\" 3.31:1, \"cURL\" 3.31:1.",
+   "fix": "Muted text still needs \u22654.5:1 (\u22653:1 for 24px+). Raise lightness contrast of secondary text instead of lowering opacity."
+  },
+  {
+   "id": "entrance-too-slow",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Entrance sequence is long",
+   "evidence": "Load animations span 4096 ms.",
+   "fix": "Keep the hero sequence \u22721.6 s from first paint to settled; shorten delays rather than durations. Visitors should be able to read the headline within ~600 ms."
+  },
+  {
+   "id": "layout-properties-animated",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Layout properties are animated",
+   "evidence": "76 animations/transitions on width, height, marginTop, margin-top, max-height; 0 inline-style layout writes.",
+   "fix": "Animate transform and opacity (and clip-path for reveals) instead of width/height/top/left/margin; they run on the compositor and avoid reflow jank. For accordions use grid-template-rows 0fr\u21921fr or measure once and animate a scale/clip."
+  },
+  {
+   "id": "slow-hover",
+   "severity": "minor",
+   "area": "interaction",
+   "title": "Hover feedback is sluggish",
+   "evidence": "3 hover transitions last over 600 ms (e.g. header#nav > div.wrap.nav-inner > div.nav-cta > a.btn.btn-lime::after: 900 ms).",
+   "fix": "Hover/press feedback should start immediately and settle in 150\u2013300ms; longer feels laggy under the pointer."
+  },
+  {
+   "id": "too-much-ambient-motion",
+   "severity": "minor",
+   "area": "motion",
+   "title": "Many elements loop forever",
+   "evidence": "9 distinct elements run infinite animations.",
+   "fix": "Limit ambient loops to one or two focal elements (a hero visual, a marquee). Constant motion everywhere competes with content and drains battery; pause off-screen loops."
+  },
+  {
+   "id": "small-tap-targets",
+   "severity": "minor",
+   "area": "accessibility",
+   "title": "Tap targets are small on mobile",
+   "evidence": "div.wrap.hero-grid > div.hero-copy > div.install > button.copy 34\u00d734, button#ledgerToggle 28\u00d728, div#term > div.term-bar > div.tabs > button 51\u00d733, div#term > div.term-bar > div.tabs > button 67\u00d733",
+   "fix": "Give touch controls at least 44\u00d744px of hit area (padding or a pseudo-element hit box)."
+  },
+  {
+   "id": "small-mobile-text",
+   "severity": "minor",
+   "area": "visual",
+   "title": "Body text is small on mobile",
+   "evidence": "10 paragraphs under 14px at 390px.",
+   "fix": "Keep body copy \u226516px on phones."
+  },
+  {
+   "id": "clipped-code",
+   "severity": "minor",
+   "area": "layout",
+   "title": "Code is cut off at the panel edge",
+   "evidence": "mobile scrollY 6533px: code is cut off at the box edge",
+   "fix": "Let long lines scroll (overflow-x:auto with a visible fade) or wrap them, and size the sample so its longest line fits; on phones, shorten the sample."
+  },
+  {
+   "id": "default-template",
+   "severity": "polish",
+   "area": "visual",
+   "title": "The page looks like the default AI-built template",
+   "evidence": "It shares 6 of 9 traits of the landing page coding agents build by default: text face Geist, italic accent word in the headline, near-black ground, small uppercase eyebrow above the headline, headline left, object right, marquee.",
+   "fix": "Unless the brief asks for these, change at least four: a display face chosen for this subject, a ground and accent taken from its world, a hero built around one dominant element instead of headline-left/object-right, square or cut button shapes, and sections laid out from their content rather than eyebrow, marquee and bento. A page can earn every trait; it should not get them by default."
+  }
+ ],
+ "motion": {
+  "animations": 783,
+  "byPhase": {
+   "load": 50,
+   "scroll": 423,
+   "hover": 310
+  },
+  "easings": {
+   "default-ease": 228,
+   "custom-curve": 539,
+   "ease-out": 5
+  },
+  "durations": {
+   "p10": 400,
+   "median": 800,
+   "p90": 1200
+  },
+  "properties": {
+   "fill": 34,
+   "stroke": 13,
+   "width": 21,
+   "backgroundColor": 12,
+   "background-color": 10,
+   "borderBottomColor": 8,
+   "border-bottom-color": 6,
+   "borderLeftColor": 8,
+   "border-left-color": 6,
+   "borderRightColor": 8,
+   "border-right-color": 6,
+   "borderTopColor": 8,
+   "border-top-color": 6,
+   "color": 95,
+   "transform": 349,
+   "boxShadow": 10,
+   "translate": 1,
+   "strokeDashoffset": 3,
+   "opacity": 167,
+   "filter": 1,
+   "height": 5,
+   "backdropFilter": 2,
+   "backdrop-filter": 2,
+   "backgroundOrigin": 2,
+   "backgroundPositionX": 2,
+   "backgroundPositionY": 2,
+   "backgroundRepeat": 2,
+   "backgroundSize": 4,
+   "backgroundAttachment": 2,
+   "backgroundClip": 2,
+   "backgroundImage": 2,
+   "maxHeight": 25,
+   "marginTop": 24,
+   "margin-top": 24,
+   "max-height": 24,
+   "background-size": 2,
+   "box-shadow": 6,
+   "top": 2
+  },
+  "entranceSpanMs": 4096,
+  "entranceStartGroups": 17,
+  "jsMotionMutations": 1548,
+  "sectionCoverage": {
+   "sections": 12,
+   "withMotion": 12,
+   "missing": []
+  },
+  "hover": {
+   "tested": 12,
+   "responsive": 9,
+   "animated": 9,
+   "silent": [
+    "Skip to content",
+    "Ledgerline",
+    "Node"
+   ]
+  },
+  "focus": {
+   "tested": 8,
+   "visible": 8
+  },
+  "reducedMotion": {
+   "rule": true,
+   "runningLongAnimations": 0,
+   "hiddenAfterScroll": 4
+  },
+  "frameStats": {
+   "scrollFrames": 979,
+   "over32ms": 6,
+   "over50ms": 0,
+   "p95Ms": 16.7
+  },
+  "layoutShift": 0.077,
+  "longAnimationFrames": 1
+ },
+ "template": {
+  "count": 6,
+  "of": 9,
+  "traits": [
+   "text face Geist",
+   "italic accent word in the headline",
+   "near-black ground",
+   "small uppercase eyebrow above the headline",
+   "headline left, object right",
+   "marquee"
+  ]
+ },
+ "progress": null,
+ "craft": {
+  "framesAnalyzed": 29,
+  "deadSpace": 0,
+  "hollow": 0,
+  "misaligned": 0,
+  "collisions": 0,
+  "covered": 0,
+  "shrunk": 0,
+  "placeholders": 0,
+  "orphans": 0,
+  "code": 1,
+  "edge": 0,
+  "controls": 0
+ },
+ "pages": {
+  "desktop": {
+   "viewport": {
+    "width": 1440,
+    "height": 900
+   },
+   "docHeight": 16545,
+   "hidden": [
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "RTP, FedNow, ACH, wires, SEPA (credit transfer and Instant),",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "Yes. Import historical entries in bulk with their original t",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "Writes keep committing on the remaining two regions. In-flig",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "The sandbox runs the same code path as production with simul",
+     "opacity": 0
+    }
+   ],
+   "hiddenCount": 4,
+   "textElementCount": 529,
+   "contrast": [
+    {
+     "selector": "main#main > section.marquee-wrap > p.marquee-label.wrap",
+     "text": "Trusted by the engineering teams behind",
+     "ratio": 3.35,
+     "need": 4.5
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "text": "Python",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "text": "cURL",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// minor units: $4,200.00",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// fastest rail the beneficiary supports",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// \"settling\"",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div#termRes > div.res-bar > span.res-h",
+     "text": "Response",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div#termRes > div.res-bar > span.res-sim",
+     "text": "Simulated in your browser",
+     "ratio": 2.21,
+     "need": 4.5
+    },
+    {
+     "selector": "pre#resBody > code > span.c",
+     "text": "// Press \u201cSend request\u201d to run this call",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div.rel-grid > div.regions.is-in > div.regions-top > span.regions-h",
+     "text": "Failure drill",
+     "ratio": 4.12,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 24,
+   "contrastChecked": 244,
+   "families": {
+    "Geist": 7124,
+    "Geist Mono": 2915,
+    "Instrument Serif": 606
+   },
+   "bodySize": 20,
+   "h1Size": 84.96,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [],
+   "smallText": 0,
+   "media": {
+    "canvas": 2,
+    "video": 0,
+    "svg": 60,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 46,
+   "title": "Ledgerline | Real-time payments and ledgers for developers"
+  },
+  "mobile": {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "docHeight": 18279,
+   "hidden": [
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "RTP, FedNow, ACH, wires, SEPA (credit transfer and Instant),",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "Yes. Import historical entries in bulk with their original t",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "Writes keep committing on the remaining two regions. In-flig",
+     "opacity": 0
+    },
+    {
+     "selector": "details.qa.is-in > div.qa-body > div > p",
+     "text": "The sandbox runs the same code path as production with simul",
+     "opacity": 0
+    }
+   ],
+   "hiddenCount": 4,
+   "textElementCount": 507,
+   "contrast": [
+    {
+     "selector": "main#main > section.marquee-wrap > p.marquee-label.wrap",
+     "text": "Trusted by the engineering teams behind",
+     "ratio": 3.35,
+     "need": 4.5
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "text": "Python",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "text": "cURL",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// minor units: $4,200.00",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// fastest rail the beneficiary supports",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre.is-on > code > span.tk-line > span.tk-c",
+     "text": "// \"settling\"",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div#termRes > div.res-bar > span.res-h",
+     "text": "Response",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "pre#resBody > code > span.c",
+     "text": "// Press \u201cSend request\u201d to run this call",
+     "ratio": 3.31,
+     "need": 4.5
+    },
+    {
+     "selector": "div.rel-grid > div.regions.is-in > div.regions-top > span.regions-h",
+     "text": "Failure drill",
+     "ratio": 4.06,
+     "need": 4.5
+    },
+    {
+     "selector": "div.wrap > div.uptime.is-in > div.uptime-foot > span",
+     "text": "Today",
+     "ratio": 3.32,
+     "need": 4.5
+    }
+   ],
+   "contrastFailures": 23,
+   "contrastChecked": 243,
+   "families": {
+    "Geist": 7423,
+    "Geist Mono": 2725,
+    "Instrument Serif": 606
+   },
+   "bodySize": 17,
+   "h1Size": 48.36,
+   "longLines": [],
+   "overflowX": 0,
+   "wide": [],
+   "clipped": [],
+   "smallTargets": [
+    {
+     "selector": "div.wrap.hero-grid > div.hero-copy > div.install > button.copy",
+     "w": 34,
+     "h": 34
+    },
+    {
+     "selector": "button#ledgerToggle",
+     "w": 28,
+     "h": 28
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "w": 51,
+     "h": 33
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "w": 67,
+     "h": 33
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "w": 36,
+     "h": 33
+    },
+    {
+     "selector": "div#term > div.term-bar > div.tabs > button",
+     "w": 51,
+     "h": 33
+    },
+    {
+     "selector": "div.quote-stage > div.quote-ctl > div.qdots > button",
+     "w": 36,
+     "h": 18
+    },
+    {
+     "selector": "div.quote-stage > div.quote-ctl > div.qdots > button",
+     "w": 36,
+     "h": 18
+    }
+   ],
+   "smallText": 10,
+   "media": {
+    "canvas": 2,
+    "video": 0,
+    "svg": 60,
+    "img": 0
+   },
+   "reducedMotionRule": true,
+   "interactiveCount": 46,
+   "title": "Ledgerline | Real-time payments and ledgers for developers"
+  }
+ },
+ "images": {
+  "hover": "hover.png",
+  "desktopEntrance": "desktop-entrance.png",
+  "desktopScroll": "desktop-scroll.png",
+  "desktopDetail1": "desktop-detail-1.png",
+  "desktopDetail2": "desktop-detail-2.png",
+  "desktopDetail3": "desktop-detail-3.png",
+  "desktopFull": "desktop-full.jpg",
+  "mobile": "mobile.png",
+  "craft": "craft.png"
+ },
+ "notes": [
+  "Desktop journey took 35.6s",
+  "External origins requested: https://fonts.googleapis.com, https://fonts.gstatic.com (passive font/style/script/image GETs allowed; anything else blocked)"
+ ],
+ "craftInstances": {
+  "deadSpace": [],
+  "hollow": [],
+  "misaligned": [],
+  "controls": [],
+  "collisions": [],
+  "covered": [],
+  "orphans": [],
+  "code": [
+   {
+    "frame": 18,
+    "viewport": "mobile",
+    "label": "scrollY 6533px",
+    "rect": {
+     "x": 21,
+     "y": 402,
+     "w": 340,
+     "h": 294
+    },
+    "detail": "code is cut off at the box edge",
+    "selector": "div#termCode > pre.is-on",
+    "ratio": 0
+   }
+  ],
+  "edge": [],
+  "shrunk": [],
+  "placeholders": [],
+  "framesAnalyzed": 29
+ }
+}

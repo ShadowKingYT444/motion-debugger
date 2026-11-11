@@ -1,140 +1,169 @@
 <p align="center">
-  <img src="docs/assets/wordmark.svg" alt="Motion Debugger" width="360">
+  <img src="docs/assets/wordmark.svg" alt="Motion Debugger" width="340">
+</p>
+
+<h3 align="center">Real-browser eyes and design taste for your coding agent,<br>so vibe-coded sites stop looking vibe-coded.</h3>
+
+<p align="center">
+  <a href="https://github.com/ShadowKingYT444/motion-debugger/actions/workflows/ci.yml"><img src="https://github.com/ShadowKingYT444/motion-debugger/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3b82f6" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/node-22%2B-43853d" alt="Node.js 22+">
+  <img src="https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20Codex%20%C2%B7%20any%20agent-ffb33d" alt="Works with Claude Code, Cursor, Codex and any agent">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Node.js-22%2B-43853d" alt="Node.js 22+">
-  <img src="https://img.shields.io/badge/transport-MCP-6366f1" alt="MCP transport">
-  <img src="https://img.shields.io/badge/status-local_preview-f59e0b" alt="Local preview">
+  <a href="#install">Install</a> ·
+  <a href="#use-it">Use it</a> ·
+  <a href="#what-the-critic-catches">What it catches</a> ·
+  <a href="#does-it-work">Results</a> ·
+  <a href="#works-with-your-agent">Agents</a> ·
+  <a href="CONTRIBUTING.md">Contribute</a>
 </p>
-
-<p align="center"><b>Build motion. Watch it. Make it better.</b></p>
 
 <p align="center">
-  <a href="#quickstart">Quickstart</a> · <a href="studies/premium-ab/README.md">A/B results</a> · <a href="#coding-agents">Coding agents</a> · <a href="#how-it-works">How it works</a> · <a href="docs/AGENT-WORKFLOW.md">Documentation</a>
+  <img src="demos/ledgerline/comparison.gif" alt="The same prompt built by the same model: without Motion Debugger (left) and with it (right)" width="880">
+  <br><sub>Same prompt, same model (Sonnet 5.5), one fresh agent each. Left: no plugin. Right: with Motion Debugger. Nothing edited by hand.</sub>
 </p>
 
-![Motion Debugger: expressive motion, real browser evidence](docs/assets/banner.svg)
+Ask any coding agent for a "premium" landing page and you get the same page everyone gets: purple gradient or near-black with one accent, a serif headline with an italic word, pill buttons, a bento grid, and every section fading up the same way. Then it ships without ever looking at it, so you find the copy hidden under the sticky header, the half-empty cards and the broken phone layout yourself.
 
-Motion Debugger helps coding agents ship **premium, art-directed websites with high-quality motion**, and makes them look at the real result. It has two parts that work in any agent:
+Motion Debugger fixes both halves:
 
-- **`premium-motion` skill.** A taste guide plus concrete craft guidance. The agent picks one motion personality, writes a motion score for every chapter, and meets an ambition floor: a layered hero that exits on scroll, scrubbed scroll scenes, chapter colour transitions, kinetic type, a living visual and tactile micro-interactions. A dependency-free motion kit turns those into data attributes: pinned stories, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, scramble type, velocity skew, magnetic and spotlight effects.
-- **`motion-debugger critique`.** Opens the page in Chromium at desktop and mobile and records the entrance, a full scroll, hovers, keyboard focus and reduced motion. It returns findings with specific fixes, plus contact sheets the agent reads to *see* its own page.
+- 👀 **A critic that actually looks.** `motion-debugger critique` opens your local page in Chromium at desktop and phone size, records the entrance, scrolls the whole page, hovers every control, tabs through focus and repeats with reduced motion. It hands your agent a list of fixes plus annotated screenshots of the real frames.
+- 🎨 **A skill that knows the AI template.** `premium-motion` names the default AI page and makes the agent leave it: art direction from the brief's own world, a finish system, one signature scroll scene, and a motion kit. It speaks your stack: plain HTML, React, Next.js, Motion (framer-motion) or GSAP.
 
-**Measured effect:** in a blinded 16-pair A/B, agents with the plugin built sites that judges rated more premium in 12 of 16 pairs, with significantly better motion and mobile robustness. [Watch the side-by-side films](#results).
+## Install
 
-```sh
-motion-debugger critique ./site                   # a folder with index.html, or an .html file
-motion-debugger critique http://127.0.0.1:5173    # a running local dev server
-motion-debugger agents-md >> AGENTS.md            # standing instructions for any agent host
+You need Node.js 22 or later.
+
+```bash
+npm install -g https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz
 ```
 
-The recorded-evidence tools for detailed transition debugging (`motion_review`, `motion_probe`, `motion_capture`, and others) remain available. See [How it works](#how-it-works).
+Then, in your project:
 
-## Quickstart
+```bash
+motion-debugger init
+```
 
-Requires **Node.js 22+** and Chromium. This is an unpublished local preview, so install from GitHub rather than npm.
+`init` detects your agent (Claude Code, Cursor, Codex, VS Code, OpenCode), offers to download a matching Chromium, and shows every file it would change before asking you to type `yes`. Nothing is written without that, and your existing settings are kept.
 
-```sh
+<details>
+<summary><b>Only want the skill?</b> Or installing from source?</summary>
+
+**Skill only**, into any agent the [skills CLI](https://github.com/vercel-labs/skills) supports:
+
+```bash
+npx skills add ShadowKingYT444/motion-debugger --skill premium-motion
+```
+
+The skill tells the agent how to run the critic through `npx` if the CLI isn't installed.
+
+**From source:**
+
+```bash
 git clone https://github.com/ShadowKingYT444/motion-debugger.git
-cd motion-debugger
-npm ci && npm run build
-npm install -g .                       # puts `motion-debugger` on your PATH
-motion-debugger setup --browser        # explicit, version-matched Chromium download
+cd motion-debugger && npm ci && npm run build && npm install -g .
+motion-debugger setup --browser    # version-matched Chromium
 motion-debugger doctor
 ```
 
-To skip the global install, run `node build/cli/index.js <command>` instead of `motion-debugger`. An existing Chrome or Chromium also works: set `CHROMIUM_PATH`, or let the CLI find `/usr/bin/google-chrome` or `/usr/bin/chromium`.
+An existing Chrome or Chromium also works: set `CHROMIUM_PATH`, or let the CLI find `/usr/bin/google-chrome` or `/usr/bin/chromium`. More options in [client setup](docs/CLIENTS.md).
+</details>
 
-Critique any local page straight away:
+## Use it
 
-```sh
-motion-debugger critique ./path/to/site    # prints findings and writes contact sheets to .motion-critique/
-```
-
-Connect it to your application project:
-
-```sh
-motion-debugger init --client codex --local --skills \
-  --project /absolute/path/to/your-app
-```
-
-The command previews the MCP configuration and skill files. Review it, then rerun with `--apply` to confirm in an interactive terminal. For scripts, add `--apply --confirm <confirmationToken>` from that exact preview. Keep this checkout in place: `--local` registers its absolute runtime path. Unrelated settings and skill files are preserved.
-
-For a portable installation, run `npm pack`, then install the resulting tarball in a stable tools directory. [Installation details](docs/CLIENTS.md).
-
-## Results
-
-Same prompt, same builder model (Sonnet 5.5), one fresh agent per site. Left: an empty project. Right: the `premium-motion` skill, taste guide, kit and critic. Each film is the same scripted visit recorded in Chromium: the entrance, a pointer sweep, then a wheel scroll at constant speed. Playback is 1.6× for the preview.
-
-**Atelier Norr: architecture studio**
-
-![Atelier Norr, without vs with premium-motion](demos/norr/comparison.gif)
-
-**Ledgerline: payments API**
-
-![Ledgerline, without vs with premium-motion](demos/ledgerline/comparison.gif)
-
-**Halo: wireless speaker launch**
-
-![Halo, without vs with premium-motion](demos/halo/comparison.gif)
-
-**Drift: AI sleep coach** (the one pair where judges preferred the control)
-
-![Drift, without vs with premium-motion](demos/drift/comparison.gif)
-
-Full-length MP4 films and every site are in [`demos/`](demos/README.md); run `motion-debugger demo` to open them live.
-
-### Blinded judging
-
-Opus 5.5 judges compared each matched pair twice with positions swapped. They saw only neutral recordings and no code, arm labels or critic output.
-
-| Judged on (1–10) | 16 pairs, plugin v1–v2: Δ | p | 4 filmed pairs, v3 with taste guide: Δ |
-| --- | --- | --- | --- |
-| Overall premium feel | **+1.0** (12 pairs won / 2 lost) | 0.005 | +0.88 (3 / 1) |
-| Motion quality | **+1.34** (14 / 1) | 0.0004 | +1.50 |
-| Mobile robustness | **+1.0** (9 / 3) | 0.02 | +1.25 |
-| Interaction polish | +0.34 | 0.36 | +1.50 |
-| Visual design | +0.34 | 0.07 | +0.13 |
-
-Every control site in the 16-pair study had at least one blocker or major defect that the critic flags: content that never appears, reduced-motion visitors losing content, mobile overflow, layout shift, low contrast or controls with no hover feedback. No plugin site did. Four pairs are too few for significance on their own; the filmed batch illustrates the effect rather than proving it independently.
-
-[Method, statistics, threats to validity and every verdict](studies/premium-ab/README.md)
-
-## Coding agents
-
-Replace `codex` in the setup command with your client:
-
-| Agent | `--client` | Project MCP configuration | Skills |
-| --- | --- | --- | --- |
-| Codex | `codex` | `.codex/config.toml` | `.agents/skills/` |
-| Claude Code | `claude-code` | `.mcp.json` | `.claude/skills/` |
-| Cursor | `cursor` | `.cursor/mcp.json` | `.cursor/skills/` |
-| VS Code / Copilot | `vscode` | `.vscode/mcp.json` | `.github/skills/` |
-| OpenCode 1.x | `opencode` | `opencode.json` | `.opencode/skills/` |
-
-Reload your agent after installation and check that Motion's MCP tools are connected. OpenCode v2 uses a different configuration format; see [client setup](docs/CLIENTS.md#opencode). Native plugin package options are in the [plugin guide](docs/PLUGIN-PACKAGES.md).
-
-**Any other agent** (Gemini CLI, Aider, Copilot agent, Windsurf, a CI job) needs nothing provider-specific:
-
-1. Copy `plugin/motion-debugger/skills/premium-motion` anywhere in the project.
-2. Add the block printed by `motion-debugger agents-md --skills-dir <that folder>` to the host's standing-instructions file (`AGENTS.md`, `GEMINI.md`, `.cursorrules`, …).
-3. Let it run `motion-debugger critique`. The critic is a plain CLI with Markdown or `--json` output and image files.
-
-MCP hosts also get `motion_critique`, which returns the findings and contact sheets as image content. Details are in [Premium motion: skill + critic](docs/PREMIUM-MOTION.md).
-
-Example prompt for any agent:
+Tell your agent what you want, and to use the skill:
 
 > Build a launch page for our speaker with premium design and motion. Follow the premium-motion skill, and critique the page before you finish.
 
+The agent builds, runs the critic, opens the screenshots, fixes what they show and critiques again. You can run the critic yourself on anything local:
+
+```bash
+motion-debugger critique ./site                  # a folder with index.html, or one .html file
+motion-debugger critique http://localhost:3000   # your running dev server (Next.js, Vite, …)
+```
+
+It prints findings with fixes and writes contact sheets to `.motion-critique/`. Each run also says what changed since the last one: fixed, new and remaining.
+
+## What the critic catches
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/critic-dark.png">
+  <img src="docs/assets/critic-light.png" alt="Finish defects outlined on crops of a real page">
+</picture>
+
+| | Finding | What it means |
+| --- | --- | --- |
+| 🚫 | `stuck-invisible` | Content that never appears, even after a full scroll (the most common agent bug) |
+| 🧱 | `text-collision`, `copy-under-sticky` | Copy painted over other copy, or scrolling under a sticky header |
+| 🕳️ | `hollow-containers`, `dead-space` | Cards with an empty band inside; screens that are mostly blank |
+| 📐 | `near-miss-alignment`, `edge-crowding` | Items a few pixels off their column; copy jammed against the screen edge |
+| 📱 | `mobile-overflow`, tap targets, clipped text | A phone layout that is really a squeezed desktop |
+| 🎞️ | Motion checks | No entrance, unstaggered entrance, linear easing, motion that stops after the hero, dead hover, invisible focus, no reduced-motion support |
+| 🤖 | `default-template` | How many of nine default AI-landing-page traits the first screen shares |
+
+Findings come from real Chromium frames, never from reading the source. [Every check and its limits](docs/PREMIUM-MOTION.md).
+
+## Does it work?
+
+Same brief, same builder model, one fresh agent per site. One agent worked in an empty project; the other had the skill, the kit and the critic.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/results-dark.png">
+  <img src="docs/assets/results-light.png" alt="Judge scores and measured metrics, without vs with the plugin">
+</picture>
+
+In the latest batch (four matched pairs), blinded Opus 5.5 judges preferred the plugin's site in all four pairs (8 of 8 judgments). Distinctiveness rose from 6.4 to 8.8 and overall premium from 6.9 to 8.0. The control sites shared 6.5 of 9 default-template traits on average; the plugin's sites shared none. Visual design moved least (7.8 to 8.1).
+
+Four pairs are too few for statistical significance. The earlier 16-pair study reached it for overall premium (+1.0, p = 0.005) and motion quality (+1.34, p = 0.0004), but found no gain in visual design, which the current version was rebuilt to address. [Method, every verdict and threats to validity](studies/premium-ab/README.md).
+
+<details>
+<summary><b>See all four pairs</b></summary>
+
+**Ledgerline: payments API**
+![Ledgerline, without vs with premium-motion](demos/ledgerline/compare.jpg)
+
+**Drift: AI sleep coach**
+![Drift, without vs with premium-motion](demos/drift/compare.jpg)
+
+**Halo: wireless speaker launch**
+![Halo, without vs with premium-motion](demos/halo/compare.jpg)
+
+**Atelier Norr: architecture studio**
+![Atelier Norr, without vs with premium-motion](demos/norr/compare.jpg)
+
+Side-by-side films: [Ledgerline](demos/ledgerline/comparison.mp4), [Drift](demos/drift/comparison.mp4), [Halo](demos/halo/comparison.mp4), [Norr](demos/norr/comparison.mp4). Run `motion-debugger demo` and open http://127.0.0.1:4173/ab/ to play them and open every site live.
+</details>
+
+## Works with your agent
+
+`motion-debugger init` sets these up for you; this is what it writes.
+
+| Agent | `--client` | MCP configuration | Skills |
+| --- | --- | --- | --- |
+| Claude Code | `claude-code` | `.mcp.json` | `.claude/skills/` |
+| Cursor | `cursor` | `.cursor/mcp.json` | `.cursor/skills/` |
+| Codex | `codex` | `.codex/config.toml` | `.agents/skills/` |
+| VS Code / Copilot | `vscode` | `.vscode/mcp.json` | `.github/skills/` |
+| OpenCode 1.x | `opencode` | `opencode.json` | `.opencode/skills/` |
+
+**Any other agent** (Gemini CLI, Aider, Windsurf, a CI job): the critic is a plain CLI with Markdown or `--json` output, so nothing is provider-specific. Copy the skill folder into your project and add the block printed by `motion-debugger agents-md --skills-dir <folder>` to the agent's instructions file (`AGENTS.md`, `GEMINI.md`, `.cursorrules`, …).
+
+MCP hosts also get `motion_critique`, which returns the findings and screenshots as image content. [Client setup details](docs/CLIENTS.md) · [Native plugin packages](docs/PLUGIN-PACKAGES.md).
+
 ## How it works
 
-1. **Art-direct.** The skill makes the agent commit to an audience, a concept, one signature moment, a palette and type before writing code.
-2. **Build with a system.** One motion personality, a written motion score, motion tokens, a choreographed hero, at least two different scrubbed scroll scenes, chapter transitions, and hover/press/focus states on every control. The kit handles reveals, split and scrambled text, counters, pinned progress, horizontal tracks, stacking cards, expanding media, reading highlights, path drawing, chapter themes, scroll velocity, parallax, magnetic, spotlight and marquee effects, all with reduced-motion and no-JS fallbacks.
-3. **Look.** `critique` records what actually moved and how it was eased and staggered. It checks whether motion reaches every section, whether controls answer hover and focus, and whether anything stays invisible, overflows on mobile, lacks contrast or janks. The contact sheets show the real page.
-4. **Refine.** The agent fixes blockers first, then the biggest visible craft gap, and critiques again (at least two passes).
+1. **Direct.** The skill names the default page, has the agent change at least four of its defaults, and takes type, colour and layout from three artefacts of the subject's world.
+2. **Compose and finish.** One dominant element per frame, sections laid out from their content, shared edges, boxes sized to content, hover that shows in a still, a real phone layout.
+3. **Move.** One motion personality, one signature scroll scene finished at every scroll position, at most two supporting scenes. Uniform fade-ups are treated as a tell, not a feature.
+4. **Look.** `critique` records what actually moved and measures finish in the captured frames.
+5. **Refine.** The agent fixes every outlined defect, answers five design-director questions about each frame, and critiques again.
 
-For a specific interaction, the evidence tools record bounded journeys and compare repairs:
+<details>
+<summary><b>Debugging one specific transition?</b> The evidence tools.</summary>
+
+For a single interaction, the MCP evidence tools record bounded journeys and compare repairs:
 
 | Tool | Purpose |
 | --- | --- |
@@ -148,14 +177,17 @@ For a specific interaction, the evidence tools record bounded journeys and compa
 | `motion_compare` | Compare equivalent before/after journeys |
 | `motion_list` | Find saved captures |
 
-Recordings and reports stay local in `.motion-evidence/`. Capture trusted, credential-free local pages. Measurements check your stated contracts; visual taste remains a human judgment.
+See [Agent workflow](docs/AGENT-WORKFLOW.md).
+</details>
 
-## Demos
+## Safety and privacy
 
-```sh
-motion-debugger demo
-```
+Everything runs on your machine. The critic only opens credential-free local pages (`localhost`, `127.0.0.1`, files), never imports your browser profile, and keeps recordings in your project folder. Review them before sharing. [Security model](SECURITY.md).
 
-Open **http://127.0.0.1:4173/ab/** to play the four comparison films and open every agent-built site live. The root URL has the original transition-debugging examples. The sites and films are also in [`demos/`](demos/README.md); `npm run demo:record` re-records the films from the committed sites.
+## Contributing
 
-[Premium motion](docs/PREMIUM-MOTION.md) · [Agent workflow](docs/AGENT-WORKFLOW.md) · [Skills](docs/SKILLS.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+Bug reports, false positives the critic flags, and new checks are all welcome. Start with a [good first issue](https://github.com/ShadowKingYT444/motion-debugger/labels/good%20first%20issue) or say hi in [Discussions](https://github.com/ShadowKingYT444/motion-debugger/discussions). [Contributing guide](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE)

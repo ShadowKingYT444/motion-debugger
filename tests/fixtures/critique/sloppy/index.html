@@ -1,0 +1,95 @@
+<!doctype html>
+<!-- SEEDED DEFECTS for the critique craft checks. Every defect below is deliberate and labelled;
+     the motion itself is fine so only finish findings should fire. Do not "fix" this page. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sloppy fixture</title>
+<style>
+  body { margin: 0; background: #101214; color: #eceae4; font: 17px/1.55 ui-sans-serif, system-ui, sans-serif; }
+  section { padding: 96px 8vw; box-sizing: border-box; }
+  h1 { font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.02; margin: 0 0 24px; max-width: 13ch; }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.1; margin: 0 0 28px; }
+  p { max-width: 60ch; color: #c4c2bb; margin: 0 0 16px; }
+  a { color: inherit; transition: color .2s cubic-bezier(.22,1,.36,1), background-color .2s cubic-bezier(.22,1,.36,1); }
+  a:hover { color: #e8ff59; }
+  :focus-visible { outline: 2px solid #e8ff59; outline-offset: 3px; }
+  .rise { animation: rise .8s cubic-bezier(.16,1,.3,1) both; }
+  .rise.d1 { animation-delay: .1s } .rise.d2 { animation-delay: .2s } .rise.d3 { animation-delay: .3s }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px) } }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none } }
+  .btn { display: inline-block; padding: 14px 24px; border-radius: 999px; background: #e8ff59; color: #111; text-decoration: none; }
+  .btn.ghost { padding: 9px 20px; background: transparent; color: #eceae4; border: 1px solid #555; }
+  .btn:hover { background: #f4ffb0; }
+  /* DEFECT hollow-containers: fixed-height cards with one line of content */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .card { height: 380px; border: 1px solid #2d3236; border-radius: 18px; padding: 28px; background: #171a1d; }
+  /* DEFECT near-miss-alignment: the active step is nudged 8px sideways */
+  .steps { list-style: none; padding: 0; margin: 0; max-width: 560px; }
+  .steps li { padding: 18px 0; border-top: 1px solid #2d3236; }
+  .steps li.is-active { transform: translateX(8px); color: #e8ff59; }
+  /* DEFECT double-spaced-code: block lines inside a <pre> that also keeps its newlines */
+  pre { background: #0a0b0c; border: 1px solid #2d3236; border-radius: 14px; padding: 24px; font: 14px/1.6 ui-monospace, monospace; }
+  pre span { display: block; }
+  /* DEFECT text-collision: a badge positioned on top of the paragraph */
+  .note { position: relative; }
+  .badge { position: absolute; left: 40px; top: 6px; font-size: 19px; color: #e8ff59; background: transparent; }
+  /* DEFECT shrunken-text: a stat whose scale-up never finished */
+  .stat { display: inline-block; font-size: 64px; transform: scale(.2); transform-origin: 0 50%; }
+  /* DEFECT clipped-code: a long line cut off with no way to scroll */
+  pre.cut { overflow: hidden; white-space: pre; max-width: 420px; }
+  /* DEFECT dead-space: a section with a huge empty top */
+  .void { padding-top: 120vh; }
+  /* DEFECT copy-under-sticky (phones): the sticky visual overlaps the steps on narrow screens */
+  .pinned { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .phone { position: sticky; top: 15vh; height: 60vh; border-radius: 28px; background: linear-gradient(160deg, #23302a, #121615); }
+  @media (max-width: 700px) {
+    .cards { grid-template-columns: 1fr; }
+    .pinned { display: block; }
+    .phone { top: 25vh; height: 50vh; margin-bottom: -50vh; z-index: 2; position: sticky; }
+    /* DEFECT edge-crowding (phones): the closing copy escapes the gutter */
+    .edge { margin: 0 -8vw; padding: 0 6px; }
+  }
+</style></head>
+<body>
+  <section>
+    <p class="rise">Seeded finish defects</p>
+    <h1 class="rise d1">Everything here is almost right</h1>
+    <p class="rise d2">Each block below carries one labelled finish defect for the critic to find.</p>
+    <p class="rise d3"><a class="btn" href="#a">Primary action</a> <a class="btn ghost" href="#b">Secondary</a></p>
+  </section>
+  <section>
+    <h2>Hollow cards</h2>
+    <div class="cards"><article class="card"><h3>One line</h3></article><article class="card"><h3>Two line</h3></article><article class="card"><h3>Three line</h3></article></div>
+  </section>
+  <section>
+    <!-- DEFECT orphan-headings: the last line is one short word -->
+    <h2>Steps that nearly line up with each other<br>again</h2>
+    <ol class="steps"><li>Measure the room</li><li class="is-active">Tune the drivers</li><li>Ship the speaker</li><li>Listen</li></ol>
+  </section>
+  <section>
+    <h2>Code</h2>
+<pre><code><span>import { Client } from 'sdk';</span>
+<span>const client = new Client();</span>
+<span>await client.connect();</span>
+<span>await client.send({ amount: 100 });</span>
+<span>client.close();</span></code></pre>
+  </section>
+  <section>
+    <p>Uptime last quarter: <span class="stat">99.99%</span></p>
+<pre class="cut"><code>const response = await client.transfers.create({ amount: 125000, currency: 'EUR', idempotencyKey: 'a7f3' });</code></pre>
+    <!-- DEFECT placeholder-content -->
+    <p>Write to hello@studio.example or call 000 000 0000.</p>
+  </section>
+  <section>
+    <div class="note"><span class="badge">NEW — overlapping label</span><p>This paragraph sits underneath an absolutely positioned label that was placed without leaving it room.</p></div>
+  </section>
+  <section class="void">
+    <h2>After the void</h2><p>A section whose content starts more than a screen below its top.</p>
+  </section>
+  <section>
+    <div class="pinned"><div class="phone" aria-label="Product visual" role="img"></div>
+      <div><h2>Pinned story</h2><p>On a phone the sticky visual slides over these steps while they are being read, which hides the copy.</p><p>Step two of the story is also covered by the sticky panel as it passes.</p><p>Step three continues the story under the panel again.</p><p>Step four finally ends the pinned story.</p></div></div>
+  </section>
+  <section>
+    <p class="edge">On a phone this closing paragraph runs almost into the edge of the screen on both sides.</p>
+    <p class="edge">A second paragraph escapes the gutter the same way, so the copy feels cramped.</p>
+  </section>
+</body></html>

@@ -17,7 +17,8 @@ async function fixture(t) {
     await writeFile(path.join(root, file), typeof value === 'string' ? value : JSON.stringify(value));
   };
   const version = '0.4.0', dependencies = {playwright: '1.63.0'};
-  await put('package.json', {version, dependencies, private: true, license: 'UNLICENSED'});
+  await put('package.json', {version, dependencies, private: true, license: 'MIT'});
+  await put('LICENSE', 'MIT License\n');
   await put('build/mcp/index.js', '// Built entrypoint');
   await put('plugin/motion-debugger/package.json', {name: 'motion-debugger-plugin', version, dependencies, private: true, type: 'module'});
   await put('plugin/motion-debugger/package-lock.json', {version, lockfileVersion: 3, packages: {'': {version, dependencies}, 'node_modules/playwright': {version: dependencies.playwright}}});

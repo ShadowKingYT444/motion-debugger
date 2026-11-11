@@ -26,11 +26,31 @@ try{
   assert.ok(good.motion.entranceStartGroups>=4,'control entrance is staggered');
   assert.equal(good.motion.reducedMotion?.hiddenAfterScroll,0,'reduced motion keeps content visible');
   assert.ok(good.score>=90,`control should score ≥90, got ${good.score}`);
+  assert.equal(good.craft.collisions+good.craft.covered+good.craft.hollow+good.craft.deadSpace+good.craft.misaligned,0,`kit-built control should have no finish defects; got ${JSON.stringify(good.craft)}`);
+  // Finish (craft) checks: every labelled seeded defect in the sloppy fixture must be found in real frames,
+  // and each finding must ship an annotated crop.
+  const sloppy=await critique(path.join(root,'tests/fixtures/critique/sloppy'),{outDir:path.join(work,'sloppy-report'),reducedMotion:false,hover:false});
+  const sloppyIds=new Set(sloppy.findings.map(finding=>finding.id));
+  for(const expected of ['text-collision','copy-under-sticky','hollow-containers','dead-space','near-miss-alignment','double-spaced-code','edge-crowding','mismatched-buttons','orphan-headings','shrunken-text','clipped-code','placeholder-content'])
+    assert.ok(sloppyIds.has(expected),`sloppy fixture should report ${expected}; got ${[...sloppyIds].join(', ')}`);
+  assert.ok(sloppy.images.craft,'craft findings come with an annotated craft.png');
+  // Kit regressions: data-split keeps inline markup, and a counter never shows 0 before it runs.
+  {
+    const {chromium}=await import('playwright');const {chromiumOptions}=await import('../server/browser.ts');const {serveStatic}=await import('../packages/core/critique.ts');
+    const served=await serveStatic(crafted);const browser=await chromium.launch(chromiumOptions());
+    try{
+      const page=await browser.newPage();await page.goto(served.url,{waitUntil:'load'});await page.waitForTimeout(300);
+      const kit=await page.evaluate(()=>({em:document.querySelector('h1 em')?.querySelectorAll('.mk-piece').length??0,label:document.querySelector('h1')?.getAttribute('aria-label'),counter:document.querySelector('[data-count]')?.textContent}));
+      assert.ok(kit.em>=1,'data-split keeps <em> and splits inside it');
+      assert.equal(kit.label,'Motion that explains the product');
+      assert.notEqual(kit.counter?.trim(),'0','counters show a starting value, not 0, before they run');
+    }finally{await browser.close();await served.close()}
+  }
   // A preloader that locks scrolling past the entrance window must not truncate the scroll journey.
   const preloader=await critique(path.join(root,'tests/fixtures/critique/preloader'),{outDir:path.join(work,'preloader-report'),viewports:['desktop'],reducedMotion:false,hover:false});
   const scrollShots=(await readdir(path.join(work,'preloader-report','frames'))).filter(file=>file.startsWith('desktop-scroll-'));
   assert.ok(scrollShots.length>=3,`scroll journey should continue after the preloader unlocks; got ${scrollShots.length} frames`);
-  console.log(JSON.stringify({flawed:{score:flawed.score,findings:[...ids]},crafted:{score:good.score,findings:good.findings.map(finding=>finding.id)}},null,2));
+  console.log(JSON.stringify({flawed:{score:flawed.score,findings:[...ids]},crafted:{score:good.score,findings:good.findings.map(finding=>finding.id)},sloppy:{score:sloppy.score,craft:sloppy.craft}},null,2));
 }finally{await rm(work,{recursive:true,force:true})}
 
 // Protocol path: an actual MCP SDK stdio client (what any MCP host speaks) calls motion_critique on

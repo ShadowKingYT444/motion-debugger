@@ -1,0 +1,25 @@
+name: Bug report
+description: Something broke, or a command did not do what the docs say
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The command you ran, what you expected, and what happened instead.
+      placeholder: |
+        motion-debugger critique ./site
+        Expected: ...
+        Got: ...
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `motion-debugger doctor`
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: OS, Node version and coding agent
+      placeholder: macOS 15, Node 22.12, Claude Code

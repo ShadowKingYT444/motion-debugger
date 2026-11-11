@@ -3,563 +3,482 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ledgerline: real-time payments and ledgers API</title>
-<meta name="description" content="Ledgerline is the developer-first API for real-time payments and double-entry ledgers. Move money, record every cent and reconcile in the same call.">
-<meta name="theme-color" content="#0A0C0B">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230A0C0B'/%3E%3Cpath d='M5 8h14M5 12h14' stroke='%23ECEFE9' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M5 16h8' stroke='%23C8F73A' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-<script>
-  document.documentElement.classList.add('mk-js');
-  // If the motion kit never boots, never leave content hidden.
-  setTimeout(function () { if (!window.motionKit) document.documentElement.classList.remove('mk-js'); }, 3500);
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Ledgerline | Real-time payments and ledgers API</title>
+<meta name="description" content="Ledgerline is a developer-first API for real-time payments and double-entry ledgers. One request moves the money and posts both sides, in a median 38 milliseconds.">
+<meta name="theme-color" content="#E7EBDD">
+<script>document.documentElement.classList.add('mk-js')</script>
+<link rel="preload" as="font" type="font/woff2" href="fonts/archivo-var-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-sans-var-latin.woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23E7EBDD'/%3E%3Crect x='3' y='6' width='18' height='4.5' fill='%230E1B14'/%3E%3Crect x='3' y='13.5' width='18' height='4.5' fill='%23EE4A2A'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="motion-kit.css">
 <link rel="stylesheet" href="styles.css">
-<script src="motion-kit.js" defer></script>
 <script src="app.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="pg-progress" aria-hidden="true"></div>
 
-<!-- ============ NAV ============ -->
-<nav class="nav" data-nav aria-label="Primary">
+<header class="nav" data-nav id="nav">
   <div class="nav-in">
     <a class="brand" href="#top" aria-label="Ledgerline home">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M4 17h9" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5.5" width="20" height="4.6" class="m-dr"/><rect x="2" y="13.9" width="20" height="4.6" class="m-cr"/></svg>
       <span>Ledgerline</span>
     </a>
-    <div class="nav-links">
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a class="mk-link" href="#product">Product</a>
       <a class="mk-link" href="#api">API</a>
       <a class="mk-link" href="#reliability">Reliability</a>
+      <a class="mk-link" href="#security">Security</a>
       <a class="mk-link" href="#customers">Customers</a>
       <a class="mk-link" href="#pricing">Pricing</a>
-    </div>
+    </nav>
     <div class="nav-cta">
-      <a class="mk-link nav-signin" href="#start">Sign in</a>
-      <a class="btn btn-primary mk-button" data-magnetic="0.2" href="#start">Get API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <a class="nav-signin mk-link" href="#start">Sign in</a>
+      <a class="btn btn-solid btn-sm mk-button mk-wipe" href="#start">Get API keys</a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks"><span>Menu</span><i aria-hidden="true"></i></button>
     </div>
   </div>
-</nav>
-
-<main id="main">
-<!-- ============ HERO ============ -->
-<header class="hero" id="top" data-bg="#0A0C0B" data-ink="#ECEFE9">
-  <canvas class="hero-field" aria-hidden="true"></canvas>
-  <div class="hero-inner wrap" data-exit>
-    <div class="hero-copy">
-      <p class="status-pill" data-reveal="fade" data-delay="40"><i></i> All systems operational <span>p99 41&nbsp;ms</span></p>
-      <h1 data-split="lines" data-split-done="1" aria-label="Money moves. Your ledger keeps up.">
-        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:0">Money moves.</span></span>
-        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:1">Your ledger</span></span>
-        <span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:2"><em>keeps up.</em></span></span>
-      </h1>
-      <p class="lede" data-reveal="up" data-delay="300">Ledgerline is the developer-first API for real-time payments and double-entry ledgers. Move money, record every cent and reconcile in the same call.</p>
-      <div class="cta-row" data-reveal="up" data-delay="380">
-        <a class="btn btn-primary btn-lg mk-button" data-magnetic="0.25" href="#start">Get your API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-        <a class="btn-ghost mk-link" href="#api">Read the API <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-      </div>
-      <p class="fine" data-reveal="fade" data-delay="480">Free sandbox &middot; No card required &middot; First transfer in 4 minutes</p>
-    </div>
-
-    <div class="console-wrap" data-reveal="clip" data-delay="160">
-      <div class="console" data-spotlight aria-label="Live ledger demo with illustrative data">
-        <div class="c-bar">
-          <span class="c-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="c-title">live ledger</span>
-          <span class="c-env">sandbox &middot; sample data</span>
-        </div>
-        <div class="c-req">
-          <div class="c-line"><span class="verb">POST</span> <span class="path">/v1/transfers</span><span class="c-status" data-c-status>201 Created &middot; 38&nbsp;ms</span></div>
-          <pre class="c-body" data-c-body><span class="p">{</span> <span class="k">"from"</span><span class="p">:</span> <span class="s">"acct_halcyon_ops"</span><span class="p">,</span>
-  <span class="k">"to"</span><span class="p">:</span>   <span class="s">"acct_kestrel_pay"</span><span class="p">,</span>
-  <span class="k">"amount"</span><span class="p">:</span> <span class="n">125000</span><span class="p">,</span> <span class="k">"rail"</span><span class="p">:</span> <span class="s">"rtp"</span> <span class="p">}</span></pre>
-        </div>
-        <ol class="c-journal" data-c-journal aria-label="Journal entries">
-          <li class="jr" style="--k:0"><span class="t">14:02:07.412</span><span class="acct">acct_halcyon_ops</span><span class="dc dr">DR</span><span class="amt">&minus;1,250.00</span></li>
-          <li class="jr" style="--k:1"><span class="t">14:02:07.412</span><span class="acct">acct_kestrel_pay</span><span class="dc cr">CR</span><span class="amt">+1,250.00</span></li>
-          <li class="jr" style="--k:2"><span class="t">14:02:04.090</span><span class="acct">acct_marlow_float</span><span class="dc dr">DR</span><span class="amt">&minus;86.40</span></li>
-          <li class="jr" style="--k:3"><span class="t">14:02:04.090</span><span class="acct">acct_tessera_fees</span><span class="dc cr">CR</span><span class="amt">+86.40</span></li>
-        </ol>
-        <div class="c-foot">
-          <span class="c-sum"><small>posted today</small><b data-c-total>$0.00</b></span>
-          <span class="c-bal"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>debits = credits</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a class="scroll-cue" href="#proof" aria-label="Scroll to proof"><span></span></a>
 </header>
 
-<!-- ============ PROOF ============ -->
-<section class="proof" id="proof" data-bg="#0A0C0B" data-ink="#ECEFE9">
-  <p class="eyebrow wrap" data-reveal="fade">Trusted by payments teams who read their own post-mortems</p>
-  <div class="mk-marquee-wrap proof-marquee" aria-hidden="true">
-    <div data-marquee style="--marquee-gap:3.5rem; --marquee-duration:60s">
-      <span>Halcyon Treasury</span><i></i><span class="out">Kestrel Freight</span><i></i><span>Marlow Card Co.</span><i></i><span class="out">Tessera</span><i></i><span>Fathom Bank</span><i></i><span class="out">Brightline</span><i></i><span>Orchard Pay</span><i></i><span class="out">Vantor</span><i></i>
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" data-bg="#E7EBDD" data-ink="#0E1B14" data-exit>
+  <div class="hero-margin" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <h1 class="hero-title" data-split="words">Every payment writes two entries that sum to <em>zero.</em></h1>
+    <div class="hero-foot">
+      <p class="hero-lede" data-reveal="up" data-delay="520">Ledgerline is a developer-first API for real-time payments and double-entry ledgers. One request moves the money and posts both sides, in a median 38&nbsp;milliseconds.</p>
+      <div class="hero-cta" data-reveal="up" data-delay="620">
+        <a class="btn btn-solid mk-button mk-wipe" href="#start">Get API keys <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-line mk-button mk-wipe" href="#api">Read the docs <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
+
+    <section class="journal" aria-label="Live journal, illustrative data" data-reveal="up" data-delay="260">
+      <div class="j-top">
+        <span class="live"><i aria-hidden="true"></i>Journal, live</span>
+        <span class="j-top-note">Illustrative postings</span>
+      </div>
+      <div class="j-cols" aria-hidden="true"><span>Posted (UTC)</span><span>Ref</span><span>Account</span><span>Memo</span><span class="r">Debit</span><span class="r">Credit</span></div>
+      <div class="j-body" id="journal" role="log" aria-live="off"></div>
+      <div class="j-foot">
+        <span class="j-foot-label">&Sigma; posted today</span>
+        <span class="j-foot-bal" id="jBal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.2 5.2L20 6.5"/></svg>Balanced, difference 0.00</span>
+        <span class="r mono" id="jSumDr">18,402,317.55</span>
+        <span class="r mono" id="jSumCr">18,402,317.55</span>
+      </div>
+    </section>
   </div>
-  <ul class="stats wrap" data-stagger="70" data-inview>
-    <li><b data-count="38" data-count-prefix="$" data-count-suffix="B">$38B</b><span>annualised volume moved</span></li>
-    <li><b data-count="41" data-count-suffix=" ms">41 ms</b><span>p99 ledger write latency</span></li>
-    <li><b data-count="99.999" data-count-decimals="3" data-count-suffix="%">99.999%</b><span>API uptime, trailing 12 months</span></li>
-    <li><b data-count="2.1" data-count-decimals="1" data-count-suffix="B">2.1B</b><span>ledger entries posted per day</span></li>
-  </ul>
-  <p class="note wrap">Customer names and figures on this page are illustrative sample content.</p>
 </section>
 
-<!-- ============ STORY (pinned, scrubbed) ============ -->
-<section class="story" id="product" data-progress data-bg="#0A0C0B" data-ink="#ECEFE9" aria-label="How a payment lands">
-  <div class="story-stage">
-    <div class="story-in wrap">
-      <div class="story-copy">
-        <p class="eyebrow" data-reveal="fade">The product</p>
-        <h2 class="h2" data-title>One call. Four guarantees. <em>Every line balanced.</em></h2>
-        <ol class="steps">
-          <li class="step is-on" data-step="0"><span class="n">01</span><div><h3>Request</h3><p>Send one idempotent call. Retries are safe by construction.</p></div></li>
-          <li class="step" data-step="1"><span class="n">02</span><div><h3>Authorize</h3><p>Balances, limits and screening are checked and a hold is placed in 12&nbsp;ms.</p></div></li>
-          <li class="step" data-step="2"><span class="n">03</span><div><h3>Post</h3><p>Double-entry lines are written atomically. Debits must equal credits or nothing posts.</p></div></li>
-          <li class="step" data-step="3"><span class="n">04</span><div><h3>Settle</h3><p>The rail confirms, balances move and a signed webhook tells your system.</p></div></li>
+<!-- ============ TRIAL BALANCE ============ -->
+<section class="sec trial" id="numbers" data-bg="#E7EBDD" data-ink="#0E1B14" aria-labelledby="trial-title">
+  <div class="wrap">
+    <div class="sec-head has-lede">
+      <p class="folio"><span>Folio 01</span><span class="folio-rule"></span><span>Trial balance</span></p>
+      <h2 class="h2" id="trial-title" data-split="words">Our own books, trailing twelve months</h2>
+      <p class="sec-lede" data-reveal="up" data-delay="200">Every figure is measured on production. The last line is the one we audit first.</p>
+    </div>
+    <div class="tb" data-stagger="90">
+      <div class="tb-row">
+        <div class="tb-label"><h3>Median time to post</h3><p>Request received to entries sealed, measured at the edge.</p></div>
+        <i class="tb-lead" aria-hidden="true"></i>
+        <p class="tb-val"><span data-count="38" data-count-from="112">38</span><small>ms</small></p>
+      </div>
+      <div class="tb-row">
+        <div class="tb-label"><h3>Ledger write availability</h3><p>Every region, every account class, successful writes over attempted.</p></div>
+        <i class="tb-lead" aria-hidden="true"></i>
+        <p class="tb-val"><span data-count="99.999" data-count-decimals="3" data-count-from="99.2">99.999</span><small>%</small></p>
+      </div>
+      <div class="tb-row">
+        <div class="tb-label"><h3>Value posted</h3><p>Across live customer ledgers. Illustrative figure.</p></div>
+        <i class="tb-lead" aria-hidden="true"></i>
+        <p class="tb-val"><small class="pre">$</small><span data-count="41.2" data-count-decimals="1" data-count-from="12.4">41.2</span><small>B</small></p>
+      </div>
+      <div class="tb-row">
+        <div class="tb-label"><h3>Duplicate requests absorbed</h3><p>Idempotency keys that returned the original response instead of posting twice.</p></div>
+        <i class="tb-lead" aria-hidden="true"></i>
+        <p class="tb-val"><span data-count="212" data-count-from="64">212</span><small>M</small></p>
+      </div>
+      <div class="tb-row tb-total">
+        <div class="tb-label"><h3><span class="sigma" aria-hidden="true">&Sigma;</span> Entries written out of balance</h3><p>Since the first production transfer in 2021. The only line we would never trade for speed.</p></div>
+        <i class="tb-lead" aria-hidden="true"></i>
+        <p class="tb-val tb-zero"><span>0.00</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCT: signature pinned scene ============ -->
+<section class="flow" id="product" data-bg="#E7EBDD" data-ink="#0E1B14" aria-labelledby="flow-title">
+  <div class="flow-stage">
+    <div class="wrap flow-grid">
+      <div class="flow-intro">
+        <div class="sec-head">
+          <p class="folio"><span>Folio 02</span><span class="folio-rule"></span><span>Product</span></p>
+          <h2 class="h2" id="flow-title" data-split="words">One request writes both sides of the entry</h2>
+        </div>
+        <ol class="flow-steps" id="flowSteps">
+          <li class="step is-active" data-step="1">
+            <span class="step-n" aria-hidden="true">01</span>
+            <div><h3>Request</h3><p>Your service sends one POST with an idempotency key. Retry it a hundred times and it posts once.</p></div>
+          </li>
+          <li class="step" data-step="2">
+            <span class="step-n" aria-hidden="true">02</span>
+            <div><h3>Entries</h3><p>The debit and the credit are written in a single atomic transaction. The sum is checked before commit, so both land or neither does.</p></div>
+          </li>
+          <li class="step" data-step="3">
+            <span class="step-n" aria-hidden="true">03</span>
+            <div><h3>Settled</h3><p>Balances update, the entries are sealed with a hash, and a signed <code>transfer.posted</code> webhook reaches your service.</p></div>
+          </li>
         </ol>
-        <div class="rail" aria-hidden="true"><i></i></div>
       </div>
 
-      <div class="viz" aria-label="Animated diagram of a transfer moving through authorize, post and settle">
-        <svg class="pipe" viewBox="0 0 640 150" role="img" aria-label="Pipeline: your app, authorize, ledger, settle">
-          <path class="seg" style="--s:.04;--l:.25" pathLength="1" d="M78 62H210"/>
-          <path class="seg" style="--s:.29;--l:.25" pathLength="1" d="M254 62H386"/>
-          <path class="seg" style="--s:.54;--l:.25" pathLength="1" d="M430 62H562"/>
-          <path class="seg-bg" d="M78 62H210M254 62H386M430 62H562"/>
-          <g class="node" style="--a:.02" transform="translate(56 62)"><circle r="22"/><path class="glyph" d="M-7 -5l-5 5l5 5M7 -5l5 5l-5 5"/></g>
-          <g class="node" style="--a:.29" transform="translate(232 62)"><circle r="22"/><path class="glyph" d="M0 -9l8 3v6c0 5 -4 8 -8 10c-4 -2 -8 -5 -8 -10v-6z"/></g>
-          <g class="node" style="--a:.54" transform="translate(408 62)"><circle r="22"/><path class="glyph" d="M-9 -6h18M-9 0h18M-9 6h10"/></g>
-          <g class="node" style="--a:.79" transform="translate(584 62)"><circle r="22"/><path class="glyph" d="M-8 0l5 5l11 -11"/></g>
-          <g class="lat"><text x="144" y="46" style="--a:.15">12 ms</text><text x="320" y="46" style="--a:.4">9 ms</text><text x="496" y="46" style="--a:.65">17 ms</text></g>
-          <g class="lbl"><text x="56" y="116">your app</text><text x="232" y="116">authorize</text><text x="408" y="116">ledger</text><text x="584" y="116">settle</text></g>
-          <g class="packet"><circle class="halo" r="12"/><circle r="5"/></g>
-        </svg>
-
-        <div class="panels">
-          <div class="panel is-on" data-panel="0">
-            <div class="p-head"><span>request</span><b>POST /v1/transfers</b></div>
-<pre><span class="c">Idempotency-Key: 9f2c-41ab</span>
-<span class="p">{</span>
-  <span class="k">"from"</span><span class="p">:</span>     <span class="s">"acct_customer_204"</span><span class="p">,</span>
-  <span class="k">"to"</span><span class="p">:</span>       <span class="s">"acct_merchant_88"</span><span class="p">,</span>
-  <span class="k">"amount"</span><span class="p">:</span>   <span class="n">12500</span><span class="p">,</span>
-  <span class="k">"currency"</span><span class="p">:</span> <span class="s">"USD"</span><span class="p">,</span>
-  <span class="k">"rail"</span><span class="p">:</span>     <span class="s">"rtp"</span>
-<span class="p">}</span></pre>
-          </div>
-          <div class="panel" data-panel="1">
-            <div class="p-head"><span>authorize</span><b>202 hold placed</b></div>
-            <ul class="checks">
-              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Balance available <code>$487.50</code></li>
-              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Velocity limit <code>4 / 20 per hour</code></li>
-              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Sanctions screen <code>clear</code></li>
-              <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Hold <code>hld_7Qm2 &middot; $125.00</code></li>
-            </ul>
-          </div>
-          <div class="panel" data-panel="2">
-            <div class="p-head"><span>journal</span><b>txn_01J9ZK &middot; atomic</b></div>
-            <table class="jt">
-              <tr><td class="dc dr">DR</td><td>acct_customer_204</td><td class="amt">125.00</td></tr>
-              <tr><td class="dc cr">CR</td><td>acct_merchant_88</td><td class="amt">121.88</td></tr>
-              <tr><td class="dc cr">CR</td><td>acct_ledgerline_fees</td><td class="amt">3.12</td></tr>
-              <tr class="sum"><td></td><td>&Sigma; debits = &Sigma; credits</td><td class="amt">125.00</td></tr>
-            </table>
-          </div>
-          <div class="panel" data-panel="3">
-            <div class="p-head"><span>settled</span><b>transfer.settled &middot; signed</b></div>
-<pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"trf_01J9ZK"</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"settled"</span><span class="p">,</span>
-  <span class="k">"rail_ms"</span><span class="p">:</span> <span class="n">1180</span><span class="p">,</span> <span class="k">"api_ms"</span><span class="p">:</span> <span class="n">38</span><span class="p">,</span>
-  <span class="k">"balances"</span><span class="p">:</span> <span class="p">{</span> <span class="k">"customer"</span><span class="p">:</span> <span class="n">36250</span><span class="p">,</span> <span class="k">"merchant"</span><span class="p">:</span> <span class="n">1288</span> <span class="p">}</span> <span class="p">}</span></pre>
-            <p class="stamp"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg> Ledger balanced</p>
-          </div>
+      <div class="machine" id="machine" data-step="1" aria-label="Walkthrough of a transfer, illustrative">
+        <div class="machine-head">
+          <span class="mono">txn_8Q2mV4xT</span>
+          <span class="mono clock">t+<b id="clock">0</b> ms</span>
         </div>
+        <div class="rail" aria-hidden="true"><i id="railFill"></i></div>
+
+        <article class="panel panel-req" data-panel="1">
+          <header class="panel-top"><span class="chip">01</span><h3>Request</h3><span class="mono panel-sub">POST /v1/transfers</span></header>
+<pre class="code code-sm"><span class="t-k">Idempotency-Key</span>: 7f3c-9a1e
+{
+  <span class="t-p">"from"</span>:     <span class="t-s">"acct_ana_wallet"</span>,
+  <span class="t-p">"to"</span>:       <span class="t-s">"acct_marlow_settle"</span>,
+  <span class="t-p">"amount"</span>:   <span class="t-n">24000</span>,
+  <span class="t-p">"currency"</span>: <span class="t-s">"usd"</span>
+}</pre>
+        </article>
+
+        <p class="link-note mono" aria-hidden="true"><span>&darr;</span> atomic: both entries or neither</p>
+
+        <article class="panel panel-ent" data-panel="2">
+          <header class="panel-top"><span class="chip">02</span><h3>Entries</h3><span class="mono panel-sub">journal</span></header>
+          <div class="ent-body" id="entBody">
+            <div class="ent-pair" data-slot="0" id="entNew">
+              <div class="ent-row"><span class="ent-side">DR</span><span class="ent-acct">acct_ana_wallet</span><span class="ent-amt">240.00</span></div>
+              <div class="ent-row ent-cr"><span class="ent-side">CR</span><span class="ent-acct">acct_marlow_settle</span><span class="ent-amt">240.00</span></div>
+            </div>
+            <div class="ent-pair" data-slot="1">
+              <div class="ent-row"><span class="ent-side">DR</span><span class="ent-acct">acct_kestrel_card</span><span class="ent-amt">89.90</span></div>
+              <div class="ent-row ent-cr"><span class="ent-side">CR</span><span class="ent-acct">acct_plinth_payroll</span><span class="ent-amt">89.90</span></div>
+            </div>
+            <div class="ent-pair" data-slot="2">
+              <div class="ent-row"><span class="ent-side">DR</span><span class="ent-acct">acct_tidewater_ops</span><span class="ent-amt">1,310.00</span></div>
+              <div class="ent-row ent-cr"><span class="ent-side">CR</span><span class="ent-acct">acct_carrier_payout</span><span class="ent-amt">1,310.00</span></div>
+            </div>
+          </div>
+          <p class="ent-sum mono" id="entSum"><span>&Sigma; debit 240.00</span><span>&Sigma; credit 240.00</span><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.2 5.2L20 6.5"/></svg>balanced</b></p>
+        </article>
+
+        <p class="link-note mono" aria-hidden="true"><span>&darr;</span> sealed, hashed, signed</p>
+
+        <article class="panel panel-set" data-panel="3">
+          <header class="panel-top"><span class="chip">03</span><h3>Settled</h3><span class="mono panel-sub">balances and webhook</span></header>
+          <div class="bal-rows">
+            <div class="bal-row"><span class="mono">acct_ana_wallet</span><b class="mono" id="balA">1,260.00</b><i class="mono delta delta-dr" id="dA">&minus;240.00</i></div>
+            <div class="bal-row"><span class="mono">acct_marlow_settle</span><b class="mono" id="balB">8,412.50</b><i class="mono delta delta-cr" id="dB">+240.00</i></div>
+          </div>
+          <p class="hook mono" id="hook"><span class="hook-dot" aria-hidden="true"></span><span id="hookText">evt_41c transfer.posted &rarr; 200 OK in 36 ms</span></p>
+        </article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PLATFORM (bento) ============ -->
-<section class="sec platform" id="platform" data-bg="#0A0C0B" data-ink="#ECEFE9">
+<!-- ============ API ============ -->
+<section class="sec api" id="api" data-bg="#0B1D15" data-ink="#E7EBDD" aria-labelledby="api-title">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow" data-reveal="fade">Platform</p>
-      <h2 class="h2" data-title>Everything money needs, <em>none of the glue.</em></h2>
-      <p class="sub" data-reveal="up">A ledger, the rails and the plumbing between them, built as one system so your team stops writing reconciliation jobs.</p>
+      <p class="folio"><span>Folio 03</span><span class="folio-rule"></span><span>API</span></p>
+      <h2 class="h2" id="api-title" data-split="words">Idempotent writes, dated versions, SDKs in six languages</h2>
     </div>
-
-    <div class="bento" data-stagger="70" data-inview>
-      <article class="tile t-ledger" data-spotlight>
-        <div class="tile-copy">
-          <h3>Double-entry ledgers, immutable by design</h3>
-          <p>Model wallets, escrow and fee accounts as a tree. Entries are append-only, every write is balanced and any past state can be reproduced.</p>
-        </div>
-        <div class="tile-vis acct-tree" aria-label="Sample account tree">
-          <div class="row"><span class="dot"></span><b>Treasury</b><code>$1,204,880.12</code></div>
-          <div class="row ind"><span class="dot"></span><b>Customer wallets</b><code>$894,310.40</code></div>
-          <div class="row ind2"><span class="dot"></span><b>acct_customer_204</b><code>$362.50</code></div>
-          <div class="row ind2"><span class="dot"></span><b>acct_customer_205</b><code>$1,980.00</code></div>
-          <div class="row ind"><span class="dot"></span><b>Escrow</b><code>$250,000.00</code></div>
-          <div class="row ind"><span class="dot dim"></span><b>Fees</b><code>$60,569.72</code></div>
-          <span class="lock"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>append-only</span>
-        </div>
-      </article>
-
-      <article class="tile t-rails" data-spotlight>
-        <h3>Real-time rails, one interface</h3>
-        <p>RTP, FedNow, SEPA Instant and cards behind the same call.</p>
-        <ul class="bars">
-          <li style="--w:.18"><span>Cards</span><i></i><code>0.9 s</code></li>
-          <li style="--w:.28"><span>RTP</span><i></i><code>1.2 s</code></li>
-          <li style="--w:.42"><span>FedNow</span><i></i><code>2.0 s</code></li>
-          <li style="--w:.66"><span>SEPA Inst.</span><i></i><code>3.4 s</code></li>
+    <div class="api-grid">
+      <div class="api-copy">
+        <ul class="caps" data-stagger="70">
+          <li><h3>Safe to retry</h3><p>Send an <code>Idempotency-Key</code> on any write. A repeat within 24 hours returns the first response, byte for byte.</p></li>
+          <li><h3>Versions pinned by date</h3><p>Set <code>Ledgerline-Version: 2026-09-01</code>. Upgrades are opt-in, with a diff for every change.</p></li>
+          <li><h3>Webhooks you can verify</h3><p>HMAC-SHA256 signatures, ordered per account, retried with backoff for three days.</p></li>
+          <li><h3>A sandbox that fails on purpose</h3><p>Simulated rails and clocks, plus fault injection for timeouts, holds and reversals.</p></li>
+          <li><h3>Typed SDKs from one spec</h3><p>Node, Python, Go, Java, Ruby and .NET, generated from the same OpenAPI file the docs use.</p></li>
         </ul>
-      </article>
+      </div>
 
-      <article class="tile t-idem" data-spotlight>
-        <h3>Idempotent by default</h3>
-        <p>Retry any request. You will never double-charge.</p>
-        <div class="idem" data-idem>
-          <div class="ir"><code>Idempotency-Key: 9f2c-41ab</code></div>
-          <div class="ir res"><span class="badge ok">201</span> Created <small>38 ms</small></div>
-          <div class="ir res retry"><span class="badge">200</span> Replayed, same response <small>4 ms</small></div>
+      <div class="term" data-reveal="up" data-delay="100">
+        <div class="term-bar">
+          <div class="tabs" role="tablist" aria-label="Language" id="tabs">
+            <span class="tab-ink" aria-hidden="true"></span>
+            <button role="tab" type="button" aria-selected="true" data-lang="curl">cURL</button>
+            <button role="tab" type="button" aria-selected="false" data-lang="node">Node</button>
+            <button role="tab" type="button" aria-selected="false" data-lang="python">Python</button>
+            <button role="tab" type="button" aria-selected="false" data-lang="go">Go</button>
+          </div>
+          <span class="term-env mono"><i aria-hidden="true"></i>sandbox, test mode</span>
         </div>
-        <button class="chip-btn mk-button" type="button" data-idem-btn>Retry the request</button>
-      </article>
-
-      <article class="tile t-hooks" data-spotlight>
-        <h3>Webhooks that don't drop</h3>
-        <p>Signed, ordered and retried with backoff for 72 hours.</p>
-        <svg class="hooks" viewBox="0 0 280 74" role="img" aria-label="Delivery attempts: two failures then success">
-          <path class="hl" pathLength="1" d="M20 36H260"/>
-          <g class="ev"><circle class="bad" cx="30" cy="36" r="7"/><text x="30" y="62">1s</text></g>
-          <g class="ev"><circle class="bad" cx="90" cy="36" r="7"/><text x="90" y="62">+5s</text></g>
-          <g class="ev"><circle class="good" cx="190" cy="36" r="7"/><text x="190" y="62">+30s</text></g>
-          <path class="tick" d="M185.5 36.5l3 3l6 -6.5"/>
-          <path class="x" d="M26.5 32.5l7 7M33.5 32.5l-7 7M86.5 32.5l7 7M93.5 32.5l-7 7"/>
-        </svg>
-      </article>
-
-      <article class="tile t-time" data-spotlight>
-        <h3>Time-travel any balance</h3>
-        <p>Drag to read the ledger as of any moment.</p>
-        <div class="tt" data-time>
-          <svg viewBox="0 0 280 90" aria-hidden="true"><path class="area" d=""/><path class="line" d=""/><line class="cur" x1="0" x2="0" y1="6" y2="84"/><circle class="knob" r="4.5" cx="0" cy="0"/></svg>
-          <div class="tt-read"><code data-tt-t>14:00</code><b data-tt-v>$0.00</b></div>
-          <input type="range" min="0" max="100" value="72" aria-label="Ledger time" data-tt-range>
+        <pre class="code" id="codeBody" tabindex="0">curl https://api.ledgerline.dev/v1/transfers \
+  -H "Authorization: Bearer lk_test_51Jx9" \
+  -H "Idempotency-Key: 7f3c-9a1e" \
+  -d from=acct_ana_wallet \
+  -d to=acct_marlow_settle \
+  -d amount=24000 \
+  -d currency=usd</pre>
+        <div class="term-run">
+          <button class="btn btn-accent btn-sm mk-button mk-wipe" id="sendBtn" type="button">Send request <span class="arrow" aria-hidden="true">&rarr;</span></button>
+          <span class="term-hint mono">Simulated response, no network call.</span>
         </div>
-      </article>
+        <div class="resp" id="resp" aria-live="polite">
+          <div class="resp-head mono"><span class="resp-status" id="respStatus">201 Created</span><span id="respTime">41 ms</span></div>
+<pre class="code" id="respBody"><span class="rl"><span class="t-p">{</span></span>
+<span class="rl">  <span class="t-p">"id"</span>: <span class="t-s">"txn_8Q2mV4xT"</span>,</span>
+<span class="rl">  <span class="t-p">"status"</span>: <span class="t-s">"posted"</span>,</span>
+<span class="rl">  <span class="t-p">"entries"</span>: [</span>
+<span class="rl">    { <span class="t-p">"account"</span>: <span class="t-s">"acct_ana_wallet"</span>, <span class="t-p">"side"</span>: <span class="t-s">"debit"</span>, <span class="t-p">"amount"</span>: <span class="t-n">24000</span> },</span>
+<span class="rl">    { <span class="t-p">"account"</span>: <span class="t-s">"acct_marlow_settle"</span>, <span class="t-p">"side"</span>: <span class="t-s">"credit"</span>, <span class="t-p">"amount"</span>: <span class="t-n">24000</span> }</span>
+<span class="rl">  ],</span>
+<span class="rl">  <span class="t-p">"balanced"</span>: <span class="t-n">true</span>,</span>
+<span class="rl">  <span class="t-p">"posted_at"</span>: <span class="t-s">"2026-10-09T09:14:07.318Z"</span></span>
+<span class="rl"><span class="t-p">}</span></span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="endpoints" data-stagger="50" aria-label="Endpoint index">
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/accounts</span><span class="ep-desc">Open a ledger account with currency and balance rules.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/transfers</span><span class="ep-desc">Move value between two accounts, atomically.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/holds</span><span class="ep-desc">Reserve funds now, capture or release later.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/payouts</span><span class="ep-desc">Send to bank rails and follow live status.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m ep-get">GET</b><span class="ep-path mono">/v1/entries</span><span class="ep-desc">Page through immutable debits and credits.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m ep-get">GET</b><span class="ep-path mono">/v1/balances/:id</span><span class="ep-desc">Read available, pending and posted balances.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/reversals</span><span class="ep-desc">Counter-post a transfer. The original stays intact.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="ep" href="#start"><b class="ep-m">POST</b><span class="ep-path mono">/v1/webhooks</span><span class="ep-desc">Subscribe to signed, ordered events.</span><span class="ep-arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </section>
 
-<!-- ============ API (tabs + code) ============ -->
-<section class="sec api" id="api" data-bg="#0A0C0B" data-ink="#ECEFE9">
-  <div class="wrap api-grid">
-    <div class="api-copy">
-      <p class="eyebrow" data-reveal="fade">The API</p>
-      <h2 class="h2" data-title>An API you would <em>design yourself.</em></h2>
-      <p class="sub" data-reveal="up">Small, predictable resources. Typed SDKs generated from one OpenAPI spec. Every response tells you exactly what happened to the money.</p>
-      <ul class="ticks" data-stagger="60">
-        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Idempotency keys on every write</li>
-        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Cursor pagination and expandable objects</li>
-        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Test mode with simulated rails and clocks</li>
-        <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>SDKs for Node, Python, Go, Java and Ruby</li>
-      </ul>
-      <div class="install" data-reveal="up">
-        <code><span class="d">$</span> npm i @ledgerline/node</code>
-        <button type="button" class="copy mk-button" data-copy="npm i @ledgerline/node" aria-label="Copy install command"><svg viewBox="0 0 16 16"><rect x="5" y="5" width="8" height="8" rx="2"/><path d="M3 10V4a1 1 0 011-1h6"/></svg><span>Copy</span></button>
-      </div>
-    </div>
-
-    <div class="window" data-reveal="up" data-delay="120">
-      <div class="w-top">
-        <div class="tabs" role="tablist" aria-label="API examples">
-          <span class="tab-ink" aria-hidden="true"></span>
-          <button role="tab" id="tab-0" aria-controls="pane-0" aria-selected="true">Create account</button>
-          <button role="tab" id="tab-1" aria-controls="pane-1" aria-selected="false" tabindex="-1">Move money</button>
-          <button role="tab" id="tab-2" aria-controls="pane-2" aria-selected="false" tabindex="-1">Listen</button>
-        </div>
-        <button type="button" class="copy mk-button" data-copy-pane aria-label="Copy code"><svg viewBox="0 0 16 16"><rect x="5" y="5" width="8" height="8" rx="2"/><path d="M3 10V4a1 1 0 011-1h6"/></svg><span>Copy</span></button>
-      </div>
-
-      <div class="panes">
-        <div class="pane is-on" id="pane-0" role="tabpanel" aria-labelledby="tab-0">
-<pre class="code"><span class="ln" style="--n:0"><span class="k">import</span> Ledgerline <span class="k">from</span> <span class="s">'@ledgerline/node'</span>;</span>
-<span class="ln" style="--n:1"><span class="k">const</span> ll = <span class="k">new</span> <span class="f">Ledgerline</span>(process.env.<span class="v">LEDGERLINE_KEY</span>);</span>
-<span class="ln" style="--n:2"> </span>
-<span class="ln" style="--n:3"><span class="k">const</span> wallet = <span class="k">await</span> ll.accounts.<span class="f">create</span>({</span>
-<span class="ln" style="--n:4">  name: <span class="s">'Customer wallet'</span>,</span>
-<span class="ln" style="--n:5">  currency: <span class="s">'USD'</span>,</span>
-<span class="ln" style="--n:6">  normalBalance: <span class="s">'credit'</span>,</span>
-<span class="ln" style="--n:7">  metadata: { customer: <span class="s">'cus_204'</span> },</span>
-<span class="ln" style="--n:8">});</span></pre>
-          <div class="resp"><span class="r-tag">201</span><pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"acct_01J9ZK2"</span><span class="p">,</span> <span class="k">"balance"</span><span class="p">:</span> <span class="n">0</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"open"</span> <span class="p">}</span></pre><small>22 ms</small></div>
-        </div>
-        <div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1" hidden>
-<pre class="code"><span class="ln" style="--n:0"><span class="k">const</span> transfer = <span class="k">await</span> ll.transfers.<span class="f">create</span>({</span>
-<span class="ln" style="--n:1">  from: <span class="s">'acct_customer_204'</span>,</span>
-<span class="ln" style="--n:2">  to: <span class="s">'acct_merchant_88'</span>,</span>
-<span class="ln" style="--n:3">  amount: <span class="n">12_500</span>, <span class="c">// minor units</span></span>
-<span class="ln" style="--n:4">  currency: <span class="s">'USD'</span>,</span>
-<span class="ln" style="--n:5">  rail: <span class="s">'rtp'</span>,</span>
-<span class="ln" style="--n:6">}, { idempotencyKey: orderId });</span></pre>
-          <div class="resp"><span class="r-tag">201</span><pre><span class="p">{</span> <span class="k">"id"</span><span class="p">:</span> <span class="s">"trf_01J9ZK"</span><span class="p">,</span> <span class="k">"status"</span><span class="p">:</span> <span class="s">"settled"</span><span class="p">,</span> <span class="k">"latency_ms"</span><span class="p">:</span> <span class="n">38</span> <span class="p">}</span></pre><small>38 ms</small></div>
-        </div>
-        <div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2" hidden>
-<pre class="code"><span class="ln" style="--n:0">app.<span class="f">post</span>(<span class="s">'/webhooks'</span>, ll.webhooks.<span class="f">verify</span>(), <span class="k">async</span> (req, res) =&gt; {</span>
-<span class="ln" style="--n:1">  <span class="k">const</span> event = req.event; <span class="c">// signature already checked</span></span>
-<span class="ln" style="--n:2">  <span class="k">if</span> (event.type === <span class="s">'transfer.settled'</span>) {</span>
-<span class="ln" style="--n:3">    <span class="k">await</span> <span class="f">markPaid</span>(event.data.reference);</span>
-<span class="ln" style="--n:4">  }</span>
-<span class="ln" style="--n:5">  res.<span class="f">sendStatus</span>(<span class="n">204</span>);</span>
-<span class="ln" style="--n:6">});</span></pre>
-          <div class="resp"><span class="r-tag">204</span><pre><span class="c">// acknowledged, delivered once, in order</span></pre><small>3 ms</small></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ RELIABILITY & SECURITY (horizontal) ============ -->
-<section class="rel" id="reliability" data-hscroll data-bg="#0B1210" data-ink="#E9F0EC" aria-label="Reliability and security">
-  <div class="rel-stage">
-    <header class="rel-head wrap">
-      <div>
-        <p class="eyebrow">Reliability &amp; security</p>
-        <h2 class="h2" data-title>Built for the day <em>everything breaks.</em></h2>
-      </div>
-      <div class="rel-meter" aria-hidden="true"><span>scroll</span><i></i></div>
-    </header>
-    <div data-hscroll-track>
-      <article class="rcard">
-        <p class="r-k">Uptime</p>
-        <b class="r-big">99.999<small>%</small></b>
-        <p class="r-p">Trailing 12 months, measured at the API edge. Status history is public.</p>
-        <div class="uptime" aria-label="90 day uptime bars">
-          <!-- 90 bars filled by app.js -->
-        </div>
-        <p class="r-cap"><span>90 days ago</span><span>today</span></p>
-      </article>
-      <article class="rcard">
-        <p class="r-k">Latency</p>
-        <b class="r-big">41<small> ms</small></b>
-        <p class="r-p">p99 ledger write, including durable replication to a second region.</p>
-        <svg class="hist" viewBox="0 0 320 120" role="img" aria-label="Latency distribution">
-          <g class="hist-bars"></g>
-          <line x1="212" x2="212" y1="6" y2="112" class="p99"/>
-          <text x="216" y="16">p99</text>
-        </svg>
-        <p class="r-cap"><span>0 ms</span><span>80 ms</span></p>
-      </article>
-      <article class="rcard">
-        <p class="r-k">Regions</p>
-        <b class="r-big">3<small> active</small></b>
-        <p class="r-p">Active-active across independent regions. Lose one, keep posting. RPO zero, RTO under a minute.</p>
-        <svg class="regions" viewBox="0 0 320 150" role="img" aria-label="Three regions linked in a triangle">
-          <path class="lnk" d="M60 105L160 35L260 105Z"/>
-          <g class="rg"><circle cx="160" cy="35" r="11"/><text x="160" y="16">us-east</text></g>
-          <g class="rg"><circle cx="60" cy="105" r="11"/><text x="60" y="136">eu-west</text></g>
-          <g class="rg"><circle cx="260" cy="105" r="11"/><text x="260" y="136">ap-south</text></g>
-        </svg>
-      </article>
-      <article class="rcard">
-        <p class="r-k">Encryption</p>
-        <b class="r-big">256<small>-bit</small></b>
-        <p class="r-p">TLS 1.3 in flight, AES-256 at rest, per-tenant keys in HSMs with scheduled rotation.</p>
-        <ul class="keys">
-          <li><code>tenant_key_v7</code><span>active</span></li>
-          <li><code>tenant_key_v6</code><span class="old">rotated &middot; 14d</span></li>
-          <li><code>tenant_key_v5</code><span class="old">retired</span></li>
-        </ul>
-      </article>
-      <article class="rcard">
-        <p class="r-k">Audit</p>
-        <b class="r-big">0<small> edits</small></b>
-        <p class="r-p">Entries are hash-chained and append-only. Corrections are new entries, never overwrites.</p>
-        <div class="chain" aria-hidden="true">
-          <div class="blk"><code>7f3a</code></div><i></i><div class="blk"><code>c21d</code></div><i></i><div class="blk"><code>09be</code></div><i></i><div class="blk cur"><code>e4a7</code></div>
-        </div>
-      </article>
-      <article class="rcard last">
-        <p class="r-k">Compliance</p>
-        <b class="r-big">SOC 2<small> Type II</small></b>
-        <p class="r-p">PCI DSS Level 1, ISO 27001, annual penetration tests and a published responsible disclosure program. Reports available under NDA.</p>
-        <ul class="badges"><li>SOC 2</li><li>PCI L1</li><li>ISO 27001</li><li>GDPR</li></ul>
-        <a class="mk-link r-link" href="#start">Request the security pack</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MANIFESTO (reading highlight, page turns to paper) ============ -->
-<section class="manifesto" data-bg="#EEEBE2" data-ink="#10130F" aria-label="Principle">
+<!-- ============ RELIABILITY ============ -->
+<section class="sec rel" id="reliability" data-bg="#D3DEC6" data-ink="#0E1B14" aria-labelledby="rel-title">
   <div class="wrap">
-    <p class="eyebrow">The principle</p>
-    <p class="mf" data-read>Every cent has an address. Every movement has a pair. Every pair <em>balances, forever.</em></p>
-  </div>
-</section>
-
-<!-- ============ CUSTOMERS (stacking cards) ============ -->
-<section class="sec cases" id="customers" data-bg="#EEEBE2" data-ink="#10130F">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow" data-reveal="fade">Customers</p>
-      <h2 class="h2" data-title>Teams who cannot afford <em>a wrong balance.</em></h2>
+    <div class="sec-head has-lede">
+      <p class="folio"><span>Folio 04</span><span class="folio-rule"></span><span>Reliability</span></p>
+      <h2 class="h2" id="rel-title" data-split="words">No entry is lost when a region goes dark</h2>
+      <p class="sec-lede" data-reveal="up" data-delay="200">A write is acknowledged by a quorum before your request returns, so a lost region costs a slower second and never an entry.</p>
     </div>
-    <div class="case-stack" data-stack>
-      <article class="case c-ink">
-        <div class="case-q">
-          <p class="case-no">01 / 03 &nbsp; Halcyon Treasury &middot; neobank</p>
-          <blockquote>&ldquo;We retired three internal ledgers and a reconciliation team's worth of spreadsheets. Month-end close went from nine days to forty minutes.&rdquo;</blockquote>
-          <p class="who"><b>Mara Ellison</b> VP Engineering</p>
-        </div>
-        <dl class="case-m">
-          <div><dt>Month-end close</dt><dd><span data-count="40">40</span><small> min</small></dd></div>
-          <div><dt>Unreconciled entries</dt><dd><span data-count="0">0</span></dd></div>
-          <div><dt>Migration</dt><dd><span data-count="6">6</span><small> weeks</small></dd></div>
-        </dl>
-      </article>
-      <article class="case c-lime">
-        <div class="case-q">
-          <p class="case-no">02 / 03 &nbsp; Kestrel Freight &middot; marketplace payouts</p>
-          <blockquote>&ldquo;Payouts to 140,000 carriers land in seconds, not on Fridays. The idempotency model alone deleted a whole class of incidents.&rdquo;</blockquote>
-          <p class="who"><b>Dev Okafor</b> Staff Engineer</p>
-        </div>
-        <dl class="case-m">
-          <div><dt>Carriers paid instantly</dt><dd><span data-count="140">140</span><small>k</small></dd></div>
-          <div><dt>Median payout</dt><dd><span data-count="2.1" data-count-decimals="1">2.1</span><small> s</small></dd></div>
-          <div><dt>Payment incidents</dt><dd><small>&minus;</small><span data-count="86">86</span><small>%</small></dd></div>
-        </dl>
-      </article>
-      <article class="case c-paper">
-        <div class="case-q">
-          <p class="case-no">03 / 03 &nbsp; Marlow Card Co. &middot; card issuing</p>
-          <blockquote>&ldquo;Authorization decisions read balances from Ledgerline in under twenty milliseconds, at four thousand requests a second on Black Friday.&rdquo;</blockquote>
-          <p class="who"><b>Ines Valdez</b> CTO</p>
-        </div>
-        <dl class="case-m">
-          <div><dt>Peak requests per second</dt><dd><span data-count="4000">4,000</span></dd></div>
-          <div><dt>Balance read p99</dt><dd><small>&lt;</small><span data-count="20">20</span><small> ms</small></dd></div>
-          <div><dt>Black Friday downtime</dt><dd><span data-count="0">0</span><small> s</small></dd></div>
-        </dl>
-      </article>
+
+    <div class="rel-top">
+      <div class="rel-left">
+        <p class="rel-num" aria-label="99.999 percent"><span data-count="99.999" data-count-decimals="3" data-count-from="99.4">99.999</span><small>%</small></p>
+        <p class="rel-cap">Ledger write availability, trailing twelve months, measured at the API edge. Illustrative.</p>
+      </div>
+      <dl class="defs" data-reveal="up">
+        <div><dt>Write path</dt><dd>Synchronous quorum across three regions. An entry is acknowledged only after two of three have it on disk.</dd></div>
+        <div><dt>Failover</dt><dd>Automatic and rehearsed monthly. Recovery point 0, recovery time under 60 seconds.</dd></div>
+        <div><dt>Retries</dt><dd>Idempotency keys make every write safe to repeat, so a timeout never becomes a double charge.</dd></div>
+      </dl>
+    </div>
+
+    <figure class="uptime-wrap" data-reveal="up">
+      <div class="uptime" id="uptime" role="img" aria-label="Ninety days of daily availability. One degraded day, caused by a payout partner; ledger writes unaffected."></div>
+      <figcaption><span>90 days ago</span><span class="uptime-key"><i class="k-ok"></i>Ledger writes healthy<i class="k-warn"></i>Degraded day: a payout partner ran slow, ledger unaffected</span><span>Today</span></figcaption>
+    </figure>
+
+    <div class="rel-viz">
+      <figure class="viz viz-hist">
+        <figcaption><h3>Time to post, distribution</h3><p class="mono">Live ledger, last 30 days. Illustrative.</p></figcaption>
+        <svg id="hist" class="hist" viewBox="0 0 560 250" role="img" aria-label="Histogram of posting latency with median 38 milliseconds, p99 121 milliseconds and p99.9 178 milliseconds"></svg>
+      </figure>
+      <figure class="viz viz-quorum">
+        <figcaption><h3>Quorum write</h3><p class="mono">Two of three acknowledgements commit the entry.</p></figcaption>
+        <svg class="quorum" viewBox="0 0 560 250" role="img" aria-label="Three regions, iad, fra and sin, connected in a triangle. A write in iad is replicated to the other two." data-draw>
+          <path d="M120 188 L280 52" /><path d="M280 52 L440 188" /><path d="M120 188 L440 188" />
+          <circle cx="120" cy="188" r="30" /><circle cx="280" cy="52" r="30" /><circle cx="440" cy="188" r="30" />
+          <g class="q-labels">
+            <text x="120" y="193" text-anchor="middle">iad</text>
+            <text x="280" y="57" text-anchor="middle">fra</text>
+            <text x="440" y="193" text-anchor="middle">sin</text>
+            <text x="120" y="236" text-anchor="middle" class="q-sub">leader, ack 1</text>
+            <text x="280" y="20" text-anchor="middle" class="q-sub">ack 2, commit</text>
+            <text x="440" y="236" text-anchor="middle" class="q-sub">ack 3, async</text>
+          </g>
+          <circle class="pulse" r="5"><animateMotion dur="2.8s" repeatCount="indefinite" path="M120 188 L280 52" calcMode="linear" /></circle>
+          <circle class="pulse pulse-2" r="5"><animateMotion dur="2.8s" begin="0.35s" repeatCount="indefinite" path="M120 188 L440 188" calcMode="linear" /></circle>
+        </svg>
+      </figure>
     </div>
   </div>
 </section>
 
-<!-- ============ PRICING ============ -->
-<section class="sec pricing" id="pricing" data-bg="#EEEBE2" data-ink="#10130F">
+<!-- ============ SECURITY ============ -->
+<section class="sec sec-dark security" id="security" data-bg="#0B1D15" data-ink="#E7EBDD" aria-labelledby="sec-title">
   <div class="wrap">
-    <div class="sec-head split">
-      <div>
-        <p class="eyebrow" data-reveal="fade">Pricing</p>
-        <h2 class="h2" data-title>Priced on volume, <em>not on surprises.</em></h2>
+    <div class="sec-head has-lede">
+      <p class="folio"><span>Folio 05</span><span class="folio-rule"></span><span>Security</span></p>
+      <h2 class="h2" id="sec-title" data-split="words">Built so an auditor can verify it without asking&nbsp;us</h2>
+      <p class="sec-lede" data-reveal="up" data-delay="200">The register below maps to the evidence our auditors sample, and the hash chain can be verified through the API.</p>
+    </div>
+
+    <p class="statement" data-read>Entries are append-only. Signing keys never leave the hardware security module. Every change carries an author, a timestamp and the hash of the entry before it.</p>
+
+    <div class="chain" id="chain" aria-label="Hash chain of ledger entries, illustrative" data-stagger="110">
+      <div class="link"><span class="link-id mono">entry 4187</span><span class="mono link-h"><em>prev</em> 9f2a41c0</span><span class="mono link-h"><em>hash</em> c41e07b3</span></div>
+      <div class="link"><span class="link-id mono">entry 4188</span><span class="mono link-h"><em>prev</em> c41e07b3</span><span class="mono link-h"><em>hash</em> 7b90d2e8</span></div>
+      <div class="link"><span class="link-id mono">entry 4189</span><span class="mono link-h"><em>prev</em> 7b90d2e8</span><span class="mono link-h"><em>hash</em> e3d5a916</span></div>
+      <div class="link link-new"><span class="link-id mono">entry 4190</span><span class="mono link-h"><em>prev</em> e3d5a916</span><span class="mono link-h"><em>hash</em> 2a6f0cb4</span></div>
+    </div>
+
+    <div class="reg" role="table" aria-label="Control register, illustrative">
+      <div class="reg-head" role="row"><span role="columnheader">Ref</span><span role="columnheader">Control</span><span role="columnheader">What it means</span><span role="columnheader">Evidence</span><span role="columnheader" class="r">Ticked</span></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-AC-01</span><h3 role="cell">Access</h3><p role="cell">Scoped API keys, SSO and SAML, hardware-key 2FA for every dashboard user.</p><span class="reg-ev" role="cell">Reviewed quarterly</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="0" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-EN-02</span><h3 role="cell">Encryption</h3><p role="cell">TLS 1.3 in transit. AES-256-GCM at rest with a separate data key per tenant.</p><span class="reg-ev" role="cell">Keys rotated every 90 days</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="90" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-IM-03</span><h3 role="cell">Immutability</h3><p role="cell">Corrections are new, linked counter-entries. Nothing is edited or deleted in place.</p><span class="reg-ev" role="cell">Chain verifiable by API</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="180" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-KM-04</span><h3 role="cell">Key custody</h3><p role="cell">Signing keys live in FIPS 140-3 Level 3 modules. Bring your own key on Enterprise.</p><span class="reg-ev" role="cell">Dual-control ceremonies</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="270" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-AV-05</span><h3 role="cell">Availability</h3><p role="cell">Three-region quorum with failover rehearsed on a calendar, not on an incident.</p><span class="reg-ev" role="cell">Last drill 2026-09-18</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="360" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+      <div class="reg-row" role="row"><span class="mono" role="cell">LL-PR-06</span><h3 role="cell">Privacy</h3><p role="cell">EU data residency, a DPA on request, erasure by crypto-shredding.</p><span class="reg-ev" role="cell">Annual third-party audit</span><svg class="tick" viewBox="0 0 24 24" data-draw data-delay="450" aria-label="Ticked"><path d="M3.5 12.8l5.6 5.4L20.5 5.8"/></svg></div>
+    </div>
+
+    <ul class="seals" data-stagger="80" aria-label="Attestations, illustrative">
+      <li><b>SOC 2</b><span>Type II</span></li>
+      <li><b>PCI DSS</b><span>Level 1</span></li>
+      <li><b>ISO</b><span>27001</span></li>
+      <li><b>GDPR</b><span>DPA</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CUSTOMERS: horizontal track ============ -->
+<section class="proof" id="customers" data-hscroll data-bg="#E7EBDD" data-ink="#0E1B14" aria-labelledby="proof-title">
+  <div class="proof-stage">
+    <div class="wrap proof-head">
+      <div class="sec-head has-lede">
+        <p class="folio"><span>Folio 06</span><span class="folio-rule"></span><span>Customers</span></p>
+        <h2 class="h2" id="proof-title" data-split="words">Four teams, and what changed in their month-end close</h2>
+        <p class="sec-lede">Four illustrative customers, one question: how long did the close take, and how long does it take now. Names, quotes and figures are invented.</p>
       </div>
-      <div class="bill" role="group" aria-label="Billing period" data-reveal="fade">
-        <span class="bill-ink" aria-hidden="true"></span>
-        <button type="button" aria-pressed="true" data-bill="monthly">Monthly</button>
-        <button type="button" aria-pressed="false" data-bill="annual">Annual <small>&minus;20%</small></button>
-      </div>
+    </div>
+    <div class="proof-track" data-hscroll-track>
+      <article class="slip" tabindex="0">
+        <header class="slip-top"><span>Slip 01</span><span>Month-end close</span></header>
+        <p class="slip-metric"><s>9 days</s><strong>4 min</strong></p>
+        <blockquote>We deleted eleven thousand lines of reconciliation code the week we cut over.</blockquote>
+        <footer><b>Priya Raman</b>Head of Platform, Marlow Books<span>Live since Mar 2025. 2.1M transfers a month.</span></footer>
+      </article>
+      <article class="slip" tabindex="0">
+        <header class="slip-top"><span>Slip 02</span><span>New wallet currency</span></header>
+        <p class="slip-metric"><s>6 weeks</s><strong>2 days</strong></p>
+        <blockquote>Adding a currency is a config change now, not a quarter-long project.</blockquote>
+        <footer><b>Tomas Weiss</b>CTO, Kestrel<span>Live since Nov 2024. 14M transfers a month.</span></footer>
+      </article>
+      <article class="slip" tabindex="0">
+        <header class="slip-top"><span>Slip 03</span><span>Failed carrier payouts</span></header>
+        <p class="slip-metric"><s>3.1%</s><strong>0.2%</strong></p>
+        <blockquote>Every retry is idempotent, so support stopped chasing duplicate payments.</blockquote>
+        <footer><b>Dana Okafor</b>Engineering Manager, Tidewater Freight Pay<span>Live since Jun 2025. 3.6M transfers a month.</span></footer>
+      </article>
+      <article class="slip" tabindex="0">
+        <header class="slip-top"><span>Slip 04</span><span>Payroll run, 190,000 people</span></header>
+        <p class="slip-metric"><s>4 hours</s><strong>11 min</strong></p>
+        <blockquote>The run posts before the first coffee is poured, and it balances every time.</blockquote>
+        <footer><b>Sam Idowu</b>VP Engineering, Plinth Payroll<span>Live since Jan 2026. 9.4M transfers a month.</span></footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING: rate card ============ -->
+<section class="sec price" id="pricing" data-bg="#F1F4E8" data-ink="#0E1B14" aria-labelledby="price-title">
+  <div class="wrap">
+    <div class="sec-head has-lede">
+      <p class="folio"><span>Folio 07</span><span class="folio-rule"></span><span>Pricing</span></p>
+      <h2 class="h2" id="price-title" data-split="words">Pay per posted transfer. The first 1,000 each month are free.</h2>
+      <p class="sec-lede" data-reveal="up" data-delay="200">No seat fees and no minimums on Build. A posted transfer counts once, however many entries it writes.</p>
     </div>
 
     <div class="est" data-reveal="up">
-      <label for="vol"><span>Monthly payment volume</span><b data-vol-out>$2.0M</b></label>
-      <input id="vol" type="range" min="0" max="100" value="38" data-vol>
-      <p class="est-note">Drag to see which plan fits and what it costs. Illustrative pricing.</p>
+      <label class="est-label" for="vol">Posted transfers per month</label>
+      <output class="est-out" id="volOut" for="vol">250K</output>
+      <div class="est-range">
+        <input id="vol" type="range" min="0" max="100" value="51" step="0.5" aria-describedby="volHint">
+        <div class="est-ticks mono" aria-hidden="true"><span>1K</span><span>10K</span><span>100K</span><span>1M</span><span>10M</span><span>50M</span></div>
+      </div>
+      <p class="est-hint mono" id="volHint">Drag to see each plan's monthly estimate. Rates are illustrative.</p>
     </div>
 
-    <div class="plans" data-stagger="80">
-      <article class="plan" data-plan="build">
-        <p class="plan-name">Build</p>
-        <p class="price"><b>$0</b><small>/ month</small></p>
-        <p class="plan-d">For prototypes and sandboxes. Production up to $100k a month in volume.</p>
-        <ul>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Unlimited test mode</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>10 ledgers, 1 rail</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Community support</li>
-        </ul>
-        <p class="plan-est"><span>Your estimate</span><b data-est="build">$0</b></p>
-        <a class="btn btn-outline mk-button" href="#start">Start building</a>
+    <div class="rates" id="rates">
+      <div class="rates-head" aria-hidden="true"><span>Plan</span><span>Fee and rate</span><span>Includes</span><span>Estimate per month</span><span></span></div>
+
+      <article class="tier" data-tier="build">
+        <div class="tier-name"><h3>Build</h3><p>Prototypes and first customers.</p><span class="fit" aria-hidden="true">Best fit at this volume</span></div>
+        <div class="tier-rate"><b>$0</b><span>platform fee</span><p>1,000 free, then $0.040 per transfer.</p></div>
+        <ul class="tier-inc"><li>Unlimited sandbox</li><li>Single region</li><li>Community support</li></ul>
+        <p class="tier-est"><b id="estBuild">$9,960</b><span>per month</span></p>
+        <a class="btn btn-line btn-sm mk-button mk-wipe" href="#start">Start free <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="plan feat" data-plan="scale">
-        <p class="plan-flag">Most teams</p>
-        <p class="plan-name">Scale</p>
-        <p class="price"><b data-base>$499</b><small>/ month + 0.10%</small></p>
-        <p class="plan-d">For products in production. Every rail, unlimited ledgers and a named engineer.</p>
-        <ul>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>All rails and currencies</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>99.99% uptime SLA</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Shared Slack channel</li>
-        </ul>
-        <p class="plan-est"><span>Your estimate</span><b data-est="scale">$0</b></p>
-        <a class="btn btn-primary mk-button" data-magnetic="0.2" href="#start">Get your API key</a>
+
+      <article class="tier" data-tier="scale">
+        <div class="tier-name"><h3>Scale</h3><p>Production money movement.</p><span class="fit" aria-hidden="true">Best fit at this volume</span></div>
+        <div class="tier-rate"><b>$1,200</b><span>per month</span><p>500,000 included, then $0.012 per transfer.</p></div>
+        <ul class="tier-inc"><li>Three-region quorum</li><li>99.99% availability SLA</li><li>SSO and SAML, 24x5 support</li></ul>
+        <p class="tier-est"><b id="estScale">$1,200</b><span>per month</span></p>
+        <a class="btn btn-line btn-sm mk-button mk-wipe" href="#start">Start Scale <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="plan" data-plan="enterprise">
-        <p class="plan-name">Enterprise</p>
-        <p class="price"><b>Custom</b><small>from 0.04%</small></p>
-        <p class="plan-d">For regulated volume. Dedicated cells, private networking and your own audit cadence. Platform commit from $8k a month.</p>
-        <ul>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>99.999% uptime SLA</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>BYOK and data residency</li>
-          <li><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>24/7 incident line</li>
-        </ul>
-        <p class="plan-est"><span>Your estimate</span><b data-est="enterprise">$0</b></p>
-        <a class="btn btn-outline mk-button" href="#start">Talk to engineering</a>
+
+      <article class="tier" data-tier="enterprise">
+        <div class="tier-name"><h3>Enterprise</h3><p>Banks and regulated platforms.</p><span class="fit" aria-hidden="true">Best fit at this volume</span></div>
+        <div class="tier-rate"><b>Custom</b><span>annual contract</span><p>From $0.004 per transfer above 5M a month.</p></div>
+        <ul class="tier-inc"><li>99.999% SLA, dedicated cell</li><li>Bring your own key, audit exports</li><li>24x7 support, 15-minute response</li></ul>
+        <p class="tier-est"><b id="estEnt">Custom</b><span id="estEntSub">quote above 5M a month</span></p>
+        <a class="btn btn-line btn-sm mk-button mk-wipe" href="#start">Talk to us <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </article>
     </div>
   </div>
 </section>
 
 <!-- ============ SIGN UP ============ -->
-<section class="cta" id="start" data-bg="#0A0C0B" data-ink="#ECEFE9">
-  <div class="wrap cta-grid">
-    <div>
-      <p class="eyebrow" data-reveal="fade">Start now</p>
-      <h2 class="cta-h" aria-label="Ship a real ledger this afternoon."><span class="cta-l" data-scramble data-scramble-duration="1000">Ship a real ledger</span><span class="cta-l em-s" data-scramble data-scramble-duration="1200" data-delay="160">this afternoon.</span></h2>
-      <p class="sub" data-reveal="up">Create a sandbox in under a minute. No card, no sales call. Just an API key and a ledger that balances.</p>
-      <form class="signup" novalidate data-reveal="up" data-delay="100">
-        <label class="sr" for="email">Work email</label>
-        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
-        <button class="btn btn-primary btn-lg mk-button" data-magnetic="0.2" type="submit">Get API key <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5h10M9 4.5l4 4-4 4"/></svg></button>
-        <p class="form-msg" role="status" aria-live="polite"></p>
+<section class="start" id="start" data-bg="#EE4A2A" data-ink="#0E1B14" aria-labelledby="start-title">
+  <div class="wrap start-in">
+    <h2 class="start-title" id="start-title" data-split="words">Post a test transfer in ten minutes.</h2>
+    <div class="start-grid">
+      <p class="start-lede" data-reveal="up">Create a sandbox key with your work email. No card, no sales call, and 1,000 live transfers a month stay free when you go to production.</p>
+      <form class="signup" id="signup" novalidate data-reveal="up" data-delay="80">
+        <label for="email">Work email</label>
+        <div class="signup-row">
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+          <button class="btn btn-ink mk-button mk-wipe" type="submit">Create sandbox <span class="arrow" aria-hidden="true">&rarr;</span></button>
+        </div>
+        <p class="signup-msg" id="signupMsg" role="status" aria-live="polite">This demo generates a key in your browser. Nothing is sent anywhere.</p>
+        <div class="keybox" id="keybox" hidden>
+          <span class="keybox-label">Sandbox key, test mode</span>
+          <code id="keyText">lk_test_</code>
+          <button class="btn btn-line-ink btn-sm mk-button" type="button" id="copyKey">Copy</button>
+        </div>
       </form>
-      <p class="fine" data-reveal="fade">Demo form: nothing is sent or stored.</p>
     </div>
-    <div class="term" data-reveal="up" data-delay="160" aria-label="Terminal example">
-      <div class="c-bar"><span class="c-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="c-title">~/payments</span></div>
-      <pre data-term><span class="tl"><span class="d">$</span> <span data-type="npm i @ledgerline/node">npm i @ledgerline/node</span></span>
-<span class="tl"><span class="d">$</span> <span data-type="export LEDGERLINE_KEY=sk_test_••••••••">export LEDGERLINE_KEY=sk_test_••••••••</span></span>
-<span class="tl"><span class="d">$</span> <span data-type="node pay.js">node pay.js</span></span>
-<span class="tl out ok"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>trf_01J9ZK settled in 38 ms</span>
-<span class="tl out">ledger balanced &middot; 3 entries &middot; 0 drift</span></pre>
-    </div>
+    <p class="start-alt">Need a security review first? <a class="mk-link" href="#security">Read the control register</a> or <a class="mk-link" href="#pricing">compare plans</a>.</p>
   </div>
 </section>
 </main>
 
-<footer class="foot" data-bg="#0A0C0B" data-ink="#ECEFE9">
+<footer class="foot theme-dark">
   <div class="wrap">
-    <div class="foot-grid">
+    <div class="foot-grid" data-stagger="70">
       <div class="foot-brand">
-        <a class="brand" href="#top"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M4 17h9" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" fill="none"/></svg><span>Ledgerline</span></a>
-        <p class="status-pill"><i></i> All systems operational</p>
+        <a class="brand" href="#top" aria-label="Ledgerline home">
+          <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5.5" width="20" height="4.6" class="m-dr"/><rect x="2" y="13.9" width="20" height="4.6" class="m-cr"/></svg>
+          <span>Ledgerline</span>
+        </a>
+        <p>Real-time payments and double-entry ledgers, as an API.</p>
       </div>
-      <nav aria-label="Product"><h4>Product</h4><a class="mk-link" href="#product">How it works</a><a class="mk-link" href="#platform">Platform</a><a class="mk-link" href="#pricing">Pricing</a></nav>
-      <nav aria-label="Developers"><h4>Developers</h4><a class="mk-link" href="#api">API reference</a><a class="mk-link" href="#api">SDKs</a><a class="mk-link" href="#reliability">Status</a></nav>
-      <nav aria-label="Company"><h4>Company</h4><a class="mk-link" href="#customers">Customers</a><a class="mk-link" href="#reliability">Security</a><a class="mk-link" href="#start">Contact</a></nav>
+      <nav aria-label="Product"><h4>Product</h4><a class="mk-link" href="#product">How a transfer posts</a><a class="mk-link" href="#api">API reference</a><a class="mk-link" href="#pricing">Pricing</a></nav>
+      <nav aria-label="Trust"><h4>Trust</h4><a class="mk-link" href="#reliability">Reliability</a><a class="mk-link" href="#security">Security</a><a class="mk-link" href="#numbers">Trial balance</a></nav>
+      <nav aria-label="Company"><h4>Company</h4><a class="mk-link" href="#customers">Customers</a><a class="mk-link" href="#start">Contact</a><a class="mk-link" href="#start">Status</a></nav>
     </div>
-    <p class="wordmark" aria-hidden="true" data-reveal="clip">ledgerline</p>
-    <p class="legal">&copy; 2026 Ledgerline. A fictional product for design demonstration. All figures are illustrative.</p>
+    <div class="foot-base">
+      <p>&copy; 2026 Ledgerline. A concept page: customers, figures and attestations are illustrative.</p>
+      <p class="foot-bal mono"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.2 5.2L20 6.5"/></svg>&Sigma; debits = &Sigma; credits</p>
+    </div>
   </div>
 </footer>
 
-<script src="prep.js"></script>
 </body>
 </html>

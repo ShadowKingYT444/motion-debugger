@@ -4,7 +4,7 @@ Motion Debugger combines portable agent skills with local motion evidence tools.
 
 ## Seven focused skills
 
-- `premium-motion`: **start here for pages and sites.** A taste guide (one motion personality, a written motion score and an ambition floor of scrubbed scroll scenes and chapter transitions), art direction, type/space/surface system, motion tokens, choreography and robustness rules, a dependency-free motion kit, pattern code, and the required `motion-debugger critique` look-and-refine loop ([details](PREMIUM-MOTION.md))
+- `premium-motion`: **start here for pages and sites.** Names the default AI-built page and makes the agent leave it, takes art direction from the brief's own world, sets a finish system (spacing, shared edges, boxes sized to content, visible hover, finished states, a real phone layout), one finished signature scroll scene with a motion score, a dependency-free motion kit, pattern code, and the required `motion-debugger critique` look-and-refine loop with annotated finish defects ([details](PREMIUM-MOTION.md))
 - `motion-debugger`: namespaced entry for protected transition authoring and native review; coexists with another `/motion` skill
 - `motion`: normal design prompt entry point; routes to original runnable recipes, design guidance and browser verification
 - `motion-design`: choose a brief-led visual direction, coherent typography/surfaces and complete interaction states
@@ -73,7 +73,7 @@ Repairs must follow observation and source diagnosis. There is no bundled oracle
 
 ## Attribution and validation
 
-The design guidance selectively adapts concepts from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill/tree/ce26fc25c0e5e8cab638f883de62d9a86ee5e45b), with [exact provenance and the retained MIT notice](../plugin/motion-debugger/skills/motion-design/references/taste-provenance.md). This does not license the entire Motion Debugger project as MIT. Its private/UNLICENSED status is unchanged.
+The design guidance selectively adapts concepts from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill/tree/ce26fc25c0e5e8cab638f883de62d9a86ee5e45b), with [exact provenance and the retained MIT notice](../plugin/motion-debugger/skills/motion-design/references/taste-provenance.md).
 
 Check the packaged skill catalog without installing or changing editor settings:
 

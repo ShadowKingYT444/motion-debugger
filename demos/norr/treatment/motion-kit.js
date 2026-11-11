@@ -5,9 +5,10 @@
  *
  *   data-reveal="up|fade|scale|left|right|clip|blur"  reveal once when scrolled into view
  *   data-stagger="70"            on a parent: children reveal in sequence (ms apart)
- *   data-split="lines|words|chars"  masked text rise (use on headings)
+ *   data-split="lines|words|chars"  masked text rise (use on headings; inline markup such as <em> is kept)
  *   data-delay="120"             extra delay (ms) for one element
- *   data-count="1280" data-count-decimals="1" data-count-prefix="$" data-count-suffix="%"
+ *   data-count="1280" data-count-decimals="1" data-count-prefix="$" data-count-suffix="%" data-count-from="900"
+ *                                (write the final value in the HTML too; until it runs the kit shows the from value)
  *   data-progress                sets --p (0→1) while the element scrolls through the viewport
  *                                (pin a child with position:sticky inside a tall parent for storytelling)
  *   data-parallax="0.15"         translateY by speed × distance from viewport centre
@@ -40,13 +41,27 @@
   function split(el) {
     if (el.dataset.splitDone) return;
     const mode = el.dataset.split || 'words';
-    const text = el.textContent.trim().replace(/\s+/g, ' ');
-    el.setAttribute('aria-label', text);
-    const words = text.split(' ');
+    el.setAttribute('aria-label', el.textContent.trim().replace(/\s+/g, ' '));
     let index = 0;
-    const wrap = (inner) => `<span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:${index++}">${inner}</span></span>`;
-    if (mode === 'chars') el.innerHTML = words.map((word) => `<span class="mk-word">${[...word].map(wrap).join('')}</span>`).join(' ');
-    else el.innerHTML = words.map(wrap).join(' ');
+    const piece = (text) => {
+      const mask = document.createElement('span'); mask.className = 'mk-mask'; mask.setAttribute('aria-hidden', 'true');
+      const inner = document.createElement('span'); inner.className = 'mk-piece'; inner.style.setProperty('--i', index++); inner.textContent = text;
+      mask.append(inner); return mask;
+    };
+    // Split every text node in place, so <em>, <strong>, coloured spans and <br> keep their styling.
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const fragment = document.createDocumentFragment();
+      for (const part of node.nodeValue.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { fragment.append(' '); continue; }
+        if (mode === 'chars') { const word = document.createElement('span'); word.className = 'mk-word'; for (const char of part) word.append(piece(char)); fragment.append(word); }
+        else fragment.append(piece(part));
+      }
+      node.replaceWith(fragment);
+    }
     if (mode === 'lines') {
       // Group measured words into lines so each line rises as one piece.
       const pieces = $$('.mk-piece', el);
@@ -60,16 +75,22 @@
     el.dataset.splitDone = '1';
   }
 
-  function count(el) {
-    const end = parseFloat(el.dataset.count);
+  const formatCount = (el, value) => {
     const decimals = Number(el.dataset.countDecimals || 0);
-    const format = (value) => (el.dataset.countPrefix || '') + value.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + (el.dataset.countSuffix || '');
-    if (reduce.matches) { el.textContent = format(end); return; }
-    const duration = Number(el.dataset.countDuration || 1600);
+    return (el.dataset.countPrefix || '') + value.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + (el.dataset.countSuffix || '');
+  };
+  // Counters never sit at 0: before they run they show their starting value (60% of the end by default).
+  const countFrom = (el) => (el.dataset.countFrom !== undefined ? parseFloat(el.dataset.countFrom) : parseFloat(el.dataset.count) * 0.6);
+  function count(el) {
+    if (el.dataset.countDone) return;
+    el.dataset.countDone = '1';
+    const end = parseFloat(el.dataset.count), from = countFrom(el);
+    if (reduce.matches) { el.textContent = formatCount(el, end); return; }
+    const duration = Number(el.dataset.countDuration || 1400);
     const start = performance.now();
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration);
-      el.textContent = format(end * (1 - Math.pow(1 - t, 4)));
+      el.textContent = formatCount(el, from + (end - from) * (1 - Math.pow(1 - t, 4)));
       if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -130,6 +151,7 @@
 
   function setupReveals() {
     $$('[data-split]').forEach(split);
+    for (const el of $$('[data-count]')) if (!el.dataset.countDone) el.textContent = formatCount(el, reduce.matches ? parseFloat(el.dataset.count) : countFrom(el));
     for (const parent of $$('[data-stagger]')) {
       const gap = Number(parent.dataset.stagger || 70);
       [...parent.children].forEach((child, i) => {

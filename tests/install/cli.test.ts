@@ -5,7 +5,7 @@ import {mkdtemp,readFile,writeFile,rm,readdir,mkdir,symlink,lstat,realpath} from
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {shouldUseInitWizard,prepareInitWizard} from '../../packages/cli/wizard';
+import {shouldUseInitWizard,prepareInitWizard,detectClient} from '../../packages/cli/wizard';
 import {configText} from '../../packages/cli/config';
 import {prepareSkills,installSkills,assertSkillsCurrent,skillNames,skillDirectories} from '../../packages/cli/skills';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
@@ -44,6 +44,10 @@ test('wizard requires explicit browser consent and keeps the selected local runt
   }
   const generic=await prepareInitWizard({client:'generic',local:true},async()=> '');assert.equal(generic.options.client,'generic');assert.equal(generic.downloadBrowser,false);
   let prompts=0;await assert.rejects(prepareInitWizard({client:'generic'},async()=>{prompts++;return 'invalid-client'}),/Unsupported client/);assert.equal(prompts,1);
+  const suggested=await prepareInitWizard({client:'generic'},async()=> '','claude-code');assert.equal(suggested.options.client,'claude-code');assert.equal(suggested.options.local,true,'wizard registers the installed copy, not an unpublished npx version');
+  const overridden=await prepareInitWizard({client:'generic'},async question=>question.startsWith('Client')?'cursor':'','claude-code');assert.equal(overridden.options.client,'cursor');
+  const dir=await realpath(await mkdtemp(path.join(os.tmpdir(),'motion-detect-')));
+  try{assert.equal(await detectClient(dir),undefined);await mkdir(path.join(dir,'.cursor'));assert.equal(await detectClient(dir),'cursor');await writeFile(path.join(dir,'CLAUDE.md'),'');assert.equal(await detectClient(dir),'claude-code')}finally{await rm(dir,{recursive:true,force:true})}
 });
 
 async function exists(file:string){try{await lstat(file);return true}catch(error){if((error as NodeJS.ErrnoException).code==='ENOENT')return false;throw error}}

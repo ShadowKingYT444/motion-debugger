@@ -3,408 +3,445 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Halo One — A speaker that fills the room</title>
-<meta name="description" content="Halo One is a wireless home speaker from a small Copenhagen audio studio. 360° sound, a machined aluminium crown, a knitted sleeve and a ring of light. Pre-order now.">
-<meta name="theme-color" content="#0a0908">
+<title>Halo 02 — Sound without edges</title>
+<meta name="description" content="Halo 02 is a wireless home speaker from Copenhagen. Seven drivers in a single circle, a knitted skin and a ring of warm light. Pre-order the first edition.">
+<meta name="theme-color" content="#0b0a09">
+<meta property="og:title" content="Halo 02 — Sound without edges">
+<meta property="og:description" content="Seven drivers in a single circle, a knitted skin and a ring of warm light. Pre-order the first edition of 2,000.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script>
-  /* Decide motion mode before first paint. Reduced-motion users start with motion off and can opt in. */
-  (function () {
-    var s = null;
-    try { s = localStorage.getItem('halo-motion'); } catch (e) {}
-    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var on = s ? s === 'on' : !reduce;
-    document.documentElement.classList.add(on ? 'motion' : 'no-motion');
-    document.documentElement.classList.add('js');
-  })();
-</script>
-<noscript><style>.loader{display:none!important}.motion [data-reveal],.motion .hero [data-in]{opacity:1!important;transform:none!important}</style></noscript>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0a09'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23ffb15a' stroke-width='3'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="css/styles.css">
+<noscript><style>.loader{display:none!important}.js [data-reveal],.js .sw>i{opacity:1!important;transform:none!important}</style></noscript>
 </head>
-<body>
+<body class="is-loading">
+<a class="skip" href="#main">Skip to content</a>
 
+<!-- Loader -->
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-in">
-    <svg viewBox="0 0 120 120" class="loader-ring"><circle cx="60" cy="60" r="52" pathLength="1"/></svg>
-    <span class="loader-n" id="loaderN">0</span>
-    <span class="loader-t">Halo One</span>
+  <div class="loader__inner">
+    <svg class="loader__ring" viewBox="0 0 200 200">
+      <circle class="loader__track" cx="100" cy="100" r="84"/>
+      <circle class="loader__prog" id="loadRing" cx="100" cy="100" r="84" pathLength="100"/>
+    </svg>
+    <div class="loader__count"><span id="loadNum">0</span><i>%</i></div>
   </div>
+  <div class="loader__word">Halo</div>
+  <div class="loader__meta"><span>København</span><span>Model 02</span></div>
 </div>
 
-<div class="progress" aria-hidden="true"><i id="progress"></i></div>
-<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><i class="cursor__dot"></i><i class="cursor__ring"><span class="cursor__label"></span></i></div>
+<div class="grain" aria-hidden="true"></div>
 
+<!-- Navigation -->
 <header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Halo — back to top">
-    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+  <a class="nav__logo" href="#top" aria-label="Halo — back to top">
+    <svg viewBox="0 0 28 28" width="26" height="26" aria-hidden="true"><circle cx="14" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="2.2"/><circle class="nav__logo-dot" cx="14" cy="4" r="2.6" fill="#ffb15a"/></svg>
     <span>Halo</span>
   </a>
-  <nav class="nav-links" aria-label="Primary">
-    <a href="#object">Object</a>
-    <a href="#sound">Sound</a>
-    <a href="#materials">Materials</a>
-    <a href="#room">Room</a>
-    <a href="#specs">Specs</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#object" data-nav><span>Object</span></a>
+    <a href="#sound" data-nav><span>Sound</span></a>
+    <a href="#materials" data-nav><span>Materials</span></a>
+    <a href="#room" data-nav><span>Room</span></a>
+    <a href="#specs" data-nav><span>Specs</span></a>
   </nav>
-  <div class="nav-right">
-    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="true" title="Toggle animation">
-      <span class="dot" aria-hidden="true"></span><span id="motionLabel">Motion on</span>
+  <div class="nav__actions">
+    <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" aria-label="Play ambient sound">
+      <span class="sound-toggle__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="sound-toggle__label">Sound <b>off</b></span>
     </button>
-    <a class="btn btn-sm" href="#preorder" data-magnetic>Pre-order</a>
+    <a class="btn btn--small" href="#preorder" data-magnetic><span>Pre-order</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
   </div>
 </header>
 
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Mobile">
+    <a href="#object"><i>01</i><span>The object</span></a>
+    <a href="#sound"><i>02</i><span>Sound</span></a>
+    <a href="#materials"><i>03</i><span>Materials</span></a>
+    <a href="#room"><i>04</i><span>Room</span></a>
+    <a href="#specs"><i>05</i><span>Specs</span></a>
+    <a href="#preorder"><i>06</i><span>Pre-order</span></a>
+  </nav>
+  <p class="menu__foot">Halo Lyd ApS — Refshaleøen, Copenhagen</p>
+</div>
+
+<!-- Page progress -->
+<aside class="rail" id="rail" aria-hidden="true">
+  <svg viewBox="0 0 48 48"><circle class="rail__track" cx="24" cy="24" r="20"/><circle class="rail__prog" id="railRing" cx="24" cy="24" r="20" pathLength="100"/></svg>
+  <div class="rail__text"><b id="railNum">01</b><span id="railLabel">Intro</span></div>
+</aside>
+
 <main id="main">
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="top">
-  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-  <div class="hero-vignette" aria-hidden="true"></div>
+<!-- 01 HERO -->
+<section class="hero dark" id="top" data-label="Intro" data-theme="dark">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__glow"></div>
+    <div class="hero__floor"></div>
+  </div>
+  <div class="hero__word" aria-hidden="true">
+    <span class="hw hw--l" id="hwL">HA</span>
+    <span class="hw hw--r" id="hwR">LO</span>
+  </div>
+  <canvas class="hero__canvas" id="heroCanvas" role="img" aria-label="The Halo 02 speaker: a knitted cylinder under a turned aluminium crown, with a ring of warm light. Drag to rotate."></canvas>
 
-  <p class="eyebrow hero-eyebrow" data-in style="--d:.9s"><span class="tick"></span><span><span class="hide-s">Introducing the first Halo &mdash; </span>Copenhagen, 2026</span></p>
+  <div class="hero__top wrap">
+    <p class="eyebrow" data-hero="fade"><span class="dot"></span>Halo 02 &mdash; Wireless home speaker</p>
+    <p class="eyebrow hero__coords" data-hero="fade">55.69&deg; N &nbsp;12.61&deg; E &nbsp;/&nbsp; Refshale&oslash;en</p>
+  </div>
 
-  <h1 class="hero-word" id="heroWord" aria-label="Halo">Halo</h1>
-
-  <div class="hero-stage" id="heroStage">
-    <div class="spk-wrap" id="heroSpk">
-      <div class="spk-in" data-speaker></div>
+  <div class="hero__copy wrap">
+    <h1 class="hero__title" data-split>Sound without <em>edges.</em></h1>
+    <div class="hero__side" data-hero="fade">
+      <p>One circle of light, seven drivers and a knitted skin. Designed and tuned by hand in a harbour workshop in Copenhagen.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#preorder" data-magnetic><span>Pre-order &mdash; &euro;1,290</span></a>
+        <button class="btn btn--ghost" type="button" id="heroPlay" data-magnetic><span class="btn__ico" aria-hidden="true"></span><span class="btn__t">Play the room</span></button>
+      </div>
     </div>
   </div>
 
-  <div class="hero-foot">
-    <div class="hero-lede" data-in style="--d:1.35s">
-      <p>A wireless speaker that fills the room, <em>not the shelf.</em></p>
-      <div class="cta-row">
-        <a class="btn" href="#preorder" data-magnetic>Pre-order &mdash; from 4.990 kr</a>
-        <a class="link-arrow" href="#object">See how it&rsquo;s made <span aria-hidden="true">&darr;</span></a>
-      </div>
-    </div>
-    <dl class="hero-ticks" data-in style="--d:1.5s">
-      <div><dt>Dispersion</dt><dd>360°</dd></div>
-      <div><dt>Drivers</dt><dd>10</dd></div>
-      <div><dt>Battery</dt><dd>14 h</dd></div>
+  <div class="hero__foot wrap" data-hero="fade">
+    <div class="scrollcue"><i></i><span>Scroll</span></div>
+    <p class="eyebrow">First edition of 2,000 &middot; Ships February 2027</p>
+  </div>
+</section>
+
+<!-- 02 IDEA -->
+<section class="idea light sheet" id="idea" data-label="Idea" data-theme="light">
+  <div class="wrap idea__wrap">
+    <p class="eyebrow idea__label" data-reveal>(01) The idea</p>
+    <p class="idea__text" id="ideaText" data-scrub>Most speakers point. They aim their sound at one spot on the sofa and leave the rest of the room to chance. Halo does the opposite. <em>A ring of seven drivers</em> releases sound in every direction at once, and the room does the rest &mdash; so the best seat in the house is every seat in the house.</p>
+    <dl class="idea__facts">
+      <div data-reveal style="--d:0"><dt>360&deg;</dt><dd>Even dispersion, within &plusmn;2&nbsp;dB all the way round</dd></div>
+      <div data-reveal style="--d:120"><dt>&Oslash;218</dt><dd>Millimetres. Fits a shelf, fills a loft</dd></div>
+      <div data-reveal style="--d:240"><dt>No. 0001</dt><dd>Tuned, signed and numbered by one person at a time</dd></div>
     </dl>
   </div>
-  <div class="scroll-cue" aria-hidden="true"><i></i></div>
 </section>
 
-<!-- ================= STATEMENT ================= -->
-<section class="statement">
-  <p class="eyebrow" data-reveal><span class="tick"></span>The idea</p>
-  <p class="stmt" id="stmt">Most speakers aim sound at you. Halo lets it go in every direction at once, so music arrives the way light does in a good room &mdash; from everywhere, and from nowhere in particular.</p>
-</section>
-
-<!-- ================= OBJECT (pinned, scroll-scrubbed exploded view) ================= -->
-<section class="object" id="object" aria-labelledby="objectH">
-  <div class="pin">
-    <div class="object-grid">
-      <div class="object-copy">
-        <p class="eyebrow"><span class="tick"></span>The object</p>
-        <h2 id="objectH" class="h2">Five parts.<br><em>One quiet object.</em></h2>
-        <ol class="steps" id="steps">
-          <li class="on">
-            <button type="button" class="step-h"><span class="num">01</span><span>Machined crown</span></button>
-            <div class="step-b"><p>A single block of 62&nbsp;% recycled aluminium, turned in Aarhus and finished by hand. The ring on top is the only control you need: touch, turn, rest.</p></div>
-          </li>
-          <li>
-            <button type="button" class="step-h"><span class="num">02</span><span>Knit sleeve</span></button>
-            <div class="step-b"><p>A seamless wool-blend knit, woven to the exact curve of the cylinder. Acoustically transparent, and it comes off to be washed.</p></div>
-          </li>
-          <li>
-            <button type="button" class="step-h"><span class="num">03</span><span>Aura array</span></button>
-            <div class="step-b"><p>Six silk-dome tweeters and four midrange drivers sit in a single ring, each aimed outward at a precise offset so their output sums to a circle.</p></div>
-          </li>
-          <li>
-            <button type="button" class="step-h"><span class="num">04</span><span>Low chamber</span></button>
-            <div class="step-b"><p>A six-inch long-throw woofer in a sealed 3.2&nbsp;L chamber, flanked by two passive radiators that cancel each other&rsquo;s vibration. Deep, and perfectly still on the shelf.</p></div>
-          </li>
-          <li>
-            <button type="button" class="step-h"><span class="num">05</span><span>Light plinth</span></button>
-            <div class="step-b"><p>A conical diffuser throws the bass across the floor. Beneath it, a warm ring of light &mdash; the halo &mdash; shows what Halo is doing, and nothing else.</p></div>
-          </li>
-        </ol>
-        <div class="step-meter" aria-hidden="true"><i id="stepMeter"></i></div>
-      </div>
-      <div class="object-stage">
-        <svg id="explode" viewBox="0 0 600 860" role="img" aria-label="Exploded view of Halo showing its five parts"></svg>
-        <p class="object-hint" aria-hidden="true"><span id="stepCount">01</span> / 05 &nbsp;&middot;&nbsp; Scroll</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= MARQUEE ================= -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>Drawn in Copenhagen</span><i></i><span>Ten drivers, one circle</span><i></i><span>Knit, aluminium, light</span><i></i><span>No sweet spot</span><i></i>
-    <span>Drawn in Copenhagen</span><i></i><span>Ten drivers, one circle</span><i></i><span>Knit, aluminium, light</span><i></i><span>No sweet spot</span><i></i>
+<div class="marquee" id="marquee" aria-hidden="true" data-theme="dark">
+  <div class="marquee__track" id="marqueeTrack">
+    <span>Seven drivers</span><i>&#10022;</i><span>360&deg; sound</span><i>&#10022;</i><span>Wool &amp; aluminium</span><i>&#10022;</i><span>32 Hz</span><i>&#10022;</i><span>Made in Copenhagen</span><i>&#10022;</i>
+    <span>Seven drivers</span><i>&#10022;</i><span>360&deg; sound</span><i>&#10022;</i><span>Wool &amp; aluminium</span><i>&#10022;</i><span>32 Hz</span><i>&#10022;</i><span>Made in Copenhagen</span><i>&#10022;</i>
   </div>
 </div>
 
-<!-- ================= SOUND ================= -->
-<section class="sound" id="sound" aria-labelledby="soundH">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow" data-reveal><span class="tick"></span>Sound technology</p>
-      <h2 class="h2" id="soundH" data-reveal data-delay="1">One sound field.<br><em>No sweet spot.</em></h2>
-      <p class="lede" data-reveal data-delay="2">Conventional speakers have a front. Halo doesn&rsquo;t. Drag the listener around the room, or switch the Aura array off, and watch where the sound goes.</p>
+<!-- 03 OBJECT (pinned story) -->
+<section class="story dark" id="object" data-label="Object" data-theme="dark">
+  <div class="story__track" id="storyTrack">
+    <div class="story__sticky" id="storySticky">
+      <div class="story__top wrap">
+        <p class="eyebrow">(02) The object</p>
+        <p class="eyebrow story__count"><b id="storyNum">01</b> / 04</p>
+      </div>
+      <canvas class="story__canvas" id="storyCanvas" role="img" aria-label="Halo 02 turning slowly to show its aluminium crown, light ring, knit sleeve and base."></canvas>
+      <div class="callouts" id="callouts" aria-hidden="true">
+        <div class="callout" data-step="0" data-anchor="body"><i></i><span>Seamless knit sleeve</span></div>
+        <div class="callout" data-step="1" data-anchor="ring"><i></i><span>Halo ring &middot; 2700 K</span></div>
+        <div class="callout" data-step="2" data-anchor="crown"><i></i><span>Touch dial &middot; 6 mics</span></div>
+        <div class="callout" data-step="3" data-anchor="base"><i></i><span>Isolated base</span></div>
+      </div>
+      <ol class="story__steps" id="storySteps">
+        <li class="step is-active">
+          <span class="step__n">01 &mdash; Form</span>
+          <h3 class="step__t">A single <em>turned</em> form.</h3>
+          <p>&Oslash;218 by 340 millimetres. One aluminium crown, one seamless knitted sleeve and nothing between them that you would call a joint.</p>
+        </li>
+        <li class="step">
+          <span class="step__n">02 &mdash; Light</span>
+          <h3 class="step__t">A ring that <em>breathes.</em></h3>
+          <p>Ninety-six warm LEDs sit behind an opal diffuser. The ring swells with the music, fades with the evening and never blinks for a notification.</p>
+        </li>
+        <li class="step">
+          <span class="step__n">03 &mdash; Touch</span>
+          <h3 class="step__t">Rest a hand on the <em>crown.</em></h3>
+          <p>No buttons. A capacitive dial under the aluminium: turn for volume, tap to pause, hold to pass the music to the next room. Six microphones sit flush beside it.</p>
+        </li>
+        <li class="step">
+          <span class="step__n">04 &mdash; Ground</span>
+          <h3 class="step__t">Sound into the <em>floor.</em></h3>
+          <p>A downward-firing woofer couples to the surface it stands on, while two opposed radiators cancel the vibration. The shelf stays quiet. The room does not.</p>
+        </li>
+      </ol>
+      <div class="story__bar" aria-hidden="true"><span id="storyBar"></span></div>
     </div>
-
-    <div class="field" data-reveal>
-      <div class="field-bar">
-        <div class="seg" role="group" aria-label="Dispersion model">
-          <button type="button" class="seg-b" data-mode="0" aria-pressed="false">Conventional</button>
-          <button type="button" class="seg-b on" data-mode="1" aria-pressed="true">Halo Aura array</button>
-        </div>
-        <div class="field-read" aria-live="polite">
-          <div><span class="k">At your position</span><span class="v" id="readYou">0.0 dB</span></div>
-          <div><span class="k">Spread across the room</span><span class="v" id="readSpread">&plusmn;0.0 dB</span></div>
-        </div>
-      </div>
-      <div class="field-canvas-wrap">
-        <canvas id="fieldCanvas" aria-label="Top-down model of sound dispersion in a room. Click or drag to move the listener." role="img"></canvas>
-        <span class="field-tag">Click or drag to move the listener</span>
-      </div>
-      <p class="fine">Illustrative model of horizontal dispersion at 2&nbsp;kHz. Levels are relative to on-axis at one metre. Not a measurement.</p>
-    </div>
-
-    <div class="stats">
-      <div class="stat" data-reveal>
-        <div class="stat-n"><span data-count="360" data-dec="0">360</span><sup>°</sup></div>
-        <p>even horizontal dispersion, from a ring of ten drivers</p>
-      </div>
-      <div class="stat" data-reveal data-delay="1">
-        <div class="stat-n"><small>&plusmn;</small><span data-count="1.5" data-dec="1">1.5</span><sup>dB</sup></div>
-        <p>design target for level variation around the listening ring</p>
-      </div>
-      <div class="stat" data-reveal data-delay="2">
-        <div class="stat-n"><span data-count="40" data-dec="0">40</span><sup>sec</sup></div>
-        <p>for RoomSense to listen, measure and tune to your room</p>
-      </div>
-    </div>
-
-    <div class="tech">
-      <article class="tech-card" data-reveal>
-        <span class="mono">A &mdash; Aura array</span>
-        <h3>Ten drivers, one circle.</h3>
-        <p>Six 19&nbsp;mm silk-dome tweeters and four 2-inch midrange drivers share a ring. Each pair is phase-aligned in software so neighbouring drivers add up to a smooth wavefront instead of a comb of peaks and nulls.</p>
-      </article>
-      <article class="tech-card" data-reveal data-delay="1">
-        <span class="mono">B &mdash; RoomSense</span>
-        <h3>It listens before it plays.</h3>
-        <p>Four MEMS microphones send a sweep through the room and read back every wall, sofa and window. A 40-second measurement sets a filter that removes bloom and slap-back, then runs quietly in the background.</p>
-      </article>
-      <article class="tech-card" data-reveal data-delay="2">
-        <span class="mono">C &mdash; Low chamber</span>
-        <h3>Bass you feel in the floor.</h3>
-        <p>A down-firing woofer drives a conical diffuser, so low frequencies spread across the floor rather than pointing at a wall. Two opposed passive radiators keep the cabinet still, even at full volume.</p>
-      </article>
-    </div>
-
-    <figure class="fr" data-reveal>
-      <figcaption>
-        <span class="mono">Frequency response &mdash; design target</span>
-        <span class="mono dim">32 Hz &ndash; 22 kHz &middot; &plusmn;3 dB</span>
-      </figcaption>
-      <svg viewBox="0 0 560 190" id="frSvg" role="img" aria-label="Frequency response graph, flat from 60 hertz to 20 kilohertz with a gentle roll-off below 40 hertz">
-        <defs>
-          <linearGradient id="frFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffb36b" stop-opacity=".28"/><stop offset="1" stop-color="#ffb36b" stop-opacity="0"/></linearGradient>
-        </defs>
-        <g id="frGrid" stroke="currentColor" stroke-opacity=".14" fill="none"></g>
-        <path id="frArea" fill="url(#frFill)" opacity="0"/>
-        <path id="frLine" fill="none" stroke="#ffb36b" stroke-width="2" stroke-linecap="round" pathLength="1"/>
-        <g id="frLabels" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" fill-opacity=".55"></g>
-      </svg>
-    </figure>
   </div>
 </section>
 
-<!-- ================= MATERIALS ================= -->
-<section class="materials" id="materials" aria-labelledby="matH">
-  <div class="wrap">
-    <div class="mat-grid">
-      <div class="mat-visual">
-        <div class="mat-glow" aria-hidden="true"></div>
-        <div class="mat-spk" data-speaker data-small></div>
-        <p class="mat-name" aria-live="polite"><span id="finishName">Dune</span><em id="finishNote">warm sand</em></p>
-      </div>
-      <div class="mat-copy">
-        <p class="eyebrow" data-reveal><span class="tick"></span>Materials</p>
-        <h2 class="h2" id="matH" data-reveal data-delay="1">Made to be<br><em>lived beside.</em></h2>
-        <p class="lede" data-reveal data-delay="2">Three finishes, each dyed, anodised and knitted to match. Choose one &mdash; the whole page follows.</p>
-        <div class="swatches" role="radiogroup" aria-label="Finish" data-reveal data-delay="3" id="matSwatches">
-          <button type="button" role="radio" aria-checked="false" class="swatch" data-finish="chalk"><i style="--c:#e4dccb"></i><span>Chalk</span></button>
-          <button type="button" role="radio" aria-checked="true" class="swatch on" data-finish="dune"><i style="--c:#b99c78"></i><span>Dune</span></button>
-          <button type="button" role="radio" aria-checked="false" class="swatch" data-finish="graphite"><i style="--c:#3a3836"></i><span>Graphite</span></button>
-        </div>
-      </div>
-    </div>
+<!-- 04 SOUND -->
+<section class="sound dark sheet" id="sound" data-label="Sound" data-theme="dark">
+  <div class="wrap sound__intro">
+    <p class="eyebrow" data-reveal>(03) The sound technology</p>
+    <h2 class="display" data-split>Seven voices, <em>one circle.</em></h2>
+    <p class="lead" data-reveal>Six full-range drivers form the ring. A long-throw woofer fires down into the floor. Seven discrete amplifiers keep every voice independent, so the speaker can shape its own dispersion instead of hoping for the best.</p>
+  </div>
 
-    <ul class="mat-cards">
-      <li data-reveal>
-        <div class="swatch-art knit" aria-hidden="true"></div>
-        <h3>Wool-blend knit</h3>
-        <p>Woven seamless in one piece, 58&nbsp;% recycled yarn. Zips off the chassis; machine-washable at 30&nbsp;&deg;C.</p>
-      </li>
-      <li data-reveal data-delay="1">
-        <div class="swatch-art metal" aria-hidden="true"></div>
-        <h3>Anodised aluminium</h3>
-        <p>Turned from a single billet, 62&nbsp;% recycled, bead-blasted by hand and anodised in a colour to match the knit.</p>
-      </li>
-      <li data-reveal data-delay="2">
-        <div class="swatch-art glass" aria-hidden="true"></div>
-        <h3>Frosted light guide</h3>
-        <p>The halo is a ring of 96 LEDs behind a milled acrylic diffuser. It is warm, never white, and never brighter than a candle.</p>
-      </li>
-      <li data-reveal data-delay="3">
-        <div class="swatch-art rubber" aria-hidden="true"></div>
-        <h3>Natural rubber feet</h3>
-        <p>A plinth of damped natural rubber isolates Halo from the surface it sits on, and will not mark oak, marble or glass.</p>
-      </li>
-    </ul>
+  <div class="anat__track" id="anatTrack">
+    <div class="anat__sticky">
+      <div class="anat__stage">
+        <svg class="anat__svg" id="anatSvg" viewBox="96 52 392 650" role="img" aria-label="Exploded view of Halo 02: crown, light ring, driver ring, acoustic chamber, woofer and base."></svg>
+      </div>
+      <ol class="anat__list" id="anatList">
+        <li class="is-active"><span class="n">01</span><div><h3>The crown</h3><p>Turned from one aluminium billet. It holds the touch dial and six beam-forming microphones.</p></div></li>
+        <li><span class="n">02</span><div><h3>The halo</h3><p>Ninety-six LEDs behind an opal light guide. Warm only: 2700&nbsp;K, nothing else.</p></div></li>
+        <li><span class="n">03</span><div><h3>The ring</h3><p>Six 50&nbsp;mm full-range drivers, sixty degrees apart, each with its own 40&nbsp;W amplifier.</p></div></li>
+        <li><span class="n">04</span><div><h3>The chamber</h3><p>A sealed 3.1-litre cavity with two opposed 130&nbsp;mm radiators. Their motion cancels, so the cabinet stays still.</p></div></li>
+        <li><span class="n">05</span><div><h3>The woofer</h3><p>A 165&nbsp;mm long-throw driver fires downward through a conical diffuser. 180&nbsp;W, down to 32&nbsp;Hz.</p></div></li>
+        <li><span class="n">06</span><div><h3>The base</h3><p>A decoupled plinth with a rubberised ring keeps the speaker from talking to the furniture.</p></div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="wrap polar">
+    <div class="polar__head">
+      <p class="eyebrow" data-reveal>Directivity</p>
+      <h3 class="display display--m" data-split>Where you sit shouldn&rsquo;t <em>matter.</em></h3>
+      <p class="lead lead--s" data-reveal>A conventional speaker is loud in front of it and polite everywhere else. Halo is evenly loud in every direction. Move the marker and compare the two.</p>
+    </div>
+    <div class="polar__panels">
+      <figure class="polar__panel" data-reveal>
+        <canvas id="polarA" role="img" aria-label="Simulated top view of a conventional forward-facing speaker. Sound is strong in front and weak behind."></canvas>
+        <figcaption><span>Conventional speaker</span><b id="readA">0 dB</b></figcaption>
+      </figure>
+      <figure class="polar__panel polar__panel--halo" data-reveal style="--d:140">
+        <canvas id="polarB" role="img" aria-label="Simulated top view of Halo. Sound level is even in every direction."></canvas>
+        <figcaption><span>Halo 02</span><b id="readB">0 dB</b></figcaption>
+      </figure>
+    </div>
+    <p class="note" data-reveal>Illustrative simulation of horizontal directivity. Drag or tap inside either panel to move the listener.</p>
+  </div>
+
+  <div class="wrap stats">
+    <div class="stat" data-reveal><b class="stat__n" data-count="360" data-suffix="&deg;">0</b><span>Even horizontal dispersion</span></div>
+    <div class="stat" data-reveal style="--d:100"><b class="stat__n" data-count="32" data-suffix=" Hz">0</b><span>Low-frequency extension</span></div>
+    <div class="stat" data-reveal style="--d:200"><b class="stat__n" data-count="104" data-suffix=" dB">0</b><span>Maximum output at 1 m</span></div>
+    <div class="stat" data-reveal style="--d:300"><b class="stat__n" data-count="420" data-suffix=" W">0</b><span>Across seven Class-D amplifiers</span></div>
   </div>
 </section>
 
-<!-- ================= ROOM ================= -->
-<section class="room" id="room" aria-labelledby="roomH">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow" data-reveal><span class="tick"></span>Room-filling</p>
-      <h2 class="h2" id="roomH" data-reveal data-delay="1">Put it anywhere.<br><em>Hear it everywhere.</em></h2>
-      <p class="lede" data-reveal data-delay="2">Pick a room. Halo measures the space, finds where the walls are making the bass swell, and quietly corrects for it.</p>
+<!-- 05 MATERIALS -->
+<section class="materials light sheet" id="materials" data-label="Materials" data-theme="light">
+  <div class="wrap materials__grid">
+    <div class="materials__stage-wrap">
+      <div class="materials__stage" id="matStage">
+        <canvas id="matCanvas" role="img" aria-label="Halo 02 in the selected colourway."></canvas>
+        <div class="materials__tag"><span class="eyebrow">Colourway</span><b id="matName">Oat</b></div>
+      </div>
+      <div class="swatches" role="radiogroup" aria-label="Colourway" id="matSwatches">
+        <button type="button" class="swatch is-on" role="radio" aria-checked="true" data-pal="oat" data-cursor="Pick"><i style="--a:#cdc2ae;--b:#e6dccb"></i><span>Oat</span></button>
+        <button type="button" class="swatch" role="radio" aria-checked="false" data-pal="graphite" data-cursor="Pick"><i style="--a:#434244;--b:#7c7773"></i><span>Graphite</span></button>
+        <button type="button" class="swatch" role="radio" aria-checked="false" data-pal="fjord" data-cursor="Pick"><i style="--a:#6a8594;--b:#cfd4d4"></i><span>Fjord</span></button>
+      </div>
+      <p class="swatch__desc" id="matDesc" aria-live="polite">Undyed wool-blend knit with champagne anodised aluminium.</p>
     </div>
 
-    <div class="room-lab" data-reveal>
-      <div class="room-ctrl">
-        <div class="seg seg-v" role="group" aria-label="Room size">
-          <button type="button" class="seg-b" data-room="studio" aria-pressed="false"><b>Studio</b><span>22 m&sup2;</span></button>
-          <button type="button" class="seg-b on" data-room="living" aria-pressed="true"><b>Living room</b><span>38 m&sup2;</span></button>
-          <button type="button" class="seg-b" data-room="open" aria-pressed="false"><b>Open plan</b><span>64 m&sup2;</span></button>
+    <div class="materials__copy">
+      <p class="eyebrow" data-reveal>(04) Materials</p>
+      <h2 class="display" data-split>Made to be <em>touched.</em></h2>
+      <p class="lead" data-reveal>Three materials and nothing else, each chosen for how it sounds and how it ages. If a part does not earn its place, it is not on the speaker.</p>
+
+      <article class="mat" data-reveal>
+        <div class="mat__viz mat__viz--knit" aria-hidden="true"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><defs><pattern id="knit" width="10" height="13" patternUnits="userSpaceOnUse"><path d="M1 0 L5 12 L9 0" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 0 L5 12 L9 0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="translate(-.6 -.6)"/></pattern></defs><rect x="-20" y="-26" width="160" height="170" fill="url(#knit)" id="knitFill"/></svg></div>
+        <div class="mat__body"><span class="mat__n">A</span><h3>Knitted in Herning</h3><p>One seamless tube of wool and recycled polyester, knitted to shape on Danish looms. About 26,000 stitches and acoustically transparent, so the drivers behind it never feel veiled.</p></div>
+      </article>
+      <article class="mat" data-reveal>
+        <div class="mat__viz mat__viz--alu" aria-hidden="true"><i></i></div>
+        <div class="mat__body"><span class="mat__n">B</span><h3>Turned, not stamped</h3><p>Crown and base are turned from 100% recycled aluminium and anodised in-house. Each is finished by hand and laser-etched with the serial number of its speaker.</p></div>
+      </article>
+      <article class="mat" data-reveal>
+        <div class="mat__viz mat__viz--light" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="mat__body"><span class="mat__n">C</span><h3>2700 kelvin, no more</h3><p>The ring only ever shows warm light. No colour cycling, no animation for its own sake: it breathes with the music and sleeps with the room.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ROOM -->
+<section class="room dark sheet" id="room" data-label="Room" data-theme="dark">
+  <div class="wrap room__intro">
+    <p class="eyebrow" data-reveal>(05) Room-filling</p>
+    <h2 class="display" data-split>Fills the room. <em>Not the shelf.</em></h2>
+    <p class="lead" data-reveal>Every room has its own acoustics: standing waves, dead corners, a wall that rings. On first power-up Halo plays a six-second sweep, listens with its six microphones and rewrites its own tuning for where you put it down.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="sim" id="sim">
+      <div class="sim__bar">
+        <div class="seg" role="radiogroup" aria-label="Tuning" style="--i:0">
+          <button type="button" role="radio" aria-checked="true" data-tune="0" class="is-on"><span>Without tuning</span></button>
+          <button type="button" role="radio" aria-checked="false" data-tune="1"><span>Adaptive tuning</span></button>
+          <i class="seg__thumb" aria-hidden="true"></i>
         </div>
-        <button type="button" class="btn btn-ghost" id="calBtn" data-magnetic><span id="calLabel">Run RoomSense</span></button>
-        <dl class="room-read" aria-live="polite">
-          <div><dt>Status</dt><dd id="calStatus">Uncalibrated</dd></div>
-          <div><dt>Bass bloom at 80&nbsp;Hz</dt><dd id="calBloom">+7.4 dB</dd></div>
-          <div><dt>Coverage</dt><dd id="calCov">100 %</dd></div>
+        <p class="sim__hint"><span class="hint-dot"></span>Drag the speaker</p>
+      </div>
+      <canvas id="roomCanvas" role="img" aria-label="Simulated top view of a living room showing bass response as a heat map. Drag the speaker to move it."></canvas>
+      <button class="sim__handle" id="simHandle" type="button" aria-label="Speaker position. Drag it, or use the arrow keys." data-cursor="Drag"></button>
+      <div class="sim__legend"><span>Quiet</span><i></i><span>Loud</span></div>
+      <div class="sim__readout">
+        <div class="seat" data-seat="0"><span>Sofa</span><b>+0.0 dB</b><i><u></u></i></div>
+        <div class="seat" data-seat="1"><span>Desk</span><b>+0.0 dB</b><i><u></u></i></div>
+        <div class="seat" data-seat="2"><span>Kitchen</span><b>+0.0 dB</b><i><u></u></i></div>
+        <div class="seat seat--sum"><span>Spread across room</span><b id="spread">&plusmn;0 dB</b></div>
+      </div>
+    </div>
+    <p class="note">Simulation of a 120&nbsp;Hz tone in a 6.4 &times; 4.2&nbsp;m room including first and second-order wall reflections. Illustrative, not a measurement.</p>
+  </div>
+
+  <div class="hs" id="hs">
+    <div class="hs__sticky">
+      <div class="hs__head wrap">
+        <p class="eyebrow">Five things it does so you don&rsquo;t have to</p>
+        <p class="eyebrow hs__count"><b id="hsNum">01</b> / 05</p>
+      </div>
+      <div class="hs__track" id="hsTrack">
+        <article class="fcard">
+          <div class="fcard__viz viz-sweep" aria-hidden="true"><svg viewBox="0 0 320 140"><path class="w1" pathLength="100" d="M0 70 C 20 10, 40 130, 60 70 S 100 10, 120 70 S 160 130, 180 70 S 220 10, 240 70 S 280 130, 300 70 L 320 70"/><path class="w2" d="M0 70 C 20 30, 40 110, 60 70 S 100 30, 120 70 S 160 110, 180 70 S 220 30, 240 70 S 280 110, 300 70 L 320 70"/></svg></div>
+          <span class="fcard__n">01</span><h3>Listens before it plays</h3><p>A six-second sweep and six microphones map your room. Adaptive Room Tuning rebuilds the filter set around the walls, the rug and the shelf behind it. Repeat it whenever you move the furniture.</p>
+        </article>
+        <article class="fcard">
+          <div class="fcard__viz viz-pair" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 320 140"><line x1="92" y1="70" x2="228" y2="70"/></svg></div>
+          <span class="fcard__n">02</span><h3>Pairs in a breath</h3><p>Place two Halos in a room, hold both crowns for a second and they become a true stereo pair, with channels assigned by the microphones. No cables, no app required.</p>
+        </article>
+        <article class="fcard">
+          <div class="fcard__viz viz-rooms" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <span class="fcard__n">03</span><h3>Follows you from room to room</h3><p>Hold the crown and the music moves to the nearest Halo, in sync to within a tenth of a millisecond. Link up to twelve speakers across the house.</p>
+        </article>
+        <article class="fcard">
+          <div class="fcard__viz viz-night" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b><b></b></div>
+          <span class="fcard__n">04</span><h3>Knows when to whisper</h3><p>Night mode narrows dynamic range and rolls off the low end below what the neighbours can feel, while the ring dims to a single warm thread of light.</p>
+        </article>
+        <article class="fcard">
+          <div class="fcard__viz viz-bits" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <span class="fcard__n">05</span><h3>Plays everything, losslessly</h3><p>AirPlay 2, Spotify Connect, Tidal Connect, Roon and Bluetooth LE Audio, up to 24-bit / 192&nbsp;kHz over Wi-Fi 6 or Ethernet. Or plug in with USB-C.</p>
+        </article>
+      </div>
+      <div class="hs__bar" aria-hidden="true"><span id="hsBar"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 SPECS -->
+<section class="specs light sheet" id="specs" data-label="Specs" data-theme="light">
+  <div class="wrap specs__grid">
+    <div class="specs__lead">
+      <p class="eyebrow" data-reveal>(06) Specifications</p>
+      <h2 class="display" data-split>The numbers, without the <em>adjectives.</em></h2>
+      <p class="lead" data-reveal>Measured in our own anechoic chamber and checked again in a living room, because that is where it will actually be used.</p>
+      <div class="specs__badge" data-reveal>
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5"/><circle cx="60" cy="8" r="4.5" fill="#ff8a2b"/></svg>
+        <p><b>Five-year warranty</b><span>Parts, labour and the knit sleeve.</span></p>
+      </div>
+    </div>
+    <div class="specs__table">
+      <section class="sg" data-reveal>
+        <h3>Acoustics</h3>
+        <dl>
+          <div><dt>Drivers</dt><dd>6 &times; 50&nbsp;mm full-range, 1 &times; 165&nbsp;mm long-throw woofer</dd></div>
+          <div><dt>Passive radiators</dt><dd>2 &times; 130&nbsp;mm, opposed</dd></div>
+          <div><dt>Frequency response</dt><dd>32&nbsp;Hz &ndash; 22&nbsp;kHz (&plusmn;3&nbsp;dB)</dd></div>
+          <div><dt>Maximum output</dt><dd>104&nbsp;dB SPL at 1&nbsp;m</dd></div>
+          <div><dt>Dispersion</dt><dd>360&deg; horizontal, &plusmn;2&nbsp;dB</dd></div>
         </dl>
-      </div>
-      <div class="room-plan">
-        <svg id="roomSvg" viewBox="0 0 640 440" role="img" aria-label="Floor plan with sound rings spreading from Halo to every corner of the room">
-          <defs>
-            <clipPath id="roomClip"><rect id="roomClipRect" x="0" y="0" width="0" height="0" rx="6"/></clipPath>
-            <radialGradient id="bloomG"><stop offset="0" stop-color="#ff6a3d" stop-opacity=".7"/><stop offset="1" stop-color="#ff6a3d" stop-opacity="0"/></radialGradient>
-            <radialGradient id="coverG"><stop offset="0" stop-color="#ffb36b" stop-opacity=".22"/><stop offset="1" stop-color="#ffb36b" stop-opacity="0"/></radialGradient>
-            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-opacity=".07"/></pattern>
-          </defs>
-          <rect width="640" height="440" fill="url(#grid)"/>
-          <rect id="roomRect" rx="6" fill="rgba(255,255,255,.02)" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/>
-          <g clip-path="url(#roomClip)">
-            <circle id="cover" r="10" fill="url(#coverG)"/>
-            <g id="blooms"></g>
-            <g id="rings"></g>
-            <g id="sweep" opacity="0"><path id="sweepPath" fill="rgba(255,179,107,.18)" stroke="#ffb36b" stroke-opacity=".7"/></g>
-          </g>
-          <g id="furn" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.2"></g>
-          <g id="roomSpk">
-            <circle r="15" fill="#0a0908" stroke="#ffd9a8" stroke-width="1.5"/>
-            <circle r="6" fill="#ffb36b"/>
-          </g>
-          <g font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" fill-opacity=".6">
-            <text id="dimW" text-anchor="middle"></text>
-            <text id="dimH" text-anchor="middle"></text>
-          </g>
-        </svg>
-      </div>
-    </div>
-
-    <div class="features">
-      <article class="feat" data-reveal><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><circle class="a" cx="17" cy="24" r="9"/><circle class="b" cx="31" cy="24" r="9"/></svg><h3>Stereo pair</h3><p>Two Halos become a true left and right, time-aligned to a few microseconds over Wi-Fi 6.</p></article>
-      <article class="feat" data-reveal data-delay="1"><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><circle class="a" cx="24" cy="24" r="5"/><circle class="b" cx="24" cy="24" r="12"/><circle class="c" cx="24" cy="24" r="19"/></svg><h3>Whole-home</h3><p>Group up to eight Halos, or fade music from the kitchen to the bedroom as you walk.</p></article>
-      <article class="feat" data-reveal data-delay="2"><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><path class="a" d="M33 8a16 16 0 1 0 7 21A13 13 0 0 1 33 8z"/></svg><h3>Night mode</h3><p>Compresses dynamics and softens the halo so late listening stays quiet for everyone else.</p></article>
-      <article class="feat" data-reveal><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><circle class="a" cx="24" cy="14" r="5"/><path class="b" d="M12 38c0-7 5-12 12-12s12 5 12 12"/></svg><h3>Presence</h3><p>Ultra-wideband sensing wakes Halo when you enter the room and rests it when you leave.</p></article>
-      <article class="feat" data-reveal data-delay="1"><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><path class="a" d="M8 24h8l4-10 8 20 4-10h8"/></svg><h3>Open by default</h3><p>AirPlay 2, Spotify Connect, Bluetooth LE Audio and USB-C line-in. No account required.</p></article>
-      <article class="feat" data-reveal data-delay="2"><svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><rect class="a" x="10" y="14" width="28" height="20" rx="10"/><circle class="b" cx="30" cy="24" r="5"/></svg><h3>Light that listens</h3><p>The halo brightens with volume and dims to a single point at rest. You can turn it off entirely.</p></article>
+      </section>
+      <section class="sg" data-reveal>
+        <h3>Amplification</h3>
+        <dl>
+          <div><dt>Channels</dt><dd>7 &times; discrete Class-D</dd></div>
+          <div><dt>Power</dt><dd>6 &times; 40&nbsp;W + 1 &times; 180&nbsp;W = 420&nbsp;W</dd></div>
+          <div><dt>Processing</dt><dd>64-bit floating-point DSP, 96&nbsp;kHz internal</dd></div>
+          <div><dt>Room correction</dt><dd>Adaptive Room Tuning, 6 microphones</dd></div>
+        </dl>
+      </section>
+      <section class="sg" data-reveal>
+        <h3>Connectivity</h3>
+        <dl>
+          <div><dt>Wireless</dt><dd>Wi-Fi 6 (802.11ax), Bluetooth 5.3 with LE Audio</dd></div>
+          <div><dt>Streaming</dt><dd>AirPlay 2, Spotify Connect, Tidal Connect, Roon Ready</dd></div>
+          <div><dt>Wired</dt><dd>USB-C audio, 3.5&nbsp;mm line / optical, Ethernet</dd></div>
+          <div><dt>Resolution</dt><dd>Up to 24-bit / 192&nbsp;kHz</dd></div>
+          <div><dt>Multiroom</dt><dd>Up to 12 Halo speakers, synced to 0.1&nbsp;ms</dd></div>
+        </dl>
+      </section>
+      <section class="sg" data-reveal>
+        <h3>Physical</h3>
+        <dl>
+          <div><dt>Dimensions</dt><dd>&Oslash;218 &times; 340&nbsp;mm</dd></div>
+          <div><dt>Weight</dt><dd>4.8&nbsp;kg</dd></div>
+          <div><dt>Materials</dt><dd>Recycled anodised aluminium, wool-blend knit</dd></div>
+          <div><dt>Colourways</dt><dd>Oat, Graphite, Fjord</dd></div>
+          <div><dt>Light ring</dt><dd>96 LEDs, 2700&nbsp;K</dd></div>
+          <div><dt>Power</dt><dd>100&ndash;240&nbsp;V, 50/60&nbsp;Hz &middot; 2.1&nbsp;W networked standby</dd></div>
+        </dl>
+      </section>
     </div>
   </div>
 </section>
 
-<!-- ================= SPECS ================= -->
-<section class="specs" id="specs" aria-labelledby="specH">
-  <div class="wrap specs-grid">
-    <div class="specs-head">
-      <p class="eyebrow" data-reveal><span class="tick"></span>Specifications</p>
-      <h2 class="h2" id="specH" data-reveal data-delay="1">The numbers,<br><em>plainly.</em></h2>
-      <p class="lede" data-reveal data-delay="2">Halo One is designed and engineered in Copenhagen and assembled in a small factory in Jutland.</p>
-      <div class="big-nums">
-        <div data-reveal><span data-count="104" data-dec="0">104</span><small>dB max SPL<br>at 1 m</small></div>
-        <div data-reveal data-delay="1"><span data-count="14" data-dec="0">14</span><small>hours<br>of battery</small></div>
+<!-- 08 PRE-ORDER -->
+<section class="pre dark sheet" id="preorder" data-label="Pre-order" data-theme="dark">
+  <div class="pre__glow" aria-hidden="true"></div>
+  <div class="wrap pre__grid">
+    <div class="pre__stage">
+      <div class="pre__speakers" id="preSpeakers">
+        <canvas id="preCanvasA" role="img" aria-label="Halo 02 in your selected colourway"></canvas>
+        <canvas id="preCanvasB" class="is-off" aria-hidden="true"></canvas>
       </div>
     </div>
-    <dl class="spec-list" id="specList">
-      <div class="spec-row" data-reveal><dt>Drivers</dt><dd>6 &times; 19&nbsp;mm silk-dome tweeter<br>4 &times; 2&Prime; midrange<br>1 &times; 6&Prime; long-throw woofer, 2 &times; passive radiator</dd></div>
-      <div class="spec-row" data-reveal><dt>Amplification</dt><dd>11-channel Class-D, 420&nbsp;W peak</dd></div>
-      <div class="spec-row" data-reveal><dt>Frequency response</dt><dd>32&nbsp;Hz &ndash; 22&nbsp;kHz (&plusmn;3&nbsp;dB)</dd></div>
-      <div class="spec-row" data-reveal><dt>Dispersion</dt><dd>360° horizontal, 70° vertical</dd></div>
-      <div class="spec-row" data-reveal><dt>Room correction</dt><dd>RoomSense, 4 MEMS microphones, 40&nbsp;s</dd></div>
-      <div class="spec-row" data-reveal><dt>Wireless</dt><dd>Wi-Fi 6, Bluetooth 5.3 LE Audio, AirPlay&nbsp;2, Spotify Connect</dd></div>
-      <div class="spec-row" data-reveal><dt>Wired</dt><dd>USB-C line-in and charging, 24-bit / 96&nbsp;kHz</dd></div>
-      <div class="spec-row" data-reveal><dt>Battery</dt><dd>Up to 14&nbsp;h at moderate volume, 90&nbsp;min to full</dd></div>
-      <div class="spec-row" data-reveal><dt>Dimensions</dt><dd>&Oslash;&nbsp;214 &times; 340&nbsp;mm</dd></div>
-      <div class="spec-row" data-reveal><dt>Weight</dt><dd>3.9&nbsp;kg</dd></div>
-      <div class="spec-row" data-reveal><dt>Finishes</dt><dd>Chalk, Dune, Graphite</dd></div>
-      <div class="spec-row" data-reveal><dt>Warranty</dt><dd>5 years, with a repairable, screw-fixed chassis</dd></div>
-    </dl>
-  </div>
-</section>
+    <div class="pre__panel">
+      <p class="eyebrow" data-reveal>(07) Pre-order</p>
+      <h2 class="display" data-split>Hear it <em>first.</em></h2>
+      <p class="lead" data-reveal>The first edition is limited to 2,000 numbered speakers, built in the order reservations arrive. Reserve with &euro;100 today and pay the balance when yours ships in February&nbsp;2027.</p>
 
-<!-- ================= PRE-ORDER ================= -->
-<section class="preorder" id="preorder" aria-labelledby="preH">
-  <div class="pre-glow" aria-hidden="true"></div>
-  <div class="wrap pre-grid">
-    <div class="pre-visual">
-      <div class="pre-spk" data-speaker></div>
-    </div>
-    <div class="pre-card">
-      <p class="eyebrow" data-reveal><span class="tick"></span>Pre-order &mdash; ships December 2026</p>
-      <h2 class="h2" id="preH" data-reveal data-delay="1">Reserve your<br><em>Halo One.</em></h2>
+      <form class="order" id="orderForm" novalidate>
+        <fieldset class="opt" data-reveal>
+          <legend>Colourway</legend>
+          <div class="opt__row" role="radiogroup" aria-label="Colourway" id="preSwatches">
+            <button type="button" class="chip is-on" role="radio" aria-checked="true" data-pal="oat"><i style="--a:#cdc2ae;--b:#e6dccb"></i>Oat</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-pal="graphite"><i style="--a:#434244;--b:#7c7773"></i>Graphite</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-pal="fjord"><i style="--a:#6a8594;--b:#cfd4d4"></i>Fjord</button>
+          </div>
+        </fieldset>
+        <fieldset class="opt" data-reveal>
+          <legend>Configuration</legend>
+          <div class="opt__row" role="radiogroup" aria-label="Configuration" id="preQty">
+            <button type="button" class="card is-on" role="radio" aria-checked="true" data-qty="1"><b>One Halo</b><span>&euro;1,290</span></button>
+            <button type="button" class="card" role="radio" aria-checked="false" data-qty="2"><b>Stereo pair</b><span>&euro;2,390 <em>save &euro;190</em></span></button>
+          </div>
+        </fieldset>
 
-      <fieldset class="opt" data-reveal data-delay="2">
-        <legend>Finish</legend>
-        <div class="swatches small" role="radiogroup" aria-label="Finish" id="preSwatches">
-          <button type="button" role="radio" aria-checked="false" class="swatch" data-finish="chalk"><i style="--c:#e4dccb"></i><span>Chalk</span></button>
-          <button type="button" role="radio" aria-checked="true" class="swatch on" data-finish="dune"><i style="--c:#b99c78"></i><span>Dune</span></button>
-          <button type="button" role="radio" aria-checked="false" class="swatch" data-finish="graphite"><i style="--c:#3a3836"></i><span>Graphite</span></button>
+        <div class="sum" data-reveal>
+          <div><span>Total</span><b id="sumTotal">&euro;1,290</b></div>
+          <div><span>Due today</span><b id="sumToday">&euro;100</b></div>
+          <div><span>Balance at dispatch</span><b id="sumBal">&euro;1,190</b></div>
         </div>
-      </fieldset>
 
-      <fieldset class="opt" data-reveal data-delay="3">
-        <legend>Quantity</legend>
-        <div class="seg" role="group" aria-label="Quantity">
-          <button type="button" class="seg-b on" data-qty="1" aria-pressed="true">One</button>
-          <button type="button" class="seg-b" data-qty="2" aria-pressed="false">Stereo pair <em>save 500 kr</em></button>
+        <div class="field" data-reveal>
+          <label for="email">Email for your reservation</label>
+          <div class="field__row">
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn btn--amber" type="submit" data-magnetic><span id="submitText">Reserve my Halo</span></button>
+          </div>
+          <p class="field__msg" id="formMsg" role="status" aria-live="polite"></p>
         </div>
-      </fieldset>
 
-      <div class="price" data-reveal data-delay="3" aria-live="polite">
-        <div class="price-n"><span id="priceN">4.990</span><small>kr</small></div>
-        <div class="price-s"><span id="priceEur">&asymp; &euro;669</span><span>incl. 25&nbsp;% VAT &middot; free delivery in the EU</span></div>
-      </div>
-
-      <form class="reserve" id="reserveForm" novalidate data-reveal data-delay="4">
-        <label for="email">Email address</label>
-        <div class="reserve-row">
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-          <button class="btn" type="submit" data-magnetic>Reserve with 500 kr</button>
-        </div>
-        <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
-        <p class="fine">The deposit is fully refundable until your Halo ships. You pay the balance on dispatch.</p>
+        <ul class="perks" data-reveal>
+          <li>Free shipping across the EU</li>
+          <li>60-day home trial</li>
+          <li>Deposit refundable until dispatch</li>
+        </ul>
       </form>
-      <div class="done" id="done" hidden>
-        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#ffb36b" stroke-width="2" pathLength="1"/><path d="M20 33l8 8 16-17" fill="none" stroke="#ffd9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
-        <h3>You&rsquo;re on the list.</h3>
-        <p id="doneText">We&rsquo;ll email you a deposit link as soon as your place comes up.</p>
+
+      <div class="faq" data-reveal>
+        <details><summary><span>When will it ship?</span><i></i></summary><div><p>First units dispatch in February 2027, in the order reservations were made. We will email you a month ahead with a date and your balance invoice.</p></div></details>
+        <details><summary><span>What if I change my mind?</span><i></i></summary><div><p>Your &euro;100 deposit is fully refundable until your speaker ships, and you then have 60 days at home with it. If it does not belong in your room, we collect it.</p></div></details>
+        <details><summary><span>Does it need an account or an app?</span><i></i></summary><div><p>No. AirPlay, Bluetooth and Spotify Connect work straight out of the box. The Halo app adds Adaptive Room Tuning and multiroom, and is optional.</p></div></details>
       </div>
     </div>
   </div>
@@ -412,23 +449,25 @@
 
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-top">
-      <div>
-        <p class="foot-p">Halo is made by Sønder Audio, a studio of eleven people in Nørrebro, Copenhagen.</p>
-        <p class="foot-p dim">Questions? <a href="mailto:hello@halo-audio.example">hello@halo-audio.example</a></p>
-      </div>
-      <nav class="foot-nav" aria-label="Footer">
-        <a href="#object">Object</a><a href="#sound">Sound</a><a href="#materials">Materials</a><a href="#room">Room</a><a href="#specs">Specs</a><a href="#preorder">Pre-order</a>
-      </nav>
-    </div>
-    <div class="foot-word" aria-hidden="true">Halo</div>
-    <div class="foot-bot"><span>&copy; 2026 Sønder Audio ApS</span><span>Halo One &middot; Model H1</span><a href="#top">Back to top &uarr;</a></div>
+<footer class="foot dark" id="footer" data-label="Contact" data-theme="dark">
+  <div class="wrap foot__top">
+    <div class="foot__col"><h4>Halo Lyd ApS</h4><p>Refshale&oslash;en 14<br>1432 K&oslash;benhavn K<br>Denmark</p></div>
+    <div class="foot__col"><h4>Explore</h4><a href="#object">The object</a><a href="#sound">Sound</a><a href="#materials">Materials</a><a href="#specs">Specs</a></div>
+    <div class="foot__col"><h4>Talk to us</h4><a href="#preorder">Reserve a speaker</a><a href="#preorder">Press &amp; stockists</a><a href="#preorder">Support</a></div>
+    <div class="foot__col foot__col--end"><a class="to-top" href="#top" data-magnetic><span>Back to top</span><i></i></a></div>
+  </div>
+  <div class="foot__word" aria-hidden="true">
+    <span>H</span><span>A</span><span>L</span><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="9"/><circle class="foot__glow" cx="50" cy="12" r="6.5" fill="#ffb15a"/></svg>
+  </div>
+  <div class="wrap foot__bottom">
+    <p>&copy; 2026 Halo Lyd ApS. Designed in Copenhagen.</p>
+    <p>Specifications and release dates are subject to change.</p>
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="main.js" defer></script>
+<script src="js/speaker.js"></script>
+<script src="js/room.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

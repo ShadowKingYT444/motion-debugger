@@ -30,7 +30,7 @@
 .mk-js [data-reveal].is-in { opacity: 1; translate: none; scale: none; clip-path: inset(0 0 0 0); filter: none; }
 
 /* ---------- split text: each piece rises out of a mask ---------- */
-.mk-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.mk-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 .08em .08em; margin: 0 -.08em -.08em; }
 .mk-word { display: inline-block; white-space: nowrap; }
 .mk-js [data-split] .mk-piece {
   display: inline-block;
@@ -48,6 +48,11 @@
 }
 .mk-button:hover { transform: translateY(-2px); }
 .mk-button:active { transform: translateY(0) scale(.97); transition-duration: 80ms; }
+/* Fill wipe: a hover you can see in a still. Set --wipe (fill) and --wipe-ink (text on the fill). */
+.mk-wipe { position: relative; isolation: isolate; overflow: hidden; transition: color var(--dur-ui) var(--ease-out-soft), border-color var(--dur-ui) linear; }
+.mk-wipe::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--wipe, currentColor); transform: scaleX(0); transform-origin: 100% 50%; transition: transform var(--dur-ui) var(--ease-out-soft); }
+.mk-wipe:hover, .mk-wipe:focus-visible { color: var(--wipe-ink, #fff); }
+.mk-wipe:hover::after, .mk-wipe:focus-visible::after { transform: scaleX(1); transform-origin: 0 50%; }
 .mk-link { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--dur-ui) var(--ease-out-soft); text-decoration: none; }
 .mk-link:hover, .mk-link:focus-visible { background-size: 100% 1px; }
 [data-magnetic] { transition: transform var(--dur-ui) var(--ease-out-soft); will-change: transform; }
@@ -89,7 +94,7 @@
 .mk-js [data-exit] { opacity: calc(1 - var(--exit, 0) * .9); translate: 0 calc(var(--exit, 0) * 18vh); scale: calc(1 - var(--exit, 0) * .06); transform-origin: 50% 0; }
 
 /* Reading highlight: words go from dim to full as the block is read. */
-[data-read] .mk-w { opacity: clamp(var(--read-dim, .2), calc((var(--read, 1) * 1.2 - var(--t, 0)) * 7), 1); transition: opacity 140ms linear; }
+[data-read] .mk-w { opacity: clamp(var(--read-dim, .35), calc((var(--read, 1) * 1.2 - var(--t, 0)) * 7), 1); transition: opacity 140ms linear; }
 
 /* Path drawing: one-shot on reveal, or scrubbed by the nearest --p. */
 .mk-js svg[data-draw] .mk-draw-path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--draw-duration, 1.6s) var(--ease-in-out); transition-delay: calc(var(--mk-delay, 0ms) + var(--di, 0) * var(--draw-gap, 120ms)); }

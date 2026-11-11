@@ -4,39 +4,41 @@
 <link rel="stylesheet" href="motion-kit.css"><script src="motion-kit.js" defer></script>
 <style>
   body { margin: 0; background: #0e1111; color: #ecebe6; font: 17px/1.55 ui-sans-serif, system-ui, sans-serif; }
-  section { min-height: 90vh; padding: 120px 8vw; box-sizing: border-box; overflow-x: clip; }
+  section { padding: 120px 8vw; box-sizing: border-box; overflow-x: clip; }
   h1 { font-size: clamp(3rem, 7vw, 6rem); line-height: 1; letter-spacing: -.04em; margin: 0 0 24px; max-width: 14ch; }
   h2 { font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -.02em; margin: 0 0 32px; }
   p { max-width: 60ch; color: #b9b8b2; }
   .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .tile { min-height: 200px; border: 1px solid #2c3030; border-radius: 16px; padding: 24px; background: #151818; transition: transform var(--dur-ui) var(--ease-out-soft), border-color var(--dur-ui) linear; }
+  .tile { min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; border: 1px solid #2c3030; border-radius: 16px; padding: 24px; background: #151818; transition: transform var(--dur-ui) var(--ease-out-soft), border-color var(--dur-ui) linear; }
   .tile:hover { transform: translateY(-4px); border-color: #e8ff59; }
   .btn { display: inline-block; padding: 14px 24px; min-height: 44px; box-sizing: border-box; background: #e8ff59; color: #111; border-radius: 999px; text-decoration: none; }
   .btn:hover { background: #f3ffa8; }
   a { color: #ecebe6; }
-  .stage { position: sticky; top: 0; height: 100vh; display: grid; place-items: center; }
+  .stage { position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; justify-items: center; padding: 0 8vw; box-sizing: border-box; }
+  .stage-copy { max-width: 32ch; }
+  .tile p { margin: 0; font-size: 15px; } .meter { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #e8ff59 var(--w, 60%), #2c3030 0); }
   .spin { width: 200px; height: 200px; border-radius: 24px; background: #e8ff59; transform: rotate(calc(var(--p, 0) * 180deg)) scale(calc(.6 + var(--p, 0) * .4)); }
-  .card { min-height: 52vh; border-radius: 20px; padding: 32px; background: #1a2020; border: 1px solid #2c3030; }
-  .slide { flex: 0 0 min(60vw, 420px); aspect-ratio: 4 / 5; border-radius: 18px; background: #1b2222; border: 1px solid #2c3030; padding: 24px; box-sizing: border-box; }
+  .card { min-height: 0; border-radius: 20px; padding: 32px; background: #1a2020; border: 1px solid #2c3030; }
+  .slide { flex: 0 0 min(60vw, 420px); aspect-ratio: 4 / 3; border-radius: 18px; background: #1b2222; border: 1px solid #2c3030; padding: 24px; box-sizing: border-box; }
   .media { height: 70vh; background: radial-gradient(circle at 30% 30%, #3b4a2a, #121616); }
-  .media > div { height: 100%; background: repeating-linear-gradient(90deg, transparent 0 80px, rgb(255 255 255 / .04) 80px 81px); }
+  .media > div { height: 100%; display: grid; place-items: center; background: repeating-linear-gradient(90deg, transparent 0 80px, rgb(255 255 255 / .3) 80px 82px); }
   .route path { fill: none; stroke: #e8ff59; stroke-width: 2; }
   .manifesto { font-size: clamp(1.6rem, 3.4vw, 2.75rem); line-height: 1.25; max-width: 28ch; color: #ecebe6; }
-  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } .stage { grid-template-columns: 1fr; align-content: center; gap: 32px; } }
 </style></head>
 <body>
-  <section data-exit><p data-reveal="fade"><span data-scramble>Crafted control fixture</span></p><h1 data-split="words">Motion that explains the product</h1>
+  <section data-exit style="min-height: 90vh"><p data-reveal="fade"><span data-scramble>Crafted control fixture</span></p><h1 data-split="words">Motion that <em>explains</em> the product</h1>
     <p data-reveal="up" data-delay="500">A page built from the premium-motion kit, used as the passing control for the critique suite.</p>
     <div data-stagger="80" data-delay="600"><a class="btn mk-button" href="#start">Get started</a> <a class="mk-link" href="#more">Read more</a></div></section>
   <section><h2 data-split="lines">Every section arrives with intent</h2>
-    <div class="grid" data-stagger="70"><article class="tile" data-spotlight><h3>One</h3></article><article class="tile" data-spotlight><h3>Two</h3></article><article class="tile" data-spotlight><h3>Three</h3></article></div></section>
-  <section data-progress style="height: 200vh; padding: 0"><div class="stage"><div class="spin"></div></div></section>
+    <div class="grid" data-stagger="70"><article class="tile" data-spotlight><h3>One</h3><p>Reveals stagger in reading order.</p><div class="meter" style="--w:40%"></div></article><article class="tile" data-spotlight><h3>Two</h3><p>Hover lifts the card and tints its edge.</p><div class="meter" style="--w:65%"></div></article><article class="tile" data-spotlight><h3>Three</h3><p>Every tile carries a small live detail.</p><div class="meter" style="--w:85%"></div></article></div></section>
+  <section data-progress style="height: 200vh; padding: 0"><div class="stage"><div class="stage-copy"><h2>A pinned scene</h2><p>The square turns and grows with scroll progress while this copy stays beside it.</p></div><div class="spin"></div></div></section>
   <section><h2 data-reveal="up"><span data-count="1280">0</span> teams</h2><p data-reveal="up">Numbers count up when they arrive.</p>
     <figure style="margin:0"><div data-reveal="clip" style="height:160px;border-radius:16px;background:linear-gradient(120deg,#1d2424,#2f3a2a)" role="img" aria-label="Clip-revealed visual"><p style="margin:0;padding:24px">Clip-revealed visual</p></div></figure></section>
   <section data-bg="#0e1111" data-ink="#ecebe6"><p class="manifesto" data-read>Scroll scenes are tested too: words brighten as they are read, a path draws, cards stack and a track slides sideways.</p>
     <svg class="route" viewBox="0 0 800 200" data-draw role="img" aria-label="Route"><path d="M10 180 C 200 20, 420 220, 790 40"/></svg></section>
-  <section data-stack style="min-height:auto"><article class="card"><h3>Stack one</h3></article><article class="card"><h3>Stack two</h3></article><article class="card"><h3>Stack three</h3></article></section>
-  <section data-hscroll style="padding:0"><h2 style="padding:0 8vw">Sideways track</h2><div data-hscroll-track><article class="slide"><h3>Slide one</h3></article><article class="slide"><h3>Slide two</h3></article><article class="slide"><h3>Slide three</h3></article><article class="slide"><h3>Slide four</h3></article></div></section>
-  <section data-progress style="height:220vh;padding:0"><div class="stage"><div class="media" data-expand style="width:100%;height:100vh"><div></div></div></div></section>
+  <section data-stack style="min-height:auto"><article class="card"><h3>Stack one</h3><p>Cards pin and pile up; the covered card recedes.</p></article><article class="card"><h3>Stack two</h3><p>Each step keeps its own solid background.</p></article><article class="card"><h3>Stack three</h3><p>The last card closes the sequence.</p></article></section>
+  <section data-hscroll style="padding:0"><h2 style="padding:0 8vw">Sideways track</h2><div data-hscroll-track><article class="slide"><h3>Slide one</h3><p>The track moves sideways as the page scrolls down.</p></article><article class="slide"><h3>Slide two</h3><p>On phones it becomes a native swipe row.</p></article><article class="slide"><h3>Slide three</h3><p>Reduced motion keeps it static.</p></article><article class="slide"><h3>Slide four</h3><p>The heading stays pinned with the track.</p></article></div></section>
+  <section data-progress style="height:220vh;padding:0"><div class="stage"><div class="media" data-expand style="width:100%;height:100vh"><div><svg viewBox="0 0 400 240" width="60%" role="img" aria-label="Expanding media"><circle cx="200" cy="120" r="90" fill="none" stroke="#e8ff59" stroke-width="3"/><circle cx="200" cy="120" r="50" fill="#e8ff59"/></svg></div></div></div></section>
   <section data-bg="#f3efe6" data-ink="#141414"><h2 data-reveal="up">A light closing chapter</h2><p data-reveal="up" style="color:#3d3d3a">The page background and ink cross-fade between chapters.</p><a class="btn mk-button" href="#top">Back to top</a></section>
 </body></html>

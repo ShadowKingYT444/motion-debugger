@@ -1,13 +1,16 @@
 /*! motion-kit.js — premium-motion skill (Motion Debugger). Dependency-free, ~7 KB min.
  * Copy next to your page and load with <script src="motion-kit.js" defer></script>.
+ * React, Next.js, Vue, Svelte: load it once (Next.js: <Script src="/motion-kit.js" strategy="afterInteractive"/>).
+ * Elements added later (route changes, client renders) are wired automatically, and removed ones are released.
  * Pair with motion-kit.css. Every effect is opt-in through data attributes and is
  * safe without JavaScript (content stays visible) and under prefers-reduced-motion.
  *
  *   data-reveal="up|fade|scale|left|right|clip|blur"  reveal once when scrolled into view
  *   data-stagger="70"            on a parent: children reveal in sequence (ms apart)
- *   data-split="lines|words|chars"  masked text rise (use on headings)
+ *   data-split="lines|words|chars"  masked text rise (use on headings; inline markup such as <em> is kept)
  *   data-delay="120"             extra delay (ms) for one element
- *   data-count="1280" data-count-decimals="1" data-count-prefix="$" data-count-suffix="%"
+ *   data-count="1280" data-count-decimals="1" data-count-prefix="$" data-count-suffix="%" data-count-from="900"
+ *                                (write the final value in the HTML too; until it runs the kit shows the from value)
  *   data-progress                sets --p (0→1) while the element scrolls through the viewport
  *                                (pin a child with position:sticky inside a tall parent for storytelling)
  *   data-parallax="0.15"         translateY by speed × distance from viewport centre
@@ -36,17 +39,35 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+  // Every setup pass is idempotent: an element is wired once per feature, so refresh() and
+  // DOM mutations (SPA routes, client-rendered sections) only touch new elements.
+  const seen = {};
+  const fresh = (feature, list) => { const set = (seen[feature] ||= new WeakSet()); return list.filter((el) => !set.has(el) && set.add(el)); };
 
   function split(el) {
     if (el.dataset.splitDone) return;
     const mode = el.dataset.split || 'words';
-    const text = el.textContent.trim().replace(/\s+/g, ' ');
-    el.setAttribute('aria-label', text);
-    const words = text.split(' ');
+    el.setAttribute('aria-label', el.textContent.trim().replace(/\s+/g, ' '));
     let index = 0;
-    const wrap = (inner) => `<span class="mk-mask" aria-hidden="true"><span class="mk-piece" style="--i:${index++}">${inner}</span></span>`;
-    if (mode === 'chars') el.innerHTML = words.map((word) => `<span class="mk-word">${[...word].map(wrap).join('')}</span>`).join(' ');
-    else el.innerHTML = words.map(wrap).join(' ');
+    const piece = (text) => {
+      const mask = document.createElement('span'); mask.className = 'mk-mask'; mask.setAttribute('aria-hidden', 'true');
+      const inner = document.createElement('span'); inner.className = 'mk-piece'; inner.style.setProperty('--i', index++); inner.textContent = text;
+      mask.append(inner); return mask;
+    };
+    // Split every text node in place, so <em>, <strong>, coloured spans and <br> keep their styling.
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const fragment = document.createDocumentFragment();
+      for (const part of node.nodeValue.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { fragment.append(' '); continue; }
+        if (mode === 'chars') { const word = document.createElement('span'); word.className = 'mk-word'; for (const char of part) word.append(piece(char)); fragment.append(word); }
+        else fragment.append(piece(part));
+      }
+      node.replaceWith(fragment);
+    }
     if (mode === 'lines') {
       // Group measured words into lines so each line rises as one piece.
       const pieces = $$('.mk-piece', el);
@@ -60,16 +81,22 @@
     el.dataset.splitDone = '1';
   }
 
-  function count(el) {
-    const end = parseFloat(el.dataset.count);
+  const formatCount = (el, value) => {
     const decimals = Number(el.dataset.countDecimals || 0);
-    const format = (value) => (el.dataset.countPrefix || '') + value.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + (el.dataset.countSuffix || '');
-    if (reduce.matches) { el.textContent = format(end); return; }
-    const duration = Number(el.dataset.countDuration || 1600);
+    return (el.dataset.countPrefix || '') + value.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + (el.dataset.countSuffix || '');
+  };
+  // Counters never sit at 0: before they run they show their starting value (60% of the end by default).
+  const countFrom = (el) => (el.dataset.countFrom !== undefined ? parseFloat(el.dataset.countFrom) : parseFloat(el.dataset.count) * 0.6);
+  function count(el) {
+    if (el.dataset.countDone) return;
+    el.dataset.countDone = '1';
+    const end = parseFloat(el.dataset.count), from = countFrom(el);
+    if (reduce.matches) { el.textContent = formatCount(el, end); return; }
+    const duration = Number(el.dataset.countDuration || 1400);
     const start = performance.now();
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration);
-      el.textContent = format(end * (1 - Math.pow(1 - t, 4)));
+      el.textContent = formatCount(el, from + (end - from) * (1 - Math.pow(1 - t, 4)));
       if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -130,7 +157,8 @@
 
   function setupReveals() {
     $$('[data-split]').forEach(split);
-    for (const parent of $$('[data-stagger]')) {
+    for (const el of fresh('count-init', $$('[data-count]'))) if (!el.dataset.countDone) el.textContent = formatCount(el, reduce.matches ? parseFloat(el.dataset.count) : countFrom(el));
+    for (const parent of fresh('stagger', $$('[data-stagger]'))) {
       const gap = Number(parent.dataset.stagger || 70);
       [...parent.children].forEach((child, i) => {
         if (!child.hasAttribute('data-reveal')) child.setAttribute('data-reveal', parent.dataset.staggerReveal || 'up');
@@ -138,20 +166,20 @@
       });
     }
     for (const el of $$('[data-delay]')) if (!el.style.getPropertyValue('--mk-delay')) el.style.setProperty('--mk-delay', `${el.dataset.delay}ms`);
-    for (const svg of $$('svg[data-draw]')) {
+    for (const svg of fresh('draw', $$('svg[data-draw]'))) {
       $$('path,line,polyline,polygon,circle,ellipse,rect', svg).forEach((shape, i) => {
         shape.setAttribute('pathLength', '1');
         shape.classList.add('mk-draw-path');
         shape.style.setProperty('--di', i);
       });
     }
-    const targets = $$('[data-reveal],[data-split],[data-count],[data-scramble],svg[data-draw]:not([data-draw="scrub"])');
+    const targets = fresh('reveal', $$('[data-reveal],[data-split],[data-count],[data-scramble],svg[data-draw]:not([data-draw="scrub"])'));
+    if (!targets.length) return;
     if (reduce.matches || !('IntersectionObserver' in window)) { targets.forEach(reveal); return; }
     // Low threshold + negative bottom margin: tall elements on phones still trigger.
     // A fully clipped element reports intersectionRatio 0 and never crosses a threshold,
     // so clip reveals watch their parent instead.
-    const watched = new Map();
-    const io = new IntersectionObserver((entries) => {
+    io ||= new IntersectionObserver((entries) => {
       for (const entry of entries) if (entry.isIntersecting) { (watched.get(entry.target) || []).forEach(reveal); watched.delete(entry.target); io.unobserve(entry.target); }
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     for (const el of targets) {
@@ -160,11 +188,16 @@
       watched.get(sentinel).push(el);
     }
     // Safety net: anything already scrolled past (anchor jumps, restored scroll) is shown.
-    addEventListener('load', () => setTimeout(() => targets.forEach((el) => { if (el.getBoundingClientRect().bottom < 0) reveal(el); }), 400));
+    const passed = () => setTimeout(() => targets.forEach((el) => { if (el.isConnected && el.getBoundingClientRect().bottom < 0) reveal(el); }), 400);
+    if (document.readyState === 'complete') passed(); else addEventListener('load', passed, { once: true });
   }
+  let io = null;
+  const watched = new Map();
 
   // Scroll-linked work shares one rAF-throttled loop and reads layout once per frame.
-  const scrollers = [];
+  // Each entry is [owner element or null, update]; entries whose owner left the DOM are dropped.
+  let scrollers = [];
+  const addScroller = (owner, update) => { scrollers.push([owner, update]); };
   let queued = false;
   function onScroll() {
     if (queued) return;
@@ -172,7 +205,8 @@
     requestAnimationFrame(() => {
       queued = false;
       const vh = innerHeight;
-      for (const item of scrollers) item(vh);
+      scrollers = scrollers.filter(([owner]) => !owner || owner.isConnected);
+      for (const [, update] of scrollers) update(vh);
     });
   }
 
@@ -180,7 +214,7 @@
   const narrow = matchMedia('(max-width: 760px)');
 
   function setupHscroll() {
-    for (const section of $$('[data-hscroll]')) {
+    for (const section of fresh('hscroll', $$('[data-hscroll]'))) {
       const track = section.querySelector('[data-hscroll-track]');
       if (!track) continue;
       let stage = track.parentElement;
@@ -195,9 +229,9 @@
         section.style.height = `${Math.round(innerHeight + distance)}px`;
       };
       size();
-      addEventListener('resize', size);
-      addEventListener('load', () => { size(); onScroll(); });
-      scrollers.push((vh) => {
+      addEventListener('resize', () => { if (section.isConnected) size(); });
+      addEventListener('load', () => { size(); onScroll(); }, { once: true });
+      addScroller(section, (vh) => {
         if (!distance) return;
         const r = section.getBoundingClientRect();
         const p = clamp01(-r.top / Math.max(1, r.height - vh));
@@ -208,11 +242,11 @@
   }
 
   function setupStack() {
-    for (const parent of $$('[data-stack]')) {
+    for (const parent of fresh('stack', $$('[data-stack]'))) {
       const cards = [...parent.children];
       cards.forEach((card, i) => { card.classList.add('mk-stack-card'); card.style.setProperty('--i', i); });
       if (reduce.matches) continue;
-      scrollers.push((vh) => {
+      addScroller(parent, (vh) => {
         for (let i = 0; i < cards.length - 1; i++) {
           const top = cards[i].getBoundingClientRect().top, next = cards[i + 1].getBoundingClientRect().top;
           cards[i].style.setProperty('--cover', clamp01((vh - next) / Math.max(1, vh - top)).toFixed(4));
@@ -221,23 +255,29 @@
     }
   }
 
+  let themeSections = [], themeCurrent = null, themesOn = false;
+  const applyTheme = (section) => {
+    if (section === themeCurrent) return;
+    themeCurrent = section;
+    root.style.setProperty('--page-bg', section.dataset.bg);
+    if (section.dataset.ink) root.style.setProperty('--page-ink', section.dataset.ink);
+  };
   function setupThemes() {
-    const sections = $$('[data-bg]');
-    if (!sections.length) return;
+    // Re-read on every pass so a client-side route change brings its own chapters.
+    themeSections = $$('[data-bg]');
+    if (!themeSections.length) {
+      if (themesOn) { root.classList.remove('mk-themed'); root.style.removeProperty('--page-bg'); root.style.removeProperty('--page-ink'); themeCurrent = null; }
+      return;
+    }
     root.classList.add('mk-themed');
-    let current = null;
-    const apply = (section) => {
-      if (section === current) return;
-      current = section;
-      root.style.setProperty('--page-bg', section.dataset.bg);
-      if (section.dataset.ink) root.style.setProperty('--page-ink', section.dataset.ink);
-    };
-    apply(sections[0]);
-    scrollers.push((vh) => {
+    if (!themeCurrent || !themeCurrent.isConnected) { themeCurrent = null; applyTheme(themeSections[0]); }
+    if (themesOn) return;
+    themesOn = true;
+    addScroller(null, (vh) => {
       const mid = vh / 2;
-      for (const section of sections) {
+      for (const section of themeSections) {
         const r = section.getBoundingClientRect();
-        if (r.top <= mid && r.bottom > mid) { apply(section); return; }
+        if (r.top <= mid && r.bottom > mid) { applyTheme(section); return; }
       }
     });
   }
@@ -259,6 +299,7 @@
     requestAnimationFrame(decay);
   }
 
+  let listening = false, velocityOn = false;
   function setupScroll() {
     setupHscroll();
     setupStack();
@@ -266,56 +307,57 @@
     $$('[data-read]').forEach(wrapWords);
     if (reduce.matches) $$('[data-read]').forEach((el) => el.style.setProperty('--read', '1'));
     else {
-      for (const el of $$('[data-read]')) {
-        scrollers.push((vh) => {
+      for (const el of fresh('read', $$('[data-read]'))) {
+        addScroller(el, (vh) => {
           const r = el.getBoundingClientRect();
           el.style.setProperty('--read', clamp01((vh * 0.85 - r.top) / (vh * 0.35 + r.height)).toFixed(4));
         });
       }
-      for (const el of $$('[data-exit]')) {
-        scrollers.push(() => {
+      for (const el of fresh('exit', $$('[data-exit]'))) {
+        addScroller(el, () => {
           const r = el.getBoundingClientRect();
           el.style.setProperty('--exit', clamp01(-r.top / Math.max(1, r.height)).toFixed(4));
         });
       }
-      scrollers.push(trackVelocity);
+      if (!velocityOn) { velocityOn = true; addScroller(null, trackVelocity); }
     }
-    for (const el of $$('[data-progress]')) {
-      scrollers.push((vh) => {
+    for (const el of fresh('progress', $$('[data-progress]'))) {
+      addScroller(el, (vh) => {
         const r = el.getBoundingClientRect();
         const total = r.height - vh;
         const p = total > 0 ? -r.top / total : (vh - r.top) / (vh + r.height);
         el.style.setProperty('--p', clamp01(p).toFixed(4));
       });
     }
-    if (!reduce.matches) for (const el of $$('[data-parallax]')) {
+    if (!reduce.matches) for (const el of fresh('parallax', $$('[data-parallax]'))) {
       const speed = parseFloat(el.dataset.parallax || '0.15');
-      scrollers.push((vh) => {
+      addScroller(el, (vh) => {
         const r = el.getBoundingClientRect();
         if (r.bottom < -200 || r.top > vh + 200) return;
         const offset = (r.top + r.height / 2 - vh / 2) * -speed;
         el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
       });
     }
-    for (const nav of $$('[data-nav]')) {
+    for (const nav of fresh('nav', $$('[data-nav]'))) {
       let last = scrollY;
-      scrollers.push(() => {
+      addScroller(nav, () => {
         const y = scrollY;
         nav.classList.toggle('is-scrolled', y > 24);
         nav.classList.toggle('is-hidden', y > last && y > 400 && !nav.contains(document.activeElement));
         last = y;
       });
     }
-    if (scrollers.length) {
+    if (scrollers.length && !listening) {
+      listening = true;
       addEventListener('scroll', onScroll, { passive: true });
       addEventListener('resize', onScroll);
-      onScroll();
     }
+    if (scrollers.length) onScroll();
   }
 
   function setupPointer() {
     if (!finePointer.matches) return;
-    for (const el of $$('[data-spotlight]')) {
+    for (const el of fresh('spotlight', $$('[data-spotlight]'))) {
       el.addEventListener('pointermove', (event) => {
         const r = el.getBoundingClientRect();
         el.style.setProperty('--mx', `${event.clientX - r.left}px`);
@@ -323,7 +365,7 @@
       });
     }
     if (reduce.matches) return;
-    for (const el of $$('[data-magnetic]')) {
+    for (const el of fresh('magnetic', $$('[data-magnetic]'))) {
       const strength = parseFloat(el.dataset.magnetic || '0.3');
       el.addEventListener('pointermove', (event) => {
         const r = el.getBoundingClientRect();
@@ -331,7 +373,7 @@
       });
       el.addEventListener('pointerleave', () => { el.style.transform = ''; });
     }
-    for (const el of $$('[data-tilt]')) {
+    for (const el of fresh('tilt', $$('[data-tilt]'))) {
       const max = parseFloat(el.dataset.tilt || '6');
       el.addEventListener('pointermove', (event) => {
         const r = el.getBoundingClientRect();
@@ -352,6 +394,15 @@
   }
 
   const start = () => { setupMarquee(); setupReveals(); setupScroll(); setupPointer(); };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  // Frameworks mount and replace sections after load. Watch for added elements (text-only changes
+  // such as a running counter are ignored) and wire them on the next frame.
+  let pending = false;
+  const observer = 'MutationObserver' in window ? new MutationObserver((records) => {
+    if (pending || !records.some((record) => [...record.addedNodes].some((node) => node.nodeType === 1))) return;
+    pending = true;
+    requestAnimationFrame(() => { pending = false; start(); });
+  }) : null;
+  const boot = () => { start(); if (observer) observer.observe(document.body, { childList: true, subtree: true }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
   window.motionKit = { reveal, split, count, scramble, refresh: start };
 })();

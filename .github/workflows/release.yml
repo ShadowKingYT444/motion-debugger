@@ -1,0 +1,57 @@
+name: Release
+# Push a tag such as v0.5.0 to publish a GitHub Release with the packed CLI attached, so that
+#   npm install -g https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz
+# installs it in one command without npm registry access or a local build.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to (re)build the release for, e.g. v0.5.0
+        required: true
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Tag matches package.json version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          test "v$version" = "$TAG" || { echo "Tag $TAG does not match package.json version $version"; exit 1; }
+      - run: npm ci
+      - name: Pack the CLI (prepack builds it)
+        run: |
+          npm pack
+          version=$(node -p "require('./package.json').version")
+          cp "motion-debugger-$version.tgz" motion-debugger.tgz
+          sha256sum motion-debugger.tgz "motion-debugger-$version.tgz" > SHA256SUMS
+      - name: Install the tarball outside the source tree and run it
+        run: |
+          prefix=$(mktemp -d)
+          cd "$(mktemp -d)"
+          npm install -g --prefix "$prefix" "$GITHUB_WORKSPACE/motion-debugger.tgz"
+          "$prefix/bin/motion-debugger" --version
+          "$prefix/bin/motion-debugger" doctor --skip-launch || true
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          notes="Install: \`npm install -g https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/motion-debugger.tgz\`"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" motion-debugger.tgz "motion-debugger-$version.tgz" SHA256SUMS --clobber
+          else
+            gh release create "$TAG" motion-debugger.tgz "motion-debugger-$version.tgz" SHA256SUMS --title "$TAG" --notes "$notes" --generate-notes
+          fi
