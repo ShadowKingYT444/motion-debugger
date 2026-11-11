@@ -25,6 +25,10 @@ const manifestFile=path.resolve(option('manifest',path.join(here,'pairs.json')))
 const manifest=JSON.parse(await readFile(manifestFile,'utf8'));
 const wanted=option('pairs')?.split(',');
 const pairs=manifest.pairs.filter(pair=>!wanted||wanted.includes(pair.id));
+// A manifest may name its own two arms, labels and output names; the defaults are the A/B study's.
+const arms=manifest.arms??['control','treatment'];
+const labels=manifest.labels??{[arms[0]]:{label:'Without the plugin',detail:'{title} · Sonnet 5.5, same prompt',accent:'#c9c6bd'},[arms[1]]:{label:'With premium-motion',detail:'{title} · Sonnet 5.5, same prompt',accent:'#e8ff59'}};
+const film=manifest.film??'comparison';
 const viewport={width:1440,height:900};
 
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.woff2':'font/woff2','.mp3':'audio/mpeg','.wav':'audio/wav'};
@@ -90,7 +94,7 @@ async function header(browser,file,pair) {
   const cell=(label,detail,accent)=>`<div><b style="color:${accent}">${label}</b><span>${detail}</span></div>`;
   await page.setContent(`<style>body{margin:0;display:grid;grid-template-columns:1fr 1fr;height:72px;background:#0b0b0c;font:600 22px/1 Inter,ui-sans-serif,system-ui,sans-serif;color:#f2f0ea}
     div{display:flex;align-items:center;gap:14px;padding:0 28px;border-bottom:1px solid #2a2a2a}div+div{border-left:1px solid #2a2a2a}span{font-weight:400;color:#a8a6a0;font-size:18px}</style>
-    ${cell('Without the plugin',`${pair.title} · Sonnet 5.5, same prompt`,'#c9c6bd')}${cell('With premium-motion',`${pair.title} · Sonnet 5.5, same prompt`,'#e8ff59')}`);
+    ${arms.map(arm=>cell(labels[arm].label,labels[arm].detail.replace('{title}',pair.title),labels[arm].accent)).join('')}`);
   await page.screenshot({path:file});await page.close();
 }
 
@@ -103,27 +107,27 @@ try{
   for(const pair of pairs){
     const dir=path.join(out,pair.id);await mkdir(dir,{recursive:true});
     const work=path.join(dir,'.frames');
-    const arms={};
-    for(const arm of ['control','treatment']){
-      arms[arm]=await record(browser,path.join(base,pair[arm]),path.join(work,arm));
-      console.log(`${pair.id}/${arm}: ${arms[arm].frames} frames over ${arms[arm].seconds}s, page ${arms[arm].pageHeight}px`);
+    const result={};
+    for(const arm of arms){
+      result[arm]=await record(browser,path.join(base,pair[arm]),path.join(work,arm));
+      console.log(`${pair.id}/${arm}: ${result[arm].frames} frames over ${result[arm].seconds}s, page ${result[arm].pageHeight}px`);
     }
     await header(browser,path.join(work,'header.png'),pair);
-    const duration=Math.max(arms.control.seconds,arms.treatment.seconds).toFixed(2);
+    const duration=Math.max(...arms.map(arm=>result[arm].seconds)).toFixed(2);
     // Each side at 960×600, the shorter visit holds its last frame, labels on top.
     const side=(input)=>`[${input}:v]fps=30,scale=960:600:flags=lanczos,tpad=stop_mode=clone:stop_duration=60,trim=duration=${duration},setpts=PTS-STARTPTS`;
     const filter=`${side(0)}[a];${side(1)}[b];[a][b]hstack[v];[2:v][v]vstack,format=yuv420p[out]`;
-    const mp4=path.join(dir,'comparison.mp4');
-    await run('ffmpeg',['-y','-f','concat','-safe','0','-i',path.join(work,'control','frames.txt'),'-f','concat','-safe','0','-i',path.join(work,'treatment','frames.txt'),'-i',path.join(work,'header.png'),'-filter_complex',filter,'-map','[out]','-c:v','libx264','-preset','slow','-crf','25','-movflags','+faststart',mp4]);
+    const mp4=path.join(dir,`${film}.mp4`);
+    await run('ffmpeg',['-y','-f','concat','-safe','0','-i',path.join(work,arms[0],'frames.txt'),'-f','concat','-safe','0','-i',path.join(work,arms[1],'frames.txt'),'-i',path.join(work,'header.png'),'-filter_complex',filter,'-map','[out]','-c:v','libx264','-preset','slow','-crf','25','-movflags','+faststart',mp4]);
     if(!flag('no-gif')){
       // README preview: the first 14 s at 1.6× speed, 880 px wide, 10 fps, one shared palette (about 4 MB).
-      const gif=path.join(dir,'comparison.gif');
+      const gif=path.join(dir,`${film}.gif`);
       await run('ffmpeg',['-y','-i',mp4,'-filter_complex','[0:v]setpts=PTS/1.6,trim=duration=14,fps=10,scale=880:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle','-loop','0',gif]);
     }
-    const poster=path.join(dir,'poster.jpg');
+    const poster=path.join(dir,film==='comparison'?'poster.jpg':`${film}-poster.jpg`);
     await run('ffmpeg',['-y','-ss','2.5','-i',mp4,'-frames:v','1','-q:v','3',poster]);
     if(!flag('keep-frames'))await rm(work,{recursive:true,force:true});
-    summary.push({id:pair.id,title:pair.title,control:arms.control,treatment:arms.treatment,durationSec:Number(duration)});
+    summary.push({id:pair.id,title:pair.title,...Object.fromEntries(arms.map(arm=>[arm,result[arm]])),durationSec:Number(duration)});
   }
 }finally{await browser.close()}
-await writeFile(path.join(out,'recordings.json'),JSON.stringify({recordedAt:new Date().toISOString(),viewport,journey:'3.5 s entrance, pointer sweep, wheel scroll 44 px per 40 ms to the end, 1.5 s hold',pairs:summary},null,2)+'\n');
+await writeFile(path.join(out,manifest.recordings??'recordings.json'),JSON.stringify({recordedAt:new Date().toISOString(),viewport,journey:'3.5 s entrance, pointer sweep, wheel scroll 44 px per 40 ms to the end, 1.5 s hold',pairs:summary},null,2)+'\n');

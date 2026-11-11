@@ -30,7 +30,7 @@ Mark up what moves with `data-motion`:
 | `data-motion="hero"` | The hero section; its `h1`, `[data-hero-visual]` and `[data-hero-rest]` children choreograph on load |
 | `data-motion="heading"` | Section headings: masked line rise |
 | `data-motion="image"` | A visual wrapper: clip reveal, with its first `img`, `canvas`, `video` or `.inner` counter-scaling |
-| `data-motion="count"` | A number with its final value written in the HTML (`data-prefix` and `data-suffix` are optional) |
+| `data-motion="count"` | A number with its final text written in the HTML, such as `$12,400` or `38.5 ms`; prefix and suffix are kept |
 | `data-motion="stagger"` | A group: its children rise in reading order |
 | `data-motion="fade"` | Anything else: a short rise and fade |
 | `data-scene` | The signature scene's section (pinned and scrubbed) |
@@ -107,14 +107,17 @@ mm.add({ all: 'all', motion: '(prefers-reduced-motion: no-preference)', desktop:
       .from(inner, { scale: 1.18, duration: 1.6, ease: 'expo.out' }, 0);
   });
 
-  // Numbers count up from 60% of their value, never from 0.
+  // Numbers count up from 60% of their value, never from 0. The HTML holds the final text, so no-JS and
+  // reduced motion show exactly the same thing.
   gsap.utils.toArray('[data-motion="count"]').forEach((el) => {
-    const end = parseFloat(el.textContent.replace(/[^\d.-]/g, ''));
-    const decimals = (el.textContent.split('.')[1] || '').replace(/\D/g, '').length;
-    const format = (v) => (el.dataset.prefix || '') + v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + (el.dataset.suffix || '');
+    gsap.set(el, { autoAlpha: 1 });
+    const [, prefix, digits, suffix] = el.textContent.trim().match(/^(\D*)([\d.,]+)(.*)$/) || [];
+    if (!digits) return;
+    const end = parseFloat(digits.replace(/,/g, ''));
+    const decimals = (digits.split('.')[1] || '').length;
+    const format = (v) => prefix + v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: digits.includes(',') }) + suffix;
     const state = { v: end * 0.6 };
     el.textContent = format(state.v);
-    gsap.set(el, { autoAlpha: 1 });
     gsap.to(state, { v: end, duration: 1.6, ease: 'expo.out', onUpdate: () => { el.textContent = format(state.v); },
       scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
   });
