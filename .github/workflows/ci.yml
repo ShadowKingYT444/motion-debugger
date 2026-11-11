@@ -35,6 +35,8 @@ jobs:
         run: npm run test:coverage:browser && npm run test:failure:browser
       - name: Page critique detects seeded defects and passes the kit-built control
         run: npm run test:critique:browser
+      - name: Motion kit wires client-rendered (React/Next.js) mounts
+        run: npm run test:kit:browser
       - name: Actor, review, authoring and transition upgrade regressions
         run: npm run test:actors:browser && npm run test:review:browser && npm run test:authoring:browser && npm run test:transitions:browser
       - name: Native construction recipes and positive task outcomes

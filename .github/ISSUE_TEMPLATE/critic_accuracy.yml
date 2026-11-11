@@ -1,0 +1,23 @@
+name: Critic got it wrong
+description: A false positive, or a defect the critic missed
+labels: [critic-accuracy]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options: [False positive (flagged something that is fine), Missed defect (did not flag something broken)]
+    validations:
+      required: true
+  - type: input
+    id: finding
+    attributes:
+      label: Finding id
+      placeholder: hollow-containers, dead-space, text-collision, ...
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal page that reproduces it
+      description: Paste a small HTML file, or link a public repo. Attach craft.png or the contact sheet if you have it.
+    validations:
+      required: true

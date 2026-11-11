@@ -108,14 +108,14 @@ function setupReadme(host) {
     cursor: 'Copy the extracted folder into `~/.cursor/plugins/local/motion-debugger`, then reload Cursor and inspect Customize. Local plugin imports must be allowed. Invoke `/motion-debugger` followed by your normal design prompt. Evidence is stored under `.motion-debugger/evidence` relative to the MCP process working directory.',
     skills: 'This is a standalone skills fallback, not a native plugin. Copy each complete skill directory into a host-supported Agent Skills folder. Gemini/OpenCode discovery and normal-prompt invocation are unverified. Configure MCP separately with the main package CLI; this archive does not include or activate a server.'
   }[host];
-  return `# Motion Debugger — ${host}\n\n${loading}\n\n` + (host === 'skills' ? '' : 'Before enabling this folder, run from its root:\n\n```sh\nnpm ci --ignore-scripts\nnode node_modules/playwright/cli.js install chromium\n```\n\nNode.js 22+ is required. Browser download and runtime installation are explicit; this package does not install itself or modify your host configuration. Linux browser OS libraries must already be available.\n\n') + 'The `skills/motion/` router includes portable animation recipes. Attach or invoke the skill and send your ordinary website/app prompt. Use only trusted, credential-free local development pages for recordings.\n\nProject license: UNLICENSED. Third-party notices retain their own terms and do not grant a project license. Host manifest checks and an MCP protocol connection do not prove that an actual coding agent loaded or used the plugin. RELEASE.json records source identity and hashes; it is not a validation verdict.\n';
+  return `# Motion Debugger — ${host}\n\n${loading}\n\n` + (host === 'skills' ? '' : 'Before enabling this folder, run from its root:\n\n```sh\nnpm ci --ignore-scripts\nnode node_modules/playwright/cli.js install chromium\n```\n\nNode.js 22+ is required. Browser download and runtime installation are explicit; this package does not install itself or modify your host configuration. Linux browser OS libraries must already be available.\n\n') + 'The `skills/motion/` router includes portable animation recipes. Attach or invoke the skill and send your ordinary website/app prompt. Use only trusted, credential-free local development pages for recordings.\n\nProject license: MIT (see LICENSE). Third-party notices retain their own terms. Host manifest checks and an MCP protocol connection do not prove that an actual coding agent loaded or used the plugin. RELEASE.json records source identity and hashes; it is not a validation verdict.\n';
 }
 
 export async function buildPluginPackages({sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'), out = path.join(sourceRoot, 'dist/plugins')} = {}) {
   sourceRoot = await realpath(sourceRoot);
   const plugin = path.join(sourceRoot, 'plugin/motion-debugger');
   const metadata = JSON.parse(await readSafe(path.join(sourceRoot, 'package.json')));
-  if (metadata.private !== true || metadata.license !== 'UNLICENSED') throw new Error('Expected private UNLICENSED project; no licensing changes are permitted');
+  if (metadata.private !== true || metadata.license !== 'MIT') throw new Error('Expected the private MIT-licensed project; publishing and licence changes need owner approval');
   if (!/^\d+\.\d+\.\d+(?:-[a-zA-Z0-9.-]+)?$/.test(metadata.version)) throw new Error('Invalid release version');
   for (const file of ['build/mcp/index.js', 'plugin/motion-debugger/scripts/mcp.mjs']) {
     try { await access(path.join(sourceRoot, file)); } catch { throw new Error('Run npm run build before packaging plugins'); }
@@ -139,7 +139,7 @@ export async function buildPluginPackages({sourceRoot = path.resolve(path.dirnam
       await mkdir(directory, {recursive: true});
       await copyTree(path.join(plugin, 'skills'), path.join(directory, 'skills'));
       await writeFile(path.join(directory, 'README.md'), setupReadme(host));
-      await writeFile(path.join(directory, 'LICENSE.txt'), 'Motion Debugger project license: UNLICENSED. Third-party components retain the terms of their accompanying notices.\n');
+      await writeFile(path.join(directory, 'LICENSE.txt'), await readSafe(path.join(sourceRoot, 'LICENSE')));
       if (host !== 'skills') {
         for (const file of ['package.json', 'package-lock.json', 'THIRD_PARTY_LICENSES.txt']) await writeFile(path.join(directory, file), await readSafe(path.join(plugin, file)));
         await mkdir(path.join(directory, 'scripts'), {recursive: true});

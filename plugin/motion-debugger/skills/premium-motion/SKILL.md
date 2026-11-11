@@ -17,6 +17,8 @@ Left alone, you build the same page every other coding agent builds:
 - Then an italic marquee, a large serif manifesto, a four-step pinned stepper with dimmed steps, a hairline bento grid, testimonial cards, three-tier pricing with a dark "Most popular" card, and a giant footer wordmark.
 - Copy built from fragment pairs ("Four parts. No seams."), "quiet", "plainly", "Nothing it doesn't."
 - The obvious noun as the hero visual: tree rings for timber, a moon for sleep, a glowing ring for a speaker, a code panel for an API.
+- The other house styles visitors now recognise as AI-made: an indigo-to-purple gradient on dark with glowing cards; cream, a serif and terracotta; a badge pill above a centred H1; a grid of identical icon cards; stock shadcn/ui cards and buttons left unstyled.
+- Every section fading up the same way as it enters (`animate-in fade-in slide-in-from-bottom` on everything). Uniform reveal-on-scroll is itself a tell.
 
 Clients and juries read this as a template, and two agents given the same brief ship the same page. Before designing, write your first-instinct direction in one line. Then **change at least four** of: display typeface, ground colour, accent strategy, hero composition, component shapes, section structure, hero visual. Keep a default only when you can name a reason specific to this brief.
 
@@ -85,7 +87,8 @@ Use tokens (copy `assets/motion-kit.css` or define your own):
 - Put the heading inside the `data-hscroll` stage so it stays pinned with the track. Stack cards need a solid background. Do not put `data-reveal` on `data-hscroll` slides or `data-stack` cards; the scene is their motion.
 - Write a counter's final value in the HTML; the kit shows a starting value (60% of the end, or `data-count-from`) until it runs, so frames never show 0.
 - Every primitive falls back to a readable static layout under reduced motion, and the horizontal track becomes a native swipe row on phones.
-- Copy the kit into the project, or reimplement it in the project's framework. If the project already uses Motion, GSAP or Lenis, use that with the same tokens and rules. `references/patterns.md` has complete code for bespoke moments.
+- **React, Next.js, Vue or Svelte project?** Read `references/frameworks.md` first. If the project already uses Motion (framer-motion) or GSAP, build with that library using the same tokens and rules; the file maps every primitive above to it. Otherwise load the kit once; it wires elements that mount later, such as client-rendered sections and route changes.
+- `references/patterns.md` has complete code for bespoke moments.
 
 ## 6. Look: the critique loop (required)
 
@@ -94,7 +97,7 @@ You cannot judge a page from source. Render it:
 ```bash
 motion-debugger critique ./path/to/site        # folder with index.html, or an .html file
 motion-debugger critique http://127.0.0.1:5173 # a running local dev server
-# not on PATH? → npx motion-debugger critique …   (or node <install>/build/cli/index.js critique …)
+# not installed? → npx -y -p https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz motion-debugger critique …
 ```
 
 It records the page in Chromium at desktop (1440×900) and mobile (390×844): the entrance, a full scroll, hovers, keyboard focus and reduced motion. It prints findings with fixes and writes images. **Open every image** with your image or file viewer, in this order:

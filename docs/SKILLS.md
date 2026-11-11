@@ -73,7 +73,7 @@ Repairs must follow observation and source diagnosis. There is no bundled oracle
 
 ## Attribution and validation
 
-The design guidance selectively adapts concepts from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill/tree/ce26fc25c0e5e8cab638f883de62d9a86ee5e45b), with [exact provenance and the retained MIT notice](../plugin/motion-debugger/skills/motion-design/references/taste-provenance.md). This does not license the entire Motion Debugger project as MIT. Its private/UNLICENSED status is unchanged.
+The design guidance selectively adapts concepts from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill/tree/ce26fc25c0e5e8cab638f883de62d9a86ee5e45b), with [exact provenance and the retained MIT notice](../plugin/motion-debugger/skills/motion-design/references/taste-provenance.md).
 
 Check the packaged skill catalog without installing or changing editor settings:
 

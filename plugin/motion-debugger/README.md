@@ -20,7 +20,7 @@ For Codex, Claude Code, Cursor, or VS Code using project skills and MCP, use the
 motion-debugger init --client codex --local --skills --project /absolute/path/to/app
 ```
 
-Replace `codex` with `claude-code`, `cursor` or `vscode`. This previews the project MCP configuration and all seven skill folders; review it before rerunning with `--apply` and approving the change. Noninteractive setup requires the exact `--confirm <confirmationToken>` from that preview. Keep the local installation in place because its absolute runtime path is recorded. See the [source quickstart](../../README.md#quickstart) to build the unpublished package.
+Replace `codex` with `claude-code`, `cursor` or `vscode`. This previews the project MCP configuration and all seven skill folders; review it before rerunning with `--apply` and approving the change. Noninteractive setup requires the exact `--confirm <confirmationToken>` from that preview. Keep the local installation in place because its absolute runtime path is recorded. See [Install](../../README.md#install) for the one-command install.
 
 Source references remain optional, read-only annotations. Configure `MOTION_SOURCE_ROOTS` only for folders you intentionally want the server to read. Browser captures are restricted to loopback targets; interactions can change local app state, so agents must obtain appropriate authorization.
 

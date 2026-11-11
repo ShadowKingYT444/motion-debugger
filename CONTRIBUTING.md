@@ -1,25 +1,76 @@
-# Contributing
+# Contributing to Motion Debugger
 
-## Development
+Thanks for helping. Motion Debugger has two halves: a design skill that agents read (Markdown plus a small motion kit) and a critic that opens pages in a real browser (TypeScript plus Playwright). You can contribute to either without touching the other.
 
-Use Node.js 22 or later. From a source checkout:
+**New here?** Look at issues labelled [`good first issue`](https://github.com/ShadowKingYT444/motion-debugger/labels/good%20first%20issue). Ask questions in [Discussions](https://github.com/ShadowKingYT444/motion-debugger/discussions) before you start anything large.
+
+## Set up (about five minutes)
+
+You need Node.js 22 or later and git.
 
 ```sh
+git clone https://github.com/ShadowKingYT444/motion-debugger.git
+cd motion-debugger
 npm ci
+npx playwright install chromium     # Linux may also need: npx playwright install-deps chromium
 npm run build
-npm run check
+npm test                            # fast unit tests, no browser
 ```
 
-For browser tests, install the package-pinned Chromium build with Playwright's official installer, then run the browser suites listed in `package.json`. Linux may also require Playwright's documented system dependencies.
+Try the critic on one of the committed demo sites:
 
-## Pull requests
+```sh
+node build/cli/index.js critique demos/ledgerline/control
+```
 
-Keep changes focused and include reproduction steps, verification commands and the tested commit. Include actual screenshots or recordings for UI changes, and failing/passing evidence for motion changes. Clearly label intentionally seeded examples.
+## Where things live
 
-Do not check in dependency directories, credentials, private recordings, browser profiles or generated evidence from unrelated applications. Use synthetic/public fixture content for tests.
+| Path | What it is | Good for |
+| --- | --- | --- |
+| `plugin/motion-debugger/skills/premium-motion/` | The skill agents read: `SKILL.md`, `TASTE.md`, the motion kit in `assets/`, code patterns in `references/` | Design guidance, kit primitives, framework notes |
+| `packages/core/critique*.ts` | The page critic: recording, findings, contact sheets, finish checks | New checks, fewer false positives |
+| `packages/cli/` | The `motion-debugger` command: install, configuration, diagnostics | Install experience, new flags |
+| `packages/mcp/` | The MCP server (stdout carries JSON-RPC only) | MCP tools |
+| `tests/` | Unit, install, browser and transport tests | Coverage for anything above |
+| `demos/` | Agent-built control/treatment sites and their films | Do not hand-edit these; they are evidence |
+| `studies/premium-ab/` | The blinded A/B harness and its results | Do not edit past results |
 
-Changes to installation must preserve other tools' configuration, handle paths with spaces, and be tested in an isolated home/project directory. Distribution changes must pass a clean packed-install test.
+## Making a change
+
+1. Branch from `main` and keep the change focused on one thing.
+2. Add or update a test. New critic checks need a seeded fixture that triggers them and a clean page that does not.
+3. Run the checks that cover what you touched:
+
+   | You changed | Run |
+   | --- | --- |
+   | Anything | `npm run check` (build, typecheck and all fast suites) |
+   | The critic | `npm run test:critique` and `npm run test:critique:browser` |
+   | Installation or the CLI | `npm run test:cli` and `npm run test:install` (packs a tarball and installs it outside the source tree) |
+   | The skill or motion kit | `npm run test:packages`, then critique a page built with it |
+   | Motion recording | The matching `test:*:browser` suite in `package.json` |
+
+4. Open a pull request. Say what you changed, how you tested it and on which commit. CI runs every browser suite; it takes about 20 minutes.
+
+## Ground rules
+
+These keep the tool honest. Reviews will hold you to them.
+
+- **Never fake a measurement.** Findings come from a real browser. Do not hardcode passing results, generate traces, or loosen a threshold just to make CI pass.
+- **Show visual changes.** Attach desktop and mobile screenshots, and a recording for anything that moves. For motion, test interruption, reversal, replay, the final state and reduced motion.
+- **Installation must be previewable and recoverable.** Preserve users' other files and MCP entries, handle paths with spaces, and test in an isolated home and project directory.
+- **Local pages only.** The critic captures trusted, credential-free local development pages. Never import a personal browser profile.
+- **Label seeded defects.** Test fixtures with deliberate bugs must say so.
+- **No secrets or private recordings in commits.** Use synthetic or public fixture content.
+
+## Reporting bugs and ideas
+
+- **Bug:** open an issue with the command you ran, what you expected, what happened, your OS and Node version, and the output of `motion-debugger doctor`. If the critic got a page wrong, attach `craft.png` or the relevant contact sheet.
+- **False positive or missed defect:** these are the most useful reports we get. Include a minimal HTML page that reproduces it.
+- **Idea or question:** start a [Discussion](https://github.com/ShadowKingYT444/motion-debugger/discussions).
+- **Security issue:** follow [SECURITY.md](SECURITY.md); do not open a public issue.
 
 ## Releases
 
-Publishing requires owner approval, a chosen license and registry access. Do not advertise an unavailable version. Public availability and compatibility statements must be verified after publication. Keep the full review and release checklist in the pull request.
+Maintainers cut releases. Do not claim an npm version exists until the registry serves that exact version, and verify a packed tarball outside the source tree before release.
+
+By contributing you agree that your contributions are licensed under the [MIT License](LICENSE).
