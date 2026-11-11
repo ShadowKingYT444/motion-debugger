@@ -31,7 +31,7 @@ Under `prefers-reduced-motion: reduce`: keep every piece of content and the colo
 ## Robustness
 
 - Reveal targets are hidden only after JavaScript runs; if the animation library fails to load, content still shows (a timeout that removes the hidden state).
-- No console errors. Resize and orientation changes recalculate pins.
+- No console errors. Resize and orientation changes recalculate scroll scenes.
 
 ## Verify
 

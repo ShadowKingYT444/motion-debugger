@@ -17,24 +17,25 @@ const block=(doc,heading,lang)=>{const start=doc.indexOf(heading);assert.ok(star
 
 const load=block(stackDoc,'## Load','html');
 const head=load.match(/<head>([\s\S]*?)<\/head>/)[1];
-const scripts=[...load.matchAll(/<script src="([^"]+)"><\/script>/g)].map(match=>match[1]).filter(src=>src!=='motion.js');
+const external=[...head.matchAll(/(?:href|src)="(https:[^"]+)"/g)].map(match=>match[1]);
 const motionJs=block(stackDoc,'## motion.js','js');
 const shader=block(imageryDoc,'## A fullscreen shader','html');
 const local={'gsap.min.js':'node_modules/gsap/dist/gsap.min.js','ScrollTrigger.min.js':'node_modules/gsap/dist/ScrollTrigger.min.js','SplitText.min.js':'node_modules/gsap/dist/SplitText.min.js','lenis.min.js':'node_modules/lenis/dist/lenis.min.js','lenis.css':'node_modules/lenis/dist/lenis.css'};
-const cdn=url=>{const name=Object.keys(local).find(file=>url.endsWith('/'+file));return name?`/vendor/${name}`:url};
+const cdn=url=>{const name=Object.keys(local).find(file=>url.endsWith('/'+file));assert.ok(name,`no local copy for ${url}`);return `/vendor/${name}`};
+assert.ok(external.length>=4&&head.includes('src="motion.js"'),'the Load block loads the libraries and motion.js in the head');
 
 const page=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-${head.replace(/href="(https:[^"]+)"/g,(_,url)=>`href="${cdn(url)}"`)}
+${head.replace(/(href|src)="(https:[^"]+)"/g,(_,attr,url)=>`${attr}="${cdn(url)}"`).replace('src="motion.js"','src="/motion.js"')}
 <style>:root{--ground:#f4f1ea;--ink:#16130f}body{margin:0;background:var(--ground);color:var(--ink);font:18px/1.5 sans-serif}
 section{min-height:100vh;padding:80px 40px;box-sizing:border-box}.vis{height:300px;background:#a55;overflow:hidden}.vis .inner{height:100%;background:#335}
-.track-wrap{overflow:hidden;padding:0;height:100vh}.track{display:flex;gap:24px;width:max-content;padding:80px 40px}.track>div{width:600px;height:400px;background:#ccc}
+.track-wrap{padding:0}.track{display:flex;gap:24px;width:max-content;padding:80px 40px}.track>div{width:600px;height:400px;background:#ccc}
 .field{width:100%;height:300px;display:block}</style></head><body>
 <section data-motion="hero"><h1>A headline set from a fact, long enough to wrap onto two lines</h1><p data-hero-rest>Supporting copy.</p><a data-hero-rest data-magnetic href="#x">Primary action</a><div class="vis" data-hero-visual><div class="inner"></div></div></section>
 <section data-ground="#16130f" data-ink="#f4f1ea"><h2 data-motion="heading">A section heading that reveals by line</h2><div class="vis" data-motion="image"><div class="inner"></div></div><p><span data-motion="count">38.5 ms</span> and <span data-motion="count">$12,400</span></p></section>
-<section data-scene><div data-scene-part>Part A</div><div data-scene-part>Part B</div><p data-scene-step style="opacity:0">Step one</p><p data-scene-step style="opacity:0">Step two</p></section>
-<section class="track-wrap"><div class="track" data-track><div></div><div></div><div></div><div></div></div></section>
+<section data-scene><div data-stage><div data-scene-part>Part A</div><div data-scene-part>Part B</div><p data-scene-step style="opacity:0">Step one</p><p data-scene-step style="opacity:0">Step two</p></div></section>
+<section class="track-wrap"><div data-stage><div class="track" data-track><div></div><div></div><div></div><div></div></div></div></section>
 <section data-ground="#f4f1ea" data-ink="#16130f"><ul data-motion="stagger"><li>One</li><li>Two</li><li>Three</li></ul><p data-motion="fade">A paragraph.</p>${shader}</section>
-${scripts.map(src=>`<script src="${cdn(src)}"></script>`).join('\n')}<script src="/motion.js"></script></body></html>`;
+</body></html>`;
 
 const server=createServer(async(request,response)=>{
   const url=new URL(request.url,'http://x').pathname;
@@ -49,7 +50,8 @@ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin=`http://127.0.0.1:${server.address().port}`;
 
 // Record shader compile and link results inside the page.
-const shaderProbe=()=>{window.__gl=[];for(const proto of [WebGLRenderingContext.prototype]){const compile=proto.compileShader,link=proto.linkProgram;
+// Layout shift is summed exactly as the critic sums it (critique-probe.ts), so a pass here means no layout-shift finding.
+const shaderProbe=()=>{window.__gl=[];window.__cls=0;try{new PerformanceObserver(list=>{for(const entry of list.getEntries())if(!entry.hadRecentInput)window.__cls+=entry.value}).observe({type:'layout-shift',buffered:true})}catch{};for(const proto of [WebGLRenderingContext.prototype]){const compile=proto.compileShader,link=proto.linkProgram;
   proto.compileShader=function(s){compile.call(this,s);if(!this.getShaderParameter(s,this.COMPILE_STATUS))window.__gl.push('compile: '+this.getShaderInfoLog(s))};
   proto.linkProgram=function(p){link.call(this,p);if(!this.getProgramParameter(p,this.LINK_STATUS))window.__gl.push('link: '+this.getProgramInfoLog(p));window.__glLinked=true}}};
 
@@ -75,7 +77,9 @@ try{
     const count=await tab.evaluate(()=>[...document.querySelectorAll('[data-motion="count"]')].map(el=>el.textContent).join(' | '));
     const pins=await tab.evaluate(()=>document.querySelectorAll('.pin-spacer').length);
     const gl=await tab.evaluate(()=>({errors:window.__gl,linked:!!window.__glLinked}));
-    results[name]={errors,heroLines,heroVisible,hidden,count,pins,gl};
+    const scroll=await tab.evaluate(()=>{const track=document.querySelector('[data-track]'),stage=track.parentElement;return{sceneHeight:document.querySelector('[data-scene]').offsetHeight,sticky:getComputedStyle(stage).position,partMoved:getComputedStyle(document.querySelector('[data-scene-part]')).transform!=='none',trackX:Math.round(new DOMMatrix(getComputedStyle(track).transform).m41),distance:track.scrollWidth-stage.clientWidth,swipe:getComputedStyle(stage).overflowX}});
+    const cls=await tab.evaluate(()=>Math.round(window.__cls*1000)/1000);
+    results[name]={errors,heroLines,heroVisible,hidden,count,pins,cls,scroll,gl};
     await context.close();
   }
 }finally{await browser.close();server.close()}
@@ -88,9 +92,14 @@ for(const [name,result] of Object.entries(results)){
   assert.equal(result.heroVisible,'visible',`${name}: the hero is shown`);
   assert.deepEqual(result.gl.errors,[],`${name}: the documented shader compiles and links`);
   assert.ok(result.gl.linked,`${name}: the documented shader program was linked`);
+  assert.equal(result.pins,0,`${name}: no JS pins (scenes use sticky stages)`);
+  assert.ok(result.cls<=0.1,`${name}: layout shift ${result.cls} stays within the critic's 0.1 limit`);
 }
 assert.ok(results.desktop.heroLines>=2,'desktop: the hero headline is split into masked lines');
-assert.ok(results.desktop.pins>=2,'desktop: the signature scene and the horizontal track are pinned');
-assert.equal(results.reduced.pins,0,'reduced motion: nothing is pinned or scrubbed');
-assert.equal(results.phone.pins,0,'phone: no pins (the track is a native swipe row)');
-console.log('motion stack: documented GSAP/Lenis code and shader verified at desktop, reduced motion and phone');
+const d=results.desktop.scroll;
+assert.equal(d.sticky,'sticky','desktop: scene and track stages stick');
+assert.ok(d.sceneHeight>=2*900,'desktop: the scene section is tall enough to scrub');
+assert.ok(d.partMoved,'desktop: the scene timeline scrubbed its parts');
+assert.ok(d.distance>0&&Math.abs(d.trackX+d.distance)<=2,`desktop: the track slid its full length (${d.trackX} of -${d.distance})`);
+for(const name of ['reduced','phone']){const r=results[name].scroll;assert.equal(r.trackX,0,`${name}: the track is not scrubbed`);assert.equal(r.swipe,'auto',`${name}: the track is a native swipe row`);assert.ok(!r.partMoved,`${name}: the scene is not scrubbed`)}
+console.log('motion stack: documented GSAP/Lenis code and shader verified at desktop, reduced motion and phone, with no layout shift');

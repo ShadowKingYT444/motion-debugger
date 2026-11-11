@@ -21,13 +21,14 @@ Before code, describe the scene at progress 0, 0.25, 0.5, 0.75 and 1. Each frame
 
 ## 3. Build
 
-- **Length:** pin for at most 180vh on desktop. Long scenes feel like a broken page.
-- **GSAP:** use one `ScrollTrigger` with `pin: true` and `scrub: 0.6–1` driving a single timeline. Use `ease: 'none'` on the timeline, and put eases on the tweens inside it. See references/motion-stack.md §Pinned scene.
+- **Length:** at most 180vh of scrubbing on desktop. Long scenes feel like a broken page.
+- **Stage:** a tall section with a `position: sticky` stage inside it. Do not use GSAP's `pin: true`: it jumps a frame behind native scrolling and the critic records it as layout shift.
+- **GSAP:** one `ScrollTrigger` on the section (`start: 'top top', end: 'bottom bottom', scrub: 0.6–1`) driving a single timeline. Use `ease: 'none'` on the timeline, and put eases on the tweens inside it. See references/motion-stack.md (the `data-scene` code).
 - **Motion (React):** use `useScroll` on the section plus `useTransform` per property; see references/frameworks.md.
 - **Kit:** use `data-progress` on a tall section with a sticky stage, and map `--p` to transforms in CSS (references/patterns.md §2).
 - **Animate only** `transform`, `opacity`, `clip-path`, and filters on small elements. Precompute sizes on resize, not on scroll.
 - **Text inside the scene** changes in place: crossfade or masked swaps. Never slide the active step sideways off its column.
-- **Phones:** a shorter pin, or a stacked sequence of the same five frames with simple reveals.
+- **Phones:** a shorter scene, or a stacked sequence of the same five frames with simple reveals.
 - **Reduced motion:** show the final frame, or the five frames stacked, with all content.
 
 ## 4. Verify
