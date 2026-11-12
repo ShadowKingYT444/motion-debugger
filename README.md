@@ -35,13 +35,13 @@ Motion Debugger gives your agent two things it doesn't have:
 
 ## Install
 
-You need Node.js 22 or later.
+Every line below is one command. They work with any model and any coding agent, and the same commands run on macOS, Linux and Windows (bash, zsh or PowerShell). The CLI and `npx` lines need Node.js 22 or later; the git line needs only git.
+
+**The full setup** (critic, skill and agent configuration). Install, then run `init` in your project:
 
 ```bash
 npm install -g https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz
 ```
-
-Then, in your project:
 
 ```bash
 motion-debugger init
@@ -49,18 +49,23 @@ motion-debugger init
 
 `init` detects your agent (Claude Code, Cursor, Codex, VS Code, OpenCode), installs the skill, offers to download a matching Chromium, and shows every file it would change before asking you to type `yes`. Nothing is written without that, and your existing settings are kept.
 
+**Just the skill, or just the critic:**
+
+| You want | One line |
+| --- | --- |
+| The skill, for the agent you use | `npx skills add ShadowKingYT444/motion-debugger --skill premium-motion -a cursor` |
+| The skill, in the shared `.agents/skills` folder many agents read | `npx skills add ShadowKingYT444/motion-debugger --skill premium-motion -a universal -y` |
+| The skill without Node (bash, zsh) | `mkdir -p .agents/skills && git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git /tmp/motion-debugger && cp -r /tmp/motion-debugger/plugin/motion-debugger/skills/premium-motion .agents/skills/` |
+| The skill without Node (PowerShell) | `git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git $env:TEMP\motion-debugger; $null = New-Item -ItemType Directory -Force .agents\skills; Copy-Item -Recurse $env:TEMP\motion-debugger\plugin\motion-debugger\skills\premium-motion .agents\skills\` |
+| The critic, with nothing installed | `npx -y -p https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz motion-debugger critique http://localhost:3000` |
+| A browser for the critic | `motion-debugger setup --browser` |
+
+For `-a`, use your agent's name: `claude-code`, `cursor`, `codex`, `gemini-cli`, `github-copilot`, `windsurf`, `cline`, `roo`, `zed`, `opencode`, `goose`, `kiro-cli`, `amp`, `junie` and about 70 more ([skills CLI](https://github.com/vercel-labs/skills)). An agent that can't run shell commands can still follow the skill; it just can't look at the page.
+
+The critic uses Playwright's Chromium if you downloaded it, then `CHROMIUM_PATH`, then an installed Chrome, Chromium or Edge in the usual place on macOS, Windows or Linux. CI installs the packed CLI on all three and critiques a real page.
+
 <details>
-<summary><b>Only want the skill?</b> Or installing from source?</summary>
-
-**Skill only**, into any agent the [skills CLI](https://github.com/vercel-labs/skills) supports:
-
-```bash
-npx skills add ShadowKingYT444/motion-debugger --skill premium-motion
-```
-
-The skill tells the agent how to run the critic through `npx` if the CLI isn't installed.
-
-**From source:**
+<summary><b>Installing from source?</b></summary>
 
 ```bash
 git clone https://github.com/ShadowKingYT444/motion-debugger.git
@@ -69,7 +74,7 @@ motion-debugger setup --browser    # version-matched Chromium
 motion-debugger doctor
 ```
 
-An existing Chrome or Chromium also works: set `CHROMIUM_PATH`, or let the CLI find `/usr/bin/google-chrome` or `/usr/bin/chromium`. More options in [client setup](docs/CLIENTS.md).
+More options in [client setup](docs/CLIENTS.md).
 </details>
 
 ## Upgrade a site
@@ -185,7 +190,9 @@ Four pairs are too few for statistical significance. The earlier 16-pair study r
 
 **Does it work with my stack?** Plain HTML, React, Next.js, Vite, Motion (framer-motion) and GSAP. The skill uses the animation library you already have and never adds a second one.
 
-**Does it need Claude?** No. The critic is a plain CLI with Markdown or `--json` output, and the skill is a standard Agent Skill. `init` sets up Claude Code, Cursor, Codex, VS Code and OpenCode; any other agent can follow the skill folder (below).
+**Does it need Claude, or a particular model?** No. Nothing here calls a model API: the critic is a plain CLI with Markdown or `--json` output, and the skill is a standard Agent Skill in Markdown. Use it with any model your agent runs. The demos were made with Claude models because that's what we had; the workflow doesn't depend on them. `init` sets up Claude Code, Cursor, Codex, VS Code and OpenCode, and the skills CLI covers about 80 more agents (see Install).
+
+**Does it work on my machine?** Yes on macOS, Linux and Windows with Node.js 22 or later. CI installs the packed CLI on all three and critiques a real page.
 
 **Does anything leave my machine?** No. The critic only opens credential-free local pages (`localhost`, `127.0.0.1`, files), never imports your browser profile, and keeps recordings in your project folder. [Security model](SECURITY.md).
 

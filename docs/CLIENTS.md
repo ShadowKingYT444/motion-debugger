@@ -8,7 +8,7 @@ Motion Debugger is not on the npm registry yet. Install the packed CLI from the 
 npm install -g https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz
 ```
 
-Or build the same tarball from a reviewed checkout with `npm ci && npm pack`, which creates `motion-debugger-0.5.0.tgz`, and install that file. Keep the installed runtime in a durable location: agent configuration points at its absolute path.
+Or build the same tarball from a reviewed checkout with `npm ci && npm pack`, which creates `motion-debugger-0.6.0.tgz`, and install that file. Keep the installed runtime in a durable location: agent configuration points at its absolute path.
 
 ## Recommended: configuration wizard
 
@@ -18,7 +18,7 @@ motion-debugger init
 
 Run the wizard from the application project. It suggests the client it detects from the project's files; confirm or choose another, keep the offered seven-skill installation, review the exact MCP destination and skill folders, then type `yes` to confirm. In a noninteractive terminal, `init` only previews. For scripted complete setup, use `init --client codex --local --skills --project /absolute/path/to/app`; add `--apply --confirm <confirmationToken>` after reviewing that exact preview. The wizard uses the installed copy's absolute path by default; keep `--local` in scripted setups for the same reason, since no registry package exists yet.
 
-Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.5.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
+Prefer a project-local install? Run `npm install /absolute/path/motion-debugger-0.6.0.tgz` in a stable tools directory, then run `npm exec --offline -- motion-debugger init --client codex --local --skills --project /absolute/path/to/app --apply` there to review and approve setup for the actual application project. Use the same `npm exec --offline -- motion-debugger` prefix for demo/doctor commands. Do not register an absolute path into a disposable npm-exec cache.
 
 The browser dependency is explicit:
 
