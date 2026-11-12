@@ -8,6 +8,7 @@ import {optionsFromEnvironment} from '../mcp/server';
 import {clients,configText,init,installSkillsOnly,metadata,type Client,type InitOptions} from './config';
 import {doctor,installBrowser} from './browser';
 import {shouldUseInitWizard,prepareInitWizard,detectClient} from './wizard';
+import {parseSeverity,findingsAtOrAbove,severityCounts,githubAnnotations,imageToOpen,openImage,type Severity} from './critique-flags';
 
 const help=`Motion Debugger ${metadata.version} — temporal evidence for coding agents
 
@@ -22,6 +23,7 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
   motion-debugger recipe kinetic|drawer|reveal|cursor [--mode baseline|fixed] [--origin <loopback>]
   motion-debugger agents-md [--skills-dir .agents/skills]   print instructions for AGENTS.md/CLAUDE.md/GEMINI.md
   motion-debugger critique <url|index.html|folder> [--out dir] [--json] [--offline] [--desktop-only]
+                           [--fail-on blocker|major|minor|polish] [--github] [--open]
   motion-debugger capture recipe.json
   motion-debugger review review.json
   motion-debugger probe probe.json
@@ -33,6 +35,8 @@ const help=`Motion Debugger ${metadata.version} — temporal evidence for coding
 init previews an exact config diff; --skills includes the project skills and namespaced motion-debugger entry.
 Skills never overwrite different existing folders. All writes require explicit approval. setup --browser
 explicitly downloads Chromium. No postinstall, login, credentials or automatic config changes.
+critique --fail-on exits 2 when a finding is at or above that severity (1 still means the page could not
+be scanned). --github prints GitHub Actions annotations. --open shows the first image in an interactive terminal.
 Config defaults to the exact npm package version. --local uses this installation's absolute path.
 Review recipes can bind stable DOM/SVG actors, complete orientation/anchor phases, terminal or
 waypoint holds, and versioned beat-to-action indexes. Unsupported or insufficient evidence stays unverified.
@@ -112,12 +116,18 @@ try {
     const dir=args[0]==='--skills-dir'?args[1]:undefined;if(args.length&&!dir)throw new Error('agents-md accepts only --skills-dir <path>');
     process.stdout.write(agentsMarkdown(dir));
   }else if(command==='critique') {
-    let target:string|undefined,outDir:string|undefined,json=false,offline=false;const viewports:Array<'desktop'|'mobile'>=['desktop','mobile'];
-    for(let i=0;i<args.length;i++){const flag=args[i];if(flag==='--out'){outDir=args[++i];if(!outDir)throw new Error('--out requires a directory')}else if(flag==='--json')json=true;else if(flag==='--offline')offline=true;else if(flag==='--desktop-only')viewports.splice(1);else if(flag.startsWith('--'))throw new Error(`Unknown option: ${flag}`);else if(target)throw new Error('critique accepts one URL or path');else target=flag}
+    let target:string|undefined,outDir:string|undefined,json=false,offline=false,github=false,open=false,failOn:Severity|undefined;const viewports:Array<'desktop'|'mobile'>=['desktop','mobile'];
+    for(let i=0;i<args.length;i++){const flag=args[i];if(flag==='--out'){outDir=args[++i];if(!outDir)throw new Error('--out requires a directory')}else if(flag==='--json')json=true;else if(flag==='--offline')offline=true;else if(flag==='--desktop-only')viewports.splice(1);else if(flag==='--fail-on')failOn=parseSeverity(args[++i]);else if(flag==='--github')github=true;else if(flag==='--open')open=true;else if(flag.startsWith('--'))throw new Error(`Unknown option: ${flag}`);else if(target)throw new Error('critique accepts one URL or path');else target=flag}
+    if(json&&github)throw new Error('Use --json or --github, not both');
     if(!target)throw new Error('critique requires a loopback URL, an HTML file or a folder containing index.html');
     const report=await critique(target,{outDir,offline,viewports,allowedOrigins:optionsFromEnvironment().allowedOrigins});
     const reportDir=outDir?path.resolve(outDir):path.dirname(Object.values(report.images)[0]??'.');
-    if(json)result=report;else process.stdout.write(critiqueMarkdown(report,reportDir)+`\nFull report: ${path.join(reportDir,'report.json')}\n`);
+    if(json)result=report;
+    else if(github)process.stdout.write([...githubAnnotations(report.findings),`Motion critique: ${report.grade} (${report.score}/100), ${severityCounts(report.findings)}`,`Full report: ${path.join(reportDir,'report.json')}`].join('\n')+'\n');
+    else process.stdout.write(critiqueMarkdown(report,reportDir)+`\nFull report: ${path.join(reportDir,'report.json')}\n`);
+    // Only for a person at a terminal; agents and CI read the paths from the report.
+    if(open&&process.stdout.isTTY){const image=imageToOpen(report.images);if(image)openImage(path.isAbsolute(image)?image:path.join(reportDir,image))}
+    if(failOn){const failing=findingsAtOrAbove(report.findings,failOn);if(failing.length){console.error(`--fail-on ${failOn}: ${failing.length} finding(s) at or above ${failOn} (${failing.map(finding=>finding.id).join(', ')})`);process.exitCode=2}}
   }else if(command==='compare') {
     if(args.length!==2)throw new Error('compare requires before and after capture UUIDs');result=compare(await inspect(args[0],optionsFromEnvironment()),await inspect(args[1],optionsFromEnvironment()));
   }else throw new Error(`Unknown command: ${command}. Run motion-debugger --help`);

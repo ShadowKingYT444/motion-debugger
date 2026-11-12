@@ -125,6 +125,8 @@ motion-debugger critique ./site                  # a folder with index.html, or 
 
 It prints findings with fixes, writes contact sheets to `.motion-critique/`, and says what changed since the last run: fixed, new and remaining.
 
+It runs headless by default, so it works in CI as it is. `--fail-on blocker` exits with code 2 when a finding is that severe, `--github` prints the findings as GitHub Actions annotations, and `--open` shows the first image when you run it yourself. [Options and a workflow example](docs/PREMIUM-MOTION.md#options).
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/critic-dark.png">
   <img src="docs/assets/critic-light.png" alt="Finish defects outlined on crops of a real page">

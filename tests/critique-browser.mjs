@@ -53,6 +53,25 @@ try{
   console.log(JSON.stringify({flawed:{score:flawed.score,findings:[...ids]},crafted:{score:good.score,findings:good.findings.map(finding=>finding.id)},sloppy:{score:sloppy.score,craft:sloppy.craft}},null,2));
 }finally{await rm(work,{recursive:true,force:true})}
 
+// CLI gate: the built binary exits 2 when --fail-on is met, 0 when it is not, and --github prints annotations.
+import {spawnSync} from 'node:child_process';
+{
+  const gate=await mkdtemp(path.join(os.tmpdir(),'critique-gate-'));
+  try{
+    const cli=args=>spawnSync(process.execPath,[path.join(root,'build/cli/index.js'),'critique',...args],{cwd:gate,encoding:'utf8',env:{...process.env}});
+    const flawedRun=cli([path.join(root,'tests/fixtures/critique/flawed'),'--desktop-only','--fail-on','blocker','--github','--open','--out',path.join(gate,'flawed')]);
+    assert.equal(flawedRun.status,2,`a seeded blocker must exit 2 with --fail-on blocker: ${flawedRun.stderr.slice(0,300)}`);
+    assert.match(flawedRun.stdout,/^::error title=stuck-invisible::/m,'--github prints an error annotation for the seeded blocker');
+    assert.match(flawedRun.stdout,/^Motion critique: F \(\d+\/100\), \d+ blocker/m,'--github keeps a summary line');
+    assert.match(flawedRun.stderr,/--fail-on blocker: \d+ finding/);
+    const crafted=path.join(gate,'crafted');await cp(path.join(root,'tests/fixtures/critique/crafted'),crafted,{recursive:true});
+    for(const file of ['motion-kit.js','motion-kit.css'])await cp(path.join(root,'plugin/motion-debugger/skills/premium-motion/assets',file),path.join(crafted,file));
+    const cleanRun=cli([crafted,'--desktop-only','--fail-on','major','--json','--out',path.join(gate,'crafted-report')]);
+    assert.equal(cleanRun.status,0,`the kit-built control must pass --fail-on major: ${cleanRun.stderr.slice(0,300)}`);
+    assert.equal(typeof JSON.parse(cleanRun.stdout).score,'number','--json output stays valid JSON with --fail-on');
+    console.log(`CLI gate: flawed exit ${flawedRun.status}, control exit ${cleanRun.status}`);
+  }finally{await rm(gate,{recursive:true,force:true})}
+}
 // Protocol path: an actual MCP SDK stdio client (what any MCP host speaks) calls motion_critique on
 // both shipped servers and receives findings plus native PNG contact sheets.
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
