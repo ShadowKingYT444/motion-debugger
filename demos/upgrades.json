@@ -1,0 +1,144 @@
+{
+  "about": "Agent-upgraded demos. Each 'control' site is the unchanged vibe-coded control from the A/B study (pairs.json): Sonnet 5.5 built it from the brief with no plugin. A fresh Claude Code agent (Opus 5.5) then ran the premium-motion upgrade command on a copy of it. These are single runs chosen to show the workflow, not a blinded comparison; nobody edited the upgraded sites by hand. The blinded study is in studies/premium-ab.",
+  "upgrader": "Claude Code subagent, Opus 5.5 (model alias opus), one fresh agent per site, launched 2026-11-11",
+  "prompt": "Use the premium-motion skill's `upgrade` command to upgrade this site from vibe-coded to premium. It should end up looking and moving like a top-tier, award-winning site.\n\nThe site is in {folder} ({files}). It is {description}. Work only inside that folder and run commands from it.\n\nThe skill: read {skill}/SKILL.md first and follow it, including the playbooks and references it points to (commands/upgrade.md and the others it routes to, TASTE.md, references/motion-stack.md).\n\nThe critic the skill calls `motion-debugger critique` is installed at: node {repo}/build/cli/index.js critique <folder-or-file> [--out dir] [--desktop-only]\nIt writes PNG contact sheets; open them with your Read tool to look at them.\n\nConstraints: keep it a static site (index.html plus CSS/JS files, no build step). You may load Google Fonts and libraries from a CDN (jsdelivr, cdnjs or unpkg). Do not use external or stock images; create visuals with HTML, CSS, SVG, canvas or WebGL. Keep the product's facts and sections' purposes; do not invent customer names or claims beyond what the current page says (you may restructure, merge and rewrite copy from its facts). Do not touch any file outside that folder.\n\nWhen you are finished, reply with: the direction in one sentence, the signature scene in one sentence, the critic's before and after numbers (score, template traits, blocker/major findings), and the paths of the baseline and final desktop-scroll.png.",
+  "arms": [
+    "control",
+    "upgraded"
+  ],
+  "labels": {
+    "control": {
+      "label": "Before: vibe-coded",
+      "detail": "{title} · Sonnet 5.5, no plugin",
+      "accent": "#c9c6bd"
+    },
+    "upgraded": {
+      "label": "After: premium-motion",
+      "detail": "{title} · upgraded by Opus 5.5",
+      "accent": "#e8ff59"
+    }
+  },
+  "film": "upgrade",
+  "posterAt": 4,
+  "recordings": "upgrade-recordings.json",
+  "pairs": [
+    {
+      "id": "ledgerline",
+      "title": "Ledgerline — payments API",
+      "description": "a landing page for Ledgerline, a developer-first API platform for real-time payments and ledgers used by fintech engineering teams",
+      "skill": "premium-motion at commit f4555be plus the wording edits committed in 7719626, before that commit's sticky-stage change (the pilot run that prompted it)",
+      "control": "ledgerline/control",
+      "upgraded": "ledgerline/upgraded",
+      "critique": {
+        "control": {
+          "score": 30,
+          "grade": "F",
+          "templateTraits": 6,
+          "findings": {
+            "blocker": 1,
+            "major": 1,
+            "minor": 7,
+            "polish": 1
+          },
+          "layoutShift": 0.078
+        },
+        "upgraded": {
+          "score": 100,
+          "grade": "A",
+          "templateTraits": 1,
+          "findings": {},
+          "layoutShift": 0.011
+        }
+      }
+    },
+    {
+      "id": "norr",
+      "title": "Atelier Norr — architecture studio",
+      "description": "a portfolio site for Atelier Norr, a Nordic architecture studio designing timber civic buildings and homes",
+      "skill": "premium-motion at commit 7719626",
+      "control": "norr/control",
+      "upgraded": "norr/upgraded",
+      "critique": {
+        "control": {
+          "score": 8,
+          "grade": "F",
+          "templateTraits": 7,
+          "findings": {
+            "blocker": 1,
+            "major": 3,
+            "minor": 7,
+            "polish": 1
+          },
+          "layoutShift": 0.025
+        },
+        "upgraded": {
+          "score": 98,
+          "grade": "A",
+          "templateTraits": 0,
+          "findings": {
+            "polish": 1
+          },
+          "layoutShift": 0.007
+        }
+      }
+    },
+    {
+      "id": "halo",
+      "title": "Halo — wireless speaker launch",
+      "description": "a launch page for Halo, a premium wireless home speaker from a small Copenhagen audio company",
+      "skill": "premium-motion at commit 7719626",
+      "control": "halo/control",
+      "upgraded": "halo/upgraded",
+      "critique": {
+        "control": {
+          "score": 38,
+          "grade": "F",
+          "templateTraits": 5,
+          "findings": {
+            "major": 3,
+            "minor": 5,
+            "polish": 2
+          },
+          "layoutShift": 0.046
+        },
+        "upgraded": {
+          "score": 100,
+          "grade": "A",
+          "templateTraits": 0,
+          "findings": {},
+          "layoutShift": 0.002
+        }
+      }
+    },
+    {
+      "id": "drift",
+      "title": "Drift — AI sleep coach",
+      "description": "a landing page for Drift, an AI sleep coach app that adapts soundscapes and routines to your night",
+      "skill": "premium-motion at commit 7719626",
+      "control": "drift/control",
+      "upgraded": "drift/upgraded",
+      "critique": {
+        "control": {
+          "score": 24,
+          "grade": "F",
+          "templateTraits": 8,
+          "findings": {
+            "blocker": 1,
+            "major": 2,
+            "minor": 6,
+            "polish": 1
+          },
+          "layoutShift": 0.037
+        },
+        "upgraded": {
+          "score": 100,
+          "grade": "A",
+          "templateTraits": 0,
+          "findings": {},
+          "layoutShift": 0.014
+        }
+      }
+    }
+  ],
+  "critique": "Measured by motion-debugger critique (headless Chromium, 1440x900 and 390x844) on 2026-11-11 from commit 7719626, one run per site after recording. The scroll-jank and entrance checks depend on frame timing, so scores can move between runs."
+}

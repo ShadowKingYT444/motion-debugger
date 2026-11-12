@@ -8,8 +8,8 @@ Pick one route and stay on it:
 | --- | --- |
 | `motion` or `framer-motion` in package.json | Motion, with the mappings below |
 | `gsap` in package.json | GSAP + ScrollTrigger (every GSAP plugin, including SplitText, is free) |
-| Neither, and mostly static marketing sections | The motion kit, loaded once (below) |
-| Plain HTML | The motion kit, as in SKILL.md §5 |
+| Neither, aiming for premium | GSAP + ScrollTrigger (motion-stack.md, or the GSAP section below for React) |
+| Neither, and a small or simple page | The motion kit, loaded once (below) |
 
 Never add a second animation library to a project that already has one.
 
@@ -133,19 +133,31 @@ export function Gallery() {
   useGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference) and (min-width: 761px)', () => {
-      const track = scope.current!.querySelector<HTMLElement>('[data-track]')!;
+      const section = scope.current!;
+      const track = section.querySelector<HTMLElement>('[data-track]')!;
       const distance = () => track.scrollWidth - window.innerWidth;
+      const size = () => { section.style.height = `${distance() + window.innerHeight}px`; };
+      size();
+      ScrollTrigger.addEventListener('refreshInit', size);
       gsap.to(track, {
         x: () => -distance(), ease: 'none',
-        scrollTrigger: { trigger: scope.current, pin: true, scrub: true, end: () => '+=' + distance(), invalidateOnRefresh: true },
+        scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true },
       });
+      return () => { ScrollTrigger.removeEventListener('refreshInit', size); section.style.height = ''; };
     });
   }, { scope });
-  return <section ref={scope}><div data-track className="flex w-max gap-6">{/* slides */}</div></section>;
+  // The stage sticks on desktop and is a native swipe row on phones and with reduced motion.
+  return (
+    <section ref={scope}>
+      <div className="overflow-x-auto motion-safe:md:sticky motion-safe:md:top-0 motion-safe:md:h-screen motion-safe:md:overflow-hidden">
+        <div data-track className="flex w-max gap-6">{/* slides */}</div>
+      </div>
+    </section>
+  );
 }
 ```
 
-`useGSAP` reverts every tween and ScrollTrigger on unmount, so route changes do not leak. Use `gsap.matchMedia()` for reduced motion and phone layouts instead of branching by hand. Use `ease: 'none'` only for scrubbed timelines; reveals use `expo.out` or `power4.out`.
+Scrub inside a sticky stage rather than with `pin: true`: a JS pin jumps a frame behind native scrolling and the critic records it as layout shift. `useGSAP` reverts every tween and ScrollTrigger on unmount, so route changes do not leak. Use `gsap.matchMedia()` for reduced motion and phone layouts instead of branching by hand. Use `ease: 'none'` only for scrubbed timelines; reveals use `expo.out` or `power4.out`.
 
 ## The motion kit in a React or Next.js app
 
@@ -177,7 +189,7 @@ Data attributes pass straight through JSX (`<h2 data-reveal="up">`). Two caution
 
 ## Look at it
 
-Run the dev server and critique the running page, exactly as SKILL.md §6 describes:
+Run the dev server and critique the running page, exactly as SKILL.md §Look describes:
 
 ```bash
 motion-debugger critique http://localhost:3000   # Next.js

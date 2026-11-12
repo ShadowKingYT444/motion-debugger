@@ -1,12 +1,12 @@
 # Motion taste
 
-Read this before you plan the page. SKILL.md covers direction, composition, finish and the critique loop; this file sets how the page moves and how ambitious that motion should be.
+Read this before `motion` and `signature`. SKILL.md routes the commands and runs the critique loop; this file sets how the page moves and how ambitious that motion should be.
 
 Most agent-built sites are *animated*: things fade up once, then the page is still. Award-level sites are *choreographed*: one motion personality runs through the page, one signature scene is built to the last frame, and every still taken while scrolling looks designed. Finish beats quantity. Three effects done perfectly read as premium; seven effects with dimmed lists, empty pins and half-revealed text read as a template.
 
 ## 1. Pick one motion personality from the brief's tension
 
-Start from the sentence you wrote in SKILL.md §1: the way this brand should feel *unlike* its category. Pick the personality that serves that tension, not the one its category usually gets. Write it at the top of your CSS and use only its easing, timing and devices. Mixing personalities is what makes motion look cheap.
+Start from the sentence in `PREMIUM.md` (commands/direction.md step 1): the way this brand should feel *unlike* its category. Pick the personality that serves that tension, not the one its category usually gets. Write it at the top of your CSS and use only its easing, timing and devices. Mixing personalities is what makes motion look cheap.
 
 | Personality | Feels | Easing and timing | Stagger | Typical devices |
 | --- | --- | --- | --- | --- |
