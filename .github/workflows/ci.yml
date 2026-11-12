@@ -73,3 +73,67 @@ jobs:
             artifacts/assembly/
           if-no-files-found: warn
           retention-days: 7
+  pack:
+    # One tarball, built once, is what every platform below installs: the same file the release attaches.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pack the CLI (prepack builds it)
+        run: npm pack && mv motion-debugger-*.tgz motion-debugger.tgz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cli-tarball-${{ github.sha }}
+          path: motion-debugger.tgz
+          retention-days: 3
+  platforms:
+    # The packed CLI, installed outside the source tree with its own dependencies, downloads its
+    # browser and critiques a real page on Linux, macOS and Windows.
+    needs: pack
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: cli-tarball-${{ github.sha }}
+          path: ${{ runner.temp }}/cli
+      - name: Install the tarball outside the source tree
+        working-directory: ${{ runner.temp }}
+        run: npm install -g ./cli/motion-debugger.tgz && motion-debugger --version
+      - name: Download the version-matched browser through the CLI
+        run: motion-debugger setup --browser
+      - name: Critique a real page
+        run: |
+          motion-debugger critique demos/norr/upgraded --desktop-only --json --out "$RUNNER_TEMP/critique" > "$RUNNER_TEMP/report.json"
+          node -e "const r=require(process.argv[1]);const images=Object.keys(r.images||{});if(typeof r.score!=='number'||!images.length)throw new Error('critique produced no score or screenshots');console.log('score',r.score,'grade',r.grade,'screenshots',images.length)" "$RUNNER_TEMP/report.json"
+      - name: README skill one-liner without Node (bash)
+        if: runner.os != 'Windows'
+        working-directory: ${{ runner.temp }}
+        run: |
+          mkdir -p readme-bash && cd readme-bash
+          mkdir -p .agents/skills && git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git /tmp/motion-debugger && cp -r /tmp/motion-debugger/plugin/motion-debugger/skills/premium-motion .agents/skills/
+          test -f .agents/skills/premium-motion/SKILL.md && test -f .agents/skills/premium-motion/commands/upgrade.md
+      - name: README skill one-liner without Node (PowerShell)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: ${{ runner.temp }}
+        run: |
+          New-Item -ItemType Directory -Force readme-pwsh | Out-Null; Set-Location readme-pwsh
+          git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git $env:TEMP\motion-debugger; $null = New-Item -ItemType Directory -Force .agents\skills; Copy-Item -Recurse $env:TEMP\motion-debugger\plugin\motion-debugger\skills\premium-motion .agents\skills\
+          if (-not (Test-Path .agents\skills\premium-motion\SKILL.md) -or -not (Test-Path .agents\skills\premium-motion\commands\upgrade.md)) { throw 'skill not installed' }

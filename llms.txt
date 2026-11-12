@@ -1,0 +1,29 @@
+# Motion Debugger
+
+> Upgrade a vibe-coded website to premium with any coding agent and any model. A Markdown skill (premium-motion) runs an upgrade workflow, motion first, and a CLI critic records the local page in Chromium (entrance, scroll, hover, phone, reduced motion) and returns ranked fixes with screenshots. Nothing calls a model API. Works on macOS, Linux and Windows with Node.js 22+.
+
+## Install (each line is one command)
+
+- Full setup (critic, skill, agent config): `npm install -g https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz` then `motion-debugger init` in the project
+- Skill for one agent: `npx skills add ShadowKingYT444/motion-debugger --skill premium-motion -a <agent>` (claude-code, cursor, codex, gemini-cli, github-copilot, windsurf, cline, roo, zed, opencode, goose, and ~70 more)
+- Skill in the shared .agents/skills folder: `npx skills add ShadowKingYT444/motion-debugger --skill premium-motion -a universal -y`
+- Skill without Node (bash, zsh): `mkdir -p .agents/skills && git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git /tmp/motion-debugger && cp -r /tmp/motion-debugger/plugin/motion-debugger/skills/premium-motion .agents/skills/`
+- Skill without Node (PowerShell): `git clone --depth 1 https://github.com/ShadowKingYT444/motion-debugger.git $env:TEMP\motion-debugger; $null = New-Item -ItemType Directory -Force .agents\skills; Copy-Item -Recurse $env:TEMP\motion-debugger\plugin\motion-debugger\skills\premium-motion .agents\skills\`
+- Critic with nothing installed: `npx -y -p https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz motion-debugger critique http://localhost:3000`
+- Browser for the critic: `motion-debugger setup --browser` (an installed Chrome, Chromium or Edge also works, or set CHROMIUM_PATH)
+
+## Use
+
+- Tell the agent: "Use premium-motion upgrade on this site." Other commands: audit, direction, motion, signature, typeset, palette, imagery, compose, polish, harden.
+- Critic: `motion-debugger critique <http://localhost:PORT | folder | index.html> [--desktop-only] [--json] [--out dir]`. Only loopback URLs and local files are allowed.
+
+## Files
+
+- [Skill router](plugin/motion-debugger/skills/premium-motion/SKILL.md): principles, commands, motion stack, the look-and-fix loop
+- [Upgrade playbook](plugin/motion-debugger/skills/premium-motion/commands/upgrade.md): the 8-step pipeline
+- [GSAP, ScrollTrigger, SplitText and Lenis stack](plugin/motion-debugger/skills/premium-motion/references/motion-stack.md): tested in CI
+- [React, Next.js, Motion and GSAP](plugin/motion-debugger/skills/premium-motion/references/frameworks.md)
+- [Critic checks and limits](docs/PREMIUM-MOTION.md)
+- [Agent and MCP client setup](docs/CLIENTS.md)
+- [Agent-upgraded demos](demos/README.md) and the [blinded A/B study](studies/premium-ab/README.md)
+- [README](README.md)

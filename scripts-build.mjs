@@ -17,7 +17,7 @@ await cp('examples/assembly','build/assets/assembly',{recursive:true});
 // Ship the A/B showcase: the agent-built sites, the side-by-side films and the viewer. README GIFs and the
 // agent-upgraded demos (sites, films, manifest) stay in git, where the README links them.
 await rm('build/assets/showcase',{recursive:true,force:true});
-await cp('demos','build/assets/showcase',{recursive:true,filter:source=>!/(\.gif|upgrade\.mp4|upgrade-poster\.jpg|upgrades\.json|upgrade-recordings\.json|record\.mjs|README\.md)$/.test(source)&&!source.split('/').some(part=>part.startsWith('.')||part==='upgraded')});
+await cp('demos','build/assets/showcase',{recursive:true,filter:source=>!/(\.gif|upgrade\.mp4|upgrade-poster\.jpg|upgrades\.json|upgrade-recordings\.json|record\.mjs|README\.md)$/.test(source)&&!source.split(/[\\/]/).some(part=>part.startsWith('.')||part==='upgraded')});
 await mkdir('plugin/motion-debugger/scripts',{recursive:true});
 const pluginBuild=await build({metafile:true,entryPoints:['packages/mcp/index.ts'],outfile:'plugin/motion-debugger/scripts/mcp.mjs',platform:'node',target:'node22',format:'esm',bundle:true,external:['playwright'],sourcemap:false,banner:{js:'#!/usr/bin/env node'}});
 await chmod('plugin/motion-debugger/scripts/mcp.mjs',0o755);
