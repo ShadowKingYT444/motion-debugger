@@ -69,9 +69,17 @@ async function finishWindow(page,name,folder){
   const scene=data.actorSamples.filter(sample=>sample.kind==='scene'),byActor=new Map();
   for(const sample of scene){if(!byActor.has(sample.actorId))byActor.set(sample.actorId,[]);byActor.get(sample.actorId).push(sample);}
   const actorMetrics=[];
-  for(const [actorId,samples] of byActor){let maxGapMs=0,maxStepAt60HzPx=0,travelPx=0;const steps=[];
-    for(let i=1;i<samples.length;i++){const a=samples[i-1],b=samples[i],dt=b.observedAtMs-a.observedAtMs;maxGapMs=Math.max(maxGapMs,dt);if(data.events.some(event=>event.origin==='browser-observed'&&event.type==='resize'&&event.t>=a.t-80&&event.t<=b.t+80))continue;if(!a.visible||!b.visible||!a.screen||!b.screen||dt<=0||dt>80)continue;const px=Math.hypot(b.screen.x-a.screen.x,b.screen.y-a.screen.y);travelPx+=px;maxStepAt60HzPx=Math.max(maxStepAt60HzPx,px/dt*(1000/60));steps.push({fromMs:a.t,toMs:b.t,stepPx:px,dt});}
-    actorMetrics.push({actorId,sampleCount:samples.length,visibleSamples:samples.filter(sample=>sample.visible).length,maxGapMs,maxStepAt60HzPx,travelPx,annotationStatus:maxGapMs>80||samples.length<20?'insufficient':'observed',pixelStatus:'unverified',steps});
+  // Actor geometry is projected into the viewport, so a page scroll (including Playwright's scroll-into-view before a
+  // click) moves every actor at once. A step is measured inside the stage when both ends have a same-frame stage rect,
+  // measured raw when the stage provably did not move across it, and otherwise excluded and counted as scroll.
+  const stageSamples=data.samples.filter(sample=>sample.logicalId==='stage'&&Number.isFinite(sample.x)&&Number.isFinite(sample.y)).sort((a,b)=>a.observedAtMs-b.observedAtMs);
+  const sameFrame=time=>stageSamples.find(stage=>Math.abs(stage.observedAtMs-time)<=4);
+  const lastAtOrBefore=time=>stageSamples.findLast(stage=>stage.observedAtMs<=time),firstAtOrAfter=time=>stageSamples.find(stage=>stage.observedAtMs>=time);
+  const stageStill=(p,q)=>p&&q&&Math.abs(p.x-q.x)<.5&&Math.abs(p.y-q.y)<.5;
+  const stepPx=(a,b)=>{const sa=sameFrame(a.observedAtMs),sb=sameFrame(b.observedAtMs);if(sa&&sb)return Math.hypot((b.screen.x-sb.x)-(a.screen.x-sa.x),(b.screen.y-sb.y)-(a.screen.y-sa.y));return stageStill(lastAtOrBefore(a.observedAtMs+4),firstAtOrAfter(b.observedAtMs-4))?Math.hypot(b.screen.x-a.screen.x,b.screen.y-a.screen.y):null};
+  for(const [actorId,samples] of byActor){let maxGapMs=0,maxStepAt60HzPx=0,travelPx=0,scrollExcludedSteps=0;const steps=[];
+    for(let i=1;i<samples.length;i++){const a=samples[i-1],b=samples[i],dt=b.observedAtMs-a.observedAtMs;maxGapMs=Math.max(maxGapMs,dt);if(data.events.some(event=>event.origin==='browser-observed'&&event.type==='resize'&&event.t>=a.t-80&&event.t<=b.t+80))continue;if(!a.visible||!b.visible||!a.screen||!b.screen||dt<=0||dt>80)continue;const px=stepPx(a,b);if(px===null){scrollExcludedSteps++;continue}travelPx+=px;maxStepAt60HzPx=Math.max(maxStepAt60HzPx,px/dt*(1000/60));steps.push({fromMs:a.t,toMs:b.t,stepPx:px,dt});}
+    actorMetrics.push({actorId,sampleCount:samples.length,visibleSamples:samples.filter(sample=>sample.visible).length,scrollExcludedSteps,maxGapMs,maxStepAt60HzPx,travelPx,annotationStatus:maxGapMs>80||samples.length<20?'insufficient':'observed',pixelStatus:'unverified',steps});
   }
   const inputs=data.events.filter(event=>event.origin==='browser-observed'&&event.detail.trusted===true),responses=[];
   for(const input of inputs.filter(event=>event.type==='click'&&['#open','#inspect'].includes(event.detail.selector))){
@@ -86,8 +94,8 @@ function assertAnnotatedIntent(window,scenario){
   if(scenario.reducedMotion==='reduce'){return {status:'not-applicable',reason:'Reduced motion uses explicit endpoint cuts; ordinary retarget continuity and travel are excluded.',checks};}
   if(window.name==='direct-scrub-and-cancellation'||window.name==='inspector-and-replay'){return {status:'not-applicable',reason:'Explicit direct scrubbing and authorized replay resets are excluded from retarget continuity.',checks};}
   const lens=window.actorMetrics.find(actor=>actor.actorId==='lens-'+window.selected);
-  if(!lens||lens.visibleSamples<accept.minimumVisibleActorSamples||lens.maxGapMs>accept.maxProjectedProbeGapMs||window.performanceDiagnostics.actorObservation?.truncated){return {status:'unverified',reason:'Actor count, sampling gap or retained budget is insufficient under the unchanged 80ms gate.',checks};}
-  assert.ok(lens.maxStepAt60HzPx<=accept.maxStepAt60HzPx,`App-reported lens geometry exceeds the published retarget budget: ${lens.maxStepAt60HzPx}`);checks.push('App-reported lens position stays within explicit CSS-pixel interval-average displacement budget');
+  if(!lens||lens.visibleSamples<accept.minimumVisibleActorSamples||lens.maxGapMs>accept.maxProjectedProbeGapMs||window.performanceDiagnostics.actorObservation?.truncated||lens.scrollExcludedSteps>lens.visibleSamples*.1){return {status:'unverified',reason:'Actor count, sampling gap, scroll-excluded steps or retained budget is insufficient under the unchanged 80ms gate.',checks};}
+  assert.ok(lens.maxStepAt60HzPx<=accept.maxStepAt60HzPx,`App-reported lens geometry exceeds the published retarget budget: ${lens.maxStepAt60HzPx}`);checks.push('App-reported lens position, net of page scroll, stays within explicit CSS-pixel interval-average displacement budget');
   if(window.name==='rapid-selection-reversal'){assert.ok(lens.travelPx>=accept.requiredLensTravelCssPx,`Lens annotated travel ${lens.travelPx}px is insufficient`);checks.push('App-reported lens executes at least the required nonstatic travel');}
   const responses=window.responses.filter(response=>response.annotationResponseMs!==null);
   for(const response of responses)assert.ok(response.annotationResponseMs<=accept.maxInputToObservedChangeMs,`Annotated response exceeds published bound: ${JSON.stringify(response)}`);
