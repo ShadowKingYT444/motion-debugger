@@ -2,7 +2,7 @@
 
 Thanks for helping. Motion Debugger has two halves: a design skill that agents read (Markdown plus a small motion kit) and a critic that opens pages in a real browser (TypeScript plus Playwright). You can contribute to either without touching the other.
 
-**New here?** Look at issues labelled [`good first issue`](https://github.com/ShadowKingYT444/motion-debugger/labels/good%20first%20issue). Ask questions in [Discussions](https://github.com/ShadowKingYT444/motion-debugger/discussions) before you start anything large.
+**New here?** Browse the [open issues](https://github.com/ShadowKingYT444/motion-debugger/issues); a false positive from the critic, with the page that triggered it, is one of the most useful reports. Ask questions in [Discussions](https://github.com/ShadowKingYT444/motion-debugger/discussions) before you start anything large.
 
 ## Set up (about five minutes)
 
@@ -27,7 +27,7 @@ node build/cli/index.js critique demos/ledgerline/control
 
 | Path | What it is | Good for |
 | --- | --- | --- |
-| `plugin/motion-debugger/skills/premium-motion/` | The skill agents read: `SKILL.md`, `TASTE.md`, the motion kit in `assets/`, code patterns in `references/` | Design guidance, kit primitives, framework notes |
+| `plugin/motion-debugger/skills/premium-motion/` | The skill agents read: `SKILL.md` (the router), one playbook per command in `commands/`, `TASTE.md`, the GSAP stack and code patterns in `references/`, the motion kit in `assets/` | Commands, design guidance, motion code, framework notes |
 | `packages/core/critique*.ts` | The page critic: recording, findings, contact sheets, finish checks | New checks, fewer false positives |
 | `packages/cli/` | The `motion-debugger` command: install, configuration, diagnostics | Install experience, new flags |
 | `packages/mcp/` | The MCP server (stdout carries JSON-RPC only) | MCP tools |
@@ -46,7 +46,7 @@ node build/cli/index.js critique demos/ledgerline/control
    | Anything | `npm run check` (build, typecheck and all fast suites) |
    | The critic | `npm run test:critique` and `npm run test:critique:browser` |
    | Installation or the CLI | `npm run test:cli` and `npm run test:install` (packs a tarball and installs it outside the source tree) |
-   | The skill or motion kit | `npm run test:packages`, then critique a page built with it |
+   | The skill or motion kit | `npm run test:packages`, `npm run test:stack:browser` and `npm run test:kit:browser`, then critique a page built with it |
    | Motion recording | The matching `test:*:browser` suite in `package.json` |
 
 4. Open a pull request. Say what you changed, how you tested it and on which commit. CI runs every browser suite; it takes about 20 minutes.

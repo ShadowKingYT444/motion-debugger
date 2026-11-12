@@ -93,7 +93,7 @@ async function header(browser,file,pair) {
   const page=await browser.newPage({viewport:{width:1920,height:72},deviceScaleFactor:1});
   const cell=(label,detail,accent)=>`<div><b style="color:${accent}">${label}</b><span>${detail}</span></div>`;
   await page.setContent(`<style>body{margin:0;display:grid;grid-template-columns:1fr 1fr;height:72px;background:#0b0b0c;font:600 22px/1 Inter,ui-sans-serif,system-ui,sans-serif;color:#f2f0ea}
-    div{display:flex;align-items:center;gap:14px;padding:0 28px;border-bottom:1px solid #2a2a2a}div+div{border-left:1px solid #2a2a2a}span{font-weight:400;color:#a8a6a0;font-size:18px}</style>
+    div{display:flex;align-items:center;gap:14px;padding:0 28px;border-bottom:1px solid #2a2a2a}div+div{border-left:1px solid #2a2a2a}b{white-space:nowrap}span{font-weight:400;color:#a8a6a0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}</style>
     ${arms.map(arm=>cell(labels[arm].label,labels[arm].detail.replace('{title}',pair.title),labels[arm].accent)).join('')}`);
   await page.screenshot({path:file});await page.close();
 }
@@ -125,7 +125,7 @@ try{
       await run('ffmpeg',['-y','-i',mp4,'-filter_complex','[0:v]setpts=PTS/1.6,trim=duration=14,fps=10,scale=880:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle','-loop','0',gif]);
     }
     const poster=path.join(dir,film==='comparison'?'poster.jpg':`${film}-poster.jpg`);
-    await run('ffmpeg',['-y','-ss','2.5','-i',mp4,'-frames:v','1','-q:v','3',poster]);
+    await run('ffmpeg',['-y','-ss',String(manifest.posterAt??2.5),'-i',mp4,'-frames:v','1','-q:v','3',poster]);
     if(!flag('keep-frames'))await rm(work,{recursive:true,force:true});
     summary.push({id:pair.id,title:pair.title,...Object.fromEntries(arms.map(arm=>[arm,result[arm]])),durationSec:Number(duration)});
   }

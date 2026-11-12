@@ -1,5 +1,22 @@
 # Premium-motion demos
 
+There are two sets of demos here. Keep them apart: they answer different questions.
+
+## Agent upgrades: vibe-coded to premium
+
+Each brief's `control` site below is a vibe-coded page: Sonnet 5.5 built it from a one-paragraph brief with no plugin. A fresh Claude Code agent (Opus 5.5) then ran the premium-motion `upgrade` command on a copy of it, with the prompt recorded in [`upgrades.json`](upgrades.json). The result is in `upgraded/`, next to the `PREMIUM.md` direction file the agent wrote. These are single runs chosen to show the workflow, not a blinded comparison. Nobody edited the upgraded sites by hand. The Ledgerline run was the pilot: it found that GSAP's `pin: true` measures as a large layout shift, the skill was changed to sticky stages, and the other three ran on the changed skill (`upgrades.json` records each version).
+
+| Brief | Film | Before | After |
+| --- | --- | --- | --- |
+| Ledgerline: payments API | [upgrade.mp4](ledgerline/upgrade.mp4) | [ledgerline/control](ledgerline/control/index.html) | [ledgerline/upgraded](ledgerline/upgraded/index.html) |
+| Drift: AI sleep coach | [upgrade.mp4](drift/upgrade.mp4) | [drift/control](drift/control/index.html) | [drift/upgraded](drift/upgraded/index.html) |
+| Halo: wireless speaker launch | [upgrade.mp4](halo/upgrade.mp4) | [halo/control](halo/control/index.html) | [halo/upgraded](halo/upgraded/index.html) |
+| Atelier Norr: architecture studio | [upgrade.mp4](norr/upgrade.mp4) | [norr/control](norr/control/index.html) | [norr/upgraded](norr/upgraded/index.html) |
+
+Re-record them with `node demos/record.mjs --manifest demos/upgrades.json`. Only `norr/upgrade.gif`, which the main README shows, is committed; the other GIFs are left out to keep the repository small.
+
+## The A/B study: building with and without the plugin
+
 Four briefs. Each was given to two fresh **Sonnet 5.5** agents with the identical prompt. One worked in an empty project. The other had the `premium-motion` skill (v4), the motion kit and the critique loop, with a one-paragraph pointer to them. These are the seed-1 pairs of study batch 4, chosen before judging. Nothing here was edited by hand after the agents finished, apart from removing the skill copy and `CLAUDE.md` from the treatment folders.
 
 Each brief also has `compare.jpg`: the hero after the entrance and three points down the page for both sites, taken from the study's recordings.

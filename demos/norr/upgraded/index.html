@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atelier Norr — Timber architecture for the Nordic north</title>
+<meta name="description" content="Atelier Norr is a Nordic architecture studio designing timber civic buildings and homes from Oslo and Tromsø. Studio philosophy, selected projects, process, awards and contact.">
+<meta name="theme-color" content="#14304B">
+<meta property="og:title" content="Atelier Norr — Built with the grain">
+<meta property="og:description" content="Timber civic buildings and homes from Oslo and Tromsø.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2314304B'/%3E%3Cpath d='M12 33 32 15l20 18M19 49V35M26 49V28M32 49V22M38 49V28M45 49V35' stroke='%23FFC877' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<script>
+  // Motion gate: hide reveal targets only once JS runs, and show everything if GSAP never arrives.
+  (function () {
+    var d = document.documentElement, still = false;
+    try { still = localStorage.getItem('norr-motion') === 'off'; } catch (e) {}
+    d.classList.add('js');
+    if (still) d.classList.add('still');
+    setTimeout(function () { if (!window.gsap) d.classList.add('no-gsap'); }, 3000);
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js"></script>
+<script defer src="art.js"></script>
+<script defer src="main.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- MOTION SCORE — personality: Cinematic (see PREMIUM.md and the top of main.js) -->
+
+<header class="nav" data-tone="dark">
+  <a class="nav__brand" href="#top" aria-label="Atelier Norr, back to top">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" aria-hidden="true"><path d="M6 32 32 9l26 23M12 57V30M22 57V21M32 57V12M42 57V21M52 57V30M4 57H60"/></svg>
+    <span>Atelier Norr</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#studio" data-nav="studio"><span>Studio</span></a>
+    <a href="#work" data-nav="work"><span>Work</span></a>
+    <a href="#process" data-nav="process"><span>Process</span></a>
+    <a href="#recognition" data-nav="recognition"><span>Awards</span></a>
+  </nav>
+  <a class="btn btn--line nav__cta" href="#contact"><span>Enquire</span></a>
+  <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="nav__menu-label">Menu</span><i aria-hidden="true"></i></button>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav aria-label="Mobile">
+    <a href="#studio"><span>01</span>Studio</a>
+    <a href="#work"><span>02</span>Work</a>
+    <a href="#process"><span>03</span>Process</a>
+    <a href="#recognition"><span>04</span>Awards</a>
+    <a href="#contact"><span>05</span>Contact</a>
+  </nav>
+  <p>Oslo &amp; Tromsø<br><a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a></p>
+</div>
+
+<main id="main">
+
+<!-- ============ HERO: a glulam nave at blue hour ============ -->
+<section class="hero" id="top" data-tone="dark">
+  <div class="nave" aria-hidden="true">
+    <svg class="nave__defs" width="0" height="0" focusable="false">
+      <defs>
+        <linearGradient id="nv-shade" gradientUnits="userSpaceOnUse" x1="0" y1="1000" x2="0" y2="-610">
+          <stop offset="0" stop-color="#0A1420" stop-opacity="0"/>
+          <stop offset=".4" stop-color="#0A1420" stop-opacity=".22"/>
+          <stop offset=".78" stop-color="#0A1420" stop-opacity=".62"/>
+          <stop offset="1" stop-color="#0A1420" stop-opacity=".86"/>
+        </linearGradient>
+        <linearGradient id="nv-side" gradientUnits="userSpaceOnUse" x1="110" y1="0" x2="1490" y2="0">
+          <stop offset="0" stop-color="#FFE2B0" stop-opacity=".0"/>
+          <stop offset=".48" stop-color="#FFE2B0" stop-opacity=".0"/>
+          <stop offset=".5" stop-color="#FFE2B0" stop-opacity=".16"/>
+          <stop offset=".52" stop-color="#FFE2B0" stop-opacity=".0"/>
+          <stop offset="1" stop-color="#FFE2B0" stop-opacity=".0"/>
+        </linearGradient>
+        <radialGradient id="nv-pool" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#FFC877" stop-opacity=".6"/>
+          <stop offset=".45" stop-color="#FFB25E" stop-opacity=".18"/>
+          <stop offset="1" stop-color="#FFB25E" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="nv-sky" gradientUnits="userSpaceOnUse" x1="0" y1="-610" x2="0" y2="1000">
+          <stop offset="0" stop-color="#132C49"/>
+          <stop offset=".42" stop-color="#2A527A"/>
+          <stop offset=".64" stop-color="#6C8FAE"/>
+          <stop offset=".705" stop-color="#E7B185"/>
+          <stop offset=".727" stop-color="#F6CE98"/>
+          <stop offset=".735" stop-color="#9DB3C5"/>
+          <stop offset="1" stop-color="#C9D6E0"/>
+        </linearGradient>
+        <clipPath id="nv-window"><path d="M190 1000 Q800 -2220 1410 1000 Z"/></clipPath>
+        <symbol id="nv-arch" viewBox="0 0 1600 1000" overflow="visible">
+          <ellipse cx="150" cy="1004" rx="300" ry="54" fill="url(#nv-pool)" style="opacity:var(--pool)"/>
+          <ellipse cx="1450" cy="1004" rx="300" ry="54" fill="url(#nv-pool)" style="opacity:var(--pool)"/>
+          <path d="M110 1000 Q800 -2380 1490 1000 L1410 1000 Q800 -2220 190 1000 Z" style="fill:var(--face)"/>
+          <g fill="none" style="stroke:var(--line)" stroke-width="1.4">
+            <path d="M120 1000 Q800 -2360 1480 1000"/><path d="M130 1000 Q800 -2340 1470 1000"/><path d="M140 1000 Q800 -2320 1460 1000"/><path d="M150 1000 Q800 -2300 1450 1000"/><path d="M160 1000 Q800 -2280 1440 1000"/><path d="M170 1000 Q800 -2260 1430 1000"/><path d="M180 1000 Q800 -2240 1420 1000"/>
+          </g>
+          <path d="M110 1000 Q800 -2380 1490 1000 L1410 1000 Q800 -2220 190 1000 Z" fill="url(#nv-shade)" style="opacity:var(--shade)"/>
+          <path d="M190 1000 Q800 -2220 1410 1000" fill="none" style="stroke:var(--rim)" stroke-width="3.2"/>
+          <path d="M110 1000 Q800 -2380 1490 1000" fill="none" style="stroke:var(--edge)" stroke-width="1.6" opacity=".7"/>
+          <rect x="92" y="986" width="116" height="16" fill="#151A1F"/><rect x="1392" y="986" width="116" height="16" fill="#151A1F"/>
+          <rect x="92" y="986" width="116" height="2" fill="#FFD9A0" opacity=".35"/><rect x="1392" y="986" width="116" height="2" fill="#FFD9A0" opacity=".35"/>
+        </symbol>
+      </defs>
+    </svg>
+    <svg class="nave__bg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+      <defs>
+        <linearGradient id="nv-room" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#091523"/>
+          <stop offset=".46" stop-color="#132538"/>
+          <stop offset=".56" stop-color="#1F2B36"/>
+          <stop offset=".5601" stop-color="#2A1D12"/>
+          <stop offset=".75" stop-color="#1A120B"/>
+          <stop offset="1" stop-color="#0E0A07"/>
+        </linearGradient>
+        <radialGradient id="nv-warm" cx="800" cy="600" r="760" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#E9AE72" stop-opacity=".34"/>
+          <stop offset=".5" stop-color="#C98547" stop-opacity=".10"/>
+          <stop offset="1" stop-color="#C98547" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="nv-cool" cx="800" cy="520" r="420" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#9CC0DC" stop-opacity=".30"/>
+          <stop offset="1" stop-color="#9CC0DC" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="nv-floor" gradientUnits="userSpaceOnUse" x1="0" y1="560" x2="0" y2="1000">
+          <stop offset="0" stop-color="#F4CF9C" stop-opacity=".55"/>
+          <stop offset=".35" stop-color="#E7AE70" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#E7AE70" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="1000" fill="url(#nv-room)"/>
+      <g class="nave__rays" fill="none" stroke="#E2A866" stroke-width="1.2"></g>
+      <polygon points="800,560 610,1000 990,1000" fill="url(#nv-floor)"/>
+      <polygon points="800,560 742,1000 858,1000" fill="url(#nv-floor)" opacity=".7"/>
+      <rect width="1600" height="1000" fill="url(#nv-warm)"/>
+      <rect width="1600" height="1000" fill="url(#nv-cool)"/>
+    </svg>
+
+    <!-- The far gable: glazed, low sun below a blue-hour sky -->
+    <div class="nave__layer" style="--z:7.4">
+      <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <g transform="translate(800 560) scale(.135) translate(-800 -560)">
+          <path d="M190 1000 Q800 -2220 1410 1000 Z" fill="url(#nv-sky)"/>
+          <g clip-path="url(#nv-window)">
+            <path d="M-100 820 L120 760 L300 790 L480 720 L640 780 L800 740 L980 790 L1150 730 L1320 770 L1700 760 V1000 H-100 Z" fill="#7E97AD" opacity=".75"/>
+            <path d="M-100 860 L200 830 L520 850 L860 820 L1200 845 L1700 830 V1000 H-100 Z" fill="#B7C7D4"/>
+            <g stroke="#2A1A10" stroke-width="16"><path d="M300 -800V1000M410 -800V1000M520 -800V1000M630 -800V1000M740 -800V1000M860 -800V1000M970 -800V1000M1080 -800V1000M1190 -800V1000M1300 -800V1000"/></g>
+            <path d="M100 560H1500M100 120H1500" stroke="#2A1A10" stroke-width="12"/>
+          </g>
+          <use href="#nv-arch" style="--face:#5A3A22;--line:#2C1A0E55;--rim:#F4D3A0;--edge:#7A5233;--shade:.4;--pool:0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="nave__layer" style="--z:6"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.167) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1390.3 985.8 Q800.0 -2130.3 209.7 985.8Z" style="fill:#C4AE98"/><path d="M190 1000 Q800 -2220 1410 1000 L1390.3 985.8 Q800.0 -2130.3 209.7 985.8Z" fill="url(#nv-shade)" opacity="0.28"/><use href="#nv-arch" style="--face:#9C8269;--line:#5A3A2233;--rim:#F6E2C2;--edge:#E8D2B4;--shade:.3;--pool:.35"/></g></svg></div>
+    <div class="nave__layer" style="--z:4.7"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.213) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1385.1 982.0 Q800.0 -2106.5 214.9 982.0Z" style="fill:#C9AC8F"/><path d="M190 1000 Q800 -2220 1410 1000 L1385.1 982.0 Q800.0 -2106.5 214.9 982.0Z" fill="url(#nv-shade)" opacity="0.36"/><use href="#nv-arch" style="--face:#97765A;--line:#5A3A2244;--rim:#F7DDB3;--edge:#E6C9A0;--shade:.4;--pool:.45"/></g></svg></div>
+    <div class="nave__layer" style="--z:3.6"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.278) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1377.9 976.8 Q800.0 -2073.7 222.1 976.8Z" style="fill:#D0A980"/><path d="M190 1000 Q800 -2220 1410 1000 L1377.9 976.8 Q800.0 -2073.7 222.1 976.8Z" fill="url(#nv-shade)" opacity="0.46"/><use href="#nv-arch" style="--face:#916C4C;--line:#4A2C1655;--rim:#FADBAA;--edge:#E2BC8C;--shade:.52;--pool:.55"/></g></svg></div>
+    <div class="nave__layer" style="--z:2.7"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.37) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1367.9 969.7 Q800.0 -2028.3 232.1 969.7Z" style="fill:#D6A774"/><path d="M190 1000 Q800 -2220 1410 1000 L1367.9 969.7 Q800.0 -2028.3 232.1 969.7Z" fill="url(#nv-shade)" opacity="0.58"/><use href="#nv-arch" style="--face:#8C6240;--line:#3E220E66;--rim:#FCDAA3;--edge:#DDB07A;--shade:.66;--pool:.7"/></g></svg></div>
+    <div class="nave__layer" style="--z:2"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.5) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1354.5 960.0 Q800.0 -1967.3 245.5 960.0Z" style="fill:#DBA66C"/><path d="M190 1000 Q800 -2220 1410 1000 L1354.5 960.0 Q800.0 -1967.3 245.5 960.0Z" fill="url(#nv-shade)" opacity="0.70"/><use href="#nv-arch" style="--face:#875A36;--line:#3A1E0A77;--rim:#FDD99E;--edge:#D9A66B;--shade:.8;--pool:.85"/></g></svg></div>
+    <canvas class="nave__dust"></canvas>
+    <div class="nave__layer" style="--z:1.45"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(.69) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1336.1 946.7 Q800.0 -1883.0 263.9 946.7Z" style="fill:#DEA466"/><path d="M190 1000 Q800 -2220 1410 1000 L1336.1 946.7 Q800.0 -1883.0 263.9 946.7Z" fill="url(#nv-shade)" opacity="0.78"/><use href="#nv-arch" style="--face:#80522F;--line:#36190888;--rim:#FED89A;--edge:#D49C5E;--shade:.9;--pool:.95"/></g></svg></div>
+    <div class="nave__layer" style="--z:1"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false"><g transform="translate(800 560) scale(1) translate(-800 -560)"><path d="M190 1000 Q800 -2220 1410 1000 L1308.3 926.7 Q800.0 -1756.7 291.7 926.7Z" style="fill:#E0A262"/><path d="M190 1000 Q800 -2220 1410 1000 L1308.3 926.7 Q800.0 -1756.7 291.7 926.7Z" fill="url(#nv-shade)" opacity="0.85"/><use href="#nv-arch" style="--face:#7A4C2A;--line:#33170799;--rim:#FFD796;--edge:#CF9455;--shade:1;--pool:1"/></g></svg></div>
+    <div class="nave__vignette"></div>
+  </div>
+
+  <div class="hero__copy wrap">
+    <h1 class="hero__title"><span class="ln"><span>Built with</span></span> <span class="ln"><span>the grain.</span></span></h1>
+  </div>
+  <div class="hero__row wrap">
+    <p class="hero__lede">We design timber civic buildings and homes across the north — warm, patient places made from the forests that surround them.</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#work" data-magnetic><span>Selected work</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+      <a class="link link--light" href="#studio"><span>Our philosophy</span></a>
+    </div>
+    <div class="hero__foot">
+      <span>69.6492° N, 18.9553° E &nbsp;·&nbsp; Tromsø &amp; Oslo</span>
+      <span>Est. 2009 &nbsp;·&nbsp; 48 buildings</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 STUDIO ============ -->
+<section class="studio" id="studio" data-tone="light">
+  <div class="wrap studio__grid">
+    <h2 class="label studio__label"><span class="label__no">01</span>Studio philosophy</h2>
+    <p class="statement" data-read>We believe a public building should feel like a shared hearth. So we raise it from what grows nearby — spruce, larch and pine, felled within two hundred kilometres — and let it silver honestly with age.</p>
+    <figure class="cladding" data-silver>
+      <div class="cladding__wall" aria-hidden="true">
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="board"><i class="board__silver"></i><i class="board__fresh"></i></span>
+        <span class="cladding__light"></span>
+      </div>
+      <figcaption class="cladding__cap">
+        <span class="cladding__year"><span>Year</span> <b data-year>6</b></span>
+        <span>Untreated pine cladding, left to silver within six years — Fjordhall Library, Bodø.</span>
+      </figcaption>
+    </figure>
+    <div class="studio__founders" data-motion="fade">
+      <p>Founded in 2009 by Ingrid Solheim and Anders Vik, Atelier Norr is a studio of twenty-two architects, model-makers and carpenters working between Oslo and Tromsø. We draw in wood because it is the only structural material that is grown by the sun, and the only one the north has in abundance.</p>
+      <p class="sig">Ingrid Solheim &amp; Anders Vik <span>Founding partners</span></p>
+    </div>
+    <ol class="principles" data-motion="stagger">
+      <li><span class="principles__no">01</span><h3>Timber first</h3><p>Every structure begins as a tree. We design for glulam, cross-laminated panels and hand-cut joinery before we consider anything else, and specify steel only where wood cannot reach.</p></li>
+      <li><span class="principles__no">02</span><h3>Public by design</h3><p>A civic building is a promise to a town. We start with the threshold: where people stop, meet, shelter from weather and linger together long after the programme is done.</p></li>
+      <li><span class="principles__no">03</span><h3>Long, slow time</h3><p>Details are drawn for a hundred years: replaceable cladding, honest weathering, repairable joints. The best carbon saving is a building nobody ever wants to demolish.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ LEDGER: carbon and numbers ============ -->
+<section class="ledger" aria-labelledby="ledger-title" data-tone="light">
+  <div class="wrap ledger__grid">
+    <div class="ledger__copy">
+      <p class="label">Embodied carbon</p>
+      <h2 class="ledger__title" id="ledger-title" data-motion="heading">Lighter on the land.</h2>
+      <p class="ledger__text" data-motion="fade">Wood stores carbon the forest drew from the air. Compared with a conventional concrete-and-steel civic building of the same size, our buildings start life with roughly two-thirds less embodied carbon.</p>
+      <p class="ledger__note" data-motion="fade">kg CO₂e per m² &nbsp;·&nbsp; life-cycle modules A1–A5 &nbsp;·&nbsp; studio data, 2019–2025 completions</p>
+    </div>
+    <figure class="columns" data-columns>
+      <div class="column column--concrete" style="--v:620">
+        <p class="column__num"><span data-motion="count">620</span></p>
+        <div class="column__bar" aria-hidden="true"><span class="column__fill"></span></div>
+        <p class="column__label">Concrete &amp; steel reference</p>
+      </div>
+      <div class="column column--timber" style="--v:214">
+        <p class="column__num"><span data-motion="count">214</span></p>
+        <div class="column__bar" aria-hidden="true"><span class="column__fill"></span></div>
+        <p class="column__label">Atelier Norr average</p>
+      </div>
+      <figcaption class="columns__cap">Two-thirds less, before the first visitor walks in.</figcaption>
+    </figure>
+    <dl class="facts" data-motion="stagger">
+      <div><dt>Buildings completed</dt><dd><span data-motion="count">48</span></dd></div>
+      <div><dt>Cubic metres of timber raised</dt><dd><span data-motion="count">31,400</span></dd></div>
+      <div><dt>Prizes &amp; citations</dt><dd><span data-motion="count">17</span></dd></div>
+      <div><dt>Average sawmill distance</dt><dd><span data-motion="count">140</span><small>km</small></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ 02 WORK ============ -->
+<section class="work" id="work" data-tone="dark">
+  <div class="wrap work__head">
+    <p class="label label--light"><span class="label__no">02</span>Selected work</p>
+    <h2 class="work__title" data-motion="heading">Five buildings, one grain.</h2>
+    <p class="work__intro" data-motion="fade">Civic halls, a chapel, a school and a mountain home — each drawn for its place, built from trees grown within a day’s drive of the site. Open any project for the drawing and the numbers.</p>
+  </div>
+
+  <div class="wrap work__grid">
+    <article class="proj proj--a" data-project="0">
+      <figure class="proj__art" data-motion="image"><div class="inner" data-art="fjordhall"></div></figure>
+      <div class="proj__meta">
+        <span class="proj__no">01</span>
+        <h3 class="proj__name"><button class="proj__open" type="button" data-open="0">Fjordhall Library</button></h3>
+        <p class="proj__sub"><span>Bodø</span><span>2023</span><span>Civic</span></p>
+        <p class="proj__line">A reading room beneath five glulam arches, set where the old fish quay once stood.</p>
+        <span class="proj__more" aria-hidden="true">Drawing &amp; numbers<svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      </div>
+      <div class="detail" hidden>
+        <dl class="detail__facts">
+          <div><dt>Client</dt><dd>Bodø Municipality</dd></div>
+          <div><dt>Area</dt><dd>4,200 m²</dd></div>
+          <div><dt>Timber</dt><dd>1,860 m³ spruce glulam &amp; CLT</dd></div>
+          <div><dt>Embodied carbon</dt><dd>188 kg CO₂e/m²</dd></div>
+        </dl>
+        <p>The arches repeat at five scales, from a low entrance hall to a twenty-four metre reading nave. Each is a single glulam section, laminated in a sawmill ninety minutes down the coast and floated in on a barge. Inside, the arches filter the low arctic sun into a long, quiet gradient across the shelves.</p>
+        <p>The ground floor is a covered public street — open to the harbour and used for markets in winter. Cladding is untreated pine, designed to silver within six years.</p>
+      </div>
+    </article>
+
+    <article class="proj proj--b" data-project="1">
+      <figure class="proj__art" data-motion="image"><div class="inner" data-art="kvarv"></div></figure>
+      <div class="proj__meta">
+        <span class="proj__no">02</span>
+        <h3 class="proj__name"><button class="proj__open" type="button" data-open="1">Kvarv Chapel</button></h3>
+        <p class="proj__sub"><span>Røros</span><span>2021</span><span>Chapel</span></p>
+        <p class="proj__line">A single slit of light in a larch A-frame, raised by twelve carpenters in eleven weeks.</p>
+        <span class="proj__more" aria-hidden="true">Drawing &amp; numbers<svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      </div>
+      <div class="detail" hidden>
+        <dl class="detail__facts">
+          <div><dt>Client</dt><dd>Kvarv Parish Council</dd></div>
+          <div><dt>Area</dt><dd>210 m²</dd></div>
+          <div><dt>Timber</dt><dd>96 m³ local larch</dd></div>
+          <div><dt>Structure</dt><dd>Pegged A-frame, no steel</dd></div>
+        </dl>
+        <p>The chapel has no windows in the usual sense. One vertical opening, sixteen metres tall, follows the line of the frame and lets a blade of daylight travel across the floor between dawn and dusk. In the dark months the same slit becomes a lantern for the valley.</p>
+        <p>Every joint is hand-cut and pegged in larch. The building was designed to be taken apart, board by board, if the parish ever needs to move it.</p>
+      </div>
+    </article>
+
+    <article class="proj proj--c" data-project="2">
+      <figure class="proj__art" data-motion="image"><div class="inner" data-art="tromso"></div></figure>
+      <div class="proj__meta">
+        <span class="proj__no">03</span>
+        <h3 class="proj__name"><button class="proj__open" type="button" data-open="2">Tromsø Culture House</button></h3>
+        <p class="proj__sub"><span>Tromsø</span><span>2024</span><span>Civic</span></p>
+        <p class="proj__line">A sawtooth roof that opens to the north light — and to the aurora from a rooftop foyer.</p>
+        <span class="proj__more" aria-hidden="true">Drawing &amp; numbers<svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      </div>
+      <div class="detail" hidden>
+        <dl class="detail__facts">
+          <div><dt>Client</dt><dd>City of Tromsø</dd></div>
+          <div><dt>Area</dt><dd>7,800 m²</dd></div>
+          <div><dt>Timber</dt><dd>3,950 m³ CLT &amp; glulam</dd></div>
+          <div><dt>Embodied carbon</dt><dd>201 kg CO₂e/m²</dd></div>
+        </dl>
+        <p>Three timber saw-teeth cover a concert room, a gallery and a workshop hall. Each tooth is a long CLT slope facing the sun, with a vertical north-facing clerestory that floods the room with cool, even daylight and none of the glare.</p>
+        <p>Between November and January the clerestories glow from inside like a row of lanterns. The building was finished in 22 months, with the entire roof assembled indoors in a prefabrication hall and craned into place in nine days.</p>
+      </div>
+    </article>
+
+    <article class="proj proj--d" data-project="3">
+      <figure class="proj__art" data-motion="image"><div class="inner" data-art="saeter"></div></figure>
+      <div class="proj__meta">
+        <span class="proj__no">04</span>
+        <h3 class="proj__name"><button class="proj__open" type="button" data-open="3">Villa Sæter</button></h3>
+        <p class="proj__sub"><span>Hemsedal</span><span>2022</span><span>Home</span></p>
+        <p class="proj__line">A family house that leans into the slope, with a roof that gathers snow for insulation and shelters a south-facing deck.</p>
+        <span class="proj__more" aria-hidden="true">Drawing &amp; numbers<svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      </div>
+      <div class="detail" hidden>
+        <dl class="detail__facts">
+          <div><dt>Client</dt><dd>Private family</dd></div>
+          <div><dt>Area</dt><dd>285 m²</dd></div>
+          <div><dt>Timber</dt><dd>140 m³ pine &amp; spruce</dd></div>
+          <div><dt>Energy</dt><dd>Passive-house certified</dd></div>
+        </dl>
+        <p>A single mono-pitch roof runs from a low north edge to a high glazed south corner, so winter sun reaches the kitchen table at noon while the long north side stays tight against the wind.</p>
+        <p>The cladding is vertical pine boards, left unfinished. The family knows to expect a silver coat in about five winters — and has already chosen to keep it.</p>
+      </div>
+    </article>
+
+    <article class="proj proj--e" data-project="4">
+      <figure class="proj__art" data-motion="image"><div class="inner" data-art="skog"></div></figure>
+      <div class="proj__meta">
+        <span class="proj__no">05</span>
+        <h3 class="proj__name"><button class="proj__open" type="button" data-open="4">Skog School</button></h3>
+        <p class="proj__sub"><span>Lillehammer</span><span>2020</span><span>School</span></p>
+        <p class="proj__line">A school built like a forest: columns in rows, classrooms between, and a courtyard of birches.</p>
+        <span class="proj__more" aria-hidden="true">Drawing &amp; numbers<svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      </div>
+      <div class="detail" hidden>
+        <dl class="detail__facts">
+          <div><dt>Client</dt><dd>Lillehammer Municipality</dd></div>
+          <div><dt>Area</dt><dd>5,600 m²</dd></div>
+          <div><dt>Timber</dt><dd>2,300 m³ spruce frame</dd></div>
+          <div><dt>Pupils</dt><dd>420, ages 6 to 15</dd></div>
+        </dl>
+        <p>Classrooms are open frames of glulam on a 4.5 metre grid. Walls can be moved, glazed or solid, and the school has already been reorganised twice by its teachers without an architect in the room.</p>
+        <p>The Falu-red cladding is traditional linseed paint made from the same mineral pigment as the farm buildings nearby. Repainting every fourteen years is part of the caretakers’ handbook.</p>
+      </div>
+    </article>
+
+    <div class="work__next" data-motion="fade">
+      <p class="label label--light">Next commission</p>
+      <p class="work__next-title">Could be yours.</p>
+      <a class="btn btn--primary" href="#contact" data-magnetic><span>Start a conversation</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 PROCESS: the signature scene ============ -->
+<section class="process" id="process" data-tone="light" data-scene>
+  <div class="process__stage" data-stage>
+    <div class="process__text">
+      <p class="label"><span class="label__no">03</span>Process</p>
+      <h2 class="process__title">From forest to threshold, in five movements.</h2>
+      <ol class="steps">
+        <li class="step" data-step="0">
+          <div class="step__fig" aria-hidden="true"></div>
+          <p class="step__no">Movement 01 <span>/ 05</span></p>
+          <h3 class="step__name">Listen</h3>
+          <p class="step__text">We walk the site with the people who will use it — in winter, if we can. Local carpenters, foresters and neighbours join the first workshops, because they know where the wind turns and where the snow stays.</p>
+          <p class="step__meta"><span>Weeks 1–6</span><span>Site walks</span><span>Community workshops</span></p>
+        </li>
+        <li class="step" data-step="1">
+          <div class="step__fig" aria-hidden="true"></div>
+          <p class="step__no">Movement 02 <span>/ 05</span></p>
+          <h3 class="step__name">Read the site</h3>
+          <p class="step__text">Sun paths, snow load, soil, sight lines. We draw the land before we draw the building, then place the footprint where it will earn its warmth — and keep every tree we can.</p>
+          <p class="step__meta"><span>Weeks 6–12</span><span>Solar &amp; wind study</span><span>Footprint</span></p>
+        </li>
+        <li class="step" data-step="2">
+          <div class="step__fig" aria-hidden="true"></div>
+          <p class="step__no">Movement 03 <span>/ 05</span></p>
+          <h3 class="step__name">Draft in timber</h3>
+          <p class="step__text">Structure and architecture are drawn as one. Glulam frames, cross-laminated panels and joinery are modelled to the millimetre with our engineers and the sawmill that will cut them.</p>
+          <p class="step__meta"><span>Weeks 12–30</span><span>Frame &amp; joinery</span><span>Mock-ups</span></p>
+        </li>
+        <li class="step" data-step="3">
+          <div class="step__fig" aria-hidden="true"></div>
+          <p class="step__no">Movement 04 <span>/ 05</span></p>
+          <h3 class="step__name">Prefabricate</h3>
+          <p class="step__text">Panels are machined and assembled in a covered hall, numbered, wrapped and trucked north. Weather delays shrink; accuracy and craft rise.</p>
+          <p class="step__meta"><span>Months 8–14</span><span>Off-site build</span><span>Quality walk-throughs</span></p>
+        </li>
+        <li class="step" data-step="4">
+          <div class="step__fig" aria-hidden="true"></div>
+          <p class="step__no">Movement 05 <span>/ 05</span></p>
+          <h3 class="step__name">Raise &amp; tend</h3>
+          <p class="step__text">A frame goes up in days, not months. We stay after handover: oiling, mending and learning how the building ages — then we write that back into our details.</p>
+          <p class="step__meta"><span>Months 14–24</span><span>Annual care visit</span><span>Post-occupancy study</span></p>
+        </li>
+      </ol>
+      <div class="steps__rail" aria-hidden="true">
+        <span class="steps__tick">Listen</span><span class="steps__tick">Read the site</span><span class="steps__tick">Draft in timber</span><span class="steps__tick">Prefabricate</span><span class="steps__tick">Raise &amp; tend</span>
+        <i class="steps__bar"></i>
+      </div>
+    </div>
+    <figure class="model" aria-hidden="true">
+      <div class="model__sky"><span class="model__night"></span><span class="model__stars"></span></div>
+      <div class="model__draw" data-model></div>
+      <p class="model__tag"><span data-model-label>Site model, 1:500</span></p>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 04 RECOGNITION ============ -->
+<section class="awards" id="recognition" data-tone="dark">
+  <div class="wrap awards__grid">
+    <div class="awards__lead">
+      <p class="label label--light"><span class="label__no">04</span>Recognition</p>
+      <p class="awards__big" aria-hidden="true"><span data-motion="count">17</span></p>
+      <h2 class="awards__title" data-motion="heading">Quietly noticed.</h2>
+      <p class="awards__sub" data-motion="fade">17 prizes &amp; citations since 2012. Prizes shown are a selection; the full list is available on request.</p>
+    </div>
+    <ol class="awards__list" data-motion="stagger">
+      <li><span class="aw__year">2025</span><span class="aw__name">Nordic Timber Prize<small>Grand Award</small></span><span class="aw__proj">Tromsø Culture House</span></li>
+      <li><span class="aw__year">2024</span><span class="aw__name">Civic Architecture Award<small>Public Building of the Year</small></span><span class="aw__proj">Fjordhall Library</span></li>
+      <li><span class="aw__year">2023</span><span class="aw__name">Wood Architecture Award<small>Honour for craft</small></span><span class="aw__proj">Kvarv Chapel</span></li>
+      <li><span class="aw__year">2022</span><span class="aw__name">Arctic Built Environment Prize<small>Residential category</small></span><span class="aw__proj">Villa Sæter</span></li>
+      <li><span class="aw__year">2021</span><span class="aw__name">Glulam of the Year<small>Structural innovation</small></span><span class="aw__proj">Skog School</span></li>
+      <li><span class="aw__year">2018</span><span class="aw__name">Emerging Studio Award<small>Nordic Architects’ Association</small></span><span class="aw__proj">Studio</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 05 CONTACT ============ -->
+<section class="contact" id="contact" data-tone="red">
+  <div class="wrap contact__grid">
+    <div class="contact__lead">
+      <p class="label label--light"><span class="label__no">05</span>Contact</p>
+      <h2 class="contact__title" data-motion="heading">Let’s raise something together.</h2>
+      <p class="contact__text" data-motion="fade">We are taking on a small number of commissions for 2027 — civic buildings, cultural spaces and houses with a long view. Tell us about the place and the people.</p>
+      <a class="contact__mail" href="mailto:hello@ateliernorr.no"><span>hello@ateliernorr.no</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+      <div class="offices" data-motion="stagger">
+        <div><h3>Oslo</h3><p>Nedre Foss 9<br>0555 Oslo, Norway</p><a href="tel:+4722000014">+47 22 00 00 14</a></div>
+        <div><h3>Tromsø</h3><p>Strandgata 82<br>9008 Tromsø, Norway</p><a href="tel:+4777000082">+47 77 00 00 82</a></div>
+      </div>
+    </div>
+
+    <form class="sheet" id="enquiry" novalidate data-motion="fade">
+      <fieldset class="chips">
+        <legend>I am planning…</legend>
+        <label class="chip"><input type="radio" name="kind" value="A civic building" checked><span>A civic building</span></label>
+        <label class="chip"><input type="radio" name="kind" value="A home"><span>A home</span></label>
+        <label class="chip"><input type="radio" name="kind" value="A competition entry"><span>A competition</span></label>
+        <label class="chip"><input type="radio" name="kind" value="Something else"><span>Something else</span></label>
+      </fieldset>
+      <div class="field">
+        <label for="f-name">Name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+        <span class="field__err" id="e-name" aria-live="polite"></span>
+      </div>
+      <div class="field">
+        <label for="f-email">Email address</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email">
+        <span class="field__err" id="e-email" aria-live="polite"></span>
+      </div>
+      <div class="field">
+        <label for="f-site">Where is the site? <em>Optional</em></label>
+        <input id="f-site" name="site" type="text">
+      </div>
+      <div class="field">
+        <label for="f-msg">Tell us about the project</label>
+        <textarea id="f-msg" name="message" rows="4" required aria-describedby="e-msg"></textarea>
+        <span class="field__err" id="e-msg" aria-live="polite"></span>
+      </div>
+      <div class="sheet__row">
+        <button class="btn btn--primary" type="submit"><span>Send enquiry</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <p class="sheet__fine">We reply within three working days.</p>
+      </div>
+      <div class="sheet__done" role="status" aria-live="polite" hidden>
+        <h3>Thank you<span id="doneName"></span>.</h3>
+        <p>Your mail app should now open with the enquiry ready to send. If it did not, write to <a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a> and we will take it from there.</p>
+        <button class="link" type="button" id="formReset"><span>Write another</span></button>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="footer" data-tone="dark">
+  <div class="wrap footer__grid">
+    <p class="footer__motto">Built with the grain.</p>
+    <div class="footer__col"><h2>Index</h2><a href="#studio">Studio</a><a href="#work">Work</a><a href="#process">Process</a><a href="#recognition">Awards</a><a href="#contact">Contact</a></div>
+    <div class="footer__col"><h2>Studio</h2><a href="mailto:hello@ateliernorr.no">hello@ateliernorr.no</a><a href="tel:+4722000014">+47 22 00 00 14</a><p>Mon–Fri, 08–16 CET</p></div>
+    <div class="footer__col"><h2>Offices</h2><p>Nedre Foss 9, Oslo</p><p>Strandgata 82, Tromsø</p></div>
+  </div>
+  <p class="footer__word" aria-hidden="true"><span>A</span><span>t</span><span>e</span><span>l</span><span>i</span><span>e</span><span>r</span><span class="sp"> </span><span>N</span><span>o</span><span>r</span><span>r</span></p>
+  <div class="wrap footer__base">
+    <span>© 2026 Atelier Norr AS</span>
+    <button class="footer__motion" type="button" aria-pressed="false">Motion on</button>
+    <a class="link link--light" href="#top"><span>Back to top</span></a>
+  </div>
+</footer>
+
+<dialog class="modal" id="projectModal" aria-labelledby="modalTitle">
+  <div class="modal__art" id="modalArt" aria-hidden="true"></div>
+  <div class="modal__body">
+    <div class="modal__top">
+      <span class="modal__no" id="modalNo">01</span>
+      <button class="modal__close" type="button"><span>Close</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+    </div>
+    <h3 class="modal__title" id="modalTitle"></h3>
+    <p class="modal__sub" id="modalSub"></p>
+    <p class="modal__line" id="modalLine"></p>
+    <div class="modal__content" id="modalContent"></div>
+    <div class="modal__nav">
+      <button class="link" type="button" id="modalPrev"><span>Previous</span></button>
+      <button class="link" type="button" id="modalNext"><span>Next project</span></button>
+    </div>
+  </div>
+</dialog>
+</body>
+</html>

@@ -7,7 +7,7 @@ import {chromium} from 'playwright';
 import {chromiumOptions} from '../server/browser.ts';
 
 const root=path.resolve(import.meta.dirname,'..');
-const poster=(await readFile(path.join(root,'demos/ledgerline/poster.jpg'))).toString('base64');
+const poster=(await readFile(path.join(root,'demos/norr/upgrade-poster.jpg'))).toString('base64');
 const html=`<!doctype html><html><head><meta charset="utf-8"><style>
 *{box-sizing:border-box;margin:0}
 body{width:1280px;height:640px;overflow:hidden;background:#0d0f13;color:#f2efe8;font-family:'IBM Plex Sans',system-ui,sans-serif;position:relative}
@@ -23,8 +23,8 @@ h1 span{color:#ffb33d}
 </style></head><body>
 <div class="top"><div class="brand"><div class="mark"><svg width="26" height="20" viewBox="0 0 26 20"><path d="M3 17V4l10 8 10-8v13" fill="none" stroke="#151b26" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>MOTION DEBUGGER</div>
 <div class="agents">Claude Code · Cursor · Codex<br>any coding agent</div></div>
-<h1>Vibe-coded sites that don't <span>look</span> vibe-coded.</h1>
-<p class="sub">A real-browser critic + design skill for your coding agent</p>
+<h1>Upgrade a vibe-coded site to <span>premium</span>.</h1>
+<p class="sub">Motion first, then taste, checked in a real browser</p>
 <div class="shot"></div>
 </body></html>`;
 const browser=await chromium.launch(chromiumOptions());
