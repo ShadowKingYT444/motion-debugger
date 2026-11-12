@@ -24,7 +24,7 @@ try {
   console.log(run(npm,['install','--omit=dev','--ignore-scripts','--no-audit','--no-fund',tarball]));
   proof.checks.push('fresh-npm-dependency-install');
   const installed=path.join(temp,'node_modules/motion-debugger');const installedStat=await lstat(installed);assert.equal(installedStat.isDirectory(),true);assert.equal(installedStat.isSymbolicLink(),false);
-  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.5.0');
+  const binary=path.join(installed,'build/cli/index.js');assert.equal(run(process.execPath,[binary,'--version']).trim(),'0.6.0');
   run(process.execPath,['--input-type=module','-e','import {validateRecipe,compare,motionReview,motionProbe,validateTransitionPlan} from "motion-debugger"; if([validateRecipe,compare,motionReview,motionProbe,validateTransitionPlan].some(fn=>typeof fn!=="function"))process.exit(1)']);
   for(const client of ['codex','claude-code','cursor','vscode','opencode']) {const text=run(process.execPath,[binary,'config','--client',client,'--local']);assert.ok(text.includes('motion-debugger'));}
   proof.checks.push('installed-cli-version-and-core-import','four-client-config-formats');
