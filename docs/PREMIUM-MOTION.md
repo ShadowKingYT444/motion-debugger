@@ -63,11 +63,21 @@ Nothing in the skill or the CLI depends on a model provider. The critic is a loc
 
 ```text
 motion-debugger critique <url|index.html|folder> [--out dir] [--json] [--offline] [--desktop-only]
+                         [--fail-on blocker|major|minor|polish] [--github] [--open]
 ```
 
 - **Targets:** a loopback URL, or a local path. A path is served on an ephemeral `127.0.0.1` port.
 - **Network:** pages may load passive GET resources (fonts, stylesheets, scripts, images) from CDNs, as ordinary local development pages do. Every other external request is blocked. `--offline` blocks all external requests.
 - **Output:** reports go to `.motion-critique/<timestamp>/` unless you pass `--out`. Runs in the same parent folder are compared with each other.
+- **CI gate:** `--fail-on <severity>` exits with code 2 when any finding is at or above that severity (`--fail-on major` fails on blocker and major findings). Code 1 still means the page could not be scanned, and without the flag a completed scan exits 0. Headless is the default, so nothing else is needed in CI. Start with `--fail-on blocker`: blockers are outcome checks (content that never appears, a phone page that scrolls sideways), while `scroll-jank` is a major finding that depends on frame timing and can vary on shared runners.
+- **GitHub Actions:** `--github` prints one annotation per finding (`::error` for blocker and major, `::warning` for minor, `::notice` for polish) followed by a summary line, in place of the Markdown report. It cannot be combined with `--json`.
+- **Open the result:** `--open` opens `craft.png`, or the desktop scroll sheet when there are no finish defects, in your image viewer. It does nothing when the output is not an interactive terminal.
+
+```yaml
+# .github/workflows/motion.yml (after starting your dev server)
+- run: npx -y -p https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz motion-debugger setup --browser
+- run: npx -y -p https://github.com/ShadowKingYT444/motion-debugger/releases/latest/download/motion-debugger.tgz motion-debugger critique http://localhost:3000 --github --fail-on blocker
+```
 
 ### Limits
 

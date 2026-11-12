@@ -29,7 +29,7 @@ test('init is read-only until exact diff confirmation, preserves content, backs 
   }finally{await rm(dir,{recursive:true,force:true})}
 });
 test('CLI errors are diagnosable and help/version work without repo tools',()=>{
-  assert.equal(run(['--version']).stdout.trim(),'0.6.0');assert.equal(run(['--help']).status,0);for(const args of [['typo'],['init','--client','invalid'],['demo','--port','bad'],['capture'],['config','--apply'],['doctor','--unrecognized'],['config','--origin','https://example.com']])assert.equal(run(args).status,1,JSON.stringify(args))
+  assert.equal(run(['--version']).stdout.trim(),'0.6.0');assert.equal(run(['--help']).status,0);for(const flag of ['--fail-on blocker|major|minor|polish','--github','--open'])assert.ok(run(['--help']).stdout.includes(flag),`help documents ${flag}`);for(const args of [['typo'],['init','--client','invalid'],['demo','--port','bad'],['capture'],['config','--apply'],['doctor','--unrecognized'],['config','--origin','https://example.com'],['critique','.','--fail-on','critical'],['critique','.','--fail-on'],['critique','.','--json','--github']])assert.equal(run(args).status,1,JSON.stringify(args))
 });
 
 test('init --local enters the human wizard while scripted destinations and approvals opt out',()=>{

@@ -120,7 +120,7 @@ jobs:
         run: motion-debugger setup --browser
       - name: Critique a real page
         run: |
-          motion-debugger critique demos/norr/upgraded --desktop-only --json --out "$RUNNER_TEMP/critique" > "$RUNNER_TEMP/report.json"
+          motion-debugger critique demos/norr/upgraded --desktop-only --json --fail-on blocker --out "$RUNNER_TEMP/critique" > "$RUNNER_TEMP/report.json"
           node -e "const r=require(process.argv[1]);const images=Object.keys(r.images||{});if(typeof r.score!=='number'||!images.length)throw new Error('critique produced no score or screenshots');console.log('score',r.score,'grade',r.grade,'screenshots',images.length)" "$RUNNER_TEMP/report.json"
       - name: README skill one-liner without Node (bash)
         if: runner.os != 'Windows'
